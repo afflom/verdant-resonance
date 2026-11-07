@@ -1,0 +1,6 @@
+name = "PrismVerdantResonance"
+version = "0.1.0"
+defaultTargets = ["PrismVerdantResonance"]
+
+[[lean_lib]]
+name = "PrismVerdantResonance"

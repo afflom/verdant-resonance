@@ -1,0 +1,11 @@
+[application]
+name = "verdant-resonance"
+version = "0.1.0"
+description = "Decides the botanical soundscape and flora resonance response as a player explores a peaceful procedural garden without violence or conflict."
+
+[model]
+source = "src"
+watch = ["src/**/*.lex.tex", "language/**/*.toml", "lexlean.toml"]
+
+# Deny by default: an empty set grants the holo nothing.
+[capabilities]

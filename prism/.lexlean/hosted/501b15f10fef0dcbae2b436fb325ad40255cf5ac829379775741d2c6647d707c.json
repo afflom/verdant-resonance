@@ -1,0 +1,23 @@
+{
+  "schema": "prism/hosted-verification/1",
+  "server": "https://mcp.uor.foundation/",
+  "profile": {
+    "name": "prism-app",
+    "id": "1cf3dece40ddac370598574170a00eca44fb5243e297e179b455801def90c2c8"
+  },
+  "draft": "prism-app/99f1208eeb3822c50ff0d2927325a724d44ffd22c946d1118a182d129dccc026",
+  "entrypoints": [
+    "src/VerdantResonance.lex.tex"
+  ],
+  "verified_at": "2026-11-07T16:48:26.717Z",
+  "attestation_id": "501b15f10fef0dcbae2b436fb325ad40255cf5ac829379775741d2c6647d707c",
+  "build_id": "8ef5e999b5cea4e1f3cdad90065c450754f1973080e124e7de354da608461883",
+  "keyid": "533449506003ca0c42744122318b69f5be32d74a2781e72b5c62855cac53bb54",
+  "modules": [
+    "Foundation.Bytes",
+    "Foundation.View.Text.V1.Model",
+    "VerdantResonance"
+  ],
+  "semantic_id": "c11c8680b7b08a7c908797cae6282fa0fa6f8a65959c76bce936749bc8032270",
+  "source_id": "d23d5d34c1608a1577910e7fd3f858846d731806195d36b0b657fe4961f8e24c"
+}
