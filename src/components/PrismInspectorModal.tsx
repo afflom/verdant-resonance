@@ -10,8 +10,11 @@ import {
   PlayerActionId,
   SOUND_OUTCOME_PROFILES,
   SoundscapeOutcome,
+  VERDANT_BRAND_STANDARD,
+  VERDANT_INFRASTRUCTURE_STANDARD,
   computeEcologicalAffinity,
   computeSynthesisEnvelope,
+  evaluateHumaneErgonomics,
   evaluatePrismRequest,
   formatPrismRequest,
   GardenPlantInstance,
@@ -45,7 +48,9 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
   onTeleportBiome,
   onSelectAtmosphere,
 }) => {
-  const [activeTab, setActiveTab] = useState<'herbarium' | 'biomes' | 'harmonies' | 'soundboard'>('herbarium');
+  const [activeTab, setActiveTab] = useState<
+    'herbarium' | 'biomes' | 'harmonies' | 'soundboard' | 'ethos'
+  >('herbarium');
 
   // Harmonic Soundboard interactive 7-dimension state
   const [sbBiome, setSbBiome] = useState<BiomeId>(telemetry.biome);
@@ -70,6 +75,13 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
   const sbOutcomeProfile = SOUND_OUTCOME_PROFILES[sbOutcome];
   const sbSynthPlan = computeSynthesisEnvelope(sbOutcome, sbBiome, sbAtmosphere);
   const sbAffinity = computeEcologicalAffinity(sbBiome, sbPlant, sbAtmosphere);
+
+  const humaneEval = evaluateHumaneErgonomics({
+    velocityDm: telemetry.velocityDm,
+    dockCollapsed: false,
+    guidedStroll: telemetry.guidedStroll,
+    harmonyPct: telemetry.harmony,
+  });
 
   const speciesList = Object.values(PLANT_SPECIES_CONFIGS);
   const biomeList = Object.values(BIOME_CONFIGS);
@@ -118,9 +130,12 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
             <p className="text-[11px] font-mono tracking-wider text-emerald-300/80 uppercase">
               {mode === 'gameover'
                 ? 'SANCTUARY ATTUNEMENT COMPLETE · HARMONIC EQUILIBRIUM'
-                : 'BOTANICAL FIELD GUIDE · ACOUSTIC HERBARIUM'}
+                : 'CONSERVATORY FIELD GUIDE · ACOUSTIC HERBARIUM & ETHOS'}
             </p>
-            <h2 id="modal-heading" className="font-display text-2xl md:text-3xl font-semibold text-amber-100 mt-0.5">
+            <h2
+              id="modal-heading"
+              className="font-display text-2xl md:text-3xl font-semibold text-amber-100 mt-0.5"
+            >
               {mode === 'gameover'
                 ? 'Verdant Harmony Achieved'
                 : 'Sanctuary Herbarium & Soundscape Atlas'}
@@ -183,14 +198,14 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
               {SOUND_OUTCOME_PROFILES[telemetry.prismOutcome]?.label ?? 'Wind Whisper'}
             </div>
             <div className="text-[11px] text-emerald-200/65 truncate">
-              {BIOME_CONFIGS[telemetry.biome].tuningLabel}
+              {BIOME_CONFIGS[telemetry.biome].tuningLabel} · 0.0¢
             </div>
           </div>
         </div>
 
         {/* Interactive Filter Tabs + Diurnal Sky Switcher */}
         <div className="flex items-center justify-between gap-2 mb-2.5 flex-wrap">
-          <div className="flex items-center gap-1 p-1 rounded-lg bg-[#07120e] border border-emerald-500/15">
+          <div className="flex items-center gap-1 p-1 rounded-lg bg-[#07120e] border border-emerald-500/15 flex-wrap">
             <button
               type="button"
               onClick={() => setActiveTab('herbarium')}
@@ -234,6 +249,17 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
               }`}
             >
               Harmonic Soundboard
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('ethos')}
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                activeTab === 'ethos'
+                  ? 'bg-emerald-500/25 text-amber-100 border border-emerald-400/30'
+                  : 'text-emerald-300/70 hover:text-emerald-100'
+              }`}
+            >
+              Sanctuary Ethos & Design
             </button>
           </div>
 
@@ -375,7 +401,7 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                         />
                         <span className="text-xs font-semibold text-amber-100 truncate">{out.label}</span>
                         <span className="text-[10px] font-mono text-emerald-300/75 tabular-nums">
-                          +{out.harmonyGain}% harmony
+                          +{out.harmonyGain}% · {out.overtoneRatio}x overtone
                         </span>
                       </div>
                       <div className="text-[11px] font-mono text-teal-200/80 truncate mt-0.5">
@@ -400,8 +426,8 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
             <div className="rounded-lg border border-emerald-400/20 bg-[#071410] p-4 space-y-3">
               <div className="text-xs text-emerald-200/85">
                 Compose a 7-dimensional botanical encounter to audition how the sanctuary soundscape
-                responds to biome tuning, flora species, gesture, diurnal sky, chorus awakening, proximity,
-                and walking pace.
+                synthesizes 4-partial Just Intonation voices across biome tuning, flora species, gesture,
+                diurnal sky, chorus awakening, proximity, and walking pace.
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
@@ -528,12 +554,20 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                     <span className="font-semibold">{sbOutcomeProfile.label}</span>
                     <span>·</span>
                     <span>{sbOutcomeProfile.timbre}</span>
+                    <span>·</span>
+                    <span className="text-emerald-300">0.0¢ Just Intonation</span>
                   </div>
                   <div className="text-xs text-emerald-100/90">{sbEvaluation.ruleDescription}</div>
                   <div className="text-[11px] font-mono text-teal-300/85 flex items-center gap-2 flex-wrap">
-                    <span>Voices: {sbSynthPlan.frequenciesHz.map((f) => `${Math.round(f)}Hz`).join(' · ')}</span>
+                    <span>
+                      Carriers: {sbSynthPlan.frequenciesHz.map((f) => `${Math.round(f)}Hz`).join(' · ')}
+                    </span>
                     <span>·</span>
-                    <span>Lowpass: {sbSynthPlan.filterCutoffHz}Hz</span>
+                    <span>
+                      Overtones: {sbSynthPlan.overtoneFrequenciesHz.slice(0, 3).map((f) => `${Math.round(f)}Hz`).join(' · ')}
+                    </span>
+                    <span>·</span>
+                    <span>Reverb: {Math.round(sbSynthPlan.reverbSendGain * 100)}% (2.2s)</span>
                     <span>·</span>
                     <span className="capitalize">Affinity: {sbAffinity.affinityTier.replace('-', ' ')}</span>
                   </div>
@@ -546,6 +580,100 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                 >
                   Play Resonance Chord
                 </button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'ethos' && (
+            <div className="space-y-3">
+              {/* Conservatory Brand Identity & Chromatic Contrast Standard */}
+              <div className="rounded-lg border border-emerald-400/20 bg-[#0c1d17] p-3.5 space-y-2.5">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <div>
+                    <div className="text-[10px] font-mono text-amber-200/85 uppercase tracking-wider">
+                      CONSERVATORY BRAND & CHROMATIC SYSTEM
+                    </div>
+                    <div className="text-sm font-semibold text-amber-100">
+                      {VERDANT_BRAND_STANDARD.brandName} · {VERDANT_BRAND_STANDARD.conservatorySubtitle}
+                    </div>
+                  </div>
+                  <div className="text-[11px] font-mono text-emerald-300/85">
+                    {VERDANT_BRAND_STANDARD.typography.displayFamily} ·{' '}
+                    {VERDANT_BRAND_STANDARD.typography.sansFamily} ·{' '}
+                    {VERDANT_BRAND_STANDARD.typography.monoFamily}
+                  </div>
+                </div>
+
+                <p className="text-xs text-emerald-100/85 leading-relaxed">
+                  {VERDANT_BRAND_STANDARD.manifesto}
+                </p>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {VERDANT_BRAND_STANDARD.chromaticPalette.map((tok) => (
+                    <div
+                      key={tok.tokenName}
+                      className="rounded border border-emerald-400/15 bg-[#081510] p-2 flex items-center gap-2.5"
+                    >
+                      <span
+                        className="w-6 h-6 rounded border border-white/20 shrink-0"
+                        style={{ backgroundColor: tok.hexValue }}
+                      />
+                      <div className="min-w-0">
+                        <div className="text-xs font-semibold text-emerald-50 truncate">{tok.tokenName}</div>
+                        <div className="text-[10px] font-mono text-amber-200/85 tabular-nums">
+                          {tok.hexValue} · {tok.contrastRatio}:1 ({tok.wcagTier})
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Humane-Centered Design & Acoustic/Runtime Architecture */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="rounded-lg border border-emerald-400/20 bg-[#0c1d17] p-3.5 space-y-1.5">
+                  <div className="text-[10px] font-mono text-teal-300 uppercase tracking-wider">
+                    HUMANE-CENTERED DESIGN & CALM VIEWPORT
+                  </div>
+                  <div className="text-sm font-semibold text-emerald-50">
+                    Restorative Score: {humaneEval.restorativeScore}% · {humaneEval.pacingState}
+                  </div>
+                  <div className="text-xs text-emerald-200/80 space-y-1">
+                    <div>
+                      • Unobstructed 3D Sanctuary Viewport: {humaneEval.openViewportPct}% (collapsible to
+                      93%)
+                    </div>
+                    <div>
+                      • Zero Violence, Zero Punitive Timers & Zero Dark Patterns Guaranteed
+                    </div>
+                    <div>
+                      • Comfortable 3.6m Blossom Framing & Hands-Free Guided Trail Stroll [G]
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-lg border border-emerald-400/20 bg-[#0c1d17] p-3.5 space-y-1.5">
+                  <div className="text-[10px] font-mono text-amber-200 uppercase tracking-wider">
+                    PSYCHOACOUSTICS & ZERO-ALLOCATION ARCHITECTURE
+                  </div>
+                  <div className="text-sm font-semibold text-emerald-50">
+                    {VERDANT_INFRASTRUCTURE_STANDARD.partialsPerVoice}-Partial Voices ·{' '}
+                    {VERDANT_INFRASTRUCTURE_STANDARD.stereoReverbDecaySec}s Stereo Sanctuary Reverb
+                  </div>
+                  <div className="text-xs text-emerald-200/80 space-y-1">
+                    <div>
+                      • 5-Limit & 7-Limit Just Intonation (0.0¢) + Binaural Gaze Panning
+                    </div>
+                    <div>
+                      • Pooled Ring Buffers: {VERDANT_INFRASTRUCTURE_STANDARD.sporeRingBufferCapacity}{' '}
+                      Spores, {VERDANT_INFRASTRUCTURE_STANDARD.instancedMeshTotal} Instanced Landmarks
+                    </div>
+                    <div>
+                      • Per-Frame Heap Allocations: {VERDANT_INFRASTRUCTURE_STANDARD.perFrameHeapAllocations}{' '}
+                      · Headroom Ceiling: {VERDANT_INFRASTRUCTURE_STANDARD.masterGainHeadroomDb} dB
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}

@@ -1,0 +1,85 @@
+\begin{lexlean}{Foundation.Acoustics.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: JustIntonationInterval,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: intervalName, type: String},
+    {name: numerator, type: Nat},
+    {name: denominator, type: Nat},
+    {name: centsDeviation, type: Nat}
+  ]
+}
+
+structure{
+  name: SpatialSynthesisSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: sampleRateHz, type: Nat},
+    {name: partialsPerVoice, type: Nat},
+    {name: spectrumBands, type: Nat},
+    {name: stereoConvolverIrMs, type: Nat},
+    {name: binauralPanningEnabled, type: Bool},
+    {name: masterGainMilli, type: Nat},
+    {name: limiterCeilingMilli, type: Nat}
+  ]
+}
+
+structure{
+  name: BotanicalAcousticStandard,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: tuningSystem, type: String},
+    {name: unisonInterval, type: JustIntonationInterval},
+    {name: majorThirdInterval, type: JustIntonationInterval},
+    {name: perfectFifthInterval, type: JustIntonationInterval},
+    {name: harmonicSeventhInterval, type: JustIntonationInterval},
+    {name: synthesisSpec, type: SpatialSynthesisSpec}
+  ]
+}
+
+definition{
+  name: verdantMasterGainMilli,
+  parameters: [],
+  result: Nat,
+  body: 360
+}
+
+definition{
+  name: verdantLimiterCeilingMilli,
+  parameters: [],
+  result: Nat,
+  body: 500
+}
+
+definition{
+  name: verdantAcousticStandard,
+  parameters: [],
+  result: BotanicalAcousticStandard,
+  body: (record BotanicalAcousticStandard {profile := "prism/acoustic-standard/1", tuningSystem := "5-Limit & 7-Limit Pure Just Intonation Botanical Scales", unisonInterval := (record JustIntonationInterval {intervalName := "Fundamental Unison", numerator := 1, denominator := 1, centsDeviation := 0}), majorThirdInterval := (record JustIntonationInterval {intervalName := "Pure Harmonic Major Third", numerator := 5, denominator := 4, centsDeviation := 0}), perfectFifthInterval := (record JustIntonationInterval {intervalName := "Pure Acoustic Fifth", numerator := 3, denominator := 2, centsDeviation := 0}), harmonicSeventhInterval := (record JustIntonationInterval {intervalName := "Celestial Diatonic Seventh", numerator := 15, denominator := 8, centsDeviation := 0}), synthesisSpec := (record SpatialSynthesisSpec {sampleRateHz := 48000, partialsPerVoice := 4, spectrumBands := 16, stereoConvolverIrMs := 2200, binauralPanningEnabled := true, masterGainMilli := 360, limiterCeilingMilli := 500})})
+}
+
+definition{
+  name: breaksAcousticHeadroom,
+  parameters: [gainMilli : Nat],
+  result: Bool,
+  body: ((gainMilli =? (verdantMasterGainMilli)) && ((verdantLimiterCeilingMilli) <? gainMilli))
+}
+
+theorem{
+  name: acousticHeadroomStandardHolds,
+  parameters: [gainMilli : Nat],
+  statement: ((breaksAcousticHeadroom gainMilli) = false),
+  proof: linear_arithmetic{definitions: [breaksAcousticHeadroom, verdantLimiterCeilingMilli, verdantMasterGainMilli]},
+  axioms: [Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

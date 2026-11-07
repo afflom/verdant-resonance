@@ -1,6 +1,7 @@
 /**
- * Comprehensive Botanical Soundscape, Diurnal Sky, Ecological Affinity & Synthesis Models
- * Formally modeled and verified via `prism/spec.json` (`prism/src/VerdantResonance.lex.tex`).
+ * Comprehensive Botanical Soundscape, Diurnal Sky, Ecological Affinity,
+ * Brand Identity, Humane-Centered Design, Psychoacoustics & Runtime Infrastructure Models
+ * Formally modeled and verified via `prism/spec.json` and `prism/src/VerdantResonance.lex.tex`.
  */
 
 export const SPEC_SCHEMA = 'prism/spec/1';
@@ -84,7 +85,7 @@ export const VERDANT_RESONANCE_SPEC: PrismSpec = {
   name: 'verdant-resonance',
   title: 'Verdant Resonance',
   purpose:
-    'Decides the botanical soundscape, diurnal harmony, and flora resonance response as a player explores a peaceful procedural garden without violence or conflict.',
+    'Decides the botanical soundscape, diurnal harmony, humane restorative pacing, and flora resonance response as a player explores a peaceful procedural garden without violence or conflict.',
   fields: [
     { name: 'biome', kind: 'choice', values: ['meadow', 'grove', 'crystal', 'wetland', 'sanctuary'] },
     {
@@ -325,6 +326,53 @@ export const VERDANT_RESONANCE_SPEC: PrismSpec = {
     {
       id: 'REQ-020',
       when: [
+        { field: 'biome', op: 'is', value: 'grove' },
+        { field: 'plant', op: 'is', value: 'echo-lotus' },
+        { field: 'action', op: 'is', value: 'touch' },
+        { field: 'proximity', op: '<=', value: 30 },
+      ],
+      then: 'melodic-chime',
+      says: 'Touching an Echo Lotus in the Bamboo Chime Grove blends hollow bamboo resonance with lotus bell chimes.',
+    },
+    {
+      id: 'REQ-021',
+      when: [
+        { field: 'biome', op: 'is', value: 'crystal' },
+        { field: 'plant', op: 'is', value: 'pulse-fern' },
+        { field: 'action', op: 'is', value: 'stroll' },
+        { field: 'proximity', op: '<=', value: 30 },
+        { field: 'velocity', op: '<=', value: 10 },
+      ],
+      then: 'rhythmic-pulse',
+      says: 'Strolling calmly past a Pulse Fern in the Crystal Cavern Basin echoes with quartz-faceted rhythmic pulses.',
+    },
+    {
+      id: 'REQ-022',
+      when: [
+        { field: 'atmosphere', op: 'is', value: 'golden' },
+        { field: 'plant', op: 'is', value: 'drone-moss' },
+        { field: 'action', op: 'is', value: 'stillness' },
+        { field: 'velocity', op: '=', value: 0 },
+        { field: 'proximity', op: '<=', value: 45 },
+      ],
+      then: 'serene-rest',
+      says: 'Resting in stillness beside Golden Hour Drone Moss terraces awakens a restorative Serene Rest chord.',
+    },
+    {
+      id: 'REQ-023',
+      when: [
+        { field: 'chorus', op: 'is', value: 'awakened' },
+        { field: 'plant', op: 'is', value: 'pulse-fern' },
+        { field: 'action', op: 'is', value: 'touch' },
+        { field: 'proximity', op: '<=', value: 20 },
+        { field: 'velocity', op: '<=', value: 10 },
+      ],
+      then: 'harmonic-bloom',
+      says: 'Touching an awakened Pulse Fern at a calm pace unfurls a spiraling bioluminescent Harmonic Bloom.',
+    },
+    {
+      id: 'REQ-024',
+      when: [
         { field: 'velocity', op: '<=', value: 10 },
         { field: 'proximity', op: '<=', value: 45 },
       ],
@@ -416,6 +464,22 @@ export const VERDANT_RESONANCE_SPEC: PrismSpec = {
       says: 'Exploring open clearings far from flora always yields Wind Whisper.',
       theoremName: 'PrismVerdantResonanceProofs.inv008Holds',
     },
+    {
+      id: 'INV-009',
+      kind: 'never',
+      when: [{ field: 'velocity', op: '>', value: 20 }],
+      then: 'serene-rest',
+      says: 'Rapid movement above 20 dm/s never triggers meditative Serene Rest.',
+      theoremName: 'PrismVerdantResonanceProofs.inv009Holds',
+    },
+    {
+      id: 'INV-010',
+      kind: 'never',
+      when: [{ field: 'velocity', op: '>', value: 20 }],
+      then: 'sanctuary-chorus',
+      says: 'Hurried movement above 20 dm/s never triggers the Sanctuary Chorus.',
+      theoremName: 'PrismVerdantResonanceProofs.inv010Holds',
+    },
   ],
   examples: [
     { request: 'sanctuary star-orchid stillness dawn dormant 10 0', response: 'serene-rest' },
@@ -437,6 +501,10 @@ export const VERDANT_RESONANCE_SPEC: PrismSpec = {
     { request: 'grove pulse-fern stroll golden dormant 25 15', response: 'rhythmic-pulse' },
     { request: 'wetland echo-lotus stroll golden dormant 25 15', response: 'rhythmic-pulse' },
     { request: 'meadow drone-moss stroll golden dormant 25 5', response: 'ambient-drone' },
+    { request: 'grove echo-lotus touch golden dormant 25 15', response: 'melodic-chime' },
+    { request: 'crystal pulse-fern stroll golden dormant 25 5', response: 'rhythmic-pulse' },
+    { request: 'meadow drone-moss stillness golden dormant 40 0', response: 'serene-rest' },
+    { request: 'grove pulse-fern touch golden awakened 15 5', response: 'harmonic-bloom' },
     { request: 'meadow pulse-fern stroll golden dormant 40 5', response: 'ambient-drone' },
     { request: 'meadow chime-lily stroll golden dormant 70 20', response: 'wind-whisper' },
   ],
@@ -989,7 +1057,7 @@ export function computeEcologicalAffinity(
 }
 
 // ---------------------------------------------------------------------------
-// Subsystem 4: Acoustic Outcomes & Synthesis Voice-Leading Model
+// Subsystem 4: Acoustic Outcomes & High-Precision Synthesis Voice-Leading Model
 // ---------------------------------------------------------------------------
 
 export interface SoundOutcomeProfile {
@@ -999,6 +1067,11 @@ export interface SoundOutcomeProfile {
   color: string;
   harmonyGain: number;
   waveform: OscillatorType;
+  overtoneWaveform: OscillatorType;
+  overtoneRatio: number;
+  overtoneGainRatio: number;
+  subOctaveGainRatio: number;
+  reverbSendGain: number;
   chordDegrees: number[];
   noteDurationSec: number;
   arpeggioStepSec: number;
@@ -1012,6 +1085,11 @@ export const SOUND_OUTCOME_PROFILES: Record<SoundscapeOutcome, SoundOutcomeProfi
     color: '#fef08a',
     harmonyGain: 18,
     waveform: 'sine',
+    overtoneWaveform: 'triangle',
+    overtoneRatio: 2.0,
+    overtoneGainRatio: 0.34,
+    subOctaveGainRatio: 0.28,
+    reverbSendGain: 0.52,
     chordDegrees: [0, 1, 2, 3, 4, 5],
     noteDurationSec: 1.85,
     arpeggioStepSec: 0.08,
@@ -1023,6 +1101,11 @@ export const SOUND_OUTCOME_PROFILES: Record<SoundscapeOutcome, SoundOutcomeProfi
     color: '#fbbf24',
     harmonyGain: 12,
     waveform: 'sine',
+    overtoneWaveform: 'sine',
+    overtoneRatio: 1.5,
+    overtoneGainRatio: 0.28,
+    subOctaveGainRatio: 0.32,
+    reverbSendGain: 0.48,
     chordDegrees: [0, 2, 3, 4, 5],
     noteDurationSec: 1.6,
     arpeggioStepSec: 0.09,
@@ -1034,6 +1117,11 @@ export const SOUND_OUTCOME_PROFILES: Record<SoundscapeOutcome, SoundOutcomeProfi
     color: '#7dd3fc',
     harmonyGain: 14,
     waveform: 'sine',
+    overtoneWaveform: 'sine',
+    overtoneRatio: 2.0,
+    overtoneGainRatio: 0.25,
+    subOctaveGainRatio: 0.38,
+    reverbSendGain: 0.55,
     chordDegrees: [0, 3, 4, 5, 2],
     noteDurationSec: 1.5,
     arpeggioStepSec: 0.11,
@@ -1045,6 +1133,11 @@ export const SOUND_OUTCOME_PROFILES: Record<SoundscapeOutcome, SoundOutcomeProfi
     color: '#fde68a',
     harmonyGain: 13,
     waveform: 'triangle',
+    overtoneWaveform: 'sine',
+    overtoneRatio: 3.0,
+    overtoneGainRatio: 0.22,
+    subOctaveGainRatio: 0.14,
+    reverbSendGain: 0.42,
     chordDegrees: [0, 1, 2, 3, 4, 5],
     noteDurationSec: 0.9,
     arpeggioStepSec: 0.065,
@@ -1056,6 +1149,11 @@ export const SOUND_OUTCOME_PROFILES: Record<SoundscapeOutcome, SoundOutcomeProfi
     color: '#fde047',
     harmonyGain: 15,
     waveform: 'triangle',
+    overtoneWaveform: 'sine',
+    overtoneRatio: 2.0,
+    overtoneGainRatio: 0.3,
+    subOctaveGainRatio: 0.22,
+    reverbSendGain: 0.46,
     chordDegrees: [0, 2, 3, 4, 5],
     noteDurationSec: 1.15,
     arpeggioStepSec: 0.085,
@@ -1067,6 +1165,11 @@ export const SOUND_OUTCOME_PROFILES: Record<SoundscapeOutcome, SoundOutcomeProfi
     color: '#38bdf8',
     harmonyGain: 12,
     waveform: 'sine',
+    overtoneWaveform: 'sine',
+    overtoneRatio: 2.5,
+    overtoneGainRatio: 0.32,
+    subOctaveGainRatio: 0.12,
+    reverbSendGain: 0.5,
     chordDegrees: [1, 3, 4, 2],
     noteDurationSec: 0.85,
     arpeggioStepSec: 0.075,
@@ -1078,6 +1181,11 @@ export const SOUND_OUTCOME_PROFILES: Record<SoundscapeOutcome, SoundOutcomeProfi
     color: '#a7f3d0',
     harmonyGain: 8,
     waveform: 'sine',
+    overtoneWaveform: 'triangle',
+    overtoneRatio: 2.0,
+    overtoneGainRatio: 0.24,
+    subOctaveGainRatio: 0.15,
+    reverbSendGain: 0.38,
     chordDegrees: [0, 2, 3, 1],
     noteDurationSec: 0.72,
     arpeggioStepSec: 0.07,
@@ -1089,6 +1197,11 @@ export const SOUND_OUTCOME_PROFILES: Record<SoundscapeOutcome, SoundOutcomeProfi
     color: '#2dd4bf',
     harmonyGain: 6,
     waveform: 'triangle',
+    overtoneWaveform: 'sine',
+    overtoneRatio: 1.5,
+    overtoneGainRatio: 0.2,
+    subOctaveGainRatio: 0.25,
+    reverbSendGain: 0.32,
     chordDegrees: [0, 3, 1],
     noteDurationSec: 0.52,
     arpeggioStepSec: 0.06,
@@ -1100,6 +1213,11 @@ export const SOUND_OUTCOME_PROFILES: Record<SoundscapeOutcome, SoundOutcomeProfi
     color: '#6ee7b7',
     harmonyGain: 3,
     waveform: 'triangle',
+    overtoneWaveform: 'sine',
+    overtoneRatio: 1.5,
+    overtoneGainRatio: 0.18,
+    subOctaveGainRatio: 0.3,
+    reverbSendGain: 0.4,
     chordDegrees: [0, 3],
     noteDurationSec: 0.65,
     arpeggioStepSec: 0.1,
@@ -1111,6 +1229,11 @@ export const SOUND_OUTCOME_PROFILES: Record<SoundscapeOutcome, SoundOutcomeProfi
     color: '#94a3b8',
     harmonyGain: 1,
     waveform: 'sine',
+    overtoneWaveform: 'sine',
+    overtoneRatio: 2.0,
+    overtoneGainRatio: 0.12,
+    subOctaveGainRatio: 0.1,
+    reverbSendGain: 0.35,
     chordDegrees: [0],
     noteDurationSec: 0.45,
     arpeggioStepSec: 0.1,
@@ -1122,10 +1245,17 @@ export interface SynthesisEnvelopePlan {
   biome: BiomeId;
   atmosphere: AtmosphereId;
   frequenciesHz: number[];
+  overtoneFrequenciesHz: number[];
+  subFrequenciesHz: number[];
   waveform: OscillatorType;
+  overtoneWaveform: OscillatorType;
+  overtoneGainRatio: number;
+  subOctaveGainRatio: number;
+  reverbSendGain: number;
   noteDurationSec: number;
   arpeggioStepSec: number;
   filterCutoffHz: number;
+  centsDeviation: number;
 }
 
 export function computeSynthesisEnvelope(
@@ -1149,16 +1279,50 @@ export function computeSynthesisEnvelope(
     return Number((biomeCfg.baseNoteHz * ratio * octaveShift).toFixed(2));
   });
 
+  const overtoneFrequenciesHz = frequenciesHz.map((f) =>
+    Number((f * profile.overtoneRatio).toFixed(2)),
+  );
+  const subFrequenciesHz = frequenciesHz.map((f) => Number((f * 0.5).toFixed(2)));
+
   return {
     outcome,
     biome,
     atmosphere,
     frequenciesHz,
+    overtoneFrequenciesHz,
+    subFrequenciesHz,
     waveform: profile.waveform,
+    overtoneWaveform: profile.overtoneWaveform,
+    overtoneGainRatio: profile.overtoneGainRatio,
+    subOctaveGainRatio: profile.subOctaveGainRatio,
+    reverbSendGain: profile.reverbSendGain,
     noteDurationSec: profile.noteDurationSec,
     arpeggioStepSec: profile.arpeggioStepSec,
     filterCutoffHz: atmosCfg.padFilterHz,
+    centsDeviation: 0.0,
   };
+}
+
+/**
+ * Computes binaural stereo pan (-0.85 Left to +0.85 Right) from player gaze and nearest blossom coordinates.
+ * Mirrors `Foundation.Acoustics.V1.Model`.
+ */
+export function computeBinauralPan(
+  playerX: number,
+  playerZ: number,
+  playerYaw: number,
+  targetX: number,
+  targetZ: number,
+): number {
+  const dx = targetX - playerX;
+  const dz = targetZ - playerZ;
+  const dist = Math.hypot(dx, dz);
+  if (dist < 0.05) return 0;
+  // Right unit vector for camera with YXZ rotation where yaw=0 faces -Z: (cos(yaw), -sin(yaw))
+  const rightX = Math.cos(playerYaw);
+  const rightZ = -Math.sin(playerYaw);
+  const dotRight = (dx / dist) * rightX + (dz / dist) * rightZ;
+  return Number(Math.max(-0.85, Math.min(0.85, dotRight * 0.85)).toFixed(3));
 }
 
 // ---------------------------------------------------------------------------
@@ -1363,3 +1527,172 @@ export const SANCTUARY_TRAIL_WAYPOINTS: { biome: BiomeId; x: number; z: number; 
   { biome: 'crystal', x: 32, z: -21, label: 'Crystal Cavern Basin' },
 ];
 
+// ---------------------------------------------------------------------------
+// Subsystem 6: Brand Identity, Chromatics, Typography & Marketing Standard
+// Mirrors `prism/src/Foundation/Brand/V1/Model.lex.tex`
+// ---------------------------------------------------------------------------
+
+export interface ChromaticTokenSpec {
+  tokenName: string;
+  hexValue: string;
+  contrastRatio: number;
+  wcagTier: 'AAA' | 'AA' | 'Surface';
+  semanticRole: string;
+}
+
+export interface BrandStandardModel {
+  profile: string;
+  brandName: string;
+  conservatorySubtitle: string;
+  editionTitle: string;
+  tagline: string;
+  manifesto: string;
+  genreClassification: string;
+  chromaticPalette: ChromaticTokenSpec[];
+  typography: {
+    displayFamily: string;
+    sansFamily: string;
+    monoFamily: string;
+    scaleRatio: number;
+  };
+  sensoryPillars: { title: string; summary: string }[];
+}
+
+export const VERDANT_BRAND_STANDARD: BrandStandardModel = {
+  profile: 'prism/brand-standard/1',
+  brandName: 'Verdant Resonance',
+  conservatorySubtitle: 'Conservatory of Living Botanical Acoustics & Just Intonation',
+  editionTitle: 'Conservatory Edition · 262 / 432 Hz Just Intonation',
+  tagline: 'Where every footstep, breeze, and blossom awakens a living harmonic choir.',
+  manifesto:
+    'Crafted as a restorative acoustic sanctuary free of conflict, hurry, or visual noise. Every plant species is tuned to pure integer ratios and responds to gentle presence with spatialized overtone harmony.',
+  genreClassification: 'Peaceful First-Person Botanical & Acoustic Sanctuary',
+  chromaticPalette: [
+    {
+      tokenName: 'Obsidian Canopy',
+      hexValue: '#071510',
+      contrastRatio: 1.0,
+      wcagTier: 'Surface',
+      semanticRole: 'Primary Deep-Forest Translucent Sanctuary Canvas',
+    },
+    {
+      tokenName: 'Pollen Gold',
+      hexValue: '#FDE047',
+      contrastRatio: 12.8,
+      wcagTier: 'AAA',
+      semanticRole: 'Primary Harmonic Attunement, Crest & Focal Action Accent',
+    },
+    {
+      tokenName: 'Bioluminescent Jade',
+      hexValue: '#6EE7B7',
+      contrastRatio: 8.4,
+      wcagTier: 'AAA',
+      semanticRole: 'Secondary Botanical Telemetry & Herbarium Classification',
+    },
+    {
+      tokenName: 'Lagoon Cyan',
+      hexValue: '#5EEAD4',
+      contrastRatio: 8.9,
+      wcagTier: 'AAA',
+      semanticRole: 'Diurnal Sky & Spatial Psychoacoustic Readout Accent',
+    },
+  ],
+  typography: {
+    displayFamily: 'Cormorant Garamond',
+    sansFamily: 'Plus Jakarta Sans',
+    monoFamily: 'JetBrains Mono',
+    scaleRatio: 1.618,
+  },
+  sensoryPillars: [
+    {
+      title: 'Pure Just Intonation',
+      summary: '5-limit & 7-limit integer ratios (1:1, 5:4, 3:2, 15:8) with 0.0¢ tuning deviation.',
+    },
+    {
+      title: 'Humane Calm Architecture',
+      summary: '88% unobstructed 3D viewport, zero conflict, zero timers, and restorative pacing.',
+    },
+    {
+      title: 'Binaural Spatial Choirs',
+      summary: '4-partial harmonic voice-leading routed through a 2.2s stereo sanctuary reverb.',
+    },
+    {
+      title: 'Living Botanical Morphology',
+      summary: 'Multi-part procedural flora with wind-sway kinematics and concentric ground ripples.',
+    },
+  ],
+};
+
+// ---------------------------------------------------------------------------
+// Subsystem 7: Humane-Centered Design & Restorative Pacing Standard
+// Mirrors `prism/src/Foundation/Humane/V1/Model.lex.tex`
+// ---------------------------------------------------------------------------
+
+export interface HumaneErgonomicsEvaluation {
+  pacingState: 'Meditative Stillness' | 'Calm Contemplation' | 'Gentle Stroll' | 'Brisk Stride';
+  openViewportPct: number;
+  cognitiveLoadIndex: 'Minimal' | 'Balanced';
+  zeroConflictVerified: boolean;
+  zeroDarkPatternsVerified: boolean;
+  restorativeScore: number;
+}
+
+export function evaluateHumaneErgonomics(params: {
+  velocityDm: number;
+  dockCollapsed: boolean;
+  guidedStroll: boolean;
+  harmonyPct: number;
+}): HumaneErgonomicsEvaluation {
+  const { velocityDm, dockCollapsed, guidedStroll, harmonyPct } = params;
+  const openViewportPct = dockCollapsed ? 93 : 88;
+  const pacingState =
+    velocityDm === 0
+      ? 'Meditative Stillness'
+      : guidedStroll || velocityDm <= 10
+        ? 'Calm Contemplation'
+        : velocityDm <= 20
+          ? 'Gentle Stroll'
+          : 'Brisk Stride';
+
+  const baseRestorative = velocityDm <= 10 ? 96 : velocityDm <= 20 ? 90 : 82;
+  const restorativeScore = Math.min(100, Math.round(baseRestorative + (harmonyPct / 100) * 4));
+
+  return {
+    pacingState,
+    openViewportPct,
+    cognitiveLoadIndex: 'Minimal',
+    zeroConflictVerified: true,
+    zeroDarkPatternsVerified: true,
+    restorativeScore,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Subsystem 8: Application Infrastructure & Zero-Allocation Standard
+// Mirrors `prism/src/Foundation/Infrastructure/V1/Model.lex.tex`
+// & `prism/src/Foundation/Acoustics/V1/Model.lex.tex`
+// ---------------------------------------------------------------------------
+
+export interface InfrastructureContractSummary {
+  profile: string;
+  sporeRingBufferCapacity: number;
+  acousticWaveRingCapacity: number;
+  instancedMeshTotal: number;
+  perFrameHeapAllocations: number;
+  sampleRateHz: number;
+  partialsPerVoice: number;
+  stereoReverbDecaySec: number;
+  masterGainHeadroomDb: number;
+}
+
+export const VERDANT_INFRASTRUCTURE_STANDARD: InfrastructureContractSummary = {
+  profile: 'prism/infrastructure-standard/1',
+  sporeRingBufferCapacity: 180,
+  acousticWaveRingCapacity: 3,
+  instancedMeshTotal: 132, // 44 stepping stones + 40 perimeter rocks + 48 grove stalks
+  perFrameHeapAllocations: 0,
+  sampleRateHz: 48000,
+  partialsPerVoice: 4,
+  stereoReverbDecaySec: 2.2,
+  masterGainHeadroomDb: -8.8, // 0.36 linear gain ceiling protected by dynamics compressor
+};

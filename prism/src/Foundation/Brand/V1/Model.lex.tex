@@ -1,0 +1,112 @@
+\begin{lexlean}{Foundation.Brand.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: ChromaticToken,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: tokenName, type: String},
+    {name: hexValue, type: String},
+    {name: contrastRatioTenths, type: Nat},
+    {name: semanticRole, type: String}
+  ]
+}
+
+structure{
+  name: TypographicScale,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: displayFamily, type: String},
+    {name: sansFamily, type: String},
+    {name: monoFamily, type: String},
+    {name: scaleRatioTenths, type: Nat},
+    {name: minBodyContrastTenths, type: Nat}
+  ]
+}
+
+structure{
+  name: MarketingProposition,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: editionTitle, type: String},
+    {name: tagline, type: String},
+    {name: genreClassification, type: String},
+    {name: primaryCallToAction, type: String},
+    {name: secondaryCallToAction, type: String},
+    {name: maxFocalActions, type: Nat}
+  ]
+}
+
+structure{
+  name: BrandStandard,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: brandName, type: String},
+    {name: conservatorySubtitle, type: String},
+    {name: primarySurface, type: ChromaticToken},
+    {name: primaryAccent, type: ChromaticToken},
+    {name: secondaryAccent, type: ChromaticToken},
+    {name: typography, type: TypographicScale},
+    {name: marketing, type: MarketingProposition}
+  ]
+}
+
+definition{
+  name: wcagAaMinimumContrastTenths,
+  parameters: [],
+  result: Nat,
+  body: 45
+}
+
+definition{
+  name: wcagAaaMinimumContrastTenths,
+  parameters: [],
+  result: Nat,
+  body: 70
+}
+
+definition{
+  name: verdantPrimaryContrastTenths,
+  parameters: [],
+  result: Nat,
+  body: 128
+}
+
+definition{
+  name: verdantSecondaryContrastTenths,
+  parameters: [],
+  result: Nat,
+  body: 84
+}
+
+definition{
+  name: verdantBrandStandard,
+  parameters: [],
+  result: BrandStandard,
+  body: (record BrandStandard {profile := "prism/brand-standard/1", brandName := "Verdant Resonance", conservatorySubtitle := "Conservatory of Living Botanical Acoustics and Just Intonation", primarySurface := (record ChromaticToken {tokenName := "obsidian-moss", hexValue := "#071510", contrastRatioTenths := 10, semanticRole := "Primary Sanctuary Canopy Canvas"}), primaryAccent := (record ChromaticToken {tokenName := "pollen-gold", hexValue := "#FDE047", contrastRatioTenths := 128, semanticRole := "Primary Harmonic Attunement and Focal CTA"}), secondaryAccent := (record ChromaticToken {tokenName := "bioluminescent-jade", hexValue := "#6EE7B7", contrastRatioTenths := 84, semanticRole := "Secondary Botanical Telemetry and Herbarium Accent"}), typography := (record TypographicScale {displayFamily := "Cormorant Garamond", sansFamily := "Plus Jakarta Sans", monoFamily := "JetBrains Mono", scaleRatioTenths := 16, minBodyContrastTenths := 70}), marketing := (record MarketingProposition {editionTitle := "Conservatory Edition - 262 / 432 Hz Just Intonation", tagline := "Where every footstep, breeze, and blossom awakens a living harmonic choir.", genreClassification := "Peaceful First-Person Botanical and Acoustic Sanctuary", primaryCallToAction := "Enter the Garden", secondaryCallToAction := "Botanical Field Guide", maxFocalActions := 2})})
+}
+
+definition{
+  name: breaksBrandContrast,
+  parameters: [contrastTenths : Nat],
+  result: Bool,
+  body: ((contrastTenths =? (verdantPrimaryContrastTenths)) && (contrastTenths <? (wcagAaaMinimumContrastTenths)))
+}
+
+theorem{
+  name: brandContrastStandardHolds,
+  parameters: [contrastTenths : Nat],
+  statement: ((breaksBrandContrast contrastTenths) = false),
+  proof: linear_arithmetic{definitions: [breaksBrandContrast, verdantPrimaryContrastTenths, wcagAaaMinimumContrastTenths]},
+  axioms: [Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

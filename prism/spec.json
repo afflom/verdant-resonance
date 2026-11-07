@@ -2,7 +2,7 @@
   "schema": "prism/spec/1",
   "name": "verdant-resonance",
   "title": "Verdant Resonance",
-  "purpose": "Decides the botanical soundscape, diurnal harmony, and flora resonance response as a player explores a peaceful procedural garden without violence or conflict.",
+  "purpose": "Decides the botanical soundscape, diurnal harmony, humane restorative pacing, and flora resonance response as a player explores a peaceful procedural garden without violence or conflict.",
   "fields": [
     {
       "name": "biome",
@@ -295,6 +295,53 @@
     {
       "id": "REQ-020",
       "when": [
+        { "field": "biome", "op": "is", "value": "grove" },
+        { "field": "plant", "op": "is", "value": "echo-lotus" },
+        { "field": "action", "op": "is", "value": "touch" },
+        { "field": "proximity", "op": "<=", "value": 30 }
+      ],
+      "then": "melodic-chime",
+      "says": "When biome is grove and plant is echo-lotus and action is touch and proximity is at most 30, the answer is melodic-chime."
+    },
+    {
+      "id": "REQ-021",
+      "when": [
+        { "field": "biome", "op": "is", "value": "crystal" },
+        { "field": "plant", "op": "is", "value": "pulse-fern" },
+        { "field": "action", "op": "is", "value": "stroll" },
+        { "field": "proximity", "op": "<=", "value": 30 },
+        { "field": "velocity", "op": "<=", "value": 10 }
+      ],
+      "then": "rhythmic-pulse",
+      "says": "When biome is crystal and plant is pulse-fern and action is stroll and proximity is at most 30 and velocity is at most 10, the answer is rhythmic-pulse."
+    },
+    {
+      "id": "REQ-022",
+      "when": [
+        { "field": "atmosphere", "op": "is", "value": "golden" },
+        { "field": "plant", "op": "is", "value": "drone-moss" },
+        { "field": "action", "op": "is", "value": "stillness" },
+        { "field": "velocity", "op": "=", "value": 0 },
+        { "field": "proximity", "op": "<=", "value": 45 }
+      ],
+      "then": "serene-rest",
+      "says": "When atmosphere is golden and plant is drone-moss and action is stillness and velocity equals 0 and proximity is at most 45, the answer is serene-rest."
+    },
+    {
+      "id": "REQ-023",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "plant", "op": "is", "value": "pulse-fern" },
+        { "field": "action", "op": "is", "value": "touch" },
+        { "field": "proximity", "op": "<=", "value": 20 },
+        { "field": "velocity", "op": "<=", "value": 10 }
+      ],
+      "then": "harmonic-bloom",
+      "says": "When chorus is awakened and plant is pulse-fern and action is touch and proximity is at most 20 and velocity is at most 10, the answer is harmonic-bloom."
+    },
+    {
+      "id": "REQ-024",
+      "when": [
         { "field": "velocity", "op": "<=", "value": 10 },
         { "field": "proximity", "op": "<=", "value": 45 }
       ],
@@ -387,6 +434,24 @@
       ],
       "then": "wind-whisper",
       "says": "It always answers wind-whisper when proximity is above 45."
+    },
+    {
+      "id": "INV-009",
+      "kind": "never",
+      "when": [
+        { "field": "velocity", "op": ">", "value": 20 }
+      ],
+      "then": "serene-rest",
+      "says": "It never answers serene-rest when velocity is above 20."
+    },
+    {
+      "id": "INV-010",
+      "kind": "never",
+      "when": [
+        { "field": "velocity", "op": ">", "value": 20 }
+      ],
+      "then": "sanctuary-chorus",
+      "says": "It never answers sanctuary-chorus when velocity is above 20."
     }
   ],
   "examples": [
@@ -465,6 +530,22 @@
     {
       "request": "meadow drone-moss stroll golden dormant 25 5",
       "response": "ambient-drone"
+    },
+    {
+      "request": "grove echo-lotus touch golden dormant 25 15",
+      "response": "melodic-chime"
+    },
+    {
+      "request": "crystal pulse-fern stroll golden dormant 25 5",
+      "response": "rhythmic-pulse"
+    },
+    {
+      "request": "meadow drone-moss stillness golden dormant 40 0",
+      "response": "serene-rest"
+    },
+    {
+      "request": "grove pulse-fern touch golden awakened 15 5",
+      "response": "harmonic-bloom"
     },
     {
       "request": "meadow pulse-fern stroll golden dormant 40 5",

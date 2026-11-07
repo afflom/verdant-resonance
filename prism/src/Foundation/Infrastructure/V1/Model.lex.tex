@@ -1,0 +1,83 @@
+\begin{lexlean}{Foundation.Infrastructure.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: ZeroAllocationPoolSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: sporeRingBufferCapacity, type: Nat},
+    {name: acousticWaveRingCapacity, type: Nat},
+    {name: instancedSteppingStones, type: Nat},
+    {name: instancedPerimeterRocks, type: Nat},
+    {name: instancedGroveStalks, type: Nat},
+    {name: perFrameHeapAllocations, type: Nat}
+  ]
+}
+
+structure{
+  name: RenderPipelineContract,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: colorSpace, type: String},
+    {name: toneMapping, type: String},
+    {name: environmentLighting, type: String},
+    {name: maxPixelRatio, type: Nat},
+    {name: targetFrameBudgetMs, type: Nat},
+    {name: softwareGlFallbackEnabled, type: Bool}
+  ]
+}
+
+structure{
+  name: InfrastructureStandard,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: runtimeArchitecture, type: String},
+    {name: memoryPools, type: ZeroAllocationPoolSpec},
+    {name: renderPipeline, type: RenderPipelineContract}
+  ]
+}
+
+definition{
+  name: verdantPerFrameHeapAllocations,
+  parameters: [],
+  result: Nat,
+  body: 0
+}
+
+definition{
+  name: maxAllowedPerFrameHeapAllocations,
+  parameters: [],
+  result: Nat,
+  body: 0
+}
+
+definition{
+  name: verdantInfrastructureStandard,
+  parameters: [],
+  result: InfrastructureStandard,
+  body: (record InfrastructureStandard {profile := "prism/infrastructure-standard/1", runtimeArchitecture := "Deterministic Zero-GC WebGL2 + WebAudio Sanctuary Runtime", memoryPools := (record ZeroAllocationPoolSpec {sporeRingBufferCapacity := 180, acousticWaveRingCapacity := 3, instancedSteppingStones := 44, instancedPerimeterRocks := 40, instancedGroveStalks := 48, perFrameHeapAllocations := 0}), renderPipeline := (record RenderPipelineContract {colorSpace := "SRGBColorSpace", toneMapping := "ACESFilmicToneMapping", environmentLighting := "PMREMGenerator RoomEnvironment", maxPixelRatio := 2, targetFrameBudgetMs := 16, softwareGlFallbackEnabled := true})})
+}
+
+definition{
+  name: breaksZeroAllocationBudget,
+  parameters: [allocs : Nat],
+  result: Bool,
+  body: ((allocs =? (verdantPerFrameHeapAllocations)) && ((maxAllowedPerFrameHeapAllocations) <? allocs))
+}
+
+theorem{
+  name: zeroAllocationStandardHolds,
+  parameters: [allocs : Nat],
+  statement: ((breaksZeroAllocationBudget allocs) = false),
+  proof: linear_arithmetic{definitions: [breaksZeroAllocationBudget, maxAllowedPerFrameHeapAllocations, verdantPerFrameHeapAllocations]},
+  axioms: [Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

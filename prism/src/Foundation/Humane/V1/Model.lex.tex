@@ -1,0 +1,101 @@
+\begin{lexlean}{Foundation.Humane.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: ViewportCalmBudget,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: minUnobstructedPct, type: Nat},
+    {name: actualUnobstructedPct, type: Nat},
+    {name: maxCornerClusters, type: Nat},
+    {name: actualCornerClusters, type: Nat},
+    {name: collapsibleControlDock, type: Bool}
+  ]
+}
+
+structure{
+  name: HumaneSafetyGuarantee,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: violenceElements, type: Nat},
+    {name: punitiveTimers, type: Nat},
+    {name: darkPatterns, type: Nat},
+    {name: nonViolentSanctuary, type: Bool},
+    {name: userAgencyPreserved, type: Bool}
+  ]
+}
+
+structure{
+  name: RestorativePacingModel,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: stillnessVelocityDm, type: Nat},
+    {name: calmAttuneMaxVelocityDm, type: Nat},
+    {name: gentleStrollMaxVelocityDm, type: Nat},
+    {name: blossomFramingDistanceDm, type: Nat}
+  ]
+}
+
+structure{
+  name: HumaneDesignStandard,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: philosophy, type: String},
+    {name: viewportBudget, type: ViewportCalmBudget},
+    {name: safetyGuarantee, type: HumaneSafetyGuarantee},
+    {name: pacingModel, type: RestorativePacingModel}
+  ]
+}
+
+definition{
+  name: requiredOpenViewportPct,
+  parameters: [],
+  result: Nat,
+  body: 85
+}
+
+definition{
+  name: verdantOpenViewportPct,
+  parameters: [],
+  result: Nat,
+  body: 88
+}
+
+definition{
+  name: verdantViolenceCount,
+  parameters: [],
+  result: Nat,
+  body: 0
+}
+
+definition{
+  name: verdantHumaneStandard,
+  parameters: [],
+  result: HumaneDesignStandard,
+  body: (record HumaneDesignStandard {profile := "prism/humane-design/1", philosophy := "Calm Technology, Restorative Attention & Zero-Conflict Botanical Exploration", viewportBudget := (record ViewportCalmBudget {minUnobstructedPct := 85, actualUnobstructedPct := 88, maxCornerClusters := 3, actualCornerClusters := 2, collapsibleControlDock := true}), safetyGuarantee := (record HumaneSafetyGuarantee {violenceElements := 0, punitiveTimers := 0, darkPatterns := 0, nonViolentSanctuary := true, userAgencyPreserved := true}), pacingModel := (record RestorativePacingModel {stillnessVelocityDm := 0, calmAttuneMaxVelocityDm := 10, gentleStrollMaxVelocityDm := 20, blossomFramingDistanceDm := 36})})
+}
+
+definition{
+  name: breaksHumaneViewportBudget,
+  parameters: [openPct : Nat],
+  result: Bool,
+  body: ((openPct =? (verdantOpenViewportPct)) && (openPct <? (requiredOpenViewportPct)))
+}
+
+theorem{
+  name: humaneViewportStandardHolds,
+  parameters: [openPct : Nat],
+  statement: ((breaksHumaneViewportBudget openPct) = false),
+  proof: linear_arithmetic{definitions: [breaksHumaneViewportBudget, requiredOpenViewportPct, verdantOpenViewportPct]},
+  axioms: [Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

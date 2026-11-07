@@ -3,7 +3,13 @@ name = "prism-verdant-resonance"
 language = "1.2"
 module_prefix = "PrismVerdantResonance"
 source_roots = ["src"]
-entrypoints = ["src/VerdantResonance.lex.tex"]
+entrypoints = [
+  "src/VerdantResonance.lex.tex",
+  "src/Foundation/Brand/V1/Model.lex.tex",
+  "src/Foundation/Humane/V1/Model.lex.tex",
+  "src/Foundation/Acoustics/V1/Model.lex.tex",
+  "src/Foundation/Infrastructure/V1/Model.lex.tex"
+]
 build_root = ".lexlean"
 lockfile = "lexlean.lock"
 lean_workspace = "."

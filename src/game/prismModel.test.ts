@@ -3,11 +3,15 @@ import assert from 'node:assert/strict';
 import {
   ATMOSPHERE_CONFIGS,
   SANCTUARY_TRAIL_WAYPOINTS,
+  VERDANT_BRAND_STANDARD,
+  VERDANT_INFRASTRUCTURE_STANDARD,
   VERDANT_RESONANCE_SPEC,
+  computeBinauralPan,
   computeEcologicalAffinity,
   computePlantMorphology,
   computeSynthesisEnvelope,
   evaluateDiurnalProfile,
+  evaluateHumaneErgonomics,
   evaluatePrismRequest,
   formatPrismRequest,
   runAcceptanceVectors,
@@ -18,13 +22,14 @@ import {
   findNearestPlant,
 } from './prismModel';
 
-test('Botanical soundscape specification validates all 7 fields, 10 outcomes, 20 rules, and 21 examples', () => {
+test('Botanical soundscape specification validates all 7 fields, 10 outcomes, 24 rules, and 25 examples', () => {
   assert.equal(VERDANT_RESONANCE_SPEC.schema, 'prism/spec/1');
   assert.equal(VERDANT_RESONANCE_SPEC.name, 'verdant-resonance');
   assert.equal(VERDANT_RESONANCE_SPEC.fields.length, 7);
   assert.equal(VERDANT_RESONANCE_SPEC.outcomes.length, 10);
-  assert.equal(VERDANT_RESONANCE_SPEC.rules.length, 20);
-  assert.equal(VERDANT_RESONANCE_SPEC.properties.length, 8);
+  assert.equal(VERDANT_RESONANCE_SPEC.rules.length, 24);
+  assert.equal(VERDANT_RESONANCE_SPEC.properties.length, 10);
+  assert.equal(VERDANT_RESONANCE_SPEC.examples.length, 25);
   assert.equal(SANCTUARY_TRAIL_WAYPOINTS.length, 5);
 
   for (const ex of VERDANT_RESONANCE_SPEC.examples) {
@@ -34,10 +39,10 @@ test('Botanical soundscape specification validates all 7 fields, 10 outcomes, 20
   }
 });
 
-test('Formal botanical invariants (INV-001 to INV-008) hold universally across all sampled states', () => {
+test('Formal botanical invariants (INV-001 to INV-010) hold universally across all sampled states', () => {
   const verification = verifyPrismProperties(VERDANT_RESONANCE_SPEC);
   assert.equal(verification.allHold, true);
-  assert.equal(verification.results.length, 8);
+  assert.equal(verification.results.length, 10);
   for (const r of verification.results) {
     assert.equal(r.holds, true, `Property ${r.id} (${r.theoremName}) failed`);
     assert.ok(r.checked > 10000, `Expected >10000 combinations checked for ${r.id}`);
@@ -57,15 +62,14 @@ test('Formal botanical invariants (INV-001 to INV-008) hold universally across a
 test('Acceptance vectors pass both valid 7-field botanical interactions and malformed input rejection', () => {
   const report = runAcceptanceVectors(VERDANT_RESONANCE_SPEC);
   assert.equal(report.passed, report.total);
-  assert.ok(report.total >= 25);
+  assert.ok(report.total >= 35);
 
   assert.equal(evaluatePrismRequest('').outcome, 'invalid');
   assert.equal(evaluatePrismRequest('meadow chime-lily attune dawn dormant 08 4').outcome, 'invalid');
   assert.equal(evaluatePrismRequest('meadow chime-lily attune dawn dormant 105 4').outcome, 'invalid');
 });
 
-test('Diurnal sky, ecological affinity, and synthesis voice-leading models evaluate deterministically', () => {
-  // Sanctuary Chorus when attuning an awakened plant in Sanctuary
+test('Diurnal sky, ecological affinity, 4-partial synthesis, and binaural panning models evaluate deterministically', () => {
   const chorusReq = formatPrismRequest({
     biome: 'sanctuary',
     plant: 'star-orchid',
@@ -77,7 +81,6 @@ test('Diurnal sky, ecological affinity, and synthesis voice-leading models evalu
   });
   assert.equal(evaluatePrismRequest(chorusReq).outcome, 'sanctuary-chorus');
 
-  // Dawn Arpeggio when observing Chime Lily at Dawn
   const dawnReq = formatPrismRequest({
     biome: 'meadow',
     plant: 'chime-lily',
@@ -89,7 +92,6 @@ test('Diurnal sky, ecological affinity, and synthesis voice-leading models evalu
   });
   assert.equal(evaluatePrismRequest(dawnReq).outcome, 'dawn-arpeggio');
 
-  // Nocturnal Symphony when observing Echo Lotus at Twilight
   const nocturneReq = formatPrismRequest({
     biome: 'wetland',
     plant: 'echo-lotus',
@@ -101,7 +103,6 @@ test('Diurnal sky, ecological affinity, and synthesis voice-leading models evalu
   });
   assert.equal(evaluatePrismRequest(nocturneReq).outcome, 'nocturnal-symphony');
 
-  // Diurnal profile & synthesis envelope
   const diurnal = evaluateDiurnalProfile('starlight', 'sanctuary', 80);
   assert.equal(diurnal.starOpacity, 1);
   assert.ok(diurnal.floraEmissiveMultiplier > 1.8);
@@ -112,7 +113,38 @@ test('Diurnal sky, ecological affinity, and synthesis voice-leading models evalu
 
   const synth = computeSynthesisEnvelope('sanctuary-chorus', 'sanctuary', 'starlight');
   assert.equal(synth.frequenciesHz.length, 6);
-  assert.ok(synth.frequenciesHz[0] > 100);
+  assert.equal(synth.overtoneFrequenciesHz.length, 6);
+  assert.equal(synth.subFrequenciesHz.length, 6);
+  assert.equal(synth.centsDeviation, 0.0);
+  assert.ok(synth.reverbSendGain > 0.4);
+
+  // Binaural pan: plant to the right (+X) when facing -Z (yaw = 0) pans positive (right)
+  const panRight = computeBinauralPan(0, 0, 0, 5, -5);
+  const panLeft = computeBinauralPan(0, 0, 0, -5, -5);
+  assert.ok(panRight > 0.4);
+  assert.ok(panLeft < -0.4);
+});
+
+test('Brand identity, humane-centered design, and zero-allocation infrastructure models satisfy formal invariants', () => {
+  assert.equal(VERDANT_BRAND_STANDARD.profile, 'prism/brand-standard/1');
+  assert.equal(VERDANT_BRAND_STANDARD.chromaticPalette.length, 4);
+  assert.ok(VERDANT_BRAND_STANDARD.chromaticPalette[1].contrastRatio >= 12.0);
+
+  const humane = evaluateHumaneErgonomics({
+    velocityDm: 0,
+    dockCollapsed: false,
+    guidedStroll: false,
+    harmonyPct: 75,
+  });
+  assert.equal(humane.pacingState, 'Meditative Stillness');
+  assert.ok(humane.openViewportPct >= 88);
+  assert.equal(humane.zeroConflictVerified, true);
+  assert.equal(humane.zeroDarkPatternsVerified, true);
+  assert.ok(humane.restorativeScore >= 95);
+
+  assert.equal(VERDANT_INFRASTRUCTURE_STANDARD.perFrameHeapAllocations, 0);
+  assert.equal(VERDANT_INFRASTRUCTURE_STANDARD.partialsPerVoice, 4);
+  assert.equal(VERDANT_INFRASTRUCTURE_STANDARD.sporeRingBufferCapacity, 180);
 });
 
 test('Procedural garden generation and spatial topography maintain invariants', () => {

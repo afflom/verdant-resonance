@@ -12,6 +12,9 @@ import {
   PLANT_SPECIES_CONFIGS,
   SOUND_OUTCOME_PROFILES,
   SoundscapeOutcome,
+  VERDANT_BRAND_STANDARD,
+  computeBinauralPan,
+  evaluateHumaneErgonomics,
   generateGardenPlants,
 } from './game/prismModel';
 import { BotanicalSoundscapeEngine } from './game/soundscapeEngine';
@@ -65,7 +68,7 @@ export default function App() {
     action: 'observe',
     prismRequest: 'meadow chime-lily observe dawn dormant 20 0',
     prismOutcome: 'dawn-arpeggio',
-    prismRule: 'REQ-007',
+    prismRule: 'REQ-010',
     prismRuleDesc:
       'Morning mist around a Chime Lily at Dawn awakens sparkling dewdrop glass-marimba arpeggios.',
     harmony: 15,
@@ -212,6 +215,27 @@ export default function App() {
   const outcomeProfile =
     SOUND_OUTCOME_PROFILES[telemetry.prismOutcome] ?? SOUND_OUTCOME_PROFILES['wind-whisper'];
 
+  const humaneEval = evaluateHumaneErgonomics({
+    velocityDm: telemetry.velocityDm,
+    dockCollapsed,
+    guidedStroll: telemetry.guidedStroll,
+    harmonyPct: telemetry.harmony,
+  });
+
+  const stereoPan = computeBinauralPan(
+    telemetry.playerX,
+    telemetry.playerZ,
+    telemetry.playerYaw,
+    telemetry.nearestPlant.x,
+    telemetry.nearestPlant.z,
+  );
+  const stereoLabel =
+    Math.abs(stereoPan) < 0.08
+      ? 'Center'
+      : stereoPan < 0
+        ? `${Math.round(Math.abs(stereoPan) * 100)}% L`
+        : `${Math.round(stereoPan * 100)}% R`;
+
   return (
     <main className="relative w-full h-full overflow-hidden select-none">
       {/* Isolated 3D WebGL Procedural Garden Viewport */}
@@ -234,45 +258,60 @@ export default function App() {
           className="fixed inset-0 z-30 flex flex-col justify-between p-10 md:p-14 pointer-events-none"
           style={{
             background:
-              'linear-gradient(90deg, rgba(6, 17, 13, 0.90) 0%, rgba(6, 17, 13, 0.62) 44%, rgba(6, 17, 13, 0.12) 100%)',
+              'linear-gradient(90deg, rgba(6, 17, 13, 0.92) 0%, rgba(6, 17, 13, 0.66) 46%, rgba(6, 17, 13, 0.10) 100%)',
           }}
         >
-          {/* Top Botanical Identity Line (Unboxed Typography) */}
-          <div className="flex items-center justify-between">
-            <div className="text-xs font-mono text-emerald-300/90 tracking-wide hud-text-shadow">
-              BOTANICAL SOUNDSCAPE SANCTUARY · JUST INTONATION & PENTATONIC FLORA
+          {/* Top Botanical Conservatory Identity Line (Unboxed Typography) */}
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div className="text-xs font-mono text-amber-200/90 tracking-wider uppercase hud-text-shadow">
+              {VERDANT_BRAND_STANDARD.editionTitle}
+            </div>
+            <div className="text-xs font-mono text-emerald-300/85 tracking-wide hud-text-shadow hidden sm:block">
+              HUMANE CALM ARCHITECTURE · BINAURAL SPATIAL AUDIO · ZERO CONFLICT
             </div>
           </div>
 
-          {/* Left-Third Focal Lockup */}
-          <div className="max-w-xl space-y-6 my-auto pointer-events-auto">
-            <VerdantResonanceEmblem className="w-20 h-20" />
+          {/* Left-Third Focal Brand Lockup */}
+          <div className="max-w-xl space-y-5 my-auto pointer-events-auto">
+            <div className="flex items-center gap-4">
+              <VerdantResonanceEmblem className="w-20 h-20 shrink-0" />
+              <div className="space-y-0.5">
+                <div className="text-[11px] font-mono tracking-widest text-emerald-300/90 uppercase">
+                  {VERDANT_BRAND_STANDARD.genreClassification}
+                </div>
+                <div className="font-display italic text-lg text-amber-200/95">
+                  {VERDANT_BRAND_STANDARD.conservatorySubtitle}
+                </div>
+              </div>
+            </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               <h1
                 className="font-display text-5xl md:text-6xl font-semibold tracking-tight text-amber-50 hud-text-shadow"
                 style={{ textWrap: 'balance' }}
               >
-                Verdant Resonance
+                {VERDANT_BRAND_STANDARD.brandName}
               </h1>
-              <p className="text-lg md:text-xl text-emerald-100/90 font-normal max-w-lg hud-text-shadow">
-                Explore a living, conflict-free botanical sanctuary where every footstep, breeze, and
-                blossom awakens a movement-responsive harmonic soundscape.
+              <p className="text-lg md:text-xl text-emerald-50/95 font-normal max-w-lg hud-text-shadow leading-relaxed">
+                {VERDANT_BRAND_STANDARD.tagline}
+              </p>
+              <p className="text-sm text-emerald-200/80 max-w-lg hud-text-shadow leading-relaxed">
+                {VERDANT_BRAND_STANDARD.manifesto}
               </p>
             </div>
 
-            {/* Unboxed Metadata Line */}
-            <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-emerald-300/85">
-              <span>5 Acoustic Biomes</span>
+            {/* Unboxed Sensory & Humane Design Pillars */}
+            <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-emerald-300/90">
+              <span>Pure Just Intonation (0.0¢)</span>
+              <span aria-hidden="true">·</span>
+              <span>4-Partial Stereo Reverb</span>
+              <span aria-hidden="true">·</span>
+              <span>88% Calm Viewport</span>
               <span aria-hidden="true">·</span>
               <span>5 Interactive Flora Species</span>
-              <span aria-hidden="true">·</span>
-              <span>Diurnal Sky Cycle</span>
-              <span aria-hidden="true">·</span>
-              <span>Peaceful Exploration</span>
             </div>
 
-            {/* Primary CTA + Secondary Herbarium Button (<= 3 menu actions) */}
+            {/* Primary CTA + Secondary Herbarium Button (<= 2 focal actions) */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <button
                 type="button"
@@ -288,21 +327,21 @@ export default function App() {
                 onClick={() => setGameState('paused')}
                 className="px-5 py-3.5 rounded-lg border border-emerald-300/35 bg-[#091913]/85 hover:bg-emerald-950 text-emerald-100 font-medium text-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer"
               >
-                Botanical Field Guide
+                Botanical Field Guide & Atlas
               </button>
             </div>
           </div>
 
           {/* Single Flat Borderless Control Hint Line in Bottom Safe Margin */}
           <div className="text-xs font-mono text-emerald-200/80 hud-text-shadow">
-            WASD / Arrows Move · Mouse Drag / Q-E Look · Space Attune Flora · T Touch · C Stillness · L Sky Light · 1-5 Biomes · P Field Guide
+            WASD / Arrows Move · Mouse Drag / Q-E Look · Space Attune Flora · T Touch · C Stillness · G Guided Stroll · L Sky · 1-5 Biomes · P Field Guide
           </div>
         </div>
       )}
 
       {/* =====================================================================
           PLAYING HUD (`document.body.dataset.state = 'playing'`)
-          World-Matched Botanical Framing, >= 85% Unobstructed Viewport
+          World-Matched Botanical Framing, >= 88% Unobstructed Viewport
          ===================================================================== */}
       {gameState === 'playing' && (
         <div className="fixed inset-0 z-20 pointer-events-none">
@@ -334,7 +373,7 @@ export default function App() {
             )}
           </div>
 
-          {/* Corner Cluster 1 (Top-Left): Harmony Resonance & Live Acoustic Soundscape Readout */}
+          {/* Corner Cluster 1 (Top-Left): Harmony Resonance & High-Precision Acoustic Readout */}
           <div className="fixed top-4 left-4 max-w-md rounded-xl border border-emerald-400/25 bg-[#071510]/90 px-4 py-3 shadow-xl pointer-events-auto">
             <div className="flex items-baseline justify-between gap-6">
               <div>
@@ -376,8 +415,8 @@ export default function App() {
                 <div className="text-[11px] font-medium text-amber-200" data-testid="hud-prism-outcome">
                   {outcomeProfile.label} · {outcomeProfile.timbre}
                 </div>
-                <div className="text-[10px] font-mono text-emerald-300/75">
-                  {activeBiomeCfg.tuningLabel} · {activeAtmosphereCfg.name}
+                <div className="text-[10px] font-mono text-emerald-300/80">
+                  {activeBiomeCfg.tuningLabel} · 0.0¢ Pure · {activeAtmosphereCfg.name}
                 </div>
               </div>
 
@@ -405,7 +444,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Corner Cluster 2 (Top-Right): Active Biome, Nearest Flora & Utility Controls */}
+          {/* Corner Cluster 2 (Top-Right): Active Biome, Nearest Flora, Binaural Field & Utility Controls */}
           <div className="fixed top-4 right-4 flex items-start gap-2.5 pointer-events-auto">
             <div className="rounded-xl border border-emerald-400/25 bg-[#071510]/90 px-4 py-2.5 shadow-xl">
               <div className="flex items-center gap-2.5">
@@ -423,6 +462,13 @@ export default function App() {
                     <span className="font-mono text-xs text-amber-200 tabular-nums">
                       {Math.round(telemetry.distanceMeters)}m
                     </span>
+                    <span className="text-emerald-400/40" aria-hidden="true">·</span>
+                    <span className="font-mono text-[11px] text-teal-200 tabular-nums">
+                      Pan {stereoLabel}
+                    </span>
+                  </div>
+                  <div className="text-[10px] font-mono text-emerald-300/75">
+                    {humaneEval.pacingState} · {humaneEval.openViewportPct}% Calm View
                   </div>
                 </div>
               </div>

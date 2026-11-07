@@ -1282,7 +1282,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           player.lastRuleDesc = decision.ruleDescription;
         }
 
-        // Update Web Audio Soundscape Engine with diurnal & harmony state
+        // Update Web Audio Soundscape Engine with diurnal, harmony & binaural stereo bearing state
         soundEngine.updateMovement({
           biome: currentBiome,
           atmosphere: atmosphereRef.current,
@@ -1292,6 +1292,11 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           totalDistanceMeters: player.walkDist,
           outcome: player.lastOutcome,
           elapsedSeconds: elapsed,
+          playerX: player.x,
+          playerZ: player.z,
+          playerYaw: player.yaw,
+          nearestPlantX: nearest.plant.x,
+          nearestPlantZ: nearest.plant.z,
         });
 
         // Smoothly interpolate biome + diurnal atmosphere sky, fog, star dome, and light intensities
