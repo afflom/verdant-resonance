@@ -1,5 +1,7 @@
 # Verdant Resonance
 
+[![Deploy game to GitHub Pages](https://github.com/afflom/verdant-resonance/actions/workflows/pages.yml/badge.svg)](https://github.com/afflom/verdant-resonance/actions/workflows/pages.yml)
+
 A peaceful first-person garden exploration game. Wander through five acoustic
 biomes, discover and attune interactive plants, and listen to a procedural
 soundscape that responds to movement and the changing sky.
