@@ -246,6 +246,8 @@ export class BotanicalSoundscapeEngine {
     nearestPlantZ?: number;
     surfaceMaterial?: SurfaceMaterialId;
     acousticOcclusion?: number;
+    reverbSendRefinement?: number;
+    modalFilterQMultiplier?: number;
   }): void {
     const {
       biome,
@@ -263,6 +265,8 @@ export class BotanicalSoundscapeEngine {
       nearestPlantZ = -5.5,
       surfaceMaterial = classifySurfaceMaterial(playerX, playerZ),
       acousticOcclusion = 0,
+      reverbSendRefinement = 1.0,
+      modalFilterQMultiplier = 1.0,
     } = params;
 
     this.currentPan = computeBinauralPan(playerX, playerZ, playerYaw, nearestPlantX, nearestPlantZ);
@@ -318,16 +322,23 @@ export class BotanicalSoundscapeEngine {
       this.stereoPanner.pan.setTargetAtTime(this.currentPan, now, 0.12);
     }
 
+    if (this.reverbReturnGain) {
+      const targetReverb = Math.min(0.56, Math.max(0.36, 0.44 * reverbSendRefinement));
+      this.reverbReturnGain.gain.setTargetAtTime(targetReverb, now, 0.2);
+    }
+
     if (biome !== this.currentBiome) {
       this.currentBiome = biome;
     }
 
     if (this.windFilter && this.windGain) {
       const occlusionAttenuation = 1 - Math.min(0.45, acousticOcclusion) * 0.35;
-      const windFreq = (250 + velNorm * 460) * (diurnalEval.padFilterCutoffHz / 520) * occlusionAttenuation;
+      const windFreq =
+        (250 + velNorm * 460) * (diurnalEval.padFilterCutoffHz / 520) * occlusionAttenuation;
       // Near-silent (0.002) when standing still so there is zero background drone/hiss; gentle breeze (up to 0.028) when moving
       const windAmp = velNorm > 0.05 ? 0.004 + velNorm * 0.024 : 0.0018;
       this.windFilter.frequency.setTargetAtTime(windFreq, now, 0.15);
+      this.windFilter.Q.setTargetAtTime(3.2 * modalFilterQMultiplier, now, 0.2);
       this.windGain.gain.setTargetAtTime(windAmp, now, 0.18);
     }
   }

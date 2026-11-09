@@ -44,6 +44,20 @@ structure{
 }
 
 structure{
+  name: NeuromorphicBrandBridgeSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: neuromorphicBusCoupled, type: Bool},
+    {name: domainBasisPrime, type: Nat},
+    {name: rule30RegisterBits, type: Nat},
+    {name: pointKeyBits, type: Nat},
+    {name: crossDomainTransferEnabled, type: Bool},
+    {name: autopoieticSelfRefinementEnabled, type: Bool}
+  ]
+}
+
+structure{
   name: BrandStandard,
   type_parameters: [],
   parameters: [],
@@ -55,7 +69,8 @@ structure{
     {name: primaryAccent, type: ChromaticToken},
     {name: secondaryAccent, type: ChromaticToken},
     {name: typography, type: TypographicScale},
-    {name: marketing, type: MarketingProposition}
+    {name: marketing, type: MarketingProposition},
+    {name: neuromorphicBridge, type: NeuromorphicBrandBridgeSpec}
   ]
 }
 
@@ -88,10 +103,17 @@ definition{
 }
 
 definition{
+  name: verdantBrandBasisPrime,
+  parameters: [],
+  result: Nat,
+  body: 107
+}
+
+definition{
   name: verdantBrandStandard,
   parameters: [],
   result: BrandStandard,
-  body: (record BrandStandard {profile := "prism/brand-standard/1", brandName := "Verdant Resonance", conservatorySubtitle := "Conservatory of Living Botanical Acoustics and Just Intonation", primarySurface := (record ChromaticToken {tokenName := "obsidian-moss", hexValue := "#071510", contrastRatioTenths := 10, semanticRole := "Primary Sanctuary Canopy Canvas"}), primaryAccent := (record ChromaticToken {tokenName := "pollen-gold", hexValue := "#FDE047", contrastRatioTenths := 128, semanticRole := "Primary Harmonic Attunement and Focal CTA"}), secondaryAccent := (record ChromaticToken {tokenName := "bioluminescent-jade", hexValue := "#6EE7B7", contrastRatioTenths := 84, semanticRole := "Secondary Botanical Telemetry and Herbarium Accent"}), typography := (record TypographicScale {displayFamily := "Cormorant Garamond", sansFamily := "Plus Jakarta Sans", monoFamily := "JetBrains Mono", scaleRatioTenths := 16, minBodyContrastTenths := 70}), marketing := (record MarketingProposition {editionTitle := "Conservatory Edition - 262 / 432 Hz Just Intonation", tagline := "Where every footstep, breeze, and blossom awakens a living harmonic choir.", genreClassification := "Peaceful First-Person Botanical and Acoustic Sanctuary", primaryCallToAction := "Enter the Garden", secondaryCallToAction := "Botanical Field Guide", maxFocalActions := 2})})
+  body: (record BrandStandard {profile := "prism/brand-standard/1", brandName := "Verdant Resonance", conservatorySubtitle := "Conservatory of Living Botanical Acoustics and Just Intonation", primarySurface := (record ChromaticToken {tokenName := "obsidian-moss", hexValue := "#071510", contrastRatioTenths := 10, semanticRole := "Primary Sanctuary Canopy Canvas"}), primaryAccent := (record ChromaticToken {tokenName := "pollen-gold", hexValue := "#FDE047", contrastRatioTenths := 128, semanticRole := "Primary Harmonic Attunement and Focal CTA"}), secondaryAccent := (record ChromaticToken {tokenName := "bioluminescent-jade", hexValue := "#6EE7B7", contrastRatioTenths := 84, semanticRole := "Secondary Botanical Telemetry and Herbarium Accent"}), typography := (record TypographicScale {displayFamily := "Cormorant Garamond", sansFamily := "Plus Jakarta Sans", monoFamily := "JetBrains Mono", scaleRatioTenths := 16, minBodyContrastTenths := 70}), marketing := (record MarketingProposition {editionTitle := "Conservatory Edition - 262 / 432 Hz Just Intonation", tagline := "Where every footstep, breeze, and blossom awakens a living harmonic choir.", genreClassification := "Peaceful First-Person Botanical and Acoustic Sanctuary", primaryCallToAction := "Enter the Garden", secondaryCallToAction := "Botanical Field Guide", maxFocalActions := 2}), neuromorphicBridge := (record NeuromorphicBrandBridgeSpec {neuromorphicBusCoupled := true, domainBasisPrime := 107, rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := true, autopoieticSelfRefinementEnabled := true})})
 }
 
 definition{
@@ -106,6 +128,21 @@ theorem{
   parameters: [contrastTenths : Nat],
   statement: ((breaksBrandContrast contrastTenths) = false),
   proof: linear_arithmetic{definitions: [breaksBrandContrast, verdantPrimaryContrastTenths, wcagAaaMinimumContrastTenths]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksBrandNeuromorphicCoupling,
+  parameters: [prime : Nat],
+  result: Bool,
+  body: ((prime =? (verdantBrandBasisPrime)) && (prime <? 107))
+}
+
+theorem{
+  name: brandNeuromorphicCouplingHolds,
+  parameters: [prime : Nat],
+  statement: ((breaksBrandNeuromorphicCoupling prime) = false),
+  proof: linear_arithmetic{definitions: [breaksBrandNeuromorphicCoupling, verdantBrandBasisPrime]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

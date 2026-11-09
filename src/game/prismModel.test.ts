@@ -10,9 +10,13 @@ import {
   GROWTH_SUBSTRATE_SPECS,
   MIRROR_LAGOON_CENTER,
   MIRROR_LAGOON_WATER_SURFACE_Y,
+  PRISM_DOMAIN_BASIS_PRIMES,
+  PRISM_DOMAIN_BRIDGES,
+  PRISM_DOMAIN_ORDER,
   SANCTUARY_TRAIL_WAYPOINTS,
   SPECIES_ARTICULATION_PROFILES,
   SYMBIOTIC_GUILDS,
+  VERDANT_ACOUSTIC_STANDARD,
   VERDANT_ARTICULATION_STANDARD,
   VERDANT_BOTANICAL_STANDARD,
   VERDANT_BRAND_STANDARD,
@@ -22,6 +26,7 @@ import {
   VERDANT_NEUROMORPHIC_STANDARD,
   VERDANT_PHYSICS_STANDARD,
   VERDANT_RESONANCE_SPEC,
+  VERDANT_SOUNDTRACK_STANDARD,
   advancePlantLifecycle,
   buildGardenColliders,
   classifyPlantGrowthSubstrate,
@@ -32,6 +37,7 @@ import {
   computeCameraKinematics,
   computeCardinalWayfinder,
   computeCliffordBasinState,
+  computeCrossDomainRefinementDirectives,
   computeEcologicalAffinity,
   computeFoliageDeflection,
   computeGardenHarmonyPct,
@@ -48,6 +54,7 @@ import {
   createInitialGestureHoldState,
   createInitialHebbianTable,
   createInitialNeuromorphicState,
+  createInitialUniversalManifold,
   evaluateBiogeochemistry,
   evaluateBiomeMasteryAndGuilds,
   evaluateCanopyWindShear,
@@ -69,6 +76,9 @@ import {
   hasShortCycleRepetition,
   learnAllHebbian,
   learnHebbianWeight,
+  propagateCrossDomainEnhancement,
+  refineDomainWeightAutopoietic,
+  refinePrismModel,
   registerEmergentSeedlingCollider,
   resolveBiomeWaypointLanding,
   resolvePlayerPhysicsStep,
@@ -78,6 +88,7 @@ import {
   stepGestureHoldEnvelope,
   stepKuramotoPhaseEntrainment,
   stepSporeFluidDynamics,
+  transferWeightCrossDomain,
   verifyHolisticSystemCoupling,
   verifyPointKeyResonanceGate,
   verifyPrismProperties,
@@ -961,8 +972,10 @@ test('Spatial Wave Propagation Acoustics, Circadian Stomatal Turgor, Kuramoto Ph
   assert.ok(sporeStep.y > 1.2, 'Expected diurnal thermal buoyancy to lift bioluminescent spores');
 });
 
-test('Holistic Cross-Domain Mutual Constraint Law: all 8 physical, chemical, biological, celestial, acoustic, and spatial grounding invariants hold universally', () => {
-  assert.equal(VERDANT_PHYSICS_STANDARD.coupledDomainCount, 8);
+test('Holistic Cross-Domain Mutual Constraint Law: all 10 physical, chemical, biological, celestial, acoustic, infrastructure, and spatial grounding invariants hold universally', () => {
+  assert.equal(VERDANT_PHYSICS_STANDARD.coupledDomainCount, 10);
+  assert.equal(VERDANT_PHYSICS_STANDARD.universalNeuromorphicBusEnabled, true);
+  assert.equal(VERDANT_PHYSICS_STANDARD.crossDomainTransferLatencyTicks, 0);
   assert.equal(VERDANT_PHYSICS_STANDARD.sporeSolidObstacleDeflectionEnabled, true);
   assert.equal(VERDANT_PHYSICS_STANDARD.sporeTerrainMeniscusFloorEnabled, true);
   assert.equal(VERDANT_PHYSICS_STANDARD.emergentSeedlingColliderRegistrationEnabled, true);
@@ -974,10 +987,10 @@ test('Holistic Cross-Domain Mutual Constraint Law: all 8 physical, chemical, bio
   assert.equal(VERDANT_PHYSICS_STANDARD.floatingTreeOrRockEdgeCount, 0);
   assert.equal(VERDANT_PHYSICS_STANDARD.hardSurfaceOrRockFloraGrowthCount, 0);
 
-  // 1. Run full holistic cross-domain verification across all 8 mutual constraint laws
+  // 1. Run full holistic cross-domain verification across all 10 mutual constraint & universal bus laws
   const report = verifyHolisticSystemCoupling();
   assert.equal(report.allConstrained, true);
-  assert.equal(report.coupledDomainCount, 8);
+  assert.equal(report.coupledDomainCount, 10);
   assert.equal(report.solidExclusionVerified, true);
   assert.equal(report.sporeFloorAndObstacleVerified, true);
   assert.equal(report.emergentSeedlingColliderVerified, true);
@@ -986,6 +999,8 @@ test('Holistic Cross-Domain Mutual Constraint Law: all 8 physical, chemical, bio
   assert.equal(report.causalWavefrontTimingVerified, true);
   assert.equal(report.universalSoundtrackSpatialBindingVerified, true);
   assert.equal(report.spatialGroundingAndSubstrateCoherenceVerified, true);
+  assert.equal(report.universalNeuromorphicBusVerified, true);
+  assert.equal(report.infrastructureNeuromorphicCouplingVerified, true);
 
   const plants = generateGardenPlants(42026);
   const colliders = buildGardenColliders(plants);
@@ -1127,5 +1142,152 @@ test('Spatial Grounding & Hard-Surface/Rock Exclusion Coherence API guarantees z
     assert.ok(distCrystal > 11.8, `Tree ${t.index} must not grow inside Crystal Geode Mirror platform`);
   }
 });
+
+test('Universal 10-Domain Neuromorphic Bus transfers enhancements across all Prism domains (including Infrastructure) automatically without manual per-domain iteration', () => {
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.universalBus.coupledModuleCount, 10);
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.universalBus.domainBasisPrimeCount, 10);
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.universalBus.crossDomainTransferEnabled, true);
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.universalBus.autopoieticSelfRefinementEnabled, true);
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.universalBus.infrastructureCoupled, true);
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.universalBus.zeroManualIterationOverhead, true);
+
+  assert.equal(VERDANT_INFRASTRUCTURE_STANDARD.neuromorphicBridge.neuromorphicBusCoupled, true);
+  assert.equal(VERDANT_INFRASTRUCTURE_STANDARD.neuromorphicBridge.domainBasisPrime, 71);
+  assert.equal(VERDANT_INFRASTRUCTURE_STANDARD.neuromorphicBridge.selfRefiningRenderContract, true);
+
+  // 1. Verify all 10 domains are equipped with identical UORLUT01 + Rule-30 + bounded Hebbian nodes
+  const initialManifold = createInitialUniversalManifold();
+  assert.equal(PRISM_DOMAIN_ORDER.length, 10);
+  for (const dom of PRISM_DOMAIN_ORDER) {
+    const node = initialManifold.domains[dom];
+    assert.ok(node, `Missing neuromorphic node for domain ${dom}`);
+    assert.equal(node.basisPrime, PRISM_DOMAIN_BASIS_PRIMES[dom]);
+    assert.equal(node.synapticWeight, 8);
+    assert.equal(node.fidelityMultiplier, 1.0);
+    assert.ok(node.pointKey28 >= 0 && node.pointKey28 <= 0x0fffffff);
+  }
+
+  // 2. Verify `transferWeightCrossDomain` is bounded in [1, 16] and monotonically non-decreasing (`crossDomainTransferBoundedAndMonotonicHolds`)
+  for (let w = 1; w <= 16; w++) {
+    const transferred = transferWeightCrossDomain(w, true);
+    assert.ok(transferred >= 1 && transferred <= 16);
+    assert.ok(transferred >= w);
+    const unchanged = transferWeightCrossDomain(w, false);
+    assert.equal(unchanged, w);
+  }
+
+  // 3. When a single domain (`botany`) improves, `propagateCrossDomainEnhancement` transfers enhancements to all 9 other domains (including `infrastructure`, `physics`, `acoustics`, etc.)
+  const afterBotanyImprovement = propagateCrossDomainEnhancement(initialManifold, {
+    sourceDomain: 'botany',
+    resonantSuccess: true,
+  });
+  assert.equal(afterBotanyImprovement.domains.botany.synapticWeight, 10);
+  for (const dom of PRISM_DOMAIN_ORDER) {
+    if (dom !== 'botany') {
+      assert.equal(
+        afterBotanyImprovement.domains[dom].synapticWeight,
+        9,
+        `Expected ${dom} to receive +1 cross-domain synaptic transfer from botany improvement`,
+      );
+      assert.equal(afterBotanyImprovement.domains[dom].receivedCrossDomainTransfers, 1);
+    }
+    assert.ok(afterBotanyImprovement.domains[dom].fidelityMultiplier > 1.0);
+  }
+  assert.equal(afterBotanyImprovement.totalCrossDomainTransfers, 9);
+  assert.ok(afterBotanyImprovement.globalFidelityIndex > initialManifold.globalFidelityIndex);
+
+  // 4. Verify `computeCrossDomainRefinementDirectives` automatically refines Infrastructure, Physics, Botany, Ecology, Acoustics, Articulation, Soundtrack, Humane, and Brand
+  const baseDirectives = computeCrossDomainRefinementDirectives(initialManifold);
+  const refinedDirectives = computeCrossDomainRefinementDirectives(afterBotanyImprovement);
+  assert.ok(
+    refinedDirectives.infrastructure.toneMappingExposure >
+      baseDirectives.infrastructure.toneMappingExposure,
+  );
+  assert.ok(
+    refinedDirectives.infrastructure.microReliefBumpScale >
+      baseDirectives.infrastructure.microReliefBumpScale,
+  );
+  assert.ok(
+    refinedDirectives.infrastructure.activeSporePoolRatio >
+      baseDirectives.infrastructure.activeSporePoolRatio,
+  );
+  assert.ok(
+    refinedDirectives.infrastructure.constellationHaloOpacity >
+      baseDirectives.infrastructure.constellationHaloOpacity,
+  );
+  assert.ok(refinedDirectives.physics.cymaticWaveCoherence > baseDirectives.physics.cymaticWaveCoherence);
+  assert.ok(
+    refinedDirectives.botany.kuramotoCouplingMultiplier >
+      baseDirectives.botany.kuramotoCouplingMultiplier,
+  );
+  assert.ok(
+    refinedDirectives.acoustics.modalFilterQMultiplier >
+      baseDirectives.acoustics.modalFilterQMultiplier,
+  );
+
+  // 5. Verify `executeNeuromorphicSynthesisTick` propagates cross-domain enhancements during live gameplay
+  const plants = generateGardenPlants(42026);
+  const colliders = buildGardenColliders(plants);
+  let neuroState = createInitialNeuromorphicState();
+  const tickRes = executeNeuromorphicSynthesisTick(neuroState, {
+    biome: 'meadow',
+    species: 'chime-lily',
+    atmosphere: 'dawn',
+    action: 'attune',
+    outcome: 'harmonic-bloom',
+    playerX: 0,
+    playerZ: -5,
+    playerYaw: 0,
+    existingPlants: plants,
+    colliders,
+  });
+  neuroState = tickRes.nextState;
+  assert.ok(neuroState.universalManifold.globalFidelityIndex > 1.0);
+  assert.equal(neuroState.universalManifold.totalCrossDomainTransfers, 9);
+  assert.ok(neuroState.universalManifold.domains.infrastructure.synapticWeight > 8);
+
+  // 6. Verify all 10 domain standards expose their formal `neuromorphicBridge` contract (`PRISM_DOMAIN_BRIDGES`)
+  assert.equal(VERDANT_INFRASTRUCTURE_STANDARD.neuromorphicBridge.domainBasisPrime, 71);
+  assert.equal(VERDANT_PHYSICS_STANDARD.neuromorphicBridge.domainBasisPrime, 73);
+  assert.equal(VERDANT_BOTANICAL_STANDARD.neuromorphicBridge.domainBasisPrime, 79);
+  assert.equal(VERDANT_ECOLOGY_STANDARD.neuromorphicBridge.domainBasisPrime, 83);
+  assert.equal(VERDANT_ACOUSTIC_STANDARD.neuromorphicBridge.domainBasisPrime, 89);
+  assert.equal(VERDANT_ARTICULATION_STANDARD.neuromorphicBridge.domainBasisPrime, 97);
+  assert.equal(VERDANT_SOUNDTRACK_STANDARD.neuromorphicBridge.domainBasisPrime, 101);
+  assert.equal(VERDANT_HUMANE_STANDARD.neuromorphicBridge.domainBasisPrime, 103);
+  assert.equal(VERDANT_BRAND_STANDARD.neuromorphicBridge.domainBasisPrime, 107);
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.neuromorphicBridge.domainBasisPrime, 109);
+
+  for (const dom of PRISM_DOMAIN_ORDER) {
+    const bridge = PRISM_DOMAIN_BRIDGES[dom];
+    assert.equal(bridge.neuromorphicBusCoupled, true);
+    assert.equal(bridge.domainBasisPrime, PRISM_DOMAIN_BASIS_PRIMES[dom]);
+    assert.equal(bridge.rule30RegisterBits, 64);
+    assert.equal(bridge.pointKeyBits, 28);
+    assert.equal(bridge.crossDomainTransferEnabled, true);
+    assert.equal(bridge.autopoieticSelfRefinementEnabled, true);
+  }
+
+  // 7. Verify `refineDomainWeightAutopoietic` and `refinePrismModel` converge monotonically toward the fixed point `w* = 16`
+  for (let w = 1; w <= 16; w++) {
+    for (let leader = 1; leader <= 16; leader++) {
+      const nextW = refineDomainWeightAutopoietic(w, leader);
+      assert.ok(nextW >= 1 && nextW <= 16);
+      assert.ok(nextW >= w);
+    }
+  }
+  assert.equal(refineDomainWeightAutopoietic(16, 16), 16);
+
+  const refineReport = refinePrismModel(neuroState, { cycles: 8 });
+  assert.equal(refineReport.allDomainsBridgeVerified, true);
+  assert.ok(refineReport.fidelityAfter > refineReport.fidelityBefore);
+  assert.equal(refineReport.varianceAfter, 0);
+  assert.equal(refineReport.convergedDomains, 10);
+  for (const dom of PRISM_DOMAIN_ORDER) {
+    assert.equal(refineReport.nextState.universalManifold.domains[dom].synapticWeight, 16);
+    assert.equal(refineReport.nextState.universalManifold.domains[dom].consolidated, true);
+  }
+});
+
 
 

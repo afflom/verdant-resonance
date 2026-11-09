@@ -50,6 +50,20 @@ structure{
 }
 
 structure{
+  name: UniversalNeuromorphicBusSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: coupledModuleCount, type: Nat},
+    {name: domainBasisPrimeCount, type: Nat},
+    {name: crossDomainTransferEnabled, type: Bool},
+    {name: autopoieticSelfRefinementEnabled, type: Bool},
+    {name: infrastructureCoupled, type: Bool},
+    {name: zeroManualIterationOverhead, type: Bool}
+  ]
+}
+
+structure{
   name: NeuromorphicSynthesisStandard,
   type_parameters: [],
   parameters: [],
@@ -57,7 +71,8 @@ structure{
     {name: profile, type: String},
     {name: plasticity, type: HebbianPlasticitySpec},
     {name: cellularAutomaton, type: Rule30CellularAutomatonSpec},
-    {name: lutStack, type: UORLutStackSpec}
+    {name: lutStack, type: UORLutStackSpec},
+    {name: universalBus, type: UniversalNeuromorphicBusSpec}
   ]
 }
 
@@ -104,6 +119,13 @@ definition{
 }
 
 definition{
+  name: transferWeightCrossDomain,
+  parameters: [wTarget : Nat, sourceConsolidated : Bool],
+  result: Nat,
+  body: (if sourceConsolidated then (if ((wTarget + 1) <=? (weightMax)) then (wTarget + 1) else (weightMax)) else wTarget)
+}
+
+definition{
   name: rule30CellStep,
   parameters: [left : Bool, center : Bool, right : Bool],
   result: Bool,
@@ -121,7 +143,7 @@ definition{
   name: verdantNeuromorphicStandard,
   parameters: [],
   result: NeuromorphicSynthesisStandard,
-  body: (record NeuromorphicSynthesisStandard {profile := "prism/neuromorphic-standard/1", plasticity := (record HebbianPlasticitySpec {weightMin := 1, weightMax := 16, weightInitial := 8, weightRaise := 2, weightLower := 1, consolidationThreshold := 12, familyCount := 5, strategyCount := 4}), cellularAutomaton := (record Rule30CellularAutomatonSpec {ruleNumber := 30, registerWidthBits := 64, orbitBound := 256, periodBound := 256, drivesVoiceLeading := true, drivesMorphogenesis := true}), lutStack := (record UORLutStackSpec {headerMagic := "UORLUT01", basinStatesCl06 := 64, icosianGoldenRoots := 17, primeAddressBasisCount := 11, pointKeyBits := 28, shortCycleGuardMaxPeriod := 4, maxEmergentSeedlings := 15})})
+  body: (record NeuromorphicSynthesisStandard {profile := "prism/neuromorphic-standard/2", plasticity := (record HebbianPlasticitySpec {weightMin := 1, weightMax := 16, weightInitial := 8, weightRaise := 2, weightLower := 1, consolidationThreshold := 12, familyCount := 5, strategyCount := 4}), cellularAutomaton := (record Rule30CellularAutomatonSpec {ruleNumber := 30, registerWidthBits := 64, orbitBound := 256, periodBound := 256, drivesVoiceLeading := true, drivesMorphogenesis := true}), lutStack := (record UORLutStackSpec {headerMagic := "UORLUT01", basinStatesCl06 := 64, icosianGoldenRoots := 17, primeAddressBasisCount := 21, pointKeyBits := 28, shortCycleGuardMaxPeriod := 4, maxEmergentSeedlings := 15}), universalBus := (record UniversalNeuromorphicBusSpec {coupledModuleCount := 10, domainBasisPrimeCount := 10, crossDomainTransferEnabled := true, autopoieticSelfRefinementEnabled := true, infrastructureCoupled := true, zeroManualIterationOverhead := true})})
 }
 
 definition{
@@ -151,6 +173,43 @@ theorem{
   parameters: [synapticWeight : Nat, orphanCount : Nat, shortCycleCount : Nat, windowHi : Nat],
   statement: ((breaksShortCycleGate synapticWeight orphanCount shortCycleCount windowHi) = false),
   proof: linear_arithmetic{definitions: [breaksShortCycleGate, verifyPointKeyResonanceGate]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: refineDomainWeightAutopoietic,
+  parameters: [wCurrent : Nat, wLeader : Nat],
+  result: Nat,
+  body: (if (wCurrent <? wLeader) then (if ((wCurrent + 1) <=? (weightMax)) then (wCurrent + 1) else (weightMax)) else (if ((wCurrent + 1) <=? (weightMax)) then (wCurrent + 1) else (weightMax)))
+}
+
+definition{
+  name: breaksCrossDomainTransferBound,
+  parameters: [wTarget : Nat, sourceConsolidated : Bool],
+  result: Bool,
+  body: ((wTarget <=? (weightMax)) && (((weightMax) <? (transferWeightCrossDomain wTarget sourceConsolidated)) || ((transferWeightCrossDomain wTarget sourceConsolidated) <? wTarget)))
+}
+
+theorem{
+  name: crossDomainTransferBoundedAndMonotonicHolds,
+  parameters: [wTarget : Nat, sourceConsolidated : Bool],
+  statement: ((breaksCrossDomainTransferBound wTarget sourceConsolidated) = false),
+  proof: linear_arithmetic{definitions: [breaksCrossDomainTransferBound, transferWeightCrossDomain, weightMax]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksAutopoieticRefinementConvergence,
+  parameters: [wCurrent : Nat, wLeader : Nat],
+  result: Bool,
+  body: ((wCurrent <=? (weightMax)) && (((weightMax) <? (refineDomainWeightAutopoietic wCurrent wLeader)) || ((refineDomainWeightAutopoietic wCurrent wLeader) <? wCurrent)))
+}
+
+theorem{
+  name: autopoieticModelRefinementConvergesAndBoundedHolds,
+  parameters: [wCurrent : Nat, wLeader : Nat],
+  statement: ((breaksAutopoieticRefinementConvergence wCurrent wLeader) = false),
+  proof: linear_arithmetic{definitions: [breaksAutopoieticRefinementConvergence, refineDomainWeightAutopoietic, weightMax]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

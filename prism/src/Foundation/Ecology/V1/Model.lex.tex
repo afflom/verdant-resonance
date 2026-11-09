@@ -59,6 +59,20 @@ structure{
 }
 
 structure{
+  name: NeuromorphicEcologyBridgeSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: neuromorphicBusCoupled, type: Bool},
+    {name: domainBasisPrime, type: Nat},
+    {name: rule30RegisterBits, type: Nat},
+    {name: pointKeyBits, type: Nat},
+    {name: crossDomainTransferEnabled, type: Bool},
+    {name: autopoieticSelfRefinementEnabled, type: Bool}
+  ]
+}
+
+structure{
   name: EcologicalConstellationStandard,
   type_parameters: [],
   parameters: [],
@@ -67,7 +81,8 @@ structure{
     {name: constellations, type: BiomeConstellationSpec},
     {name: guilds, type: SymbioticGuildSpec},
     {name: biogeochemistry, type: BiogeochemicalEquilibriumSpec},
-    {name: microclimates, type: MicroclimateAcousticsSpec}
+    {name: microclimates, type: MicroclimateAcousticsSpec},
+    {name: neuromorphicBridge, type: NeuromorphicEcologyBridgeSpec}
   ]
 }
 
@@ -100,10 +115,17 @@ definition{
 }
 
 definition{
+  name: verdantEcologyBasisPrime,
+  parameters: [],
+  result: Nat,
+  body: 83
+}
+
+definition{
   name: verdantEcologyStandard,
   parameters: [],
   result: EcologicalConstellationStandard,
-  body: (record EcologicalConstellationStandard {profile := "prism/ecology-standard/1", constellations := (record BiomeConstellationSpec {constellationCount := 5, beamHeightMeters := 22, meadowConstellation := "Sunlit Pastoral Sixth Constellation", groveConstellation := "Bamboo Dorian Pentatonic Constellation", crystalConstellation := "Quartz Lydian Eleventh Constellation", wetlandConstellation := "Lagoon Aeolian Liquid Ninth Constellation", sanctuaryConstellation := "Sanctuary Celestial Overtone Series"}), guilds := (record SymbioticGuildSpec {guildCount := 3, primaryGuildName := "Dewdrop Bell Guild (Chime Lily + Echo Lotus)", secondaryGuildName := "Polyrhythmic Canopy Guild (Pulse Fern + Drone Moss)", tertiaryGuildName := "Celestial Overtone Guild (Star Orchid + Chime Lily)", guildHarmonyBonusPct := 5}), biogeochemistry := (record BiogeochemicalEquilibriumSpec {minSoilWaterPhCenti := 560, maxSoilWaterPhCenti := 810, silicaPiezoelectricCoupling := true, mycorrhizalCnpExchangeEnabled := true, luciferinEnzymaticKineticsEnabled := true, volatileTerpeneSignalingEnabled := true, actionPotentialWaveSpeedDmps := 65}), microclimates := (record MicroclimateAcousticsSpec {microclimateCount := 4, footstepStrideIntervalMs := 520, maxSimultaneousConstellationBeams := 5})})
+  body: (record EcologicalConstellationStandard {profile := "prism/ecology-standard/1", constellations := (record BiomeConstellationSpec {constellationCount := 5, beamHeightMeters := 22, meadowConstellation := "Sunlit Pastoral Sixth Constellation", groveConstellation := "Bamboo Dorian Pentatonic Constellation", crystalConstellation := "Quartz Lydian Eleventh Constellation", wetlandConstellation := "Lagoon Aeolian Liquid Ninth Constellation", sanctuaryConstellation := "Sanctuary Celestial Overtone Series"}), guilds := (record SymbioticGuildSpec {guildCount := 3, primaryGuildName := "Dewdrop Bell Guild (Chime Lily + Echo Lotus)", secondaryGuildName := "Polyrhythmic Canopy Guild (Pulse Fern + Drone Moss)", tertiaryGuildName := "Celestial Overtone Guild (Star Orchid + Chime Lily)", guildHarmonyBonusPct := 5}), biogeochemistry := (record BiogeochemicalEquilibriumSpec {minSoilWaterPhCenti := 560, maxSoilWaterPhCenti := 810, silicaPiezoelectricCoupling := true, mycorrhizalCnpExchangeEnabled := true, luciferinEnzymaticKineticsEnabled := true, volatileTerpeneSignalingEnabled := true, actionPotentialWaveSpeedDmps := 65}), microclimates := (record MicroclimateAcousticsSpec {microclimateCount := 4, footstepStrideIntervalMs := 520, maxSimultaneousConstellationBeams := 5}), neuromorphicBridge := (record NeuromorphicEcologyBridgeSpec {neuromorphicBusCoupled := true, domainBasisPrime := 83, rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := true, autopoieticSelfRefinementEnabled := true})})
 }
 
 definition{
@@ -133,6 +155,21 @@ theorem{
   parameters: [minPh : Nat, maxPh : Nat],
   statement: ((breaksBiogeochemicalPhBounds minPh maxPh) = false),
   proof: linear_arithmetic{definitions: [breaksBiogeochemicalPhBounds, verdantMaxPhCenti, verdantMinPhCenti]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksEcologyNeuromorphicCoupling,
+  parameters: [prime : Nat],
+  result: Bool,
+  body: ((prime =? (verdantEcologyBasisPrime)) && (prime <? 83))
+}
+
+theorem{
+  name: ecologyNeuromorphicCouplingHolds,
+  parameters: [prime : Nat],
+  statement: ((breaksEcologyNeuromorphicCoupling prime) = false),
+  proof: linear_arithmetic{definitions: [breaksEcologyNeuromorphicCoupling, verdantEcologyBasisPrime]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

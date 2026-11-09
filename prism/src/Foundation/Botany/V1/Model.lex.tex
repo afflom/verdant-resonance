@@ -66,6 +66,20 @@ structure{
 }
 
 structure{
+  name: NeuromorphicBotanyBridgeSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: neuromorphicBusCoupled, type: Bool},
+    {name: domainBasisPrime, type: Nat},
+    {name: rule30RegisterBits, type: Nat},
+    {name: pointKeyBits, type: Nat},
+    {name: crossDomainTransferEnabled, type: Bool},
+    {name: autopoieticSelfRefinementEnabled, type: Bool}
+  ]
+}
+
+structure{
   name: BotanicalFidelityStandard,
   type_parameters: [],
   parameters: [],
@@ -75,7 +89,8 @@ structure{
     {name: phyllotaxis, type: PhyllotaxisGeometrySpec},
     {name: substrates, type: GrowthSubstrateTaxonomySpec},
     {name: monuments, type: BiomeArchitecturalMonumentSpec},
-    {name: sympatheticResonance, type: SympatheticResonanceSpec}
+    {name: sympatheticResonance, type: SympatheticResonanceSpec},
+    {name: neuromorphicBridge, type: NeuromorphicBotanyBridgeSpec}
   ]
 }
 
@@ -129,10 +144,17 @@ definition{
 }
 
 definition{
+  name: verdantBotanyBasisPrime,
+  parameters: [],
+  result: Nat,
+  body: 79
+}
+
+definition{
   name: verdantBotanicalStandard,
   parameters: [],
   result: BotanicalFidelityStandard,
-  body: (record BotanicalFidelityStandard {profile := "prism/botanical-standard/1", morphologySystem := "Fibonacci Golden-Angle Phyllotaxis, 5-Substrate Fertile Soil/Water Holdfast Morphology (Zero Hard-Surface or Rock Growth), Slope-Embedded Grounding, Circadian Stomatal Turgor & Kuramoto Phase Entrainment", phyllotaxis := (record PhyllotaxisGeometrySpec {goldenAngleDeciDeg := 1375, minPartsPerSpecimen := 14, maxPartsPerSpecimen := 19, matteStemRoughnessMilli := 780, glossyPetalRoughnessMilli := 180, clearcoatEnabled := true}), substrates := (record GrowthSubstrateTaxonomySpec {substrateClassCount := 5, terrestrialLoamEnabled := true, pelagicWaterEnabled := true, lithophyticRockEnabled := true, architecturalFoundationEnabled := true, crystallineEpiphyteEnabled := true, gravitropicStemAlignment := true, zeroHardSurfaceOrRockPlantGrowth := true, zeroFloatingTreeTrunks := true, zeroDetachedCanopyCrowns := true}), monuments := (record BiomeArchitecturalMonumentSpec {monumentCount := 5, meadowMonument := "Sunlit Sundial Compass Rotunda", groveMonument := "Wind-Carved Bamboo Chime Pergola", crystalMonument := "Prismatic Quartz Geode Archway", wetlandMonument := "Mirror Lagoon Lantern Pier", sanctuaryMonument := "Levitating Tuning-Fork Obelisk & Gimbal Halo"}), sympatheticResonance := (record SympatheticResonanceSpec {crossPollinationRadiusDm := 49, harmonicFilamentCount := 6, sympatheticHarmonyBonus := 3, kuramotoPhaseLockingEnabled := true, circadianStomatalTurgorEnabled := true, minTurgorPressureCenti := 72, maxTurgorPressureCenti := 118})})
+  body: (record BotanicalFidelityStandard {profile := "prism/botanical-standard/1", morphologySystem := "Fibonacci Golden-Angle Phyllotaxis, 5-Substrate Fertile Soil/Water Holdfast Morphology (Zero Hard-Surface or Rock Growth), Slope-Embedded Grounding, Circadian Stomatal Turgor & Kuramoto Phase Entrainment", phyllotaxis := (record PhyllotaxisGeometrySpec {goldenAngleDeciDeg := 1375, minPartsPerSpecimen := 14, maxPartsPerSpecimen := 19, matteStemRoughnessMilli := 780, glossyPetalRoughnessMilli := 180, clearcoatEnabled := true}), substrates := (record GrowthSubstrateTaxonomySpec {substrateClassCount := 5, terrestrialLoamEnabled := true, pelagicWaterEnabled := true, lithophyticRockEnabled := true, architecturalFoundationEnabled := true, crystallineEpiphyteEnabled := true, gravitropicStemAlignment := true, zeroHardSurfaceOrRockPlantGrowth := true, zeroFloatingTreeTrunks := true, zeroDetachedCanopyCrowns := true}), monuments := (record BiomeArchitecturalMonumentSpec {monumentCount := 5, meadowMonument := "Sunlit Sundial Compass Rotunda", groveMonument := "Wind-Carved Bamboo Chime Pergola", crystalMonument := "Prismatic Quartz Geode Archway", wetlandMonument := "Mirror Lagoon Lantern Pier", sanctuaryMonument := "Levitating Tuning-Fork Obelisk & Gimbal Halo"}), sympatheticResonance := (record SympatheticResonanceSpec {crossPollinationRadiusDm := 49, harmonicFilamentCount := 6, sympatheticHarmonyBonus := 3, kuramotoPhaseLockingEnabled := true, circadianStomatalTurgorEnabled := true, minTurgorPressureCenti := 72, maxTurgorPressureCenti := 118}), neuromorphicBridge := (record NeuromorphicBotanyBridgeSpec {neuromorphicBusCoupled := true, domainBasisPrime := 79, rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := true, autopoieticSelfRefinementEnabled := true})})
 }
 
 definition{
@@ -192,6 +214,21 @@ theorem{
   parameters: [violations : Nat],
   statement: ((breaksHardSurfaceOrRockExclusion violations) = false),
   proof: linear_arithmetic{definitions: [breaksHardSurfaceOrRockExclusion, verdantHardSurfaceOrRockViolations]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksBotanyNeuromorphicCoupling,
+  parameters: [prime : Nat],
+  result: Bool,
+  body: ((prime =? (verdantBotanyBasisPrime)) && (prime <? 79))
+}
+
+theorem{
+  name: botanyNeuromorphicCouplingHolds,
+  parameters: [prime : Nat],
+  statement: ((breaksBotanyNeuromorphicCoupling prime) = false),
+  proof: linear_arithmetic{definitions: [breaksBotanyNeuromorphicCoupling, verdantBotanyBasisPrime]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

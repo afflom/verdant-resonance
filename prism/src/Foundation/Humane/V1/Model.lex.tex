@@ -70,6 +70,20 @@ structure{
 }
 
 structure{
+  name: NeuromorphicHumaneBridgeSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: neuromorphicBusCoupled, type: Bool},
+    {name: domainBasisPrime, type: Nat},
+    {name: rule30RegisterBits, type: Nat},
+    {name: pointKeyBits, type: Nat},
+    {name: crossDomainTransferEnabled, type: Bool},
+    {name: autopoieticSelfRefinementEnabled, type: Bool}
+  ]
+}
+
+structure{
   name: HumaneDesignStandard,
   type_parameters: [],
   parameters: [],
@@ -80,7 +94,8 @@ structure{
     {name: safetyGuarantee, type: HumaneSafetyGuarantee},
     {name: pacingModel, type: RestorativePacingModel},
     {name: cameraKinematics, type: CameraKinematicsPolicy},
-    {name: gestureHoldPolicy, type: GestureHoldAndCooldownPolicy}
+    {name: gestureHoldPolicy, type: GestureHoldAndCooldownPolicy},
+    {name: neuromorphicBridge, type: NeuromorphicHumaneBridgeSpec}
   ]
 }
 
@@ -134,10 +149,17 @@ definition{
 }
 
 definition{
+  name: verdantHumaneBasisPrime,
+  parameters: [],
+  result: Nat,
+  body: 103
+}
+
+definition{
   name: verdantHumaneStandard,
   parameters: [],
   result: HumaneDesignStandard,
-  body: (record HumaneDesignStandard {profile := "prism/humane-design/1", philosophy := "Calm Technology, Restorative Attention, Zero Camera Snap & Sustained Mindful Hold", viewportBudget := (record ViewportCalmBudget {minUnobstructedPct := 85, actualUnobstructedPct := 88, maxCornerClusters := 3, actualCornerClusters := 2, collapsibleControlDock := true}), safetyGuarantee := (record HumaneSafetyGuarantee {violenceElements := 0, punitiveTimers := 0, darkPatterns := 0, nonViolentSanctuary := true, userAgencyPreserved := true}), pacingModel := (record RestorativePacingModel {stillnessVelocityDm := 0, calmAttuneMaxVelocityDm := 10, gentleStrollMaxVelocityDm := 20, blossomFramingDistanceDm := 36}), cameraKinematics := (record CameraKinematicsPolicy {zeroPositionTeleportOnInteract := true, zeroHardYawSnapOnInteract := true, positionSpringDampingPerSec := 14, rotationSpringDampingPerSec := 12, softGazeAssistMaxMillirad := 65}), gestureHoldPolicy := (record GestureHoldAndCooldownPolicy {suppressOsKeyRepeat := true, touchRefractoryMs := 550, attuneRefractoryMs := 1100, stillnessBreathCycleMs := 4200, sustainedHoldPulseMs := 2400, mindfulExplorationNeverForceEnds := true})})
+  body: (record HumaneDesignStandard {profile := "prism/humane-design/1", philosophy := "Calm Technology, Restorative Attention, Zero Camera Snap & Sustained Mindful Hold", viewportBudget := (record ViewportCalmBudget {minUnobstructedPct := 85, actualUnobstructedPct := 88, maxCornerClusters := 3, actualCornerClusters := 2, collapsibleControlDock := true}), safetyGuarantee := (record HumaneSafetyGuarantee {violenceElements := 0, punitiveTimers := 0, darkPatterns := 0, nonViolentSanctuary := true, userAgencyPreserved := true}), pacingModel := (record RestorativePacingModel {stillnessVelocityDm := 0, calmAttuneMaxVelocityDm := 10, gentleStrollMaxVelocityDm := 20, blossomFramingDistanceDm := 36}), cameraKinematics := (record CameraKinematicsPolicy {zeroPositionTeleportOnInteract := true, zeroHardYawSnapOnInteract := true, positionSpringDampingPerSec := 14, rotationSpringDampingPerSec := 12, softGazeAssistMaxMillirad := 65}), gestureHoldPolicy := (record GestureHoldAndCooldownPolicy {suppressOsKeyRepeat := true, touchRefractoryMs := 550, attuneRefractoryMs := 1100, stillnessBreathCycleMs := 4200, sustainedHoldPulseMs := 2400, mindfulExplorationNeverForceEnds := true}), neuromorphicBridge := (record NeuromorphicHumaneBridgeSpec {neuromorphicBusCoupled := true, domainBasisPrime := 103, rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := true, autopoieticSelfRefinementEnabled := true})})
 }
 
 definition{
@@ -167,6 +189,21 @@ theorem{
   parameters: [teleports : Nat, repeatChaos : Nat, breathMs : Nat],
   statement: ((breaksCameraOrHoldDiscipline teleports repeatChaos breathMs) = false),
   proof: linear_arithmetic{definitions: [breaksCameraOrHoldDiscipline, minRequiredBreathCycleMs, verdantOsKeyRepeatChaosCount, verdantStillnessBreathCycleMs, verdantTeleportCountOnInteract]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksHumaneNeuromorphicCoupling,
+  parameters: [prime : Nat],
+  result: Bool,
+  body: ((prime =? (verdantHumaneBasisPrime)) && (prime <? 103))
+}
+
+theorem{
+  name: humaneNeuromorphicCouplingHolds,
+  parameters: [prime : Nat],
+  statement: ((breaksHumaneNeuromorphicCoupling prime) = false),
+  proof: linear_arithmetic{definitions: [breaksHumaneNeuromorphicCoupling, verdantHumaneBasisPrime]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

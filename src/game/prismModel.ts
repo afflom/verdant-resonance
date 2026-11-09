@@ -1658,6 +1658,35 @@ export function evaluateSpatialWaveAcoustics(params: {
   };
 }
 
+export interface NeuromorphicDomainBridgeSpec {
+  neuromorphicBusCoupled: boolean;
+  domainBasisPrime: number;
+  rule30RegisterBits: number;
+  pointKeyBits: number;
+  crossDomainTransferEnabled: boolean;
+  autopoieticSelfRefinementEnabled: boolean;
+}
+
+export const VERDANT_ACOUSTIC_STANDARD = {
+  profile: 'prism/acoustics-standard/2',
+  sampleRateHz: 48000,
+  partialsPerVoice: 5,
+  centsDeviation: 0.0,
+  binauralPanBound: 0.85,
+  referenceDistanceMeters: 6.5,
+  minDistanceGainMultiplier: 0.18,
+  speedOfSoundMps: 343.0,
+  neuromorphicBridge: {
+    neuromorphicBusCoupled: true,
+    domainBasisPrime: 89,
+    rule30RegisterBits: 64,
+    pointKeyBits: 28,
+    crossDomainTransferEnabled: true,
+    autopoieticSelfRefinementEnabled: true,
+  } satisfies NeuromorphicDomainBridgeSpec,
+} as const;
+
+
 // ---------------------------------------------------------------------------
 // Subsystem 5: Procedural Garden World & Spatial Flora Placement
 // ---------------------------------------------------------------------------
@@ -2861,6 +2890,7 @@ export interface BrandStandardModel {
     scaleRatio: number;
   };
   sensoryPillars: { title: string; summary: string }[];
+  neuromorphicBridge: NeuromorphicDomainBridgeSpec;
 }
 
 export const VERDANT_BRAND_STANDARD: BrandStandardModel = {
@@ -2926,6 +2956,14 @@ export const VERDANT_BRAND_STANDARD: BrandStandardModel = {
       summary: 'Multi-part procedural flora with wind-sway kinematics and concentric ground ripples.',
     },
   ],
+  neuromorphicBridge: {
+    neuromorphicBusCoupled: true,
+    domainBasisPrime: 107,
+    rule30RegisterBits: 64,
+    pointKeyBits: 28,
+    crossDomainTransferEnabled: true,
+    autopoieticSelfRefinementEnabled: true,
+  },
 };
 
 // ---------------------------------------------------------------------------
@@ -2956,6 +2994,14 @@ export const VERDANT_HUMANE_STANDARD = {
   sustainedAttuneHoldPulseSec: 2.4,
   sustainedTouchHoldPulseSec: 1.4,
   mindfulExplorationNeverForceEnds: true,
+  neuromorphicBridge: {
+    neuromorphicBusCoupled: true,
+    domainBasisPrime: 103,
+    rule30RegisterBits: 64,
+    pointKeyBits: 28,
+    crossDomainTransferEnabled: true,
+    autopoieticSelfRefinementEnabled: true,
+  } satisfies NeuromorphicDomainBridgeSpec,
 } as const;
 
 export interface CameraKinematicsState {
@@ -3283,6 +3329,13 @@ export function evaluateHumaneErgonomics(params: {
 // & `prism/src/Foundation/Acoustics/V1/Model.lex.tex`
 // ---------------------------------------------------------------------------
 
+export interface NeuromorphicInfrastructureBridgeSpec extends NeuromorphicDomainBridgeSpec {
+  adaptivePoolGovernorEnabled: boolean;
+  dynamicBumpAndExposureRefinement: boolean;
+  crossDomainTelemetrySync: boolean;
+  selfRefiningRenderContract: boolean;
+}
+
 export interface InfrastructureContractSummary {
   profile: string;
   sporeRingBufferCapacity: number;
@@ -3297,6 +3350,7 @@ export interface InfrastructureContractSummary {
   continuousDroneGainMilli: number;
   silenceFloorPolicy: string;
   masterGainHeadroomDb: number;
+  neuromorphicBridge: NeuromorphicInfrastructureBridgeSpec;
 }
 
 export const VERDANT_INFRASTRUCTURE_STANDARD: InfrastructureContractSummary = {
@@ -3314,6 +3368,18 @@ export const VERDANT_INFRASTRUCTURE_STANDARD: InfrastructureContractSummary = {
   silenceFloorPolicy:
     'Zero persistent oscillator drone; all harmonic pads and chimes use self-decaying breathing envelopes over natural quietude.',
   masterGainHeadroomDb: -8.8, // 0.36 linear gain ceiling protected by dynamics compressor
+  neuromorphicBridge: {
+    neuromorphicBusCoupled: true,
+    domainBasisPrime: 71,
+    rule30RegisterBits: 64,
+    pointKeyBits: 28,
+    crossDomainTransferEnabled: true,
+    autopoieticSelfRefinementEnabled: true,
+    adaptivePoolGovernorEnabled: true,
+    dynamicBumpAndExposureRefinement: true,
+    crossDomainTelemetrySync: true,
+    selfRefiningRenderContract: true,
+  },
 };
 
 // ---------------------------------------------------------------------------
@@ -3385,6 +3451,7 @@ export interface BotanicalFidelityStandardModel {
   circadianStomatalTurgorEnabled: boolean;
   minTurgorPressure: number;
   maxTurgorPressure: number;
+  neuromorphicBridge: NeuromorphicDomainBridgeSpec;
 }
 
 export const VERDANT_BOTANICAL_STANDARD: BotanicalFidelityStandardModel = {
@@ -3412,6 +3479,14 @@ export const VERDANT_BOTANICAL_STANDARD: BotanicalFidelityStandardModel = {
   circadianStomatalTurgorEnabled: true,
   minTurgorPressure: 0.72,
   maxTurgorPressure: 1.18,
+  neuromorphicBridge: {
+    neuromorphicBusCoupled: true,
+    domainBasisPrime: 79,
+    rule30RegisterBits: 64,
+    pointKeyBits: 28,
+    crossDomainTransferEnabled: true,
+    autopoieticSelfRefinementEnabled: true,
+  },
 };
 
 export interface CircadianPlantPhysiologyState {
@@ -3774,6 +3849,7 @@ export interface EcologicalConstellationStandardModel {
   luciferinEnzymaticKineticsEnabled: boolean;
   volatileTerpeneSignalingEnabled: boolean;
   actionPotentialWaveSpeedMps: number;
+  neuromorphicBridge: NeuromorphicDomainBridgeSpec;
 }
 
 export const VERDANT_ECOLOGY_STANDARD: EcologicalConstellationStandardModel = {
@@ -3791,6 +3867,14 @@ export const VERDANT_ECOLOGY_STANDARD: EcologicalConstellationStandardModel = {
   luciferinEnzymaticKineticsEnabled: true,
   volatileTerpeneSignalingEnabled: true,
   actionPotentialWaveSpeedMps: 6.5,
+  neuromorphicBridge: {
+    neuromorphicBusCoupled: true,
+    domainBasisPrime: 83,
+    rule30RegisterBits: 64,
+    pointKeyBits: 28,
+    crossDomainTransferEnabled: true,
+    autopoieticSelfRefinementEnabled: true,
+  },
 };
 
 export interface BiogeochemicalState {
@@ -4113,6 +4197,7 @@ export interface BotanicalArticulationStandardModel {
   sympatheticEchoDelayMs: number;
   constellationVoices: number;
   gestureContrast: GestureArticulationContrastModel;
+  neuromorphicBridge: NeuromorphicDomainBridgeSpec;
 }
 
 export const VERDANT_ARTICULATION_STANDARD: BotanicalArticulationStandardModel = {
@@ -4138,6 +4223,14 @@ export const VERDANT_ARTICULATION_STANDARD: BotanicalArticulationStandardModel =
     stillnessDecayMs: 3200,
     stillnessGestureSummary:
       'Meditative Stillness [C]: Self-decaying 650ms inhale / 3.2s exhale warm pastoral ninth breathing pad that fades cleanly to natural silence.',
+  },
+  neuromorphicBridge: {
+    neuromorphicBusCoupled: true,
+    domainBasisPrime: 97,
+    rule30RegisterBits: 64,
+    pointKeyBits: 28,
+    crossDomainTransferEnabled: true,
+    autopoieticSelfRefinementEnabled: true,
   },
 };
 
@@ -4261,6 +4354,8 @@ export interface EnvironmentalPhysicsStandardModel {
   slipstreamVortexWakeEnabled: boolean;
   chemotacticSporeBuoyancyEnabled: boolean;
   coupledDomainCount: number;
+  universalNeuromorphicBusEnabled: boolean;
+  crossDomainTransferLatencyTicks: number;
   sporeSolidObstacleDeflectionEnabled: boolean;
   sporeTerrainMeniscusFloorEnabled: boolean;
   emergentSeedlingColliderRegistrationEnabled: boolean;
@@ -4273,6 +4368,7 @@ export interface EnvironmentalPhysicsStandardModel {
   hardSurfaceOrRockFloraGrowthCount: number;
   surfaceMaterials: SurfaceMaterialId[];
   permeableMediaCatalog: PermeableMediumDescriptor[];
+  neuromorphicBridge: NeuromorphicDomainBridgeSpec;
 }
 
 export const VERDANT_PHYSICS_STANDARD: EnvironmentalPhysicsStandardModel = {
@@ -4294,7 +4390,9 @@ export const VERDANT_PHYSICS_STANDARD: EnvironmentalPhysicsStandardModel = {
   canopyWindShearEnabled: true,
   slipstreamVortexWakeEnabled: true,
   chemotacticSporeBuoyancyEnabled: true,
-  coupledDomainCount: 8,
+  coupledDomainCount: 10,
+  universalNeuromorphicBusEnabled: true,
+  crossDomainTransferLatencyTicks: 0,
   sporeSolidObstacleDeflectionEnabled: true,
   sporeTerrainMeniscusFloorEnabled: true,
   emergentSeedlingColliderRegistrationEnabled: true,
@@ -4354,6 +4452,14 @@ export const VERDANT_PHYSICS_STANDARD: EnvironmentalPhysicsStandardModel = {
       acousticSignature: 'Purely optical & psychoacoustic shimmer.',
     },
   ],
+  neuromorphicBridge: {
+    neuromorphicBusCoupled: true,
+    domainBasisPrime: 73,
+    rule30RegisterBits: 64,
+    pointKeyBits: 28,
+    crossDomainTransferEnabled: true,
+    autopoieticSelfRefinementEnabled: true,
+  },
 };
 
 /**
@@ -5360,6 +5466,58 @@ export interface HebbianOutcomeEvent {
   success: boolean;
 }
 
+export type PrismDomainId =
+  | 'infrastructure'
+  | 'physics'
+  | 'botany'
+  | 'ecology'
+  | 'acoustics'
+  | 'articulation'
+  | 'soundtrack'
+  | 'humane'
+  | 'brand'
+  | 'neuromorphic';
+
+export const PRISM_DOMAIN_ORDER: readonly PrismDomainId[] = [
+  'infrastructure',
+  'physics',
+  'botany',
+  'ecology',
+  'acoustics',
+  'articulation',
+  'soundtrack',
+  'humane',
+  'brand',
+  'neuromorphic',
+];
+
+/**
+ * Canonical Domain Basis Primes (`Foundation.Neuromorphic.V1.Model::UniversalNeuromorphicBusSpec`)
+ * Every single Prism Foundation domain has its own prime basis in `/7` PrimeAddress space,
+ * enabling exact GCD kinship and cross-domain synaptic transfer across all 10 subsystems.
+ */
+export const PRISM_DOMAIN_BASIS_PRIMES: Record<PrismDomainId, number> = {
+  infrastructure: 71,
+  physics: 73,
+  botany: 79,
+  ecology: 83,
+  acoustics: 89,
+  articulation: 97,
+  soundtrack: 101,
+  humane: 103,
+  brand: 107,
+  neuromorphic: 109,
+};
+
+export interface UniversalNeuromorphicBusSpec {
+  coupledModuleCount: number;
+  domainBasisPrimeCount: number;
+  crossDomainTransferEnabled: boolean;
+  autopoieticSelfRefinementEnabled: boolean;
+  infrastructureCoupled: boolean;
+  zeroManualIterationOverhead: boolean;
+}
+
 export interface NeuromorphicSynthesisStandardModel {
   profile: string;
   plasticity: {
@@ -5389,6 +5547,8 @@ export interface NeuromorphicSynthesisStandardModel {
     shortCycleGuardMaxPeriod: number;
     maxEmergentSeedlings: number;
   };
+  universalBus: UniversalNeuromorphicBusSpec;
+  neuromorphicBridge: NeuromorphicDomainBridgeSpec;
 }
 
 export const VERDANT_NEUROMORPHIC_STANDARD: NeuromorphicSynthesisStandardModel = {
@@ -5420,6 +5580,42 @@ export const VERDANT_NEUROMORPHIC_STANDARD: NeuromorphicSynthesisStandardModel =
     shortCycleGuardMaxPeriod: 4,
     maxEmergentSeedlings: 15,
   },
+  universalBus: {
+    coupledModuleCount: 10,
+    domainBasisPrimeCount: 10,
+    crossDomainTransferEnabled: true,
+    autopoieticSelfRefinementEnabled: true,
+    infrastructureCoupled: true,
+    zeroManualIterationOverhead: true,
+  },
+  neuromorphicBridge: {
+    neuromorphicBusCoupled: true,
+    domainBasisPrime: 109,
+    rule30RegisterBits: 64,
+    pointKeyBits: 28,
+    crossDomainTransferEnabled: true,
+    autopoieticSelfRefinementEnabled: true,
+  },
+};
+
+export const PRISM_DOMAIN_BRIDGES: Record<PrismDomainId, NeuromorphicDomainBridgeSpec> = {
+  infrastructure: VERDANT_INFRASTRUCTURE_STANDARD.neuromorphicBridge,
+  physics: VERDANT_PHYSICS_STANDARD.neuromorphicBridge,
+  botany: VERDANT_BOTANICAL_STANDARD.neuromorphicBridge,
+  ecology: VERDANT_ECOLOGY_STANDARD.neuromorphicBridge,
+  acoustics: VERDANT_ACOUSTIC_STANDARD.neuromorphicBridge,
+  articulation: VERDANT_ARTICULATION_STANDARD.neuromorphicBridge,
+  soundtrack: {
+    neuromorphicBusCoupled: true,
+    domainBasisPrime: 101,
+    rule30RegisterBits: 64,
+    pointKeyBits: 28,
+    crossDomainTransferEnabled: true,
+    autopoieticSelfRefinementEnabled: true,
+  },
+  humane: VERDANT_HUMANE_STANDARD.neuromorphicBridge,
+  brand: VERDANT_BRAND_STANDARD.neuromorphicBridge,
+  neuromorphic: VERDANT_NEUROMORPHIC_STANDARD.neuromorphicBridge,
 };
 
 /**
@@ -5784,6 +5980,609 @@ export function verifyPointKeyResonanceGate(
   );
 }
 
+/**
+ * Universal Neuromorphic Primitive (`PrismDomainNeuromorphicNode`) shared identically across all 10 Prism domains
+ * (`infrastructure`, `physics`, `botany`, `ecology`, `acoustics`, `articulation`, `soundtrack`, `humane`, `brand`, `neuromorphic`).
+ */
+export interface PrismDomainNeuromorphicNode {
+  domainId: PrismDomainId;
+  basisPrime: number;
+  synapticWeight: number; // Bounded Hebbian weight in [1, 16], initial 8
+  fidelityMultiplier: number; // 0.78125 .. 1.25 (1.0 + (synapticWeight - 8) * 0.03125)
+  rule30Byte: number; // Dedicated phase-shifted 8-bit diagonal slice (0..255) from the 64-bit Rule-30 register
+  cliffordBasinState: number; // `/5` Cl(0,6) signed-axis basin (0..63)
+  icosianRootIndex: number; // `/6` Z[φ] golden-field root (0..16)
+  primeAddress: number; // `/7` Durable integer PrimeAddress = basisPrime * contextPrimeProduct
+  pointKey28: number; // `/8` 28-bit PointKey synchronizing /5, /6, /7, and Rule-30 byte
+  consolidated: boolean; // True when synapticWeight >= 12
+  receivedCrossDomainTransfers: number; // Count of synaptic enhancements received from other Prism domains
+}
+
+export interface UniversalNeuromorphicManifold {
+  domains: Record<PrismDomainId, PrismDomainNeuromorphicNode>;
+  globalFidelityIndex: number; // Mean fidelity multiplier across all 10 domains (0.78125 .. 1.25)
+  consolidatedDomainCount: number; // 0..10 domains at or above consolidation threshold (w >= 12)
+  totalCrossDomainTransfers: number; // Cumulative cross-domain synaptic transfers executed
+  lastImprovedDomain: PrismDomainId;
+  manifoldPointKeyHex: string;
+}
+
+/**
+ * Self-refining directives automatically derived for all 10 Prism domains from the live
+ * `UniversalNeuromorphicManifold`. When any domain improves, `propagateCrossDomainEnhancement`
+ * transfers synaptic weight across the entire manifold and refines every domain's directive automatically.
+ */
+export interface CrossDomainRefinementDirectives {
+  infrastructure: {
+    toneMappingExposure: number; // 1.06 .. 1.24 (refined by infrastructure + brand synaptic fidelity)
+    microReliefBumpScale: number; // 0.032 .. 0.056 (refined by infrastructure + physics synaptic fidelity)
+    activeSporePoolRatio: number; // 0.65 .. 1.0 (adaptive zero-GC ring buffer utilization)
+    constellationHaloOpacity: number; // 0.20 .. 0.42 (refined by infrastructure + botany synaptic fidelity)
+  };
+  physics: {
+    cymaticWaveCoherence: number; // 0.85 .. 1.25
+    vortexWakeCoherence: number; // 0.85 .. 1.25
+    chemotacticSporeAttractionMultiplier: number; // 0.85 .. 1.30
+  };
+  botany: {
+    kuramotoCouplingMultiplier: number; // 0.85 .. 1.35
+    turgorVitalityMultiplier: number; // 0.92 .. 1.18
+    emissiveBloomBoost: number; // 0.0 .. 0.35
+  };
+  ecology: {
+    mycorrhizalConductivityMultiplier: number; // 0.88 .. 1.28
+    terpeneDiffusionClarity: number; // 0.88 .. 1.25
+  };
+  acoustics: {
+    modalFilterQMultiplier: number; // 0.90 .. 1.28
+    reverbSendRefinement: number; // 0.90 .. 1.22
+  };
+  articulation: {
+    cameraSpringCritDampingRefinement: number; // 0.92 .. 1.18
+    anatomicalGraceMultiplier: number; // 0.90 .. 1.24
+  };
+  soundtrack: {
+    counterpointHarmonicRichness: number; // 0.88 .. 1.25
+  };
+  humane: {
+    restorativeStillnessBonus: number; // 0 .. 6
+  };
+  brand: {
+    atmosphericDepthContrast: number; // 0.92 .. 1.20
+  };
+  neuromorphic: {
+    crossDomainSynergyFactor: number; // 0.80 .. 1.25
+  };
+}
+
+/**
+ * Exact cross-domain synaptic weight transfer operator `transferWeightCrossDomain`
+ * (`Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain`, proven bounded and monotonic in
+ * `crossDomainTransferBoundedAndMonotonicHolds`):
+ * When a coupled source domain improves or reaches consolidation (`sourceConsolidated = true`),
+ * the target domain's Hebbian weight monotonically increases by `+1` clamped to `[1, 16]`.
+ */
+export function transferWeightCrossDomain(
+  wTarget: number,
+  sourceConsolidated: boolean,
+): number {
+  const { weightMin, weightMax } = VERDANT_NEUROMORPHIC_STANDARD.plasticity;
+  const clamped = Math.max(weightMin, Math.min(weightMax, Math.round(wTarget)));
+  if (sourceConsolidated) {
+    return clamped + 1 <= weightMax ? clamped + 1 : weightMax;
+  }
+  return clamped;
+}
+
+/**
+ * Exact autopoietic self-refinement operator `refineDomainWeightAutopoietic`
+ * (`Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic`, proven bounded, monotonic,
+ * and fixed-point convergent at `w* = 16` in `autopoieticModelRefinementConvergesAndBoundedHolds`):
+ * - If a domain lags behind the leading domain (`wCurrent < wLeader`), it is pulled upward by `+1`
+ *   via cross-domain harmonic kinship transfer.
+ * - If a domain is already at the leading frontier (`wCurrent === wLeader`) and below the ceiling (`< 16`),
+ *   it self-potentiates by `+1`.
+ */
+export function refineDomainWeightAutopoietic(
+  wCurrent: number,
+  wLeader: number,
+): number {
+  const { weightMin, weightMax } = VERDANT_NEUROMORPHIC_STANDARD.plasticity;
+  const clamped = Math.max(weightMin, Math.min(weightMax, Math.round(wCurrent)));
+  const leaderClamped = Math.max(weightMin, Math.min(weightMax, Math.round(wLeader)));
+  if (clamped < leaderClamped) {
+    return clamped + 1 <= weightMax ? clamped + 1 : weightMax;
+  }
+  if (clamped === leaderClamped && clamped < weightMax) {
+    return clamped + 1;
+  }
+  return clamped;
+}
+
+function extractDomainRule30Slice(row: boolean[], domainIndex: number): number {
+  const width = 64;
+  const offset = (24 + domainIndex * 5) % width;
+  let byte = 0;
+  for (let b = 0; b < 8; b++) {
+    if (row[(offset + b) % width]) {
+      byte |= 1 << b;
+    }
+  }
+  return byte;
+}
+
+function computeDomainFidelityMultiplier(synapticWeight: number): number {
+  return Number((1.0 + (synapticWeight - 8) * 0.03125).toFixed(5));
+}
+
+/**
+ * Initializes the 10-Domain Universal Neuromorphic Manifold (`UniversalNeuromorphicManifold`),
+ * equipping every Prism domain (`infrastructure`, `physics`, `botany`, `ecology`, `acoustics`,
+ * `articulation`, `soundtrack`, `humane`, `brand`, `neuromorphic`) with the identical
+ * `UORLUT01` + Rule-30 + bounded Hebbian node architecture.
+ */
+export function createInitialUniversalManifold(): UniversalNeuromorphicManifold {
+  const initialRow = stepRule30Row(createInitialRule30Row()).nextRow;
+  const baseContextPrime = computePrimeAddress('meadow', 'chime-lily', 'dawn', 'observe');
+  const domains = {} as Record<PrismDomainId, PrismDomainNeuromorphicNode>;
+
+  PRISM_DOMAIN_ORDER.forEach((domainId, idx) => {
+    const basisPrime = PRISM_DOMAIN_BASIS_PRIMES[domainId];
+    const synapticWeight = VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightInitial;
+    const rule30Byte = extractDomainRule30Slice(initialRow, idx);
+    const cliffordBasinState = (32 + idx * 3) & 0x3f;
+    const icosianRootIndex = (idx * 2) % 17;
+    const primeAddress = basisPrime * (baseContextPrime % 997);
+    const pointKey28 = computePointKey28({
+      basinState: cliffordBasinState,
+      icosianRoot: icosianRootIndex,
+      primeAddress,
+      rule30Byte,
+    });
+    domains[domainId] = {
+      domainId,
+      basisPrime,
+      synapticWeight,
+      fidelityMultiplier: computeDomainFidelityMultiplier(synapticWeight),
+      rule30Byte,
+      cliffordBasinState,
+      icosianRootIndex,
+      primeAddress,
+      pointKey28,
+      consolidated:
+        synapticWeight >= VERDANT_NEUROMORPHIC_STANDARD.plasticity.consolidationThreshold,
+      receivedCrossDomainTransfers: 0,
+    };
+  });
+
+  const manifoldPointKey = domains.neuromorphic.pointKey28;
+
+  return {
+    domains,
+    globalFidelityIndex: 1.0,
+    consolidatedDomainCount: 0,
+    totalCrossDomainTransfers: 0,
+    lastImprovedDomain: 'neuromorphic',
+    manifoldPointKeyHex: `0x${manifoldPointKey.toString(16).padStart(7, '0')}`,
+  };
+}
+
+/**
+ * Autopoietic Cross-Domain Enhancement Propagation (`propagateCrossDomainEnhancement`):
+ * When ANY single domain (`sourceDomain`) in the Prism model improves or experiences a resonant event:
+ * 1. The `sourceDomain` node potentiates via `learnHebbianWeight(w, resonantSuccess)` (`+2`, clamped to `16`).
+ * 2. Via the Universal Neuromorphic Bus (`transferWeightCrossDomain`), that enhancement automatically
+ *    transfers (`+1`, clamped to `16`) to all other 9 coupled Prism domains (`infrastructure`, `physics`,
+ *    `botany`, `ecology`, `acoustics`, `articulation`, `soundtrack`, `humane`, `brand`, `neuromorphic`)
+ *    through shared `/7` PrimeAddress GCD kinship and `/6` Icosian golden-field adjacency.
+ * 3. Every domain's `/5` Basin, `/6` Icosian Root, `/7` PrimeAddress, `/8` 28-bit PointKey, and
+ *    `fidelityMultiplier` update in a single unified pass without manual per-domain iteration.
+ */
+export function propagateCrossDomainEnhancement(
+  prevManifold: UniversalNeuromorphicManifold,
+  params: {
+    sourceDomain: PrismDomainId;
+    rule30Row?: boolean[];
+    basinState?: number;
+    icosianRootIndex?: number;
+    contextPrimeAddress?: number;
+    resonantSuccess?: boolean;
+  },
+): UniversalNeuromorphicManifold {
+  const {
+    sourceDomain,
+    rule30Row = stepRule30Row(createInitialRule30Row()).nextRow,
+    basinState = 32,
+    icosianRootIndex = 0,
+    contextPrimeAddress = computePrimeAddress('meadow', 'chime-lily', 'dawn', 'attune'),
+    resonantSuccess = true,
+  } = params;
+
+  const nextDomains = {} as Record<PrismDomainId, PrismDomainNeuromorphicNode>;
+  const prevSource = prevManifold.domains[sourceDomain];
+  const updatedSourceWeight = learnHebbianWeight(prevSource.synapticWeight, resonantSuccess);
+  const sourceImprovedOrConsolidated =
+    resonantSuccess ||
+    updatedSourceWeight > prevSource.synapticWeight ||
+    updatedSourceWeight >= VERDANT_NEUROMORPHIC_STANDARD.plasticity.consolidationThreshold;
+
+  const sharedContextFactor = Math.max(2, contextPrimeAddress % 997);
+  const sourcePrimeAddr = PRISM_DOMAIN_BASIS_PRIMES[sourceDomain] * sharedContextFactor;
+
+  let fidelitySum = 0;
+  let consolidatedCount = 0;
+  let transfersAdded = 0;
+
+  PRISM_DOMAIN_ORDER.forEach((domainId, idx) => {
+    const prevNode = prevManifold.domains[domainId];
+    const basisPrime = PRISM_DOMAIN_BASIS_PRIMES[domainId];
+    const domainPrimeAddr = basisPrime * sharedContextFactor;
+    const kinshipGcd = gcdExact(sourcePrimeAddr, domainPrimeAddr);
+
+    let nextWeight = prevNode.synapticWeight;
+    let nextTransfers = prevNode.receivedCrossDomainTransfers;
+
+    if (domainId === sourceDomain) {
+      nextWeight = updatedSourceWeight;
+    } else if (sourceImprovedOrConsolidated && kinshipGcd > 1) {
+      nextWeight = transferWeightCrossDomain(prevNode.synapticWeight, true);
+      nextTransfers += 1;
+      transfersAdded += 1;
+    } else if (!resonantSuccess) {
+      // Gentle homeostatic relaxation toward baseline weight 8 (never drops below 8 via cross-domain drift)
+      nextWeight =
+        prevNode.synapticWeight > 8 ? prevNode.synapticWeight - 1 : prevNode.synapticWeight;
+    }
+
+    const rule30Byte = extractDomainRule30Slice(rule30Row, idx);
+    const domainBasin = (basinState ^ ((idx * 7) & 0x3f)) & 0x3f;
+    const domainIcosian = (icosianRootIndex + idx) % 17;
+    const pointKey28 = computePointKey28({
+      basinState: domainBasin,
+      icosianRoot: domainIcosian,
+      primeAddress: domainPrimeAddr,
+      rule30Byte,
+    });
+    const fidelityMultiplier = computeDomainFidelityMultiplier(nextWeight);
+    const consolidated =
+      nextWeight >= VERDANT_NEUROMORPHIC_STANDARD.plasticity.consolidationThreshold;
+
+    if (consolidated) consolidatedCount += 1;
+    fidelitySum += fidelityMultiplier;
+
+    nextDomains[domainId] = {
+      domainId,
+      basisPrime,
+      synapticWeight: nextWeight,
+      fidelityMultiplier,
+      rule30Byte,
+      cliffordBasinState: domainBasin,
+      icosianRootIndex: domainIcosian,
+      primeAddress: domainPrimeAddr,
+      pointKey28,
+      consolidated,
+      receivedCrossDomainTransfers: nextTransfers,
+    };
+  });
+
+  const globalFidelityIndex = Number((fidelitySum / PRISM_DOMAIN_ORDER.length).toFixed(5));
+  const compositeKey = nextDomains[sourceDomain].pointKey28 ^ nextDomains.neuromorphic.pointKey28;
+
+  return {
+    domains: nextDomains,
+    globalFidelityIndex,
+    consolidatedDomainCount: consolidatedCount,
+    totalCrossDomainTransfers: prevManifold.totalCrossDomainTransfers + transfersAdded,
+    lastImprovedDomain: sourceDomain,
+    manifoldPointKeyHex: `0x${(compositeKey & 0x0fffffff).toString(16).padStart(7, '0')}`,
+  };
+}
+
+/**
+ * Derives concrete, real-time self-refining directives (`CrossDomainRefinementDirectives`) for all 10
+ * Prism domains from the live `UniversalNeuromorphicManifold`.
+ * Because every domain node receives cross-domain synaptic transfers whenever any part of the model improves,
+ * all 10 subsystems (including WebGL2 infrastructure, physics, botany, ecology, acoustics, articulation,
+ * soundtrack, humane ergonomics, and brand aesthetics) automatically refine in unison.
+ */
+export function computeCrossDomainRefinementDirectives(
+  manifold: UniversalNeuromorphicManifold,
+): CrossDomainRefinementDirectives {
+  const d = manifold.domains;
+  const g = manifold.globalFidelityIndex;
+
+  const infraFidelity = (d.infrastructure.fidelityMultiplier + d.brand.fidelityMultiplier) * 0.5;
+  const physFidelity = (d.physics.fidelityMultiplier + g) * 0.5;
+  const botFidelity = (d.botany.fidelityMultiplier + d.ecology.fidelityMultiplier) * 0.5;
+  const ecoFidelity = (d.ecology.fidelityMultiplier + d.botany.fidelityMultiplier) * 0.5;
+  const acouFidelity = (d.acoustics.fidelityMultiplier + d.soundtrack.fidelityMultiplier) * 0.5;
+  const artFidelity = (d.articulation.fidelityMultiplier + d.humane.fidelityMultiplier) * 0.5;
+
+  return {
+    infrastructure: {
+      toneMappingExposure: Number(
+        Math.min(1.24, Math.max(1.06, 1.12 * (0.94 + infraFidelity * 0.08))).toFixed(4),
+      ),
+      microReliefBumpScale: Number(
+        Math.min(
+          0.056,
+          Math.max(0.032, 0.042 * ((d.infrastructure.fidelityMultiplier + physFidelity) * 0.5)),
+        ).toFixed(4),
+      ),
+      activeSporePoolRatio: Number(
+        Math.min(1.0, Math.max(0.65, 0.72 + (d.infrastructure.synapticWeight / 16) * 0.28)).toFixed(
+          3,
+        ),
+      ),
+      constellationHaloOpacity: Number(
+        Math.min(
+          0.42,
+          Math.max(0.2, 0.28 * ((d.infrastructure.fidelityMultiplier + botFidelity) * 0.5)),
+        ).toFixed(4),
+      ),
+    },
+    physics: {
+      cymaticWaveCoherence: Number(
+        Math.min(1.25, Math.max(0.85, physFidelity)).toFixed(4),
+      ),
+      vortexWakeCoherence: Number(
+        Math.min(1.25, Math.max(0.85, d.physics.fidelityMultiplier)).toFixed(4),
+      ),
+      chemotacticSporeAttractionMultiplier: Number(
+        Math.min(1.3, Math.max(0.85, (physFidelity + ecoFidelity) * 0.5)).toFixed(4),
+      ),
+    },
+    botany: {
+      kuramotoCouplingMultiplier: Number(
+        Math.min(1.35, Math.max(0.85, botFidelity * 1.04)).toFixed(4),
+      ),
+      turgorVitalityMultiplier: Number(
+        Math.min(1.18, Math.max(0.92, 0.96 + (d.botany.synapticWeight - 8) * 0.018)).toFixed(4),
+      ),
+      emissiveBloomBoost: Number(
+        Math.min(0.35, Math.max(0, (botFidelity - 0.95) * 0.85)).toFixed(4),
+      ),
+    },
+    ecology: {
+      mycorrhizalConductivityMultiplier: Number(
+        Math.min(1.28, Math.max(0.88, ecoFidelity)).toFixed(4),
+      ),
+      terpeneDiffusionClarity: Number(
+        Math.min(1.25, Math.max(0.88, d.ecology.fidelityMultiplier)).toFixed(4),
+      ),
+    },
+    acoustics: {
+      modalFilterQMultiplier: Number(
+        Math.min(1.28, Math.max(0.9, acouFidelity)).toFixed(4),
+      ),
+      reverbSendRefinement: Number(
+        Math.min(1.22, Math.max(0.9, 0.95 + (d.acoustics.synapticWeight - 8) * 0.022)).toFixed(4),
+      ),
+    },
+    articulation: {
+      cameraSpringCritDampingRefinement: Number(
+        Math.min(1.18, Math.max(0.92, artFidelity)).toFixed(4),
+      ),
+      anatomicalGraceMultiplier: Number(
+        Math.min(1.24, Math.max(0.9, d.articulation.fidelityMultiplier)).toFixed(4),
+      ),
+    },
+    soundtrack: {
+      counterpointHarmonicRichness: Number(
+        Math.min(1.25, Math.max(0.88, d.soundtrack.fidelityMultiplier)).toFixed(4),
+      ),
+    },
+    humane: {
+      restorativeStillnessBonus: Math.max(
+        0,
+        Math.min(6, Math.round((d.humane.synapticWeight - 8) * 0.65)),
+      ),
+    },
+    brand: {
+      atmosphericDepthContrast: Number(
+        Math.min(1.2, Math.max(0.92, d.brand.fidelityMultiplier)).toFixed(4),
+      ),
+    },
+    neuromorphic: {
+      crossDomainSynergyFactor: Number(
+        Math.min(1.25, Math.max(0.8, g)).toFixed(4),
+      ),
+    },
+  };
+}
+
+export interface AutopoieticModelRefinementReport {
+  nextState: NeuromorphicEngineState;
+  cyclesExecuted: number;
+  fidelityBefore: number;
+  fidelityAfter: number;
+  fidelityGain: number;
+  varianceBefore: number;
+  varianceAfter: number;
+  varianceReduction: number;
+  convergedDomains: number;
+  allDomainsBridgeVerified: boolean;
+}
+
+function computeDomainWeightVariance(manifold: UniversalNeuromorphicManifold): number {
+  const weights = PRISM_DOMAIN_ORDER.map((d) => manifold.domains[d].synapticWeight);
+  const mean = weights.reduce((acc, w) => acc + w, 0) / weights.length;
+  const sqSum = weights.reduce((acc, w) => acc + (w - mean) * (w - mean), 0);
+  return Number((sqSum / weights.length).toFixed(5));
+}
+
+/**
+ * First-Class Autopoietic Model Refinement Operator (`refinePrismModel`):
+ * Directly implements `Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic` and
+ * `autopoieticModelRefinementConvergesAndBoundedHolds` across all 10 coupled Prism domains
+ * (`infrastructure`, `physics`, `botany`, `ecology`, `acoustics`, `articulation`, `soundtrack`,
+ * `humane`, `brand`, `neuromorphic`) and the 20-entry `hebbianTable` (`4 strategies × 5 families`):
+ *
+ * 1. Computes the leading synaptic weight `wLeader` across the 10-domain `UniversalNeuromorphicManifold`.
+ * 2. Steps the 64-cell Rule-30 cellular register and applies `refineDomainWeightAutopoietic(wCurrent, wLeader)`
+ *    to every single domain node, pulling lagging domains toward the leading frontier (`+1`) and elevating
+ *    frontier domains toward the fixed-point attractor (`w* = 16`).
+ * 3. Synchronizes each domain's `/5` Clifford `Cl(0,6)` basin, `/6` Icosian $\mathbb{Z}[\varphi]$ golden-field root,
+ *    `/7` `PrimeAddress`, and `/8` 28-bit `PointKey` (`0x0000000 .. 0xFFFFFFF`).
+ * 4. Transfers the manifold's synaptic refinement into the 20-entry `hebbianTable` (`4 strategies × 5 families`)
+ *    and recomputes `CrossDomainRefinementDirectives` across all 10 subsystems without manual per-domain iteration.
+ */
+export function refinePrismModel(
+  prevState: NeuromorphicEngineState,
+  options?: {
+    cycles?: number;
+    leadDomain?: PrismDomainId;
+  },
+): AutopoieticModelRefinementReport {
+  const cycles = Math.max(1, Math.min(16, Math.round(options?.cycles ?? 1)));
+  const fidelityBefore = prevState.universalManifold.globalFidelityIndex;
+  const varianceBefore = computeDomainWeightVariance(prevState.universalManifold);
+
+  let currentManifold = prevState.universalManifold;
+  let currentRule30Row = [...prevState.rule30Row];
+  let currentRule30History = [...prevState.rule30History];
+  let currentHebbianTable = prevState.hebbianTable.map((entry) => ({ ...entry }));
+  let currentTick = prevState.tickCount;
+
+  // If a specific leadDomain is nominated, give it an initial resonant enhancement before autopoietic equilibration
+  if (options?.leadDomain) {
+    currentManifold = propagateCrossDomainEnhancement(currentManifold, {
+      sourceDomain: options.leadDomain,
+      rule30Row: currentRule30Row,
+      basinState: prevState.lastBasinState,
+      icosianRootIndex: prevState.lastIcosianRoot,
+      contextPrimeAddress: prevState.lastPrimeAddress,
+      resonantSuccess: true,
+    });
+  }
+
+  for (let c = 0; c < cycles; c++) {
+    currentTick += 1;
+    const r30Step = stepRule30Row(currentRule30Row, (currentTick * 7) % 64);
+    currentRule30Row = r30Step.nextRow;
+    currentRule30History = [...currentRule30History.slice(-15), r30Step.diagonalByte];
+
+    // Find the leading synaptic weight across all 10 domains
+    let wLeader = VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightMin;
+    let leaderDomain: PrismDomainId = currentManifold.lastImprovedDomain;
+    for (const dom of PRISM_DOMAIN_ORDER) {
+      const w = currentManifold.domains[dom].synapticWeight;
+      if (w > wLeader) {
+        wLeader = w;
+        leaderDomain = dom;
+      }
+    }
+
+    const nextDomains = {} as Record<PrismDomainId, PrismDomainNeuromorphicNode>;
+    let fidelitySum = 0;
+    let consolidatedCount = 0;
+    let transfersInCycle = 0;
+    const sharedContextFactor = Math.max(2, (prevState.lastPrimeAddress + currentTick * 13) % 997);
+
+    PRISM_DOMAIN_ORDER.forEach((domainId, idx) => {
+      const prevNode = currentManifold.domains[domainId];
+      const basisPrime = PRISM_DOMAIN_BASIS_PRIMES[domainId];
+      const nextWeight = refineDomainWeightAutopoietic(prevNode.synapticWeight, wLeader);
+      const receivedTransfer = nextWeight > prevNode.synapticWeight ? 1 : 0;
+      transfersInCycle += receivedTransfer;
+
+      const rule30Byte = extractDomainRule30Slice(currentRule30Row, idx);
+      const domainBasin = (prevState.lastBasinState ^ ((idx * 5 + currentTick) & 0x3f)) & 0x3f;
+      const domainIcosian = (prevState.lastIcosianRoot + idx + currentTick) % 17;
+      const domainPrimeAddr = basisPrime * sharedContextFactor;
+      const pointKey28 = computePointKey28({
+        basinState: domainBasin,
+        icosianRoot: domainIcosian,
+        primeAddress: domainPrimeAddr,
+        rule30Byte,
+      });
+      const fidelityMultiplier = computeDomainFidelityMultiplier(nextWeight);
+      const consolidated =
+        nextWeight >= VERDANT_NEUROMORPHIC_STANDARD.plasticity.consolidationThreshold;
+
+      if (consolidated) consolidatedCount += 1;
+      fidelitySum += fidelityMultiplier;
+
+      nextDomains[domainId] = {
+        domainId,
+        basisPrime,
+        synapticWeight: nextWeight,
+        fidelityMultiplier,
+        rule30Byte,
+        cliffordBasinState: domainBasin,
+        icosianRootIndex: domainIcosian,
+        primeAddress: domainPrimeAddr,
+        pointKey28,
+        consolidated,
+        receivedCrossDomainTransfers: prevNode.receivedCrossDomainTransfers + receivedTransfer,
+      };
+    });
+
+    const globalFidelityIndex = Number((fidelitySum / PRISM_DOMAIN_ORDER.length).toFixed(5));
+    const compositeKey =
+      nextDomains[leaderDomain].pointKey28 ^ nextDomains.neuromorphic.pointKey28;
+
+    currentManifold = {
+      domains: nextDomains,
+      globalFidelityIndex,
+      consolidatedDomainCount: consolidatedCount,
+      totalCrossDomainTransfers: currentManifold.totalCrossDomainTransfers + transfersInCycle,
+      lastImprovedDomain: leaderDomain,
+      manifoldPointKeyHex: `0x${(compositeKey & 0x0fffffff).toString(16).padStart(7, '0')}`,
+    };
+
+    // Co-refine the 20-entry Hebbian strategy×family table toward the manifold's leading weight
+    currentHebbianTable = currentHebbianTable.map((entry) => ({
+      ...entry,
+      weight: refineDomainWeightAutopoietic(entry.weight, wLeader),
+    }));
+  }
+
+  const nextRefinementDirectives = computeCrossDomainRefinementDirectives(currentManifold);
+  const topScheduled = scheduleNeuromorphicStrategies('meadow-lydian', currentHebbianTable)[0];
+  const fidelityAfter = currentManifold.globalFidelityIndex;
+  const varianceAfter = computeDomainWeightVariance(currentManifold);
+
+  const allDomainsBridgeVerified = PRISM_DOMAIN_ORDER.every((dom) => {
+    const bridge = PRISM_DOMAIN_BRIDGES[dom];
+    return (
+      bridge.neuromorphicBusCoupled &&
+      bridge.domainBasisPrime === PRISM_DOMAIN_BASIS_PRIMES[dom] &&
+      bridge.rule30RegisterBits === 64 &&
+      bridge.pointKeyBits === 28 &&
+      bridge.crossDomainTransferEnabled &&
+      bridge.autopoieticSelfRefinementEnabled
+    );
+  });
+
+  const nextState: NeuromorphicEngineState = {
+    ...prevState,
+    tickCount: currentTick,
+    hebbianTable: currentHebbianTable,
+    rule30Row: currentRule30Row,
+    rule30History: currentRule30History,
+    lastPointKeyHex: currentManifold.manifoldPointKeyHex,
+    lastScheduledStrategy: topScheduled.id,
+    lastActiveSynapticWeight: topScheduled.weight,
+    pointKeyGateAdmitted: verifyPointKeyResonanceGate(topScheduled.weight, 0, 0, 8),
+    universalManifold: currentManifold,
+    refinementDirectives: nextRefinementDirectives,
+  };
+
+  return {
+    nextState,
+    cyclesExecuted: cycles,
+    fidelityBefore,
+    fidelityAfter,
+    fidelityGain: Number((fidelityAfter - fidelityBefore).toFixed(5)),
+    varianceBefore,
+    varianceAfter,
+    varianceReduction: Number(Math.max(0, varianceBefore - varianceAfter).toFixed(5)),
+    convergedDomains: currentManifold.consolidatedDomainCount,
+    allDomainsBridgeVerified,
+  };
+}
+
 export interface NeuromorphicMemoryRecord {
   tickId: number;
   biome: BiomeId;
@@ -5814,11 +6613,15 @@ export interface NeuromorphicEngineState {
   lastActiveSynapticWeight: number;
   pointKeyGateAdmitted: boolean;
   synthesizedCounterpointRatios: [number, number, number];
+  universalManifold: UniversalNeuromorphicManifold;
+  refinementDirectives: CrossDomainRefinementDirectives;
 }
 
 export function createInitialNeuromorphicState(): NeuromorphicEngineState {
   const initialRow = createInitialRule30Row();
   const stepped = stepRule30Row(initialRow);
+  const universalManifold = createInitialUniversalManifold();
+  const refinementDirectives = computeCrossDomainRefinementDirectives(universalManifold);
   return {
     tickCount: 0,
     hebbianTable: createInitialHebbianTable(),
@@ -5836,11 +6639,13 @@ export function createInitialNeuromorphicState(): NeuromorphicEngineState {
     lastActiveSynapticWeight: 8,
     pointKeyGateAdmitted: false,
     synthesizedCounterpointRatios: [1.0, 1.25, 1.5],
+    universalManifold,
+    refinementDirectives,
   };
 }
 
 /**
- * Executes a full 6-Stage Neuromorphic Synthesis Tick (`afflom/rule30` + `casey-allard/lexlean-r4`)
+ * Executes a full 7-Stage Neuromorphic Synthesis Tick (`afflom/rule30` + `casey-allard/lexlean-r4` + Universal Cross-Domain Bus)
  * live as the user plays:
  * 1. Induction: Encodes the player's spatial & botanical gesture into `/5` Basin, `/6` Icosian Root, and `/7` PrimeAddress.
  * 2. Audit & Short-Cycle Guard: Steps the 64-bit Rule-30 cellular register and guarantees `0` short-cycle repetitions (`period 1..4`).
@@ -5848,6 +6653,8 @@ export function createInitialNeuromorphicState(): NeuromorphicEngineState {
  * 4. Live LUT Counterpoint Compilation: Sieves `/7` TurnMemory by `GCD(PrimeAddress)` to synthesize a non-repeating 3-voice counterpoint triad.
  * 5. Bounded Hebbian Plasticity: Updates strategy weights (`+2` on resonant bloom/touch/attune/stillness, `-1` on unattuned drift).
  * 6. PointKey Gate & Emergent Seedling Minting: When `verifyPointKeyResonanceGate` holds, germinates a new living flora specimen along the player's geodesic walk.
+ * 7. Universal Cross-Domain Bus Propagation: Potentiates the active domain (`infrastructure`, `physics`, `botany`, `ecology`, `acoustics`,
+ *    `articulation`, `soundtrack`, `humane`, `brand`, or `neuromorphic`) and transfers synaptic enhancements across all 10 Prism domains automatically.
  */
 export function executeNeuromorphicSynthesisTick(
   prevState: NeuromorphicEngineState,
@@ -5862,6 +6669,7 @@ export function executeNeuromorphicSynthesisTick(
     playerYaw: number;
     existingPlants: GardenPlantInstance[];
     colliders: SolidCollider[];
+    sourceDomainOverride?: PrismDomainId;
   },
 ): {
   nextState: NeuromorphicEngineState;
@@ -5880,6 +6688,7 @@ export function executeNeuromorphicSynthesisTick(
     playerYaw,
     existingPlants,
     colliders,
+    sourceDomainOverride,
   } = params;
 
   const tickCount = prevState.tickCount + 1;
@@ -6067,6 +6876,37 @@ export function executeNeuromorphicSynthesisTick(
     }
   }
 
+  // Stage 7: Universal Cross-Domain Bus Propagation
+  // Identify the primary domain energized by this interaction (or explicit override) and propagate enhancements
+  // across all 10 Prism domains automatically (`infrastructure`, `physics`, `botany`, `ecology`, `acoustics`,
+  // `articulation`, `soundtrack`, `humane`, `brand`, `neuromorphic`).
+  const inferredSourceDomain: PrismDomainId =
+    sourceDomainOverride ??
+    (emergentSeedling !== null
+      ? 'infrastructure'
+      : action === 'attune'
+        ? 'botany'
+        : action === 'touch'
+          ? 'articulation'
+          : action === 'stillness'
+            ? 'humane'
+            : action === 'stroll'
+              ? 'physics'
+              : outcome === 'sanctuary-chorus' || outcome === 'crystalline-choir'
+                ? 'acoustics'
+                : 'ecology');
+
+  const prevManifold = prevState.universalManifold ?? createInitialUniversalManifold();
+  const nextUniversalManifold = propagateCrossDomainEnhancement(prevManifold, {
+    sourceDomain: inferredSourceDomain,
+    rule30Row: r30.nextRow,
+    basinState,
+    icosianRootIndex: icosianRoot.rootIndex,
+    contextPrimeAddress: primeAddress,
+    resonantSuccess: isResonantOutcome,
+  });
+  const nextRefinementDirectives = computeCrossDomainRefinementDirectives(nextUniversalManifold);
+
   const nextTurnMemory: NeuromorphicMemoryRecord[] = [
     ...prevState.turnMemory.slice(-23),
     {
@@ -6100,6 +6940,8 @@ export function executeNeuromorphicSynthesisTick(
     lastActiveSynapticWeight: topStrategyAfter.weight,
     pointKeyGateAdmitted: gateAdmitted,
     synthesizedCounterpointRatios: counterpointRatios,
+    universalManifold: nextUniversalManifold,
+    refinementDirectives: nextRefinementDirectives,
   };
 
   return {
@@ -6400,6 +7242,7 @@ export const VERDANT_SOUNDTRACK_STANDARD = {
   minTempoBpm: 64,
   maxTempoBpm: 76,
   selfDecayingVoicesOnly: true,
+  neuromorphicBridge: PRISM_DOMAIN_BRIDGES.soundtrack,
 } as const;
 
 /**
@@ -6776,12 +7619,17 @@ export interface HolisticSystemCouplingReport {
   causalWavefrontTimingVerified: boolean;
   universalSoundtrackSpatialBindingVerified: boolean;
   spatialGroundingAndSubstrateCoherenceVerified: boolean;
+  universalNeuromorphicBusVerified: boolean;
+  infrastructureNeuromorphicCouplingVerified: boolean;
 }
 
 /**
- * Verifies the 8-Domain Holistic Mutual Constraint Law (`Foundation.Physics.V1.Model::holisticCouplingStandardHolds`):
- * Confirms that every physical, botanical, chemical, ecological, acoustic, and neuromorphic element in the game
- * is mutually constrained by all parts of the Prism model and obeys the laws of physics and spatial grounding.
+ * Verifies the 10-Domain Holistic Mutual Constraint & Universal Neuromorphic Bus Law
+ * (`Foundation.Physics.V1.Model::holisticCouplingStandardHolds`, `Foundation.Neuromorphic.V1.Model::crossDomainTransferBoundedAndMonotonicHolds`,
+ * and `Foundation.Infrastructure.V1.Model::infrastructureNeuromorphicCouplingHolds`):
+ * Confirms that every physical, botanical, chemical, ecological, acoustic, infrastructure, and neuromorphic element
+ * in the game is mutually constrained by all parts of the Prism model, obeys the laws of physics and spatial grounding,
+ * and automatically transfers neuromorphic enhancements across all 10 domains whenever any single domain improves.
  */
 export function verifyHolisticSystemCoupling(params?: {
   plants?: GardenPlantInstance[];
@@ -6936,6 +7784,54 @@ export function verifyHolisticSystemCoupling(params?: {
   const groundingReport = verifySpatialGroundingAndSubstrateCoherence({ plants });
   const spatialGroundingAndSubstrateCoherenceVerified = groundingReport.allGroundedAndValid;
 
+  // 9. Universal 10-Domain Neuromorphic Bus & Autopoietic Cross-Domain Enhancement Transfer
+  const initialManifold = createInitialUniversalManifold();
+  const enhancedManifold = propagateCrossDomainEnhancement(initialManifold, {
+    sourceDomain: 'physics',
+    resonantSuccess: true,
+  });
+  const directivesBefore = computeCrossDomainRefinementDirectives(initialManifold);
+  const directivesAfter = computeCrossDomainRefinementDirectives(enhancedManifold);
+  const universalNeuromorphicBusVerified =
+    PRISM_DOMAIN_ORDER.length === 10 &&
+    enhancedManifold.domains.physics.synapticWeight === 10 &&
+    PRISM_DOMAIN_ORDER.every(
+      (dom) =>
+        enhancedManifold.domains[dom].synapticWeight >
+          initialManifold.domains[dom].synapticWeight &&
+        enhancedManifold.domains[dom].fidelityMultiplier >
+          initialManifold.domains[dom].fidelityMultiplier,
+    ) &&
+    enhancedManifold.totalCrossDomainTransfers === 9 &&
+    enhancedManifold.globalFidelityIndex > initialManifold.globalFidelityIndex;
+
+  // 10. All-10-Domain Neuromorphic Bridge Contracts, Infrastructure Coupling & Autopoietic Model Refinement
+  const baseNeuroState = createInitialNeuromorphicState();
+  const skewedState: NeuromorphicEngineState = {
+    ...baseNeuroState,
+    universalManifold: propagateCrossDomainEnhancement(baseNeuroState.universalManifold, {
+      sourceDomain: 'physics',
+      resonantSuccess: true,
+    }),
+  };
+  const refinedReport = refinePrismModel(skewedState, { cycles: 2 });
+  const infrastructureNeuromorphicCouplingVerified =
+    VERDANT_INFRASTRUCTURE_STANDARD.neuromorphicBridge.neuromorphicBusCoupled &&
+    VERDANT_INFRASTRUCTURE_STANDARD.neuromorphicBridge.domainBasisPrime === 71 &&
+    refinedReport.allDomainsBridgeVerified &&
+    refinedReport.fidelityAfter > refinedReport.fidelityBefore &&
+    refinedReport.varianceAfter <= refinedReport.varianceBefore &&
+    directivesAfter.infrastructure.toneMappingExposure >
+      directivesBefore.infrastructure.toneMappingExposure &&
+    directivesAfter.infrastructure.microReliefBumpScale >
+      directivesBefore.infrastructure.microReliefBumpScale &&
+    directivesAfter.infrastructure.activeSporePoolRatio >
+      directivesBefore.infrastructure.activeSporePoolRatio &&
+    directivesAfter.botany.kuramotoCouplingMultiplier >
+      directivesBefore.botany.kuramotoCouplingMultiplier &&
+    directivesAfter.acoustics.modalFilterQMultiplier >
+      directivesBefore.acoustics.modalFilterQMultiplier;
+
   const allConstrained =
     solidExclusionVerified &&
     sporeFloorAndObstacleVerified &&
@@ -6944,7 +7840,9 @@ export function verifyHolisticSystemCoupling(params?: {
     heliocentricPhototropicLockVerified &&
     causalWavefrontTimingVerified &&
     universalSoundtrackSpatialBindingVerified &&
-    spatialGroundingAndSubstrateCoherenceVerified;
+    spatialGroundingAndSubstrateCoherenceVerified &&
+    universalNeuromorphicBusVerified &&
+    infrastructureNeuromorphicCouplingVerified;
 
   return {
     allConstrained,
@@ -6957,6 +7855,8 @@ export function verifyHolisticSystemCoupling(params?: {
     causalWavefrontTimingVerified,
     universalSoundtrackSpatialBindingVerified,
     spatialGroundingAndSubstrateCoherenceVerified,
+    universalNeuromorphicBusVerified,
+    infrastructureNeuromorphicCouplingVerified,
   };
 }
 

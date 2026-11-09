@@ -48,6 +48,20 @@ structure{
 }
 
 structure{
+  name: NeuromorphicAcousticsBridgeSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: neuromorphicBusCoupled, type: Bool},
+    {name: domainBasisPrime, type: Nat},
+    {name: rule30RegisterBits, type: Nat},
+    {name: pointKeyBits, type: Nat},
+    {name: crossDomainTransferEnabled, type: Bool},
+    {name: autopoieticSelfRefinementEnabled, type: Bool}
+  ]
+}
+
+structure{
   name: BotanicalAcousticStandard,
   type_parameters: [],
   parameters: [],
@@ -60,7 +74,8 @@ structure{
     {name: perfectFifthInterval, type: JustIntonationInterval},
     {name: harmonicSeventhInterval, type: JustIntonationInterval},
     {name: synthesisSpec, type: SpatialSynthesisSpec},
-    {name: wavePropagation, type: SpatialWavePropagationSpec}
+    {name: wavePropagation, type: SpatialWavePropagationSpec},
+    {name: neuromorphicBridge, type: NeuromorphicAcousticsBridgeSpec}
   ]
 }
 
@@ -100,10 +115,17 @@ definition{
 }
 
 definition{
+  name: verdantAcousticsBasisPrime,
+  parameters: [],
+  result: Nat,
+  body: 89
+}
+
+definition{
   name: verdantAcousticStandard,
   parameters: [],
   result: BotanicalAcousticStandard,
-  body: (record BotanicalAcousticStandard {profile := "prism/acoustic-standard/3", tuningSystem := "5-Limit & 7-Limit Pure Just Intonation with 5-Partial Modal Synthesis, Spatial Wave Propagation & Zero Continuous Drone Fatigue", silenceFloorPolicy := "Zero persistent oscillator drone (continuousDroneGainMilli = 0); all harmonic pads and chimes use self-decaying breathing envelopes over natural quietude", unisonInterval := (record JustIntonationInterval {intervalName := "Fundamental Unison", numerator := 1, denominator := 1, centsDeviation := 0}), majorThirdInterval := (record JustIntonationInterval {intervalName := "Pure Harmonic Major Third", numerator := 5, denominator := 4, centsDeviation := 0}), perfectFifthInterval := (record JustIntonationInterval {intervalName := "Pure Acoustic Fifth", numerator := 3, denominator := 2, centsDeviation := 0}), harmonicSeventhInterval := (record JustIntonationInterval {intervalName := "Celestial Diatonic Seventh", numerator := 15, denominator := 8, centsDeviation := 0}), synthesisSpec := (record SpatialSynthesisSpec {sampleRateHz := 48000, partialsPerVoice := 5, spectrumBands := 16, stereoConvolverIrMs := 2200, stereoEchoDelayMs := 375, binauralPanningEnabled := true, continuousDroneGainMilli := 0, masterGainMilli := 360, limiterCeilingMilli := 500}), wavePropagation := (record SpatialWavePropagationSpec {speedOfSoundMps := 343, referenceDistanceDm := 65, minDistanceGainMilli := 180, maxDistanceGainMilli := 1000, stokesKirchhoffAirAbsorptionEnabled := true, obstacleDiffractionLowpassEnabled := true})})
+  body: (record BotanicalAcousticStandard {profile := "prism/acoustic-standard/3", tuningSystem := "5-Limit & 7-Limit Pure Just Intonation with 5-Partial Modal Synthesis, Spatial Wave Propagation & Zero Continuous Drone Fatigue", silenceFloorPolicy := "Zero persistent oscillator drone (continuousDroneGainMilli = 0); all harmonic pads and chimes use self-decaying breathing envelopes over natural quietude", unisonInterval := (record JustIntonationInterval {intervalName := "Fundamental Unison", numerator := 1, denominator := 1, centsDeviation := 0}), majorThirdInterval := (record JustIntonationInterval {intervalName := "Pure Harmonic Major Third", numerator := 5, denominator := 4, centsDeviation := 0}), perfectFifthInterval := (record JustIntonationInterval {intervalName := "Pure Acoustic Fifth", numerator := 3, denominator := 2, centsDeviation := 0}), harmonicSeventhInterval := (record JustIntonationInterval {intervalName := "Celestial Diatonic Seventh", numerator := 15, denominator := 8, centsDeviation := 0}), synthesisSpec := (record SpatialSynthesisSpec {sampleRateHz := 48000, partialsPerVoice := 5, spectrumBands := 16, stereoConvolverIrMs := 2200, stereoEchoDelayMs := 375, binauralPanningEnabled := true, continuousDroneGainMilli := 0, masterGainMilli := 360, limiterCeilingMilli := 500}), wavePropagation := (record SpatialWavePropagationSpec {speedOfSoundMps := 343, referenceDistanceDm := 65, minDistanceGainMilli := 180, maxDistanceGainMilli := 1000, stokesKirchhoffAirAbsorptionEnabled := true, obstacleDiffractionLowpassEnabled := true}), neuromorphicBridge := (record NeuromorphicAcousticsBridgeSpec {neuromorphicBusCoupled := true, domainBasisPrime := 89, rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := true, autopoieticSelfRefinementEnabled := true})})
 }
 
 definition{
@@ -148,6 +170,21 @@ theorem{
   parameters: [minGain : Nat, maxGain : Nat],
   statement: ((breaksSpatialAttenuationBounds minGain maxGain) = false),
   proof: linear_arithmetic{definitions: [breaksSpatialAttenuationBounds, verdantMaxDistanceGainMilli, verdantMinDistanceGainMilli]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksAcousticsNeuromorphicCoupling,
+  parameters: [prime : Nat],
+  result: Bool,
+  body: ((prime =? (verdantAcousticsBasisPrime)) && (prime <? 89))
+}
+
+theorem{
+  name: acousticsNeuromorphicCouplingHolds,
+  parameters: [prime : Nat],
+  statement: ((breaksAcousticsNeuromorphicCoupling prime) = false),
+  proof: linear_arithmetic{definitions: [breaksAcousticsNeuromorphicCoupling, verdantAcousticsBasisPrime]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

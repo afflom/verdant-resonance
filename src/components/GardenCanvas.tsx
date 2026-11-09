@@ -63,6 +63,7 @@ import {
   generateConservatoryTrees,
   getPlantLifecycleStage,
   groundHeightAt,
+  refinePrismModel,
   registerEmergentSeedlingCollider,
   resolveBiomeWaypointLanding,
   resolvePlayerPhysicsStep,
@@ -2016,7 +2017,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         existingPlants: plantsRef.current,
         colliders: gardenColliders,
       });
-      neuromorphicState = neuroTick.nextState;
+      neuromorphicState =
+        act === 'stillness' || outcome === 'sanctuary-chorus' || outcome === 'serene-rest'
+          ? refinePrismModel(neuroTick.nextState, { cycles: 1 }).nextState
+          : neuroTick.nextState;
 
       if (neuroTick.emergentSeedling) {
         plantsRef.current.push(neuroTick.emergentSeedling);
@@ -2468,6 +2472,31 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         neuromorphicState.rule30History[neuromorphicState.rule30History.length - 1] ?? 30;
       const activeIcosianRoot = neuromorphicState.lastIcosianRoot;
       const activeSynapticWeight = neuromorphicState.lastActiveSynapticWeight;
+      const directives = neuromorphicState.refinementDirectives;
+
+      // Universal Neuromorphic Infrastructure Self-Refinement (`Foundation.Infrastructure.V1.Model::NeuromorphicInfrastructureSpec`)
+      renderer.toneMappingExposure = THREE.MathUtils.damp(
+        renderer.toneMappingExposure,
+        directives.infrastructure.toneMappingExposure,
+        2.5,
+        dt,
+      );
+      terrainMat.bumpScale = THREE.MathUtils.damp(
+        terrainMat.bumpScale,
+        directives.infrastructure.microReliefBumpScale,
+        2.5,
+        dt,
+      );
+      const activeSporeLimit = Math.max(
+        120,
+        Math.min(
+          PARTICLE_COUNT,
+          Math.round(PARTICLE_COUNT * directives.infrastructure.activeSporePoolRatio),
+        ),
+      );
+      if (particleMesh.count !== activeSporeLimit) {
+        particleMesh.count = activeSporeLimit;
+      }
 
       // Coupled Neuromorphic Cymatics on the Wetland Mirror Lagoon & Meniscus Rings (`Foundation.Physics.V1.Model`)
       const centerCymatics = computeNeuromorphicCymatics({
@@ -2479,7 +2508,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         synapticWeight: activeSynapticWeight,
       });
       lagoonMesh.position.y =
-        MIRROR_LAGOON_WATER_SURFACE_Y + centerCymatics.waveDisplacementY * 0.45;
+        MIRROR_LAGOON_WATER_SURFACE_Y +
+        centerCymatics.waveDisplacementY * 0.45 * directives.physics.cymaticWaveCoherence;
       lagoonMat.emissiveIntensity = 0.18 + centerCymatics.meniscusPulseFactor * 0.16;
 
       for (let mIdx = 0; mIdx < wetlandMeniscusRings.length; mIdx++) {
@@ -2505,7 +2535,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           centerCymatics.waveDisplacementY * 1.2;
       }
 
-      // Animate 5 Biome Constellation Pillar Beams & Crown Halos based on per-biome flora mastery
+      // Animate 5 Biome Constellation Pillar Beams & Crown Halos based on per-biome flora mastery + Infrastructure Halo Directive
+      const haloRefinementRatio = directives.infrastructure.constellationHaloOpacity / 0.28;
       for (let bIdx = 0; bIdx < biomeConstellationBeams.length; bIdx++) {
         const bc = biomeConstellationBeams[bIdx];
         let totalInB = 0;
@@ -2519,8 +2550,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         }
         const ratio = totalInB > 0 ? attunedInB / totalInB : 0;
         const pulse = 0.85 + Math.sin(elapsed * 2.0 + bIdx) * 0.15;
-        bc.beamMat.opacity = (0.04 + ratio * 0.22) * pulse;
-        bc.crownMat.opacity = (0.18 + ratio * 0.65) * pulse;
+        bc.beamMat.opacity = (0.04 + ratio * 0.22) * pulse * haloRefinementRatio;
+        bc.crownMat.opacity = (0.18 + ratio * 0.65) * pulse * haloRefinementRatio;
         bc.crownMesh.rotation.z = elapsed * (0.35 + ratio * 0.8);
       }
 
@@ -2652,7 +2683,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
             const kuramoto = stepKuramotoPhaseEntrainment({
               currentPhase: pm.pulsePhase,
               neighborPhases: nbPhases,
-              couplingStrengthPerSec: 0.85,
+              couplingStrengthPerSec: 0.85 * directives.botany.kuramotoCouplingMultiplier,
               dt,
             });
             pm.pulsePhase = kuramoto.nextPhase;
@@ -2728,7 +2759,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           morph.scaleFactor * (0.85 + lifecycleSpec.morphologicalScaleMultiplier * 0.15),
         );
         for (const mat of pm.emissiveMaterials) {
-          mat.emissiveIntensity = morph.emissiveIntensity * lifecycleSpec.emissiveMultiplier;
+          mat.emissiveIntensity =
+            (morph.emissiveIntensity + directives.botany.emissiveBloomBoost) *
+            lifecycleSpec.emissiveMultiplier;
         }
         (pm.haloRing.material as THREE.MeshBasicMaterial).opacity = morph.haloOpacity;
 
@@ -2845,7 +2878,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           attractorX: nearestForSpores.plant.x,
           attractorY: nearestForSpores.plant.y,
           attractorZ: nearestForSpores.plant.z,
-          attractorTerpeneStrength: Math.min(1, attractorTerpene),
+          attractorTerpeneStrength: Math.min(
+            1,
+            attractorTerpene * directives.physics.chemotacticSporeAttractionMultiplier,
+          ),
           atmosphere: atmosphereRef.current,
           elapsedSeconds: elapsed,
           rule30Byte: activeRule30Byte,
@@ -3098,6 +3134,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           nearestPlantZ: nearest.plant.z,
           surfaceMaterial: player.surfaceMaterial,
           acousticOcclusion,
+          reverbSendRefinement: directives.acoustics.reverbSendRefinement,
+          modalFilterQMultiplier: directives.acoustics.modalFilterQMultiplier,
         });
 
         // Advance Live 4-Stem 16-Step Generative Soundtrack Sequencer (`Foundation.Soundtrack.V1.Model`)
