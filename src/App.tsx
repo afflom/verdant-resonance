@@ -8,14 +8,24 @@ import {
   ATMOSPHERE_CONFIGS,
   AtmosphereId,
   BIOME_CONFIGS,
+  BIOME_MONUMENTS,
   BiomeId,
+  BOTANICAL_LIFECYCLE_STAGES,
   PLANT_SPECIES_CONFIGS,
   SOUND_OUTCOME_PROFILES,
   SoundscapeOutcome,
   VERDANT_BRAND_STANDARD,
+  VERDANT_HUMANE_STANDARD,
+  composeLiveSoundtrackScore,
   computeBinauralPan,
+  computeCardinalWayfinder,
+  createInitialGestureHoldState,
+  createInitialNeuromorphicState,
+  evaluateBiomeMasteryAndGuilds,
+  evaluateEnvironmentalLifecycle,
   evaluateHumaneErgonomics,
   generateGardenPlants,
+  getPlantLifecycleStage,
 } from './game/prismModel';
 import { BotanicalSoundscapeEngine } from './game/soundscapeEngine';
 import {
@@ -53,30 +63,57 @@ export default function App() {
   const gardenHandleRef = useRef<GardenImperativeHandle | null>(null);
   const spectrumBarsRef = useRef<(SVGRectElement | null)[]>([]);
 
-  const [telemetry, setTelemetry] = useState<LiveTelemetryState>(() => ({
-    playerX: 0,
-    playerZ: 0,
-    playerYaw: 0,
-    biome: 'meadow',
-    atmosphere: 'dawn',
-    chorus: 'dormant',
-    affinityTier: 'sanctuary-peak',
-    nearestPlant: plants[0],
-    distanceMeters: 5.9,
-    proximityDm: 20,
-    velocityDm: 0,
-    action: 'observe',
-    prismRequest: 'meadow chime-lily observe dawn dormant 20 0',
-    prismOutcome: 'dawn-arpeggio',
-    prismRule: 'REQ-010',
-    prismRuleDesc:
-      'Morning mist around a Chime Lily at Dawn awakens sparkling dewdrop glass-marimba arpeggios.',
-    harmony: 15,
-    attunedCount: 0,
-    totalPlants: plants.length,
-    exploredBiomes: ['meadow'],
-    guidedStroll: false,
-  }));
+  const [telemetry, setTelemetry] = useState<LiveTelemetryState>(() => {
+    const initialNeuro = createInitialNeuromorphicState();
+    const initialEnvLifecycle = evaluateEnvironmentalLifecycle({
+      harmonyPct: 15,
+      plants,
+      atmosphere: 'dawn',
+    });
+    const initialScore = composeLiveSoundtrackScore({
+      biome: 'meadow',
+      atmosphere: 'dawn',
+      harmonyPct: 15,
+      plants,
+      neuromorphic: initialNeuro,
+    });
+    return {
+      playerX: 0,
+      playerZ: 0,
+      playerYaw: 0,
+      biome: 'meadow',
+      atmosphere: 'dawn',
+      chorus: 'dormant',
+      affinityTier: 'sanctuary-peak',
+      nearestPlant: plants[0],
+      distanceMeters: 5.9,
+      proximityDm: 20,
+      velocityDm: 0,
+      action: 'observe',
+      prismRequest: 'meadow chime-lily observe dawn dormant 20 0',
+      prismOutcome: 'dawn-arpeggio',
+      prismRule: 'REQ-010',
+      prismRuleDesc:
+        'Morning mist around a Chime Lily at Dawn awakens sparkling dewdrop glass-marimba arpeggios.',
+      harmony: 15,
+      attunedCount: 0,
+      sympatheticCount: 0,
+      totalPlants: plants.length,
+      exploredBiomes: ['meadow'],
+      guidedStroll: false,
+      surfaceMaterial: 'travertine-stone',
+      inWater: false,
+      waterDepthMeters: 0,
+      slopeGradePct: 0,
+      obstructedBy: null,
+      acousticOcclusion: 0,
+      neuromorphic: initialNeuro,
+      environmentalLifecycle: initialEnvLifecycle,
+      soundtrackScore: initialScore,
+      currentSoundtrackStep: 0,
+      gestureHold: createInitialGestureHoldState(),
+    };
+  });
 
   useEffect(() => {
     document.body.dataset.state = gameState;
@@ -170,6 +207,9 @@ export default function App() {
         return;
       }
 
+      // Suppress OS key-repeat events (`e.repeat`) across all global shortcuts
+      if (e.repeat) return;
+
       if (gameState === 'title') {
         if (e.code === 'Enter' || e.code === 'Space') {
           e.preventDefault();
@@ -200,14 +240,14 @@ export default function App() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [gameState, startGame, handleToggleMute, handleRestart, cycleAtmosphere]);
 
+  // Mindful exploration never force-terminates gameplay at 100% Harmony.
+  // Only extreme unmindful agitation (sustained rapid key mashing during refractory cooldowns >= 100%)
+  // triggers a gentle Restorative Interlude (`gameover` overlay).
   useEffect(() => {
-    if (gameState === 'playing' && telemetry.harmony >= 100) {
-      const timer = window.setTimeout(() => {
-        setGameState('gameover');
-      }, 650);
-      return () => clearTimeout(timer);
+    if (gameState === 'playing' && telemetry.gestureHold.agitationPct >= 100) {
+      setGameState('gameover');
     }
-  }, [gameState, telemetry.harmony]);
+  }, [gameState, telemetry.gestureHold.agitationPct]);
 
   const activeBiomeCfg = BIOME_CONFIGS[telemetry.biome];
   const activeAtmosphereCfg = ATMOSPHERE_CONFIGS[atmosphere];
@@ -221,6 +261,14 @@ export default function App() {
     guidedStroll: telemetry.guidedStroll,
     harmonyPct: telemetry.harmony,
   });
+
+  const wayfinder = computeCardinalWayfinder(
+    telemetry.playerX,
+    telemetry.playerZ,
+    telemetry.playerYaw,
+  );
+  const activeMonument = BIOME_MONUMENTS[telemetry.biome];
+  const biomeMastery = evaluateBiomeMasteryAndGuilds(telemetry.biome, plants);
 
   const stereoPan = computeBinauralPan(
     telemetry.playerX,
@@ -267,7 +315,7 @@ export default function App() {
               {VERDANT_BRAND_STANDARD.editionTitle}
             </div>
             <div className="text-xs font-mono text-emerald-300/85 tracking-wide hud-text-shadow hidden sm:block">
-              HUMANE CALM ARCHITECTURE · BINAURAL SPATIAL AUDIO · ZERO CONFLICT
+              FIBONACCI PHYLLOTAXIS · 5-PARTIAL MODAL AUDIO · ZERO CONFLICT
             </div>
           </div>
 
@@ -304,11 +352,11 @@ export default function App() {
             <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-emerald-300/90">
               <span>Pure Just Intonation (0.0¢)</span>
               <span aria-hidden="true">·</span>
-              <span>4-Partial Stereo Reverb</span>
+              <span>5-Partial Modal + Stereo Delay</span>
               <span aria-hidden="true">·</span>
-              <span>88% Calm Viewport</span>
+              <span>5 Biome Pavilions</span>
               <span aria-hidden="true">·</span>
-              <span>5 Interactive Flora Species</span>
+              <span>Sympathetic Pollination</span>
             </div>
 
             {/* Primary CTA + Secondary Herbarium Button (<= 2 focal actions) */}
@@ -409,14 +457,34 @@ export default function App() {
               />
             </div>
 
+            {telemetry.harmony >= 100 && (
+              <div className="mt-1.5 flex items-center justify-between gap-2">
+                <span className="text-[10px] font-mono text-amber-200">
+                  ✦ Full Conservatory Equilibrium Flourishing
+                </span>
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  onClick={(e) => {
+                    e.currentTarget.blur();
+                    setGameState('gameover');
+                  }}
+                  className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-300/20 border border-amber-300/40 text-amber-100 hover:bg-amber-300/30 cursor-pointer"
+                >
+                  View Certificate
+                </button>
+              </div>
+            )}
+
             {/* Live Acoustic Timbre & 16-Band Spectrum Visualizer */}
             <div className="mt-2.5 pt-2 border-t border-emerald-400/15 flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <div className="text-[11px] font-medium text-amber-200" data-testid="hud-prism-outcome">
                   {outcomeProfile.label} · {outcomeProfile.timbre}
                 </div>
-                <div className="text-[10px] font-mono text-emerald-300/80">
-                  {activeBiomeCfg.tuningLabel} · 0.0¢ Pure · {activeAtmosphereCfg.name}
+                <div className="text-[10px] font-mono text-emerald-300/80" data-testid="hud-soundtrack-status">
+                  {activeBiomeCfg.tuningLabel} · Score: {telemetry.soundtrackScore.activeStems.length}/4 Stems ·{' '}
+                  {telemetry.environmentalLifecycle.label}
                 </div>
               </div>
 
@@ -444,7 +512,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Corner Cluster 2 (Top-Right): Active Biome, Nearest Flora, Binaural Field & Utility Controls */}
+          {/* Corner Cluster 2 (Top-Right): Active Biome, Monument Compass, Nearest Flora & Utility Controls */}
           <div className="fixed top-4 right-4 flex items-start gap-2.5 pointer-events-auto">
             <div className="rounded-xl border border-emerald-400/25 bg-[#071510]/90 px-4 py-2.5 shadow-xl">
               <div className="flex items-center gap-2.5">
@@ -454,8 +522,12 @@ export default function App() {
                   className="w-7 h-7 shrink-0"
                 />
                 <div>
-                  <div className="text-[10px] font-mono tracking-wider text-emerald-300/80 uppercase">
-                    {activeBiomeCfg.name} · BIOME {telemetry.exploredBiomes.length}/5
+                  <div className="text-[10px] font-mono tracking-wider text-emerald-300/80 uppercase flex items-center gap-1.5">
+                    <span>{activeBiomeCfg.name}</span>
+                    <span>·</span>
+                    <span className="text-amber-200">{wayfinder.compassCardinal} {wayfinder.headingDeg}°</span>
+                    <span>·</span>
+                    <span>BIOME {telemetry.exploredBiomes.length}/5</span>
                   </div>
                   <div className="text-sm font-semibold text-emerald-50 flex items-center gap-2">
                     <span>{nearestSpeciesCfg.name}</span>
@@ -467,8 +539,12 @@ export default function App() {
                       Pan {stereoLabel}
                     </span>
                   </div>
-                  <div className="text-[10px] font-mono text-emerald-300/75">
-                    {humaneEval.pacingState} · {humaneEval.openViewportPct}% Calm View
+                  <div className="text-[10px] font-mono text-emerald-300/75 whitespace-nowrap">
+                    {BOTANICAL_LIFECYCLE_STAGES[getPlantLifecycleStage(telemetry.nearestPlant)].label} ·{' '}
+                    {biomeMastery.attunedInBiome}/{biomeMastery.totalInBiome} Flora ·{' '}
+                    {telemetry.inWater
+                      ? `Wading Lagoon (${Math.round(telemetry.waterDepthMeters * 100)}cm)`
+                      : telemetry.surfaceMaterial.replace('-', ' ')}
                   </div>
                 </div>
               </div>
@@ -534,42 +610,126 @@ export default function App() {
 
             {!dockCollapsed && (
               <div className="rounded-xl border border-emerald-400/25 bg-[#071510]/92 px-4 py-2.5 shadow-2xl flex flex-wrap items-center justify-center gap-2.5">
-                {/* Botanical Resonance Actions */}
+                {/* Botanical Resonance Actions with Tactile Hold & Refractory Envelopes */}
                 <div className="flex items-center gap-1.5">
                   <button
                     type="button"
                     tabIndex={-1}
-                    onClick={(e) => {
+                    onMouseDown={(e) => {
                       e.currentTarget.blur();
-                      gardenHandleRef.current?.triggerAction('attune');
+                      gardenHandleRef.current?.setHeldAction('attune');
                     }}
-                    className="px-3.5 py-1.5 rounded-lg bg-amber-300 hover:bg-amber-200 text-slate-950 font-semibold text-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                    onMouseUp={() => gardenHandleRef.current?.setHeldAction(null)}
+                    onMouseLeave={() => {
+                      if (telemetry.gestureHold.heldGesture === 'attune') {
+                        gardenHandleRef.current?.setHeldAction(null);
+                      }
+                    }}
+                    className={`relative overflow-hidden px-3.5 py-1.5 rounded-lg font-semibold text-xs transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer ${
+                      telemetry.gestureHold.heldGesture === 'attune'
+                        ? 'bg-amber-200 text-slate-950 scale-[0.97] ring-2 ring-amber-300/80 shadow-inner'
+                        : 'bg-amber-300 hover:bg-amber-200 text-slate-950'
+                    }`}
                   >
-                    Attune Flora [Space]
+                    <span>
+                      {telemetry.gestureHold.heldGesture === 'attune'
+                        ? 'Attuning Choir… [Space]'
+                        : 'Attune Flora [Space]'}
+                    </span>
+                    {(telemetry.gestureHold.heldGesture === 'attune' ||
+                      telemetry.gestureHold.attuneCooldownSec > 0) && (
+                      <span
+                        className="absolute bottom-0 left-0 h-0.5 bg-slate-950/65 transition-all duration-75"
+                        style={{
+                          width: `${Math.round(
+                            (telemetry.gestureHold.heldGesture === 'attune'
+                              ? telemetry.gestureHold.holdProgress
+                              : telemetry.gestureHold.attuneCooldownSec /
+                                VERDANT_HUMANE_STANDARD.attuneRefractorySec) * 100,
+                          )}%`,
+                        }}
+                      />
+                    )}
                   </button>
 
                   <button
                     type="button"
                     tabIndex={-1}
-                    onClick={(e) => {
+                    onMouseDown={(e) => {
                       e.currentTarget.blur();
-                      gardenHandleRef.current?.triggerAction('touch');
+                      gardenHandleRef.current?.setHeldAction('touch');
                     }}
-                    className="px-3 py-1.5 rounded-lg border border-emerald-400/30 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-100 font-medium text-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                    onMouseUp={() => gardenHandleRef.current?.setHeldAction(null)}
+                    onMouseLeave={() => {
+                      if (telemetry.gestureHold.heldGesture === 'touch') {
+                        gardenHandleRef.current?.setHeldAction(null);
+                      }
+                    }}
+                    className={`relative overflow-hidden px-3 py-1.5 rounded-lg border font-medium text-xs transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer ${
+                      telemetry.gestureHold.heldGesture === 'touch'
+                        ? 'border-amber-300/80 bg-emerald-800/90 text-amber-100 scale-[0.97] ring-1 ring-amber-300/50'
+                        : 'border-emerald-400/30 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-100'
+                    }`}
                   >
-                    Touch Petal [T]
+                    <span>
+                      {telemetry.gestureHold.heldGesture === 'touch'
+                        ? 'Plucking Petal… [T]'
+                        : 'Touch Petal [T]'}
+                    </span>
+                    {(telemetry.gestureHold.heldGesture === 'touch' ||
+                      telemetry.gestureHold.touchCooldownSec > 0) && (
+                      <span
+                        className="absolute bottom-0 left-0 h-0.5 bg-amber-300 transition-all duration-75"
+                        style={{
+                          width: `${Math.round(
+                            (telemetry.gestureHold.heldGesture === 'touch'
+                              ? telemetry.gestureHold.holdProgress
+                              : telemetry.gestureHold.touchCooldownSec /
+                                VERDANT_HUMANE_STANDARD.touchRefractorySec) * 100,
+                          )}%`,
+                        }}
+                      />
+                    )}
                   </button>
 
                   <button
                     type="button"
                     tabIndex={-1}
-                    onClick={(e) => {
+                    onMouseDown={(e) => {
                       e.currentTarget.blur();
-                      gardenHandleRef.current?.triggerAction('stillness');
+                      gardenHandleRef.current?.setHeldAction('stillness');
                     }}
-                    className="px-3 py-1.5 rounded-lg border border-emerald-400/30 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-100 font-medium text-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                    onMouseUp={() => gardenHandleRef.current?.setHeldAction(null)}
+                    onMouseLeave={() => {
+                      if (telemetry.gestureHold.heldGesture === 'stillness') {
+                        gardenHandleRef.current?.setHeldAction(null);
+                      }
+                    }}
+                    className={`relative overflow-hidden px-3 py-1.5 rounded-lg border font-medium text-xs transition-all duration-150 whitespace-nowrap shrink-0 cursor-pointer ${
+                      telemetry.gestureHold.heldGesture === 'stillness'
+                        ? 'border-teal-300/80 bg-teal-900/90 text-teal-100 scale-[0.97] ring-1 ring-teal-300/60'
+                        : 'border-emerald-400/30 bg-emerald-950/80 hover:bg-emerald-900 text-emerald-100'
+                    }`}
                   >
-                    Stillness [C]
+                    <span>
+                      {telemetry.gestureHold.heldGesture === 'stillness'
+                        ? `Breath: ${
+                            telemetry.gestureHold.stillnessBreathPhase === 'inhale'
+                              ? 'Inhale'
+                              : telemetry.gestureHold.stillnessBreathPhase === 'crest'
+                                ? 'Hold'
+                                : 'Exhale'
+                          } [C]`
+                        : 'Stillness [C]'}
+                    </span>
+                    {telemetry.gestureHold.heldGesture === 'stillness' && (
+                      <span
+                        className="absolute bottom-0 left-0 h-0.5 bg-teal-300 transition-all duration-75"
+                        style={{
+                          width: `${Math.round(telemetry.gestureHold.stillnessBreathProgress * 100)}%`,
+                        }}
+                      />
+                    )}
                   </button>
 
                   <button

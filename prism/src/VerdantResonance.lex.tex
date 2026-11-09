@@ -8,6 +8,12 @@
 \importmodule{Foundation.Humane.V1.Model}
 \importmodule{Foundation.Acoustics.V1.Model}
 \importmodule{Foundation.Infrastructure.V1.Model}
+\importmodule{Foundation.Botany.V1.Model}
+\importmodule{Foundation.Ecology.V1.Model}
+\importmodule{Foundation.Articulation.V1.Model}
+\importmodule{Foundation.Physics.V1.Model}
+\importmodule{Foundation.Neuromorphic.V1.Model}
+\importmodule{Foundation.Soundtrack.V1.Model}
 \title{Text application model}
 \begin{semanticmodule}
 definition{
@@ -587,6 +593,83 @@ definition{
   name: rule24,
   parameters: [request : Request],
   result: Bool,
+  body: (((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeCrystal))) && ((project request plant) =? (plantStarOrchid))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))
+}
+
+definition{
+  name: rule25,
+  parameters: [request : Request],
+  result: Bool,
+  body: (((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeSanctuary))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))
+}
+
+definition{
+  name: rule26,
+  parameters: [request : Request],
+  result: Bool,
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeGrove))) && ((project request plant) =? (plantPulseFern))) && ((project request atmosphere) =? (atmosphereGolden))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))
+}
+
+definition{
+  name: rule27,
+  parameters: [request : Request],
+  result: Bool,
+  body: (((((((project request biome) =? (biomeMeadow)) && ((project request plant) =? (plantEchoLotus))) && ((project request atmosphere) =? (atmosphereDawn))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))
+}
+
+definition{
+  name: rule28,
+  parameters: [request : Request],
+  result: Bool,
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeSanctuary))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionTouch))) && ((project request atmosphere) =? (atmosphereStarlight))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))
+}
+
+definition{
+  name: rule29,
+  parameters: [request : Request],
+  result: Bool,
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeCrystal))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionObserve))) && ((project request atmosphere) =? (atmosphereStarlight))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))
+}
+
+definition{
+  name: rule30,
+  parameters: [request : Request],
+  result: Bool,
+  body: (((((((project request biome) =? (biomeGrove)) && ((project request plant) =? (plantPulseFern))) && ((project request action) =? (actionStillness))) && ((project request atmosphere) =? (atmosphereDawn))) && ((project request velocity) =? 0)) && ((project request proximity) <=? 40))
+}
+
+definition{
+  name: rule31,
+  parameters: [request : Request],
+  result: Bool,
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeWetland))) && ((project request plant) =? (plantPulseFern))) && ((project request action) =? (actionStroll))) && ((project request atmosphere) =? (atmosphereTwilight))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))
+}
+
+definition{
+  name: rule32,
+  parameters: [request : Request],
+  result: Bool,
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeGrove))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionObserve))) && ((project request atmosphere) =? (atmosphereGolden))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))
+}
+
+definition{
+  name: rule33,
+  parameters: [request : Request],
+  result: Bool,
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeMeadow))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionTouch))) && ((project request atmosphere) =? (atmosphereDawn))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))
+}
+
+definition{
+  name: rule34,
+  parameters: [request : Request],
+  result: Bool,
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeCrystal))) && ((project request plant) =? (plantPulseFern))) && ((project request action) =? (actionObserve))) && ((project request atmosphere) =? (atmosphereTwilight))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))
+}
+
+definition{
+  name: rule35,
+  parameters: [request : Request],
+  result: Bool,
   body: (((project request velocity) <=? 10) && ((project request proximity) <=? 45))
 }
 
@@ -594,7 +677,7 @@ definition{
   name: judge,
   parameters: [request : Request],
   result: Nat,
-  body: (if (rule1 request) then (answerSereneRest) else (if (rule2 request) then (answerSanctuaryChorus) else (if (rule3 request) then (answerSanctuaryChorus) else (if (rule4 request) then (answerSanctuaryChorus) else (if (rule5 request) then (answerHarmonicBloom) else (if (rule6 request) then (answerHarmonicBloom) else (if (rule7 request) then (answerNocturnalSymphony) else (if (rule8 request) then (answerNocturnalSymphony) else (if (rule9 request) then (answerNocturnalSymphony) else (if (rule10 request) then (answerDawnArpeggio) else (if (rule11 request) then (answerDawnArpeggio) else (if (rule12 request) then (answerDawnArpeggio) else (if (rule13 request) then (answerCrystallineChoir) else (if (rule14 request) then (answerCrystallineChoir) else (if (rule15 request) then (answerMelodicChime) else (if (rule16 request) then (answerMelodicChime) else (if (rule17 request) then (answerRhythmicPulse) else (if (rule18 request) then (answerRhythmicPulse) else (if (rule19 request) then (answerAmbientDrone) else (if (rule20 request) then (answerMelodicChime) else (if (rule21 request) then (answerRhythmicPulse) else (if (rule22 request) then (answerSereneRest) else (if (rule23 request) then (answerHarmonicBloom) else (if (rule24 request) then (answerAmbientDrone) else (answerWindWhisper)))))))))))))))))))))))))
+  body: (if (rule1 request) then (answerSereneRest) else (if (rule2 request) then (answerSanctuaryChorus) else (if (rule3 request) then (answerSanctuaryChorus) else (if (rule4 request) then (answerSanctuaryChorus) else (if (rule5 request) then (answerHarmonicBloom) else (if (rule6 request) then (answerHarmonicBloom) else (if (rule7 request) then (answerNocturnalSymphony) else (if (rule8 request) then (answerNocturnalSymphony) else (if (rule9 request) then (answerNocturnalSymphony) else (if (rule10 request) then (answerDawnArpeggio) else (if (rule11 request) then (answerDawnArpeggio) else (if (rule12 request) then (answerDawnArpeggio) else (if (rule13 request) then (answerCrystallineChoir) else (if (rule14 request) then (answerCrystallineChoir) else (if (rule15 request) then (answerMelodicChime) else (if (rule16 request) then (answerMelodicChime) else (if (rule17 request) then (answerRhythmicPulse) else (if (rule18 request) then (answerRhythmicPulse) else (if (rule19 request) then (answerAmbientDrone) else (if (rule20 request) then (answerMelodicChime) else (if (rule21 request) then (answerRhythmicPulse) else (if (rule22 request) then (answerSereneRest) else (if (rule23 request) then (answerHarmonicBloom) else (if (rule24 request) then (answerCrystallineChoir) else (if (rule25 request) then (answerSanctuaryChorus) else (if (rule26 request) then (answerHarmonicBloom) else (if (rule27 request) then (answerDawnArpeggio) else (if (rule28 request) then (answerSanctuaryChorus) else (if (rule29 request) then (answerCrystallineChoir) else (if (rule30 request) then (answerSereneRest) else (if (rule31 request) then (answerNocturnalSymphony) else (if (rule32 request) then (answerHarmonicBloom) else (if (rule33 request) then (answerDawnArpeggio) else (if (rule34 request) then (answerCrystallineChoir) else (if (rule35 request) then (answerAmbientDrone) else (answerWindWhisper))))))))))))))))))))))))))))))))))))
 }
 
 definition{

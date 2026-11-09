@@ -8,7 +8,11 @@ entrypoints = [
   "src/Foundation/Brand/V1/Model.lex.tex",
   "src/Foundation/Humane/V1/Model.lex.tex",
   "src/Foundation/Acoustics/V1/Model.lex.tex",
-  "src/Foundation/Infrastructure/V1/Model.lex.tex"
+  "src/Foundation/Infrastructure/V1/Model.lex.tex",
+  "src/Foundation/Botany/V1/Model.lex.tex",
+  "src/Foundation/Ecology/V1/Model.lex.tex",
+  "src/Foundation/Articulation/V1/Model.lex.tex",
+  "src/Foundation/Physics/V1/Model.lex.tex"
 ]
 build_root = ".lexlean"
 lockfile = "lexlean.lock"

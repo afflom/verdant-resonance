@@ -1,0 +1,218 @@
+\begin{lexlean}{Foundation.Physics.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: CollisionPermeabilityTaxonomySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: solidColliderClasses, type: Nat},
+    {name: permeableMediumClasses, type: Nat},
+    {name: monumentColumnColliders, type: String},
+    {name: bambooAndQuartzStalkColliders, type: String},
+    {name: perimeterBoulderColliders, type: String},
+    {name: woodyStemCoreColliders, type: String},
+    {name: permeableGrassAndReeds, type: String},
+    {name: permeableShallowWaterLagoon, type: String}
+  ]
+}
+
+structure{
+  name: HydrodynamicFluidSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: lagoonRadiusMeters, type: Nat},
+    {name: maxWaterDepthCm, type: Nat},
+    {name: wadingSpeedPct, type: Nat},
+    {name: floatingStonePadCount, type: Nat},
+    {name: archimedeanBuoyancyMillihz, type: Nat},
+    {name: waterSurfaceSubmergedBelowRim, type: Bool},
+    {name: floatingWaterEdgeCount, type: Nat},
+    {name: neuromorphicCymaticCouplingEnabled, type: Bool},
+    {name: terraceBasinLevellingCount, type: Nat}
+  ]
+}
+
+structure{
+  name: FoliageElasticityAndSlopeSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: grassWakeRadiusCm, type: Nat},
+    {name: maxDeflectionDeg, type: Nat},
+    {name: springReturnRate, type: Nat},
+    {name: surfaceMaterialCount, type: Nat},
+    {name: acousticOcclusionEnabled, type: Bool},
+    {name: canopyWindShearEnabled, type: Bool},
+    {name: slipstreamVortexWakeEnabled, type: Bool},
+    {name: chemotacticSporeBuoyancyEnabled, type: Bool}
+  ]
+}
+
+structure{
+  name: HolisticCrossDomainCouplingSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: coupledDomainCount, type: Nat},
+    {name: sporeSolidObstacleDeflectionEnabled, type: Bool},
+    {name: sporeTerrainMeniscusFloorEnabled, type: Bool},
+    {name: emergentSeedlingColliderRegistrationEnabled, type: Bool},
+    {name: waveRingSurfaceNormalAlignmentEnabled, type: Bool},
+    {name: heliocentricPhototropicShadowLockEnabled, type: Bool},
+    {name: causalWavefrontEchoTimingEnabled, type: Bool},
+    {name: universalAcousticSpatialBiochemConstraintEnabled, type: Bool},
+    {name: spatialGroundingAndSubstrateCoherenceEnabled, type: Bool},
+    {name: floatingTreeOrRockEdgeCount, type: Nat},
+    {name: hardSurfaceOrRockFloraGrowthCount, type: Nat}
+  ]
+}
+
+structure{
+  name: EnvironmentalPhysicsStandard,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: taxonomy, type: CollisionPermeabilityTaxonomySpec},
+    {name: hydrodynamics, type: HydrodynamicFluidSpec},
+    {name: foliageAndSlope, type: FoliageElasticityAndSlopeSpec},
+    {name: holisticCoupling, type: HolisticCrossDomainCouplingSpec}
+  ]
+}
+
+definition{
+  name: verdantWadingSpeedPct,
+  parameters: [],
+  result: Nat,
+  body: 76
+}
+
+definition{
+  name: minPermeableWadingSpeedPct,
+  parameters: [],
+  result: Nat,
+  body: 50
+}
+
+definition{
+  name: verdantFloatingWaterEdges,
+  parameters: [],
+  result: Nat,
+  body: 0
+}
+
+definition{
+  name: verdantShorelineRimMarginCm,
+  parameters: [],
+  result: Nat,
+  body: 16
+}
+
+definition{
+  name: minRequiredRimMarginCm,
+  parameters: [],
+  result: Nat,
+  body: 10
+}
+
+definition{
+  name: verdantCoupledDomainCount,
+  parameters: [],
+  result: Nat,
+  body: 8
+}
+
+definition{
+  name: minRequiredCoupledDomains,
+  parameters: [],
+  result: Nat,
+  body: 8
+}
+
+definition{
+  name: verdantFloatingTreeOrRockEdges,
+  parameters: [],
+  result: Nat,
+  body: 0
+}
+
+definition{
+  name: verdantHardSurfaceOrRockFloraCount,
+  parameters: [],
+  result: Nat,
+  body: 0
+}
+
+definition{
+  name: verdantPhysicsStandard,
+  parameters: [],
+  result: EnvironmentalPhysicsStandard,
+  body: (record EnvironmentalPhysicsStandard {profile := "prism/physics-standard/1", taxonomy := (record CollisionPermeabilityTaxonomySpec {solidColliderClasses := 6, permeableMediumClasses := 5, monumentColumnColliders := "Solid tangential sliding colliders on Sanctuary Obelisk core & 8 columns, Meadow Sundial 2 pillars, Bamboo Pergola 4 corner posts, and Crystal Archway 6 quartz spires", bambooAndQuartzStalkColliders := "64 slope-embedded bottom-anchored cylindrical tree/culm colliders (r = 0.28m) strictly outside hard structure platforms and rocks", perimeterBoulderColliders := "52 slope-embedded dodecahedral rock outcrop colliders (r = 2.5m) + 28 shoreline river-stone boulders + 52.5m amphitheater boundary", woodyStemCoreColliders := "Solid basal stem cores (r = 0.34m) for upright flora and emergent seedlings rooted exclusively in fertile soil/water media while outer petals/fronds remain permeable", permeableGrassAndReeds := "360 non-obstructing grass & reed blades rooted in fertile turf outside hard platforms and rocks with radial Hooke's law bending wake (r = 1.85m)", permeableShallowWaterLagoon := "Hydrostatically contained Mirror Lagoon fluid basin (r = 16.5m) with levelled shoreline embankment, neuromorphic Rule-30 cymatic standing waves, hydrodynamic drag, meniscus ripples & 5 dry stone lantern pads"}), hydrodynamics := (record HydrodynamicFluidSpec {lagoonRadiusMeters := 16, maxWaterDepthCm := 42, wadingSpeedPct := 76, floatingStonePadCount := 5, archimedeanBuoyancyMillihz := 1900, waterSurfaceSubmergedBelowRim := true, floatingWaterEdgeCount := 0, neuromorphicCymaticCouplingEnabled := true, terraceBasinLevellingCount := 5}), foliageAndSlope := (record FoliageElasticityAndSlopeSpec {grassWakeRadiusCm := 185, maxDeflectionDeg := 38, springReturnRate := 8, surfaceMaterialCount := 5, acousticOcclusionEnabled := true, canopyWindShearEnabled := true, slipstreamVortexWakeEnabled := true, chemotacticSporeBuoyancyEnabled := true}), holisticCoupling := (record HolisticCrossDomainCouplingSpec {coupledDomainCount := 8, sporeSolidObstacleDeflectionEnabled := true, sporeTerrainMeniscusFloorEnabled := true, emergentSeedlingColliderRegistrationEnabled := true, waveRingSurfaceNormalAlignmentEnabled := true, heliocentricPhototropicShadowLockEnabled := true, causalWavefrontEchoTimingEnabled := true, universalAcousticSpatialBiochemConstraintEnabled := true, spatialGroundingAndSubstrateCoherenceEnabled := true, floatingTreeOrRockEdgeCount := 0, hardSurfaceOrRockFloraGrowthCount := 0})})
+}
+
+definition{
+  name: breaksPermeableMediaNonObstruction,
+  parameters: [speedPct : Nat],
+  result: Bool,
+  body: ((speedPct =? (verdantWadingSpeedPct)) && (speedPct <? (minPermeableWadingSpeedPct)))
+}
+
+theorem{
+  name: permeableMediaNeverObstructHolds,
+  parameters: [speedPct : Nat],
+  statement: ((breaksPermeableMediaNonObstruction speedPct) = false),
+  proof: linear_arithmetic{definitions: [breaksPermeableMediaNonObstruction, minPermeableWadingSpeedPct, verdantWadingSpeedPct]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksHydrostaticContainment,
+  parameters: [floatingEdges : Nat, rimMarginCm : Nat],
+  result: Bool,
+  body: (((floatingEdges =? (verdantFloatingWaterEdges)) && (0 <? floatingEdges)) || ((rimMarginCm =? (verdantShorelineRimMarginCm)) && (rimMarginCm <? (minRequiredRimMarginCm))))
+}
+
+theorem{
+  name: hydrostaticContainmentGuaranteeHolds,
+  parameters: [floatingEdges : Nat, rimMarginCm : Nat],
+  statement: ((breaksHydrostaticContainment floatingEdges rimMarginCm) = false),
+  proof: linear_arithmetic{definitions: [breaksHydrostaticContainment, minRequiredRimMarginCm, verdantFloatingWaterEdges, verdantShorelineRimMarginCm]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksHolisticCouplingStandard,
+  parameters: [domains : Nat],
+  result: Bool,
+  body: ((domains =? (verdantCoupledDomainCount)) && (domains <? (minRequiredCoupledDomains)))
+}
+
+theorem{
+  name: holisticCouplingStandardHolds,
+  parameters: [domains : Nat],
+  statement: ((breaksHolisticCouplingStandard domains) = false),
+  proof: linear_arithmetic{definitions: [breaksHolisticCouplingStandard, minRequiredCoupledDomains, verdantCoupledDomainCount]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksSpatialGroundingCoherence,
+  parameters: [floatingCount : Nat, hardSurfaceFloraCount : Nat],
+  result: Bool,
+  body: (((floatingCount =? (verdantFloatingTreeOrRockEdges)) && (0 <? floatingCount)) || ((hardSurfaceFloraCount =? (verdantHardSurfaceOrRockFloraCount)) && (0 <? hardSurfaceFloraCount)))
+}
+
+theorem{
+  name: spatialGroundingCoherenceHolds,
+  parameters: [floatingCount : Nat, hardSurfaceFloraCount : Nat],
+  statement: ((breaksSpatialGroundingCoherence floatingCount hardSurfaceFloraCount) = false),
+  proof: linear_arithmetic{definitions: [breaksSpatialGroundingCoherence, verdantFloatingTreeOrRockEdges, verdantHardSurfaceOrRockFloraCount]},
+  axioms: [Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

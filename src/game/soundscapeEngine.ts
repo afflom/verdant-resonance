@@ -1,10 +1,12 @@
 /**
  * High-Precision Procedural Web Audio Botanical Soundscape Engine
  * Zero external audio dependencies (zero 404s).
- * Implements the formal `Foundation.Acoustics.V1.Model` standard:
+ * Implements the formal `Foundation.Acoustics.V1.Model` (`prism/acoustic-standard/2`) standard:
  * - 5-Limit & 7-Limit Pure Just Intonation (0.0¢ deviation)
- * - 4-Partial Harmonic Voice-Leading (Fundamental + Overtone + Sub-Octave + Detuned Shimmer)
+ * - 5-Partial Harmonic & Modal Voice-Leading (Fundamental + Overtone + Sub-Octave + Shimmer + Modal Bell Transient)
  * - 2.2s Stereo Sanctuary Convolution Reverb (`ConvolverNode`)
+ * - 375ms / 500ms Stereo Ping-Pong Harmonic Echo Delay (`DelayNode` L/R network)
+ * - Biome-Specific Micro-Ambience (Lagoon Water Droplets & Canopy Wind-Chimes)
  * - Binaural Stereo Panning (`StereoPannerNode`) relative to player gaze
  * - Master Dynamics Limiter (`DynamicsCompressorNode`) guaranteeing headroom safety
  */
@@ -12,11 +14,23 @@
 import {
   AtmosphereId,
   BIOME_CONFIGS,
+  BIOME_CONSTELLATIONS,
   BiomeId,
+  GrowthSubstrateId,
+  NeuromorphicStrategyId,
+  PLANT_SPECIES_CONFIGS,
+  PlantSpeciesId,
+  SPECIES_ARTICULATION_PROFILES,
   SoundscapeOutcome,
+  SoundtrackStepSpec,
+  SurfaceMaterialId,
+  classifySurfaceMaterial,
   computeBinauralPan,
   computeSynthesisEnvelope,
+  evaluateBiogeochemistry,
+  evaluateCircadianPlantPhysiology,
   evaluateDiurnalProfile,
+  evaluateSpatialWaveAcoustics,
 } from './prismModel';
 
 export class BotanicalSoundscapeEngine {
@@ -25,13 +39,9 @@ export class BotanicalSoundscapeEngine {
   private compressor: DynamicsCompressorNode | null = null;
   private convolver: ConvolverNode | null = null;
   private reverbReturnGain: GainNode | null = null;
+  private delaySendBus: GainNode | null = null;
   private stereoPanner: StereoPannerNode | null = null;
 
-  private droneOscA: OscillatorNode | null = null;
-  private droneOscB: OscillatorNode | null = null;
-  private droneSubOsc: OscillatorNode | null = null;
-  private droneFilter: BiquadFilterNode | null = null;
-  private droneGain: GainNode | null = null;
   private windGain: GainNode | null = null;
   private windFilter: BiquadFilterNode | null = null;
 
@@ -39,8 +49,10 @@ export class BotanicalSoundscapeEngine {
   private isPaused = false;
   private currentBiome: BiomeId = 'meadow';
   private currentPan = 0;
+  private lastNearestDistanceMeters = 2.0;
+  private lastAcousticOcclusion = 0;
   private lastFootstepDist = 0;
-  private lastMotifTime = 0;
+  private lastMicroAmbienceTime = 0;
 
   // 16-band energy array for zero-allocation HUD acoustic visualization
   public readonly spectrumBands = new Float32Array(16);
@@ -85,47 +97,51 @@ export class BotanicalSoundscapeEngine {
       this.convolver = this.ctx.createConvolver();
       this.convolver.buffer = this.createSanctuaryImpulseBuffer(this.ctx, 2.2);
       this.reverbReturnGain = this.ctx.createGain();
-      this.reverbReturnGain.gain.value = 0.42;
+      this.reverbReturnGain.gain.value = 0.44;
       this.convolver.connect(this.reverbReturnGain);
       this.reverbReturnGain.connect(this.masterGain);
 
-      // 1. Continuous 3-Voice Botanical Harmonic Pad Drone (Root + Fifth + Sub-Octave)
-      const biome = BIOME_CONFIGS[this.currentBiome];
-      this.droneGain = this.ctx.createGain();
-      this.droneGain.gain.value = 0.075;
+      // 375ms / 500ms Stereo Ping-Pong Harmonic Delay Network
+      this.delaySendBus = this.ctx.createGain();
+      this.delaySendBus.gain.value = 0.28;
 
-      this.droneFilter = this.ctx.createBiquadFilter();
-      this.droneFilter.type = 'lowpass';
-      this.droneFilter.frequency.value = 520;
-      this.droneFilter.Q.value = 0.85;
+      const delayL = this.ctx.createDelay(1.0);
+      const delayR = this.ctx.createDelay(1.0);
+      delayL.delayTime.value = 0.375;
+      delayR.delayTime.value = 0.5;
 
-      this.droneOscA = this.ctx.createOscillator();
-      this.droneOscA.type = 'sine';
-      this.droneOscA.frequency.value = biome.baseNoteHz * 0.5;
+      const delayFilter = this.ctx.createBiquadFilter();
+      delayFilter.type = 'lowpass';
+      delayFilter.frequency.value = 1650;
 
-      this.droneOscB = this.ctx.createOscillator();
-      this.droneOscB.type = 'triangle';
-      this.droneOscB.frequency.value = biome.baseNoteHz * 0.75; // Pure 3:2 Perfect 5th
+      const feedbackGain = this.ctx.createGain();
+      feedbackGain.gain.value = 0.26;
 
-      this.droneSubOsc = this.ctx.createOscillator();
-      this.droneSubOsc.type = 'sine';
-      this.droneSubOsc.frequency.value = biome.baseNoteHz * 0.25; // Deep Sanctuary Sub-Root
+      this.delaySendBus.connect(delayFilter);
+      delayFilter.connect(delayL);
+      delayL.connect(delayR);
+      delayR.connect(feedbackGain);
+      feedbackGain.connect(delayFilter);
 
-      const subGain = this.ctx.createGain();
-      subGain.gain.value = 0.45;
-      this.droneSubOsc.connect(subGain);
-      subGain.connect(this.droneFilter);
+      if (typeof this.ctx.createStereoPanner === 'function') {
+        const panL = this.ctx.createStereoPanner();
+        const panR = this.ctx.createStereoPanner();
+        panL.pan.value = -0.65;
+        panR.pan.value = 0.65;
+        delayL.connect(panL);
+        delayR.connect(panR);
+        panL.connect(this.masterGain);
+        panR.connect(this.masterGain);
+      } else {
+        delayL.connect(this.masterGain);
+        delayR.connect(this.masterGain);
+      }
 
-      this.droneOscA.connect(this.droneFilter);
-      this.droneOscB.connect(this.droneFilter);
-      this.droneFilter.connect(this.droneGain);
-      this.droneGain.connect(this.masterGain);
+      // Zero Continuous Drone Fatigue (`Foundation.Acoustics.V1.Model` `prism/acoustic-standard/3`):
+      // No persistent background oscillators are started here (`continuousDroneGainMilli = 0`).
+      // All harmonic pads, plucks, and choirs use self-decaying breathing envelopes over natural quietude.
 
-      this.droneOscA.start();
-      this.droneOscB.start();
-      this.droneSubOsc.start();
-
-      // 2. Movement-Responsive Aeolian Wind Layer (pink-weighted filtered noise buffer)
+      // Movement-Responsive Aeolian Wind Breeze Layer (whisper-quiet when still, gentle rustle when walking)
       const bufferSize = this.ctx.sampleRate * 2;
       const noiseBuffer = this.ctx.createBuffer(2, bufferSize, this.ctx.sampleRate);
       for (let ch = 0; ch < 2; ch++) {
@@ -138,7 +154,7 @@ export class BotanicalSoundscapeEngine {
           b0 = 0.99765 * b0 + white * 0.099046;
           b1 = 0.963 * b1 + white * 0.2965164;
           b2 = 0.57 * b2 + white * 1.0526913;
-          output[i] = (b0 + b1 + b2 + white * 0.1848) * 0.12;
+          output[i] = (b0 + b1 + b2 + white * 0.1848) * 0.08;
         }
       }
 
@@ -148,11 +164,11 @@ export class BotanicalSoundscapeEngine {
 
       this.windFilter = this.ctx.createBiquadFilter();
       this.windFilter.type = 'bandpass';
-      this.windFilter.frequency.value = 340;
-      this.windFilter.Q.value = 2.8;
+      this.windFilter.frequency.value = 310;
+      this.windFilter.Q.value = 3.2;
 
       this.windGain = this.ctx.createGain();
-      this.windGain.gain.value = 0.022;
+      this.windGain.gain.value = 0.002; // Whisper-quiet natural silence floor when still
 
       windSource.connect(this.windFilter);
       this.windFilter.connect(this.windGain);
@@ -228,6 +244,8 @@ export class BotanicalSoundscapeEngine {
     playerYaw?: number;
     nearestPlantX?: number;
     nearestPlantZ?: number;
+    surfaceMaterial?: SurfaceMaterialId;
+    acousticOcclusion?: number;
   }): void {
     const {
       biome,
@@ -243,9 +261,13 @@ export class BotanicalSoundscapeEngine {
       playerYaw = 0,
       nearestPlantX = 0,
       nearestPlantZ = -5.5,
+      surfaceMaterial = classifySurfaceMaterial(playerX, playerZ),
+      acousticOcclusion = 0,
     } = params;
 
     this.currentPan = computeBinauralPan(playerX, playerZ, playerYaw, nearestPlantX, nearestPlantZ);
+    this.lastNearestDistanceMeters = Math.hypot(nearestPlantX - playerX, nearestPlantZ - playerZ);
+    this.lastAcousticOcclusion = acousticOcclusion;
 
     // Update 16-band spectrum array for HUD visualizer (works even in headless Chromium)
     const velNorm = Math.min(1, velocityDm / 25);
@@ -276,21 +298,20 @@ export class BotanicalSoundscapeEngine {
 
     if (this.isPaused || this.isMuted) return;
 
-    // Trigger soft organic footstep chime every 1.65m of walking
+    // Trigger material-aware organic footstep / wading splash every 1.65m of walking
     if (totalDistanceMeters - this.lastFootstepDist >= 1.65 && velocityDm > 1) {
       this.lastFootstepDist = totalDistanceMeters;
-      this.playFootstep(biome, velocityDm);
+      this.playFootstep(biome, velocityDm, surfaceMaterial);
     }
 
-    // Trigger periodic ambient motif when near plants
-    if (elapsedSeconds - this.lastMotifTime > 2.6 && proximityDm <= 32) {
-      this.lastMotifTime = elapsedSeconds;
-      this.playOutcomeMotif(outcome, biome, 0.45, atmosphere, this.currentPan);
+    // Trigger sparse, delicate biome micro-ambience (single water droplet or gentle wind-chime every 8.5s)
+    if (elapsedSeconds - this.lastMicroAmbienceTime > 8.5) {
+      this.lastMicroAmbienceTime = elapsedSeconds;
+      this.playBiomeMicroAmbience(biome);
     }
 
     if (!this.ctx) return;
     const now = this.ctx.currentTime;
-    const biomeCfg = BIOME_CONFIGS[biome];
     const diurnalEval = evaluateDiurnalProfile(atmosphere, biome, harmony);
 
     if (this.stereoPanner) {
@@ -299,60 +320,150 @@ export class BotanicalSoundscapeEngine {
 
     if (biome !== this.currentBiome) {
       this.currentBiome = biome;
-      if (this.droneOscA && this.droneOscB && this.droneSubOsc) {
-        this.droneOscA.frequency.setTargetAtTime(biomeCfg.baseNoteHz * 0.5, now, 0.6);
-        this.droneOscB.frequency.setTargetAtTime(biomeCfg.baseNoteHz * 0.75, now, 0.6);
-        this.droneSubOsc.frequency.setTargetAtTime(biomeCfg.baseNoteHz * 0.25, now, 0.6);
-      }
-    }
-
-    if (this.droneFilter) {
-      this.droneFilter.frequency.setTargetAtTime(diurnalEval.padFilterCutoffHz, now, 0.35);
     }
 
     if (this.windFilter && this.windGain) {
-      const windFreq = 260 + velNorm * 580;
-      const windAmp = 0.016 + velNorm * 0.068;
-      this.windFilter.frequency.setTargetAtTime(windFreq, now, 0.12);
-      this.windGain.gain.setTargetAtTime(windAmp, now, 0.12);
-    }
-
-    if (this.droneGain) {
-      const droneAmp = 0.06 + proxNorm * 0.08;
-      this.droneGain.gain.setTargetAtTime(droneAmp, now, 0.2);
+      const occlusionAttenuation = 1 - Math.min(0.45, acousticOcclusion) * 0.35;
+      const windFreq = (250 + velNorm * 460) * (diurnalEval.padFilterCutoffHz / 520) * occlusionAttenuation;
+      // Near-silent (0.002) when standing still so there is zero background drone/hiss; gentle breeze (up to 0.028) when moving
+      const windAmp = velNorm > 0.05 ? 0.004 + velNorm * 0.024 : 0.0018;
+      this.windFilter.frequency.setTargetAtTime(windFreq, now, 0.15);
+      this.windGain.gain.setTargetAtTime(windAmp, now, 0.18);
     }
   }
 
   /**
-   * Pitch-varied (+/- 6%) soft moss/stone footstep + harmonic dewdrop overtone
+   * Subtle biome-specific acoustic micro-ambience:
+   * - Wetland / Crystal: resonant pentatonic lagoon water-droplet / quartz dewdrop plucks
+   * - Grove / Meadow / Sanctuary: suspended brass/bamboo wind-chime overtones
    */
-  public playFootstep(biome: BiomeId, velocityDm: number): void {
+  private playBiomeMicroAmbience(biome: BiomeId): void {
     if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
     try {
       const now = this.ctx.currentTime;
       const biomeCfg = BIOME_CONFIGS[biome];
-      const pitchJitter = 0.94 + Math.random() * 0.12;
+      const ratio = biomeCfg.scaleRatios[Math.floor(Math.random() * biomeCfg.scaleRatios.length)];
+      const isLiquidBiome = biome === 'wetland' || biome === 'crystal';
+      const baseFreq = biomeCfg.baseNoteHz * ratio * (isLiquidBiome ? 2.0 : 3.0);
+
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+
+      if (isLiquidBiome) {
+        // Liquid upward droplet meniscus inflection
+        osc.frequency.setValueAtTime(baseFreq * 0.78, now);
+        osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.18, now + 0.095);
+        gain.gain.setValueAtTime(0.022, now);
+        gain.gain.exponentialRampToValueAtTime(0.0004, now + 0.14);
+      } else {
+        // Delicate wind-chime shimmer
+        osc.frequency.setValueAtTime(baseFreq, now);
+        gain.gain.setValueAtTime(0.0005, now);
+        gain.gain.linearRampToValueAtTime(0.018, now + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0004, now + 0.42);
+      }
+
+      osc.connect(gain);
+      if (this.delaySendBus) {
+        gain.connect(this.delaySendBus);
+      }
+      if (this.convolver) {
+        gain.connect(this.convolver);
+      }
+      gain.connect(this.stereoPanner ?? this.masterGain);
+
+      osc.start(now);
+      osc.stop(now + (isLiquidBiome ? 0.16 : 0.45));
+    } catch {
+      // Ignore audio errors
+    }
+  }
+
+  /**
+   * Physical surface-material-aware footstep & wading synthesis (`Foundation.Physics.V1.Model`):
+   * - `shallow-water`: upward meniscus droplet inflection + warm liquid ripple
+   * - `travertine-stone`: crisp mineral stone tap with bright 3.0x transient
+   * - `quartz-crystalline`: high-Q crystalline harmonic ping (4.0x overtone)
+   * - `bamboo-humus`: hollow woody kalimba-like thud (2.2x triangle overtone)
+   * - `meadow-turf`: soft botanical grass/moss brush
+   */
+  public playFootstep(
+    biome: BiomeId,
+    velocityDm: number,
+    surfaceMaterial: SurfaceMaterialId = 'meadow-turf',
+  ): void {
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+    try {
+      const now = this.ctx.currentTime;
+      const biomeCfg = BIOME_CONFIGS[biome];
+      const pitchJitter = 0.95 + Math.random() * 0.1;
       const ratio = biomeCfg.scaleRatios[Math.floor(Math.random() * biomeCfg.scaleRatios.length)];
       const freq = biomeCfg.baseNoteHz * ratio * pitchJitter * 0.5;
 
       const osc = this.ctx.createOscillator();
       const overtone = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now);
-      osc.frequency.exponentialRampToValueAtTime(freq * 0.68, now + 0.11);
-
-      overtone.type = 'triangle';
-      overtone.frequency.setValueAtTime(freq * 1.5, now);
-      overtone.frequency.exponentialRampToValueAtTime(freq * 1.1, now + 0.09);
-
       const overtoneGain = this.ctx.createGain();
-      overtoneGain.gain.value = 0.22;
 
-      const amp = Math.min(0.08, 0.025 + (velocityDm / 30) * 0.045);
-      gain.gain.setValueAtTime(amp, now);
-      gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.12);
+      const amp = Math.min(0.085, 0.026 + (velocityDm / 30) * 0.045);
+
+      if (surfaceMaterial === 'shallow-water') {
+        // Liquid wading splash & upward meniscus bubble harmonic
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq * 0.82, now);
+        osc.frequency.exponentialRampToValueAtTime(freq * 1.32, now + 0.14);
+        overtone.type = 'sine';
+        overtone.frequency.setValueAtTime(freq * 1.65, now);
+        overtone.frequency.exponentialRampToValueAtTime(freq * 2.45, now + 0.13);
+        overtoneGain.gain.value = 0.34;
+        gain.gain.setValueAtTime(amp * 1.1, now);
+        gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.16);
+      } else if (surfaceMaterial === 'travertine-stone') {
+        // Crisp travertine flagstone tap
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq * 1.15, now);
+        osc.frequency.exponentialRampToValueAtTime(freq * 0.72, now + 0.085);
+        overtone.type = 'sine';
+        overtone.frequency.setValueAtTime(freq * 3.0, now);
+        overtone.frequency.exponentialRampToValueAtTime(freq * 2.1, now + 0.065);
+        overtoneGain.gain.value = 0.28;
+        gain.gain.setValueAtTime(amp, now);
+        gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.095);
+      } else if (surfaceMaterial === 'quartz-crystalline') {
+        // Crystalline geode mineral ping
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq * 1.5, now);
+        osc.frequency.exponentialRampToValueAtTime(freq * 1.25, now + 0.14);
+        overtone.type = 'sine';
+        overtone.frequency.setValueAtTime(freq * 4.0, now);
+        overtone.frequency.exponentialRampToValueAtTime(freq * 3.5, now + 0.11);
+        overtoneGain.gain.value = 0.25;
+        gain.gain.setValueAtTime(amp * 0.95, now);
+        gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.15);
+      } else if (surfaceMaterial === 'bamboo-humus') {
+        // Warm hollow bamboo/woody resonance
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq * 0.92, now);
+        osc.frequency.exponentialRampToValueAtTime(freq * 0.62, now + 0.11);
+        overtone.type = 'triangle';
+        overtone.frequency.setValueAtTime(freq * 2.2, now);
+        overtone.frequency.exponentialRampToValueAtTime(freq * 1.45, now + 0.09);
+        overtoneGain.gain.value = 0.3;
+        gain.gain.setValueAtTime(amp, now);
+        gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.12);
+      } else {
+        // Soft meadow turf & moss brush
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now);
+        osc.frequency.exponentialRampToValueAtTime(freq * 0.68, now + 0.11);
+        overtone.type = 'triangle';
+        overtone.frequency.setValueAtTime(freq * 1.5, now);
+        overtone.frequency.exponentialRampToValueAtTime(freq * 1.1, now + 0.09);
+        overtoneGain.gain.value = 0.2;
+        gain.gain.setValueAtTime(amp * 0.9, now);
+        gain.gain.exponentialRampToValueAtTime(0.0008, now + 0.12);
+      }
 
       osc.connect(gain);
       overtone.connect(overtoneGain);
@@ -361,23 +472,24 @@ export class BotanicalSoundscapeEngine {
       gain.connect(this.stereoPanner ?? this.masterGain);
       if (this.convolver) {
         const verbSend = this.ctx.createGain();
-        verbSend.gain.value = 0.22;
+        verbSend.gain.value = surfaceMaterial === 'shallow-water' || surfaceMaterial === 'quartz-crystalline' ? 0.32 : 0.22;
         gain.connect(verbSend);
         verbSend.connect(this.convolver);
       }
 
       osc.start(now);
       overtone.start(now);
-      osc.stop(now + 0.13);
-      overtone.stop(now + 0.11);
+      osc.stop(now + 0.17);
+      overtone.stop(now + 0.15);
     } catch {
       // Ignore audio errors
     }
   }
 
   /**
-   * Plays a 4-partial Just-Intonation botanical synth motif governed by `computeSynthesisEnvelope`
-   * routed through binaural stereo panning and the 2.2s stereo sanctuary reverb.
+   * Plays a 5-partial Just-Intonation botanical synth motif governed by `computeSynthesisEnvelope`
+   * and sculpted by `SPECIES_ARTICULATION_PROFILES` (`Foundation.Articulation.V1.Model`),
+   * routed through binaural stereo panning, the 375ms/500ms stereo echo delay, and the 2.2s stereo sanctuary reverb.
    */
   public playOutcomeMotif(
     outcome: SoundscapeOutcome,
@@ -385,6 +497,8 @@ export class BotanicalSoundscapeEngine {
     intensity = 1.0,
     atmosphere: AtmosphereId = 'dawn',
     stereoPan = this.currentPan,
+    species: PlantSpeciesId = BIOME_CONFIGS[biome].signatureSpecies,
+    substrate: GrowthSubstrateId = 'terrestrial-loam',
   ): void {
     for (let i = 0; i < 16; i++) {
       this.spectrumBands[i] = Math.min(1, this.spectrumBands[i] + 0.35 * intensity);
@@ -396,6 +510,25 @@ export class BotanicalSoundscapeEngine {
     try {
       const now = this.ctx.currentTime;
       const plan = computeSynthesisEnvelope(outcome, biome, atmosphere);
+      const speciesProfile = SPECIES_ARTICULATION_PROFILES[species];
+      const biochem = evaluateBiogeochemistry({
+        biome,
+        species,
+        substrate,
+        atmosphere,
+        attuned: true,
+      });
+      const circadian = evaluateCircadianPlantPhysiology({
+        species,
+        atmosphere,
+        substrate,
+        attuned: true,
+      });
+      const spatial = evaluateSpatialWaveAcoustics({
+        distanceMeters: this.lastNearestDistanceMeters,
+        acousticOcclusion: this.lastAcousticOcclusion,
+        atmosphere,
+      });
 
       if (this.stereoPanner) {
         this.stereoPanner.pan.setTargetAtTime(stereoPan, now, 0.06);
@@ -403,54 +536,90 @@ export class BotanicalSoundscapeEngine {
 
       plan.frequenciesHz.forEach((freq, step) => {
         if (!this.ctx || !this.masterGain) return;
-        const startTime = now + step * plan.arpeggioStepSec;
-        const duration = plan.noteDurationSec;
+        const startTime = now + spatial.waveArrivalDelaySec + step * plan.arpeggioStepSec;
+        const duration =
+          plan.noteDurationSec *
+          biochem.acousticSustainMultiplier *
+          (0.92 + circadian.hydraulicTurgorPressure * 0.08);
+        const ratios = speciesProfile.modalPartialRatios;
+        const weights = speciesProfile.modalPartialWeights;
 
-        // Voice envelope bus + lowpass tone sculpting filter
+        // Voice envelope bus + biogeochemical mineral/humus + Stokes-Kirchhoff air absorption & diffraction filter
         const voiceFilter = this.ctx.createBiquadFilter();
         voiceFilter.type = 'lowpass';
-        voiceFilter.frequency.setValueAtTime(plan.filterCutoffHz * 3.2, startTime);
+        voiceFilter.Q.setValueAtTime(1.1 + biochem.silicaMineralIndex * 2.2, startTime);
+        const rawStartCutoff = Math.max(plan.filterCutoffHz * 3.1, biochem.harmonicWarmthFilterHz);
+        voiceFilter.frequency.setValueAtTime(
+          Math.min(rawStartCutoff, spatial.effectiveLowpassHz),
+          startTime,
+        );
         voiceFilter.frequency.exponentialRampToValueAtTime(
-          Math.max(240, plan.filterCutoffHz * 1.25),
+          Math.max(240, Math.min(plan.filterCutoffHz * 1.25, spatial.effectiveLowpassHz * 0.65)),
           startTime + duration,
         );
 
         const voiceGain = this.ctx.createGain();
         const peakGain =
           (outcome === 'sanctuary-chorus' ? 0.11 : outcome === 'wind-whisper' ? 0.045 : 0.09) *
-          intensity;
+          intensity *
+          spatial.distanceGainMultiplier;
         voiceGain.gain.setValueAtTime(0.0008, startTime);
-        voiceGain.gain.linearRampToValueAtTime(peakGain, startTime + 0.032);
+        voiceGain.gain.linearRampToValueAtTime(peakGain, startTime + speciesProfile.attackSec);
         voiceGain.gain.exponentialRampToValueAtTime(0.0006, startTime + duration);
 
-        // Partial 1: Fundamental Just-Intonation Carrier
+        // Partial 1: Species Modal Fundamental Carrier (with optional meniscus pitch glide)
         const oscFundamental = this.ctx.createOscillator();
         oscFundamental.type = plan.waveform;
-        oscFundamental.frequency.setValueAtTime(freq, startTime);
+        const f1 = freq * ratios[0];
+        oscFundamental.frequency.setValueAtTime(f1, startTime);
+        if (Math.abs(speciesProfile.pitchGlideRatio - 1.0) > 0.002) {
+          oscFundamental.frequency.exponentialRampToValueAtTime(
+            f1 * speciesProfile.pitchGlideRatio,
+            startTime + Math.min(0.26, duration * 0.45),
+          );
+        }
 
-        // Partial 2: Harmonic Overtone Partial (5:4 / 3:2 / 2:1 / 3:1)
+        // Partial 2: Species Modal Second Partial (modulated by circadian stomatal conductance)
         const oscOvertone = this.ctx.createOscillator();
         const overtoneGain = this.ctx.createGain();
         oscOvertone.type = plan.overtoneWaveform;
-        oscOvertone.frequency.setValueAtTime(plan.overtoneFrequenciesHz[step], startTime);
-        overtoneGain.gain.value = plan.overtoneGainRatio;
+        oscOvertone.frequency.setValueAtTime(freq * ratios[1], startTime);
+        overtoneGain.gain.value =
+          plan.overtoneGainRatio * weights[1] * (1.2 + circadian.stomatalConductance * 0.35);
 
-        // Partial 3: Warm Sub-Octave Foundation Partial (1:2)
+        // Partial 3: Species Modal Third / Sub-Foundation Partial (enriched by mycorrhizal humus)
         const oscSub = this.ctx.createOscillator();
         const subGain = this.ctx.createGain();
         oscSub.type = 'sine';
-        oscSub.frequency.setValueAtTime(plan.subFrequenciesHz[step], startTime);
-        subGain.gain.value = plan.subOctaveGainRatio;
+        oscSub.frequency.setValueAtTime(plan.subFrequenciesHz[step] * ratios[0], startTime);
+        subGain.gain.value =
+          plan.subOctaveGainRatio * weights[0] * (0.85 + biochem.mycorrhizalNutrientFlux * 0.3);
 
-        // Partial 4: Subtle Natural Chorus Shimmer Partial (+3.8 cents organic warmth)
+        // Partial 4: Species Modal Fourth Partial with Natural Chorus Shimmer
         const oscShimmer = this.ctx.createOscillator();
         const shimmerGain = this.ctx.createGain();
         oscShimmer.type = 'sine';
-        oscShimmer.frequency.setValueAtTime(freq * 1.0022, startTime);
-        shimmerGain.gain.value = 0.18;
+        oscShimmer.frequency.setValueAtTime(freq * ratios[2] * 1.0022, startTime);
+        shimmerGain.gain.value = weights[2] * (0.4 + biochem.luciferinOxidationRate * 0.12);
+
+        // Partial 5: Species Modal Fifth Partial (Piezoelectric Silica / Campanula Bell Transient)
+        const oscBellTransient = this.ctx.createOscillator();
+        const bellTransientGain = this.ctx.createGain();
+        oscBellTransient.type = 'sine';
+        oscBellTransient.frequency.setValueAtTime(freq * ratios[3], startTime);
+        bellTransientGain.gain.setValueAtTime(
+          plan.bellTransientGainRatio *
+            (weights[3] + weights[4]) *
+            (0.85 + biochem.silicaMineralIndex * 0.45),
+          startTime,
+        );
+        bellTransientGain.gain.exponentialRampToValueAtTime(
+          0.0005,
+          startTime + 0.11 * biochem.acousticSustainMultiplier,
+        );
 
         if (outcome === 'sanctuary-chorus' || outcome === 'nocturnal-symphony') {
-          oscFundamental.frequency.exponentialRampToValueAtTime(freq * 1.003, startTime + duration);
+          oscFundamental.frequency.exponentialRampToValueAtTime(f1 * 1.003, startTime + duration);
         }
 
         oscFundamental.connect(voiceFilter);
@@ -460,27 +629,862 @@ export class BotanicalSoundscapeEngine {
         subGain.connect(voiceFilter);
         oscShimmer.connect(shimmerGain);
         shimmerGain.connect(voiceFilter);
+        oscBellTransient.connect(bellTransientGain);
+        bellTransientGain.connect(voiceFilter);
 
         voiceFilter.connect(voiceGain);
         voiceGain.connect(this.stereoPanner ?? this.masterGain);
 
         if (this.convolver) {
           const verbSend = this.ctx.createGain();
-          verbSend.gain.value = plan.reverbSendGain;
+          verbSend.gain.value = Math.min(0.75, plan.reverbSendGain + spatial.reverbSendBoost);
           voiceGain.connect(verbSend);
           verbSend.connect(this.convolver);
+        }
+
+        if (this.delaySendBus) {
+          const echoSend = this.ctx.createGain();
+          echoSend.gain.value = plan.stereoEchoFeedback;
+          voiceGain.connect(echoSend);
+          echoSend.connect(this.delaySendBus);
         }
 
         oscFundamental.start(startTime);
         oscOvertone.start(startTime);
         oscSub.start(startTime);
         oscShimmer.start(startTime);
+        oscBellTransient.start(startTime);
 
         const stopAt = startTime + duration + 0.03;
         oscFundamental.stop(stopAt);
         oscOvertone.stop(stopAt);
         oscSub.stop(stopAt);
         oscShimmer.stop(stopAt);
+        oscBellTransient.stop(startTime + 0.12);
+      });
+    } catch {
+      // Ignore audio errors
+    }
+  }
+
+  /**
+   * Plays a delicate, binaurally panned Sympathetic Cross-Pollination Echo (`Foundation.Articulation.V1.Model`)
+   * when a companion plant within 14m awakens in response to the primary specimen.
+   */
+  public playSympatheticPollinationEcho(
+    species: PlantSpeciesId,
+    biome: BiomeId,
+    delaySec: number,
+    stereoPan: number,
+    atmosphere: AtmosphereId = 'dawn',
+    distanceMeters = this.lastNearestDistanceMeters,
+    acousticOcclusion = this.lastAcousticOcclusion,
+    substrate: GrowthSubstrateId = 'terrestrial-loam',
+  ): void {
+    this.init();
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+    try {
+      const biomeCfg = BIOME_CONFIGS[biome];
+      const artCfg = SPECIES_ARTICULATION_PROFILES[species];
+      const biochem = evaluateBiogeochemistry({
+        biome,
+        species,
+        substrate,
+        atmosphere,
+        attuned: true,
+        volatileTerpeneImpulse: 0.75,
+      });
+      const circadian = evaluateCircadianPlantPhysiology({
+        species,
+        atmosphere,
+        substrate,
+        attuned: true,
+      });
+      const spatial = evaluateSpatialWaveAcoustics({
+        distanceMeters,
+        acousticOcclusion,
+        atmosphere,
+      });
+
+      const now = this.ctx.currentTime + delaySec + spatial.waveArrivalDelaySec;
+      const baseFreq = biomeCfg.baseNoteHz * (biomeCfg.scaleRatios[1] ?? 1.25);
+
+      const osc = this.ctx.createOscillator();
+      const overtone = this.ctx.createOscillator();
+      const filter = this.ctx.createBiquadFilter();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(baseFreq * artCfg.modalPartialRatios[0], now);
+
+      overtone.type = 'triangle';
+      overtone.frequency.setValueAtTime(baseFreq * artCfg.modalPartialRatios[1], now);
+      const ovGain = this.ctx.createGain();
+      ovGain.gain.value =
+        artCfg.modalPartialWeights[1] * (0.45 + circadian.stomatalConductance * 0.18);
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(
+        Math.min(spatial.effectiveLowpassHz, biochem.harmonicWarmthFilterHz * 1.15),
+        now,
+      );
+      filter.Q.value = 1.0 + biochem.silicaMineralIndex * 1.8;
+
+      const dur =
+        (atmosphere === 'starlight' || atmosphere === 'twilight' ? 0.95 : 0.72) *
+        biochem.acousticSustainMultiplier *
+        (0.92 + circadian.hydraulicTurgorPressure * 0.08);
+      const peakGain = 0.052 * spatial.distanceGainMultiplier;
+      gain.gain.setValueAtTime(0.0005, now);
+      gain.gain.linearRampToValueAtTime(peakGain, now + artCfg.attackSec);
+      gain.gain.exponentialRampToValueAtTime(0.0005, now + dur);
+
+      osc.connect(filter);
+      overtone.connect(ovGain);
+      ovGain.connect(filter);
+      filter.connect(gain);
+
+      if (typeof this.ctx.createStereoPanner === 'function') {
+        const panner = this.ctx.createStereoPanner();
+        panner.pan.setValueAtTime(Math.max(-0.9, Math.min(0.9, stereoPan)), now);
+        gain.connect(panner);
+        panner.connect(this.masterGain);
+      } else {
+        gain.connect(this.masterGain);
+      }
+
+      if (this.convolver) {
+        const verbSend = this.ctx.createGain();
+        verbSend.gain.value = Math.min(0.72, 0.38 + spatial.reverbSendBoost);
+        gain.connect(verbSend);
+        verbSend.connect(this.convolver);
+      }
+      if (this.delaySendBus) {
+        gain.connect(this.delaySendBus);
+      }
+
+      osc.start(now);
+      overtone.start(now);
+      osc.stop(now + dur + 0.02);
+      overtone.stop(now + dur + 0.02);
+    } catch {
+      // Ignore audio errors
+    }
+  }
+
+  /**
+   * Auditions a specific botanical species' 5-partial modal voice (`Foundation.Articulation.V1.Model`).
+   */
+  public playSpeciesAudition(
+    species: PlantSpeciesId,
+    biome: BiomeId,
+    atmosphere: AtmosphereId = 'dawn',
+  ): void {
+    const outcomeMap: Record<PlantSpeciesId, SoundscapeOutcome> = {
+      'chime-lily': 'melodic-chime',
+      'pulse-fern': 'rhythmic-pulse',
+      'echo-lotus': 'nocturnal-symphony',
+      'drone-moss': 'serene-rest',
+      'star-orchid': 'crystalline-choir',
+    };
+    this.playOutcomeMotif(outcomeMap[species], biome, 1.0, atmosphere, 0, species);
+  }
+
+  /**
+   * Synthesizes the full 6-Voice Just-Intonation Biome Constellation Chord (`BIOME_CONSTELLATIONS[biome].chordRatios`)
+   * with wide binaural stereo voice-spreading (-0.55 to +0.55) and 2.2s sanctuary convolution reverb.
+   */
+  public playBiomeConstellationChord(
+    biome: BiomeId,
+    atmosphere: AtmosphereId = 'dawn',
+  ): void {
+    for (let i = 0; i < 16; i++) {
+      this.spectrumBands[i] = Math.min(1, this.spectrumBands[i] + 0.45);
+    }
+
+    this.init();
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      const biomeCfg = BIOME_CONFIGS[biome];
+      const constellation = BIOME_CONSTELLATIONS[biome];
+      const spProfile = SPECIES_ARTICULATION_PROFILES[biomeCfg.signatureSpecies];
+
+      constellation.chordRatios.forEach((ratio, voiceIdx) => {
+        if (!this.ctx || !this.masterGain) return;
+        const startTime = now + voiceIdx * 0.085;
+        const duration = atmosphere === 'starlight' ? 1.85 : 1.45;
+        const freq = biomeCfg.baseNoteHz * ratio;
+        const panPos = -0.55 + (voiceIdx / Math.max(1, constellation.chordRatios.length - 1)) * 1.1;
+
+        const osc = this.ctx.createOscillator();
+        const overtone = this.ctx.createOscillator();
+        const voiceGain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        overtone.type = 'triangle';
+        overtone.frequency.setValueAtTime(freq * spProfile.modalPartialRatios[1], startTime);
+        const ovGain = this.ctx.createGain();
+        ovGain.gain.value = 0.28;
+
+        voiceGain.gain.setValueAtTime(0.0006, startTime);
+        voiceGain.gain.linearRampToValueAtTime(0.068, startTime + 0.035);
+        voiceGain.gain.exponentialRampToValueAtTime(0.0005, startTime + duration);
+
+        osc.connect(voiceGain);
+        overtone.connect(ovGain);
+        ovGain.connect(voiceGain);
+
+        if (typeof this.ctx.createStereoPanner === 'function') {
+          const panner = this.ctx.createStereoPanner();
+          panner.pan.setValueAtTime(panPos, startTime);
+          voiceGain.connect(panner);
+          panner.connect(this.masterGain);
+        } else {
+          voiceGain.connect(this.masterGain);
+        }
+
+        if (this.convolver) {
+          voiceGain.connect(this.convolver);
+        }
+        if (this.delaySendBus) {
+          voiceGain.connect(this.delaySendBus);
+        }
+
+        osc.start(startTime);
+        overtone.start(startTime);
+        osc.stop(startTime + duration + 0.03);
+        overtone.stop(startTime + duration + 0.03);
+      });
+    } catch {
+      // Ignore audio errors
+    }
+  }
+
+  /**
+   * [T] Touch Petal Gesture (`Foundation.Articulation.V1.Model` `prism/articulation-standard/2`):
+   * Synthesizes a crisp, immediate 3ms tactile pluck / campanula bell strike on a single specimen's
+   * upper harmonics (2.0x octave + 3.0x pure twelfth + species modal strike partial) with a 25ms
+   * elastic pitch-snap inflection and an intimate 420ms decay. Unmistakably distinct from [Space] Attune.
+   */
+  public playTactilePetalTouch(
+    species: PlantSpeciesId,
+    biome: BiomeId,
+    pitchMultiplier = 1.0,
+    atmosphere: AtmosphereId = 'dawn',
+    stereoPan = this.currentPan,
+    substrate: GrowthSubstrateId = 'terrestrial-loam',
+  ): void {
+    // Flash upper-register spectrum bands (8..15) for tactile pluck visualization
+    for (let i = 8; i < 16; i++) {
+      this.spectrumBands[i] = Math.min(1, this.spectrumBands[i] + 0.65);
+    }
+
+    this.init();
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+
+    try {
+      const biomeCfg = BIOME_CONFIGS[biome];
+      const spProfile = SPECIES_ARTICULATION_PROFILES[species];
+      const biochem = evaluateBiogeochemistry({
+        biome,
+        species,
+        substrate,
+        atmosphere,
+        attuned: true,
+        volatileTerpeneImpulse: 1.0,
+      });
+      const circadian = evaluateCircadianPlantPhysiology({
+        species,
+        atmosphere,
+        substrate,
+        attuned: true,
+      });
+      const spatial = evaluateSpatialWaveAcoustics({
+        distanceMeters: this.lastNearestDistanceMeters,
+        acousticOcclusion: this.lastAcousticOcclusion,
+        atmosphere,
+      });
+      const now = this.ctx.currentTime + spatial.waveArrivalDelaySec;
+      // Tactile pluck speaks in the bright upper register (2.0x base * plant pitchMultiplier)
+      const basePluckHz = biomeCfg.baseNoteHz * pitchMultiplier * 2.0;
+
+      // Primary plucked petal / tine voice (3ms crisp attack, substrate & circadian turgor decay)
+      const oscPluck = this.ctx.createOscillator();
+      const oscStrikeModal = this.ctx.createOscillator();
+      const pluckFilter = this.ctx.createBiquadFilter();
+      const pluckGain = this.ctx.createGain();
+      const modalGain = this.ctx.createGain();
+
+      oscPluck.type = 'triangle';
+      // Elastic physical pluck snap: starts +3.8% sharp and snaps to pure Just Intonation in 25ms
+      oscPluck.frequency.setValueAtTime(basePluckHz * 1.038, now);
+      oscPluck.frequency.exponentialRampToValueAtTime(basePluckHz, now + 0.025);
+
+      oscStrikeModal.type = 'sine';
+      oscStrikeModal.frequency.setValueAtTime(
+        basePluckHz * spProfile.modalPartialRatios[2],
+        now,
+      );
+      modalGain.gain.setValueAtTime(
+        0.38 + biochem.silicaMineralIndex * 0.18 + circadian.stomatalConductance * 0.08,
+        now,
+      );
+      modalGain.gain.exponentialRampToValueAtTime(
+        0.001,
+        now + 0.095 * biochem.acousticSustainMultiplier,
+      );
+
+      pluckFilter.type = 'bandpass';
+      pluckFilter.frequency.setValueAtTime(
+        Math.min(spatial.effectiveLowpassHz, basePluckHz * 1.8),
+        now,
+      );
+      pluckFilter.Q.value = 1.4 + biochem.silicaMineralIndex * 1.2;
+
+      const decaySec =
+        (atmosphere === 'starlight' ? 0.48 : 0.42) *
+        biochem.acousticSustainMultiplier *
+        (0.94 + circadian.hydraulicTurgorPressure * 0.06);
+      const peakGain = 0.145 * spatial.distanceGainMultiplier;
+      pluckGain.gain.setValueAtTime(0.001, now);
+      pluckGain.gain.linearRampToValueAtTime(peakGain, now + 0.003); // 3ms immediate tactile transient
+      pluckGain.gain.exponentialRampToValueAtTime(0.0005, now + decaySec);
+
+      oscPluck.connect(pluckFilter);
+      oscStrikeModal.connect(modalGain);
+      modalGain.connect(pluckFilter);
+      pluckFilter.connect(pluckGain);
+
+      if (typeof this.ctx.createStereoPanner === 'function') {
+        const panner = this.ctx.createStereoPanner();
+        panner.pan.setValueAtTime(Math.max(-0.9, Math.min(0.9, stereoPan)), now);
+        pluckGain.connect(panner);
+        panner.connect(this.masterGain);
+      } else {
+        pluckGain.connect(this.masterGain);
+      }
+
+      if (this.delaySendBus) {
+        const echoSend = this.ctx.createGain();
+        echoSend.gain.value = 0.22;
+        pluckGain.connect(echoSend);
+        echoSend.connect(this.delaySendBus);
+      }
+
+      // Secondary delicate grace-note harmonic ping (+55ms, pure 3:2 fifth above the pluck)
+      const graceStart = now + 0.055;
+      const oscGrace = this.ctx.createOscillator();
+      const graceGain = this.ctx.createGain();
+      oscGrace.type = 'sine';
+      oscGrace.frequency.setValueAtTime(basePluckHz * 1.5, graceStart);
+      graceGain.gain.setValueAtTime(0.0008, graceStart);
+      graceGain.gain.linearRampToValueAtTime(
+        0.075 * spatial.distanceGainMultiplier,
+        graceStart + 0.003,
+      );
+      graceGain.gain.exponentialRampToValueAtTime(0.0004, graceStart + 0.28);
+      oscGrace.connect(graceGain);
+      graceGain.connect(this.stereoPanner ?? this.masterGain);
+      if (this.convolver) {
+        graceGain.connect(this.convolver);
+      }
+
+      oscPluck.start(now);
+      oscStrikeModal.start(now);
+      oscPluck.stop(now + decaySec + 0.02);
+      oscStrikeModal.stop(now + 0.14);
+
+      oscGrace.start(graceStart);
+      oscGrace.stop(graceStart + 0.3);
+    } catch {
+      // Ignore audio errors
+    }
+  }
+
+  /**
+   * [Space] Attune Flora Gesture (`Foundation.Articulation.V1.Model` `prism/articulation-standard/2`):
+   * Synthesizes a deep, lush 220ms slow-swelling 6-voice multi-octave harmonic choir (0.5x sub-octave,
+   * 1.0x root, 1.25x major third, 1.5x fifth, 1.875x celestial seventh, 2.0x octave) over 2.4s.
+   * Contrasts sharply with the crisp 3ms solo pluck of [T] Touch Petal.
+   */
+  public playAttuneResonanceChoir(
+    outcome: SoundscapeOutcome,
+    biome: BiomeId,
+    species: PlantSpeciesId,
+    atmosphere: AtmosphereId = 'dawn',
+    stereoPan = this.currentPan,
+    substrate: GrowthSubstrateId = 'terrestrial-loam',
+  ): void {
+    for (let i = 0; i < 16; i++) {
+      this.spectrumBands[i] = Math.min(1, this.spectrumBands[i] + 0.55);
+    }
+
+    this.init();
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      const biomeCfg = BIOME_CONFIGS[biome];
+      const spProfile = SPECIES_ARTICULATION_PROFILES[species];
+      const plan = computeSynthesisEnvelope(outcome, biome, atmosphere);
+      const biochem = evaluateBiogeochemistry({
+        biome,
+        species,
+        substrate,
+        atmosphere,
+        attuned: true,
+        volatileTerpeneImpulse: 1.0,
+      });
+      const circadian = evaluateCircadianPlantPhysiology({
+        species,
+        atmosphere,
+        substrate,
+        attuned: true,
+      });
+      const spatial = evaluateSpatialWaveAcoustics({
+        distanceMeters: this.lastNearestDistanceMeters,
+        acousticOcclusion: this.lastAcousticOcclusion,
+        atmosphere,
+      });
+      const choirRatios = [0.5, 1.0, 1.25, 1.5, 1.875, 2.0];
+
+      choirRatios.forEach((ratio, idx) => {
+        if (!this.ctx || !this.masterGain) return;
+        const startTime = now + spatial.waveArrivalDelaySec + idx * 0.045;
+        const attackSec = 0.22; // 220ms slow bowed/harmonica swell
+        const durationSec =
+          2.4 * biochem.acousticSustainMultiplier * (0.92 + circadian.hydraulicTurgorPressure * 0.08);
+        const freq = biomeCfg.baseNoteHz * ratio;
+
+        const osc = this.ctx.createOscillator();
+        const overtone = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const voiceGain = this.ctx.createGain();
+        const ovGain = this.ctx.createGain();
+
+        osc.type = idx === 0 ? 'sine' : plan.waveform;
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        overtone.type = 'sine';
+        overtone.frequency.setValueAtTime(
+          freq * (spProfile.modalPartialRatios[1] ?? 1.5),
+          startTime,
+        );
+        ovGain.gain.value =
+          0.22 + biochem.silicaMineralIndex * 0.12 + circadian.stomatalConductance * 0.06;
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(
+          Math.min(
+            spatial.effectiveLowpassHz,
+            Math.max(plan.filterCutoffHz * 1.15, biochem.harmonicWarmthFilterHz * 0.85),
+          ),
+          startTime,
+        );
+
+        const peakAmp = (idx === 0 ? 0.065 : 0.052) * spatial.distanceGainMultiplier;
+        voiceGain.gain.setValueAtTime(0.0005, startTime);
+        voiceGain.gain.linearRampToValueAtTime(peakAmp, startTime + attackSec);
+        voiceGain.gain.exponentialRampToValueAtTime(0.0005, startTime + durationSec);
+
+        osc.connect(filter);
+        overtone.connect(ovGain);
+        ovGain.connect(filter);
+        filter.connect(voiceGain);
+
+        if (typeof this.ctx.createStereoPanner === 'function') {
+          const panner = this.ctx.createStereoPanner();
+          const voiceSpread = (idx - 2.5) * 0.16;
+          panner.pan.setValueAtTime(
+            Math.max(-0.9, Math.min(0.9, stereoPan + voiceSpread)),
+            startTime,
+          );
+          voiceGain.connect(panner);
+          panner.connect(this.masterGain);
+        } else {
+          voiceGain.connect(this.masterGain);
+        }
+
+        if (this.convolver) {
+          const verbSend = this.ctx.createGain();
+          verbSend.gain.value = Math.min(0.76, 0.52 + spatial.reverbSendBoost);
+          voiceGain.connect(verbSend);
+          verbSend.connect(this.convolver);
+        }
+        if (this.delaySendBus) {
+          const echoSend = this.ctx.createGain();
+          echoSend.gain.value = 0.34;
+          voiceGain.connect(echoSend);
+          echoSend.connect(this.delaySendBus);
+        }
+
+        osc.start(startTime);
+        overtone.start(startTime);
+        osc.stop(startTime + durationSec + 0.04);
+        overtone.stop(startTime + durationSec + 0.04);
+      });
+    } catch {
+      // Ignore audio errors
+    }
+  }
+
+  /**
+   * [C] Meditative Stillness Gesture (`Foundation.Articulation.V1.Model` `prism/articulation-standard/2`):
+   * Synthesizes a self-decaying 650ms inhale / 3.2s exhale warm pastoral ninth breathing pad
+   * that swells gently out of natural quietude and fades completely back to silence.
+   */
+  public playStillnessMeditationSwell(
+    biome: BiomeId,
+    atmosphere: AtmosphereId = 'dawn',
+  ): void {
+    for (let i = 0; i < 8; i++) {
+      this.spectrumBands[i] = Math.min(1, this.spectrumBands[i] + 0.45);
+    }
+
+    this.init();
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+
+    try {
+      const now = this.ctx.currentTime;
+      const biomeCfg = BIOME_CONFIGS[biome];
+      const diurnalEval = evaluateDiurnalProfile(atmosphere, biome, 75);
+      const biochem = evaluateBiogeochemistry({
+        biome,
+        species: biomeCfg.signatureSpecies,
+        substrate: 'terrestrial-loam',
+        atmosphere,
+        attuned: true,
+      });
+      const spatial = evaluateSpatialWaveAcoustics({
+        distanceMeters: this.lastNearestDistanceMeters,
+        acousticOcclusion: this.lastAcousticOcclusion,
+        atmosphere,
+      });
+      const padRatios = [0.5, 1.0, 1.5, 2.25]; // Sub-Root, Root, Fifth, Pastoral Ninth
+      const dur = (atmosphere === 'starlight' ? 3.5 : 3.2) * biochem.acousticSustainMultiplier;
+
+      padRatios.forEach((ratio, idx) => {
+        if (!this.ctx || !this.masterGain) return;
+        const osc = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(biomeCfg.baseNoteHz * ratio, now);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(
+          Math.min(spatial.effectiveLowpassHz, Math.max(340, diurnalEval.padFilterCutoffHz * 0.72)),
+          now,
+        );
+
+        const peak = (idx === 0 ? 0.055 : 0.042) * (0.7 + spatial.distanceGainMultiplier * 0.3);
+        gain.gain.setValueAtTime(0.0004, now);
+        gain.gain.linearRampToValueAtTime(peak, now + 0.65); // 650ms calm breath inhale
+        gain.gain.exponentialRampToValueAtTime(0.0004, now + dur); // exhale to silence
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+        if (this.convolver) {
+          gain.connect(this.convolver);
+        }
+
+        osc.start(now);
+        osc.stop(now + dur + 0.05);
+      });
+    } catch {
+      // Ignore audio errors
+    }
+  }
+
+  /**
+   * Live Neuromorphic Counterpoint & Mycelial Germination Synthesis (`Foundation.Neuromorphic.V1.Model` `prism/neuromorphic-standard/1`):
+   * Synthesizes a non-repeating 3-voice polyphonic answer driven by:
+   * - `counterpointRatios`: derived from the 64-bit Rule-30 cellular register + `short_cycle` guard (`period 1..4`)
+   * - `kinshipSpecies`: recalled from `/7` Durable Turn Memory via exact `PrimeAddress` `GCD` intersection sieve
+   * - `synapticWeight` (`w in [1, 16]`): modulates modal overtone depth and bandpass/lowpass resonance Q
+   * - `isSeedlingGermination`: adds an ascending golden-angle `Z[φ]` crystalline arpeggio when a new specimen germinates
+   */
+  public playNeuromorphicCounterpoint(params: {
+    biome: BiomeId;
+    kinshipSpecies: PlantSpeciesId;
+    counterpointRatios: [number, number, number];
+    synapticWeight: number;
+    strategy: NeuromorphicStrategyId;
+    atmosphere?: AtmosphereId;
+    stereoPan?: number;
+    delayOffsetSec?: number;
+    isSeedlingGermination?: boolean;
+    substrate?: GrowthSubstrateId;
+  }): void {
+    const {
+      biome,
+      kinshipSpecies,
+      counterpointRatios,
+      synapticWeight,
+      strategy,
+      atmosphere = 'dawn',
+      stereoPan = this.currentPan,
+      delayOffsetSec = 0.28,
+      isSeedlingGermination = false,
+      substrate = 'terrestrial-loam',
+    } = params;
+
+    for (let i = 4; i < 14; i++) {
+      this.spectrumBands[i] = Math.min(1, this.spectrumBands[i] + 0.35);
+    }
+
+    this.init();
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+
+    try {
+      const biomeCfg = BIOME_CONFIGS[biome];
+      const spProfile = SPECIES_ARTICULATION_PROFILES[kinshipSpecies];
+      const weightNorm = Math.max(0, Math.min(1, (synapticWeight - 1) / 15));
+      const biochem = evaluateBiogeochemistry({
+        biome,
+        species: kinshipSpecies,
+        substrate,
+        atmosphere,
+        attuned: true,
+        neuromorphicWeight: synapticWeight,
+      });
+      const circadian = evaluateCircadianPlantPhysiology({
+        species: kinshipSpecies,
+        atmosphere,
+        substrate,
+        attuned: true,
+      });
+      const spatial = evaluateSpatialWaveAcoustics({
+        distanceMeters: this.lastNearestDistanceMeters,
+        acousticOcclusion: this.lastAcousticOcclusion,
+        atmosphere,
+      });
+      const baseStart = this.ctx.currentTime + delayOffsetSec + spatial.waveArrivalDelaySec;
+
+      const spacingSec =
+        strategy === 'counterpoint-canonic-echo'
+          ? 0.11
+          : strategy === 'mycelial-seedling-germination'
+            ? 0.085
+            : 0.14;
+
+      counterpointRatios.forEach((ratio, idx) => {
+        if (!this.ctx || !this.masterGain) return;
+        const startTime = baseStart + idx * spacingSec;
+        const durationSec =
+          (atmosphere === 'starlight' ? 0.92 : 0.76) *
+          biochem.acousticSustainMultiplier *
+          (0.92 + circadian.hydraulicTurgorPressure * 0.08);
+        const freq = Math.min(2400, Math.max(95, biomeCfg.baseNoteHz * ratio));
+
+        const osc = this.ctx.createOscillator();
+        const overtone = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+        const ovGain = this.ctx.createGain();
+
+        osc.type = strategy === 'overtone-spectral-refinement' ? 'triangle' : 'sine';
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        overtone.type = 'sine';
+        overtone.frequency.setValueAtTime(
+          freq * (spProfile.modalPartialRatios[1] ?? 1.5),
+          startTime,
+        );
+        ovGain.gain.value = 0.16 + weightNorm * 0.22 + circadian.stomatalConductance * 0.08;
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(
+          Math.min(spatial.effectiveLowpassHz, 950 + weightNorm * 1400),
+          startTime,
+        );
+        filter.Q.value = 1.1 + weightNorm * 1.8 + biochem.silicaMineralIndex * 1.2;
+
+        const peakAmp = (0.032 + weightNorm * 0.024) * spatial.distanceGainMultiplier;
+        gain.gain.setValueAtTime(0.0004, startTime);
+        gain.gain.linearRampToValueAtTime(peakAmp, startTime + Math.max(0.012, spProfile.attackSec));
+        gain.gain.exponentialRampToValueAtTime(0.0004, startTime + durationSec);
+
+        osc.connect(filter);
+        overtone.connect(ovGain);
+        ovGain.connect(filter);
+        filter.connect(gain);
+
+        if (typeof this.ctx.createStereoPanner === 'function') {
+          const panner = this.ctx.createStereoPanner();
+          const spread = (idx - 1) * 0.35;
+          panner.pan.setValueAtTime(
+            Math.max(-0.9, Math.min(0.9, -stereoPan * 0.6 + spread)),
+            startTime,
+          );
+          gain.connect(panner);
+          panner.connect(this.masterGain);
+        } else {
+          gain.connect(this.masterGain);
+        }
+
+        if (this.convolver) {
+          gain.connect(this.convolver);
+        }
+        if (this.delaySendBus) {
+          gain.connect(this.delaySendBus);
+        }
+
+        osc.start(startTime);
+        overtone.start(startTime);
+        osc.stop(startTime + durationSec + 0.03);
+        overtone.stop(startTime + durationSec + 0.03);
+      });
+
+      if (isSeedlingGermination) {
+        // Ascending Z[φ] golden-field crystalline germination motif
+        const germRatios = [1.5, 2.0, 2.5, 3.0];
+        germRatios.forEach((gRatio, gIdx) => {
+          if (!this.ctx || !this.masterGain) return;
+          const gStart = baseStart + 0.18 + gIdx * 0.065;
+          const gOsc = this.ctx.createOscillator();
+          const gGain = this.ctx.createGain();
+          gOsc.type = 'sine';
+          gOsc.frequency.setValueAtTime(biomeCfg.baseNoteHz * gRatio, gStart);
+          gGain.gain.setValueAtTime(0.0005, gStart);
+          gGain.gain.linearRampToValueAtTime(
+            0.042 * spatial.distanceGainMultiplier,
+            gStart + 0.01,
+          );
+          gGain.gain.exponentialRampToValueAtTime(0.0004, gStart + 0.45);
+          gOsc.connect(gGain);
+          gGain.connect(this.masterGain);
+          if (this.convolver) {
+            gGain.connect(this.convolver);
+          }
+          gOsc.start(gStart);
+          gOsc.stop(gStart + 0.48);
+        });
+      }
+    } catch {
+      // Ignore audio errors
+    }
+  }
+
+  /**
+   * Plays a single step of the Live 4-Stem Generative Soundtrack (`Foundation.Soundtrack.V1.Model` `prism/soundtrack-standard/1`).
+   * Every voice is constrained by its source specimen's 3D spatial wave propagation (`evaluateSpatialWaveAcoustics`),
+   * substrate biogeochemistry (`evaluateBiogeochemistry`), and circadian turgor (`evaluateCircadianPlantPhysiology`),
+   * and returns completely to silence (`0.0004`), while `step.isRest` steps preserve explicit silence (`silence-rest`).
+   */
+  public playSoundtrackStep(step: SoundtrackStepSpec, atmosphere: AtmosphereId = 'dawn'): void {
+    if (step.isRest || step.voices.length === 0) return;
+
+    // Pulse spectrum visualizer gently for active score steps
+    for (let i = 0; i < step.voices.length; i++) {
+      const bandIdx = (step.stepIndex + i * 4) % 16;
+      this.spectrumBands[bandIdx] = Math.min(1, this.spectrumBands[bandIdx] + 0.28);
+    }
+
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+
+    try {
+      const baseNow = this.ctx.currentTime;
+      step.voices.forEach((voice) => {
+        if (!this.ctx || !this.masterGain) return;
+        const spProfile = SPECIES_ARTICULATION_PROFILES[voice.species];
+        const spatial = evaluateSpatialWaveAcoustics({
+          distanceMeters: voice.distanceMeters ?? this.lastNearestDistanceMeters,
+          acousticOcclusion: voice.acousticOcclusion ?? this.lastAcousticOcclusion,
+          atmosphere,
+        });
+        const biochem = evaluateBiogeochemistry({
+          biome: voice.biome ?? this.currentBiome,
+          species: voice.species,
+          substrate: voice.substrate ?? 'terrestrial-loam',
+          atmosphere,
+          attuned: true,
+        });
+        const circadian = evaluateCircadianPlantPhysiology({
+          species: voice.species,
+          atmosphere,
+          substrate: voice.substrate ?? 'terrestrial-loam',
+          attuned: true,
+        });
+
+        const now = baseNow + spatial.waveArrivalDelaySec;
+        const osc = this.ctx.createOscillator();
+        const overtone = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+        const ovGain = this.ctx.createGain();
+
+        const isBass = voice.stem === 'harmonic-bass-anchor';
+        const isOstinato = voice.stem === 'polyrhythmic-ostinato';
+        const isCanon = voice.stem === 'canonic-counterpoint-echo';
+
+        osc.type = isBass ? 'sine' : isOstinato ? 'triangle' : 'sine';
+        osc.frequency.setValueAtTime(voice.frequencyHz, now);
+
+        overtone.type = 'sine';
+        overtone.frequency.setValueAtTime(
+          voice.frequencyHz * (isBass ? 1.5 : spProfile.modalPartialRatios[1] ?? 2.0),
+          now,
+        );
+        ovGain.gain.value =
+          (isBass ? 0.28 : isOstinato ? 0.18 : 0.22) * (0.85 + circadian.stomatalConductance * 0.2);
+
+        filter.type = 'lowpass';
+        const rawCutoff = isBass ? 360 : isOstinato ? 1650 : 1280;
+        filter.frequency.setValueAtTime(
+          Math.min(spatial.effectiveLowpassHz, Math.max(rawCutoff, biochem.harmonicWarmthFilterHz * 0.65)),
+          now,
+        );
+        filter.Q.value = (isCanon ? 2.1 : 1.2) + biochem.silicaMineralIndex * 0.9;
+
+        const attackSec = isBass ? 0.16 : isOstinato ? 0.006 : isCanon ? 0.045 : 0.038;
+        const durSec =
+          Math.max(0.18, voice.durationSec) *
+          biochem.acousticSustainMultiplier *
+          (0.94 + circadian.hydraulicTurgorPressure * 0.06);
+        const peakAmp = voice.amplitude * (0.45 + spatial.distanceGainMultiplier * 0.55);
+
+        gain.gain.setValueAtTime(0.0004, now);
+        gain.gain.linearRampToValueAtTime(peakAmp, now + attackSec);
+        gain.gain.exponentialRampToValueAtTime(0.0004, now + durSec);
+
+        osc.connect(filter);
+        overtone.connect(ovGain);
+        ovGain.connect(filter);
+        filter.connect(gain);
+
+        if (typeof this.ctx.createStereoPanner === 'function') {
+          const panner = this.ctx.createStereoPanner();
+          panner.pan.setValueAtTime(Math.max(-0.9, Math.min(0.9, voice.stereoPan)), now);
+          gain.connect(panner);
+          panner.connect(this.masterGain);
+        } else {
+          gain.connect(this.masterGain);
+        }
+
+        if (this.convolver) {
+          const verbSend = this.ctx.createGain();
+          verbSend.gain.value = Math.min(0.75, (isCanon ? 0.48 : 0.32) + spatial.reverbSendBoost);
+          gain.connect(verbSend);
+          verbSend.connect(this.convolver);
+        }
+        if (this.delaySendBus && (isCanon || isOstinato)) {
+          const echoSend = this.ctx.createGain();
+          echoSend.gain.value = 0.26;
+          gain.connect(echoSend);
+          echoSend.connect(this.delaySendBus);
+        }
+
+        osc.start(now);
+        overtone.start(now);
+        osc.stop(now + durSec + 0.03);
+        overtone.stop(now + durSec + 0.03);
       });
     } catch {
       // Ignore audio errors

@@ -1,0 +1,41 @@
+{
+  "schema": "prism/hosted-verification/1",
+  "server": "https://mcp.uor.foundation/",
+  "profile": {
+    "name": "prism-app",
+    "id": "1cf3dece40ddac370598574170a00eca44fb5243e297e179b455801def90c2c8"
+  },
+  "draft": "prism-app/84d69220b472a66b85a60b710cd127868bf4014cea164ee5ee712ddbb3c1f175",
+  "entrypoints": [
+    "src/VerdantResonance.lex.tex",
+    "src/Foundation/Brand/V1/Model.lex.tex",
+    "src/Foundation/Humane/V1/Model.lex.tex",
+    "src/Foundation/Acoustics/V1/Model.lex.tex",
+    "src/Foundation/Infrastructure/V1/Model.lex.tex",
+    "src/Foundation/Botany/V1/Model.lex.tex",
+    "src/Foundation/Ecology/V1/Model.lex.tex",
+    "src/Foundation/Articulation/V1/Model.lex.tex",
+    "src/Foundation/Physics/V1/Model.lex.tex"
+  ],
+  "verified_at": "2026-11-08T08:33:13.622Z",
+  "attestation_id": "fc1934480f1000ab922eed748bc3a812706c30909e859f1582ed83a2c66b79cb",
+  "build_id": "57e1c5c7c9ecbe0570d6f0e1211f15684d1c9a35b77f65970335a1ec3a93e317",
+  "keyid": "533449506003ca0c42744122318b69f5be32d74a2781e72b5c62855cac53bb54",
+  "modules": [
+    "Foundation.Acoustics.V1.Model",
+    "Foundation.Articulation.V1.Model",
+    "Foundation.Botany.V1.Model",
+    "Foundation.Brand.V1.Model",
+    "Foundation.Bytes",
+    "Foundation.Ecology.V1.Model",
+    "Foundation.Humane.V1.Model",
+    "Foundation.Infrastructure.V1.Model",
+    "Foundation.Neuromorphic.V1.Model",
+    "Foundation.Physics.V1.Model",
+    "Foundation.Soundtrack.V1.Model",
+    "Foundation.View.Text.V1.Model",
+    "VerdantResonance"
+  ],
+  "semantic_id": "61ecab9bf7e63738ddd1d6d12a08fb1ee94242ee2353b7596a688ab821aff62b",
+  "source_id": "ea6e74f7f5179c53f3ec12dfc762b8822977da77f401817be9e4bfb7256fe5da"
+}

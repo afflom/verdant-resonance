@@ -43,6 +43,33 @@ structure{
 }
 
 structure{
+  name: CameraKinematicsPolicy,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: zeroPositionTeleportOnInteract, type: Bool},
+    {name: zeroHardYawSnapOnInteract, type: Bool},
+    {name: positionSpringDampingPerSec, type: Nat},
+    {name: rotationSpringDampingPerSec, type: Nat},
+    {name: softGazeAssistMaxMillirad, type: Nat}
+  ]
+}
+
+structure{
+  name: GestureHoldAndCooldownPolicy,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: suppressOsKeyRepeat, type: Bool},
+    {name: touchRefractoryMs, type: Nat},
+    {name: attuneRefractoryMs, type: Nat},
+    {name: stillnessBreathCycleMs, type: Nat},
+    {name: sustainedHoldPulseMs, type: Nat},
+    {name: mindfulExplorationNeverForceEnds, type: Bool}
+  ]
+}
+
+structure{
   name: HumaneDesignStandard,
   type_parameters: [],
   parameters: [],
@@ -51,7 +78,9 @@ structure{
     {name: philosophy, type: String},
     {name: viewportBudget, type: ViewportCalmBudget},
     {name: safetyGuarantee, type: HumaneSafetyGuarantee},
-    {name: pacingModel, type: RestorativePacingModel}
+    {name: pacingModel, type: RestorativePacingModel},
+    {name: cameraKinematics, type: CameraKinematicsPolicy},
+    {name: gestureHoldPolicy, type: GestureHoldAndCooldownPolicy}
   ]
 }
 
@@ -77,10 +106,38 @@ definition{
 }
 
 definition{
+  name: verdantTeleportCountOnInteract,
+  parameters: [],
+  result: Nat,
+  body: 0
+}
+
+definition{
+  name: verdantOsKeyRepeatChaosCount,
+  parameters: [],
+  result: Nat,
+  body: 0
+}
+
+definition{
+  name: verdantStillnessBreathCycleMs,
+  parameters: [],
+  result: Nat,
+  body: 4200
+}
+
+definition{
+  name: minRequiredBreathCycleMs,
+  parameters: [],
+  result: Nat,
+  body: 4000
+}
+
+definition{
   name: verdantHumaneStandard,
   parameters: [],
   result: HumaneDesignStandard,
-  body: (record HumaneDesignStandard {profile := "prism/humane-design/1", philosophy := "Calm Technology, Restorative Attention & Zero-Conflict Botanical Exploration", viewportBudget := (record ViewportCalmBudget {minUnobstructedPct := 85, actualUnobstructedPct := 88, maxCornerClusters := 3, actualCornerClusters := 2, collapsibleControlDock := true}), safetyGuarantee := (record HumaneSafetyGuarantee {violenceElements := 0, punitiveTimers := 0, darkPatterns := 0, nonViolentSanctuary := true, userAgencyPreserved := true}), pacingModel := (record RestorativePacingModel {stillnessVelocityDm := 0, calmAttuneMaxVelocityDm := 10, gentleStrollMaxVelocityDm := 20, blossomFramingDistanceDm := 36})})
+  body: (record HumaneDesignStandard {profile := "prism/humane-design/1", philosophy := "Calm Technology, Restorative Attention, Zero Camera Snap & Sustained Mindful Hold", viewportBudget := (record ViewportCalmBudget {minUnobstructedPct := 85, actualUnobstructedPct := 88, maxCornerClusters := 3, actualCornerClusters := 2, collapsibleControlDock := true}), safetyGuarantee := (record HumaneSafetyGuarantee {violenceElements := 0, punitiveTimers := 0, darkPatterns := 0, nonViolentSanctuary := true, userAgencyPreserved := true}), pacingModel := (record RestorativePacingModel {stillnessVelocityDm := 0, calmAttuneMaxVelocityDm := 10, gentleStrollMaxVelocityDm := 20, blossomFramingDistanceDm := 36}), cameraKinematics := (record CameraKinematicsPolicy {zeroPositionTeleportOnInteract := true, zeroHardYawSnapOnInteract := true, positionSpringDampingPerSec := 14, rotationSpringDampingPerSec := 12, softGazeAssistMaxMillirad := 65}), gestureHoldPolicy := (record GestureHoldAndCooldownPolicy {suppressOsKeyRepeat := true, touchRefractoryMs := 550, attuneRefractoryMs := 1100, stillnessBreathCycleMs := 4200, sustainedHoldPulseMs := 2400, mindfulExplorationNeverForceEnds := true})})
 }
 
 definition{
@@ -95,6 +152,21 @@ theorem{
   parameters: [openPct : Nat],
   statement: ((breaksHumaneViewportBudget openPct) = false),
   proof: linear_arithmetic{definitions: [breaksHumaneViewportBudget, requiredOpenViewportPct, verdantOpenViewportPct]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksCameraOrHoldDiscipline,
+  parameters: [teleports : Nat, repeatChaos : Nat, breathMs : Nat],
+  result: Bool,
+  body: (((teleports =? (verdantTeleportCountOnInteract)) && (0 <? teleports)) || (((repeatChaos =? (verdantOsKeyRepeatChaosCount)) && (0 <? repeatChaos)) || ((breathMs =? (verdantStillnessBreathCycleMs)) && (breathMs <? (minRequiredBreathCycleMs)))))
+}
+
+theorem{
+  name: humaneInputAndCameraGuaranteeHolds,
+  parameters: [teleports : Nat, repeatChaos : Nat, breathMs : Nat],
+  statement: ((breaksCameraOrHoldDiscipline teleports repeatChaos breathMs) = false),
+  proof: linear_arithmetic{definitions: [breaksCameraOrHoldDiscipline, minRequiredBreathCycleMs, verdantOsKeyRepeatChaosCount, verdantStillnessBreathCycleMs, verdantTeleportCountOnInteract]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

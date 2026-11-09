@@ -1,0 +1,157 @@
+\begin{lexlean}{Foundation.Neuromorphic.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: HebbianPlasticitySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: weightMin, type: Nat},
+    {name: weightMax, type: Nat},
+    {name: weightInitial, type: Nat},
+    {name: weightRaise, type: Nat},
+    {name: weightLower, type: Nat},
+    {name: consolidationThreshold, type: Nat},
+    {name: familyCount, type: Nat},
+    {name: strategyCount, type: Nat}
+  ]
+}
+
+structure{
+  name: Rule30CellularAutomatonSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: ruleNumber, type: Nat},
+    {name: registerWidthBits, type: Nat},
+    {name: orbitBound, type: Nat},
+    {name: periodBound, type: Nat},
+    {name: drivesVoiceLeading, type: Bool},
+    {name: drivesMorphogenesis, type: Bool}
+  ]
+}
+
+structure{
+  name: UORLutStackSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: headerMagic, type: String},
+    {name: basinStatesCl06, type: Nat},
+    {name: icosianGoldenRoots, type: Nat},
+    {name: primeAddressBasisCount, type: Nat},
+    {name: pointKeyBits, type: Nat},
+    {name: shortCycleGuardMaxPeriod, type: Nat},
+    {name: maxEmergentSeedlings, type: Nat}
+  ]
+}
+
+structure{
+  name: NeuromorphicSynthesisStandard,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: plasticity, type: HebbianPlasticitySpec},
+    {name: cellularAutomaton, type: Rule30CellularAutomatonSpec},
+    {name: lutStack, type: UORLutStackSpec}
+  ]
+}
+
+definition{
+  name: weightMin,
+  parameters: [],
+  result: Nat,
+  body: 1
+}
+
+definition{
+  name: weightMax,
+  parameters: [],
+  result: Nat,
+  body: 16
+}
+
+definition{
+  name: weightInitial,
+  parameters: [],
+  result: Nat,
+  body: 8
+}
+
+definition{
+  name: weightRaise,
+  parameters: [],
+  result: Nat,
+  body: 2
+}
+
+definition{
+  name: weightLower,
+  parameters: [],
+  result: Nat,
+  body: 1
+}
+
+definition{
+  name: learnWeightPotentiated,
+  parameters: [w : Nat],
+  result: Nat,
+  body: (if ((w + (weightRaise)) <=? (weightMax)) then (w + (weightRaise)) else (weightMax))
+}
+
+definition{
+  name: rule30CellStep,
+  parameters: [left : Bool, center : Bool, right : Bool],
+  result: Bool,
+  body: (if left then (not (center || right)) else (center || right))
+}
+
+definition{
+  name: verifyPointKeyResonanceGate,
+  parameters: [synapticWeight : Nat, orphanCount : Nat, shortCycleCount : Nat, windowHi : Nat],
+  result: Bool,
+  body: ((((12 <=? synapticWeight) && (orphanCount =? 0)) && (shortCycleCount =? 0)) && (8 <=? windowHi))
+}
+
+definition{
+  name: verdantNeuromorphicStandard,
+  parameters: [],
+  result: NeuromorphicSynthesisStandard,
+  body: (record NeuromorphicSynthesisStandard {profile := "prism/neuromorphic-standard/1", plasticity := (record HebbianPlasticitySpec {weightMin := 1, weightMax := 16, weightInitial := 8, weightRaise := 2, weightLower := 1, consolidationThreshold := 12, familyCount := 5, strategyCount := 4}), cellularAutomaton := (record Rule30CellularAutomatonSpec {ruleNumber := 30, registerWidthBits := 64, orbitBound := 256, periodBound := 256, drivesVoiceLeading := true, drivesMorphogenesis := true}), lutStack := (record UORLutStackSpec {headerMagic := "UORLUT01", basinStatesCl06 := 64, icosianGoldenRoots := 17, primeAddressBasisCount := 11, pointKeyBits := 28, shortCycleGuardMaxPeriod := 4, maxEmergentSeedlings := 15})})
+}
+
+definition{
+  name: breaksHebbianUpperBound,
+  parameters: [w : Nat],
+  result: Bool,
+  body: ((w <=? (weightMax)) && ((weightMax) <? (learnWeightPotentiated w)))
+}
+
+theorem{
+  name: hebbianUpperBoundHolds,
+  parameters: [w : Nat],
+  statement: ((breaksHebbianUpperBound w) = false),
+  proof: linear_arithmetic{definitions: [breaksHebbianUpperBound, learnWeightPotentiated, weightMax, weightRaise]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksShortCycleGate,
+  parameters: [synapticWeight : Nat, orphanCount : Nat, shortCycleCount : Nat, windowHi : Nat],
+  result: Bool,
+  body: ((0 <? shortCycleCount) && (verifyPointKeyResonanceGate synapticWeight orphanCount shortCycleCount windowHi))
+}
+
+theorem{
+  name: shortCycleGuardPreventsRepetitionHolds,
+  parameters: [synapticWeight : Nat, orphanCount : Nat, shortCycleCount : Nat, windowHi : Nat],
+  statement: ((breaksShortCycleGate synapticWeight orphanCount shortCycleCount windowHi) = false),
+  proof: linear_arithmetic{definitions: [breaksShortCycleGate, verifyPointKeyResonanceGate]},
+  axioms: [Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

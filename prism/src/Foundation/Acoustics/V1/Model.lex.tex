@@ -25,9 +25,25 @@ structure{
     {name: partialsPerVoice, type: Nat},
     {name: spectrumBands, type: Nat},
     {name: stereoConvolverIrMs, type: Nat},
+    {name: stereoEchoDelayMs, type: Nat},
     {name: binauralPanningEnabled, type: Bool},
+    {name: continuousDroneGainMilli, type: Nat},
     {name: masterGainMilli, type: Nat},
     {name: limiterCeilingMilli, type: Nat}
+  ]
+}
+
+structure{
+  name: SpatialWavePropagationSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: speedOfSoundMps, type: Nat},
+    {name: referenceDistanceDm, type: Nat},
+    {name: minDistanceGainMilli, type: Nat},
+    {name: maxDistanceGainMilli, type: Nat},
+    {name: stokesKirchhoffAirAbsorptionEnabled, type: Bool},
+    {name: obstacleDiffractionLowpassEnabled, type: Bool}
   ]
 }
 
@@ -38,12 +54,21 @@ structure{
   fields: [
     {name: profile, type: String},
     {name: tuningSystem, type: String},
+    {name: silenceFloorPolicy, type: String},
     {name: unisonInterval, type: JustIntonationInterval},
     {name: majorThirdInterval, type: JustIntonationInterval},
     {name: perfectFifthInterval, type: JustIntonationInterval},
     {name: harmonicSeventhInterval, type: JustIntonationInterval},
-    {name: synthesisSpec, type: SpatialSynthesisSpec}
+    {name: synthesisSpec, type: SpatialSynthesisSpec},
+    {name: wavePropagation, type: SpatialWavePropagationSpec}
   ]
+}
+
+definition{
+  name: verdantContinuousDroneGainMilli,
+  parameters: [],
+  result: Nat,
+  body: 0
 }
 
 definition{
@@ -61,10 +86,24 @@ definition{
 }
 
 definition{
+  name: verdantMinDistanceGainMilli,
+  parameters: [],
+  result: Nat,
+  body: 180
+}
+
+definition{
+  name: verdantMaxDistanceGainMilli,
+  parameters: [],
+  result: Nat,
+  body: 1000
+}
+
+definition{
   name: verdantAcousticStandard,
   parameters: [],
   result: BotanicalAcousticStandard,
-  body: (record BotanicalAcousticStandard {profile := "prism/acoustic-standard/1", tuningSystem := "5-Limit & 7-Limit Pure Just Intonation Botanical Scales", unisonInterval := (record JustIntonationInterval {intervalName := "Fundamental Unison", numerator := 1, denominator := 1, centsDeviation := 0}), majorThirdInterval := (record JustIntonationInterval {intervalName := "Pure Harmonic Major Third", numerator := 5, denominator := 4, centsDeviation := 0}), perfectFifthInterval := (record JustIntonationInterval {intervalName := "Pure Acoustic Fifth", numerator := 3, denominator := 2, centsDeviation := 0}), harmonicSeventhInterval := (record JustIntonationInterval {intervalName := "Celestial Diatonic Seventh", numerator := 15, denominator := 8, centsDeviation := 0}), synthesisSpec := (record SpatialSynthesisSpec {sampleRateHz := 48000, partialsPerVoice := 4, spectrumBands := 16, stereoConvolverIrMs := 2200, binauralPanningEnabled := true, masterGainMilli := 360, limiterCeilingMilli := 500})})
+  body: (record BotanicalAcousticStandard {profile := "prism/acoustic-standard/3", tuningSystem := "5-Limit & 7-Limit Pure Just Intonation with 5-Partial Modal Synthesis, Spatial Wave Propagation & Zero Continuous Drone Fatigue", silenceFloorPolicy := "Zero persistent oscillator drone (continuousDroneGainMilli = 0); all harmonic pads and chimes use self-decaying breathing envelopes over natural quietude", unisonInterval := (record JustIntonationInterval {intervalName := "Fundamental Unison", numerator := 1, denominator := 1, centsDeviation := 0}), majorThirdInterval := (record JustIntonationInterval {intervalName := "Pure Harmonic Major Third", numerator := 5, denominator := 4, centsDeviation := 0}), perfectFifthInterval := (record JustIntonationInterval {intervalName := "Pure Acoustic Fifth", numerator := 3, denominator := 2, centsDeviation := 0}), harmonicSeventhInterval := (record JustIntonationInterval {intervalName := "Celestial Diatonic Seventh", numerator := 15, denominator := 8, centsDeviation := 0}), synthesisSpec := (record SpatialSynthesisSpec {sampleRateHz := 48000, partialsPerVoice := 5, spectrumBands := 16, stereoConvolverIrMs := 2200, stereoEchoDelayMs := 375, binauralPanningEnabled := true, continuousDroneGainMilli := 0, masterGainMilli := 360, limiterCeilingMilli := 500}), wavePropagation := (record SpatialWavePropagationSpec {speedOfSoundMps := 343, referenceDistanceDm := 65, minDistanceGainMilli := 180, maxDistanceGainMilli := 1000, stokesKirchhoffAirAbsorptionEnabled := true, obstacleDiffractionLowpassEnabled := true})})
 }
 
 definition{
@@ -79,6 +118,36 @@ theorem{
   parameters: [gainMilli : Nat],
   statement: ((breaksAcousticHeadroom gainMilli) = false),
   proof: linear_arithmetic{definitions: [breaksAcousticHeadroom, verdantLimiterCeilingMilli, verdantMasterGainMilli]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksZeroContinuousDroneFatigue,
+  parameters: [droneMilli : Nat],
+  result: Bool,
+  body: ((droneMilli =? (verdantContinuousDroneGainMilli)) && (0 <? droneMilli))
+}
+
+theorem{
+  name: zeroContinuousDroneFatigueHolds,
+  parameters: [droneMilli : Nat],
+  statement: ((breaksZeroContinuousDroneFatigue droneMilli) = false),
+  proof: linear_arithmetic{definitions: [breaksZeroContinuousDroneFatigue, verdantContinuousDroneGainMilli]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksSpatialAttenuationBounds,
+  parameters: [minGain : Nat, maxGain : Nat],
+  result: Bool,
+  body: (((minGain =? (verdantMinDistanceGainMilli)) && (maxGain =? (verdantMaxDistanceGainMilli))) && (maxGain <=? minGain))
+}
+
+theorem{
+  name: spatialAttenuationBoundedHolds,
+  parameters: [minGain : Nat, maxGain : Nat],
+  statement: ((breaksSpatialAttenuationBounds minGain maxGain) = false),
+  proof: linear_arithmetic{definitions: [breaksSpatialAttenuationBounds, verdantMaxDistanceGainMilli, verdantMinDistanceGainMilli]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

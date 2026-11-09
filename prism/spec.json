@@ -342,6 +342,156 @@
     {
       "id": "REQ-024",
       "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "crystal" },
+        { "field": "plant", "op": "is", "value": "star-orchid" },
+        { "field": "action", "op": "is", "value": "observe" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 10 }
+      ],
+      "then": "crystalline-choir",
+      "says": "When chorus is awakened and biome is crystal and plant is star-orchid and action is observe and proximity is at most 25 and velocity is at most 10, the answer is crystalline-choir."
+    },
+    {
+      "id": "REQ-025",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "sanctuary" },
+        { "field": "plant", "op": "is", "value": "echo-lotus" },
+        { "field": "action", "op": "is", "value": "observe" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 10 }
+      ],
+      "then": "sanctuary-chorus",
+      "says": "When chorus is awakened and biome is sanctuary and plant is echo-lotus and action is observe and proximity is at most 25 and velocity is at most 10, the answer is sanctuary-chorus."
+    },
+    {
+      "id": "REQ-026",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "grove" },
+        { "field": "plant", "op": "is", "value": "pulse-fern" },
+        { "field": "atmosphere", "op": "is", "value": "golden" },
+        { "field": "action", "op": "is", "value": "observe" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 8 }
+      ],
+      "then": "harmonic-bloom",
+      "says": "When chorus is awakened and biome is grove and plant is pulse-fern and atmosphere is golden and action is observe and proximity is at most 25 and velocity is at most 8, the answer is harmonic-bloom."
+    },
+    {
+      "id": "REQ-027",
+      "when": [
+        { "field": "biome", "op": "is", "value": "meadow" },
+        { "field": "plant", "op": "is", "value": "echo-lotus" },
+        { "field": "atmosphere", "op": "is", "value": "dawn" },
+        { "field": "action", "op": "is", "value": "observe" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 10 }
+      ],
+      "then": "dawn-arpeggio",
+      "says": "When biome is meadow and plant is echo-lotus and atmosphere is dawn and action is observe and proximity is at most 25 and velocity is at most 10, the answer is dawn-arpeggio."
+    },
+    {
+      "id": "REQ-028",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "sanctuary" },
+        { "field": "plant", "op": "is", "value": "echo-lotus" },
+        { "field": "action", "op": "is", "value": "touch" },
+        { "field": "atmosphere", "op": "is", "value": "starlight" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 10 }
+      ],
+      "then": "sanctuary-chorus",
+      "says": "When chorus is awakened and biome is sanctuary and plant is echo-lotus and action is touch and atmosphere is starlight and proximity is at most 25 and velocity is at most 10, the answer is sanctuary-chorus."
+    },
+    {
+      "id": "REQ-029",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "crystal" },
+        { "field": "plant", "op": "is", "value": "echo-lotus" },
+        { "field": "action", "op": "is", "value": "observe" },
+        { "field": "atmosphere", "op": "is", "value": "starlight" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 10 }
+      ],
+      "then": "crystalline-choir",
+      "says": "When chorus is awakened and biome is crystal and plant is echo-lotus and action is observe and atmosphere is starlight and proximity is at most 25 and velocity is at most 10, the answer is crystalline-choir."
+    },
+    {
+      "id": "REQ-030",
+      "when": [
+        { "field": "biome", "op": "is", "value": "grove" },
+        { "field": "plant", "op": "is", "value": "pulse-fern" },
+        { "field": "action", "op": "is", "value": "stillness" },
+        { "field": "atmosphere", "op": "is", "value": "dawn" },
+        { "field": "velocity", "op": "=", "value": 0 },
+        { "field": "proximity", "op": "<=", "value": 40 }
+      ],
+      "then": "serene-rest",
+      "says": "When biome is grove and plant is pulse-fern and action is stillness and atmosphere is dawn and velocity equals 0 and proximity is at most 40, the answer is serene-rest."
+    },
+    {
+      "id": "REQ-031",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "wetland" },
+        { "field": "plant", "op": "is", "value": "pulse-fern" },
+        { "field": "action", "op": "is", "value": "stroll" },
+        { "field": "atmosphere", "op": "is", "value": "twilight" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 8 }
+      ],
+      "then": "nocturnal-symphony",
+      "says": "When chorus is awakened and biome is wetland and plant is pulse-fern and action is stroll and atmosphere is twilight and proximity is at most 25 and velocity is at most 8, the answer is nocturnal-symphony."
+    },
+    {
+      "id": "REQ-032",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "grove" },
+        { "field": "plant", "op": "is", "value": "echo-lotus" },
+        { "field": "action", "op": "is", "value": "observe" },
+        { "field": "atmosphere", "op": "is", "value": "golden" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 8 }
+      ],
+      "then": "harmonic-bloom",
+      "says": "When chorus is awakened and biome is grove and plant is echo-lotus and action is observe and atmosphere is golden and proximity is at most 25 and velocity is at most 8, the answer is harmonic-bloom."
+    },
+    {
+      "id": "REQ-033",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "meadow" },
+        { "field": "plant", "op": "is", "value": "echo-lotus" },
+        { "field": "action", "op": "is", "value": "touch" },
+        { "field": "atmosphere", "op": "is", "value": "dawn" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 8 }
+      ],
+      "then": "dawn-arpeggio",
+      "says": "When chorus is awakened and biome is meadow and plant is echo-lotus and action is touch and atmosphere is dawn and proximity is at most 25 and velocity is at most 8, the answer is dawn-arpeggio."
+    },
+    {
+      "id": "REQ-034",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "crystal" },
+        { "field": "plant", "op": "is", "value": "pulse-fern" },
+        { "field": "action", "op": "is", "value": "observe" },
+        { "field": "atmosphere", "op": "is", "value": "twilight" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 8 }
+      ],
+      "then": "crystalline-choir",
+      "says": "When chorus is awakened and biome is crystal and plant is pulse-fern and action is observe and atmosphere is twilight and proximity is at most 25 and velocity is at most 8, the answer is crystalline-choir."
+    },
+    {
+      "id": "REQ-035",
+      "when": [
         { "field": "velocity", "op": "<=", "value": 10 },
         { "field": "proximity", "op": "<=", "value": 45 }
       ],
@@ -452,6 +602,81 @@
       ],
       "then": "sanctuary-chorus",
       "says": "It never answers sanctuary-chorus when velocity is above 20."
+    },
+    {
+      "id": "INV-011",
+      "kind": "always",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "sanctuary" },
+        { "field": "plant", "op": "is", "value": "echo-lotus" },
+        { "field": "atmosphere", "op": "is", "value": "golden" },
+        { "field": "action", "op": "is", "value": "observe" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 10 }
+      ],
+      "then": "sanctuary-chorus",
+      "says": "It always answers sanctuary-chorus when chorus is awakened and biome is sanctuary and plant is echo-lotus and atmosphere is golden and action is observe and proximity is at most 25 and velocity is at most 10."
+    },
+    {
+      "id": "INV-012",
+      "kind": "always",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "grove" },
+        { "field": "plant", "op": "is", "value": "pulse-fern" },
+        { "field": "atmosphere", "op": "is", "value": "golden" },
+        { "field": "action", "op": "is", "value": "observe" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 8 }
+      ],
+      "then": "harmonic-bloom",
+      "says": "It always answers harmonic-bloom when chorus is awakened and biome is grove and plant is pulse-fern and atmosphere is golden and action is observe and proximity is at most 25 and velocity is at most 8."
+    },
+    {
+      "id": "INV-013",
+      "kind": "always",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "sanctuary" },
+        { "field": "plant", "op": "is", "value": "echo-lotus" },
+        { "field": "action", "op": "is", "value": "touch" },
+        { "field": "atmosphere", "op": "is", "value": "starlight" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 10 }
+      ],
+      "then": "sanctuary-chorus",
+      "says": "It always answers sanctuary-chorus when chorus is awakened and biome is sanctuary and plant is echo-lotus and action is touch and atmosphere is starlight and proximity is at most 25 and velocity is at most 10."
+    },
+    {
+      "id": "INV-014",
+      "kind": "always",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "crystal" },
+        { "field": "plant", "op": "is", "value": "echo-lotus" },
+        { "field": "action", "op": "is", "value": "observe" },
+        { "field": "atmosphere", "op": "is", "value": "starlight" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 10 }
+      ],
+      "then": "crystalline-choir",
+      "says": "It always answers crystalline-choir when chorus is awakened and biome is crystal and plant is echo-lotus and action is observe and atmosphere is starlight and proximity is at most 25 and velocity is at most 10."
+    },
+    {
+      "id": "INV-015",
+      "kind": "always",
+      "when": [
+        { "field": "chorus", "op": "is", "value": "awakened" },
+        { "field": "biome", "op": "is", "value": "grove" },
+        { "field": "plant", "op": "is", "value": "echo-lotus" },
+        { "field": "action", "op": "is", "value": "observe" },
+        { "field": "atmosphere", "op": "is", "value": "golden" },
+        { "field": "proximity", "op": "<=", "value": 25 },
+        { "field": "velocity", "op": "<=", "value": 8 }
+      ],
+      "then": "harmonic-bloom",
+      "says": "It always answers harmonic-bloom when chorus is awakened and biome is grove and plant is echo-lotus and action is observe and atmosphere is golden and proximity is at most 25 and velocity is at most 8."
     }
   ],
   "examples": [
@@ -546,6 +771,50 @@
     {
       "request": "grove pulse-fern touch golden awakened 15 5",
       "response": "harmonic-bloom"
+    },
+    {
+      "request": "crystal star-orchid observe golden awakened 18 5",
+      "response": "crystalline-choir"
+    },
+    {
+      "request": "sanctuary echo-lotus observe golden awakened 18 5",
+      "response": "sanctuary-chorus"
+    },
+    {
+      "request": "grove pulse-fern observe golden awakened 18 5",
+      "response": "harmonic-bloom"
+    },
+    {
+      "request": "meadow echo-lotus observe dawn dormant 18 5",
+      "response": "dawn-arpeggio"
+    },
+    {
+      "request": "sanctuary echo-lotus touch starlight awakened 18 5",
+      "response": "sanctuary-chorus"
+    },
+    {
+      "request": "crystal echo-lotus observe starlight awakened 18 5",
+      "response": "crystalline-choir"
+    },
+    {
+      "request": "grove pulse-fern stillness dawn dormant 30 0",
+      "response": "serene-rest"
+    },
+    {
+      "request": "wetland pulse-fern stroll twilight awakened 20 6",
+      "response": "nocturnal-symphony"
+    },
+    {
+      "request": "grove echo-lotus observe golden awakened 18 5",
+      "response": "harmonic-bloom"
+    },
+    {
+      "request": "meadow echo-lotus touch dawn awakened 18 5",
+      "response": "dawn-arpeggio"
+    },
+    {
+      "request": "crystal pulse-fern observe twilight awakened 18 5",
+      "response": "crystalline-choir"
     },
     {
       "request": "meadow pulse-fern stroll golden dormant 40 5",

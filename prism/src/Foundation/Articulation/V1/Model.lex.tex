@@ -1,0 +1,144 @@
+\begin{lexlean}{Foundation.Articulation.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: SpeciesModalArticulationSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: speciesCount, type: Nat},
+    {name: partialsPerSpecies, type: Nat},
+    {name: chimeLilyModel, type: String},
+    {name: pulseFernModel, type: String},
+    {name: echoLotusModel, type: String},
+    {name: droneMossModel, type: String},
+    {name: starOrchidModel, type: String}
+  ]
+}
+
+structure{
+  name: GestureArticulationContrastSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: touchAttackMs, type: Nat},
+    {name: touchDecayMs, type: Nat},
+    {name: touchVoices, type: Nat},
+    {name: touchGestureModel, type: String},
+    {name: attuneAttackMs, type: Nat},
+    {name: attuneDecayMs, type: Nat},
+    {name: attuneVoices, type: Nat},
+    {name: attuneGestureModel, type: String},
+    {name: stillnessAttackMs, type: Nat},
+    {name: stillnessDecayMs, type: Nat},
+    {name: stillnessGestureModel, type: String}
+  ]
+}
+
+structure{
+  name: BiomeLandscapeTerraceSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: terraceCount, type: Nat},
+    {name: meadowTerrace, type: String},
+    {name: groveTerrace, type: String},
+    {name: crystalTerrace, type: String},
+    {name: wetlandTerrace, type: String},
+    {name: sanctuaryTerrace, type: String}
+  ]
+}
+
+structure{
+  name: SympatheticArcAudioVisualSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: parabolicArcSegments, type: Nat},
+    {name: sympatheticEchoDelayMs, type: Nat},
+    {name: constellationVoices, type: Nat}
+  ]
+}
+
+structure{
+  name: BotanicalArticulationStandard,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: speciesArticulation, type: SpeciesModalArticulationSpec},
+    {name: gestureContrast, type: GestureArticulationContrastSpec},
+    {name: landscapeTerraces, type: BiomeLandscapeTerraceSpec},
+    {name: sympatheticArcs, type: SympatheticArcAudioVisualSpec}
+  ]
+}
+
+definition{
+  name: verdantTouchAttackMs,
+  parameters: [],
+  result: Nat,
+  body: 3
+}
+
+definition{
+  name: verdantAttuneAttackMs,
+  parameters: [],
+  result: Nat,
+  body: 220
+}
+
+definition{
+  name: verdantConstellationVoices,
+  parameters: [],
+  result: Nat,
+  body: 6
+}
+
+definition{
+  name: minRequiredConstellationVoices,
+  parameters: [],
+  result: Nat,
+  body: 4
+}
+
+definition{
+  name: verdantArticulationStandard,
+  parameters: [],
+  result: BotanicalArticulationStandard,
+  body: (record BotanicalArticulationStandard {profile := "prism/articulation-standard/2", speciesArticulation := (record SpeciesModalArticulationSpec {speciesCount := 5, partialsPerSpecies := 5, chimeLilyModel := "Silver Campanula Bell · Pendulum Corolla Swing & Clapper Harmonics [1.0, 2.0, 3.0, 4.24, 5.42]", pulseFernModel := "Rosewood Kalimba Tine · Crozier Spiral Unfurling & Frond Breathing [1.0, 2.92, 5.40, 8.15, 11.2]", echoLotusModel := "Hydro-Acoustic Water Harp · Concentric Petal Blooming & Meniscus Glide [1.0, 1.5, 2.0, 2.67, 4.0]", droneMossModel := "Basalt Organ Bourdon · Sub-Octave Cushion Respiration & Spore Levitation [0.5, 1.0, 1.5, 2.0, 3.0]", starOrchidModel := "Quartz Glass Harmonica · Celestial Gaze Tracking & Tepal Shimmer [1.0, 2.0, 3.0, 4.0, 6.0]"}), gestureContrast := (record GestureArticulationContrastSpec {touchAttackMs := 3, touchDecayMs := 420, touchVoices := 2, touchGestureModel := "Touch Petal [T]: Crisp 3ms plucked/struck solo upper-harmonic transient (2x & 3x overtones) with 9Hz elastic petal shiver and 420ms intimate decay", attuneAttackMs := 220, attuneDecayMs := 2400, attuneVoices := 6, attuneGestureModel := "Attune Flora [Space]: Lush 220ms polyphonic bowed/harmonica 6-voice multi-octave choir swell + 3 staggered binaural cross-pollination echoes over 2.4s", stillnessAttackMs := 650, stillnessDecayMs := 3200, stillnessGestureModel := "Meditative Stillness [C]: Self-decaying 650ms inhale / 3.2s exhale warm pastoral ninth breathing pad that fades cleanly to natural silence"}), landscapeTerraces := (record BiomeLandscapeTerraceSpec {terraceCount := 5, meadowTerrace := "Sunlit Travertine Parterre & Radial Sundial Inlay", groveTerrace := "Raked Zen Moss & Jade Gravel Acoustic Ring Terrace with Nodal Bamboo Culms", crystalTerrace := "Obsidian-Sapphire Geode Mirror Basin & Perimeter Quartz Clusters", wetlandTerrace := "Multi-Tiered Mirror Lagoon with Expanding Water-Harp Ripple Rings", sanctuaryTerrace := "Golden-Ratio Harmonic Labyrinth Amphitheater & 5-Biome Ley-Line Conduits"}), sympatheticArcs := (record SympatheticArcAudioVisualSpec {parabolicArcSegments := 9, sympatheticEchoDelayMs := 140, constellationVoices := 6})})
+}
+
+definition{
+  name: breaksArticulationVoicesMinimum,
+  parameters: [voices : Nat],
+  result: Bool,
+  body: ((voices =? (verdantConstellationVoices)) && (voices <? (minRequiredConstellationVoices)))
+}
+
+theorem{
+  name: articulationVoicesMinimumHolds,
+  parameters: [voices : Nat],
+  statement: ((breaksArticulationVoicesMinimum voices) = false),
+  proof: linear_arithmetic{definitions: [breaksArticulationVoicesMinimum, minRequiredConstellationVoices, verdantConstellationVoices]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksGestureAttackContrast,
+  parameters: [touchMs : Nat, attuneMs : Nat],
+  result: Bool,
+  body: (((touchMs =? (verdantTouchAttackMs)) && (attuneMs =? (verdantAttuneAttackMs))) && (attuneMs <=? touchMs))
+}
+
+theorem{
+  name: gestureAttackContrastHolds,
+  parameters: [touchMs : Nat, attuneMs : Nat],
+  statement: ((breaksGestureAttackContrast touchMs attuneMs) = false),
+  proof: linear_arithmetic{definitions: [breaksGestureAttackContrast, verdantAttuneAttackMs, verdantTouchAttackMs]},
+  axioms: [Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

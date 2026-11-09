@@ -1,0 +1,139 @@
+\begin{lexlean}{Foundation.Ecology.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: BiomeConstellationSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: constellationCount, type: Nat},
+    {name: beamHeightMeters, type: Nat},
+    {name: meadowConstellation, type: String},
+    {name: groveConstellation, type: String},
+    {name: crystalConstellation, type: String},
+    {name: wetlandConstellation, type: String},
+    {name: sanctuaryConstellation, type: String}
+  ]
+}
+
+structure{
+  name: SymbioticGuildSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: guildCount, type: Nat},
+    {name: primaryGuildName, type: String},
+    {name: secondaryGuildName, type: String},
+    {name: tertiaryGuildName, type: String},
+    {name: guildHarmonyBonusPct, type: Nat}
+  ]
+}
+
+structure{
+  name: BiogeochemicalEquilibriumSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: minSoilWaterPhCenti, type: Nat},
+    {name: maxSoilWaterPhCenti, type: Nat},
+    {name: silicaPiezoelectricCoupling, type: Bool},
+    {name: mycorrhizalCnpExchangeEnabled, type: Bool},
+    {name: luciferinEnzymaticKineticsEnabled, type: Bool},
+    {name: volatileTerpeneSignalingEnabled, type: Bool},
+    {name: actionPotentialWaveSpeedDmps, type: Nat}
+  ]
+}
+
+structure{
+  name: MicroclimateAcousticsSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: microclimateCount, type: Nat},
+    {name: footstepStrideIntervalMs, type: Nat},
+    {name: maxSimultaneousConstellationBeams, type: Nat}
+  ]
+}
+
+structure{
+  name: EcologicalConstellationStandard,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: constellations, type: BiomeConstellationSpec},
+    {name: guilds, type: SymbioticGuildSpec},
+    {name: biogeochemistry, type: BiogeochemicalEquilibriumSpec},
+    {name: microclimates, type: MicroclimateAcousticsSpec}
+  ]
+}
+
+definition{
+  name: verdantBeamHeightMeters,
+  parameters: [],
+  result: Nat,
+  body: 22
+}
+
+definition{
+  name: minRequiredBeamHeightMeters,
+  parameters: [],
+  result: Nat,
+  body: 12
+}
+
+definition{
+  name: verdantMinPhCenti,
+  parameters: [],
+  result: Nat,
+  body: 560
+}
+
+definition{
+  name: verdantMaxPhCenti,
+  parameters: [],
+  result: Nat,
+  body: 810
+}
+
+definition{
+  name: verdantEcologyStandard,
+  parameters: [],
+  result: EcologicalConstellationStandard,
+  body: (record EcologicalConstellationStandard {profile := "prism/ecology-standard/1", constellations := (record BiomeConstellationSpec {constellationCount := 5, beamHeightMeters := 22, meadowConstellation := "Sunlit Pastoral Sixth Constellation", groveConstellation := "Bamboo Dorian Pentatonic Constellation", crystalConstellation := "Quartz Lydian Eleventh Constellation", wetlandConstellation := "Lagoon Aeolian Liquid Ninth Constellation", sanctuaryConstellation := "Sanctuary Celestial Overtone Series"}), guilds := (record SymbioticGuildSpec {guildCount := 3, primaryGuildName := "Dewdrop Bell Guild (Chime Lily + Echo Lotus)", secondaryGuildName := "Polyrhythmic Canopy Guild (Pulse Fern + Drone Moss)", tertiaryGuildName := "Celestial Overtone Guild (Star Orchid + Chime Lily)", guildHarmonyBonusPct := 5}), biogeochemistry := (record BiogeochemicalEquilibriumSpec {minSoilWaterPhCenti := 560, maxSoilWaterPhCenti := 810, silicaPiezoelectricCoupling := true, mycorrhizalCnpExchangeEnabled := true, luciferinEnzymaticKineticsEnabled := true, volatileTerpeneSignalingEnabled := true, actionPotentialWaveSpeedDmps := 65}), microclimates := (record MicroclimateAcousticsSpec {microclimateCount := 4, footstepStrideIntervalMs := 520, maxSimultaneousConstellationBeams := 5})})
+}
+
+definition{
+  name: breaksEcologyConstellationMinimum,
+  parameters: [heightMeters : Nat],
+  result: Bool,
+  body: ((heightMeters =? (verdantBeamHeightMeters)) && (heightMeters <? (minRequiredBeamHeightMeters)))
+}
+
+definition{
+  name: breaksBiogeochemicalPhBounds,
+  parameters: [minPh : Nat, maxPh : Nat],
+  result: Bool,
+  body: (((minPh =? (verdantMinPhCenti)) && (maxPh =? (verdantMaxPhCenti))) && (maxPh <=? minPh))
+}
+
+theorem{
+  name: ecologyConstellationMinimumHolds,
+  parameters: [heightMeters : Nat],
+  statement: ((breaksEcologyConstellationMinimum heightMeters) = false),
+  proof: linear_arithmetic{definitions: [breaksEcologyConstellationMinimum, minRequiredBeamHeightMeters, verdantBeamHeightMeters]},
+  axioms: [Quot.sound, propext]
+}
+
+theorem{
+  name: biogeochemicalPhBoundsHold,
+  parameters: [minPh : Nat, maxPh : Nat],
+  statement: ((breaksBiogeochemicalPhBounds minPh maxPh) = false),
+  proof: linear_arithmetic{definitions: [breaksBiogeochemicalPhBounds, verdantMaxPhCenti, verdantMinPhCenti]},
+  axioms: [Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

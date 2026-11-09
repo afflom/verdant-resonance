@@ -11,9 +11,11 @@ structure{
   fields: [
     {name: sporeRingBufferCapacity, type: Nat},
     {name: acousticWaveRingCapacity, type: Nat},
+    {name: sympatheticFilamentCapacity, type: Nat},
     {name: instancedSteppingStones, type: Nat},
     {name: instancedPerimeterRocks, type: Nat},
     {name: instancedGroveStalks, type: Nat},
+    {name: instancedMeadowGrassBlades, type: Nat},
     {name: perFrameHeapAllocations, type: Nat}
   ]
 }
@@ -62,7 +64,7 @@ definition{
   name: verdantInfrastructureStandard,
   parameters: [],
   result: InfrastructureStandard,
-  body: (record InfrastructureStandard {profile := "prism/infrastructure-standard/1", runtimeArchitecture := "Deterministic Zero-GC WebGL2 + WebAudio Sanctuary Runtime", memoryPools := (record ZeroAllocationPoolSpec {sporeRingBufferCapacity := 180, acousticWaveRingCapacity := 3, instancedSteppingStones := 44, instancedPerimeterRocks := 40, instancedGroveStalks := 48, perFrameHeapAllocations := 0}), renderPipeline := (record RenderPipelineContract {colorSpace := "SRGBColorSpace", toneMapping := "ACESFilmicToneMapping", environmentLighting := "PMREMGenerator RoomEnvironment", maxPixelRatio := 2, targetFrameBudgetMs := 16, softwareGlFallbackEnabled := true})})
+  body: (record InfrastructureStandard {profile := "prism/infrastructure-standard/2", runtimeArchitecture := "Deterministic Zero-GC WebGL2 + 5-Partial WebAudio Sanctuary Runtime", memoryPools := (record ZeroAllocationPoolSpec {sporeRingBufferCapacity := 220, acousticWaveRingCapacity := 5, sympatheticFilamentCapacity := 6, instancedSteppingStones := 64, instancedPerimeterRocks := 52, instancedGroveStalks := 64, instancedMeadowGrassBlades := 360, perFrameHeapAllocations := 0}), renderPipeline := (record RenderPipelineContract {colorSpace := "SRGBColorSpace", toneMapping := "ACESFilmicToneMapping", environmentLighting := "PMREMGenerator RoomEnvironment + 512px Procedural Micro-Relief BumpMap", maxPixelRatio := 2, targetFrameBudgetMs := 16, softwareGlFallbackEnabled := true})})
 }
 
 definition{
