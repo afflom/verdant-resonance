@@ -2,6 +2,7 @@
 \useglossary{lexlean.std.bool@1.2.0}
 \useglossary{lexlean.std.nat@1.2.0}
 \useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.Neuromorphic.V1.Model}
 \title{Text application model}
 \begin{semanticmodule}
 structure{
@@ -110,10 +111,62 @@ definition{
 }
 
 definition{
+  name: stepBrandBusModulation,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: ((verdantSecondaryContrastTenths) + (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight))
+}
+
+definition{
   name: verdantBrandStandard,
   parameters: [],
   result: BrandStandard,
-  body: (record BrandStandard {profile := "prism/brand-standard/1", brandName := "Verdant Resonance", conservatorySubtitle := "Conservatory of Living Botanical Acoustics and Just Intonation", primarySurface := (record ChromaticToken {tokenName := "obsidian-moss", hexValue := "#071510", contrastRatioTenths := 10, semanticRole := "Primary Sanctuary Canopy Canvas"}), primaryAccent := (record ChromaticToken {tokenName := "pollen-gold", hexValue := "#FDE047", contrastRatioTenths := 128, semanticRole := "Primary Harmonic Attunement and Focal CTA"}), secondaryAccent := (record ChromaticToken {tokenName := "bioluminescent-jade", hexValue := "#6EE7B7", contrastRatioTenths := 84, semanticRole := "Secondary Botanical Telemetry and Herbarium Accent"}), typography := (record TypographicScale {displayFamily := "Cormorant Garamond", sansFamily := "Plus Jakarta Sans", monoFamily := "JetBrains Mono", scaleRatioTenths := 16, minBodyContrastTenths := 70}), marketing := (record MarketingProposition {editionTitle := "Conservatory Edition - 262 / 432 Hz Just Intonation", tagline := "Where every footstep, breeze, and blossom awakens a living harmonic choir.", genreClassification := "Peaceful First-Person Botanical and Acoustic Sanctuary", primaryCallToAction := "Enter the Garden", secondaryCallToAction := "Botanical Field Guide", maxFocalActions := 2}), neuromorphicBridge := (record NeuromorphicBrandBridgeSpec {neuromorphicBusCoupled := true, domainBasisPrime := 107, rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := true, autopoieticSelfRefinementEnabled := true})})
+  body: (record BrandStandard {
+    profile := "prism/brand-standard/1",
+    brandName := "Verdant Resonance",
+    conservatorySubtitle := "Conservatory of Living Botanical Acoustics and Just Intonation",
+    primarySurface := (record ChromaticToken {
+      tokenName := "obsidian-moss",
+      hexValue := "#071510",
+      contrastRatioTenths := 10,
+      semanticRole := "Primary Sanctuary Canopy Canvas"
+    }),
+    primaryAccent := (record ChromaticToken {
+      tokenName := "pollen-gold",
+      hexValue := "#FDE047",
+      contrastRatioTenths := 128,
+      semanticRole := "Primary Harmonic Attunement and Focal CTA"
+    }),
+    secondaryAccent := (record ChromaticToken {
+      tokenName := "bioluminescent-jade",
+      hexValue := "#6EE7B7",
+      contrastRatioTenths := 84,
+      semanticRole := "Secondary Botanical Telemetry and Herbarium Accent"
+    }),
+    typography := (record TypographicScale {
+      displayFamily := "Cormorant Garamond",
+      sansFamily := "Plus Jakarta Sans",
+      monoFamily := "JetBrains Mono",
+      scaleRatioTenths := 16,
+      minBodyContrastTenths := 70
+    }),
+    marketing := (record MarketingProposition {
+      editionTitle := "Conservatory Edition - 262 / 432 Hz Just Intonation",
+      tagline := "Where every footstep, breeze, and blossom awakens a living harmonic choir.",
+      genreClassification := "Peaceful First-Person Botanical and Acoustic Sanctuary",
+      primaryCallToAction := "Enter the Garden",
+      secondaryCallToAction := "Botanical Field Guide",
+      maxFocalActions := 2
+    }),
+    neuromorphicBridge := (record NeuromorphicBrandBridgeSpec {
+      neuromorphicBusCoupled := ((stepBrandBusModulation 1) <? (stepBrandBusModulation 16)),
+      domainBasisPrime := (verdantBrandBasisPrime),
+      rule30RegisterBits := 64,
+      pointKeyBits := 28,
+      crossDomainTransferEnabled := ((stepBrandBusModulation 8) <? (stepBrandBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))),
+      autopoieticSelfRefinementEnabled := ((stepBrandBusModulation 8) <? (stepBrandBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))
+    })
+  })
 }
 
 definition{
@@ -133,16 +186,16 @@ theorem{
 
 definition{
   name: breaksBrandNeuromorphicCoupling,
-  parameters: [prime : Nat],
+  parameters: [busWeight : Nat],
   result: Bool,
-  body: ((prime =? (verdantBrandBasisPrime)) && (prime <? 107))
+  body: (((stepBrandBusModulation busWeight) <? (wcagAaaMinimumContrastTenths)) || ((100 <? (stepBrandBusModulation busWeight)) || ((stepBrandBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <? (stepBrandBusModulation busWeight))))
 }
 
 theorem{
   name: brandNeuromorphicCouplingHolds,
-  parameters: [prime : Nat],
-  statement: ((breaksBrandNeuromorphicCoupling prime) = false),
-  proof: linear_arithmetic{definitions: [breaksBrandNeuromorphicCoupling, verdantBrandBasisPrime]},
+  parameters: [busWeight : Nat],
+  statement: ((breaksBrandNeuromorphicCoupling busWeight) = false),
+  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksBrandNeuromorphicCoupling, stepBrandBusModulation, verdantSecondaryContrastTenths, wcagAaaMinimumContrastTenths]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

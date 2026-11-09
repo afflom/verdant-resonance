@@ -2,6 +2,7 @@
 \useglossary{lexlean.std.bool@1.2.0}
 \useglossary{lexlean.std.nat@1.2.0}
 \useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.Neuromorphic.V1.Model}
 \title{Text application model}
 \begin{semanticmodule}
 structure{
@@ -90,10 +91,46 @@ definition{
 }
 
 definition{
+  name: stepInfrastructureBusModulation,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 5 : Nat))
+}
+
+definition{
   name: verdantInfrastructureStandard,
   parameters: [],
   result: InfrastructureStandard,
-  body: (record InfrastructureStandard {profile := "prism/infrastructure-standard/3", runtimeArchitecture := "Deterministic Zero-GC WebGL2 + 5-Partial WebAudio Sanctuary Runtime + Universal Neuromorphic Bus", memoryPools := (record ZeroAllocationPoolSpec {sporeRingBufferCapacity := 220, acousticWaveRingCapacity := 5, sympatheticFilamentCapacity := 6, instancedSteppingStones := 64, instancedPerimeterRocks := 52, instancedGroveStalks := 64, instancedMeadowGrassBlades := 360, perFrameHeapAllocations := 0}), renderPipeline := (record RenderPipelineContract {colorSpace := "SRGBColorSpace", toneMapping := "ACESFilmicToneMapping", environmentLighting := "PMREMGenerator RoomEnvironment + 512px Procedural Micro-Relief BumpMap", maxPixelRatio := 2, targetFrameBudgetMs := 16, softwareGlFallbackEnabled := true}), neuromorphicBridge := (record NeuromorphicInfrastructureSpec {neuromorphicBusCoupled := true, domainBasisPrime := 71, adaptivePoolGovernorEnabled := true, dynamicBumpAndExposureRefinement := true, crossDomainTelemetrySync := true, selfRefiningRenderContract := true})})
+  body: (record InfrastructureStandard {
+    profile := "prism/infrastructure-standard/3",
+    runtimeArchitecture := "Deterministic Zero-GC WebGL2 + 5-Partial WebAudio Sanctuary Runtime + Universal Neuromorphic Bus",
+    memoryPools := (record ZeroAllocationPoolSpec {
+      sporeRingBufferCapacity := 220,
+      acousticWaveRingCapacity := 5,
+      sympatheticFilamentCapacity := 6,
+      instancedSteppingStones := 64,
+      instancedPerimeterRocks := 52,
+      instancedGroveStalks := 64,
+      instancedMeadowGrassBlades := 360,
+      perFrameHeapAllocations := 0
+    }),
+    renderPipeline := (record RenderPipelineContract {
+      colorSpace := "SRGBColorSpace",
+      toneMapping := "ACESFilmicToneMapping",
+      environmentLighting := "PMREMGenerator RoomEnvironment + 512px Procedural Micro-Relief BumpMap",
+      maxPixelRatio := 2,
+      targetFrameBudgetMs := 16,
+      softwareGlFallbackEnabled := ((verdantPerFrameHeapAllocations) <=? (maxAllowedPerFrameHeapAllocations))
+    }),
+    neuromorphicBridge := (record NeuromorphicInfrastructureSpec {
+      neuromorphicBusCoupled := ((stepInfrastructureBusModulation 1) <? (stepInfrastructureBusModulation 16)),
+      domainBasisPrime := (verdantInfrastructureBasisPrime),
+      adaptivePoolGovernorEnabled := ((verdantPerFrameHeapAllocations) <=? (maxAllowedPerFrameHeapAllocations)),
+      dynamicBumpAndExposureRefinement := ((stepInfrastructureBusModulation 8) <? (stepInfrastructureBusModulation (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated 8))),
+      crossDomainTelemetrySync := ((stepInfrastructureBusModulation 8) <? (stepInfrastructureBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))),
+      selfRefiningRenderContract := ((stepInfrastructureBusModulation 8) <? (stepInfrastructureBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))
+    })
+  })
 }
 
 definition{
@@ -113,16 +150,16 @@ theorem{
 
 definition{
   name: breaksInfrastructureNeuromorphicCoupling,
-  parameters: [allocs : Nat, basisPrime : Nat],
+  parameters: [busWeight : Nat],
   result: Bool,
-  body: (((allocs =? (verdantPerFrameHeapAllocations)) && (0 <? allocs)) || ((basisPrime =? (verdantInfrastructureBasisPrime)) && (basisPrime <? (minRequiredInfrastructureBasisPrime))))
+  body: (((stepInfrastructureBusModulation busWeight) <? 1005) || ((1080 <? (stepInfrastructureBusModulation busWeight)) || ((stepInfrastructureBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <? (stepInfrastructureBusModulation busWeight))))
 }
 
 theorem{
   name: infrastructureNeuromorphicCouplingHolds,
-  parameters: [allocs : Nat, basisPrime : Nat],
-  statement: ((breaksInfrastructureNeuromorphicCoupling allocs basisPrime) = false),
-  proof: linear_arithmetic{definitions: [breaksInfrastructureNeuromorphicCoupling, minRequiredInfrastructureBasisPrime, verdantInfrastructureBasisPrime, verdantPerFrameHeapAllocations]},
+  parameters: [busWeight : Nat],
+  statement: ((breaksInfrastructureNeuromorphicCoupling busWeight) = false),
+  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksInfrastructureNeuromorphicCoupling, stepInfrastructureBusModulation]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

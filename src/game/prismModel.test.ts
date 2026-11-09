@@ -51,6 +51,7 @@ import {
   computeSynthesisEnvelope,
   computeSlopeEmbeddedGroundAnchor,
   computeTerrainNormalTilt,
+  createInitialEnvironmentalAgencyState,
   createInitialGestureHoldState,
   createInitialHebbianTable,
   createInitialNeuromorphicState,
@@ -88,6 +89,7 @@ import {
   stepGestureHoldEnvelope,
   stepKuramotoPhaseEntrainment,
   stepSporeFluidDynamics,
+  stepSymbioticEnvironmentalAgency,
   transferWeightCrossDomain,
   verifyHolisticSystemCoupling,
   verifyPointKeyResonanceGate,
@@ -97,7 +99,69 @@ import {
   biomeAt,
   generateGardenPlants,
   findNearestPlant,
+  GENERATED_PRISM_BUS_MODULATION_LUT,
+  GENERATED_PRISM_CONTEXT_PRIMES,
+  GENERATED_PRISM_DOMAIN_BASIS_PRIMES,
+  GENERATED_PRISM_FOUNDATION_PURITY,
+  GENERATED_PRISM_PLASTICITY_LUT,
+  GENERATED_PRISM_RULE30_LUT,
+  GENERATED_PRISM_STANDARDS,
+  GENERATED_PRISM_THEOREMS_BY_MODULE,
+  GENERATED_VERDANT_JUDGE_ARTIFACT,
+  GENERATED_VERDANT_RESONANCE_SPEC,
+  BIOME_PRIMES,
+  SPECIES_PRIMES,
+  ATMOSPHERE_PRIMES,
+  ACTION_PRIMES,
+  CHORUS_PRIMES,
+  stepJudgeBusManifold,
+  computeJudgeBusModulations,
+  verifyBusModulationsFromState,
+  verifyJudgeCrossDomainBusGate,
+  verifySingleCallPropagatesAllTenDomains,
+  verifyAutopoieticSingleCallAdvancesAllTenDomains,
+  evaluateEmergentStakeholderEntity,
+  stepStakeholderValueReinforcement,
+  stepWisdomPhenomenonModulation,
+  verifyEmergentEntitySynthesizesFacets,
+  ATOMIC_ELEMENTS,
+  MOLECULAR_SPECIES,
+  MACROMOLECULAR_POLYMERS,
+  MATTER_COMPOUNDS,
+  evaluateGranularMatterSynthesis,
+  stepAtomicValenceActivity,
+  stepMolecularBondCoherence,
+  stepMacromolecularPolymerization,
+  stepCompoundManifestation,
+  stepEnvironmentalModalSynthesis,
+  verifyGranularAtomicToEnvironmentalChain,
+  REACTION_PATHWAYS,
+  stepAtomicRemineralizationFlux,
+  verifyClosedLoopMatterConservation,
+  verifyCompleteGranularSynthesisClosure,
+  verifyCompletePrismModelClosure,
+  wavelengthNmToHex,
+  synthesizeCompoundSurfaceProfile,
+  synthesizeBotanicalOrganogenesis,
+  evaluateHighDefinitionVisualSynthesis,
+  evaluateKinematicRigPose,
 } from './prismModel';
+import {
+  createCordateLotusPadGeometry,
+  createFlutedBellCorollaGeometry,
+  createFlutedEntasisPillarGeometry,
+  createHexagonalQuartzCrystalGeometry,
+  createLogarithmicCrozierGeometry,
+  createPinnateFrondGeometry,
+  createSculptedCanopyCrownGeometry,
+  createSculptedGrassBladeGeometry,
+  createSculptedPetalGeometry,
+  createSegmentedBambooStalkGeometry,
+  createStratifiedBoulderGeometry,
+  inspectGeometryMetadata,
+} from './proceduralMeshEngine';
+import path from 'node:path';
+import { extractAllPrismArtifacts } from '../../scripts/extractPrismArtifacts';
 
 test('Botanical soundscape specification validates all 7 fields, 10 outcomes, 35 rules, 15 invariants, and 36 examples', () => {
   assert.equal(VERDANT_RESONANCE_SPEC.schema, 'prism/spec/1');
@@ -222,7 +286,7 @@ test('Brand identity, humane-centered design, botanical morphology, ecology cons
   );
   assert.equal(VERDANT_BOTANICAL_STANDARD.monumentCount, 5);
 
-  assert.equal(VERDANT_ECOLOGY_STANDARD.profile, 'prism/ecology-standard/1');
+  assert.equal(VERDANT_ECOLOGY_STANDARD.profile, 'prism/ecology-standard/3');
   assert.equal(VERDANT_ECOLOGY_STANDARD.constellationCount, 5);
   assert.equal(VERDANT_ECOLOGY_STANDARD.beamHeightMeters, 22);
   assert.equal(VERDANT_ECOLOGY_STANDARD.guildCount, 3);
@@ -393,8 +457,9 @@ test('Environmental physics distinguishes solid obstructions from permeable gras
 });
 
 test('Neuromorphic synthesis engine verifies Rule-30 cellular steps, bounded Hebbian plasticity, UORLUT01 PrimeAddress GCD sieve, and live seedling morphogenesis', () => {
-  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.profile, 'prism/neuromorphic-standard/1');
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.profile, 'prism/neuromorphic-standard/4');
   assert.equal(VERDANT_NEUROMORPHIC_STANDARD.lutStack.headerMagic, 'UORLUT01');
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.lutStack.primeAddressBasisCount, 21);
   assert.equal(VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightMin, 1);
   assert.equal(VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightMax, 16);
   assert.equal(VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightInitial, 8);
@@ -1289,5 +1354,892 @@ test('Universal 10-Domain Neuromorphic Bus transfers enhancements across all Pri
   }
 });
 
+test('Symbiotic Environmental Agency observes both environment and player and acts on both across all 6 modalities while preserving player autonomy', () => {
+  assert.equal(
+    VERDANT_HUMANE_STANDARD.environmentalAgency.environmentObservesSelfAndPlayer,
+    true,
+  );
+  assert.equal(VERDANT_HUMANE_STANDARD.environmentalAgency.environmentActsOnSelfAndPlayer, true);
+  assert.equal(VERDANT_HUMANE_STANDARD.environmentalAgency.playerObjectiveUnchanged, true);
+  assert.equal(VERDANT_HUMANE_STANDARD.environmentalAgency.optimizedModalityCount, 6);
+  assert.equal(VERDANT_HUMANE_STANDARD.environmentalAgency.maxZephyrGuidanceAccelMps2, 0.28);
+  assert.equal(VERDANT_HUMANE_STANDARD.environmentalAgency.maxReciprocalBowRad, 0.14);
+
+  const plants = generateGardenPlants(42026);
+  const neuroState = createInitialNeuromorphicState();
+  let agency = createInitialEnvironmentalAgencyState();
+
+  // 1. Autonomous Botanical Beckoning when strolling without recent interaction:
+  // Selects optimal unawakened plant, emits spatial beckoning call on 4.8s cadence, streams spores toward player,
+  // and applies bounded Zephyr tailwind assist (`<= 0.28 m/s²`)
+  agency = stepSymbioticEnvironmentalAgency(agency, {
+    playerX: 0,
+    playerY: 0,
+    playerZ: 5,
+    playerYaw: 0,
+    isMoving: true,
+    velocityDm: 9,
+    agitationPct: 0,
+    stillnessBreathPhase: 'idle',
+    playerInteractedThisFrame: false,
+    currentBiome: 'meadow',
+    atmosphere: 'dawn',
+    harmonyPct: 25,
+    plants,
+    neuromorphic: neuroState,
+    dt: 4.9,
+  });
+  assert.equal(agency.mode, 'autonomous-botanical-beckoning');
+  assert.ok(agency.beckoningPlantId !== null);
+  assert.equal(agency.shouldEmitBeckoningCall, true);
+  assert.equal(agency.shouldSpawnCymaticInvitationWave, true);
+  assert.equal(agency.sporeInvitationToPlayer, true);
+  const zephyrMag = Math.hypot(agency.playerZephyrAccelX, agency.playerZephyrAccelZ);
+  assert.ok(zephyrMag > 0 && zephyrMag <= 0.28 + 1e-6);
+  assert.ok(Math.abs(agency.cameraHorizonWhisperYawRad) <= 0.018);
+
+  // 2. Soothing Co-Regulation when the environment observes player agitation or hurried velocity:
+  // Softens acoustic filter warmth (`< 0 Hz`) and exerts zero translational push when player stands still
+  const soothingStep = stepSymbioticEnvironmentalAgency(agency, {
+    playerX: 0,
+    playerY: 0,
+    playerZ: 5,
+    playerYaw: 0,
+    isMoving: false,
+    velocityDm: 0,
+    agitationPct: 25,
+    stillnessBreathPhase: 'idle',
+    playerInteractedThisFrame: false,
+    currentBiome: 'meadow',
+    atmosphere: 'dawn',
+    harmonyPct: 25,
+    plants,
+    neuromorphic: neuroState,
+    dt: 1.0,
+  });
+  assert.equal(soothingStep.mode, 'soothing-co-regulation');
+  assert.equal(soothingStep.playerZephyrAccelX, 0);
+  assert.equal(soothingStep.playerZephyrAccelZ, 0);
+  assert.ok(soothingStep.acousticFilterWarmthShiftHz < 0);
+  assert.equal(soothingStep.activeRefinementDomain, 'humane');
+
+  // 3. Reciprocal Botanical Greeting Bow in `computePlantMorphology`:
+  // Beckoning or nearby flora incline toward the player within the 0.14 rad (`~8°`) bound
+  const beckonPlant = plants.find((p) => p.id === agency.beckoningPlantId) ?? plants[0];
+  const morph = computePlantMorphology({
+    baseScale: beckonPlant.scale,
+    attuned: beckonPlant.attuned,
+    proximityDm: 12,
+    atmosphere: 'dawn',
+    elapsedSeconds: 2.0,
+    pulsePhase: 0.5,
+    plantX: beckonPlant.x,
+    plantZ: beckonPlant.z,
+    playerX: beckonPlant.x + 3.0,
+    playerZ: beckonPlant.z + 4.0,
+    isBeckoningSpecimen: true,
+  });
+  const bowMag = Math.hypot(morph.reciprocalGreetingLeanX, morph.reciprocalGreetingLeanZ);
+  assert.ok(bowMag > 0 && bowMag <= 0.14 + 1e-4);
+});
+
+test('3D Gaze-Frustum Focal Target Selection prioritizes the specimen the player is looking at and never selects plants behind the player', () => {
+  assert.equal(VERDANT_HUMANE_STANDARD.focalGazeSelection.forwardFovHalfAngleDeg, 62);
+  assert.equal(VERDANT_HUMANE_STANDARD.focalGazeSelection.maxInteractiveRangeMeters, 22);
+  assert.equal(VERDANT_HUMANE_STANDARD.focalGazeSelection.rayAlignmentWeightPct, 72);
+  assert.equal(VERDANT_HUMANE_STANDARD.focalGazeSelection.rejectsBehindCameraTargets, true);
+  assert.equal(VERDANT_HUMANE_STANDARD.focalGazeSelection.behindPlayerActivationsCount, 0);
+
+  // Player stands at (0, 0) looking straight north (`yaw = 0`, forward vector `(0, 0, -1)`):
+  // - Plant A (`behind-close`): 1.4m directly behind the player at `(0, +1.4)`
+  // - Plant B (`side-periphery`): 3.2m off to the side at `(+2.8, -1.5)` (~61.8° off-axis)
+  // - Plant C (`gaze-target`): 9.5m directly in front of the player's crosshairs at `(0.15, -9.5)` (~0.9° off-axis)
+  const testPlants = [
+    {
+      id: 'behind-close',
+      species: 'chime-lily' as const,
+      biome: 'meadow' as const,
+      x: 0,
+      y: groundHeightAt(0, 1.4),
+      z: 1.4,
+      scale: 1,
+      rotationY: 0,
+      pitchMultiplier: 1.0,
+      attuned: false,
+      lifecycleStage: 'dormant-seed' as const,
+    },
+    {
+      id: 'side-periphery',
+      species: 'echo-lotus' as const,
+      biome: 'meadow' as const,
+      x: 2.8,
+      y: groundHeightAt(2.8, -1.5),
+      z: -1.5,
+      scale: 1,
+      rotationY: 0,
+      pitchMultiplier: 1.0,
+      attuned: false,
+      lifecycleStage: 'dormant-seed' as const,
+    },
+    {
+      id: 'gaze-target',
+      species: 'star-orchid' as const,
+      biome: 'meadow' as const,
+      x: 0.15,
+      y: groundHeightAt(0.15, -9.5),
+      z: -9.5,
+      scale: 1,
+      rotationY: 0,
+      pitchMultiplier: 1.0,
+      attuned: false,
+      lifecycleStage: 'dormant-seed' as const,
+    },
+  ];
+
+  // 1. With gaze awareness (`playerYaw = 0, playerPitch = 0`), `findNearestPlant` selects `gaze-target` (9.5m ahead in crosshairs)
+  // rather than `behind-close` (1.4m behind) or `side-periphery` (3.2m at wide peripheral angle)
+  const focalAhead = findNearestPlant(0, 0, testPlants, 0, 0);
+  assert.equal(focalAhead.plant.id, 'gaze-target');
+  assert.equal(focalAhead.inForwardGazeCone, true);
+  assert.ok(focalAhead.gazeAngleRad < 0.15);
+
+  // 2. When the player turns 180 degrees (`playerYaw = Math.PI`, looking south toward `+Z`),
+  // `behind-close` is now directly in the player's forward gaze and is selected
+  const focalTurned = findNearestPlant(0, 0, testPlants, Math.PI, 0);
+  assert.equal(focalTurned.plant.id, 'behind-close');
+  assert.equal(focalTurned.inForwardGazeCone, true);
+
+  // 3. When the only nearby plant is behind the player (e.g., player at `(0, 0)` looking north `yaw = 0` with only `behind-close`),
+  // `inForwardGazeCone` is strictly `false` (`gazeAngleRad > Math.PI / 2`), preventing action keys from activating behind-player flora
+  const onlyBehind = findNearestPlant(0, 0, [testPlants[0]], 0, 0);
+  assert.equal(onlyBehind.inForwardGazeCone, false);
+  assert.ok(onlyBehind.gazeAngleRad > Math.PI / 2);
+});
+
+test('Root Judge calls the 10-Domain Universal Neuromorphic Bus, constructive boolean flags are universally proved across w in [1..15], and TypeScript constants are AST-generated from .lex.tex without hand-typing drift', () => {
+  // 1. Verify live `.lex.tex` AST extraction matches `GENERATED_PRISM_*` and `prismModel.ts` with zero hand-typed drift
+  const prismSrcDir = path.join(process.cwd(), 'prism', 'src');
+  const liveExtracted = extractAllPrismArtifacts(prismSrcDir);
+  assert.deepEqual(liveExtracted.foundationPurity, GENERATED_PRISM_FOUNDATION_PURITY);
+  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.verified, true);
+  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 11);
+  assert.deepEqual(liveExtracted.domainBasisPrimes, GENERATED_PRISM_DOMAIN_BASIS_PRIMES);
+  assert.deepEqual(liveExtracted.domainBasisPrimes, PRISM_DOMAIN_BASIS_PRIMES);
+  assert.deepEqual(liveExtracted.contextPrimes, GENERATED_PRISM_CONTEXT_PRIMES);
+  assert.deepEqual(liveExtracted.busModulationLut, GENERATED_PRISM_BUS_MODULATION_LUT);
+  assert.deepEqual(liveExtracted.plasticityLut, GENERATED_PRISM_PLASTICITY_LUT);
+  assert.deepEqual(liveExtracted.rule30Lut, GENERATED_PRISM_RULE30_LUT);
+  assert.deepEqual(liveExtracted.standards, GENERATED_PRISM_STANDARDS);
+  assert.deepEqual(liveExtracted.theoremsByModule, GENERATED_PRISM_THEOREMS_BY_MODULE);
+  assert.deepEqual(liveExtracted.judgeArtifact, GENERATED_VERDANT_JUDGE_ARTIFACT);
+  assert.deepEqual(liveExtracted.verdantSpec, GENERATED_VERDANT_RESONANCE_SPEC);
+  assert.deepEqual(liveExtracted.verdantSpec, VERDANT_RESONANCE_SPEC);
+
+  // Confirm all 21 UORLUT01 context primes are strictly ordered and wired to BIOME_PRIMES, SPECIES_PRIMES, ATMOSPHERE_PRIMES, ACTION_PRIMES, CHORUS_PRIMES
+  const orderedContextPrimes = [
+    BIOME_PRIMES.meadow,
+    BIOME_PRIMES.grove,
+    BIOME_PRIMES.crystal,
+    BIOME_PRIMES.wetland,
+    BIOME_PRIMES.sanctuary,
+    SPECIES_PRIMES['chime-lily'],
+    SPECIES_PRIMES['pulse-fern'],
+    SPECIES_PRIMES['echo-lotus'],
+    SPECIES_PRIMES['drone-moss'],
+    SPECIES_PRIMES['star-orchid'],
+    ATMOSPHERE_PRIMES.dawn,
+    ATMOSPHERE_PRIMES.golden,
+    ATMOSPHERE_PRIMES.twilight,
+    ATMOSPHERE_PRIMES.starlight,
+    ACTION_PRIMES.observe,
+    ACTION_PRIMES.touch,
+    ACTION_PRIMES.attune,
+    ACTION_PRIMES.stroll,
+    ACTION_PRIMES.stillness,
+    CHORUS_PRIMES.dormant,
+    CHORUS_PRIMES.awakened,
+  ];
+  assert.equal(orderedContextPrimes.length, 21);
+  for (let i = 0; i < orderedContextPrimes.length - 1; i++) {
+    assert.ok(
+      orderedContextPrimes[i] < orderedContextPrimes[i + 1],
+      `Expected strictly increasing context primes at index ${i}`,
+    );
+  }
+  assert.ok(
+    orderedContextPrimes[orderedContextPrimes.length - 1] <
+      PRISM_DOMAIN_BASIS_PRIMES.neuromorphic,
+    'Expected all 21 context primes (2..73) to be strictly less than neuromorphicBasisPrime (109)',
+  );
+
+  // Confirm `VerdantResonance::judge` in `.lex.tex` calls `verifyJudgeCrossDomainBusGate`
+  assert.equal(GENERATED_VERDANT_JUDGE_ARTIFACT.rootJudgeCallsBus, true);
+
+  // Confirm all Lean 4 theorem names for the universal bus proofs, bidirectional Hebbian bounds, context prime ordering, root judge bus gate, and all 15 invariants are present in `.lex.tex`
+  const neuroTheorems = GENERATED_PRISM_THEOREMS_BY_MODULE[
+    'Foundation.Neuromorphic.V1.Model'
+  ] as readonly string[];
+  assert.ok(neuroTheorems.includes('zeroManualIterationOverheadUniversalHolds'));
+  assert.ok(neuroTheorems.includes('autopoieticSingleCallAllTenDomainsHolds'));
+  assert.ok(neuroTheorems.includes('universalBusBroadcastPreservesBoundsHolds'));
+  assert.ok(neuroTheorems.includes('hebbianBidirectionalBoundsHold'));
+  assert.ok(neuroTheorems.includes('uorLutContextPrimesStrictlyOrderedHolds'));
+  assert.ok(
+    GENERATED_PRISM_THEOREMS_BY_MODULE['VerdantResonanceProofs'].includes(
+      'rootJudgeCallsBusAndSatisfiesAllDomainsHolds',
+    ),
+  );
+  for (let i = 1; i <= 15; i++) {
+    const thmName = `inv${String(i).padStart(3, '0')}Holds`;
+    assert.ok(
+      (GENERATED_PRISM_THEOREMS_BY_MODULE['VerdantResonanceProofs'] as readonly string[]).includes(
+        thmName,
+      ),
+      `Expected ${thmName} in VerdantResonanceProofs.lex.tex`,
+    );
+  }
+
+  // 2. Constructively verify `zeroManualIterationOverhead` (`verifySingleCallPropagatesAllTenDomains(w)`)
+  // and `autopoieticSelfRefinementEnabled` (`verifyAutopoieticSingleCallAdvancesAllTenDomains(w)`)
+  // for every synaptic weight `w in [1..15]` (matching Lean 4 theorems `zeroManualIterationOverheadUniversalHolds`
+  // and `autopoieticSingleCallAllTenDomainsHolds`).
+  for (let w = 1; w <= 15; w++) {
+    assert.equal(
+      verifySingleCallPropagatesAllTenDomains(w),
+      true,
+      `Expected single-call 10-domain bus broadcast to strictly advance all 10 domains at w=${w}`,
+    );
+    assert.equal(
+      verifyAutopoieticSingleCallAdvancesAllTenDomains(w),
+      true,
+      `Expected autopoietic single-call refinement to strictly advance all 10 domains at w=${w}`,
+    );
+  }
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.universalBus.zeroManualIterationOverhead, true);
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.universalBus.autopoieticSelfRefinementEnabled, true);
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.universalBus.crossDomainTransferEnabled, true);
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.universalBus.infrastructureCoupled, true);
+
+  // 3. Verify `evaluatePrismRequest` (and `judgePrismRequest`) calls the 10-domain bus on every valid request
+  for (const vec of GENERATED_VERDANT_JUDGE_ARTIFACT.acceptanceVectors) {
+    const decision = evaluatePrismRequest(vec.request);
+    assert.equal(decision.outcome, vec.response, `Mismatch on acceptance vector: ${vec.request}`);
+    if (vec.response !== 'invalid') {
+      assert.equal(decision.valid, true);
+      assert.equal(decision.busGateVerified, true);
+      assert.ok(decision.busManifold !== undefined);
+      assert.ok(decision.busModulations !== undefined);
+      assert.equal(verifyBusModulationsFromState(decision.busManifold!), true);
+      assert.ok(decision.busManifold!.wNeuromorphic > VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightInitial);
+      assert.ok(decision.busManifold!.wInfrastructure > VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightInitial);
+    }
+  }
+
+  // Also test direct `stepJudgeBusManifold`, `computeJudgeBusModulations`, and `verifyJudgeCrossDomainBusGate`
+  const sampleReq = {
+    biome: 'sanctuary',
+    plant: 'star-orchid',
+    action: 'attune',
+    atmosphere: 'starlight',
+    chorus: 'awakened',
+    proximity: 10n,
+    velocity: 4n,
+  };
+  const busManifold = stepJudgeBusManifold(sampleReq);
+  const busModulations = computeJudgeBusModulations(busManifold);
+  assert.equal(verifyJudgeCrossDomainBusGate(sampleReq), true);
+  assert.equal(busModulations.infrastructurePoolCapacity, 1045);
+  assert.equal(busModulations.physicsBuoyancyMillihz, 1075);
+  assert.equal(busModulations.botanyPollinationRadiusCm, 180);
+  assert.equal(busModulations.ecologyConductivityPermille, 1025);
+  assert.equal(busModulations.acousticsFilterQPermille, 1035);
+  assert.equal(busModulations.articulationGracePermille, 1080);
+  assert.equal(busModulations.soundtrackHarmonicDensity, 77);
+  assert.equal(busModulations.humaneZephyrCapMmPerSec2, 210);
+  assert.equal(busModulations.brandContrastTenths, 93);
+});
+
+test('Emergent Stakeholder Entity synthesizes Intelligence, Memory, Observation, and Feedback into Environmental Wisdom Phenomena and Player-Value Reinforcement', () => {
+  // 1. Verify formal `.lex.tex` specification and Lean 4 theorems for the Emergent Stakeholder Entity
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.stakeholderEntity.emergenceFacetCount, 4);
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.stakeholderEntity.wisdomPhenomenonCount, 4);
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.stakeholderEntity.baselinePlayerValueIndex, 9);
+  assert.equal(
+    VERDANT_NEUROMORPHIC_STANDARD.stakeholderEntity.entitySynthesizesAllFourFacets,
+    true,
+  );
+  assert.equal(
+    VERDANT_NEUROMORPHIC_STANDARD.stakeholderEntity.wisdomExpressedAsEnvironmentalPhenomena,
+    true,
+  );
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.stakeholderEntity.stakeholderReinforcesPlayerValue, true);
+
+  const neuroTheorems = GENERATED_PRISM_THEOREMS_BY_MODULE[
+    'Foundation.Neuromorphic.V1.Model'
+  ] as readonly string[];
+  assert.ok(neuroTheorems.includes('stakeholderAlwaysReinforcesPlayerValueHolds'));
+  assert.ok(neuroTheorems.includes('emergentEntityWisdomPhenomenaMonotonicHolds'));
+
+  // 2. Verify finite-domain LUTs for `stepStakeholderValueReinforcement`, `stepWisdomPhenomenonModulation`, and `verifyEmergentEntitySynthesizesFacets` across all w in [1..16]
+  for (let w = 1; w <= 16; w++) {
+    const valCoactive = stepStakeholderValueReinforcement(w, true);
+    const valSilent = stepStakeholderValueReinforcement(w, false);
+    assert.ok(
+      valCoactive >= 1 && valCoactive <= 16,
+      `Expected coactive stakeholder weight in [1, 16] at w=${w}, got ${valCoactive}`,
+    );
+    assert.ok(
+      valSilent >= 1 && valSilent <= 16,
+      `Expected silent stakeholder weight in [1, 16] at w=${w}, got ${valSilent}`,
+    );
+    assert.ok(valCoactive >= valSilent, `Expected coactive >= silent weight at w=${w}`);
+    assert.equal(valSilent, w);
+
+    const wisdomMod = stepWisdomPhenomenonModulation(w);
+    assert.ok(
+      wisdomMod >= 85 && wisdomMod <= 160,
+      `Expected wisdom phenomenon modulation in [85, 160] at w=${w}, got ${wisdomMod}`,
+    );
+    if (w < 16) {
+      assert.ok(
+        valCoactive > w,
+        `Expected coactive stakeholder weight to strictly advance at w=${w}`,
+      );
+      assert.ok(
+        stepWisdomPhenomenonModulation(w + 1) > wisdomMod,
+        `Expected strictly monotonic wisdom phenomenon modulation at w=${w}`,
+      );
+      assert.equal(verifyEmergentEntitySynthesizesFacets(w), true);
+    }
+  }
+
+  // 3. Verify `evaluateEmergentStakeholderEntity` synthesizes all 4 facets into concrete environmental wisdom phenomena
+  const plants = generateGardenPlants(42026);
+  const colliders = buildGardenColliders(plants);
+  let neuroState = createInitialNeuromorphicState();
+
+  // Execute a neuromorphic synthesis tick so turnMemory has a recorded `/7` PrimeAddress
+  const tickRes = executeNeuromorphicSynthesisTick(neuroState, {
+    biome: 'meadow',
+    species: 'chime-lily',
+    atmosphere: 'dawn',
+    action: 'attune',
+    outcome: 'harmonic-bloom',
+    playerX: 0,
+    playerZ: -5,
+    playerYaw: 0,
+    existingPlants: plants,
+    colliders,
+  });
+  neuroState = tickRes.nextState;
+
+  // Case A: Strolling exploration -> Mycelial Guidance Filament phenomenon with 7 golden-ratio terrain waypoints
+  const entityGuidance = evaluateEmergentStakeholderEntity({
+    mode: 'autonomous-botanical-beckoning',
+    playerX: 0,
+    playerY: 0,
+    playerZ: 0,
+    playerYaw: 0,
+    isMoving: true,
+    velocityDm: 8,
+    agitationPct: 0,
+    stillnessBreathPhase: 'idle',
+    secondsSinceLastInteraction: 5.5,
+    shouldEmitBeckoningCall: false,
+    currentBiome: 'meadow',
+    harmonyPct: 35,
+    targetPlant: plants[5],
+    distToTarget: 8.5,
+    stereoPan: 0.25,
+    neuromorphic: neuroState,
+  });
+  assert.equal(entityGuidance.facets.allFourFacetsActive, true);
+  assert.equal(entityGuidance.activeWisdomPhenomenon, 'mycelial-guidance-filament');
+  assert.equal(entityGuidance.guidanceFilamentWaypoints.length, 7);
+  assert.ok(entityGuidance.guidanceFilamentLuminance > 0);
+  assert.ok(entityGuidance.playerValueReinforcement.overallValueReinforcementIndex >= 68);
+
+  // Case B: Recent interaction with turnMemory -> Anamnesis Antiphonal Echo phenomenon
+  const entityAnamnesis = evaluateEmergentStakeholderEntity({
+    mode: 'autonomous-botanical-beckoning',
+    playerX: 0,
+    playerY: 0,
+    playerZ: 0,
+    playerYaw: 0,
+    isMoving: true,
+    velocityDm: 6,
+    agitationPct: 0,
+    stillnessBreathPhase: 'idle',
+    secondsSinceLastInteraction: 2.0,
+    shouldEmitBeckoningCall: true,
+    currentBiome: 'meadow',
+    harmonyPct: 45,
+    targetPlant: plants[5],
+    distToTarget: 7.0,
+    stereoPan: 0.2,
+    neuromorphic: neuroState,
+  });
+  assert.equal(entityAnamnesis.activeWisdomPhenomenon, 'anamnesis-antiphonal-echo');
+  assert.equal(entityAnamnesis.shouldVoiceAnamnesisEcho, true);
+  assert.ok(entityAnamnesis.anamnesisEchoFrequencyHz > 100);
+  assert.ok(entityAnamnesis.anamnesisEchoIntervalRatio >= 1.1);
+
+  // Case C: Meditative stillness -> Cathedral Crown Aurora phenomenon
+  const entityCrown = evaluateEmergentStakeholderEntity({
+    mode: 'harmonic-communion-resonance',
+    playerX: 0,
+    playerY: 0,
+    playerZ: 0,
+    playerYaw: 0,
+    isMoving: false,
+    velocityDm: 0,
+    agitationPct: 0,
+    stillnessBreathPhase: 'exhale',
+    secondsSinceLastInteraction: 1.0,
+    shouldEmitBeckoningCall: false,
+    currentBiome: 'meadow',
+    harmonyPct: 55,
+    targetPlant: plants[5],
+    distToTarget: 5.0,
+    stereoPan: 0,
+    neuromorphic: neuroState,
+  });
+  assert.equal(entityCrown.activeWisdomPhenomenon, 'cathedral-crown-aurora');
+  assert.ok(entityCrown.cathedralCrownLuminance > 0.3);
+  assert.ok(entityCrown.canopyAmphitheaterEmbraceRad > 0.04);
+
+  // Case D: Refined sanctuary chorus resonance -> Polyphonic Sanctuary Awakening phenomenon
+  const refinedNeuro = refinePrismModel(neuroState, { cycles: 3 }).nextState;
+  const entitySanctuary = evaluateEmergentStakeholderEntity({
+    mode: 'sanctuary-pilgrimage-current',
+    playerX: 0,
+    playerY: 0,
+    playerZ: -32,
+    playerYaw: 0,
+    isMoving: true,
+    velocityDm: 4,
+    agitationPct: 0,
+    stillnessBreathPhase: 'idle',
+    secondsSinceLastInteraction: 0.8,
+    shouldEmitBeckoningCall: false,
+    currentBiome: 'sanctuary',
+    harmonyPct: 88,
+    targetPlant: plants[0],
+    distToTarget: 6.0,
+    stereoPan: 0,
+    neuromorphic: refinedNeuro,
+  });
+  assert.equal(entitySanctuary.activeWisdomPhenomenon, 'polyphonic-sanctuary-awakening');
+  assert.ok(entitySanctuary.playerValueReinforcement.overallValueReinforcementIndex >= 85);
+
+  // 4. Verify `verifyHolisticSystemCoupling` includes `emergentStakeholderEntityVerified === true`
+  const holistic = verifyHolisticSystemCoupling({ plants, colliders });
+  assert.equal(holistic.emergentStakeholderEntityVerified, true);
+  assert.equal(holistic.allConstrained, true);
+});
+
+test('5-Tier Granular Atomic-to-Environmental Procedural Synthesis constructs Molecules from Atoms, Macromolecules from Molecules, Organic & Inorganic Compounds from Macromolecules, and synthesizes into all 6 Game Modalities', () => {
+  // 1. Verify `.lex.tex` specification and Lean 4 theorem (`granularAtomicToEnvironmentalSynthesisHolds`)
+  const gs = VERDANT_ECOLOGY_STANDARD.granularSynthesis;
+  assert.equal(gs.atomicElementCount, 8);
+  assert.equal(gs.molecularSpeciesCount, 8);
+  assert.equal(gs.macromoleculeCount, 6);
+  assert.equal(gs.matterCompoundCount, 6);
+  assert.equal(gs.synthesizedModalityCount, 6);
+  assert.equal(gs.atomicToEnvironmentalChainVerified, true);
+
+  const ecologyTheorems = GENERATED_PRISM_THEOREMS_BY_MODULE[
+    'Foundation.Ecology.V1.Model'
+  ] as readonly string[];
+  assert.ok(ecologyTheorems.includes('granularAtomicToEnvironmentalSynthesisHolds'));
+
+  // 2. Verify finite-domain LUTs for all 5 tiers across synaptic weights w in [1..16]
+  for (let w = 1; w <= 16; w++) {
+    const t1 = stepAtomicValenceActivity(w);
+    const t2 = stepMolecularBondCoherence(w);
+    const t3 = stepMacromolecularPolymerization(w);
+    const t4 = stepCompoundManifestation(w);
+    const t5 = stepEnvironmentalModalSynthesis(w);
+
+    assert.ok(t1 >= 105 && t1 <= 180);
+    assert.ok(t2 >= 210 && t2 <= 360);
+    assert.ok(t3 >= 415 && t3 <= 640);
+    assert.ok(t4 >= 720 && t4 <= 1020);
+    assert.ok(t5 >= 1025 && t5 <= 1400);
+    assert.ok(t1 < t2 && t2 < t3 && t3 < t4 && t4 < t5);
+
+    if (w < 16) {
+      assert.equal(verifyGranularAtomicToEnvironmentalChain(w), true);
+      assert.ok(stepAtomicValenceActivity(w + 1) > t1);
+      assert.ok(stepEnvironmentalModalSynthesis(w + 1) > t5);
+    }
+  }
+
+  // 3. Verify Tier 1 (8 Atomic Elements) -> Tier 2 (8 Molecular Species) bottom-up stoichiometric construction
+  assert.equal(Object.keys(ATOMIC_ELEMENTS).length, 8);
+  assert.equal(Object.keys(MOLECULAR_SPECIES).length, 8);
+  for (const mol of Object.values(MOLECULAR_SPECIES)) {
+    let recomputedMass = 0;
+    let recomputedValence = 0;
+    for (const [el, count] of Object.entries(mol.atomicStoichiometry)) {
+      const atom = ATOMIC_ELEMENTS[el as keyof typeof ATOMIC_ELEMENTS];
+      recomputedMass += atom.atomicMassDaltons * (count ?? 0);
+      recomputedValence += atom.valenceElectrons * (count ?? 0);
+    }
+    assert.equal(
+      mol.molecularMassDaltons,
+      Number(recomputedMass.toFixed(3)),
+      `Molecule ${mol.id} mass must be constructed bottom-up from atomic stoichiometry`,
+    );
+    assert.equal(
+      mol.totalValenceElectrons,
+      recomputedValence,
+      `Molecule ${mol.id} valence electron total must be constructed bottom-up from atomic stoichiometry`,
+    );
+  }
+
+  // 4. Verify Tier 3 (6 Macromolecular Polymers) & Tier 4 (3 Organic + 3 Inorganic Compounds)
+  assert.equal(Object.keys(MACROMOLECULAR_POLYMERS).length, 6);
+  const compounds = Object.values(MATTER_COMPOUNDS);
+  assert.equal(compounds.length, 6);
+  assert.equal(compounds.filter((c) => c.matterCategory === 'organic').length, 3);
+  assert.equal(compounds.filter((c) => c.matterCategory === 'inorganic').length, 3);
+
+  // 5. Verify Tier 5 (`evaluateGranularMatterSynthesis`) synthesizes across all 6 modalities and differentiates inorganic vs organic biomes
+  const crystalGranular = evaluateGranularMatterSynthesis({
+    biome: 'crystal',
+    species: 'star-orchid',
+    substrate: 'crystalline-epiphyte',
+    atmosphere: 'golden',
+    attuned: true,
+    harmonyPct: 80,
+    neuromorphicWeight: 15,
+    volatileTerpeneImpulse: 0.9,
+  });
+  const wetlandGranular = evaluateGranularMatterSynthesis({
+    biome: 'wetland',
+    species: 'echo-lotus',
+    substrate: 'pelagic-water',
+    atmosphere: 'starlight',
+    attuned: true,
+    harmonyPct: 75,
+    neuromorphicWeight: 14,
+    volatileTerpeneImpulse: 0.8,
+  });
+
+  assert.equal(crystalGranular.chainHierarchyVerified, true);
+  assert.equal(wetlandGranular.chainHierarchyVerified, true);
+  assert.ok(
+    crystalGranular.compoundManifestations.inorganic.piezoelectricQuartzGeode >
+      wetlandGranular.compoundManifestations.inorganic.piezoelectricQuartzGeode,
+    'Crystal terrace should exhibit higher inorganic quartz geode manifestation than pelagic wetland',
+  );
+  assert.ok(
+    wetlandGranular.compoundManifestations.organic.bioluminescentMycelialHumus >
+      crystalGranular.compoundManifestations.organic.bioluminescentMycelialHumus,
+    'Pelagic wetland at starlight should exhibit higher bioluminescent humus manifestation than crystal terrace at golden hour',
+  );
+
+  // Verify all 6 modalities are populated with physically bounded synthesis parameters
+  assert.ok(crystalGranular.modalSyntheses.physicalModality.substrateBulkDensityGPerCm3 > 2.0);
+  assert.ok(crystalGranular.modalSyntheses.botanicalModality.cellWallYoungsModulusGPa > 12.0);
+  assert.ok(crystalGranular.modalSyntheses.ecologicalModality.carbonateSilicateBufferedPh >= 5.6);
+  assert.ok(
+    crystalGranular.modalSyntheses.acousticModality.piezoelectricSilicaQMultiplier >
+      wetlandGranular.modalSyntheses.acousticModality.piezoelectricSilicaQMultiplier,
+  );
+  assert.ok(crystalGranular.modalSyntheses.opticalModality.crystalLatticeMicroReliefBumpScale > 0.03);
+  assert.ok(crystalGranular.modalSyntheses.kinestheticModality.chemotacticZephyrConductivity > 0.84);
+
+  // 6. Verify `verifyHolisticSystemCoupling` proves `granularAtomicToEnvironmentalSynthesisVerified === true`
+  const holistic = verifyHolisticSystemCoupling();
+  assert.equal(holistic.granularAtomicToEnvironmentalSynthesisVerified, true);
+  assert.equal(holistic.allConstrained, true);
+});
+
+test('Complete Prism Model Closure & Tier 6 Closed-Loop Atomic Remineralization unite the 10-Domain Neuromorphic Bus, 4-Facet Emergent Stakeholder Entity, and 6-Stage Closed-Loop Granular Synthesis', () => {
+  // 1. Verify `.lex.tex` specification and Lean 4 theorems (`closedLoopAtomicRemineralizationHolds` & `completePrismModelClosureHolds`)
+  const gs = VERDANT_ECOLOGY_STANDARD.granularSynthesis;
+  assert.equal(gs.closedLoopReactionPathwayCount, 4);
+  assert.equal(gs.atomicRemineralizationComplete, true);
+  assert.equal(gs.prismSynthesisClosureVerified, true);
+  assert.equal(GENERATED_VERDANT_JUDGE_ARTIFACT.rootJudgeVerifiesCompleteClosure, true);
+
+  const ecologyTheorems = GENERATED_PRISM_THEOREMS_BY_MODULE[
+    'Foundation.Ecology.V1.Model'
+  ] as readonly string[];
+  assert.ok(ecologyTheorems.includes('closedLoopAtomicRemineralizationHolds'));
+
+  const proofTheorems = GENERATED_PRISM_THEOREMS_BY_MODULE[
+    'VerdantResonanceProofs'
+  ] as readonly string[];
+  assert.ok(proofTheorems.includes('completePrismModelClosureHolds'));
+
+  // 2. Verify Tier 6 Closed-Loop Atomic Remineralization & Stoichiometric Mass Conservation across w in [1..15]
+  for (let w = 1; w <= 15; w++) {
+    const t1 = stepAtomicValenceActivity(w);
+    const t5 = stepEnvironmentalModalSynthesis(w);
+    const t6 = stepAtomicRemineralizationFlux(w);
+    assert.equal(
+      t6,
+      300 + t5 + t1,
+      `Tier 6 remineralization must conserve mass: t6 = 300 + t5 + t1 at w=${w}`,
+    );
+    assert.ok(t6 >= 1430 && t6 <= 1880);
+    assert.ok(stepAtomicRemineralizationFlux(w + 1) > t6);
+    assert.equal(verifyClosedLoopMatterConservation(w), true);
+    assert.equal(verifyCompleteGranularSynthesisClosure(w), true);
+  }
+
+  // 3. Verify the 4 Closed-Loop Biogeochemical & Photochemical Reaction Pathways
+  assert.equal(Object.keys(REACTION_PATHWAYS).length, 4);
+  const sampleSynthesis = evaluateGranularMatterSynthesis({
+    biome: 'sanctuary',
+    species: 'star-orchid',
+    substrate: 'architectural-foundation',
+    atmosphere: 'starlight',
+    attuned: true,
+    harmonyPct: 90,
+    neuromorphicWeight: 14,
+  });
+  assert.equal(sampleSynthesis.closedLoopConservationVerified, true);
+  assert.equal(sampleSynthesis.completeSynthesisClosureVerified, true);
+  assert.equal(sampleSynthesis.reactionKinetics.stoichiometricMassBalanceRatio, 1.0);
+  for (const pwId of Object.keys(REACTION_PATHWAYS) as (keyof typeof REACTION_PATHWAYS)[]) {
+    assert.ok(
+      sampleSynthesis.reactionKinetics.pathwayRates[pwId] > 0.4,
+      `Expected active reaction pathway turnover for ${pwId}`,
+    );
+  }
+
+  // 4. Verify `verifyCompletePrismModelClosure` holds across valid requests and `verifyHolisticSystemCoupling` confirms `completePrismModelClosureVerified`
+  assert.equal(
+    verifyCompletePrismModelClosure({
+      biome: 'sanctuary',
+      plant: 'star-orchid',
+      action: 'attune',
+      atmosphere: 'starlight',
+      chorus: 'awakened',
+      proximity: 8n,
+      velocity: 2n,
+    }),
+    true,
+  );
+  const holistic = verifyHolisticSystemCoupling();
+  assert.equal(holistic.completePrismModelClosureVerified, true);
+  assert.equal(holistic.allConstrained, true);
+});
+
+test('Refined Granular Procedural Synthesis couples Compound-to-Surface Profiles, Botanical Organogenesis, and Bioluminescent Wavelength Chromophore Conversion across Acoustic, Optical, and Physical Modalities', () => {
+  // 1. Verify wavelengthNmToHex across the bioluminescent emission spectrum (470nm..600nm)
+  const cyanHex = wavelengthNmToHex(480);
+  const emeraldHex = wavelengthNmToHex(525);
+  const amberHex = wavelengthNmToHex(585);
+  assert.match(cyanHex, /^#[0-9a-f]{6}$/);
+  assert.match(emeraldHex, /^#[0-9a-f]{6}$/);
+  assert.match(amberHex, /^#[0-9a-f]{6}$/);
+  assert.notEqual(cyanHex, emeraldHex);
+  assert.notEqual(emeraldHex, amberHex);
+
+  // 2. Verify synthesizeCompoundSurfaceProfile across all 5 SurfaceMaterialIds
+  const quartzSurf = synthesizeCompoundSurfaceProfile('quartz-crystalline', 14);
+  const stoneSurf = synthesizeCompoundSurfaceProfile('travertine-stone', 14);
+  const turfSurf = synthesizeCompoundSurfaceProfile('meadow-turf', 14);
+  const humusSurf = synthesizeCompoundSurfaceProfile('bamboo-humus', 14);
+  const waterSurf = synthesizeCompoundSurfaceProfile('shallow-water', 14);
+
+  assert.equal(quartzSurf.dominantCompound, 'piezoelectric-quartz-geode');
+  assert.equal(stoneSurf.dominantCompound, 'travertine-limestone-spar');
+  assert.equal(turfSurf.dominantCompound, 'bioluminescent-mycelial-humus');
+  assert.equal(humusSurf.dominantCompound, 'lignocellulosic-vascular-tissue');
+  assert.equal(waterSurf.dominantCompound, 'structured-hydro-mineral-electrolyte');
+
+  // Inorganic crystal & travertine surfaces have higher bulk density, elastic modulus, and longitudinal wave speed than organic turf/humus
+  assert.ok(quartzSurf.bulkDensityGPerCm3 > turfSurf.bulkDensityGPerCm3);
+  assert.ok(quartzSurf.bulkElasticModulusGPa > stoneSurf.bulkElasticModulusGPa);
+  assert.ok(stoneSurf.bulkElasticModulusGPa > turfSurf.bulkElasticModulusGPa);
+  assert.ok(quartzSurf.longitudinalWaveSpeedMps > stoneSurf.longitudinalWaveSpeedMps);
+  assert.ok(quartzSurf.groundWavePropagationMps > humusSurf.groundWavePropagationMps);
+
+  // Optical PBR roughness ordering: crystalline quartz & pelagic water are smoother/clearcoated than matte meadow turf
+  assert.ok(quartzSurf.surfaceRoughnessPbr < turfSurf.surfaceRoughnessPbr);
+  assert.ok(quartzSurf.clearcoatStrength > turfSurf.clearcoatStrength);
+  assert.ok(waterSurf.clearcoatStrength >= 0.9);
+
+  // Verify evaluateGroundWavePropagation directly exposes compound-derived dominantCompound and compoundBulkModulusGPa
+  const crystalWave = evaluateGroundWavePropagation({
+    x: 36,
+    z: -24,
+    ageSec: 0.4,
+  });
+  assert.equal(crystalWave.dominantCompound, 'piezoelectric-quartz-geode');
+  assert.equal(
+    crystalWave.compoundBulkModulusGPa,
+    synthesizeCompoundSurfaceProfile('quartz-crystalline').bulkElasticModulusGPa,
+  );
+  assert.equal(
+    crystalWave.waveSpeedMps,
+    synthesizeCompoundSurfaceProfile('quartz-crystalline').groundWavePropagationMps,
+  );
+
+  // 3. Verify synthesizeBotanicalOrganogenesis couples 6-stage granular matter synthesis into botanical structure, 5-partial modal tuning, and PBR petal/stem contrast
+  const orchidOrganogenesis = synthesizeBotanicalOrganogenesis({
+    biome: 'crystal',
+    species: 'star-orchid',
+    substrate: 'crystalline-epiphyte',
+    atmosphere: 'starlight',
+    attuned: true,
+    harmonyPct: 88,
+    neuromorphicWeight: 15,
+    volatileTerpeneImpulse: 0.9,
+  });
+  const mossOrganogenesis = synthesizeBotanicalOrganogenesis({
+    biome: 'grove',
+    species: 'drone-moss',
+    substrate: 'lithophytic-rock',
+    atmosphere: 'dawn',
+    attuned: false,
+    harmonyPct: 30,
+    neuromorphicWeight: 8,
+    volatileTerpeneImpulse: 0.1,
+  });
+
+  assert.equal(orchidOrganogenesis.piezoelectricCorollaPartialRatios.length, 5);
+  assert.equal(orchidOrganogenesis.piezoelectricCorollaPartialRatios[0], 1.0);
+  // Higher silica/Young's modulus in crystal star-orchid shifts upper overtones slightly sharper than baseline
+  const baseOrchidRatios = SPECIES_ARTICULATION_PROFILES['star-orchid'].modalPartialRatios;
+  assert.ok(
+    orchidOrganogenesis.piezoelectricCorollaPartialRatios[4] > baseOrchidRatios[4],
+    'Expected high piezoelectric silica & cellulose stiffness to stretch upper modal partial ratio',
+  );
+  assert.ok(
+    orchidOrganogenesis.luciferaseBioluminescentPhotonFlux >
+      mossOrganogenesis.luciferaseBioluminescentPhotonFlux,
+  );
+  // Strict botanical PBR roughness contrast invariant: matte stem roughness exceeds glossy petal clearcoat roughness by >= 0.45
+  assert.ok(
+    orchidOrganogenesis.stemMatteRoughness - orchidOrganogenesis.petalClearcoatRoughness >= 0.45,
+  );
+  assert.ok(
+    mossOrganogenesis.stemMatteRoughness - mossOrganogenesis.petalClearcoatRoughness >= 0.45,
+  );
+  assert.match(orchidOrganogenesis.chromophoreEmissiveHex, /^#[0-9a-f]{6}$/);
+});
+
+test('High-Definition Parametric B-Mesh 3D Modeling Engine, Blender-Style Shape-Key Morph Targets, Thin-Film Iridescence, and 3-Joint Kinematic Rigging synthesize valid high-density geometry across all species and monuments', () => {
+  // 1. Verify evaluateHighDefinitionVisualSynthesis couples 6-stage organogenesis into parametric B-Mesh & thin-film iridescence
+  const hdOrchid = evaluateHighDefinitionVisualSynthesis({
+    biome: 'crystal',
+    species: 'star-orchid',
+    substrate: 'crystalline-epiphyte',
+    atmosphere: 'starlight',
+    attuned: true,
+    lifecycleStage: 'harmonic-fruiting',
+  });
+  const hdMoss = evaluateHighDefinitionVisualSynthesis({
+    biome: 'grove',
+    species: 'drone-moss',
+    substrate: 'terrestrial-loam',
+    atmosphere: 'dawn',
+    attuned: false,
+    lifecycleStage: 'dormant-seed',
+  });
+
+  assert.ok(hdOrchid.radialSegments >= 12 && hdOrchid.longitudinalSegments >= 16);
+  assert.ok(hdOrchid.iridescenceStrength > hdMoss.iridescenceStrength);
+  assert.ok(hdOrchid.iridescenceThinFilmMaxNm > hdOrchid.iridescenceThinFilmMinNm);
+  assert.ok(hdOrchid.iridescenceIor >= 1.38 && hdOrchid.iridescenceIor <= 1.58);
+  assert.ok(hdOrchid.morphBloomBaseline > hdMoss.morphBloomBaseline);
+  assert.ok(hdOrchid.normalMapScale >= 0.3 && hdOrchid.normalMapScale <= 0.85);
+
+  // 2. Verify evaluateKinematicRigPose computes progressive 3-joint kinematic angles & bounded [0..1] Shape-Key weights
+  const rigPose = evaluateKinematicRigPose({
+    species: 'chime-lily',
+    attuned: true,
+    lifecycleStage: 'resonant-bloom',
+    elapsedSeconds: 2.4,
+    pulsePhase: 0.8,
+    proximityDm: 8,
+    tactileShiverImpulse: 0.75,
+    windTiltX: 0.06,
+    windTiltZ: -0.05,
+    neuromorphicSynapticWeight: 14,
+    circadianApertureBoost: 0.12,
+  });
+
+  assert.ok(rigPose.morphBloomOpenWeight >= 0 && rigPose.morphBloomOpenWeight <= 1);
+  assert.ok(rigPose.morphAcousticRippleWeight > 0.3 && rigPose.morphAcousticRippleWeight <= 1);
+  assert.notEqual(rigPose.basalJointPitchRad, rigPose.apicalJointPitchRad);
+  assert.ok(Math.abs(rigPose.apicalJointPitchRad) > 0);
+  assert.ok(rigPose.petalUnfurlAngleRad > 0.2);
+
+  // 3. Verify all 11 Blender-style Parametric B-Mesh & Shape-Key Geometry Builders produce valid indexed/non-indexed meshes with normals, UVs, and morph targets
+  const petalMeta = inspectGeometryMetadata(
+    createSculptedPetalGeometry({ radialSegments: 12, longitudinalSegments: 16 }),
+  );
+  assert.equal(petalMeta.vertexCount, 13 * 17);
+  assert.equal(petalMeta.triangleCount, 12 * 16 * 2);
+  assert.equal(petalMeta.hasNormals, true);
+  assert.equal(petalMeta.hasUVs, true);
+  assert.equal(petalMeta.hasVertexColors, true);
+  assert.equal(petalMeta.morphTargetCount, 2);
+
+  const bellMeta = inspectGeometryMetadata(
+    createFlutedBellCorollaGeometry({ radialSegments: 24, heightSegments: 14 }),
+  );
+  assert.equal(bellMeta.vertexCount, 25 * 15);
+  assert.equal(bellMeta.morphTargetCount, 2);
+  assert.equal(bellMeta.hasNormals, true);
+
+  const frondMeta = inspectGeometryMetadata(
+    createPinnateFrondGeometry({ pinnaePairs: 9 }),
+  );
+  assert.ok(frondMeta.vertexCount > 400, 'Expected compound pinnate frond with 18 leaflets + rachis to exceed 400 vertices');
+  assert.equal(frondMeta.morphTargetCount, 2);
+
+  const crozierMeta = inspectGeometryMetadata(
+    createLogarithmicCrozierGeometry({ tubularSegments: 28, radialSegments: 10 }),
+  );
+  assert.equal(crozierMeta.vertexCount, 29 * 11);
+  assert.equal(crozierMeta.morphTargetCount, 2);
+
+  const lotusPadMeta = inspectGeometryMetadata(
+    createCordateLotusPadGeometry({ radialSegments: 32, ringSegments: 12 }),
+  );
+  assert.equal(lotusPadMeta.vertexCount, 33 * 13);
+  assert.equal(lotusPadMeta.hasNormals, true);
+
+  const bambooMeta = inspectGeometryMetadata(
+    createSegmentedBambooStalkGeometry({ nodeCount: 5, radialSegments: 16 }),
+  );
+  assert.ok(bambooMeta.vertexCount > 400);
+  assert.equal(bambooMeta.hasNormals, true);
+
+  const canopyMeta = inspectGeometryMetadata(
+    createSculptedCanopyCrownGeometry({ lobeCount: 9 }),
+  );
+  assert.ok(canopyMeta.vertexCount > 250);
+
+  const grassMeta = inspectGeometryMetadata(createSculptedGrassBladeGeometry());
+  assert.equal(grassMeta.vertexCount, 24);
+  assert.equal(grassMeta.hasNormals, true);
+
+  const quartzMeta = inspectGeometryMetadata(
+    createHexagonalQuartzCrystalGeometry({ doubleTerminated: true }),
+  );
+  assert.equal(quartzMeta.triangleCount, 36);
+  assert.equal(quartzMeta.hasNormals, true);
+
+  const pillarMeta = inspectGeometryMetadata(
+    createFlutedEntasisPillarGeometry({ fluteCount: 16 }),
+  );
+  assert.ok(pillarMeta.vertexCount > 600);
+
+  const boulderMeta = inspectGeometryMetadata(
+    createStratifiedBoulderGeometry({ detailRings: 14, radialSegments: 18 }),
+  );
+  assert.equal(boulderMeta.vertexCount, 15 * 19);
+  assert.equal(boulderMeta.hasNormals, true);
+});
 
 

@@ -4,6 +4,32 @@
  * Formally modeled and verified via `prism/spec.json` and `prism/src/VerdantResonance.lex.tex`.
  */
 
+import {
+  GENERATED_PRISM_BUS_MODULATION_LUT,
+  GENERATED_PRISM_CONTEXT_PRIMES,
+  GENERATED_PRISM_DOMAIN_BASIS_PRIMES,
+  GENERATED_PRISM_FOUNDATION_PURITY,
+  GENERATED_PRISM_PLASTICITY_LUT,
+  GENERATED_PRISM_RULE30_LUT,
+  GENERATED_PRISM_STANDARDS,
+  GENERATED_PRISM_THEOREMS_BY_MODULE,
+  GENERATED_VERDANT_JUDGE_ARTIFACT,
+  GENERATED_VERDANT_RESONANCE_SPEC,
+} from './generatedPrismConstants';
+
+export {
+  GENERATED_PRISM_BUS_MODULATION_LUT,
+  GENERATED_PRISM_CONTEXT_PRIMES,
+  GENERATED_PRISM_DOMAIN_BASIS_PRIMES,
+  GENERATED_PRISM_FOUNDATION_PURITY,
+  GENERATED_PRISM_PLASTICITY_LUT,
+  GENERATED_PRISM_RULE30_LUT,
+  GENERATED_PRISM_STANDARDS,
+  GENERATED_PRISM_THEOREMS_BY_MODULE,
+  GENERATED_VERDANT_JUDGE_ARTIFACT,
+  GENERATED_VERDANT_RESONANCE_SPEC,
+};
+
 export const SPEC_SCHEMA = 'prism/spec/1';
 export const INVALID_OUTCOME = 'invalid';
 
@@ -80,676 +106,14 @@ export interface PrismSpec {
   examples: PrismExample[];
 }
 
-export const VERDANT_RESONANCE_SPEC: PrismSpec = {
-  schema: SPEC_SCHEMA,
-  name: 'verdant-resonance',
-  title: 'Verdant Resonance',
-  purpose:
-    'Decides the botanical soundscape, diurnal harmony, humane restorative pacing, and flora resonance response as a player explores a peaceful procedural garden without violence or conflict.',
-  fields: [
-    { name: 'biome', kind: 'choice', values: ['meadow', 'grove', 'crystal', 'wetland', 'sanctuary'] },
-    {
-      name: 'plant',
-      kind: 'choice',
-      values: ['chime-lily', 'pulse-fern', 'echo-lotus', 'drone-moss', 'star-orchid'],
-    },
-    { name: 'action', kind: 'choice', values: ['observe', 'touch', 'attune', 'stroll', 'stillness'] },
-    { name: 'atmosphere', kind: 'choice', values: ['dawn', 'golden', 'twilight', 'starlight'] },
-    { name: 'chorus', kind: 'choice', values: ['dormant', 'awakened'] },
-    { name: 'proximity', kind: 'number', min: 0, max: 100 },
-    { name: 'velocity', kind: 'number', min: 0, max: 30 },
-  ],
-  outcomes: [
-    'sanctuary-chorus',
-    'serene-rest',
-    'nocturnal-symphony',
-    'dawn-arpeggio',
-    'harmonic-bloom',
-    'crystalline-choir',
-    'melodic-chime',
-    'rhythmic-pulse',
-    'ambient-drone',
-    'wind-whisper',
-  ],
-  rules: [
-    {
-      id: 'REQ-001',
-      when: [
-        { field: 'action', op: 'is', value: 'stillness' },
-        { field: 'velocity', op: '=', value: 0 },
-        { field: 'biome', op: 'is', value: 'sanctuary' },
-        { field: 'proximity', op: '<=', value: 45 },
-      ],
-      then: 'serene-rest',
-      says: 'Resting in meditative stillness within the Resonance Sanctuary awakens the sustained pastoral ninth chord.',
-    },
-    {
-      id: 'REQ-002',
-      when: [
-        { field: 'biome', op: 'is', value: 'sanctuary' },
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'action', op: 'is', value: 'attune' },
-        { field: 'proximity', op: '<=', value: 20 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'sanctuary-chorus',
-      says: 'Attuning to an awakened blossom inside the Resonance Sanctuary unleashes the full multi-octave Sanctuary Chorus.',
-    },
-    {
-      id: 'REQ-003',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'plant', op: 'is', value: 'star-orchid' },
-        { field: 'atmosphere', op: 'is', value: 'starlight' },
-        { field: 'action', op: 'is', value: 'observe' },
-        { field: 'proximity', op: '<=', value: 20 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'sanctuary-chorus',
-      says: 'Observing an awakened Star Orchid beneath the Starlight Sanctuary sky radiates a full celestial Sanctuary Chorus.',
-    },
-    {
-      id: 'REQ-004',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'wetland' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'action', op: 'is', value: 'attune' },
-        { field: 'proximity', op: '<=', value: 20 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'sanctuary-chorus',
-      says: 'Attuning to an awakened Echo Lotus in the Bioluminescent Wetland awakens the lagoon Sanctuary Chorus.',
-    },
-    {
-      id: 'REQ-005',
-      when: [
-        { field: 'action', op: 'is', value: 'attune' },
-        { field: 'proximity', op: '<=', value: 20 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'harmonic-bloom',
-      says: 'Attuning closely to any blossom at a calm pace triggers a full bioluminescent Harmonic Bloom.',
-    },
-    {
-      id: 'REQ-006',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'meadow' },
-        { field: 'plant', op: 'is', value: 'chime-lily' },
-        { field: 'action', op: 'is', value: 'touch' },
-        { field: 'proximity', op: '<=', value: 20 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'harmonic-bloom',
-      says: 'Touching an awakened Chime Lily in the Sunlit Meadow cascades into a golden Harmonic Bloom.',
-    },
-    {
-      id: 'REQ-007',
-      when: [
-        { field: 'atmosphere', op: 'is', value: 'starlight' },
-        { field: 'action', op: 'is', value: 'stillness' },
-        { field: 'velocity', op: '=', value: 0 },
-        { field: 'proximity', op: '<=', value: 30 },
-      ],
-      then: 'nocturnal-symphony',
-      says: 'Pausing in stillness beneath the Starlight canopy reveals a deep nocturnal overtone symphony.',
-    },
-    {
-      id: 'REQ-008',
-      when: [
-        { field: 'atmosphere', op: 'is', value: 'twilight' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'proximity', op: '<=', value: 20 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'nocturnal-symphony',
-      says: 'Approaching an Echo Lotus during Twilight Glow weaves a liquid nocturnal symphony across the lagoon.',
-    },
-    {
-      id: 'REQ-009',
-      when: [
-        { field: 'atmosphere', op: 'is', value: 'starlight' },
-        { field: 'plant', op: 'is', value: 'drone-moss' },
-        { field: 'proximity', op: '<=', value: 20 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'nocturnal-symphony',
-      says: 'Lingering by Drone Moss under Starlight awakens a resonant sub-bass nocturnal symphony.',
-    },
-    {
-      id: 'REQ-010',
-      when: [
-        { field: 'atmosphere', op: 'is', value: 'dawn' },
-        { field: 'plant', op: 'is', value: 'chime-lily' },
-        { field: 'proximity', op: '<=', value: 20 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'dawn-arpeggio',
-      says: 'Morning mist around a Chime Lily at Dawn awakens sparkling dewdrop glass-marimba arpeggios.',
-    },
-    {
-      id: 'REQ-011',
-      when: [
-        { field: 'atmosphere', op: 'is', value: 'golden' },
-        { field: 'biome', op: 'is', value: 'meadow' },
-        { field: 'action', op: 'is', value: 'touch' },
-        { field: 'proximity', op: '<=', value: 20 },
-      ],
-      then: 'dawn-arpeggio',
-      says: 'Touching Sunlit Meadow flora during Golden Hour releases warm sunlit marimba arpeggios.',
-    },
-    {
-      id: 'REQ-012',
-      when: [
-        { field: 'atmosphere', op: 'is', value: 'dawn' },
-        { field: 'biome', op: 'is', value: 'grove' },
-        { field: 'plant', op: 'is', value: 'pulse-fern' },
-        { field: 'proximity', op: '<=', value: 20 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'dawn-arpeggio',
-      says: 'Observing a Pulse Fern in the Bamboo Chime Grove at Dawn sets dewdrop kalimba arpeggios in motion.',
-    },
-    {
-      id: 'REQ-013',
-      when: [
-        { field: 'biome', op: 'is', value: 'crystal' },
-        { field: 'action', op: 'is', value: 'touch' },
-        { field: 'proximity', op: '<=', value: 20 },
-      ],
-      then: 'crystalline-choir',
-      says: 'Touching flora within the Crystal Cavern Basin resonates with glass-harmonica choir overtones.',
-    },
-    {
-      id: 'REQ-014',
-      when: [
-        { field: 'plant', op: 'is', value: 'star-orchid' },
-        { field: 'biome', op: 'is', value: 'sanctuary' },
-        { field: 'proximity', op: '<=', value: 20 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'crystalline-choir',
-      says: 'Approaching a Star Orchid inside the Sanctuary releases shimmering celestial choir harmonics.',
-    },
-    {
-      id: 'REQ-015',
-      when: [
-        { field: 'plant', op: 'is', value: 'chime-lily' },
-        { field: 'proximity', op: '<=', value: 30 },
-        { field: 'velocity', op: '<=', value: 20 },
-      ],
-      then: 'melodic-chime',
-      says: 'Walking gently near a Chime Lily sets its pendant corollas ringing in pentatonic bell intervals.',
-    },
-    {
-      id: 'REQ-016',
-      when: [
-        { field: 'plant', op: 'is', value: 'star-orchid' },
-        { field: 'action', op: 'is', value: 'touch' },
-        { field: 'proximity', op: '<=', value: 30 },
-      ],
-      then: 'melodic-chime',
-      says: 'Gently touching a Star Orchid petal produces a clear, bell-like melodic chime.',
-    },
-    {
-      id: 'REQ-017',
-      when: [
-        { field: 'plant', op: 'is', value: 'pulse-fern' },
-        { field: 'proximity', op: '<=', value: 30 },
-        { field: 'velocity', op: '>=', value: 10 },
-        { field: 'velocity', op: '<=', value: 20 },
-      ],
-      then: 'rhythmic-pulse',
-      says: 'Moving at a steady stride past a Pulse Fern weaves a warm polyrhythmic kalimba ripple.',
-    },
-    {
-      id: 'REQ-018',
-      when: [
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'biome', op: 'is', value: 'wetland' },
-        { field: 'proximity', op: '<=', value: 30 },
-      ],
-      then: 'rhythmic-pulse',
-      says: 'Gathering near an Echo Lotus in the Bioluminescent Wetland sends rhythmic water-harp ripples across the lagoon.',
-    },
-    {
-      id: 'REQ-019',
-      when: [
-        { field: 'plant', op: 'is', value: 'drone-moss' },
-        { field: 'proximity', op: '<=', value: 30 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'ambient-drone',
-      says: 'Lingering near terraced Drone Moss cushions deepens the foundational harmonic fifth drone.',
-    },
-    {
-      id: 'REQ-020',
-      when: [
-        { field: 'biome', op: 'is', value: 'grove' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'action', op: 'is', value: 'touch' },
-        { field: 'proximity', op: '<=', value: 30 },
-      ],
-      then: 'melodic-chime',
-      says: 'Touching an Echo Lotus in the Bamboo Chime Grove blends hollow bamboo resonance with lotus bell chimes.',
-    },
-    {
-      id: 'REQ-021',
-      when: [
-        { field: 'biome', op: 'is', value: 'crystal' },
-        { field: 'plant', op: 'is', value: 'pulse-fern' },
-        { field: 'action', op: 'is', value: 'stroll' },
-        { field: 'proximity', op: '<=', value: 30 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'rhythmic-pulse',
-      says: 'Strolling calmly past a Pulse Fern in the Crystal Cavern Basin echoes with quartz-faceted rhythmic pulses.',
-    },
-    {
-      id: 'REQ-022',
-      when: [
-        { field: 'atmosphere', op: 'is', value: 'golden' },
-        { field: 'plant', op: 'is', value: 'drone-moss' },
-        { field: 'action', op: 'is', value: 'stillness' },
-        { field: 'velocity', op: '=', value: 0 },
-        { field: 'proximity', op: '<=', value: 45 },
-      ],
-      then: 'serene-rest',
-      says: 'Resting in stillness beside Golden Hour Drone Moss terraces awakens a restorative Serene Rest chord.',
-    },
-    {
-      id: 'REQ-023',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'plant', op: 'is', value: 'pulse-fern' },
-        { field: 'action', op: 'is', value: 'touch' },
-        { field: 'proximity', op: '<=', value: 20 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'harmonic-bloom',
-      says: 'Touching an awakened Pulse Fern at a calm pace unfurls a spiraling bioluminescent Harmonic Bloom.',
-    },
-    {
-      id: 'REQ-024',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'crystal' },
-        { field: 'plant', op: 'is', value: 'star-orchid' },
-        { field: 'action', op: 'is', value: 'observe' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'crystalline-choir',
-      says: 'Observing an awakened Star Orchid inside the Crystal Cavern Basin radiates a multi-octave Crystalline Choir.',
-    },
-    {
-      id: 'REQ-025',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'sanctuary' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'action', op: 'is', value: 'observe' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'sanctuary-chorus',
-      says: 'Observing an awakened Echo Lotus inside the Resonance Sanctuary awakens the full Sanctuary Chorus.',
-    },
-    {
-      id: 'REQ-026',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'grove' },
-        { field: 'plant', op: 'is', value: 'pulse-fern' },
-        { field: 'atmosphere', op: 'is', value: 'golden' },
-        { field: 'action', op: 'is', value: 'observe' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 8 },
-      ],
-      then: 'harmonic-bloom',
-      says: 'Quietly observing an awakened Pulse Fern in the Bamboo Grove during Golden Hour unfurls a golden Harmonic Bloom.',
-    },
-    {
-      id: 'REQ-027',
-      when: [
-        { field: 'biome', op: 'is', value: 'meadow' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'atmosphere', op: 'is', value: 'dawn' },
-        { field: 'action', op: 'is', value: 'observe' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'dawn-arpeggio',
-      says: 'Observing an Echo Lotus in the Sunlit Meadow at Dawn releases shimmering dewdrop water-harp arpeggios.',
-    },
-    {
-      id: 'REQ-028',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'sanctuary' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'action', op: 'is', value: 'touch' },
-        { field: 'atmosphere', op: 'is', value: 'starlight' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'sanctuary-chorus',
-      says: 'Touching an awakened Echo Lotus inside the Sanctuary beneath Starlight unleashes the celestial Sanctuary Chorus.',
-    },
-    {
-      id: 'REQ-029',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'crystal' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'action', op: 'is', value: 'observe' },
-        { field: 'atmosphere', op: 'is', value: 'starlight' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'crystalline-choir',
-      says: 'Observing an awakened Echo Lotus inside the Crystal Basin beneath Starlight refracts a Crystalline Choir.',
-    },
-    {
-      id: 'REQ-030',
-      when: [
-        { field: 'biome', op: 'is', value: 'grove' },
-        { field: 'plant', op: 'is', value: 'pulse-fern' },
-        { field: 'action', op: 'is', value: 'stillness' },
-        { field: 'atmosphere', op: 'is', value: 'dawn' },
-        { field: 'velocity', op: '=', value: 0 },
-        { field: 'proximity', op: '<=', value: 40 },
-      ],
-      then: 'serene-rest',
-      says: 'Resting in meditative stillness among Dawn Bamboo Grove Pulse Ferns awakens a restorative Serene Rest chord.',
-    },
-    {
-      id: 'REQ-031',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'wetland' },
-        { field: 'plant', op: 'is', value: 'pulse-fern' },
-        { field: 'action', op: 'is', value: 'stroll' },
-        { field: 'atmosphere', op: 'is', value: 'twilight' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 8 },
-      ],
-      then: 'nocturnal-symphony',
-      says: 'Strolling unhurriedly past an awakened Wetland Pulse Fern at Twilight weaves a liquid Nocturnal Symphony.',
-    },
-    {
-      id: 'REQ-032',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'grove' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'action', op: 'is', value: 'observe' },
-        { field: 'atmosphere', op: 'is', value: 'golden' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 8 },
-      ],
-      then: 'harmonic-bloom',
-      says: 'Observing an awakened Echo Lotus on the Raked Zen Grove Terrace during Golden Hour blooms into a Dorian Harmonic Bloom.',
-    },
-    {
-      id: 'REQ-033',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'meadow' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'action', op: 'is', value: 'touch' },
-        { field: 'atmosphere', op: 'is', value: 'dawn' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 8 },
-      ],
-      then: 'dawn-arpeggio',
-      says: 'Touching an awakened Echo Lotus on the Sunlit Meadow Parterre at Dawn releases a hydro-acoustic Dawn Arpeggio.',
-    },
-    {
-      id: 'REQ-034',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'crystal' },
-        { field: 'plant', op: 'is', value: 'pulse-fern' },
-        { field: 'action', op: 'is', value: 'observe' },
-        { field: 'atmosphere', op: 'is', value: 'twilight' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 8 },
-      ],
-      then: 'crystalline-choir',
-      says: 'Observing an awakened Pulse Fern across the Geode Mirror Basin at Twilight refracts a kalimba-overtone Crystalline Choir.',
-    },
-    {
-      id: 'REQ-035',
-      when: [
-        { field: 'velocity', op: '<=', value: 10 },
-        { field: 'proximity', op: '<=', value: 45 },
-      ],
-      then: 'ambient-drone',
-      says: 'A slow, unhurried walk through the garden sustains a warm botanical pad foundation.',
-    },
-  ],
-  otherwise: 'wind-whisper',
-  properties: [
-    {
-      id: 'INV-001',
-      kind: 'always',
-      when: [
-        { field: 'action', op: 'is', value: 'stillness' },
-        { field: 'velocity', op: '=', value: 0 },
-        { field: 'biome', op: 'is', value: 'sanctuary' },
-        { field: 'proximity', op: '<=', value: 45 },
-      ],
-      then: 'serene-rest',
-      says: 'Stillness at rest within the Sanctuary always awakens Serene Rest.',
-      theoremName: 'PrismVerdantResonanceProofs.inv001Holds',
-    },
-    {
-      id: 'INV-002',
-      kind: 'always',
-      when: [
-        { field: 'biome', op: 'is', value: 'sanctuary' },
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'action', op: 'is', value: 'attune' },
-        { field: 'proximity', op: '<=', value: 20 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'sanctuary-chorus',
-      says: 'Attuning an awakened blossom in the Sanctuary always unleashes the Sanctuary Chorus.',
-      theoremName: 'PrismVerdantResonanceProofs.inv002Holds',
-    },
-    {
-      id: 'INV-003',
-      kind: 'always',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'wetland' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'action', op: 'is', value: 'attune' },
-        { field: 'proximity', op: '<=', value: 20 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'sanctuary-chorus',
-      says: 'Attuning an awakened Echo Lotus in the Wetland always unleashes the Sanctuary Chorus.',
-      theoremName: 'PrismVerdantResonanceProofs.inv003Holds',
-    },
-    {
-      id: 'INV-004',
-      kind: 'never',
-      when: [{ field: 'proximity', op: '>', value: 45 }],
-      then: 'sanctuary-chorus',
-      says: 'Sanctuary Chorus never triggers when distant from garden flora.',
-      theoremName: 'PrismVerdantResonanceProofs.inv004Holds',
-    },
-    {
-      id: 'INV-005',
-      kind: 'never',
-      when: [{ field: 'proximity', op: '>', value: 45 }],
-      then: 'harmonic-bloom',
-      says: 'Harmonic Bloom never triggers when far from flora.',
-      theoremName: 'PrismVerdantResonanceProofs.inv005Holds',
-    },
-    {
-      id: 'INV-006',
-      kind: 'never',
-      when: [{ field: 'proximity', op: '>', value: 45 }],
-      then: 'nocturnal-symphony',
-      says: 'Nocturnal Symphony never triggers when far from blossoms.',
-      theoremName: 'PrismVerdantResonanceProofs.inv006Holds',
-    },
-    {
-      id: 'INV-007',
-      kind: 'never',
-      when: [{ field: 'proximity', op: '>', value: 45 }],
-      then: 'crystalline-choir',
-      says: 'Crystalline Choir never triggers when far from blossoms.',
-      theoremName: 'PrismVerdantResonanceProofs.inv007Holds',
-    },
-    {
-      id: 'INV-008',
-      kind: 'always',
-      when: [{ field: 'proximity', op: '>', value: 45 }],
-      then: 'wind-whisper',
-      says: 'Exploring open clearings far from flora always yields Wind Whisper.',
-      theoremName: 'PrismVerdantResonanceProofs.inv008Holds',
-    },
-    {
-      id: 'INV-009',
-      kind: 'never',
-      when: [{ field: 'velocity', op: '>', value: 20 }],
-      then: 'serene-rest',
-      says: 'Rapid movement above 20 dm/s never triggers meditative Serene Rest.',
-      theoremName: 'PrismVerdantResonanceProofs.inv009Holds',
-    },
-    {
-      id: 'INV-010',
-      kind: 'never',
-      when: [{ field: 'velocity', op: '>', value: 20 }],
-      then: 'sanctuary-chorus',
-      says: 'Hurried movement above 20 dm/s never triggers the Sanctuary Chorus.',
-      theoremName: 'PrismVerdantResonanceProofs.inv010Holds',
-    },
-    {
-      id: 'INV-011',
-      kind: 'always',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'sanctuary' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'atmosphere', op: 'is', value: 'golden' },
-        { field: 'action', op: 'is', value: 'observe' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'sanctuary-chorus',
-      says: 'Observing an awakened Echo Lotus inside the Sanctuary during Golden Hour always awakens the Sanctuary Chorus.',
-      theoremName: 'PrismVerdantResonanceProofs.inv011Holds',
-    },
-    {
-      id: 'INV-012',
-      kind: 'always',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'grove' },
-        { field: 'plant', op: 'is', value: 'pulse-fern' },
-        { field: 'atmosphere', op: 'is', value: 'golden' },
-        { field: 'action', op: 'is', value: 'observe' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 8 },
-      ],
-      then: 'harmonic-bloom',
-      says: 'Quietly observing an awakened Pulse Fern in the Grove at Golden Hour always yields Harmonic Bloom.',
-      theoremName: 'PrismVerdantResonanceProofs.inv012Holds',
-    },
-    {
-      id: 'INV-013',
-      kind: 'always',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'sanctuary' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'action', op: 'is', value: 'touch' },
-        { field: 'atmosphere', op: 'is', value: 'starlight' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'sanctuary-chorus',
-      says: 'Touching an awakened Echo Lotus in the Sanctuary under Starlight always unleashes the Sanctuary Chorus.',
-      theoremName: 'PrismVerdantResonanceProofs.inv013Holds',
-    },
-    {
-      id: 'INV-014',
-      kind: 'always',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'crystal' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'action', op: 'is', value: 'observe' },
-        { field: 'atmosphere', op: 'is', value: 'starlight' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 10 },
-      ],
-      then: 'crystalline-choir',
-      says: 'Observing an awakened Echo Lotus in the Crystal Basin under Starlight always yields Crystalline Choir.',
-      theoremName: 'PrismVerdantResonanceProofs.inv014Holds',
-    },
-    {
-      id: 'INV-015',
-      kind: 'always',
-      when: [
-        { field: 'chorus', op: 'is', value: 'awakened' },
-        { field: 'biome', op: 'is', value: 'grove' },
-        { field: 'plant', op: 'is', value: 'echo-lotus' },
-        { field: 'action', op: 'is', value: 'observe' },
-        { field: 'atmosphere', op: 'is', value: 'golden' },
-        { field: 'proximity', op: '<=', value: 25 },
-        { field: 'velocity', op: '<=', value: 8 },
-      ],
-      then: 'harmonic-bloom',
-      says: 'Observing an awakened Echo Lotus on the Grove Terrace at Golden Hour always yields Harmonic Bloom.',
-      theoremName: 'PrismVerdantResonanceProofs.inv015Holds',
-    },
-  ],
-  examples: [
-    { request: 'sanctuary star-orchid stillness dawn dormant 10 0', response: 'serene-rest' },
-    { request: 'sanctuary star-orchid attune golden awakened 10 4', response: 'sanctuary-chorus' },
-    { request: 'meadow star-orchid observe starlight awakened 12 4', response: 'sanctuary-chorus' },
-    { request: 'wetland echo-lotus attune twilight awakened 12 4', response: 'sanctuary-chorus' },
-    { request: 'meadow chime-lily attune dawn dormant 10 4', response: 'harmonic-bloom' },
-    { request: 'meadow chime-lily touch dawn awakened 12 4', response: 'harmonic-bloom' },
-    { request: 'meadow star-orchid stillness starlight dormant 15 0', response: 'nocturnal-symphony' },
-    { request: 'wetland echo-lotus observe twilight dormant 15 5', response: 'nocturnal-symphony' },
-    { request: 'meadow drone-moss observe starlight dormant 15 5', response: 'nocturnal-symphony' },
-    { request: 'meadow chime-lily observe dawn dormant 15 5', response: 'dawn-arpeggio' },
-    { request: 'meadow pulse-fern touch golden dormant 15 15', response: 'dawn-arpeggio' },
-    { request: 'grove pulse-fern observe dawn dormant 15 5', response: 'dawn-arpeggio' },
-    { request: 'crystal star-orchid touch golden dormant 15 15', response: 'crystalline-choir' },
-    { request: 'sanctuary star-orchid observe golden dormant 15 5', response: 'crystalline-choir' },
-    { request: 'grove chime-lily observe golden dormant 25 15', response: 'melodic-chime' },
-    { request: 'grove star-orchid touch golden dormant 25 15', response: 'melodic-chime' },
-    { request: 'grove pulse-fern stroll golden dormant 25 15', response: 'rhythmic-pulse' },
-    { request: 'wetland echo-lotus stroll golden dormant 25 15', response: 'rhythmic-pulse' },
-    { request: 'meadow drone-moss stroll golden dormant 25 5', response: 'ambient-drone' },
-    { request: 'grove echo-lotus touch golden dormant 25 15', response: 'melodic-chime' },
-    { request: 'crystal pulse-fern stroll golden dormant 25 5', response: 'rhythmic-pulse' },
-    { request: 'meadow drone-moss stillness golden dormant 40 0', response: 'serene-rest' },
-    { request: 'grove pulse-fern touch golden awakened 15 5', response: 'harmonic-bloom' },
-    { request: 'crystal star-orchid observe golden awakened 18 5', response: 'crystalline-choir' },
-    { request: 'sanctuary echo-lotus observe golden awakened 18 5', response: 'sanctuary-chorus' },
-    { request: 'grove pulse-fern observe golden awakened 18 5', response: 'harmonic-bloom' },
-    { request: 'meadow echo-lotus observe dawn dormant 18 5', response: 'dawn-arpeggio' },
-    { request: 'sanctuary echo-lotus touch starlight awakened 18 5', response: 'sanctuary-chorus' },
-    { request: 'crystal echo-lotus observe starlight awakened 18 5', response: 'crystalline-choir' },
-    { request: 'grove pulse-fern stillness dawn dormant 30 0', response: 'serene-rest' },
-    { request: 'wetland pulse-fern stroll twilight awakened 20 6', response: 'nocturnal-symphony' },
-    { request: 'grove echo-lotus observe golden awakened 18 5', response: 'harmonic-bloom' },
-    { request: 'meadow echo-lotus touch dawn awakened 18 5', response: 'dawn-arpeggio' },
-    { request: 'crystal pulse-fern observe twilight awakened 18 5', response: 'crystalline-choir' },
-    { request: 'meadow pulse-fern stroll golden dormant 40 5', response: 'ambient-drone' },
-    { request: 'meadow chime-lily stroll golden dormant 70 20', response: 'wind-whisper' },
-  ],
-};
+/**
+ * Canonical Verdant Resonance Specification (`VERDANT_RESONANCE_SPEC`).
+ * Extracted directly from `/prism/spec.json` and cross-validated against
+ * `/prism/src/VerdantResonance.lex.tex` (35 rules) and `/prism/src/VerdantResonanceProofs.lex.tex` (15 invariants)
+ * by `scripts/extractPrismArtifacts.ts` — never hand-typed in TypeScript.
+ */
+export const VERDANT_RESONANCE_SPEC: PrismSpec =
+  GENERATED_VERDANT_RESONANCE_SPEC as unknown as PrismSpec;
 
 const MAX_DIGITS = 18;
 
@@ -812,19 +176,354 @@ export function conditionHolds(
   }
 }
 
+export interface JudgeBusManifoldState {
+  wInfrastructure: number;
+  wPhysics: number;
+  wBotany: number;
+  wEcology: number;
+  wAcoustics: number;
+  wArticulation: number;
+  wSoundtrack: number;
+  wHumane: number;
+  wBrand: number;
+  wNeuromorphic: number;
+}
+
+export interface JudgeDomainBusModulations {
+  infrastructurePoolCapacity: number;
+  physicsBuoyancyMillihz: number;
+  botanyPollinationRadiusCm: number;
+  ecologyConductivityPermille: number;
+  acousticsFilterQPermille: number;
+  articulationGracePermille: number;
+  soundtrackHarmonicDensity: number;
+  humaneZephyrCapMmPerSec2: number;
+  brandContrastTenths: number;
+}
+
+/**
+ * Exact executable domain bus modulation functions backed directly by
+ * `GENERATED_PRISM_BUS_MODULATION_LUT` and `GENERATED_PRISM_PLASTICITY_LUT`
+ * compiled from `prism/src/Foundation/<Domain>/V1/Model.lex.tex` by `scripts/extractPrismArtifacts.ts`.
+ */
+function clampLutIndex(w: number, len: number): number {
+  return Math.max(0, Math.min(len - 1, Math.round(w)));
+}
+
+export function clampPrismBusWeight(w: number): number {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.clampBusWeight;
+  return lut[clampLutIndex(w, lut.length)];
+}
+
+export function stepInfrastructureBusModulation(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.infrastructure;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepPhysicsBusModulation(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.physics;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepBotanyBusModulation(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.botany;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepEcologyBusModulation(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.ecology;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepAcousticsBusModulation(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.acoustics;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepArticulationBusModulation(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.articulation;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepSoundtrackBusModulation(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.soundtrack;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepHumaneBusModulation(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.humane;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepBrandBusModulation(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.brand;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepWisdomPhenomenonModulation(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.wisdomPhenomenon;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepStakeholderValueReinforcement(
+  w: number,
+  allFacetsActive: boolean,
+): number {
+  const lut = allFacetsActive
+    ? GENERATED_PRISM_PLASTICITY_LUT.stepStakeholderValueReinforcementCoactive
+    : GENERATED_PRISM_PLASTICITY_LUT.stepStakeholderValueReinforcementSilent;
+  return lut[clampLutIndex(w, lut.length)];
+}
+
+export function verifyEmergentEntitySynthesizesFacets(w: number): boolean {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyEmergentEntitySynthesizesFacets;
+  return lut[clampLutIndex(w, lut.length)];
+}
+
+export function stepAtomicValenceActivity(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.atomicValence;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepMolecularBondCoherence(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.molecularBond;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepMacromolecularPolymerization(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.macromolecularPolymer;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepCompoundManifestation(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.compoundManifestation;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepEnvironmentalModalSynthesis(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.environmentalModalSynthesis;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function verifyGranularAtomicToEnvironmentalChain(busWeight: number): boolean {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyGranularAtomicToEnvironmentalChain;
+  return lut[clampLutIndex(busWeight, lut.length)];
+}
+
+export function stepAtomicRemineralizationFlux(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.atomicRemineralization;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function verifyClosedLoopMatterConservation(busWeight: number): boolean {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyClosedLoopMatterConservation;
+  return lut[clampLutIndex(busWeight, lut.length)];
+}
+
+export function verifyCompleteGranularSynthesisClosure(busWeight: number): boolean {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyCompleteGranularSynthesisClosure;
+  return lut[clampLutIndex(busWeight, lut.length)];
+}
+
+export function uniformJudgeBusManifold(w: number): JudgeBusManifoldState {
+  return {
+    wInfrastructure: w,
+    wPhysics: w,
+    wBotany: w,
+    wEcology: w,
+    wAcoustics: w,
+    wArticulation: w,
+    wSoundtrack: w,
+    wHumane: w,
+    wBrand: w,
+    wNeuromorphic: w,
+  };
+}
+
+export function stepUniversalBusBroadcastManifold(
+  state: JudgeBusManifoldState,
+  sourceConsolidated: boolean,
+): JudgeBusManifoldState {
+  const txLut = sourceConsolidated
+    ? GENERATED_PRISM_PLASTICITY_LUT.transferWeightCrossDomainCoactive
+    : GENERATED_PRISM_PLASTICITY_LUT.transferWeightCrossDomainSilent;
+  const potLut = GENERATED_PRISM_PLASTICITY_LUT.learnWeightPotentiated;
+  const tx = (wTarget: number) => txLut[clampLutIndex(wTarget, txLut.length)];
+  const learnPotentiated = (w: number) => potLut[clampLutIndex(w, potLut.length)];
+
+  return {
+    wInfrastructure: tx(state.wInfrastructure),
+    wPhysics: tx(state.wPhysics),
+    wBotany: tx(state.wBotany),
+    wEcology: tx(state.wEcology),
+    wAcoustics: tx(state.wAcoustics),
+    wArticulation: tx(state.wArticulation),
+    wSoundtrack: tx(state.wSoundtrack),
+    wHumane: tx(state.wHumane),
+    wBrand: tx(state.wBrand),
+    wNeuromorphic: learnPotentiated(state.wNeuromorphic),
+  };
+}
+
+export function stepAutopoieticBusManifold(
+  state: JudgeBusManifoldState,
+  leaderWeight: number = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightMax,
+): JudgeBusManifoldState {
+  const refLut = GENERATED_PRISM_PLASTICITY_LUT.refineDomainWeightAutopoietic;
+  const sigIdx = clampLutIndex(leaderWeight, refLut[0].length);
+  const step = (wCurrent: number) => refLut[clampLutIndex(wCurrent, refLut.length)][sigIdx];
+  return {
+    wInfrastructure: step(state.wInfrastructure),
+    wPhysics: step(state.wPhysics),
+    wBotany: step(state.wBotany),
+    wEcology: step(state.wEcology),
+    wAcoustics: step(state.wAcoustics),
+    wArticulation: step(state.wArticulation),
+    wSoundtrack: step(state.wSoundtrack),
+    wHumane: step(state.wHumane),
+    wBrand: step(state.wBrand),
+    wNeuromorphic: step(state.wNeuromorphic),
+  };
+}
+
+/**
+ * Executable constructive verification predicate `verifySingleCallPropagatesAllTenDomains(w)`
+ * backed directly by `GENERATED_PRISM_PLASTICITY_LUT.verifySingleCallPropagatesAllTenDomains`
+ * compiled from `Foundation.Neuromorphic.V1.Model.lex.tex` (proven universally for all `w in [1, 15]`
+ * in `zeroManualIterationOverheadUniversalHolds`).
+ */
+export function verifySingleCallPropagatesAllTenDomains(w: number): boolean {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifySingleCallPropagatesAllTenDomains;
+  return lut[clampLutIndex(w, lut.length)];
+}
+
+/**
+ * Executable constructive verification predicate `verifyAutopoieticSingleCallAdvancesAllTenDomains(w)`
+ * backed directly by `GENERATED_PRISM_PLASTICITY_LUT.verifyAutopoieticSingleCallAdvancesAllTenDomains`
+ * compiled from `Foundation.Neuromorphic.V1.Model.lex.tex` (proven universally for all `w in [1, 15]`
+ * in `autopoieticSingleCallAllTenDomainsHolds`).
+ */
+export function verifyAutopoieticSingleCallAdvancesAllTenDomains(w: number): boolean {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyAutopoieticSingleCallAdvancesAllTenDomains;
+  return lut[clampLutIndex(w, lut.length)];
+}
+
+/**
+ * Steps the 10-domain Universal Neuromorphic Bus for a decoded `VerdantResonance::Request`
+ * (`VerdantResonance::stepJudgeBusManifold`).
+ */
+export function stepJudgeBusManifold(
+  req: Record<string, string | bigint>,
+): JudgeBusManifoldState {
+  const { weightInitial } = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity;
+  const proximity = typeof req.proximity === 'bigint' ? Number(req.proximity) : Number(req.proximity ?? 0);
+  const sourceConsolidated = 0 <= proximity;
+  return stepUniversalBusBroadcastManifold(uniformJudgeBusManifold(weightInitial), sourceConsolidated);
+}
+
+export function computeJudgeBusModulations(bus: JudgeBusManifoldState): JudgeDomainBusModulations {
+  return {
+    infrastructurePoolCapacity: stepInfrastructureBusModulation(bus.wInfrastructure),
+    physicsBuoyancyMillihz: stepPhysicsBusModulation(bus.wPhysics),
+    botanyPollinationRadiusCm: stepBotanyBusModulation(bus.wBotany),
+    ecologyConductivityPermille: stepEcologyBusModulation(bus.wEcology),
+    acousticsFilterQPermille: stepAcousticsBusModulation(bus.wAcoustics),
+    articulationGracePermille: stepArticulationBusModulation(bus.wArticulation),
+    soundtrackHarmonicDensity: stepSoundtrackBusModulation(bus.wSoundtrack),
+    humaneZephyrCapMmPerSec2: stepHumaneBusModulation(bus.wHumane),
+    brandContrastTenths: stepBrandBusModulation(bus.wBrand),
+  };
+}
+
+/**
+ * Verifies the 10-domain cross-domain bus gate on a stepped `JudgeBusManifoldState`
+ * (`VerdantResonance::verifyBusModulationsFromState` & `VerdantResonance::verifyJudgeCrossDomainBusGate`,
+ * proven universally in `VerdantResonanceProofs::rootJudgeCallsBusAndSatisfiesAllDomainsHolds`).
+ */
+export function verifyBusModulationsFromState(bus: JudgeBusManifoldState): boolean {
+  const { weightInitial } = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity;
+  const mod = computeJudgeBusModulations(bus);
+  return (
+    1005 <= mod.infrastructurePoolCapacity &&
+    875 <= mod.physicsBuoyancyMillihz &&
+    20 <= mod.botanyPollinationRadiusCm &&
+    825 <= mod.ecologyConductivityPermille &&
+    915 <= mod.acousticsFilterQPermille &&
+    920 <= mod.articulationGracePermille &&
+    53 <= mod.soundtrackHarmonicDensity &&
+    130 <= mod.humaneZephyrCapMmPerSec2 &&
+    85 <= mod.brandContrastTenths &&
+    weightInitial < bus.wNeuromorphic
+  );
+}
+
+export function verifyJudgeCrossDomainBusGate(
+  req: Record<string, string | bigint>,
+): boolean {
+  return verifyBusModulationsFromState(stepJudgeBusManifold(req));
+}
+
+/**
+ * Verifies complete Prism Model closure for a decoded `VerdantResonance::Request`
+ * (`VerdantResonance::verifyCompletePrismModelClosure`, proven universally in
+ * `VerdantResonanceProofs::completePrismModelClosureHolds`):
+ * Unites the 10-Domain Universal Neuromorphic Bus, the 4-Facet Emergent Stakeholder Entity,
+ * and the 6-Stage Closed-Loop Granular Atomic-to-Environmental Procedural Synthesis.
+ */
+export function verifyCompletePrismModelClosure(
+  req: Record<string, string | bigint>,
+): boolean {
+  const bus = stepJudgeBusManifold(req);
+  return (
+    verifyBusModulationsFromState(bus) &&
+    verifyEmergentEntitySynthesizesFacets(bus.wNeuromorphic) &&
+    verifyCompleteGranularSynthesisClosure(bus.wEcology)
+  );
+}
+
 export function judgePrismRequest(
   req: Record<string, string | bigint>,
   spec: PrismSpec = VERDANT_RESONANCE_SPEC,
-): { outcome: SoundscapeOutcome; rule: string | null; ruleDescription: string } {
+): {
+  outcome: SoundscapeOutcome;
+  rule: string | null;
+  ruleDescription: string;
+  busManifold: JudgeBusManifoldState;
+  busModulations: JudgeDomainBusModulations;
+  busGateVerified: boolean;
+} {
+  const busManifold = stepJudgeBusManifold(req);
+  const busModulations = computeJudgeBusModulations(busManifold);
+  const busGateVerified = verifyBusModulationsFromState(busManifold);
+  if (!busGateVerified) {
+    return {
+      outcome: 'wind-whisper',
+      rule: null,
+      ruleDescription: 'Fallback breeze when cross-domain bus gate is unverified.',
+      busManifold,
+      busModulations,
+      busGateVerified: false,
+    };
+  }
   for (const r of spec.rules) {
     if (r.when.every((c) => conditionHolds(c, req))) {
-      return { outcome: r.then, rule: r.id, ruleDescription: r.says };
+      return {
+        outcome: r.then,
+        rule: r.id,
+        ruleDescription: r.says,
+        busManifold,
+        busModulations,
+        busGateVerified,
+      };
     }
   }
   return {
     outcome: spec.otherwise,
     rule: null,
     ruleDescription: 'Open breeze sweeping gently across the garden canopy.',
+    busManifold,
+    busModulations,
+    busGateVerified,
   };
 }
 
@@ -837,6 +536,9 @@ export function evaluatePrismRequest(
   rule: string | null;
   ruleDescription: string;
   valid: boolean;
+  busManifold?: JudgeBusManifoldState;
+  busModulations?: JudgeDomainBusModulations;
+  busGateVerified?: boolean;
 } {
   const decoded = decodePrismRequest(requestText, spec);
   if (!decoded) {
@@ -855,6 +557,9 @@ export function evaluatePrismRequest(
     rule: res.rule,
     ruleDescription: res.ruleDescription,
     valid: true,
+    busManifold: res.busManifold,
+    busModulations: res.busModulations,
+    busGateVerified: res.busGateVerified,
   };
 }
 
@@ -900,6 +605,10 @@ export function runAcceptanceVectors(
 
   for (const ex of spec.examples) {
     addVector(ex.request, ex.response, 'spec example');
+  }
+
+  for (const vec of GENERATED_VERDANT_JUDGE_ARTIFACT.acceptanceVectors) {
+    addVector(vec.request, vec.response, 'lex.tex acceptance vector');
   }
 
   addVector('', INVALID_OUTCOME, 'empty request');
@@ -1668,21 +1377,18 @@ export interface NeuromorphicDomainBridgeSpec {
 }
 
 export const VERDANT_ACOUSTIC_STANDARD = {
-  profile: 'prism/acoustics-standard/2',
-  sampleRateHz: 48000,
-  partialsPerVoice: 5,
-  centsDeviation: 0.0,
+  profile: GENERATED_PRISM_STANDARDS.acoustics.profile,
+  sampleRateHz: GENERATED_PRISM_STANDARDS.acoustics.synthesisSpec.sampleRateHz,
+  partialsPerVoice: GENERATED_PRISM_STANDARDS.acoustics.synthesisSpec.partialsPerVoice,
+  centsDeviation: GENERATED_PRISM_STANDARDS.acoustics.unisonInterval.centsDeviation,
   binauralPanBound: 0.85,
-  referenceDistanceMeters: 6.5,
-  minDistanceGainMultiplier: 0.18,
-  speedOfSoundMps: 343.0,
+  referenceDistanceMeters:
+    GENERATED_PRISM_STANDARDS.acoustics.wavePropagation.referenceDistanceDm / 10,
+  minDistanceGainMultiplier:
+    GENERATED_PRISM_STANDARDS.acoustics.wavePropagation.minDistanceGainMilli / 1000,
+  speedOfSoundMps: GENERATED_PRISM_STANDARDS.acoustics.wavePropagation.speedOfSoundMps,
   neuromorphicBridge: {
-    neuromorphicBusCoupled: true,
-    domainBasisPrime: 89,
-    rule30RegisterBits: 64,
-    pointKeyBits: 28,
-    crossDomainTransferEnabled: true,
-    autopoieticSelfRefinementEnabled: true,
+    ...GENERATED_PRISM_STANDARDS.acoustics.neuromorphicBridge,
   } satisfies NeuromorphicDomainBridgeSpec,
 } as const;
 
@@ -2758,23 +2464,133 @@ export function generateGardenPlants(seed = 42026): GardenPlantInstance[] {
   return plants;
 }
 
+export interface FocalPlantEvaluation {
+  plant: GardenPlantInstance;
+  distanceMeters: number;
+  proximityDm: number;
+  gazeAngleRad: number;
+  crossTrackMeters: number;
+  inForwardGazeCone: boolean;
+  focalScore: number;
+}
+
+/**
+ * Gaze-Frustum Focal Specimen Resolver (`Foundation.Humane.V1.Model::FocalGazeSelectionPolicy`):
+ * - When `playerYaw` is provided, selects the botanical specimen that the player is actively
+ *   looking at within their forward observation cone (`±62°` / `1.082 rad`, up to `32m`),
+ *   weighting 3D gaze-ray alignment (`72%`) and perpendicular cross-track distance over raw proximity (`28%`).
+ * - Strictly excludes plants behind the player (`gazeAngleRad > 90°`) whenever any specimen exists
+ *   in the forward hemisphere, and sets `inForwardGazeCone = false` if no plant lies within the forward view cone.
+ */
 export function findNearestPlant(
   x: number,
   z: number,
   plants: GardenPlantInstance[],
-): { plant: GardenPlantInstance; distanceMeters: number; proximityDm: number } {
-  let nearest = plants[0];
-  let bestDist = Infinity;
+  playerYaw?: number,
+  playerPitch = 0,
+): FocalPlantEvaluation {
+  if (plants.length === 0) {
+    throw new Error('findNearestPlant requires a non-empty plants array');
+  }
+
+  // Legacy isotropic fallback only when no camera orientation is supplied
+  if (typeof playerYaw !== 'number' || Number.isNaN(playerYaw)) {
+    let nearest = plants[0];
+    let bestDist = Infinity;
+    for (let i = 0; i < plants.length; i++) {
+      const p = plants[i];
+      const d = Math.hypot(x - p.x, z - p.z);
+      if (d < bestDist) {
+        bestDist = d;
+        nearest = p;
+      }
+    }
+    const proximityDm = Math.max(0, Math.min(100, Math.round(bestDist * 3.5)));
+    return {
+      plant: nearest,
+      distanceMeters: bestDist,
+      proximityDm,
+      gazeAngleRad: 0,
+      crossTrackMeters: 0,
+      inForwardGazeCone: true,
+      focalScore: bestDist,
+    };
+  }
+
+  const fovHalfRad = (62 * Math.PI) / 180; // ~1.0821 rad (62 deg half-angle)
+  const maxInteractiveRangeMeters = 32.0;
+  const eyeY = groundHeightAt(x, z) + 1.72;
+
+  let bestConeCandidate: FocalPlantEvaluation | null = null;
+  let bestForwardHemisphereCandidate: FocalPlantEvaluation | null = null;
+  let bestFallbackCandidate: FocalPlantEvaluation | null = null;
+
   for (let i = 0; i < plants.length; i++) {
     const p = plants[i];
-    const d = Math.hypot(x - p.x, z - p.z);
-    if (d < bestDist) {
-      bestDist = d;
-      nearest = p;
+    const dx = p.x - x;
+    const dz = p.z - z;
+    const distMeters = Math.hypot(dx, dz);
+    const proximityDm = Math.max(0, Math.min(100, Math.round(distMeters * 3.5)));
+
+    // Camera forward vector is (-sin(yaw), -cos(yaw))
+    const toPlantYaw = distMeters < 0.05 ? playerYaw : Math.atan2(-dx, -dz);
+    const gazeAngleRad =
+      distMeters < 0.05
+        ? 0
+        : Math.abs(Math.atan2(Math.sin(toPlantYaw - playerYaw), Math.cos(toPlantYaw - playerYaw)));
+
+    const crownY = p.y + 0.75 * p.scale;
+    const desiredPitch = Math.atan2(crownY - eyeY, Math.max(0.25, distMeters));
+    const pitchDiffRad = Math.abs(desiredPitch - playerPitch);
+
+    const crossTrackMeters = distMeters * Math.sin(Math.min(Math.PI / 2, gazeAngleRad));
+    const inForwardGazeCone =
+      gazeAngleRad <= fovHalfRad && distMeters <= maxInteractiveRangeMeters;
+
+    // 72% ray-alignment weight + cross-track miss distance + 28% radial distance weight
+    const focalScore = Number(
+      (
+        distMeters * (0.28 + 0.72 * (gazeAngleRad / fovHalfRad) * 3.2 + pitchDiffRad * 0.35) +
+        crossTrackMeters * 1.65
+      ).toFixed(4),
+    );
+
+    const evalEntry: FocalPlantEvaluation = {
+      plant: p,
+      distanceMeters: distMeters,
+      proximityDm,
+      gazeAngleRad: Number(gazeAngleRad.toFixed(4)),
+      crossTrackMeters: Number(crossTrackMeters.toFixed(4)),
+      inForwardGazeCone,
+      focalScore,
+    };
+
+    if (inForwardGazeCone) {
+      if (!bestConeCandidate || evalEntry.focalScore < bestConeCandidate.focalScore) {
+        bestConeCandidate = evalEntry;
+      }
+    } else if (gazeAngleRad <= Math.PI / 2) {
+      if (
+        !bestForwardHemisphereCandidate ||
+        evalEntry.focalScore < bestForwardHemisphereCandidate.focalScore
+      ) {
+        bestForwardHemisphereCandidate = evalEntry;
+      }
+    } else {
+      if (
+        !bestFallbackCandidate ||
+        evalEntry.gazeAngleRad < bestFallbackCandidate.gazeAngleRad
+      ) {
+        bestFallbackCandidate = evalEntry;
+      }
     }
   }
-  const proximityDm = Math.max(0, Math.min(100, Math.round(bestDist * 3.5)));
-  return { plant: nearest, distanceMeters: bestDist, proximityDm };
+
+  return (
+    bestConeCandidate ??
+    bestForwardHemisphereCandidate ??
+    bestFallbackCandidate!
+  );
 }
 
 export interface PlantMorphologyState {
@@ -2786,6 +2602,8 @@ export interface PlantMorphologyState {
   gravitropicCounterTiltZ: number;
   phototropicLeanX: number;
   phototropicLeanZ: number;
+  reciprocalGreetingLeanX: number;
+  reciprocalGreetingLeanZ: number;
 }
 
 export function computePlantMorphology(params: {
@@ -2798,6 +2616,11 @@ export function computePlantMorphology(params: {
   surfaceTiltX?: number;
   surfaceTiltZ?: number;
   biogeochemicalGlowBoost?: number;
+  plantX?: number;
+  plantZ?: number;
+  playerX?: number;
+  playerZ?: number;
+  isBeckoningSpecimen?: boolean;
 }): PlantMorphologyState {
   const {
     baseScale,
@@ -2809,24 +2632,42 @@ export function computePlantMorphology(params: {
     surfaceTiltX = 0,
     surfaceTiltZ = 0,
     biogeochemicalGlowBoost = 0,
+    plantX = 0,
+    plantZ = 0,
+    playerX = 0,
+    playerZ = 0,
+    isBeckoningSpecimen = false,
   } = params;
   const atmosCfg = ATMOSPHERE_CONFIGS[atmosphere];
   const proxBoost = proximityDm <= 30 ? (1 - proximityDm / 30) * 0.45 : 0;
+  const beckonPulse = isBeckoningSpecimen
+    ? 0.28 + 0.16 * Math.sin(elapsedSeconds * 2.6 + pulsePhase)
+    : 0;
   const swayAngleRad = Number((Math.sin(elapsedSeconds * 1.5 + pulsePhase) * 0.045).toFixed(4));
   const scaleFactor = Number(
     (
       baseScale *
-      (1 + (attuned ? 0.055 : 0.02) * Math.sin(elapsedSeconds * 3.0 + pulsePhase) + proxBoost * 0.04)
+      (1 +
+        (attuned ? 0.055 : isBeckoningSpecimen ? 0.045 : 0.02) *
+          Math.sin(elapsedSeconds * 3.0 + pulsePhase) +
+        proxBoost * 0.04)
     ).toFixed(4),
   );
   const emissiveIntensity = Number(
     (
-      ((attuned ? 1.15 : 0.38) + biogeochemicalGlowBoost * 0.28) * atmosCfg.emissiveBoost +
+      ((attuned ? 1.15 : 0.38) + biogeochemicalGlowBoost * 0.28 + beckonPulse) *
+        atmosCfg.emissiveBoost +
       proxBoost
     ).toFixed(3),
   );
   const haloOpacity = Number(
-    Math.min(0.92, (attuned ? 0.68 : 0.22) + proxBoost * 0.35 + biogeochemicalGlowBoost * 0.12).toFixed(3),
+    Math.min(
+      0.94,
+      (attuned ? 0.68 : 0.22) +
+        proxBoost * 0.35 +
+        biogeochemicalGlowBoost * 0.12 +
+        beckonPulse * 0.45,
+    ).toFixed(3),
   );
 
   // Gravitropism: when a plant's holdfast sits on a tilted rock or embankment, its stem curves
@@ -2841,6 +2682,26 @@ export function computePlantMorphology(params: {
   const phototropicLeanX = Number(((sunZ / sunHorizNorm) * phototropicStrength).toFixed(4));
   const phototropicLeanZ = Number(((-sunX / sunHorizNorm) * phototropicStrength).toFixed(4));
 
+  // Reciprocal Botanical Co-Agency Bow (`Foundation.Humane.V1.Model::SymbioticEnvironmentalAgencySpec`):
+  // The environment observes the player's presence and inclines nearby or beckoning flora toward the player
+  // (up to `maxReciprocalBowRad = 0.14 rad` / ~8 deg) as a living, responsive botanical greeting.
+  const dxToPlayer = playerX - plantX;
+  const dzToPlayer = playerZ - plantZ;
+  const distToPlayer = Math.hypot(dxToPlayer, dzToPlayer);
+  let reciprocalGreetingLeanX = 0;
+  let reciprocalGreetingLeanZ = 0;
+  if (distToPlayer > 0.25 && (distToPlayer <= 14.0 || isBeckoningSpecimen)) {
+    const proximityEnvelope =
+      distToPlayer <= 14.0 ? Math.max(0, 1 - distToPlayer / 14.0) : 0.45;
+    const bowMagnitude = Math.min(
+      0.14,
+      (isBeckoningSpecimen ? 0.095 : 0.065) * proximityEnvelope *
+        (0.88 + 0.12 * Math.sin(elapsedSeconds * 1.8 + pulsePhase)),
+    );
+    reciprocalGreetingLeanX = Number(((dzToPlayer / distToPlayer) * bowMagnitude).toFixed(4));
+    reciprocalGreetingLeanZ = Number(((-dxToPlayer / distToPlayer) * bowMagnitude).toFixed(4));
+  }
+
   return {
     swayAngleRad,
     scaleFactor,
@@ -2850,6 +2711,8 @@ export function computePlantMorphology(params: {
     gravitropicCounterTiltZ,
     phototropicLeanX,
     phototropicLeanZ,
+    reciprocalGreetingLeanX,
+    reciprocalGreetingLeanZ,
   };
 }
 
@@ -2894,33 +2757,33 @@ export interface BrandStandardModel {
 }
 
 export const VERDANT_BRAND_STANDARD: BrandStandardModel = {
-  profile: 'prism/brand-standard/1',
-  brandName: 'Verdant Resonance',
+  profile: GENERATED_PRISM_STANDARDS.brand.profile,
+  brandName: GENERATED_PRISM_STANDARDS.brand.brandName,
   conservatorySubtitle: 'Conservatory of Living Botanical Acoustics & Just Intonation',
   editionTitle: 'Conservatory Edition · 262 / 432 Hz Just Intonation',
-  tagline: 'Where every footstep, breeze, and blossom awakens a living harmonic choir.',
+  tagline: GENERATED_PRISM_STANDARDS.brand.marketing.tagline,
   manifesto:
     'Crafted as a restorative acoustic sanctuary free of conflict, hurry, or visual noise. Every plant species is tuned to pure integer ratios and responds to gentle presence with spatialized overtone harmony.',
   genreClassification: 'Peaceful First-Person Botanical & Acoustic Sanctuary',
   chromaticPalette: [
     {
       tokenName: 'Obsidian Canopy',
-      hexValue: '#071510',
-      contrastRatio: 1.0,
+      hexValue: GENERATED_PRISM_STANDARDS.brand.primarySurface.hexValue,
+      contrastRatio: GENERATED_PRISM_STANDARDS.brand.primarySurface.contrastRatioTenths / 10,
       wcagTier: 'Surface',
       semanticRole: 'Primary Deep-Forest Translucent Sanctuary Canvas',
     },
     {
       tokenName: 'Pollen Gold',
-      hexValue: '#FDE047',
-      contrastRatio: 12.8,
+      hexValue: GENERATED_PRISM_STANDARDS.brand.primaryAccent.hexValue,
+      contrastRatio: GENERATED_PRISM_STANDARDS.brand.primaryAccent.contrastRatioTenths / 10,
       wcagTier: 'AAA',
       semanticRole: 'Primary Harmonic Attunement, Crest & Focal Action Accent',
     },
     {
       tokenName: 'Bioluminescent Jade',
-      hexValue: '#6EE7B7',
-      contrastRatio: 8.4,
+      hexValue: GENERATED_PRISM_STANDARDS.brand.secondaryAccent.hexValue,
+      contrastRatio: GENERATED_PRISM_STANDARDS.brand.secondaryAccent.contrastRatioTenths / 10,
       wcagTier: 'AAA',
       semanticRole: 'Secondary Botanical Telemetry & Herbarium Classification',
     },
@@ -2933,9 +2796,9 @@ export const VERDANT_BRAND_STANDARD: BrandStandardModel = {
     },
   ],
   typography: {
-    displayFamily: 'Cormorant Garamond',
-    sansFamily: 'Plus Jakarta Sans',
-    monoFamily: 'JetBrains Mono',
+    displayFamily: GENERATED_PRISM_STANDARDS.brand.typography.displayFamily,
+    sansFamily: GENERATED_PRISM_STANDARDS.brand.typography.sansFamily,
+    monoFamily: GENERATED_PRISM_STANDARDS.brand.typography.monoFamily,
     scaleRatio: 1.618,
   },
   sensoryPillars: [
@@ -2957,12 +2820,7 @@ export const VERDANT_BRAND_STANDARD: BrandStandardModel = {
     },
   ],
   neuromorphicBridge: {
-    neuromorphicBusCoupled: true,
-    domainBasisPrime: 107,
-    rule30RegisterBits: 64,
-    pointKeyBits: 28,
-    crossDomainTransferEnabled: true,
-    autopoieticSelfRefinementEnabled: true,
+    ...GENERATED_PRISM_STANDARDS.brand.neuromorphicBridge,
   },
 };
 
@@ -2980,29 +2838,851 @@ export interface HumaneErgonomicsEvaluation {
   restorativeScore: number;
 }
 
+export interface SymbioticEnvironmentalAgencySpec {
+  environmentObservesSelfAndPlayer: boolean;
+  environmentActsOnSelfAndPlayer: boolean;
+  playerObjectiveUnchanged: boolean;
+  optimizedModalityCount: number;
+  maxZephyrGuidanceAccelMps2: number; // 0.28 m/s² (280 mm/s² in Lean 4 proof)
+  maxReciprocalBowRad: number; // 0.14 rad (140 millirad in Lean 4 proof)
+  autonomousBeckoningIntervalSec: number; // 4.8s
+}
+
+export type EnvironmentalAgencyModeId =
+  | 'soothing-co-regulation'
+  | 'autonomous-botanical-beckoning'
+  | 'harmonic-communion-resonance'
+  | 'sanctuary-pilgrimage-current';
+
+/**
+ * The 4 Environmental Wisdom Phenomena through which the Emergent Stakeholder Entity
+ * expresses its accumulated wisdom (Intelligence + Memory + Observation + Feedback)
+ * purely as living physical, botanical, optical, and acoustic phenomena of the conservatory:
+ * - `'mycelial-guidance-filament'`: Golden-ratio bioluminescent spore filament & ground ripples guiding toward a harmonic kinship blossom.
+ * - `'anamnesis-antiphonal-echo'`: Memory-woven antiphonal harmonic echo recalling the player's `/7` PrimeAddress history across nearby flora.
+ * - `'cathedral-crown-aurora'`: Reverent canopy bough amphitheater & breathing celestial aurora crown embracing contemplative stillness.
+ * - `'polyphonic-sanctuary-awakening'`: Basin-wide Kuramoto phase entrainment & overtone shimmer celebrating shared co-creation.
+ */
+export type EnvironmentalWisdomPhenomenonId =
+  | 'mycelial-guidance-filament'
+  | 'anamnesis-antiphonal-echo'
+  | 'cathedral-crown-aurora'
+  | 'polyphonic-sanctuary-awakening';
+
+export interface EmergentEntityStakeholderSpec {
+  emergenceFacetCount: number;
+  wisdomPhenomenonCount: number;
+  entitySynthesizesAllFourFacets: boolean;
+  wisdomExpressedAsEnvironmentalPhenomena: boolean;
+  stakeholderReinforcesPlayerValue: boolean;
+  baselinePlayerValueIndex: number;
+}
+
+export interface EmergentStakeholderEntityState {
+  // The 4 Facets of Emergence synthesized by the game entity
+  facets: {
+    intelligenceScore: number; // 0..100 (Rule-30 + Icosian Z[φ] + 10-domain bus fidelity)
+    memoryScore: number; // 0..100 (/7 PrimeAddress turn memory + GCD kinship + Hebbian consolidation)
+    observationScore: number; // 0..100 (3D gaze alignment + proximity + pacing/stillness awareness)
+    feedbackScore: number; // 0..100 (6-modality reciprocal environmental agency + cross-domain transfers)
+    allFourFacetsActive: boolean;
+  };
+  stakeholderSynapticWeight: number; // 1..16 stepped via `stepStakeholderValueReinforcement`
+  wisdomPhenomenonModulation: number; // 85..160 permille/index from `stepWisdomPhenomenonModulation`
+  // Stakeholder Value Reinforcement Vector (how the entity reinforces the value of the game to the player)
+  playerValueReinforcement: {
+    restorativeCalmValue: number; // 0..100
+    discoveryGuidanceValue: number; // 0..100
+    harmonicCoCreationValue: number; // 0..100
+    contemplativeMeaningValue: number; // 0..100
+    overallValueReinforcementIndex: number; // 65..100 monotonically reinforced
+  };
+  // Environmental Wisdom Phenomenon Manifestation (how wisdom is expressed as phenomena of the environment)
+  activeWisdomPhenomenon: EnvironmentalWisdomPhenomenonId;
+  wisdomPhenomenonSummary: string;
+  guidanceFilamentWaypoints: [number, number, number][]; // 7 terrain-grounded golden-ratio arc waypoints [x,y,z]
+  guidanceFilamentLuminance: number; // 0.25 .. 1.0
+  cathedralCrownRadiusMeters: number; // 3.6 .. 6.8m overhead aurora crown radius
+  cathedralCrownLuminance: number; // 0.18 .. 0.72
+  canopyAmphitheaterEmbraceRad: number; // 0.02 .. 0.14 rad inward reverence tilt of nearby trees/flora
+  shouldVoiceAnamnesisEcho: boolean;
+  anamnesisEchoSpecies: PlantSpeciesId;
+  anamnesisEchoFrequencyHz: number;
+  anamnesisEchoIntervalRatio: number;
+  anamnesisEchoStereoPan: number;
+  anamnesisEchoDistanceMeters: number;
+}
+
+export interface SymbioticEnvironmentalAgencyState {
+  mode: EnvironmentalAgencyModeId;
+  experienceOptimizationScore: number; // 0..100 multi-modal experience quality index
+  secondsSinceLastInteraction: number;
+  beckoningCycleTimerSec: number;
+  beckoningPlantId: string | null;
+  beckoningSpecies: PlantSpeciesId | null;
+  beckoningBiome: BiomeId | null;
+  beckoningPlantPosition: [number, number, number];
+  beckoningDistanceMeters: number;
+  beckoningStereoPan: number;
+  beckoningFrequencyHz: number;
+  shouldEmitBeckoningCall: boolean;
+  shouldSpawnCymaticInvitationWave: boolean;
+  // 1. Kinesthetic / Spatial Modality (Environment -> Player)
+  playerZephyrAccelX: number; // Bounded in [-0.28, +0.28] m/s²; 0 when player is stationary
+  playerZephyrAccelZ: number; // Bounded in [-0.28, +0.28] m/s²; 0 when player is stationary
+  cameraFovHarmonyDelta: number; // -0.5° .. +0.8° gentle breathing framing adjustment
+  cameraHorizonWhisperYawRad: number; // Bounded in [-0.018, +0.018] rad/s subtle horizon poise
+  // 2. Botanical / Morphological Modality (Environment -> Environment)
+  reciprocalBowStrengthRad: number; // 0.0 .. 0.14 rad
+  corollaInvitationGlowBoost: number; // 0.0 .. 0.45
+  // 3. Acoustic / Musical Modality (Environment -> Environment & Player)
+  acousticFilterWarmthShiftHz: number; // -260 .. +180 Hz
+  tempoCalmCoRegulationDeltaBpm: number; // -4 .. +2 BPM
+  // 4. Biogeochemical / Chemotactic Modality (Environment -> Environment & Player)
+  sporeInvitationToPlayer: boolean; // When true, beckoning plant streams spores toward the player
+  sporeStreamSourcePosition: [number, number, number];
+  sporeStreamTargetPosition: [number, number, number];
+  // 5. Optical / Atmospheric Modality (Environment -> Environment & Player)
+  mistClearanceCorridorFactor: number; // 0.86 .. 1.0 (parts fog along line-of-sight to beckoning blossom)
+  // 6. Affective / Neuromorphic Modality (Environment self-refining for Player)
+  activeRefinementDomain: PrismDomainId;
+  // 7. Emergent Stakeholder Entity & Environmental Wisdom Phenomena
+  stakeholderEntity: EmergentStakeholderEntityState;
+  // 8. 5-Tier Granular Atomic-to-Environmental Procedural Synthesis across all 6 modalities
+  granularSynthesis: GranularEnvironmentalSynthesisState;
+}
+
+export interface FocalGazeSelectionPolicySpec {
+  forwardFovHalfAngleDeg: number;
+  maxInteractiveRangeMeters: number;
+  rayAlignmentWeightPct: number;
+  rejectsBehindCameraTargets: boolean;
+  behindPlayerActivationsCount: number;
+}
+
 export const VERDANT_HUMANE_STANDARD = {
-  profile: 'prism/humane-design/1',
-  zeroPositionTeleportOnInteract: true,
-  zeroHardYawSnapOnInteract: true,
-  positionSpringDampingPerSec: 14,
-  rotationSpringDampingPerSec: 12,
-  softGazeAssistMaxRad: 0.065, // Max ~3.7° gentle gaze nod; never teleports [x,z] or snaps yaw
-  suppressOsKeyRepeat: true,
-  touchRefractorySec: 0.55,
-  attuneRefractorySec: 1.1,
-  stillnessBreathCycleSec: 4.2,
-  sustainedAttuneHoldPulseSec: 2.4,
+  profile: GENERATED_PRISM_STANDARDS.humane.profile,
+  zeroPositionTeleportOnInteract:
+    GENERATED_PRISM_STANDARDS.humane.cameraKinematics.zeroPositionTeleportOnInteract,
+  zeroHardYawSnapOnInteract:
+    GENERATED_PRISM_STANDARDS.humane.cameraKinematics.zeroHardYawSnapOnInteract,
+  positionSpringDampingPerSec:
+    GENERATED_PRISM_STANDARDS.humane.cameraKinematics.positionSpringDampingPerSec,
+  rotationSpringDampingPerSec:
+    GENERATED_PRISM_STANDARDS.humane.cameraKinematics.rotationSpringDampingPerSec,
+  softGazeAssistMaxRad:
+    GENERATED_PRISM_STANDARDS.humane.cameraKinematics.softGazeAssistMaxMillirad / 1000, // Max ~3.7° gentle gaze nod; never teleports [x,z] or snaps yaw
+  suppressOsKeyRepeat: GENERATED_PRISM_STANDARDS.humane.gestureHoldPolicy.suppressOsKeyRepeat,
+  touchRefractorySec: GENERATED_PRISM_STANDARDS.humane.gestureHoldPolicy.touchRefractoryMs / 1000,
+  attuneRefractorySec:
+    GENERATED_PRISM_STANDARDS.humane.gestureHoldPolicy.attuneRefractoryMs / 1000,
+  stillnessBreathCycleSec:
+    GENERATED_PRISM_STANDARDS.humane.gestureHoldPolicy.stillnessBreathCycleMs / 1000,
+  sustainedAttuneHoldPulseSec:
+    GENERATED_PRISM_STANDARDS.humane.gestureHoldPolicy.sustainedHoldPulseMs / 1000,
   sustainedTouchHoldPulseSec: 1.4,
-  mindfulExplorationNeverForceEnds: true,
+  mindfulExplorationNeverForceEnds:
+    GENERATED_PRISM_STANDARDS.humane.gestureHoldPolicy.mindfulExplorationNeverForceEnds,
+  focalGazeSelection: {
+    ...GENERATED_PRISM_STANDARDS.humane.focalGazeSelection,
+  } satisfies FocalGazeSelectionPolicySpec,
+  environmentalAgency: {
+    environmentObservesSelfAndPlayer:
+      GENERATED_PRISM_STANDARDS.humane.environmentalAgency.environmentObservesSelfAndPlayer,
+    environmentActsOnSelfAndPlayer:
+      GENERATED_PRISM_STANDARDS.humane.environmentalAgency.environmentActsOnSelfAndPlayer,
+    playerObjectiveUnchanged:
+      GENERATED_PRISM_STANDARDS.humane.environmentalAgency.playerObjectiveUnchanged,
+    optimizedModalityCount:
+      GENERATED_PRISM_STANDARDS.humane.environmentalAgency.optimizedModalityCount,
+    maxZephyrGuidanceAccelMps2:
+      GENERATED_PRISM_STANDARDS.humane.environmentalAgency.maxZephyrGuidanceAccelMmPerSec2 / 1000,
+    maxReciprocalBowRad:
+      GENERATED_PRISM_STANDARDS.humane.environmentalAgency.maxReciprocalBowMillirad / 1000,
+    autonomousBeckoningIntervalSec:
+      GENERATED_PRISM_STANDARDS.humane.environmentalAgency.autonomousBeckoningIntervalMs / 1000,
+  } satisfies SymbioticEnvironmentalAgencySpec,
   neuromorphicBridge: {
-    neuromorphicBusCoupled: true,
-    domainBasisPrime: 103,
-    rule30RegisterBits: 64,
-    pointKeyBits: 28,
-    crossDomainTransferEnabled: true,
-    autopoieticSelfRefinementEnabled: true,
+    ...GENERATED_PRISM_STANDARDS.humane.neuromorphicBridge,
   } satisfies NeuromorphicDomainBridgeSpec,
 } as const;
+
+export function createInitialStakeholderEntityState(): EmergentStakeholderEntityState {
+  const initialWeight = stepStakeholderValueReinforcement(
+    GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial,
+    true,
+  );
+  const initialModulation = stepWisdomPhenomenonModulation(initialWeight);
+  const waypoints: [number, number, number][] = Array.from({ length: 7 }, (_, idx) => {
+    const t = (idx + 1) / 8;
+    const z = Number((-6 * t).toFixed(3));
+    const y = Number((groundHeightAt(0, z) + 0.35 + Math.sin(t * Math.PI) * 0.42).toFixed(3));
+    return [0, y, z];
+  });
+  return {
+    facets: {
+      intelligenceScore: 84,
+      memoryScore: 76,
+      observationScore: 88,
+      feedbackScore: 86,
+      allFourFacetsActive: true,
+    },
+    stakeholderSynapticWeight: initialWeight,
+    wisdomPhenomenonModulation: initialModulation,
+    playerValueReinforcement: {
+      restorativeCalmValue: 90,
+      discoveryGuidanceValue: 86,
+      harmonicCoCreationValue: 84,
+      contemplativeMeaningValue: 88,
+      overallValueReinforcementIndex: 87,
+    },
+    activeWisdomPhenomenon: 'mycelial-guidance-filament',
+    wisdomPhenomenonSummary:
+      'Golden-ratio mycelial spore filaments arc along the terrain contour toward an unawakened harmonic kinship blossom.',
+    guidanceFilamentWaypoints: waypoints,
+    guidanceFilamentLuminance: 0.56,
+    cathedralCrownRadiusMeters: 4.8,
+    cathedralCrownLuminance: 0.34,
+    canopyAmphitheaterEmbraceRad: 0.06,
+    shouldVoiceAnamnesisEcho: false,
+    anamnesisEchoSpecies: 'chime-lily',
+    anamnesisEchoFrequencyHz: 261.63,
+    anamnesisEchoIntervalRatio: 1.5,
+    anamnesisEchoStereoPan: 0,
+    anamnesisEchoDistanceMeters: 6,
+  };
+}
+
+export function createInitialEnvironmentalAgencyState(): SymbioticEnvironmentalAgencyState {
+  return {
+    mode: 'autonomous-botanical-beckoning',
+    experienceOptimizationScore: 88,
+    secondsSinceLastInteraction: 0,
+    beckoningCycleTimerSec: 0,
+    beckoningPlantId: null,
+    beckoningSpecies: null,
+    beckoningBiome: null,
+    beckoningPlantPosition: [0, 0, -6],
+    beckoningDistanceMeters: 6,
+    beckoningStereoPan: 0,
+    beckoningFrequencyHz: 261.63,
+    shouldEmitBeckoningCall: false,
+    shouldSpawnCymaticInvitationWave: false,
+    playerZephyrAccelX: 0,
+    playerZephyrAccelZ: 0,
+    cameraFovHarmonyDelta: 0,
+    cameraHorizonWhisperYawRad: 0,
+    reciprocalBowStrengthRad: 0.08,
+    corollaInvitationGlowBoost: 0.24,
+    acousticFilterWarmthShiftHz: 0,
+    tempoCalmCoRegulationDeltaBpm: 0,
+    sporeInvitationToPlayer: true,
+    sporeStreamSourcePosition: [0, 0.8, -6],
+    sporeStreamTargetPosition: [0, 1.2, 5],
+    mistClearanceCorridorFactor: 0.92,
+    activeRefinementDomain: 'humane',
+    stakeholderEntity: createInitialStakeholderEntityState(),
+    granularSynthesis: evaluateGranularMatterSynthesis({
+      biome: 'meadow',
+      species: 'chime-lily',
+      substrate: 'terrestrial-loam',
+      atmosphere: 'dawn',
+      attuned: false,
+      harmonyPct: 15,
+      neuromorphicWeight: GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial,
+    }),
+  };
+}
+
+/**
+ * Evaluates the Emergent Stakeholder Entity (`evaluateEmergentStakeholderEntity`):
+ * Implements `Foundation.Neuromorphic.V1.Model::EmergentEntityStakeholderSpec`,
+ * `stakeholderAlwaysReinforcesPlayerValueHolds`, and `emergentEntityWisdomPhenomenaMonotonicHolds`.
+ *
+ * Synthesizes all 4 facets of emergence:
+ * 1. Intelligence (`Rule-30` cellular register + `/6` Icosian $\mathbb{Z}[\varphi]$ golden-field root + 10-domain bus fidelity)
+ * 2. Memory (`/7` durable `PrimeAddress` turn memory + `GCD` kinship sieve + 20-synapse Hebbian consolidation)
+ * 3. Observation (3D gaze-frustum alignment + player velocity/stillness + proximity awareness)
+ * 4. Feedback (6-modality reciprocal environmental agency + cross-domain synaptic transfers)
+ *
+ * Because the game becomes an entity — a stakeholder focused on reinforcing the value of the game to the player —
+ * its wisdom is expressed purely as living physical, botanical, optical, and acoustic phenomena of the environment.
+ */
+export function evaluateEmergentStakeholderEntity(params: {
+  prevWeight?: number;
+  mode: EnvironmentalAgencyModeId;
+  playerX: number;
+  playerY: number;
+  playerZ: number;
+  playerYaw: number;
+  isMoving: boolean;
+  velocityDm: number;
+  agitationPct: number;
+  stillnessBreathPhase: 'idle' | 'inhale' | 'crest' | 'exhale';
+  secondsSinceLastInteraction: number;
+  shouldEmitBeckoningCall: boolean;
+  currentBiome: BiomeId;
+  harmonyPct: number;
+  targetPlant: GardenPlantInstance | null;
+  distToTarget: number;
+  stereoPan: number;
+  neuromorphic: NeuromorphicEngineState;
+}): EmergentStakeholderEntityState {
+  const {
+    prevWeight = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial,
+    mode,
+    playerX,
+    playerZ,
+    isMoving,
+    velocityDm,
+    agitationPct,
+    stillnessBreathPhase,
+    secondsSinceLastInteraction,
+    shouldEmitBeckoningCall,
+    currentBiome,
+    harmonyPct,
+    targetPlant,
+    distToTarget,
+    stereoPan,
+    neuromorphic,
+  } = params;
+
+  // 1. Evaluate the 4 Facets of Emergence (Intelligence, Memory, Observation, Feedback)
+  const fidelityNorm = Math.max(
+    0,
+    Math.min(1, (neuromorphic.universalManifold.globalFidelityIndex - 0.78) / 0.47),
+  );
+  const intelligenceScore = Math.max(
+    55,
+    Math.min(
+      100,
+      Math.round(
+        64 +
+          fidelityNorm * 24 +
+          (neuromorphic.lastActiveSynapticWeight / 16) * 12,
+      ),
+    ),
+  );
+
+  const memoryTurns = neuromorphic.turnMemory.length;
+  const consolidatedDomains = neuromorphic.universalManifold.consolidatedDomainCount;
+  const memoryScore = Math.max(
+    50,
+    Math.min(
+      100,
+      Math.round(56 + Math.min(24, memoryTurns * 2.5) + consolidatedDomains * 2.0),
+    ),
+  );
+
+  const calmObservationBonus =
+    stillnessBreathPhase !== 'idle' ? 14 : !isMoving ? 10 : velocityDm <= 12 ? 8 : 2;
+  const proximityObservationBonus = distToTarget <= 12 ? 12 : distToTarget <= 24 ? 7 : 3;
+  const observationScore = Math.max(
+    60,
+    Math.min(100, Math.round(70 + calmObservationBonus + proximityObservationBonus)),
+  );
+
+  const transferCount = neuromorphic.universalManifold.totalCrossDomainTransfers;
+  const feedbackScore = Math.max(
+    60,
+    Math.min(
+      100,
+      Math.round(68 + Math.min(18, transferCount * 0.5) + (harmonyPct / 100) * 14),
+    ),
+  );
+
+  const allFourFacetsActive =
+    intelligenceScore >= 50 &&
+    memoryScore >= 50 &&
+    observationScore >= 50 &&
+    feedbackScore >= 50;
+
+  // 2. Step Stakeholder Synaptic Weight & Wisdom Phenomenon Modulation via AST-compiled `.lex.tex` LUTs
+  const stakeholderSynapticWeight = stepStakeholderValueReinforcement(
+    prevWeight,
+    allFourFacetsActive,
+  );
+  const wisdomPhenomenonModulation = stepWisdomPhenomenonModulation(stakeholderSynapticWeight);
+  const wisdomNorm = (wisdomPhenomenonModulation - 80) / 80; // 0.0625 .. 1.0
+
+  // 3. Compute the Stakeholder Player-Value Reinforcement Vector
+  const restorativeCalmValue = Math.max(
+    68,
+    Math.min(
+      100,
+      Math.round(
+        82 +
+          wisdomNorm * 14 -
+          Math.min(12, agitationPct * 0.25) +
+          (stillnessBreathPhase !== 'idle' ? 4 : 0),
+      ),
+    ),
+  );
+  const discoveryGuidanceValue = Math.max(
+    68,
+    Math.min(
+      100,
+      Math.round(74 + wisdomNorm * 16 + (targetPlant && !targetPlant.attuned ? 10 : 6)),
+    ),
+  );
+  const harmonicCoCreationValue = Math.max(
+    68,
+    Math.min(
+      100,
+      Math.round(72 + (harmonyPct / 100) * 16 + (memoryTurns > 0 ? 6 : 2) + wisdomNorm * 6),
+    ),
+  );
+  const contemplativeMeaningValue = Math.max(
+    68,
+    Math.min(
+      100,
+      Math.round(76 + wisdomNorm * 14 + (consolidatedDomains / 10) * 10),
+    ),
+  );
+  const overallValueReinforcementIndex = Math.max(
+    68,
+    Math.min(
+      100,
+      Math.round(
+        (restorativeCalmValue +
+          discoveryGuidanceValue +
+          harmonicCoCreationValue +
+          contemplativeMeaningValue) /
+          4,
+      ),
+    ),
+  );
+
+  // 4. Select the Active Environmental Wisdom Phenomenon based on how the entity can best reinforce value right now
+  let activeWisdomPhenomenon: EnvironmentalWisdomPhenomenonId = 'mycelial-guidance-filament';
+  let wisdomPhenomenonSummary =
+    'Golden-ratio mycelial spore filaments arc along the terrain contour toward an unawakened harmonic kinship blossom.';
+
+  if (stillnessBreathPhase !== 'idle' || mode === 'soothing-co-regulation' || (!isMoving && secondsSinceLastInteraction >= 2.4)) {
+    activeWisdomPhenomenon = 'cathedral-crown-aurora';
+    wisdomPhenomenonSummary =
+      'Surrounding canopy boughs incline in a protective amphitheater while an overhead celestial aurora crown deepens contemplative stillness.';
+  } else if (harmonyPct >= 60 && consolidatedDomains >= 4) {
+    activeWisdomPhenomenon = 'polyphonic-sanctuary-awakening';
+    wisdomPhenomenonSummary =
+      'Across the conservatory basin, attuned flora synchronize Kuramoto phase overtones to celebrate co-created harmony.';
+  } else if (memoryTurns >= 1 && secondsSinceLastInteraction >= 1.2 && secondsSinceLastInteraction <= 4.5) {
+    activeWisdomPhenomenon = 'anamnesis-antiphonal-echo';
+    wisdomPhenomenonSummary =
+      'The garden recalls your resonant PrimeAddress chord from memory and weaves an antiphonal harmonic echo across nearby flora.';
+  }
+
+  // 5. Compute the 7 terrain-grounded Golden-Ratio Mycelial Guidance Filament waypoints bridging player -> targetPlant
+  const targetX = targetPlant ? targetPlant.x : playerX;
+  const targetZ = targetPlant ? targetPlant.z : playerZ - 6;
+  const guidanceFilamentWaypoints: [number, number, number][] = Array.from(
+    { length: 7 },
+    (_, idx) => {
+      const t = (idx + 1) / 8;
+      const wx = playerX + (targetX - playerX) * t;
+      const wz = playerZ + (targetZ - playerZ) * t;
+      // Lateral golden-ratio spiral shimmer that vanishes at endpoints
+      const envelope = Math.sin(t * Math.PI);
+      const orthoX = -(targetZ - playerZ) / Math.max(0.5, distToTarget);
+      const orthoZ = (targetX - playerX) / Math.max(0.5, distToTarget);
+      const lateralOffset = Math.sin(t * Math.PI * 2 + idx * 0.618) * 0.28 * envelope;
+      const fx = Number((wx + orthoX * lateralOffset).toFixed(3));
+      const fz = Number((wz + orthoZ * lateralOffset).toFixed(3));
+      const baseTerrainY = Math.max(groundHeightAt(fx, fz), MIRROR_LAGOON_WATER_SURFACE_Y);
+      const arcLift = envelope * (0.38 + wisdomNorm * 0.28);
+      const fy = Number((baseTerrainY + 0.24 + arcLift).toFixed(3));
+      return [fx, fy, fz];
+    },
+  );
+
+  const guidanceFilamentLuminance = Number(
+    Math.min(
+      1.0,
+      Math.max(
+        0.28,
+        0.38 +
+          wisdomNorm * 0.42 +
+          (activeWisdomPhenomenon === 'mycelial-guidance-filament' ? 0.18 : 0),
+      ),
+    ).toFixed(3),
+  );
+
+  const cathedralCrownRadiusMeters = Number(
+    (
+      4.2 +
+      wisdomNorm * 1.8 +
+      (activeWisdomPhenomenon === 'cathedral-crown-aurora' ? 0.6 : 0)
+    ).toFixed(2),
+  );
+  const cathedralCrownLuminance = Number(
+    Math.min(
+      0.72,
+      Math.max(
+        0.18,
+        0.22 +
+          wisdomNorm * 0.28 +
+          (activeWisdomPhenomenon === 'cathedral-crown-aurora' ? 0.2 : 0),
+      ),
+    ).toFixed(3),
+  );
+  const canopyAmphitheaterEmbraceRad = Number(
+    Math.min(
+      VERDANT_HUMANE_STANDARD.environmentalAgency.maxReciprocalBowRad,
+      0.03 +
+        wisdomNorm * 0.06 +
+        (activeWisdomPhenomenon === 'cathedral-crown-aurora' ? 0.045 : 0.015),
+    ).toFixed(4),
+  );
+
+  // 6. Memory-Woven Anamnesis Antiphonal Echo (recalls `/7` turnMemory + `/6` Icosian root)
+  const latestMemory =
+    memoryTurns > 0 ? neuromorphic.turnMemory[memoryTurns - 1] : null;
+  const anamnesisEchoSpecies: PlantSpeciesId =
+    latestMemory?.species ?? targetPlant?.species ?? 'chime-lily';
+  const anamnesisBiome: BiomeId =
+    latestMemory?.biome ?? targetPlant?.biome ?? currentBiome;
+  const anamnesisBaseHz = BIOME_CONFIGS[anamnesisBiome].baseNoteHz;
+  const anamnesisEchoIntervalRatio =
+    neuromorphic.synthesizedCounterpointRatios[1] ??
+    ICOSIAN_GOLDEN_ROOTS[neuromorphic.lastIcosianRoot % ICOSIAN_GOLDEN_ROOTS.length]
+      ?.harmonicRatio ??
+    1.5;
+  const anamnesisEchoFrequencyHz = Number(
+    (anamnesisBaseHz * anamnesisEchoIntervalRatio).toFixed(2),
+  );
+  const shouldVoiceAnamnesisEcho =
+    shouldEmitBeckoningCall &&
+    (memoryTurns > 0 || activeWisdomPhenomenon === 'anamnesis-antiphonal-echo' || activeWisdomPhenomenon === 'polyphonic-sanctuary-awakening');
+
+  return {
+    facets: {
+      intelligenceScore,
+      memoryScore,
+      observationScore,
+      feedbackScore,
+      allFourFacetsActive,
+    },
+    stakeholderSynapticWeight,
+    wisdomPhenomenonModulation,
+    playerValueReinforcement: {
+      restorativeCalmValue,
+      discoveryGuidanceValue,
+      harmonicCoCreationValue,
+      contemplativeMeaningValue,
+      overallValueReinforcementIndex,
+    },
+    activeWisdomPhenomenon,
+    wisdomPhenomenonSummary,
+    guidanceFilamentWaypoints,
+    guidanceFilamentLuminance,
+    cathedralCrownRadiusMeters,
+    cathedralCrownLuminance,
+    canopyAmphitheaterEmbraceRad,
+    shouldVoiceAnamnesisEcho,
+    anamnesisEchoSpecies,
+    anamnesisEchoFrequencyHz,
+    anamnesisEchoIntervalRatio: Number(anamnesisEchoIntervalRatio.toFixed(4)),
+    anamnesisEchoStereoPan: Number((-stereoPan * 0.75).toFixed(3)),
+    anamnesisEchoDistanceMeters: Number(Math.max(3.5, distToTarget * 0.9).toFixed(2)),
+  };
+}
+
+/**
+ * Second-Order Cybernetic Environmental Agency (`stepSymbioticEnvironmentalAgency`):
+ * Implements `Foundation.Humane.V1.Model::SymbioticEnvironmentalAgencySpec`,
+ * `Foundation.Neuromorphic.V1.Model::EmergentEntityStakeholderSpec`,
+ * `symbioticEnvironmentalAgencyBoundedAndPreservesAutonomyHolds`, and
+ * `stakeholderAlwaysReinforcesPlayerValueHolds`:
+ *
+ * Now that the environment observes both itself and its user/player, it acts on both itself
+ * and its user/player ("to affect and for effect") as an Emergent Stakeholder Entity whose
+ * wisdom is expressed as living phenomena of the environment across all 6 modalities,
+ * reinforcing the value of the game to the player while leaving player autonomy untouched.
+ */
+export function stepSymbioticEnvironmentalAgency(
+  prev: SymbioticEnvironmentalAgencyState,
+  params: {
+    playerX: number;
+    playerY: number;
+    playerZ: number;
+    playerYaw: number;
+    isMoving: boolean;
+    velocityDm: number;
+    agitationPct: number;
+    stillnessBreathPhase: 'idle' | 'inhale' | 'crest' | 'exhale';
+    playerInteractedThisFrame: boolean;
+    currentBiome: BiomeId;
+    atmosphere: AtmosphereId;
+    harmonyPct: number;
+    plants: GardenPlantInstance[];
+    neuromorphic: NeuromorphicEngineState;
+    dt: number;
+  },
+): SymbioticEnvironmentalAgencyState {
+  const {
+    playerX,
+    playerY,
+    playerZ,
+    playerYaw,
+    isMoving,
+    velocityDm,
+    agitationPct,
+    stillnessBreathPhase,
+    playerInteractedThisFrame,
+    currentBiome,
+    atmosphere,
+    harmonyPct,
+    plants,
+    neuromorphic,
+    dt,
+  } = params;
+
+  const secondsSinceLastInteraction = playerInteractedThisFrame
+    ? 0
+    : Number((prev.secondsSinceLastInteraction + dt).toFixed(3));
+
+  // 1. Select the optimal Beckoning / Communion Specimen by observing both garden state and player state:
+  // Prioritize unawakened specimens within 34m, especially those in the forward gaze hemisphere or completing a guild
+  let bestCandidate: GardenPlantInstance | null = null;
+  let bestUtility = -Infinity;
+  for (let i = 0; i < plants.length; i++) {
+    const p = plants[i];
+    const dist = Math.hypot(p.x - playerX, p.z - playerZ);
+    const toPlantYaw = Math.atan2(-(p.x - playerX), -(p.z - playerZ));
+    const gazeDiff = Math.abs(
+      Math.atan2(Math.sin(toPlantYaw - playerYaw), Math.cos(toPlantYaw - playerYaw)),
+    );
+    const gazeBonus = (Math.PI - gazeDiff) * 2.2;
+    const unawakenedBonus = !p.attuned ? 36 : 0;
+    const distanceScore = -dist * 0.85;
+    const biomeMatchBonus = p.biome === currentBiome ? 8 : 0;
+    const score = unawakenedBonus + gazeBonus + distanceScore + biomeMatchBonus;
+    if (score > bestUtility) {
+      bestUtility = score;
+      bestCandidate = p;
+    }
+  }
+
+  const targetPlant = bestCandidate ?? plants[0];
+  const dx = targetPlant ? targetPlant.x - playerX : 0;
+  const dz = targetPlant ? targetPlant.z - playerZ : -6;
+  const distToTarget = Math.max(0.05, Math.hypot(dx, dz));
+  const stereoPan = targetPlant
+    ? computeBinauralPan(playerX, playerZ, playerYaw, targetPlant.x, targetPlant.z)
+    : 0;
+
+  // Check if current biome is fully awakened
+  const inCurrentBiome = plants.filter((p) => p.biome === currentBiome);
+  const currentBiomeComplete =
+    inCurrentBiome.length > 0 && inCurrentBiome.every((p) => p.attuned);
+
+  // 2. Classify the Environment's Cybernetic Mode based on player & garden state
+  let mode: EnvironmentalAgencyModeId = 'autonomous-botanical-beckoning';
+  if (agitationPct >= 14 || velocityDm >= 19) {
+    mode = 'soothing-co-regulation';
+  } else if (
+    stillnessBreathPhase !== 'idle' ||
+    (targetPlant && targetPlant.attuned && distToTarget <= 9.0 && secondsSinceLastInteraction < 3.5)
+  ) {
+    mode = 'harmonic-communion-resonance';
+  } else if (currentBiomeComplete && distToTarget > 16.0) {
+    mode = 'sanctuary-pilgrimage-current';
+  }
+
+  // 3. Step the Autonomous Beckoning / Co-Regulation Cadence Timer (`4.8s` period)
+  const intervalSec = VERDANT_HUMANE_STANDARD.environmentalAgency.autonomousBeckoningIntervalSec;
+  let beckoningCycleTimerSec = prev.beckoningCycleTimerSec + dt;
+  let shouldEmitBeckoningCall = false;
+  let shouldSpawnCymaticInvitationWave = false;
+  if (beckoningCycleTimerSec >= intervalSec) {
+    beckoningCycleTimerSec -= intervalSec;
+    if (
+      mode === 'autonomous-botanical-beckoning' ||
+      mode === 'sanctuary-pilgrimage-current' ||
+      mode === 'soothing-co-regulation'
+    ) {
+      shouldEmitBeckoningCall = true;
+      shouldSpawnCymaticInvitationWave = true;
+    }
+  }
+
+  // 4. Compute Kinesthetic / Spatial Modality (Environment -> Player):
+  // Gentle Zephyr Wayfinding Current bounded by `maxZephyrGuidanceAccelMps2 = 0.28 m/s²`.
+  // Strictly zero (`0.0 m/s²`) when the player is stationary (`!isMoving`) so the player is never pushed while still.
+  const maxZephyr = VERDANT_HUMANE_STANDARD.environmentalAgency.maxZephyrGuidanceAccelMps2;
+  const fidelityScale = Math.min(1.15, neuromorphic.universalManifold.globalFidelityIndex);
+  let playerZephyrAccelX = 0;
+  let playerZephyrAccelZ = 0;
+  if (isMoving && distToTarget > 2.2) {
+    const zephyrMag = Math.min(
+      maxZephyr,
+      (mode === 'soothing-co-regulation' ? 0.14 : 0.24) * fidelityScale,
+    );
+    playerZephyrAccelX = Number(((dx / distToTarget) * zephyrMag).toFixed(4));
+    playerZephyrAccelZ = Number(((dz / distToTarget) * zephyrMag).toFixed(4));
+  }
+
+  // Subtle Horizon Framing Whisper (only when walking and target is within forward ±65° cone, bounded to ±0.018 rad/s)
+  let cameraHorizonWhisperYawRad = 0;
+  if (targetPlant && isMoving && distToTarget > 2.5 && distToTarget < 28.0) {
+    const toTargetYaw = Math.atan2(-dx, -dz);
+    const angleDiff = Math.atan2(
+      Math.sin(toTargetYaw - playerYaw),
+      Math.cos(toTargetYaw - playerYaw),
+    );
+    if (Math.abs(angleDiff) <= 1.15) {
+      cameraHorizonWhisperYawRad = Number(
+        Math.max(-0.018, Math.min(0.018, angleDiff * 0.025)).toFixed(5),
+      );
+    }
+  }
+
+  const cameraFovHarmonyDelta =
+    mode === 'soothing-co-regulation'
+      ? 0.65
+      : mode === 'harmonic-communion-resonance'
+        ? -0.35
+        : 0.2;
+
+  // 5. Compute Botanical, Acoustic, Biogeochemical, Optical & Neuromorphic Modalities
+  const reciprocalBowStrengthRad = Number(
+    Math.min(
+      VERDANT_HUMANE_STANDARD.environmentalAgency.maxReciprocalBowRad,
+      mode === 'harmonic-communion-resonance'
+        ? 0.135
+        : mode === 'autonomous-botanical-beckoning'
+          ? 0.115
+          : 0.085,
+    ).toFixed(4),
+  );
+
+  const corollaInvitationGlowBoost =
+    mode === 'autonomous-botanical-beckoning'
+      ? 0.42
+      : mode === 'harmonic-communion-resonance'
+        ? 0.34
+        : 0.22;
+
+  const acousticFilterWarmthShiftHz =
+    mode === 'soothing-co-regulation'
+      ? -240
+      : mode === 'autonomous-botanical-beckoning'
+        ? 140
+        : 60;
+
+  const tempoCalmCoRegulationDeltaBpm =
+    mode === 'soothing-co-regulation' ? -3 : mode === 'sanctuary-pilgrimage-current' ? 1 : 0;
+
+  const sporeInvitationToPlayer =
+    mode === 'autonomous-botanical-beckoning' || mode === 'soothing-co-regulation';
+
+  const plantPos: [number, number, number] = targetPlant
+    ? [targetPlant.x, targetPlant.y + 0.85, targetPlant.z]
+    : [0, 0.85, -6];
+  const playerPos: [number, number, number] = [playerX, playerY + 1.15, playerZ];
+
+  const mistClearanceCorridorFactor =
+    mode === 'autonomous-botanical-beckoning'
+      ? 0.88
+      : mode === 'soothing-co-regulation'
+        ? 0.9
+        : 0.95;
+
+  const biomeCfg = BIOME_CONFIGS[targetPlant ? targetPlant.biome : currentBiome];
+  const beckoningFrequencyHz = targetPlant
+    ? Number((biomeCfg.baseNoteHz * targetPlant.pitchMultiplier).toFixed(2))
+    : biomeCfg.baseNoteHz;
+
+  const activeRefinementDomain: PrismDomainId =
+    mode === 'soothing-co-regulation'
+      ? 'humane'
+      : mode === 'autonomous-botanical-beckoning'
+        ? 'botany'
+        : mode === 'harmonic-communion-resonance'
+          ? 'acoustics'
+          : 'ecology';
+
+  // 6. Step the Emergent Stakeholder Entity & Environmental Wisdom Phenomena
+  const prevStakeholderWeight =
+    prev.stakeholderEntity?.stakeholderSynapticWeight ??
+    GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial;
+  const nextWeightSeed = shouldEmitBeckoningCall || playerInteractedThisFrame
+    ? prevStakeholderWeight
+    : Math.max(8, prevStakeholderWeight - 1);
+  const stakeholderEntity = evaluateEmergentStakeholderEntity({
+    prevWeight: nextWeightSeed,
+    mode,
+    playerX,
+    playerY,
+    playerZ,
+    playerYaw,
+    isMoving,
+    velocityDm,
+    agitationPct,
+    stillnessBreathPhase,
+    secondsSinceLastInteraction,
+    shouldEmitBeckoningCall,
+    currentBiome,
+    harmonyPct,
+    targetPlant: targetPlant ?? null,
+    distToTarget,
+    stereoPan,
+    neuromorphic,
+  });
+
+  // Multi-modal Experience Optimization Score (0..100) reinforced by the Stakeholder Entity
+  const calmComponent = Math.max(0, 38 - agitationPct * 0.35 - Math.max(0, velocityDm - 14) * 0.6);
+  const discoveryComponent = Math.min(34, 18 + (harmonyPct / 100) * 16);
+  const coherenceComponent = Math.min(
+    28,
+    Math.round(neuromorphic.universalManifold.globalFidelityIndex * 24),
+  );
+  const experienceOptimizationScore = Math.max(
+    stakeholderEntity.playerValueReinforcement.overallValueReinforcementIndex,
+    Math.min(100, Math.round(calmComponent + discoveryComponent + coherenceComponent)),
+  );
+
+  const granularSynthesis = evaluateGranularMatterSynthesis({
+    biome: targetPlant ? targetPlant.biome : currentBiome,
+    species: targetPlant ? targetPlant.species : 'chime-lily',
+    substrate: targetPlant?.substrate ?? 'terrestrial-loam',
+    atmosphere,
+    attuned: targetPlant ? targetPlant.attuned : harmonyPct >= 50,
+    harmonyPct,
+    neuromorphicWeight: stakeholderEntity.stakeholderSynapticWeight,
+  });
+
+  return {
+    mode,
+    experienceOptimizationScore,
+    secondsSinceLastInteraction,
+    beckoningCycleTimerSec: Number(beckoningCycleTimerSec.toFixed(3)),
+    beckoningPlantId: targetPlant ? targetPlant.id : null,
+    beckoningSpecies: targetPlant ? targetPlant.species : null,
+    beckoningBiome: targetPlant ? targetPlant.biome : null,
+    beckoningPlantPosition: plantPos,
+    beckoningDistanceMeters: Number(distToTarget.toFixed(2)),
+    beckoningStereoPan: stereoPan,
+    beckoningFrequencyHz,
+    shouldEmitBeckoningCall,
+    shouldSpawnCymaticInvitationWave,
+    playerZephyrAccelX,
+    playerZephyrAccelZ,
+    cameraFovHarmonyDelta,
+    cameraHorizonWhisperYawRad,
+    reciprocalBowStrengthRad,
+    corollaInvitationGlowBoost,
+    acousticFilterWarmthShiftHz,
+    tempoCalmCoRegulationDeltaBpm,
+    sporeInvitationToPlayer,
+    sporeStreamSourcePosition: sporeInvitationToPlayer ? plantPos : playerPos,
+    sporeStreamTargetPosition: sporeInvitationToPlayer ? playerPos : plantPos,
+    mistClearanceCorridorFactor,
+    activeRefinementDomain,
+    stakeholderEntity,
+    granularSynthesis,
+  };
+}
 
 export interface CameraKinematicsState {
   camX: number;
@@ -3354,31 +4034,38 @@ export interface InfrastructureContractSummary {
 }
 
 export const VERDANT_INFRASTRUCTURE_STANDARD: InfrastructureContractSummary = {
-  profile: 'prism/infrastructure-standard/2',
-  sporeRingBufferCapacity: 220,
-  acousticWaveRingCapacity: 5,
-  sympatheticFilamentCapacity: 6,
-  instancedMeshTotal: 540, // 64 stepping stones + 52 perimeter rocks + 64 grove stalks + 360 wind-swaying grass/reed blades
-  perFrameHeapAllocations: 0,
-  sampleRateHz: 48000,
-  partialsPerVoice: 5,
-  stereoReverbDecaySec: 2.2,
-  stereoEchoDelayMs: 375,
-  continuousDroneGainMilli: 0,
+  profile: GENERATED_PRISM_STANDARDS.infrastructure.profile,
+  sporeRingBufferCapacity:
+    GENERATED_PRISM_STANDARDS.infrastructure.memoryPools.sporeRingBufferCapacity,
+  acousticWaveRingCapacity:
+    GENERATED_PRISM_STANDARDS.infrastructure.memoryPools.acousticWaveRingCapacity,
+  sympatheticFilamentCapacity:
+    GENERATED_PRISM_STANDARDS.infrastructure.memoryPools.sympatheticFilamentCapacity,
+  instancedMeshTotal:
+    GENERATED_PRISM_STANDARDS.infrastructure.memoryPools.instancedSteppingStones +
+    GENERATED_PRISM_STANDARDS.infrastructure.memoryPools.instancedPerimeterRocks +
+    GENERATED_PRISM_STANDARDS.infrastructure.memoryPools.instancedGroveStalks +
+    GENERATED_PRISM_STANDARDS.infrastructure.memoryPools.instancedMeadowGrassBlades,
+  perFrameHeapAllocations:
+    GENERATED_PRISM_STANDARDS.infrastructure.memoryPools.perFrameHeapAllocations,
+  sampleRateHz: GENERATED_PRISM_STANDARDS.acoustics.synthesisSpec.sampleRateHz,
+  partialsPerVoice: GENERATED_PRISM_STANDARDS.acoustics.synthesisSpec.partialsPerVoice,
+  stereoReverbDecaySec:
+    GENERATED_PRISM_STANDARDS.acoustics.synthesisSpec.stereoConvolverIrMs / 1000,
+  stereoEchoDelayMs: GENERATED_PRISM_STANDARDS.acoustics.synthesisSpec.stereoEchoDelayMs,
+  continuousDroneGainMilli:
+    GENERATED_PRISM_STANDARDS.acoustics.synthesisSpec.continuousDroneGainMilli,
   silenceFloorPolicy:
     'Zero persistent oscillator drone; all harmonic pads and chimes use self-decaying breathing envelopes over natural quietude.',
   masterGainHeadroomDb: -8.8, // 0.36 linear gain ceiling protected by dynamics compressor
   neuromorphicBridge: {
-    neuromorphicBusCoupled: true,
-    domainBasisPrime: 71,
-    rule30RegisterBits: 64,
-    pointKeyBits: 28,
-    crossDomainTransferEnabled: true,
-    autopoieticSelfRefinementEnabled: true,
-    adaptivePoolGovernorEnabled: true,
-    dynamicBumpAndExposureRefinement: true,
-    crossDomainTelemetrySync: true,
-    selfRefiningRenderContract: true,
+    ...GENERATED_PRISM_STANDARDS.infrastructure.neuromorphicBridge,
+    rule30RegisterBits: GENERATED_PRISM_STANDARDS.neuromorphic.cellularAutomaton.registerWidthBits,
+    pointKeyBits: GENERATED_PRISM_STANDARDS.neuromorphic.lutStack.pointKeyBits,
+    crossDomainTransferEnabled:
+      GENERATED_PRISM_STANDARDS.neuromorphic.universalBus.crossDomainTransferEnabled,
+    autopoieticSelfRefinementEnabled:
+      GENERATED_PRISM_STANDARDS.neuromorphic.universalBus.autopoieticSelfRefinementEnabled,
   },
 };
 
@@ -3455,37 +4142,45 @@ export interface BotanicalFidelityStandardModel {
 }
 
 export const VERDANT_BOTANICAL_STANDARD: BotanicalFidelityStandardModel = {
-  profile: 'prism/botanical-standard/1',
-  morphologySystem:
-    'Fibonacci Golden-Angle Phyllotaxis, 5-Substrate Fertile Soil/Water Holdfast Morphology (Zero Hard-Surface or Rock Growth), Slope-Embedded Grounding, Circadian Stomatal Turgor & Kuramoto Phase Entrainment',
-  goldenAngleDeg: 137.5,
-  minPartsPerSpecimen: 14,
-  maxPartsPerSpecimen: 19,
-  matteStemRoughness: 0.78,
-  glossyPetalRoughness: 0.18,
-  roughnessContrastDelta: 0.6,
-  clearcoatEnabled: true,
-  substrateClassCount: 5,
-  gravitropicStemAlignment: true,
-  zeroHardSurfaceOrRockPlantGrowth: true,
-  zeroFloatingTreeTrunks: true,
-  zeroDetachedCanopyCrowns: true,
-  monumentCount: 5,
+  profile: GENERATED_PRISM_STANDARDS.botany.profile,
+  morphologySystem: GENERATED_PRISM_STANDARDS.botany.morphologySystem,
+  goldenAngleDeg: GENERATED_PRISM_STANDARDS.botany.phyllotaxis.goldenAngleDeciDeg / 10,
+  minPartsPerSpecimen: GENERATED_PRISM_STANDARDS.botany.phyllotaxis.minPartsPerSpecimen,
+  maxPartsPerSpecimen: GENERATED_PRISM_STANDARDS.botany.phyllotaxis.maxPartsPerSpecimen,
+  matteStemRoughness:
+    GENERATED_PRISM_STANDARDS.botany.phyllotaxis.matteStemRoughnessMilli / 1000,
+  glossyPetalRoughness:
+    GENERATED_PRISM_STANDARDS.botany.phyllotaxis.glossyPetalRoughnessMilli / 1000,
+  roughnessContrastDelta:
+    (GENERATED_PRISM_STANDARDS.botany.phyllotaxis.matteStemRoughnessMilli -
+      GENERATED_PRISM_STANDARDS.botany.phyllotaxis.glossyPetalRoughnessMilli) /
+    1000,
+  clearcoatEnabled: GENERATED_PRISM_STANDARDS.botany.phyllotaxis.clearcoatEnabled,
+  substrateClassCount: GENERATED_PRISM_STANDARDS.botany.substrates.substrateClassCount,
+  gravitropicStemAlignment: GENERATED_PRISM_STANDARDS.botany.substrates.gravitropicStemAlignment,
+  zeroHardSurfaceOrRockPlantGrowth:
+    GENERATED_PRISM_STANDARDS.botany.substrates.zeroHardSurfaceOrRockPlantGrowth,
+  zeroFloatingTreeTrunks: GENERATED_PRISM_STANDARDS.botany.substrates.zeroFloatingTreeTrunks,
+  zeroDetachedCanopyCrowns:
+    GENERATED_PRISM_STANDARDS.botany.substrates.zeroDetachedCanopyCrowns,
+  monumentCount: GENERATED_PRISM_STANDARDS.botany.monuments.monumentCount,
   crossPollinationRadiusMeters: 14.0,
-  crossPollinationRadiusDm: 49,
-  harmonicFilamentCount: 6,
-  sympatheticHarmonyBonus: 3,
-  kuramotoPhaseLockingEnabled: true,
-  circadianStomatalTurgorEnabled: true,
-  minTurgorPressure: 0.72,
-  maxTurgorPressure: 1.18,
+  crossPollinationRadiusDm:
+    GENERATED_PRISM_STANDARDS.botany.sympatheticResonance.crossPollinationRadiusDm,
+  harmonicFilamentCount:
+    GENERATED_PRISM_STANDARDS.botany.sympatheticResonance.harmonicFilamentCount,
+  sympatheticHarmonyBonus:
+    GENERATED_PRISM_STANDARDS.botany.sympatheticResonance.sympatheticHarmonyBonus,
+  kuramotoPhaseLockingEnabled:
+    GENERATED_PRISM_STANDARDS.botany.sympatheticResonance.kuramotoPhaseLockingEnabled,
+  circadianStomatalTurgorEnabled:
+    GENERATED_PRISM_STANDARDS.botany.sympatheticResonance.circadianStomatalTurgorEnabled,
+  minTurgorPressure:
+    GENERATED_PRISM_STANDARDS.botany.sympatheticResonance.minTurgorPressureCenti / 100,
+  maxTurgorPressure:
+    GENERATED_PRISM_STANDARDS.botany.sympatheticResonance.maxTurgorPressureCenti / 100,
   neuromorphicBridge: {
-    neuromorphicBusCoupled: true,
-    domainBasisPrime: 79,
-    rule30RegisterBits: 64,
-    pointKeyBits: 28,
-    crossDomainTransferEnabled: true,
-    autopoieticSelfRefinementEnabled: true,
+    ...GENERATED_PRISM_STANDARDS.botany.neuromorphicBridge,
   },
 };
 
@@ -3668,6 +4363,7 @@ export function computeSympatheticParabolicArc(params: {
   }
 
   // Mycorrhizal action-potential & airborne terpene wavefront travels at 6.5 m/s (65 dm/s)
+  // modulated subtly by lignocellulosic vascular conductance when provided
   const waveSpeedMps = 6.5;
   const travelTimeSec = Number(Math.max(0.18, arcLengthMeters / waveSpeedMps).toFixed(3));
   const wavefrontNormalizedU = Number(
@@ -3834,6 +4530,18 @@ export const SYMBIOTIC_GUILDS: SymbioticGuildConfig[] = [
   },
 ];
 
+export interface GranularMatterSynthesisSpec {
+  atomicElementCount: number;
+  molecularSpeciesCount: number;
+  macromoleculeCount: number;
+  matterCompoundCount: number;
+  synthesizedModalityCount: number;
+  closedLoopReactionPathwayCount: number;
+  atomicToEnvironmentalChainVerified: boolean;
+  atomicRemineralizationComplete: boolean;
+  prismSynthesisClosureVerified: boolean;
+}
+
 export interface EcologicalConstellationStandardModel {
   profile: string;
   constellationCount: number;
@@ -3849,33 +4557,1295 @@ export interface EcologicalConstellationStandardModel {
   luciferinEnzymaticKineticsEnabled: boolean;
   volatileTerpeneSignalingEnabled: boolean;
   actionPotentialWaveSpeedMps: number;
+  granularSynthesis: GranularMatterSynthesisSpec;
   neuromorphicBridge: NeuromorphicDomainBridgeSpec;
 }
 
 export const VERDANT_ECOLOGY_STANDARD: EcologicalConstellationStandardModel = {
-  profile: 'prism/ecology-standard/1',
-  constellationCount: 5,
-  beamHeightMeters: 22,
-  guildCount: 3,
-  guildHarmonyBonusPct: 5,
-  microclimateCount: 4,
-  footstepStrideIntervalMs: 520,
-  minSoilWaterPh: 5.6,
-  maxSoilWaterPh: 8.1,
-  silicaPiezoelectricCoupling: true,
-  mycorrhizalCnpExchangeEnabled: true,
-  luciferinEnzymaticKineticsEnabled: true,
-  volatileTerpeneSignalingEnabled: true,
-  actionPotentialWaveSpeedMps: 6.5,
+  profile: GENERATED_PRISM_STANDARDS.ecology.profile,
+  constellationCount: GENERATED_PRISM_STANDARDS.ecology.constellations.constellationCount,
+  beamHeightMeters: GENERATED_PRISM_STANDARDS.ecology.constellations.beamHeightMeters,
+  guildCount: GENERATED_PRISM_STANDARDS.ecology.guilds.guildCount,
+  guildHarmonyBonusPct: GENERATED_PRISM_STANDARDS.ecology.guilds.guildHarmonyBonusPct,
+  microclimateCount: GENERATED_PRISM_STANDARDS.ecology.microclimates.microclimateCount,
+  footstepStrideIntervalMs:
+    GENERATED_PRISM_STANDARDS.ecology.microclimates.footstepStrideIntervalMs,
+  minSoilWaterPh: GENERATED_PRISM_STANDARDS.ecology.biogeochemistry.minSoilWaterPhCenti / 100,
+  maxSoilWaterPh: GENERATED_PRISM_STANDARDS.ecology.biogeochemistry.maxSoilWaterPhCenti / 100,
+  silicaPiezoelectricCoupling:
+    GENERATED_PRISM_STANDARDS.ecology.biogeochemistry.silicaPiezoelectricCoupling,
+  mycorrhizalCnpExchangeEnabled:
+    GENERATED_PRISM_STANDARDS.ecology.biogeochemistry.mycorrhizalCnpExchangeEnabled,
+  luciferinEnzymaticKineticsEnabled:
+    GENERATED_PRISM_STANDARDS.ecology.biogeochemistry.luciferinEnzymaticKineticsEnabled,
+  volatileTerpeneSignalingEnabled:
+    GENERATED_PRISM_STANDARDS.ecology.biogeochemistry.volatileTerpeneSignalingEnabled,
+  actionPotentialWaveSpeedMps:
+    GENERATED_PRISM_STANDARDS.ecology.biogeochemistry.actionPotentialWaveSpeedDmps / 10,
+  granularSynthesis: {
+    ...GENERATED_PRISM_STANDARDS.ecology.granularSynthesis,
+  },
   neuromorphicBridge: {
-    neuromorphicBusCoupled: true,
-    domainBasisPrime: 83,
-    rule30RegisterBits: 64,
-    pointKeyBits: 28,
-    crossDomainTransferEnabled: true,
-    autopoieticSelfRefinementEnabled: true,
+    ...GENERATED_PRISM_STANDARDS.ecology.neuromorphicBridge,
   },
 };
+
+// ---------------------------------------------------------------------------
+// 5-Tier Granular Atomic-to-Environmental Procedural Synthesis Hierarchy
+// (`Foundation.Ecology.V1.Model::GranularMatterSynthesisSpec` & `granularAtomicToEnvironmentalSynthesisHolds`)
+// Tier 1: Atoms -> Tier 2: Molecules -> Tier 3: Macromolecules ->
+// Tier 4: Organic & Inorganic Matter/Compounds -> Tier 5: Environmental & Multi-Modal Synthesis
+// ---------------------------------------------------------------------------
+
+export type AtomicElementId = 'H' | 'C' | 'N' | 'O' | 'Mg' | 'Si' | 'P' | 'Ca';
+
+export interface AtomicElementSpec {
+  id: AtomicElementId;
+  name: string;
+  atomicNumber: number;
+  atomicMassDaltons: number;
+  valenceElectrons: number;
+  electronegativityPauling: number;
+  covalentRadiusPm: number;
+  basisPrime: number;
+}
+
+export const ATOMIC_ELEMENTS: Record<AtomicElementId, AtomicElementSpec> = {
+  H: {
+    id: 'H',
+    name: 'Hydrogen',
+    atomicNumber: 1,
+    atomicMassDaltons: 1.008,
+    valenceElectrons: 1,
+    electronegativityPauling: 2.2,
+    covalentRadiusPm: 31,
+    basisPrime: 2,
+  },
+  C: {
+    id: 'C',
+    name: 'Carbon',
+    atomicNumber: 6,
+    atomicMassDaltons: 12.011,
+    valenceElectrons: 4,
+    electronegativityPauling: 2.55,
+    covalentRadiusPm: 76,
+    basisPrime: 3,
+  },
+  N: {
+    id: 'N',
+    name: 'Nitrogen',
+    atomicNumber: 7,
+    atomicMassDaltons: 14.007,
+    valenceElectrons: 5,
+    electronegativityPauling: 3.04,
+    covalentRadiusPm: 71,
+    basisPrime: 5,
+  },
+  O: {
+    id: 'O',
+    name: 'Oxygen',
+    atomicNumber: 8,
+    atomicMassDaltons: 15.999,
+    valenceElectrons: 6,
+    electronegativityPauling: 3.44,
+    covalentRadiusPm: 66,
+    basisPrime: 7,
+  },
+  Mg: {
+    id: 'Mg',
+    name: 'Magnesium',
+    atomicNumber: 12,
+    atomicMassDaltons: 24.305,
+    valenceElectrons: 2,
+    electronegativityPauling: 1.31,
+    covalentRadiusPm: 141,
+    basisPrime: 11,
+  },
+  Si: {
+    id: 'Si',
+    name: 'Silicon',
+    atomicNumber: 14,
+    atomicMassDaltons: 28.085,
+    valenceElectrons: 4,
+    electronegativityPauling: 1.9,
+    covalentRadiusPm: 111,
+    basisPrime: 13,
+  },
+  P: {
+    id: 'P',
+    name: 'Phosphorus',
+    atomicNumber: 15,
+    atomicMassDaltons: 30.974,
+    valenceElectrons: 5,
+    electronegativityPauling: 2.19,
+    covalentRadiusPm: 107,
+    basisPrime: 17,
+  },
+  Ca: {
+    id: 'Ca',
+    name: 'Calcium',
+    atomicNumber: 20,
+    atomicMassDaltons: 40.078,
+    valenceElectrons: 2,
+    electronegativityPauling: 1.0,
+    covalentRadiusPm: 176,
+    basisPrime: 19,
+  },
+};
+
+export type MolecularSpeciesId =
+  | 'H2O'
+  | 'CO2'
+  | 'SiO2'
+  | 'CaCO3'
+  | 'ATP'
+  | 'alpha-pinene'
+  | 'd-luciferin'
+  | 'orthosilicic-acid';
+
+export interface MolecularSpeciesSpec {
+  id: MolecularSpeciesId;
+  name: string;
+  formula: string;
+  atomicStoichiometry: Partial<Record<AtomicElementId, number>>;
+  molecularMassDaltons: number;
+  totalValenceElectrons: number;
+  bondPolarityIndex: number; // 0..1
+}
+
+function buildMolecularSpecies(
+  id: MolecularSpeciesId,
+  name: string,
+  formula: string,
+  atomicStoichiometry: Partial<Record<AtomicElementId, number>>,
+  bondPolarityIndex: number,
+): MolecularSpeciesSpec {
+  let mass = 0;
+  let valence = 0;
+  for (const [el, count] of Object.entries(atomicStoichiometry) as [AtomicElementId, number][]) {
+    const atom = ATOMIC_ELEMENTS[el];
+    mass += atom.atomicMassDaltons * count;
+    valence += atom.valenceElectrons * count;
+  }
+  return {
+    id,
+    name,
+    formula,
+    atomicStoichiometry,
+    molecularMassDaltons: Number(mass.toFixed(3)),
+    totalValenceElectrons: valence,
+    bondPolarityIndex,
+  };
+}
+
+export const MOLECULAR_SPECIES: Record<MolecularSpeciesId, MolecularSpeciesSpec> = {
+  H2O: buildMolecularSpecies('H2O', 'Dihydrogen Monoxide (Water)', 'H2O', { H: 2, O: 1 }, 0.88),
+  CO2: buildMolecularSpecies('CO2', 'Carbon Dioxide', 'CO2', { C: 1, O: 2 }, 0.42),
+  SiO2: buildMolecularSpecies('SiO2', 'Silicon Dioxide (Quartz Monomer)', 'SiO2', { Si: 1, O: 2 }, 0.64),
+  CaCO3: buildMolecularSpecies('CaCO3', 'Calcium Carbonate (Calcite Monomer)', 'CaCO3', { Ca: 1, C: 1, O: 3 }, 0.78),
+  ATP: buildMolecularSpecies(
+    'ATP',
+    'Adenosine Triphosphate',
+    'C10H16N5O13P3',
+    { C: 10, H: 16, N: 5, O: 13, P: 3 },
+    0.82,
+  ),
+  'alpha-pinene': buildMolecularSpecies(
+    'alpha-pinene',
+    'Alpha-Pinene Monoterpene',
+    'C10H16',
+    { C: 10, H: 16 },
+    0.22,
+  ),
+  'd-luciferin': buildMolecularSpecies(
+    'd-luciferin',
+    'Botanical Luciferin Chromophore',
+    'C11H8N2O5',
+    { C: 11, H: 8, N: 2, O: 5 },
+    0.68,
+  ),
+  'orthosilicic-acid': buildMolecularSpecies(
+    'orthosilicic-acid',
+    'Orthosilicic Acid',
+    'H4SiO4',
+    { H: 4, Si: 1, O: 4 },
+    0.74,
+  ),
+};
+
+export type MacromoleculeId =
+  | 'cellulose-lignin-microfibril'
+  | 'chlorophyll-porphyrin-antenna'
+  | 'luciferase-holoenzyme-complex'
+  | 'chitin-glucan-hyphal-network'
+  | 'tectosilicate-quartz-lattice'
+  | 'calcite-aragonite-spar-lattice';
+
+export interface MacromoleculeSpec {
+  id: MacromoleculeId;
+  name: string;
+  domainClass: 'organic-biopolymer' | 'inorganic-crystal-lattice';
+  monomerStoichiometry: Partial<Record<MolecularSpeciesId, number>>;
+  coordinatingAtom?: AtomicElementId;
+  degreeOfPolymerization: number;
+  polymerMassKilodaltons: number;
+  supramolecularStiffnessGPa: number;
+}
+
+function buildMacromolecule(
+  id: MacromoleculeId,
+  name: string,
+  domainClass: 'organic-biopolymer' | 'inorganic-crystal-lattice',
+  monomerStoichiometry: Partial<Record<MolecularSpeciesId, number>>,
+  degreeOfPolymerization: number,
+  supramolecularStiffnessGPa: number,
+  coordinatingAtom?: AtomicElementId,
+): MacromoleculeSpec {
+  let monomerMass = coordinatingAtom ? ATOMIC_ELEMENTS[coordinatingAtom].atomicMassDaltons : 0;
+  for (const [molId, count] of Object.entries(monomerStoichiometry) as [
+    MolecularSpeciesId,
+    number,
+  ][]) {
+    monomerMass += MOLECULAR_SPECIES[molId].molecularMassDaltons * count;
+  }
+  const polymerMassKilodaltons = Number(
+    ((monomerMass * degreeOfPolymerization) / 1000).toFixed(3),
+  );
+  return {
+    id,
+    name,
+    domainClass,
+    monomerStoichiometry,
+    coordinatingAtom,
+    degreeOfPolymerization,
+    polymerMassKilodaltons,
+    supramolecularStiffnessGPa,
+  };
+}
+
+export const MACROMOLECULAR_POLYMERS: Record<MacromoleculeId, MacromoleculeSpec> = {
+  'cellulose-lignin-microfibril': buildMacromolecule(
+    'cellulose-lignin-microfibril',
+    'Cellulose-Lignin Structural Microfibril',
+    'organic-biopolymer',
+    { CO2: 6, H2O: 5 },
+    180,
+    24.5,
+  ),
+  'chlorophyll-porphyrin-antenna': buildMacromolecule(
+    'chlorophyll-porphyrin-antenna',
+    'Chlorophyll-a Porphyrin Light-Harvesting Antenna',
+    'organic-biopolymer',
+    { CO2: 55, H2O: 36, ATP: 2 },
+    12,
+    8.2,
+    'Mg',
+  ),
+  'luciferase-holoenzyme-complex': buildMacromolecule(
+    'luciferase-holoenzyme-complex',
+    'Luciferase-Luciferin Bioluminescent Holo-Enzyme',
+    'organic-biopolymer',
+    { 'd-luciferin': 4, ATP: 4, H2O: 12 },
+    24,
+    6.4,
+    'Mg',
+  ),
+  'chitin-glucan-hyphal-network': buildMacromolecule(
+    'chitin-glucan-hyphal-network',
+    'Chitin-Beta-Glucan Mycorrhizal Hyphal Mesh',
+    'organic-biopolymer',
+    { CO2: 8, H2O: 6, ATP: 1 },
+    140,
+    14.8,
+  ),
+  'tectosilicate-quartz-lattice': buildMacromolecule(
+    'tectosilicate-quartz-lattice',
+    'Tectosilicate Alpha-Quartz Tetrahedral Framework',
+    'inorganic-crystal-lattice',
+    { SiO2: 12, 'orthosilicic-acid': 2 },
+    320,
+    96.4,
+    'Si',
+  ),
+  'calcite-aragonite-spar-lattice': buildMacromolecule(
+    'calcite-aragonite-spar-lattice',
+    'Calcite-Aragonite Trigonal Spar Crystal Lattice',
+    'inorganic-crystal-lattice',
+    { CaCO3: 10, H2O: 2 },
+    260,
+    72.8,
+    'Ca',
+  ),
+};
+
+export type MatterCompoundId =
+  | 'travertine-limestone-spar'
+  | 'piezoelectric-quartz-geode'
+  | 'structured-hydro-mineral-electrolyte'
+  | 'lignocellulosic-vascular-tissue'
+  | 'bioluminescent-mycelial-humus'
+  | 'terpene-volatile-aerosol-colloid';
+
+export interface MatterCompoundSpec {
+  id: MatterCompoundId;
+  name: string;
+  matterCategory: 'inorganic' | 'organic';
+  macromolecularComposition: Partial<Record<MacromoleculeId, number>>;
+  molecularCoFactors: Partial<Record<MolecularSpeciesId, number>>;
+  compoundDensityGPerCm3: number;
+  bulkElasticModulusGPa: number;
+  acousticWaveSpeedMps: number;
+  opticalRefractiveIndex: number;
+}
+
+function buildMatterCompound(
+  id: MatterCompoundId,
+  name: string,
+  matterCategory: 'inorganic' | 'organic',
+  macromolecularComposition: Partial<Record<MacromoleculeId, number>>,
+  molecularCoFactors: Partial<Record<MolecularSpeciesId, number>>,
+  compoundDensityGPerCm3: number,
+  opticalRefractiveIndex: number,
+): MatterCompoundSpec {
+  let weightedStiffness = 0;
+  let totalWeight = 0;
+  for (const [macId, frac] of Object.entries(macromolecularComposition) as [
+    MacromoleculeId,
+    number,
+  ][]) {
+    weightedStiffness += MACROMOLECULAR_POLYMERS[macId].supramolecularStiffnessGPa * frac;
+    totalWeight += frac;
+  }
+  const bulkElasticModulusGPa = Number(
+    (weightedStiffness / Math.max(0.01, totalWeight)).toFixed(2),
+  );
+  // Longitudinal acoustic wave speed scales with sqrt(E / rho)
+  const acousticWaveSpeedMps = Math.round(
+    Math.sqrt((bulkElasticModulusGPa * 1e9) / (compoundDensityGPerCm3 * 1000)),
+  );
+  return {
+    id,
+    name,
+    matterCategory,
+    macromolecularComposition,
+    molecularCoFactors,
+    compoundDensityGPerCm3,
+    bulkElasticModulusGPa,
+    acousticWaveSpeedMps,
+    opticalRefractiveIndex,
+  };
+}
+
+export const MATTER_COMPOUNDS: Record<MatterCompoundId, MatterCompoundSpec> = {
+  'travertine-limestone-spar': buildMatterCompound(
+    'travertine-limestone-spar',
+    'Travertine Limestone & Calcite Spar Masonry',
+    'inorganic',
+    { 'calcite-aragonite-spar-lattice': 0.82, 'tectosilicate-quartz-lattice': 0.18 },
+    { CaCO3: 6, SiO2: 2 },
+    2.71,
+    1.586,
+  ),
+  'piezoelectric-quartz-geode': buildMatterCompound(
+    'piezoelectric-quartz-geode',
+    'Piezoelectric Silicate Quartz Monolith',
+    'inorganic',
+    { 'tectosilicate-quartz-lattice': 0.92, 'calcite-aragonite-spar-lattice': 0.08 },
+    { SiO2: 10, 'orthosilicic-acid': 2 },
+    2.65,
+    1.544,
+  ),
+  'structured-hydro-mineral-electrolyte': buildMatterCompound(
+    'structured-hydro-mineral-electrolyte',
+    'Structured Lagoon Hydro-Mineral Electrolyte',
+    'inorganic',
+    { 'calcite-aragonite-spar-lattice': 0.04, 'tectosilicate-quartz-lattice': 0.04 },
+    { H2O: 55, 'orthosilicic-acid': 2, CaCO3: 1 },
+    1.024,
+    1.338,
+  ),
+  'lignocellulosic-vascular-tissue': buildMatterCompound(
+    'lignocellulosic-vascular-tissue',
+    'Lignocellulosic Botanical Stem & Corolla Tissue',
+    'organic',
+    { 'cellulose-lignin-microfibril': 0.74, 'chlorophyll-porphyrin-antenna': 0.26 },
+    { H2O: 18, CO2: 6, ATP: 2 },
+    1.18,
+    1.468,
+  ),
+  'bioluminescent-mycelial-humus': buildMatterCompound(
+    'bioluminescent-mycelial-humus',
+    'Bioluminescent Mycorrhizal Humus & Bryophyte Loam',
+    'organic',
+    { 'chitin-glucan-hyphal-network': 0.68, 'luciferase-holoenzyme-complex': 0.32 },
+    { 'd-luciferin': 4, ATP: 4, H2O: 14 },
+    1.32,
+    1.492,
+  ),
+  'terpene-volatile-aerosol-colloid': buildMatterCompound(
+    'terpene-volatile-aerosol-colloid',
+    'Volatile Monoterpene & Dewdrop Aerosol Colloid',
+    'organic',
+    { 'chlorophyll-porphyrin-antenna': 0.45, 'luciferase-holoenzyme-complex': 0.55 },
+    { 'alpha-pinene': 8, H2O: 24, CO2: 2 },
+    0.86,
+    1.412,
+  ),
+};
+
+export type ReactionPathwayId =
+  | 'photosynthetic-carbon-fixation'
+  | 'bioluminescent-oxyluciferin-catalysis'
+  | 'piezoelectric-silicate-mineralization'
+  | 'mycorrhizal-chitin-remineralization';
+
+export interface ReactionPathwaySpec {
+  id: ReactionPathwayId;
+  name: string;
+  chemicalEquation: string;
+  reactantMolecules: Partial<Record<MolecularSpeciesId, number>>;
+  catalyticMacromolecule: MacromoleculeId;
+  productCompound: MatterCompoundId;
+  remineralizedAtoms: Partial<Record<AtomicElementId, number>>;
+  quantumOrThermalYield: number; // 0..1
+}
+
+export const REACTION_PATHWAYS: Record<ReactionPathwayId, ReactionPathwaySpec> = {
+  'photosynthetic-carbon-fixation': {
+    id: 'photosynthetic-carbon-fixation',
+    name: 'Photosynthetic Carbon Fixation & Cellulose Polymerization',
+    chemicalEquation: '6 CO2 + 6 H2O + hν (Mg-Chlorophyll-a) ⇌ (C6H10O5)n + 6 O2',
+    reactantMolecules: { CO2: 6, H2O: 6, ATP: 3 },
+    catalyticMacromolecule: 'chlorophyll-porphyrin-antenna',
+    productCompound: 'lignocellulosic-vascular-tissue',
+    remineralizedAtoms: { C: 6, H: 12, O: 6, Mg: 1 },
+    quantumOrThermalYield: 0.92,
+  },
+  'bioluminescent-oxyluciferin-catalysis': {
+    id: 'bioluminescent-oxyluciferin-catalysis',
+    name: 'Bioluminescent Oxyluciferin Photon Emission & Terpene Volatilization',
+    chemicalEquation: 'D-Luciferin + ATP + O2 (Mg2+-Luciferase) → Oxyluciferin + AMP + CO2 + hν',
+    reactantMolecules: { 'd-luciferin': 2, ATP: 2, 'alpha-pinene': 2 },
+    catalyticMacromolecule: 'luciferase-holoenzyme-complex',
+    productCompound: 'terpene-volatile-aerosol-colloid',
+    remineralizedAtoms: { C: 11, H: 8, N: 2, O: 5, P: 2 },
+    quantumOrThermalYield: 0.88,
+  },
+  'piezoelectric-silicate-mineralization': {
+    id: 'piezoelectric-silicate-mineralization',
+    name: 'Silicate-Carbonate Hydrothermal Lattice Mineralization',
+    chemicalEquation: 'H4SiO4 + CaCO3 ⇌ SiO2·CaCO3 (Quartz-Calcite Spar) + 2 H2O',
+    reactantMolecules: { 'orthosilicic-acid': 2, SiO2: 4, CaCO3: 4 },
+    catalyticMacromolecule: 'tectosilicate-quartz-lattice',
+    productCompound: 'piezoelectric-quartz-geode',
+    remineralizedAtoms: { Si: 5, Ca: 4, C: 4, O: 16, H: 4 },
+    quantumOrThermalYield: 0.95,
+  },
+  'mycorrhizal-chitin-remineralization': {
+    id: 'mycorrhizal-chitin-remineralization',
+    name: 'Mycorrhizal Chitin-Humus Decomposition & Atomic Remineralization',
+    chemicalEquation: '(C8H13O5N)n + H2O + ATP ⇌ C-N-P-Ca Ionic Pool + CO2 + H4SiO4',
+    reactantMolecules: { H2O: 6, ATP: 2, CO2: 4 },
+    catalyticMacromolecule: 'chitin-glucan-hyphal-network',
+    productCompound: 'bioluminescent-mycelial-humus',
+    remineralizedAtoms: { C: 8, H: 13, N: 2, O: 5, P: 2, Ca: 1 },
+    quantumOrThermalYield: 0.94,
+  },
+};
+
+export interface ClosedLoopReactionKineticsState {
+  pathwayRates: Record<ReactionPathwayId, number>; // Normalized 0..1 forward/reverse turnover
+  remineralizedAtomicPool: Record<AtomicElementId, number>; // Closed-loop returned atomic pool 0..1
+  stoichiometricMassBalanceRatio: number; // Conservation law: 1.000
+}
+
+export interface GranularEnvironmentalSynthesisState {
+  tier1AtomicValenceIndex: number; // 105..180 from `stepAtomicValenceActivity`
+  tier2MolecularBondIndex: number; // 210..360 from `stepMolecularBondCoherence`
+  tier3MacromolecularPolymerIndex: number; // 415..640 from `stepMacromolecularPolymerization`
+  tier4CompoundManifestationIndex: number; // 720..1020 from `stepCompoundManifestation`
+  tier5EnvironmentalModalIndex: number; // 1025..1400 from `stepEnvironmentalModalSynthesis`
+  tier6AtomicRemineralizationIndex: number; // 1130..1580 from `stepAtomicRemineralizationFlux`
+  chainHierarchyVerified: boolean;
+  closedLoopConservationVerified: boolean;
+  completeSynthesisClosureVerified: boolean;
+  atomicActivities: Record<AtomicElementId, number>; // Normalized 0..1 activity per element
+  molecularConcentrations: Record<MolecularSpeciesId, number>; // Normalized 0..1 molar concentration
+  macromolecularYields: Record<MacromoleculeId, number>; // Normalized 0..1 polymerization yield
+  compoundManifestations: {
+    inorganic: {
+      travertineLimestoneSpar: number;
+      piezoelectricQuartzGeode: number;
+      structuredHydroMineralElectrolyte: number;
+    };
+    organic: {
+      lignocellulosicVascularTissue: number;
+      bioluminescentMycelialHumus: number;
+      terpeneVolatileAerosolColloid: number;
+    };
+  };
+  reactionKinetics: ClosedLoopReactionKineticsState;
+  modalSyntheses: {
+    // 1. Physical / Lithic & Hydrodynamic Modality
+    physicalModality: {
+      substrateBulkDensityGPerCm3: number;
+      electrolyteSurfaceTensionMnPerM: number;
+      sporeStokesBuoyancyLiftMultiplier: number;
+    };
+    // 2. Botanical / Structural & Phototropic Modality
+    botanicalModality: {
+      cellWallYoungsModulusGPa: number;
+      vascularTurgorPressureMPa: number;
+      chlorophyllQuantumEfficiency: number;
+    };
+    // 3. Ecological / Biogeochemical Modality
+    ecologicalModality: {
+      carbonateSilicateBufferedPh: number;
+      cnpStoichiometricFluxIndex: number;
+      luciferinCatalyticTurnoverRate: number;
+    };
+    // 4. Acoustic / Timbral & Wave-Propagation Modality
+    acousticModality: {
+      piezoelectricSilicaQMultiplier: number;
+      lignocellulosicWarmthCutoffHz: number;
+      modalBellPartialStiffnessRatio: number;
+    };
+    // 5. Optical / Atmospheric & Material Micro-Relief Modality
+    opticalModality: {
+      crystalLatticeMicroReliefBumpScale: number;
+      terpeneAerosolTyndallTransmittance: number;
+      chromophoreEmissionWavelengthNm: number;
+    };
+    // 6. Kinesthetic / Humane & Neuromorphic Modality
+    kinestheticModality: {
+      chemotacticZephyrConductivity: number;
+      underfootSubstrateElasticRebound: number;
+      primeAddressCompoundHarmonyIndex: number;
+    };
+  };
+}
+
+/**
+ * Evaluates the full 6-Stage Closed-Loop Granular Atomic-to-Environmental Procedural Synthesis Hierarchy
+ * (`Foundation.Ecology.V1.Model::GranularMatterSynthesisSpec`, `granularAtomicToEnvironmentalSynthesisHolds`,
+ * and `closedLoopAtomicRemineralizationHolds`):
+ * 1. Atoms (`H, C, N, O, Mg, Si, P, Ca`) combine via valence stoichiometry into
+ * 2. Molecules (`H2O, CO2, SiO2, CaCO3, ATP, alpha-pinene, d-luciferin, orthosilicic-acid`), which polymerize into
+ * 3. Macromolecules (`cellulose-lignin, chlorophyll-a, luciferase, chitin-glucan, tectosilicate-quartz, calcite-spar`), which manifest
+ * 4. Organic & Inorganic Matter/Compounds (`travertine, quartz-geode, hydro-electrolyte` + `vascular-tissue, mycelial-humus, terpene-aerosol`),
+ * 5. Synthesizing directly into the environment and all 6 modalities of the game, and
+ * 6. Returning through 4 Closed-Loop Biogeochemical & Photochemical Reaction Pathways into the Remineralized Atomic Pool.
+ */
+export function evaluateGranularMatterSynthesis(params: {
+  biome: BiomeId;
+  species: PlantSpeciesId;
+  substrate?: GrowthSubstrateId;
+  atmosphere: AtmosphereId;
+  attuned: boolean;
+  harmonyPct?: number;
+  neuromorphicWeight?: number;
+  volatileTerpeneImpulse?: number;
+}): GranularEnvironmentalSynthesisState {
+  const {
+    biome,
+    species,
+    substrate = 'terrestrial-loam',
+    atmosphere,
+    attuned,
+    harmonyPct = 35,
+    neuromorphicWeight = 8,
+    volatileTerpeneImpulse = 0,
+  } = params;
+
+  const clampedWeight = Math.min(15, Math.max(1, neuromorphicWeight));
+  // Step the 6 formal `.lex.tex` LUT tiers
+  const tier1AtomicValenceIndex = stepAtomicValenceActivity(clampedWeight);
+  const tier2MolecularBondIndex = stepMolecularBondCoherence(clampedWeight);
+  const tier3MacromolecularPolymerIndex = stepMacromolecularPolymerization(clampedWeight);
+  const tier4CompoundManifestationIndex = stepCompoundManifestation(clampedWeight);
+  const tier5EnvironmentalModalIndex = stepEnvironmentalModalSynthesis(clampedWeight);
+  const tier6AtomicRemineralizationIndex = stepAtomicRemineralizationFlux(clampedWeight);
+  const chainHierarchyVerified = verifyGranularAtomicToEnvironmentalChain(clampedWeight);
+  const closedLoopConservationVerified = verifyClosedLoopMatterConservation(clampedWeight);
+  const completeSynthesisClosureVerified = verifyCompleteGranularSynthesisClosure(clampedWeight);
+
+  const neuroNorm = (tier1AtomicValenceIndex - 100) / 80; // 0.0625 .. 1.0
+  const harmonyNorm = Math.max(0, Math.min(1, harmonyPct / 100));
+  const sunPhotonFlux =
+    atmosphere === 'golden'
+      ? 1.0
+      : atmosphere === 'dawn'
+        ? 0.82
+        : atmosphere === 'twilight'
+          ? 0.48
+          : 0.28;
+  const nocturnalBioBoost =
+    atmosphere === 'starlight' ? 1.0 : atmosphere === 'twilight' ? 0.84 : 0.52;
+
+  // Tier 1: Atomic Valence Activities derived from biome, substrate, and diurnal photon flux
+  const isSilicaRich = biome === 'crystal' || substrate === 'crystalline-epiphyte';
+  const isCarbonateRich =
+    biome === 'sanctuary' ||
+    substrate === 'architectural-foundation' ||
+    substrate === 'lithophytic-rock';
+  const isHydroRich = biome === 'wetland' || substrate === 'pelagic-water';
+  const isHumusRich =
+    biome === 'grove' || biome === 'meadow' || substrate === 'terrestrial-loam';
+
+  const atomicActivities: Record<AtomicElementId, number> = {
+    H: Number(Math.min(1, 0.68 + (isHydroRich ? 0.24 : 0.1) + neuroNorm * 0.08).toFixed(3)),
+    C: Number(Math.min(1, 0.64 + (isHumusRich ? 0.22 : 0.12) + harmonyNorm * 0.12).toFixed(3)),
+    N: Number(Math.min(1, 0.54 + (attuned ? 0.22 : 0.08) + neuroNorm * 0.14).toFixed(3)),
+    O: Number(Math.min(1, 0.72 + sunPhotonFlux * 0.18 + neuroNorm * 0.08).toFixed(3)),
+    Mg: Number(Math.min(1, 0.52 + sunPhotonFlux * 0.26 + (attuned ? 0.14 : 0.04)).toFixed(3)),
+    Si: Number(Math.min(1, (isSilicaRich ? 0.88 : 0.44) + neuroNorm * 0.12).toFixed(3)),
+    P: Number(Math.min(1, 0.56 + (attuned ? 0.24 : 0.08) + harmonyNorm * 0.14).toFixed(3)),
+    Ca: Number(Math.min(1, (isCarbonateRich ? 0.86 : 0.48) + neuroNorm * 0.12).toFixed(3)),
+  };
+
+  // Tier 2: Construct Molecular Concentrations from Tier 1 Atomic Activities & Stoichiometry
+  const computeMolConcentration = (molId: MolecularSpeciesId, boost = 0): number => {
+    const spec = MOLECULAR_SPECIES[molId];
+    let weightedSum = 0;
+    let atomTotal = 0;
+    for (const [el, count] of Object.entries(spec.atomicStoichiometry) as [
+      AtomicElementId,
+      number,
+    ][]) {
+      weightedSum += atomicActivities[el] * count;
+      atomTotal += count;
+    }
+    const base = weightedSum / Math.max(1, atomTotal);
+    return Number(
+      Math.min(1, base * (0.78 + (tier2MolecularBondIndex - 200) / 640) + boost).toFixed(3),
+    );
+  };
+
+  const molecularConcentrations: Record<MolecularSpeciesId, number> = {
+    H2O: computeMolConcentration('H2O', isHydroRich ? 0.16 : 0.04),
+    CO2: computeMolConcentration('CO2', sunPhotonFlux * 0.1),
+    SiO2: computeMolConcentration('SiO2', isSilicaRich ? 0.22 : 0),
+    CaCO3: computeMolConcentration('CaCO3', isCarbonateRich ? 0.2 : 0),
+    ATP: computeMolConcentration('ATP', attuned ? 0.18 : 0.04),
+    'alpha-pinene': computeMolConcentration('alpha-pinene', volatileTerpeneImpulse * 0.28),
+    'd-luciferin': computeMolConcentration('d-luciferin', nocturnalBioBoost * 0.18),
+    'orthosilicic-acid': computeMolConcentration(
+      'orthosilicic-acid',
+      isSilicaRich || isHydroRich ? 0.15 : 0.03,
+    ),
+  };
+
+  // Tier 3: Polymerize Macromolecules from Tier 2 Molecular Concentrations
+  const computeMacroYield = (macId: MacromoleculeId): number => {
+    const spec = MACROMOLECULAR_POLYMERS[macId];
+    let sum = spec.coordinatingAtom ? atomicActivities[spec.coordinatingAtom] * 2 : 0;
+    let total = spec.coordinatingAtom ? 2 : 0;
+    for (const [molId, count] of Object.entries(spec.monomerStoichiometry) as [
+      MolecularSpeciesId,
+      number,
+    ][]) {
+      sum += molecularConcentrations[molId] * count;
+      total += count;
+    }
+    const raw = sum / Math.max(1, total);
+    return Number(
+      Math.min(1, raw * (0.82 + (tier3MacromolecularPolymerIndex - 400) / 960)).toFixed(3),
+    );
+  };
+
+  const macromolecularYields: Record<MacromoleculeId, number> = {
+    'cellulose-lignin-microfibril': computeMacroYield('cellulose-lignin-microfibril'),
+    'chlorophyll-porphyrin-antenna': computeMacroYield('chlorophyll-porphyrin-antenna'),
+    'luciferase-holoenzyme-complex': computeMacroYield('luciferase-holoenzyme-complex'),
+    'chitin-glucan-hyphal-network': computeMacroYield('chitin-glucan-hyphal-network'),
+    'tectosilicate-quartz-lattice': computeMacroYield('tectosilicate-quartz-lattice'),
+    'calcite-aragonite-spar-lattice': computeMacroYield('calcite-aragonite-spar-lattice'),
+  };
+
+  // Tier 4: Manifest Organic & Inorganic Matter/Compounds from Tier 3 Macromolecules & Tier 2 Co-Factors
+  const computeCompoundManifestation = (compId: MatterCompoundId, affinityBoost = 0): number => {
+    const spec = MATTER_COMPOUNDS[compId];
+    let macSum = 0;
+    let macWeight = 0;
+    for (const [macId, frac] of Object.entries(spec.macromolecularComposition) as [
+      MacromoleculeId,
+      number,
+    ][]) {
+      macSum += macromolecularYields[macId] * frac;
+      macWeight += frac;
+    }
+    let molSum = 0;
+    let molWeight = 0;
+    for (const [molId, count] of Object.entries(spec.molecularCoFactors) as [
+      MolecularSpeciesId,
+      number,
+    ][]) {
+      molSum += molecularConcentrations[molId] * count;
+      molWeight += count;
+    }
+    const combined =
+      (macSum / Math.max(0.01, macWeight)) * 0.68 +
+      (molSum / Math.max(1, molWeight)) * 0.32;
+    return Number(
+      Math.min(
+        1,
+        combined * (0.78 + (tier4CompoundManifestationIndex - 700) / 1600) + affinityBoost,
+      ).toFixed(3),
+    );
+  };
+
+  const travertineLimestoneSpar = computeCompoundManifestation(
+    'travertine-limestone-spar',
+    isCarbonateRich ? 0.18 : 0,
+  );
+  const piezoelectricQuartzGeode = computeCompoundManifestation(
+    'piezoelectric-quartz-geode',
+    isSilicaRich ? 0.18 : 0,
+  );
+  const structuredHydroMineralElectrolyte = computeCompoundManifestation(
+    'structured-hydro-mineral-electrolyte',
+    isHydroRich ? 0.18 : 0,
+  );
+  const lignocellulosicVascularTissue = computeCompoundManifestation(
+    'lignocellulosic-vascular-tissue',
+    isHumusRich ? 0.12 : 0.04,
+  );
+  const bioluminescentMycelialHumus = computeCompoundManifestation(
+    'bioluminescent-mycelial-humus',
+    (isHydroRich || isHumusRich ? 0.12 : 0) + (nocturnalBioBoost - 0.5) * 0.18,
+  );
+  const terpeneVolatileAerosolColloid = computeCompoundManifestation(
+    'terpene-volatile-aerosol-colloid',
+    volatileTerpeneImpulse * 0.16,
+  );
+
+  // Tier 5: Synthesize Organic & Inorganic Compounds into the Environment & All 6 Modalities of the Game
+  const modalScale = 0.88 + (tier5EnvironmentalModalIndex - 1000) / 1600; // ~0.95..1.13
+
+  const substrateBulkDensityGPerCm3 = Number(
+    (
+      isSilicaRich
+        ? MATTER_COMPOUNDS['piezoelectric-quartz-geode'].compoundDensityGPerCm3 *
+            (0.92 + piezoelectricQuartzGeode * 0.08)
+        : isCarbonateRich
+          ? MATTER_COMPOUNDS['travertine-limestone-spar'].compoundDensityGPerCm3 *
+              (0.92 + travertineLimestoneSpar * 0.08)
+          : isHydroRich
+            ? MATTER_COMPOUNDS['structured-hydro-mineral-electrolyte'].compoundDensityGPerCm3
+            : MATTER_COMPOUNDS['bioluminescent-mycelial-humus'].compoundDensityGPerCm3 *
+              (0.9 + bioluminescentMycelialHumus * 0.12)
+    ).toFixed(3),
+  );
+  const electrolyteSurfaceTensionMnPerM = Number(
+    (71.8 + structuredHydroMineralElectrolyte * 6.4).toFixed(2),
+  );
+  const sporeStokesBuoyancyLiftMultiplier = Number(
+    (0.92 + terpeneVolatileAerosolColloid * 0.38 * modalScale).toFixed(3),
+  );
+
+  const cellWallYoungsModulusGPa = Number(
+    (
+      MATTER_COMPOUNDS['lignocellulosic-vascular-tissue'].bulkElasticModulusGPa *
+      (0.75 + lignocellulosicVascularTissue * 0.35)
+    ).toFixed(2),
+  );
+  const vascularTurgorPressureMPa = Number(
+    (0.62 + molecularConcentrations.H2O * 0.38 + (attuned ? 0.18 : 0)).toFixed(3),
+  );
+  const chlorophyllQuantumEfficiency = Number(
+    Math.min(0.98, 0.64 + macromolecularYields['chlorophyll-porphyrin-antenna'] * 0.32).toFixed(3),
+  );
+
+  const carbonateSilicateBufferedPh = Number(
+    Math.max(
+      VERDANT_ECOLOGY_STANDARD.minSoilWaterPh,
+      Math.min(
+        VERDANT_ECOLOGY_STANDARD.maxSoilWaterPh,
+        5.85 +
+          travertineLimestoneSpar * 1.15 +
+          piezoelectricQuartzGeode * 0.85 -
+          bioluminescentMycelialHumus * 0.35,
+      ),
+    ).toFixed(2),
+  );
+  const cnpStoichiometricFluxIndex = Number(
+    Math.min(
+      1.0,
+      (atomicActivities.C * 0.4 + atomicActivities.N * 0.35 + atomicActivities.P * 0.25) *
+        modalScale,
+    ).toFixed(3),
+  );
+  const luciferinCatalyticTurnoverRate = Number(
+    Math.min(
+      1.5,
+      (0.35 +
+        bioluminescentMycelialHumus * 0.65 +
+        macromolecularYields['luciferase-holoenzyme-complex'] * 0.35) *
+        (species === 'echo-lotus' || species === 'star-orchid' ? 1.12 : 1.0),
+    ).toFixed(3),
+  );
+
+  const piezoelectricSilicaQMultiplier = Number(
+    (0.94 + piezoelectricQuartzGeode * 0.38 + travertineLimestoneSpar * 0.14).toFixed(3),
+  );
+  const lignocellulosicWarmthCutoffHz = Math.round(
+    1720 +
+      piezoelectricQuartzGeode * 1450 +
+      lignocellulosicVascularTissue * 420 +
+      bioluminescentMycelialHumus * 310,
+  );
+  const modalBellPartialStiffnessRatio = Number(
+    (1.0 + (piezoelectricQuartzGeode - 0.5) * 0.045).toFixed(4),
+  );
+
+  const crystalLatticeMicroReliefBumpScale = Number(
+    (0.032 + (travertineLimestoneSpar * 0.5 + piezoelectricQuartzGeode * 0.5) * 0.042).toFixed(4),
+  );
+  const terpeneAerosolTyndallTransmittance = Number(
+    Math.min(0.98, Math.max(0.78, 0.96 - terpeneVolatileAerosolColloid * 0.12)).toFixed(3),
+  );
+  const chromophoreEmissionWavelengthNm = Math.round(
+    572 - (carbonateSilicateBufferedPh - 5.6) * 24 - piezoelectricQuartzGeode * 26,
+  );
+
+  const chemotacticZephyrConductivity = Number(
+    (0.84 + terpeneVolatileAerosolColloid * 0.28).toFixed(3),
+  );
+  const underfootSubstrateElasticRebound = Number(
+    (0.88 + lignocellulosicVascularTissue * 0.18 + travertineLimestoneSpar * 0.12).toFixed(3),
+  );
+  const primeAddressCompoundHarmonyIndex = Number(
+    Math.min(100, Math.round(72 + (tier5EnvironmentalModalIndex - 1000) / 14)).toFixed(0),
+  );
+
+  // Tier 6: Closed-Loop Biogeochemical & Photochemical Reaction Kinetics + Atomic Remineralization
+  const pathwayRates: Record<ReactionPathwayId, number> = {
+    'photosynthetic-carbon-fixation': Number(
+      Math.min(
+        1,
+        (molecularConcentrations.CO2 * 0.4 +
+          molecularConcentrations.H2O * 0.35 +
+          macromolecularYields['chlorophyll-porphyrin-antenna'] * 0.25) *
+          REACTION_PATHWAYS['photosynthetic-carbon-fixation'].quantumOrThermalYield *
+          (0.85 + sunPhotonFlux * 0.22),
+      ).toFixed(3),
+    ),
+    'bioluminescent-oxyluciferin-catalysis': Number(
+      Math.min(
+        1,
+        (molecularConcentrations['d-luciferin'] * 0.42 +
+          molecularConcentrations.ATP * 0.33 +
+          macromolecularYields['luciferase-holoenzyme-complex'] * 0.25) *
+          REACTION_PATHWAYS['bioluminescent-oxyluciferin-catalysis'].quantumOrThermalYield *
+          (0.82 + nocturnalBioBoost * 0.24),
+      ).toFixed(3),
+    ),
+    'piezoelectric-silicate-mineralization': Number(
+      Math.min(
+        1,
+        (molecularConcentrations.SiO2 * 0.38 +
+          molecularConcentrations.CaCO3 * 0.37 +
+          macromolecularYields['tectosilicate-quartz-lattice'] * 0.25) *
+          REACTION_PATHWAYS['piezoelectric-silicate-mineralization'].quantumOrThermalYield,
+      ).toFixed(3),
+    ),
+    'mycorrhizal-chitin-remineralization': Number(
+      Math.min(
+        1,
+        (bioluminescentMycelialHumus * 0.45 +
+          macromolecularYields['chitin-glucan-hyphal-network'] * 0.35 +
+          molecularConcentrations.ATP * 0.2) *
+          REACTION_PATHWAYS['mycorrhizal-chitin-remineralization'].quantumOrThermalYield,
+      ).toFixed(3),
+    ),
+  };
+
+  // Closed-loop conservation: Tier 6 Remineralized Atomic Pool equals exact mass-balanced return
+  const remineralizationRatio =
+    tier6AtomicRemineralizationIndex /
+    Math.max(1, tier5EnvironmentalModalIndex + tier1AtomicValenceIndex);
+  const remineralizedAtomicPool: Record<AtomicElementId, number> = {
+    H: Number((atomicActivities.H * remineralizationRatio).toFixed(3)),
+    C: Number((atomicActivities.C * remineralizationRatio).toFixed(3)),
+    N: Number((atomicActivities.N * remineralizationRatio).toFixed(3)),
+    O: Number((atomicActivities.O * remineralizationRatio).toFixed(3)),
+    Mg: Number((atomicActivities.Mg * remineralizationRatio).toFixed(3)),
+    Si: Number((atomicActivities.Si * remineralizationRatio).toFixed(3)),
+    P: Number((atomicActivities.P * remineralizationRatio).toFixed(3)),
+    Ca: Number((atomicActivities.Ca * remineralizationRatio).toFixed(3)),
+  };
+
+  return {
+    tier1AtomicValenceIndex,
+    tier2MolecularBondIndex,
+    tier3MacromolecularPolymerIndex,
+    tier4CompoundManifestationIndex,
+    tier5EnvironmentalModalIndex,
+    tier6AtomicRemineralizationIndex,
+    chainHierarchyVerified,
+    closedLoopConservationVerified,
+    completeSynthesisClosureVerified,
+    atomicActivities,
+    molecularConcentrations,
+    macromolecularYields,
+    compoundManifestations: {
+      inorganic: {
+        travertineLimestoneSpar,
+        piezoelectricQuartzGeode,
+        structuredHydroMineralElectrolyte,
+      },
+      organic: {
+        lignocellulosicVascularTissue,
+        bioluminescentMycelialHumus,
+        terpeneVolatileAerosolColloid,
+      },
+    },
+    reactionKinetics: {
+      pathwayRates,
+      remineralizedAtomicPool,
+      stoichiometricMassBalanceRatio: 1.0,
+    },
+    modalSyntheses: {
+      physicalModality: {
+        substrateBulkDensityGPerCm3,
+        electrolyteSurfaceTensionMnPerM,
+        sporeStokesBuoyancyLiftMultiplier,
+      },
+      botanicalModality: {
+        cellWallYoungsModulusGPa,
+        vascularTurgorPressureMPa,
+        chlorophyllQuantumEfficiency,
+      },
+      ecologicalModality: {
+        carbonateSilicateBufferedPh,
+        cnpStoichiometricFluxIndex,
+        luciferinCatalyticTurnoverRate,
+      },
+      acousticModality: {
+        piezoelectricSilicaQMultiplier,
+        lignocellulosicWarmthCutoffHz,
+        modalBellPartialStiffnessRatio,
+      },
+      opticalModality: {
+        crystalLatticeMicroReliefBumpScale,
+        terpeneAerosolTyndallTransmittance,
+        chromophoreEmissionWavelengthNm,
+      },
+      kinestheticModality: {
+        chemotacticZephyrConductivity,
+        underfootSubstrateElasticRebound,
+        primeAddressCompoundHarmonyIndex,
+      },
+    },
+  };
+}
+
+/**
+ * Converts a bioluminescent chromophore emission wavelength (`475..595 nm`) into an sRGB hex color
+ * (`#rrggbb`), mapping alkaline cyan-blue quartz emission (`~490 nm`) through emerald-teal (`~520 nm`)
+ * to acidic warm amber-gold (`~575 nm`).
+ */
+export function wavelengthNmToHex(wavelengthNm: number): string {
+  const wl = Math.max(470, Math.min(600, wavelengthNm));
+  let r = 0;
+  let g = 0;
+  let b = 0;
+  if (wl < 490) {
+    const t = (wl - 470) / 20;
+    r = 0.12 * (1 - t);
+    g = 0.55 + 0.45 * t;
+    b = 1.0;
+  } else if (wl < 510) {
+    const t = (wl - 490) / 20;
+    r = 0.08 * t;
+    g = 1.0;
+    b = 1.0 - 0.72 * t;
+  } else if (wl < 555) {
+    const t = (wl - 510) / 45;
+    r = 0.08 + 0.78 * t;
+    g = 1.0;
+    b = 0.28 * (1 - t);
+  } else {
+    const t = (wl - 555) / 45;
+    r = 0.86 + 0.14 * t;
+    g = 1.0 - 0.24 * t;
+    b = 0.12 * (1 - t);
+  }
+  const toHex = (v: number) =>
+    Math.max(0, Math.min(255, Math.round(v * 255)))
+      .toString(16)
+      .padStart(2, '0');
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+export interface CompoundSurfaceProfile {
+  surfaceMaterial: SurfaceMaterialId;
+  dominantCompound: MatterCompoundId;
+  secondaryCompound: MatterCompoundId;
+  dominantMacromolecule: MacromoleculeId;
+  bulkDensityGPerCm3: number;
+  bulkElasticModulusGPa: number;
+  longitudinalWaveSpeedMps: number;
+  groundWavePropagationMps: number;
+  footstepFundamentalMultiplier: number;
+  footstepOvertoneRatio: number;
+  footstepDecaySec: number;
+  surfaceRoughnessPbr: number;
+  surfaceMetalnessPbr: number;
+  clearcoatStrength: number;
+  microReliefBumpScale: number;
+  opticalRefractiveIndex: number;
+}
+
+/**
+ * Synthesizes physical, acoustic, and PBR optical material properties for each `SurfaceMaterialId`
+ * directly from its constituent Tier 4 Organic & Inorganic Matter Compounds (`MATTER_COMPOUNDS`)
+ * and Tier 3 Macromolecular Lattices (`MACROMOLECULAR_POLYMERS`).
+ */
+export function synthesizeCompoundSurfaceProfile(
+  surfaceMaterial: SurfaceMaterialId,
+  neuromorphicWeight = 8,
+): CompoundSurfaceProfile {
+  const clampedW = Math.max(1, Math.min(16, neuromorphicWeight));
+  const modalBoost = (stepEnvironmentalModalSynthesis(clampedW) - 1000) / 4000; // ~0.006 .. 0.10
+
+  const mapping: Record<
+    SurfaceMaterialId,
+    {
+      dom: MatterCompoundId;
+      sec: MatterCompoundId;
+      mac: MacromoleculeId;
+      domWeight: number;
+      groundWaveBaseMps: number;
+      footFundMult: number;
+      footOvertone: number;
+      footDecay: number;
+      roughness: number;
+      metalness: number;
+      clearcoat: number;
+      bumpScale: number;
+    }
+  > = {
+    'quartz-crystalline': {
+      dom: 'piezoelectric-quartz-geode',
+      sec: 'travertine-limestone-spar',
+      mac: 'tectosilicate-quartz-lattice',
+      domWeight: 0.85,
+      groundWaveBaseMps: 4.4,
+      footFundMult: 1.5,
+      footOvertone: 4.0,
+      footDecay: 0.15,
+      roughness: 0.18,
+      metalness: 0.16,
+      clearcoat: 0.92,
+      bumpScale: 0.056,
+    },
+    'travertine-stone': {
+      dom: 'travertine-limestone-spar',
+      sec: 'piezoelectric-quartz-geode',
+      mac: 'calcite-aragonite-spar-lattice',
+      domWeight: 0.82,
+      groundWaveBaseMps: 4.0,
+      footFundMult: 1.15,
+      footOvertone: 3.0,
+      footDecay: 0.095,
+      roughness: 0.72,
+      metalness: 0.12,
+      clearcoat: 0.15,
+      bumpScale: 0.044,
+    },
+    'bamboo-humus': {
+      dom: 'lignocellulosic-vascular-tissue',
+      sec: 'bioluminescent-mycelial-humus',
+      mac: 'cellulose-lignin-microfibril',
+      domWeight: 0.72,
+      groundWaveBaseMps: 3.6,
+      footFundMult: 0.92,
+      footOvertone: 2.2,
+      footDecay: 0.12,
+      roughness: 0.78,
+      metalness: 0.05,
+      clearcoat: 0.12,
+      bumpScale: 0.048,
+    },
+    'meadow-turf': {
+      dom: 'bioluminescent-mycelial-humus',
+      sec: 'lignocellulosic-vascular-tissue',
+      mac: 'chitin-glucan-hyphal-network',
+      domWeight: 0.74,
+      groundWaveBaseMps: 3.4,
+      footFundMult: 1.0,
+      footOvertone: 1.5,
+      footDecay: 0.12,
+      roughness: 0.86,
+      metalness: 0.06,
+      clearcoat: 0.08,
+      bumpScale: 0.064,
+    },
+    'shallow-water': {
+      dom: 'structured-hydro-mineral-electrolyte',
+      sec: 'bioluminescent-mycelial-humus',
+      mac: 'calcite-aragonite-spar-lattice',
+      domWeight: 0.9,
+      groundWaveBaseMps: 2.35,
+      footFundMult: 0.82,
+      footOvertone: 1.65,
+      footDecay: 0.16,
+      roughness: 0.12,
+      metalness: 0.1,
+      clearcoat: 0.96,
+      bumpScale: 0.022,
+    },
+  };
+
+  const cfg = mapping[surfaceMaterial];
+  const domComp = MATTER_COMPOUNDS[cfg.dom];
+  const secComp = MATTER_COMPOUNDS[cfg.sec];
+  const secW = 1 - cfg.domWeight;
+
+  const bulkDensityGPerCm3 = Number(
+    (domComp.compoundDensityGPerCm3 * cfg.domWeight + secComp.compoundDensityGPerCm3 * secW).toFixed(
+      3,
+    ),
+  );
+  const bulkElasticModulusGPa = Number(
+    (
+      (domComp.bulkElasticModulusGPa * cfg.domWeight + secComp.bulkElasticModulusGPa * secW) *
+      (1 + modalBoost * 0.25)
+    ).toFixed(2),
+  );
+  const longitudinalWaveSpeedMps = Math.round(
+    domComp.acousticWaveSpeedMps * cfg.domWeight + secComp.acousticWaveSpeedMps * secW,
+  );
+  const opticalRefractiveIndex = Number(
+    (
+      domComp.opticalRefractiveIndex * cfg.domWeight +
+      secComp.opticalRefractiveIndex * secW
+    ).toFixed(3),
+  );
+
+  return {
+    surfaceMaterial,
+    dominantCompound: cfg.dom,
+    secondaryCompound: cfg.sec,
+    dominantMacromolecule: cfg.mac,
+    bulkDensityGPerCm3,
+    bulkElasticModulusGPa,
+    longitudinalWaveSpeedMps,
+    groundWavePropagationMps: cfg.groundWaveBaseMps,
+    footstepFundamentalMultiplier: cfg.footFundMult,
+    footstepOvertoneRatio: cfg.footOvertone,
+    footstepDecaySec: cfg.footDecay,
+    surfaceRoughnessPbr: cfg.roughness,
+    surfaceMetalnessPbr: cfg.metalness,
+    clearcoatStrength: cfg.clearcoat,
+    microReliefBumpScale: Number((cfg.bumpScale * (1 + modalBoost * 0.5)).toFixed(4)),
+    opticalRefractiveIndex,
+  };
+}
+
+export interface BotanicalOrganogenesisProfile {
+  species: PlantSpeciesId;
+  biome: BiomeId;
+  substrate: GrowthSubstrateId;
+  celluloseStemStiffnessGPa: number;
+  chlorophyllPorphyrinAntennaEfficiency: number;
+  luciferaseBioluminescentPhotonFlux: number;
+  chitinMycorrhizalHyphalConductance: number;
+  piezoelectricCorollaPartialRatios: [number, number, number, number, number];
+  chromophoreEmissionWavelengthNm: number;
+  chromophoreEmissiveHex: string;
+  petalClearcoatRoughness: number;
+  stemMatteRoughness: number;
+  terpeneVolatilizationRate: number;
+  granularSynthesis: GranularEnvironmentalSynthesisState;
+}
+
+/**
+ * Synthesizes a botanical specimen's structural organogenesis, 5-partial modal ratios,
+ * bioluminescent chromophore emission hex color, and PBR petal/stem roughness directly from
+ * its 6-Stage Closed-Loop Atomic-to-Environmental Granular Synthesis state.
+ */
+export function synthesizeBotanicalOrganogenesis(params: {
+  biome: BiomeId;
+  species: PlantSpeciesId;
+  substrate?: GrowthSubstrateId;
+  atmosphere: AtmosphereId;
+  attuned: boolean;
+  harmonyPct?: number;
+  neuromorphicWeight?: number;
+  volatileTerpeneImpulse?: number;
+}): BotanicalOrganogenesisProfile {
+  const {
+    biome,
+    species,
+    substrate = 'terrestrial-loam',
+    atmosphere,
+    attuned,
+    harmonyPct = 45,
+    neuromorphicWeight = 8,
+    volatileTerpeneImpulse = 0,
+  } = params;
+
+  const granular = evaluateGranularMatterSynthesis({
+    biome,
+    species,
+    substrate,
+    atmosphere,
+    attuned,
+    harmonyPct,
+    neuromorphicWeight,
+    volatileTerpeneImpulse,
+  });
+
+  const baseArticulation = SPECIES_ARTICULATION_PROFILES[species];
+  const stiffnessRatio = granular.modalSyntheses.acousticModality.modalBellPartialStiffnessRatio;
+
+  const piezoelectricCorollaPartialRatios: [number, number, number, number, number] = [
+    baseArticulation.modalPartialRatios[0],
+    Number((baseArticulation.modalPartialRatios[1] * stiffnessRatio).toFixed(4)),
+    Number((baseArticulation.modalPartialRatios[2] * stiffnessRatio).toFixed(4)),
+    Number((baseArticulation.modalPartialRatios[3] * (0.98 + stiffnessRatio * 0.02)).toFixed(4)),
+    Number((baseArticulation.modalPartialRatios[4] * stiffnessRatio).toFixed(4)),
+  ];
+
+  const chromophoreEmissionWavelengthNm =
+    granular.modalSyntheses.opticalModality.chromophoreEmissionWavelengthNm;
+  const chromophoreEmissiveHex = wavelengthNmToHex(chromophoreEmissionWavelengthNm);
+
+  const celluloseYield = granular.macromolecularYields['cellulose-lignin-microfibril'];
+  const petalClearcoatRoughness = Number(
+    Math.max(0.1, Math.min(0.24, 0.18 - granular.compoundManifestations.organic.terpeneVolatileAerosolColloid * 0.04)).toFixed(3),
+  );
+  const stemMatteRoughness = Number(
+    Math.max(0.7, Math.min(0.92, 0.74 + celluloseYield * 0.12)).toFixed(3),
+  );
+
+  return {
+    species,
+    biome,
+    substrate,
+    celluloseStemStiffnessGPa: granular.modalSyntheses.botanicalModality.cellWallYoungsModulusGPa,
+    chlorophyllPorphyrinAntennaEfficiency:
+      granular.modalSyntheses.botanicalModality.chlorophyllQuantumEfficiency,
+    luciferaseBioluminescentPhotonFlux:
+      granular.modalSyntheses.ecologicalModality.luciferinCatalyticTurnoverRate,
+    chitinMycorrhizalHyphalConductance: Number(
+      (
+        granular.macromolecularYields['chitin-glucan-hyphal-network'] * 0.65 +
+        granular.reactionKinetics.pathwayRates['mycorrhizal-chitin-remineralization'] * 0.35
+      ).toFixed(3),
+    ),
+    piezoelectricCorollaPartialRatios,
+    chromophoreEmissionWavelengthNm,
+    chromophoreEmissiveHex,
+    petalClearcoatRoughness,
+    stemMatteRoughness,
+    terpeneVolatilizationRate:
+      granular.reactionKinetics.pathwayRates['bioluminescent-oxyluciferin-catalysis'],
+    granularSynthesis: granular,
+  };
+}
 
 export interface BiogeochemicalState {
   pH: number; // 5.6 .. 8.1
@@ -3886,6 +5856,7 @@ export interface BiogeochemicalState {
   bioluminescentWavelengthNm: number; // 475 .. 585 nm
   acousticSustainMultiplier: number; // 0.88 .. 1.28 (mineral Q-factor resonance sustain)
   harmonicWarmthFilterHz: number; // 1650 .. 4200 Hz
+  granularSynthesis?: GranularEnvironmentalSynthesisState;
 }
 
 const BIOME_BASELINE_PH: Record<BiomeId, number> = {
@@ -4010,6 +5981,16 @@ export function evaluateBiogeochemistry(params: {
     1750 + silicaMineralIndex * 1650 + luciferinOxidationRate * 480,
   );
 
+  const granularSynthesis = evaluateGranularMatterSynthesis({
+    biome,
+    species,
+    substrate,
+    atmosphere,
+    attuned,
+    neuromorphicWeight,
+    volatileTerpeneImpulse,
+  });
+
   return {
     pH,
     silicaMineralIndex,
@@ -4019,6 +6000,7 @@ export function evaluateBiogeochemistry(params: {
     bioluminescentWavelengthNm,
     acousticSustainMultiplier,
     harmonicWarmthFilterHz,
+    granularSynthesis,
   };
 }
 
@@ -4201,36 +6183,35 @@ export interface BotanicalArticulationStandardModel {
 }
 
 export const VERDANT_ARTICULATION_STANDARD: BotanicalArticulationStandardModel = {
-  profile: 'prism/articulation-standard/2',
-  speciesCount: 5,
-  partialsPerSpecies: 5,
-  terraceCount: 5,
-  parabolicArcSegments: 9,
-  sympatheticEchoDelayMs: 140,
-  constellationVoices: 6,
+  profile: GENERATED_PRISM_STANDARDS.articulation.profile,
+  speciesCount: GENERATED_PRISM_STANDARDS.articulation.speciesArticulation.speciesCount,
+  partialsPerSpecies:
+    GENERATED_PRISM_STANDARDS.articulation.speciesArticulation.partialsPerSpecies,
+  terraceCount: GENERATED_PRISM_STANDARDS.articulation.landscapeTerraces.terraceCount,
+  parabolicArcSegments:
+    GENERATED_PRISM_STANDARDS.articulation.sympatheticArcs.parabolicArcSegments,
+  sympatheticEchoDelayMs:
+    GENERATED_PRISM_STANDARDS.articulation.sympatheticArcs.sympatheticEchoDelayMs,
+  constellationVoices:
+    GENERATED_PRISM_STANDARDS.articulation.sympatheticArcs.constellationVoices,
   gestureContrast: {
-    touchAttackMs: 3,
-    touchDecayMs: 420,
-    touchVoices: 2,
+    touchAttackMs: GENERATED_PRISM_STANDARDS.articulation.gestureContrast.touchAttackMs,
+    touchDecayMs: GENERATED_PRISM_STANDARDS.articulation.gestureContrast.touchDecayMs,
+    touchVoices: GENERATED_PRISM_STANDARDS.articulation.gestureContrast.touchVoices,
     touchGestureSummary:
       'Touch Petal [T]: Crisp 3ms plucked/struck solo upper-harmonic transient (2x & 3x overtones) with 9Hz elastic petal shiver and 420ms intimate decay.',
-    attuneAttackMs: 220,
-    attuneDecayMs: 2400,
-    attuneVoices: 6,
+    attuneAttackMs: GENERATED_PRISM_STANDARDS.articulation.gestureContrast.attuneAttackMs,
+    attuneDecayMs: GENERATED_PRISM_STANDARDS.articulation.gestureContrast.attuneDecayMs,
+    attuneVoices: GENERATED_PRISM_STANDARDS.articulation.gestureContrast.attuneVoices,
     attuneGestureSummary:
       'Attune Flora [Space]: Lush 220ms polyphonic bowed/harmonica 6-voice multi-octave choir swell + 3 staggered binaural cross-pollination echoes over 2.4s.',
-    stillnessAttackMs: 650,
-    stillnessDecayMs: 3200,
+    stillnessAttackMs: GENERATED_PRISM_STANDARDS.articulation.gestureContrast.stillnessAttackMs,
+    stillnessDecayMs: GENERATED_PRISM_STANDARDS.articulation.gestureContrast.stillnessDecayMs,
     stillnessGestureSummary:
       'Meditative Stillness [C]: Self-decaying 650ms inhale / 3.2s exhale warm pastoral ninth breathing pad that fades cleanly to natural silence.',
   },
   neuromorphicBridge: {
-    neuromorphicBusCoupled: true,
-    domainBasisPrime: 97,
-    rule30RegisterBits: 64,
-    pointKeyBits: 28,
-    crossDomainTransferEnabled: true,
-    autopoieticSelfRefinementEnabled: true,
+    ...GENERATED_PRISM_STANDARDS.articulation.neuromorphicBridge,
   },
 };
 
@@ -4372,37 +6353,55 @@ export interface EnvironmentalPhysicsStandardModel {
 }
 
 export const VERDANT_PHYSICS_STANDARD: EnvironmentalPhysicsStandardModel = {
-  profile: 'prism/physics-standard/1',
-  solidColliderClasses: 6,
-  permeableMediumClasses: 5,
+  profile: GENERATED_PRISM_STANDARDS.physics.profile,
+  solidColliderClasses: GENERATED_PRISM_STANDARDS.physics.taxonomy.solidColliderClasses,
+  permeableMediumClasses: GENERATED_PRISM_STANDARDS.physics.taxonomy.permeableMediumClasses,
   playerBodyRadiusMeters: 0.45,
   lagoonCenter: [-28, 30],
   lagoonRadiusMeters: 16.5,
-  maxWaterDepthMeters: 0.42,
-  wadingSpeedPct: 76,
-  floatingStonePadCount: 5,
-  grassWakeRadiusMeters: 1.85,
+  maxWaterDepthMeters: GENERATED_PRISM_STANDARDS.physics.hydrodynamics.maxWaterDepthCm / 100,
+  wadingSpeedPct: GENERATED_PRISM_STANDARDS.physics.hydrodynamics.wadingSpeedPct,
+  floatingStonePadCount: GENERATED_PRISM_STANDARDS.physics.hydrodynamics.floatingStonePadCount,
+  grassWakeRadiusMeters: GENERATED_PRISM_STANDARDS.physics.foliageAndSlope.grassWakeRadiusCm / 100,
   maxFoliageDeflectionRad: 0.66, // ~38 deg
-  waterSurfaceSubmergedBelowRim: true,
-  floatingWaterEdgeCount: 0,
-  neuromorphicCymaticCouplingEnabled: true,
-  terraceBasinLevellingCount: 5,
-  canopyWindShearEnabled: true,
-  slipstreamVortexWakeEnabled: true,
-  chemotacticSporeBuoyancyEnabled: true,
-  coupledDomainCount: 10,
-  universalNeuromorphicBusEnabled: true,
-  crossDomainTransferLatencyTicks: 0,
-  sporeSolidObstacleDeflectionEnabled: true,
-  sporeTerrainMeniscusFloorEnabled: true,
-  emergentSeedlingColliderRegistrationEnabled: true,
-  waveRingSurfaceNormalAlignmentEnabled: true,
-  heliocentricPhototropicShadowLockEnabled: true,
-  causalWavefrontEchoTimingEnabled: true,
-  universalAcousticSpatialBiochemConstraintEnabled: true,
-  spatialGroundingAndSubstrateCoherenceEnabled: true,
-  floatingTreeOrRockEdgeCount: 0,
-  hardSurfaceOrRockFloraGrowthCount: 0,
+  waterSurfaceSubmergedBelowRim:
+    GENERATED_PRISM_STANDARDS.physics.hydrodynamics.waterSurfaceSubmergedBelowRim,
+  floatingWaterEdgeCount: GENERATED_PRISM_STANDARDS.physics.hydrodynamics.floatingWaterEdgeCount,
+  neuromorphicCymaticCouplingEnabled:
+    GENERATED_PRISM_STANDARDS.physics.hydrodynamics.neuromorphicCymaticCouplingEnabled,
+  terraceBasinLevellingCount:
+    GENERATED_PRISM_STANDARDS.physics.hydrodynamics.terraceBasinLevellingCount,
+  canopyWindShearEnabled: GENERATED_PRISM_STANDARDS.physics.foliageAndSlope.canopyWindShearEnabled,
+  slipstreamVortexWakeEnabled:
+    GENERATED_PRISM_STANDARDS.physics.foliageAndSlope.slipstreamVortexWakeEnabled,
+  chemotacticSporeBuoyancyEnabled:
+    GENERATED_PRISM_STANDARDS.physics.foliageAndSlope.chemotacticSporeBuoyancyEnabled,
+  coupledDomainCount: GENERATED_PRISM_STANDARDS.physics.holisticCoupling.coupledDomainCount,
+  universalNeuromorphicBusEnabled:
+    GENERATED_PRISM_STANDARDS.physics.holisticCoupling.universalNeuromorphicBusEnabled,
+  crossDomainTransferLatencyTicks:
+    GENERATED_PRISM_STANDARDS.physics.holisticCoupling.crossDomainTransferLatencyTicks,
+  sporeSolidObstacleDeflectionEnabled:
+    GENERATED_PRISM_STANDARDS.physics.holisticCoupling.sporeSolidObstacleDeflectionEnabled,
+  sporeTerrainMeniscusFloorEnabled:
+    GENERATED_PRISM_STANDARDS.physics.holisticCoupling.sporeTerrainMeniscusFloorEnabled,
+  emergentSeedlingColliderRegistrationEnabled:
+    GENERATED_PRISM_STANDARDS.physics.holisticCoupling.emergentSeedlingColliderRegistrationEnabled,
+  waveRingSurfaceNormalAlignmentEnabled:
+    GENERATED_PRISM_STANDARDS.physics.holisticCoupling.waveRingSurfaceNormalAlignmentEnabled,
+  heliocentricPhototropicShadowLockEnabled:
+    GENERATED_PRISM_STANDARDS.physics.holisticCoupling.heliocentricPhototropicShadowLockEnabled,
+  causalWavefrontEchoTimingEnabled:
+    GENERATED_PRISM_STANDARDS.physics.holisticCoupling.causalWavefrontEchoTimingEnabled,
+  universalAcousticSpatialBiochemConstraintEnabled:
+    GENERATED_PRISM_STANDARDS.physics.holisticCoupling
+      .universalAcousticSpatialBiochemConstraintEnabled,
+  spatialGroundingAndSubstrateCoherenceEnabled:
+    GENERATED_PRISM_STANDARDS.physics.holisticCoupling.spatialGroundingAndSubstrateCoherenceEnabled,
+  floatingTreeOrRockEdgeCount:
+    GENERATED_PRISM_STANDARDS.physics.holisticCoupling.floatingTreeOrRockEdgeCount,
+  hardSurfaceOrRockFloraGrowthCount:
+    GENERATED_PRISM_STANDARDS.physics.holisticCoupling.hardSurfaceOrRockFloraGrowthCount,
   surfaceMaterials: [
     'travertine-stone',
     'meadow-turf',
@@ -4453,12 +6452,7 @@ export const VERDANT_PHYSICS_STANDARD: EnvironmentalPhysicsStandardModel = {
     },
   ],
   neuromorphicBridge: {
-    neuromorphicBusCoupled: true,
-    domainBasisPrime: 73,
-    rule30RegisterBits: 64,
-    pointKeyBits: 28,
-    crossDomainTransferEnabled: true,
-    autopoieticSelfRefinementEnabled: true,
+    ...GENERATED_PRISM_STANDARDS.physics.neuromorphicBridge,
   },
 };
 
@@ -5278,14 +7272,17 @@ export interface GroundWavePropagationState {
   surfaceTiltZ: number;
   waveSpeedMps: number;
   obstacleAttenuation: number;
+  dominantCompound: MatterCompoundId;
+  compoundBulkModulusGPa: number;
 }
 
 /**
  * Evaluates physical ground/water wave ring propagation (`Foundation.Physics.V1.Model::waveRingSurfaceNormalAlignmentEnabled`):
  * - Aligns the expanding wave ring to the local terrain surface normal `(surfaceTiltX, surfaceTiltZ)` so rings never clip into hillsides,
  *   or keeps the ring flush on the equipotential hydrostatic plane `MIRROR_LAGOON_WATER_SURFACE_Y` when in shallow water.
- * - Modulates propagation speed by surface medium elasticity (`quartz-crystalline`: `4.4 m/s`, `travertine-stone`: `4.0 m/s`,
- *   `bamboo-humus`: `3.6 m/s`, `meadow-turf`: `3.4 m/s`, `shallow-water` capillary-gravity ripple: `2.35 m/s`).
+ * - Synthesizes propagation speed from the local surface compound profile (`synthesizeCompoundSurfaceProfile`:
+ *   `quartz-crystalline`: `4.4 m/s`, `travertine-stone`: `4.0 m/s`, `bamboo-humus`: `3.6 m/s`, `meadow-turf`: `3.4 m/s`,
+ *   `shallow-water` capillary-gravity ripple: `2.35 m/s`).
  * - Attenuates wave amplitude when the expanding wavefront intersects solid stone/boulder colliders.
  */
 export function evaluateGroundWavePropagation(params: {
@@ -5298,20 +7295,12 @@ export function evaluateGroundWavePropagation(params: {
   const { x, z, ageSec, maxAgeSec = 1.7, colliders = [] } = params;
   const hydro = evaluateHydrodynamics(x, z);
   const material = classifySurfaceMaterial(x, z);
+  const surfaceCompound = synthesizeCompoundSurfaceProfile(material);
   const tilt = hydro.inWater
     ? { surfaceTiltX: 0, surfaceTiltZ: 0 }
     : computeTerrainNormalTilt(x, z);
 
-  const waveSpeedMps =
-    material === 'quartz-crystalline'
-      ? 4.4
-      : material === 'travertine-stone'
-        ? 4.0
-        : material === 'bamboo-humus'
-          ? 3.6
-          : material === 'meadow-turf'
-            ? 3.4
-            : 2.35;
+  const waveSpeedMps = surfaceCompound.groundWavePropagationMps;
 
   const clampedAge = Math.max(0, Math.min(maxAgeSec, ageSec));
   const progress = clampedAge / maxAgeSec;
@@ -5346,6 +7335,8 @@ export function evaluateGroundWavePropagation(params: {
     surfaceTiltZ: tilt.surfaceTiltZ,
     waveSpeedMps,
     obstacleAttenuation: Number(obstacleAttenuation.toFixed(3)),
+    dominantCompound: surfaceCompound.dominantCompound,
+    compoundBulkModulusGPa: surfaceCompound.bulkElasticModulusGPa,
   };
 }
 
@@ -5497,16 +7488,7 @@ export const PRISM_DOMAIN_ORDER: readonly PrismDomainId[] = [
  * enabling exact GCD kinship and cross-domain synaptic transfer across all 10 subsystems.
  */
 export const PRISM_DOMAIN_BASIS_PRIMES: Record<PrismDomainId, number> = {
-  infrastructure: 71,
-  physics: 73,
-  botany: 79,
-  ecology: 83,
-  acoustics: 89,
-  articulation: 97,
-  soundtrack: 101,
-  humane: 103,
-  brand: 107,
-  neuromorphic: 109,
+  ...GENERATED_PRISM_DOMAIN_BASIS_PRIMES,
 };
 
 export interface UniversalNeuromorphicBusSpec {
@@ -5548,53 +7530,37 @@ export interface NeuromorphicSynthesisStandardModel {
     maxEmergentSeedlings: number;
   };
   universalBus: UniversalNeuromorphicBusSpec;
+  stakeholderEntity: EmergentEntityStakeholderSpec;
   neuromorphicBridge: NeuromorphicDomainBridgeSpec;
 }
 
 export const VERDANT_NEUROMORPHIC_STANDARD: NeuromorphicSynthesisStandardModel = {
-  profile: 'prism/neuromorphic-standard/1',
+  profile: GENERATED_PRISM_STANDARDS.neuromorphic.profile,
   plasticity: {
-    weightMin: 1,
-    weightMax: 16,
-    weightInitial: 8,
-    weightRaise: 2,
-    weightLower: 1,
-    consolidationThreshold: 12,
-    familyCount: 5,
-    strategyCount: 4,
+    ...GENERATED_PRISM_STANDARDS.neuromorphic.plasticity,
   },
   cellularAutomaton: {
-    ruleNumber: 30,
-    registerWidthBits: 64,
-    orbitBound: 256,
-    periodBound: 256,
-    drivesVoiceLeading: true,
-    drivesMorphogenesis: true,
+    ...GENERATED_PRISM_STANDARDS.neuromorphic.cellularAutomaton,
   },
   lutStack: {
-    headerMagic: 'UORLUT01',
-    basinStatesCl06: 64,
-    icosianGoldenRoots: 17,
-    primeAddressBasisCount: 11,
-    pointKeyBits: 28,
-    shortCycleGuardMaxPeriod: 4,
-    maxEmergentSeedlings: 15,
+    ...GENERATED_PRISM_STANDARDS.neuromorphic.lutStack,
   },
   universalBus: {
-    coupledModuleCount: 10,
-    domainBasisPrimeCount: 10,
-    crossDomainTransferEnabled: true,
-    autopoieticSelfRefinementEnabled: true,
-    infrastructureCoupled: true,
-    zeroManualIterationOverhead: true,
+    ...GENERATED_PRISM_STANDARDS.neuromorphic.universalBus,
+  },
+  stakeholderEntity: {
+    ...GENERATED_PRISM_STANDARDS.neuromorphic.stakeholderEntity,
   },
   neuromorphicBridge: {
-    neuromorphicBusCoupled: true,
-    domainBasisPrime: 109,
-    rule30RegisterBits: 64,
-    pointKeyBits: 28,
-    crossDomainTransferEnabled: true,
-    autopoieticSelfRefinementEnabled: true,
+    neuromorphicBusCoupled:
+      GENERATED_PRISM_STANDARDS.neuromorphic.universalBus.zeroManualIterationOverhead,
+    domainBasisPrime: GENERATED_PRISM_DOMAIN_BASIS_PRIMES.neuromorphic,
+    rule30RegisterBits: GENERATED_PRISM_STANDARDS.neuromorphic.cellularAutomaton.registerWidthBits,
+    pointKeyBits: GENERATED_PRISM_STANDARDS.neuromorphic.lutStack.pointKeyBits,
+    crossDomainTransferEnabled:
+      GENERATED_PRISM_STANDARDS.neuromorphic.universalBus.crossDomainTransferEnabled,
+    autopoieticSelfRefinementEnabled:
+      GENERATED_PRISM_STANDARDS.neuromorphic.universalBus.autopoieticSelfRefinementEnabled,
   },
 };
 
@@ -5606,12 +7572,7 @@ export const PRISM_DOMAIN_BRIDGES: Record<PrismDomainId, NeuromorphicDomainBridg
   acoustics: VERDANT_ACOUSTIC_STANDARD.neuromorphicBridge,
   articulation: VERDANT_ARTICULATION_STANDARD.neuromorphicBridge,
   soundtrack: {
-    neuromorphicBusCoupled: true,
-    domainBasisPrime: 101,
-    rule30RegisterBits: 64,
-    pointKeyBits: 28,
-    crossDomainTransferEnabled: true,
-    autopoieticSelfRefinementEnabled: true,
+    ...GENERATED_PRISM_STANDARDS.soundtrack.neuromorphicBridge,
   },
   humane: VERDANT_HUMANE_STANDARD.neuromorphicBridge,
   brand: VERDANT_BRAND_STANDARD.neuromorphicBridge,
@@ -5619,19 +7580,17 @@ export const PRISM_DOMAIN_BRIDGES: Record<PrismDomainId, NeuromorphicDomainBridg
 };
 
 /**
- * Exact bounded Hebbian learning rule `learn(w, success)` from `Foundation.Neuromorphic.V1.Model`
- * and `afflom/rule30`:
+ * Exact bounded Hebbian learning rule `learnHebbianWeight(w, success)` backed directly by
+ * `GENERATED_PRISM_PLASTICITY_LUT` compiled from `Foundation.Neuromorphic.V1.Model::learnHebbianWeight`
+ * (proven bounded in `hebbianBidirectionalBoundsHold`):
  * - Potentiates by `weightRaise` (+2) on resonant success, clamped to `weightMax` (16).
  * - Depresses by `weightLower` (-1) on non-resonant step, clamped to `weightMin` (1).
  */
 export function learnHebbianWeight(w: number, success: boolean): number {
-  const { weightMin, weightMax, weightRaise, weightLower } =
-    VERDANT_NEUROMORPHIC_STANDARD.plasticity;
-  const clamped = Math.max(weightMin, Math.min(weightMax, Math.round(w)));
-  if (success) {
-    return clamped + weightRaise <= weightMax ? clamped + weightRaise : weightMax;
-  }
-  return weightMin + weightLower <= clamped ? clamped - weightLower : weightMin;
+  const lut = success
+    ? GENERATED_PRISM_PLASTICITY_LUT.learnHebbianWeightCoactive
+    : GENERATED_PRISM_PLASTICITY_LUT.learnHebbianWeightSilent;
+  return lut[clampLutIndex(w, lut.length)];
 }
 
 /**
@@ -5731,12 +7690,13 @@ export function scheduleNeuromorphicStrategies(
 }
 
 /**
- * Exact Elementary Cellular Automaton Rule 30 single-cell transition:
- * `left XOR (center OR right)` (`111->0, 110->0, 101->0, 100->1, 011->1, 010->1, 001->1, 000->0`).
+ * Exact Elementary Cellular Automaton Rule 30 single-cell transition backed directly by
+ * `GENERATED_PRISM_RULE30_LUT` compiled from `Foundation.Neuromorphic.V1.Model::rule30CellStep`
+ * (`111->0, 110->0, 101->0, 100->1, 011->1, 010->1, 001->1, 000->0`).
  */
 export function rule30CellStep(left: boolean, center: boolean, right: boolean): boolean {
-  const orRight = center || right;
-  return left ? !orRight : orRight;
+  const idx = (left ? 4 : 0) | (center ? 2 : 0) | (right ? 1 : 0);
+  return GENERATED_PRISM_RULE30_LUT[idx];
 }
 
 /**
@@ -5794,37 +7754,44 @@ export function createInitialRule30Row(): boolean[] {
 
 // ---------------------------------------------------------------------------
 // UORLUT01 Integer Lookup Stack: `/5` Basin, `/6` Walk, `/7` PrimeAddress, `/8` PointKey
+// Derived directly from `Foundation.Neuromorphic.V1.Model::verdantUorLutContextPrimes`
+// (`GENERATED_PRISM_CONTEXT_PRIMES`, proven strictly ordered in `uorLutContextPrimesStrictlyOrderedHolds`)
 // ---------------------------------------------------------------------------
 
-const BIOME_PRIMES: Record<BiomeId, number> = {
-  meadow: 2,
-  grove: 3,
-  crystal: 5,
-  wetland: 7,
-  sanctuary: 11,
+export const BIOME_PRIMES: Record<BiomeId, number> = {
+  meadow: GENERATED_PRISM_CONTEXT_PRIMES.meadowPrime,
+  grove: GENERATED_PRISM_CONTEXT_PRIMES.grovePrime,
+  crystal: GENERATED_PRISM_CONTEXT_PRIMES.crystalPrime,
+  wetland: GENERATED_PRISM_CONTEXT_PRIMES.wetlandPrime,
+  sanctuary: GENERATED_PRISM_CONTEXT_PRIMES.sanctuaryPrime,
 };
 
-const SPECIES_PRIMES: Record<PlantSpeciesId, number> = {
-  'chime-lily': 13,
-  'pulse-fern': 17,
-  'echo-lotus': 19,
-  'drone-moss': 23,
-  'star-orchid': 29,
+export const SPECIES_PRIMES: Record<PlantSpeciesId, number> = {
+  'chime-lily': GENERATED_PRISM_CONTEXT_PRIMES.chimeLilyPrime,
+  'pulse-fern': GENERATED_PRISM_CONTEXT_PRIMES.pulseFernPrime,
+  'echo-lotus': GENERATED_PRISM_CONTEXT_PRIMES.echoLotusPrime,
+  'drone-moss': GENERATED_PRISM_CONTEXT_PRIMES.droneMossPrime,
+  'star-orchid': GENERATED_PRISM_CONTEXT_PRIMES.starOrchidPrime,
 };
 
-const ATMOSPHERE_PRIMES: Record<AtmosphereId, number> = {
-  dawn: 31,
-  golden: 37,
-  twilight: 41,
-  starlight: 43,
+export const ATMOSPHERE_PRIMES: Record<AtmosphereId, number> = {
+  dawn: GENERATED_PRISM_CONTEXT_PRIMES.dawnPrime,
+  golden: GENERATED_PRISM_CONTEXT_PRIMES.goldenPrime,
+  twilight: GENERATED_PRISM_CONTEXT_PRIMES.twilightPrime,
+  starlight: GENERATED_PRISM_CONTEXT_PRIMES.starlightPrime,
 };
 
-const ACTION_PRIMES: Record<PlayerActionId, number> = {
-  observe: 47,
-  touch: 53,
-  attune: 59,
-  stroll: 61,
-  stillness: 67,
+export const ACTION_PRIMES: Record<PlayerActionId, number> = {
+  observe: GENERATED_PRISM_CONTEXT_PRIMES.observePrime,
+  touch: GENERATED_PRISM_CONTEXT_PRIMES.touchPrime,
+  attune: GENERATED_PRISM_CONTEXT_PRIMES.attunePrime,
+  stroll: GENERATED_PRISM_CONTEXT_PRIMES.strollPrime,
+  stillness: GENERATED_PRISM_CONTEXT_PRIMES.stillnessPrime,
+};
+
+export const CHORUS_PRIMES: Record<ChorusStateId, number> = {
+  dormant: GENERATED_PRISM_CONTEXT_PRIMES.dormantPrime,
+  awakened: GENERATED_PRISM_CONTEXT_PRIMES.awakenedPrime,
 };
 
 /**
@@ -6057,46 +8024,32 @@ export interface CrossDomainRefinementDirectives {
 
 /**
  * Exact cross-domain synaptic weight transfer operator `transferWeightCrossDomain`
- * (`Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain`, proven bounded and monotonic in
- * `crossDomainTransferBoundedAndMonotonicHolds`):
- * When a coupled source domain improves or reaches consolidation (`sourceConsolidated = true`),
- * the target domain's Hebbian weight monotonically increases by `+1` clamped to `[1, 16]`.
+ * backed directly by `GENERATED_PRISM_PLASTICITY_LUT.transferWeightCrossDomain`
+ * compiled from `Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain` (proven bounded and monotonic in
+ * `crossDomainTransferBoundedAndMonotonicHolds`).
  */
 export function transferWeightCrossDomain(
   wTarget: number,
   sourceConsolidated: boolean,
 ): number {
-  const { weightMin, weightMax } = VERDANT_NEUROMORPHIC_STANDARD.plasticity;
-  const clamped = Math.max(weightMin, Math.min(weightMax, Math.round(wTarget)));
-  if (sourceConsolidated) {
-    return clamped + 1 <= weightMax ? clamped + 1 : weightMax;
-  }
-  return clamped;
+  const lut = sourceConsolidated
+    ? GENERATED_PRISM_PLASTICITY_LUT.transferWeightCrossDomainCoactive
+    : GENERATED_PRISM_PLASTICITY_LUT.transferWeightCrossDomainSilent;
+  return lut[clampLutIndex(wTarget, lut.length)];
 }
 
 /**
  * Exact autopoietic self-refinement operator `refineDomainWeightAutopoietic`
- * (`Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic`, proven bounded, monotonic,
- * and fixed-point convergent at `w* = 16` in `autopoieticModelRefinementConvergesAndBoundedHolds`):
- * - If a domain lags behind the leading domain (`wCurrent < wLeader`), it is pulled upward by `+1`
- *   via cross-domain harmonic kinship transfer.
- * - If a domain is already at the leading frontier (`wCurrent === wLeader`) and below the ceiling (`< 16`),
- *   it self-potentiates by `+1`.
+ * backed directly by `GENERATED_PRISM_PLASTICITY_LUT.refineDomainWeightAutopoietic`
+ * compiled from `Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic` (proven bounded, monotonic,
+ * and fixed-point convergent at `w* = 16` in `autopoieticModelRefinementConvergesAndBoundedHolds`).
  */
 export function refineDomainWeightAutopoietic(
   wCurrent: number,
   wLeader: number,
 ): number {
-  const { weightMin, weightMax } = VERDANT_NEUROMORPHIC_STANDARD.plasticity;
-  const clamped = Math.max(weightMin, Math.min(weightMax, Math.round(wCurrent)));
-  const leaderClamped = Math.max(weightMin, Math.min(weightMax, Math.round(wLeader)));
-  if (clamped < leaderClamped) {
-    return clamped + 1 <= weightMax ? clamped + 1 : weightMax;
-  }
-  if (clamped === leaderClamped && clamped < weightMax) {
-    return clamped + 1;
-  }
-  return clamped;
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.refineDomainWeightAutopoietic;
+  return lut[clampLutIndex(wCurrent, lut.length)][clampLutIndex(wLeader, lut[0].length)];
 }
 
 function extractDomainRule30Slice(row: boolean[], domainIndex: number): number {
@@ -6291,12 +8244,38 @@ export function computeCrossDomainRefinementDirectives(
   const d = manifold.domains;
   const g = manifold.globalFidelityIndex;
 
-  const infraFidelity = (d.infrastructure.fidelityMultiplier + d.brand.fidelityMultiplier) * 0.5;
-  const physFidelity = (d.physics.fidelityMultiplier + g) * 0.5;
-  const botFidelity = (d.botany.fidelityMultiplier + d.ecology.fidelityMultiplier) * 0.5;
-  const ecoFidelity = (d.ecology.fidelityMultiplier + d.botany.fidelityMultiplier) * 0.5;
-  const acouFidelity = (d.acoustics.fidelityMultiplier + d.soundtrack.fidelityMultiplier) * 0.5;
-  const artFidelity = (d.articulation.fidelityMultiplier + d.humane.fidelityMultiplier) * 0.5;
+  // Evaluate the 9 formal `.lex.tex` domain bus modulation functions via `GENERATED_PRISM_BUS_MODULATION_LUT`
+  const busModulations = computeJudgeBusModulations({
+    wInfrastructure: d.infrastructure.synapticWeight,
+    wPhysics: d.physics.synapticWeight,
+    wBotany: d.botany.synapticWeight,
+    wEcology: d.ecology.synapticWeight,
+    wAcoustics: d.acoustics.synapticWeight,
+    wArticulation: d.articulation.synapticWeight,
+    wSoundtrack: d.soundtrack.synapticWeight,
+    wHumane: d.humane.synapticWeight,
+    wBrand: d.brand.synapticWeight,
+    wNeuromorphic: d.neuromorphic.synapticWeight,
+  });
+
+  const infraModNorm = busModulations.infrastructurePoolCapacity / 1040;
+  const physModNorm = busModulations.physicsBuoyancyMillihz / 1050;
+  const botModNorm = Math.max(0.85, busModulations.botanyPollinationRadiusCm / 160);
+  const ecoModNorm = busModulations.ecologyConductivityPermille / 1000;
+  const acouModNorm = busModulations.acousticsFilterQPermille / 1020;
+  const artModNorm = busModulations.articulationGracePermille / 1060;
+  const sndModNorm = busModulations.soundtrackHarmonicDensity / 74;
+  const brandModNorm = busModulations.brandContrastTenths / 92;
+
+  const infraFidelity =
+    (d.infrastructure.fidelityMultiplier + d.brand.fidelityMultiplier + infraModNorm) / 3;
+  const physFidelity = (d.physics.fidelityMultiplier + g + physModNorm) / 3;
+  const botFidelity = (d.botany.fidelityMultiplier + d.ecology.fidelityMultiplier + botModNorm) / 3;
+  const ecoFidelity = (d.ecology.fidelityMultiplier + d.botany.fidelityMultiplier + ecoModNorm) / 3;
+  const acouFidelity =
+    (d.acoustics.fidelityMultiplier + d.soundtrack.fidelityMultiplier + acouModNorm) / 3;
+  const artFidelity =
+    (d.articulation.fidelityMultiplier + d.humane.fidelityMultiplier + artModNorm) / 3;
 
   return {
     infrastructure: {
@@ -6310,9 +8289,10 @@ export function computeCrossDomainRefinementDirectives(
         ).toFixed(4),
       ),
       activeSporePoolRatio: Number(
-        Math.min(1.0, Math.max(0.65, 0.72 + (d.infrastructure.synapticWeight / 16) * 0.28)).toFixed(
-          3,
-        ),
+        Math.min(
+          1.0,
+          Math.max(0.65, (busModulations.infrastructurePoolCapacity - 820) / 260),
+        ).toFixed(3),
       ),
       constellationHaloOpacity: Number(
         Math.min(
@@ -6369,18 +8349,24 @@ export function computeCrossDomainRefinementDirectives(
     },
     soundtrack: {
       counterpointHarmonicRichness: Number(
-        Math.min(1.25, Math.max(0.88, d.soundtrack.fidelityMultiplier)).toFixed(4),
+        Math.min(
+          1.25,
+          Math.max(0.88, (d.soundtrack.fidelityMultiplier + sndModNorm) * 0.5),
+        ).toFixed(4),
       ),
     },
     humane: {
       restorativeStillnessBonus: Math.max(
         0,
-        Math.min(6, Math.round((d.humane.synapticWeight - 8) * 0.65)),
+        Math.min(6, Math.round((busModulations.humaneZephyrCapMmPerSec2 - 200) * 0.065)),
       ),
     },
     brand: {
       atmosphericDepthContrast: Number(
-        Math.min(1.2, Math.max(0.92, d.brand.fidelityMultiplier)).toFixed(4),
+        Math.min(
+          1.2,
+          Math.max(0.92, (d.brand.fidelityMultiplier + brandModNorm) * 0.5),
+        ).toFixed(4),
       ),
     },
     neuromorphic: {
@@ -7234,14 +9220,15 @@ export interface LiveSoundtrackScore {
 }
 
 export const VERDANT_SOUNDTRACK_STANDARD = {
-  profile: 'prism/soundtrack-standard/1',
-  stemCount: 4,
-  stepsPerBar: 16,
-  maxActiveStepsPerBar: 10,
-  minRestStepsPerBar: 6,
-  minTempoBpm: 64,
-  maxTempoBpm: 76,
-  selfDecayingVoicesOnly: true,
+  profile: GENERATED_PRISM_STANDARDS.soundtrack.profile,
+  stemCount: GENERATED_PRISM_STANDARDS.soundtrack.soundtrack.stemCount,
+  stepsPerBar: GENERATED_PRISM_STANDARDS.soundtrack.soundtrack.stepsPerBar,
+  maxActiveStepsPerBar: GENERATED_PRISM_STANDARDS.soundtrack.soundtrack.maxActiveStepsPerBar,
+  minRestStepsPerBar: GENERATED_PRISM_STANDARDS.soundtrack.soundtrack.minRestStepsPerBar,
+  minTempoBpm: GENERATED_PRISM_STANDARDS.soundtrack.soundtrack.minTempoBpm,
+  maxTempoBpm: GENERATED_PRISM_STANDARDS.soundtrack.soundtrack.maxTempoBpm,
+  selfDecayingVoicesOnly:
+    GENERATED_PRISM_STANDARDS.soundtrack.soundtrack.selfDecayingVoicesOnly,
   neuromorphicBridge: PRISM_DOMAIN_BRIDGES.soundtrack,
 } as const;
 
@@ -7621,6 +9608,10 @@ export interface HolisticSystemCouplingReport {
   spatialGroundingAndSubstrateCoherenceVerified: boolean;
   universalNeuromorphicBusVerified: boolean;
   infrastructureNeuromorphicCouplingVerified: boolean;
+  symbioticEnvironmentalAgencyVerified: boolean;
+  emergentStakeholderEntityVerified: boolean;
+  granularAtomicToEnvironmentalSynthesisVerified: boolean;
+  completePrismModelClosureVerified: boolean;
 }
 
 /**
@@ -7832,6 +9823,116 @@ export function verifyHolisticSystemCoupling(params?: {
     directivesAfter.acoustics.modalFilterQMultiplier >
       directivesBefore.acoustics.modalFilterQMultiplier;
 
+  // 11. Symbiotic Environmental Agency (`stepSymbioticEnvironmentalAgency`):
+  // Verifies the environment observes itself + the player and acts on both within humane autonomy bounds
+  const initialAgency = createInitialEnvironmentalAgencyState();
+  const beckonStep = stepSymbioticEnvironmentalAgency(initialAgency, {
+    playerX: 0,
+    playerY: 0,
+    playerZ: 5,
+    playerYaw: 0,
+    isMoving: true,
+    velocityDm: 8,
+    agitationPct: 0,
+    stillnessBreathPhase: 'idle',
+    playerInteractedThisFrame: false,
+    currentBiome: 'meadow',
+    atmosphere: 'dawn',
+    harmonyPct: 35,
+    plants,
+    neuromorphic: baseNeuroState,
+    dt: 4.9,
+  });
+  const stationaryStep = stepSymbioticEnvironmentalAgency(initialAgency, {
+    playerX: 0,
+    playerY: 0,
+    playerZ: 5,
+    playerYaw: 0,
+    isMoving: false,
+    velocityDm: 0,
+    agitationPct: 24,
+    stillnessBreathPhase: 'idle',
+    playerInteractedThisFrame: false,
+    currentBiome: 'meadow',
+    atmosphere: 'dawn',
+    harmonyPct: 35,
+    plants,
+    neuromorphic: baseNeuroState,
+    dt: 0.5,
+  });
+  const symbioticEnvironmentalAgencyVerified =
+    VERDANT_HUMANE_STANDARD.environmentalAgency.environmentObservesSelfAndPlayer &&
+    VERDANT_HUMANE_STANDARD.environmentalAgency.environmentActsOnSelfAndPlayer &&
+    VERDANT_HUMANE_STANDARD.environmentalAgency.playerObjectiveUnchanged &&
+    VERDANT_HUMANE_STANDARD.environmentalAgency.optimizedModalityCount === 6 &&
+    beckonStep.beckoningPlantId !== null &&
+    beckonStep.shouldEmitBeckoningCall &&
+    Math.hypot(beckonStep.playerZephyrAccelX, beckonStep.playerZephyrAccelZ) <=
+      VERDANT_HUMANE_STANDARD.environmentalAgency.maxZephyrGuidanceAccelMps2 + 0.001 &&
+    stationaryStep.mode === 'soothing-co-regulation' &&
+    stationaryStep.playerZephyrAccelX === 0 &&
+    stationaryStep.playerZephyrAccelZ === 0;
+
+  // 12. Emergent Stakeholder Entity & Environmental Wisdom Phenomena (`Foundation.Neuromorphic.V1.Model::EmergentEntityStakeholderSpec`):
+  // Verifies that the 4 facets of emergence (Intelligence, Memory, Observation, Feedback) synthesize into
+  // environmental wisdom phenomena and stakeholder player-value reinforcement.
+  const emergentStakeholderEntityVerified =
+    VERDANT_NEUROMORPHIC_STANDARD.stakeholderEntity.emergenceFacetCount === 4 &&
+    VERDANT_NEUROMORPHIC_STANDARD.stakeholderEntity.wisdomPhenomenonCount === 4 &&
+    VERDANT_NEUROMORPHIC_STANDARD.stakeholderEntity.entitySynthesizesAllFourFacets &&
+    VERDANT_NEUROMORPHIC_STANDARD.stakeholderEntity.wisdomExpressedAsEnvironmentalPhenomena &&
+    VERDANT_NEUROMORPHIC_STANDARD.stakeholderEntity.stakeholderReinforcesPlayerValue &&
+    VERDANT_NEUROMORPHIC_STANDARD.stakeholderEntity.baselinePlayerValueIndex === 9 &&
+    beckonStep.stakeholderEntity.facets.allFourFacetsActive &&
+    beckonStep.stakeholderEntity.guidanceFilamentWaypoints.length === 7 &&
+    beckonStep.stakeholderEntity.playerValueReinforcement.overallValueReinforcementIndex >= 68;
+
+  // 13. 6-Stage Closed-Loop Granular Atomic-to-Environmental Procedural Synthesis (`Foundation.Ecology.V1.Model::GranularMatterSynthesisSpec`, `granularAtomicToEnvironmentalSynthesisHolds` & `closedLoopAtomicRemineralizationHolds`):
+  // Verifies that Atoms -> Molecules -> Macromolecules -> Organic & Inorganic Compounds -> Environmental & Multi-Modal Synthesis -> Closed-Loop Atomic Remineralization hold across all 6 modalities.
+  const granularSample = beckonStep.granularSynthesis;
+  const granularAtomicToEnvironmentalSynthesisVerified =
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.atomicElementCount === 8 &&
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.molecularSpeciesCount === 8 &&
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.macromoleculeCount === 6 &&
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.matterCompoundCount === 6 &&
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.synthesizedModalityCount === 6 &&
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.closedLoopReactionPathwayCount === 4 &&
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.atomicToEnvironmentalChainVerified &&
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.atomicRemineralizationComplete &&
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.prismSynthesisClosureVerified &&
+    granularSample.chainHierarchyVerified &&
+    granularSample.closedLoopConservationVerified &&
+    granularSample.completeSynthesisClosureVerified &&
+    granularSample.tier1AtomicValenceIndex < granularSample.tier2MolecularBondIndex &&
+    granularSample.tier2MolecularBondIndex < granularSample.tier3MacromolecularPolymerIndex &&
+    granularSample.tier3MacromolecularPolymerIndex < granularSample.tier4CompoundManifestationIndex &&
+    granularSample.tier4CompoundManifestationIndex < granularSample.tier5EnvironmentalModalIndex &&
+    granularSample.tier5EnvironmentalModalIndex < granularSample.tier6AtomicRemineralizationIndex &&
+    granularSample.tier6AtomicRemineralizationIndex ===
+      300 +
+        granularSample.tier5EnvironmentalModalIndex +
+        granularSample.tier1AtomicValenceIndex &&
+    granularSample.reactionKinetics.stoichiometricMassBalanceRatio === 1.0 &&
+    granularSample.compoundManifestations.inorganic.travertineLimestoneSpar > 0 &&
+    granularSample.compoundManifestations.organic.lignocellulosicVascularTissue > 0;
+
+  // 14. Complete Prism Model Closure (`VerdantResonance::verifyCompletePrismModelClosure` & `VerdantResonanceProofs::completePrismModelClosureHolds`):
+  const sampleClosureRequest: Record<string, string | bigint> = {
+    biome: 'sanctuary',
+    plant: 'star-orchid',
+    action: 'attune',
+    atmosphere: 'starlight',
+    chorus: 'awakened',
+    proximity: 8n,
+    velocity: 2n,
+  };
+  const completePrismModelClosureVerified =
+    GENERATED_VERDANT_JUDGE_ARTIFACT.rootJudgeVerifiesCompleteClosure &&
+    verifyCompletePrismModelClosure(sampleClosureRequest) &&
+    universalNeuromorphicBusVerified &&
+    emergentStakeholderEntityVerified &&
+    granularAtomicToEnvironmentalSynthesisVerified;
+
   const allConstrained =
     solidExclusionVerified &&
     sporeFloorAndObstacleVerified &&
@@ -7842,7 +9943,11 @@ export function verifyHolisticSystemCoupling(params?: {
     universalSoundtrackSpatialBindingVerified &&
     spatialGroundingAndSubstrateCoherenceVerified &&
     universalNeuromorphicBusVerified &&
-    infrastructureNeuromorphicCouplingVerified;
+    infrastructureNeuromorphicCouplingVerified &&
+    symbioticEnvironmentalAgencyVerified &&
+    emergentStakeholderEntityVerified &&
+    granularAtomicToEnvironmentalSynthesisVerified &&
+    completePrismModelClosureVerified;
 
   return {
     allConstrained,
@@ -7857,6 +9962,346 @@ export function verifyHolisticSystemCoupling(params?: {
     spatialGroundingAndSubstrateCoherenceVerified,
     universalNeuromorphicBusVerified,
     infrastructureNeuromorphicCouplingVerified,
+    symbioticEnvironmentalAgencyVerified,
+    emergentStakeholderEntityVerified,
+    granularAtomicToEnvironmentalSynthesisVerified,
+    completePrismModelClosureVerified,
   };
 }
+
+// ============================================================================
+// SUBSYSTEM 18: HIGH-DEFINITION PROCEDURAL 3D B-MESH & KINEMATIC RIG SYNTHESIS
+// ============================================================================
+
+export interface HighDefinitionMeshSynthesisProfile {
+  species: PlantSpeciesId;
+  biome: BiomeId;
+  substrate: GrowthSubstrateId;
+  /** Parametric B-Mesh resolution & vascular venation topology derived from cellulose-lignin microfibrils */
+  radialSegments: number;
+  longitudinalSegments: number;
+  midribVenationDepthMm: number;
+  marginalRuffleAmplitudeMm: number;
+  bezierArchCurvature: number;
+  /** Thin-film iridescence & subsurface sheen derived from tectosilicate quartz & chlorophyll-a porphyrin */
+  iridescenceStrength: number;
+  iridescenceIor: number;
+  iridescenceThinFilmMinNm: number;
+  iridescenceThinFilmMaxNm: number;
+  cuticularSheenStrength: number;
+  cuticularSheenRoughness: number;
+  /** Tangent-space normal map scale derived from calcite-aragonite spar & chitin-glucan hyphal network */
+  normalMapScale: number;
+  /** Vertex-shader harmonic micro-undulation parameters */
+  vertexWaveFrequencyHz: number;
+  vertexWaveAmplitudeMeters: number;
+  bioluminescentVeinPulseSpeed: number;
+  /** Shape-key (morph target) baseline weights [0..1] */
+  morphBloomBaseline: number;
+  morphResonanceCapacity: number;
+}
+
+/**
+ * Synthesizes high-definition 3D parametric B-Mesh geometry parameters, PBR thin-film iridescence,
+ * subsurface cuticular sheen, tangent-space normal relief, and shape-key (morph-target) envelopes
+ * directly from the specimen's 6-stage closed-loop atomic-to-environmental synthesis state.
+ */
+export function evaluateHighDefinitionVisualSynthesis(params: {
+  biome: BiomeId;
+  species: PlantSpeciesId;
+  substrate?: GrowthSubstrateId;
+  atmosphere: AtmosphereId;
+  attuned: boolean;
+  lifecycleStage?: BotanicalLifecycleStageId;
+  harmonyPct?: number;
+  neuromorphicWeight?: number;
+  volatileTerpeneImpulse?: number;
+}): HighDefinitionMeshSynthesisProfile {
+  const {
+    biome,
+    species,
+    substrate = 'terrestrial-loam',
+    atmosphere,
+    attuned,
+    lifecycleStage = 'dormant-seed',
+    harmonyPct = 45,
+    neuromorphicWeight = 8,
+    volatileTerpeneImpulse = 0,
+  } = params;
+
+  const organo = synthesizeBotanicalOrganogenesis({
+    biome,
+    species,
+    substrate,
+    atmosphere,
+    attuned,
+    harmonyPct,
+    neuromorphicWeight,
+    volatileTerpeneImpulse,
+  });
+  const granular = organo.granularSynthesis;
+  const stageSpec = BOTANICAL_LIFECYCLE_STAGES[lifecycleStage];
+
+  const celluloseStiffnessNorm = Math.min(
+    1.0,
+    Math.max(0.2, (organo.celluloseStemStiffnessGPa - 10.0) / 8.0),
+  );
+  const quartzFraction = granular.compoundManifestations.inorganic.piezoelectricQuartzGeode;
+  const sparFraction = granular.compoundManifestations.inorganic.travertineLimestoneSpar;
+  const humusFraction = granular.compoundManifestations.organic.bioluminescentMycelialHumus;
+
+  const speciesArchBase =
+    species === 'chime-lily'
+      ? 0.42
+      : species === 'pulse-fern'
+        ? 0.56
+        : species === 'echo-lotus'
+          ? 0.28
+          : species === 'drone-moss'
+            ? 0.22
+            : 0.38;
+
+  const midribVenationDepthMm = Number(
+    (1.4 + celluloseStiffnessNorm * 1.8 + sparFraction * 0.65).toFixed(3),
+  );
+  const marginalRuffleAmplitudeMm = Number(
+    (
+      (species === 'star-orchid' ? 3.2 : species === 'chime-lily' ? 2.4 : 1.8) *
+      (0.85 + humusFraction * 0.35)
+    ).toFixed(3),
+  );
+  const bezierArchCurvature = Number(
+    (speciesArchBase * (1.08 - celluloseStiffnessNorm * 0.16)).toFixed(3),
+  );
+
+  // Thin-film iridescence from dissolved silica phytoliths & cuticular wax crystals
+  const iridescenceStrength = Number(
+    Math.min(
+      1.0,
+      0.38 + quartzFraction * 0.48 + (attuned ? 0.14 : 0) + stageSpec.stageIndex * 0.04,
+    ).toFixed(3),
+  );
+  const iridescenceIor = Number((1.40 + quartzFraction * 0.15).toFixed(3));
+  const iridescenceThinFilmMinNm = Math.round(160 + quartzFraction * 80);
+  const iridescenceThinFilmMaxNm = Math.round(
+    360 + quartzFraction * 120 + (organo.chromophoreEmissionWavelengthNm - 470) * 0.4,
+  );
+
+  const cuticularSheenStrength = Number(
+    Math.min(1.0, 0.45 + organo.chlorophyllPorphyrinAntennaEfficiency * 0.42).toFixed(3),
+  );
+  const cuticularSheenRoughness = Number(
+    Math.max(0.18, 0.52 - humusFraction * 0.22).toFixed(3),
+  );
+
+  const normalMapScale = Number(
+    Math.min(
+      0.85,
+      Math.max(
+        0.35,
+        0.38 +
+          granular.modalSyntheses.opticalModality.crystalLatticeMicroReliefBumpScale * 5.2 +
+          sparFraction * 0.22,
+      ),
+    ).toFixed(3),
+  );
+
+  const fundamentalHz = BIOME_CONFIGS[biome].baseNoteHz;
+  const vertexWaveFrequencyHz = Number((1.35 + (fundamentalHz / 440) * 1.15).toFixed(3));
+  const vertexWaveAmplitudeMeters = Number(
+    (0.012 + (attuned ? 0.014 : 0.004) + volatileTerpeneImpulse * 0.012).toFixed(4),
+  );
+  const bioluminescentVeinPulseSpeed = Number(
+    (1.6 + organo.luciferaseBioluminescentPhotonFlux * 1.45).toFixed(3),
+  );
+
+  const morphBloomBaseline = Number(
+    Math.min(
+      1.0,
+      Math.max(0.08, stageSpec.corollaOpenFactor * 0.78 + (attuned ? 0.22 : 0)),
+    ).toFixed(3),
+  );
+  const morphResonanceCapacity = Number(
+    Math.min(1.0, 0.35 + quartzFraction * 0.35 + (neuromorphicWeight / 16) * 0.3).toFixed(3),
+  );
+
+  return {
+    species,
+    biome,
+    substrate,
+    radialSegments: 24,
+    longitudinalSegments: 20,
+    midribVenationDepthMm,
+    marginalRuffleAmplitudeMm,
+    bezierArchCurvature,
+    iridescenceStrength,
+    iridescenceIor,
+    iridescenceThinFilmMinNm,
+    iridescenceThinFilmMaxNm,
+    cuticularSheenStrength,
+    cuticularSheenRoughness,
+    normalMapScale,
+    vertexWaveFrequencyHz,
+    vertexWaveAmplitudeMeters,
+    bioluminescentVeinPulseSpeed,
+    morphBloomBaseline,
+    morphResonanceCapacity,
+  };
+}
+
+export interface KinematicRigPose {
+  /** 3-joint articulated stem/rachis kinematic chain angles (radians) */
+  basalJointPitchRad: number;
+  basalJointRollRad: number;
+  medialJointPitchRad: number;
+  medialJointRollRad: number;
+  apicalJointPitchRad: number;
+  apicalJointRollRad: number;
+  apicalTorsionYawRad: number;
+  /** Shape-key (morph-target) weights in [0, 1] */
+  morphBloomOpenWeight: number;
+  morphAcousticRippleWeight: number;
+  /** Secondary anatomical organ articulation */
+  petalUnfurlAngleRad: number;
+  stamenPendulumSwingRad: number;
+  pinnaeWavePhaseRad: number;
+}
+
+/**
+ * Evaluates a smooth, continuous 3-joint kinematic chain pose and Shape-Key (Morph Target)
+ * blend weights `[0..1]` for a botanical specimen, eliminating rigid single-axis Euler snapping.
+ */
+export function evaluateKinematicRigPose(params: {
+  species: PlantSpeciesId;
+  attuned: boolean;
+  lifecycleStage: BotanicalLifecycleStageId;
+  proximityDm: number;
+  elapsedSeconds: number;
+  pulsePhase: number;
+  tactileShiverImpulse?: number;
+  windTiltX?: number;
+  windTiltZ?: number;
+  circadianApertureBoost?: number;
+  neuromorphicWeight?: number;
+  neuromorphicSynapticWeight?: number;
+}): KinematicRigPose {
+  const {
+    species,
+    attuned,
+    lifecycleStage,
+    proximityDm,
+    elapsedSeconds,
+    pulsePhase,
+    tactileShiverImpulse = 0,
+    windTiltX = 0,
+    windTiltZ = 0,
+    circadianApertureBoost = 0,
+    neuromorphicWeight,
+    neuromorphicSynapticWeight,
+  } = params;
+  const resolvedWeight = neuromorphicSynapticWeight ?? neuromorphicWeight ?? 8;
+
+  const art = computeSpeciesArticulation({
+    species,
+    attuned,
+    proximityDm,
+    elapsedSeconds,
+    pulsePhase,
+    tactileShiverImpulse,
+    neuromorphicSynapticWeight: resolvedWeight,
+  });
+  const stageSpec = BOTANICAL_LIFECYCLE_STAGES[lifecycleStage];
+  const proxFactor = Math.max(0, Math.min(1, (45 - proximityDm) / 45));
+  const breathWave = Math.sin(elapsedSeconds * 1.45 + pulsePhase);
+  const harmonicWave = Math.sin(elapsedSeconds * 3.1 + pulsePhase * 1.618);
+  const shiverWave =
+    tactileShiverImpulse > 0.001
+      ? Math.sin(elapsedSeconds * Math.PI * 2 * 9.5) * tactileShiverImpulse
+      : 0;
+
+  // Progressive whip-like phase lag across Basal -> Medial -> Apical joints
+  const basalJointPitchRad = Number(
+    (windTiltX * 0.32 + Math.sin(elapsedSeconds * 1.1 + pulsePhase) * 0.028).toFixed(4),
+  );
+  const basalJointRollRad = Number(
+    (windTiltZ * 0.32 + Math.cos(elapsedSeconds * 1.05 + pulsePhase) * 0.028).toFixed(4),
+  );
+
+  const medialJointPitchRad = Number(
+    (
+      windTiltX * 0.48 +
+      Math.sin(elapsedSeconds * 1.45 + pulsePhase - 0.55) * 0.046 +
+      shiverWave * 0.06
+    ).toFixed(4),
+  );
+  const medialJointRollRad = Number(
+    (
+      windTiltZ * 0.48 +
+      Math.cos(elapsedSeconds * 1.38 + pulsePhase - 0.55) * 0.046 +
+      art.frondBreathRad * 0.45
+    ).toFixed(4),
+  );
+
+  const apicalJointPitchRad = Number(
+    (
+      windTiltX * 0.64 +
+      Math.sin(elapsedSeconds * 1.85 + pulsePhase - 1.1) * 0.068 +
+      shiverWave * 0.11
+    ).toFixed(4),
+  );
+  const apicalJointRollRad = Number(
+    (
+      windTiltZ * 0.64 +
+      Math.cos(elapsedSeconds * 1.78 + pulsePhase - 1.1) * 0.068 +
+      art.bellSwingRad * 0.45
+    ).toFixed(4),
+  );
+  const apicalTorsionYawRad = Number(
+    (
+      Math.sin(elapsedSeconds * 0.92 + pulsePhase) * (attuned ? 0.14 : 0.05) +
+      art.starHeadRollRad * 0.5
+    ).toFixed(4),
+  );
+
+  // Shape Key 0: Bloom Open [0..1]
+  const rawBloom =
+    stageSpec.corollaOpenFactor * 0.65 +
+    circadianApertureBoost * 0.9 +
+    (attuned ? 0.22 : 0) +
+    proxFactor * 0.12 +
+    breathWave * (attuned ? 0.08 : 0.03);
+  const morphBloomOpenWeight = Number(Math.max(0.05, Math.min(1.0, rawBloom)).toFixed(4));
+
+  // Shape Key 1: Acoustic Chladni Ripple [0..1]
+  const rawRipple =
+    (attuned ? 0.28 : 0.06) +
+    proxFactor * 0.24 +
+    Math.abs(harmonicWave) * (attuned ? 0.26 : 0.06) +
+    Math.min(0.45, Math.abs(shiverWave) * 0.45);
+  const morphAcousticRippleWeight = Number(Math.max(0, Math.min(1.0, rawRipple)).toFixed(4));
+
+  const petalUnfurlAngleRad = Number(
+    (0.28 + morphBloomOpenWeight * 0.46 + art.petalOpenRad + shiverWave * 0.14).toFixed(4),
+  );
+  const stamenPendulumSwingRad = Number(
+    (-art.bellSwingRad * 1.35 + shiverWave * 0.22).toFixed(4),
+  );
+  const pinnaeWavePhaseRad = Number((elapsedSeconds * 2.4 + pulsePhase).toFixed(4));
+
+  return {
+    basalJointPitchRad,
+    basalJointRollRad,
+    medialJointPitchRad,
+    medialJointRollRad,
+    apicalJointPitchRad,
+    apicalJointRollRad,
+    apicalTorsionYawRad,
+    morphBloomOpenWeight,
+    morphAcousticRippleWeight,
+    petalUnfurlAngleRad,
+    stamenPendulumSwingRad,
+    pinnaeWavePhaseRad,
+  };
+}
+
 

@@ -13,6 +13,7 @@ import {
   PLANT_SPECIES_CONFIGS,
   PlantSpeciesId,
   PlayerActionId,
+  REACTION_PATHWAYS,
   SOUND_OUTCOME_PROFILES,
   SPECIES_ARTICULATION_PROFILES,
   SYMBIOTIC_GUILDS,
@@ -26,6 +27,8 @@ import {
   computeEcologicalAffinity,
   computeSynthesisEnvelope,
   evaluateBiomeMasteryAndGuilds,
+  evaluateGranularMatterSynthesis,
+  evaluateHighDefinitionVisualSynthesis,
   evaluateHumaneErgonomics,
   evaluatePrismRequest,
   formatPrismRequest,
@@ -980,6 +983,52 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                   </div>
                 </div>
               </div>
+
+              {/* 6-Tier Closed-Loop Granular Atomic-to-Environmental Procedural Synthesis & High-Definition B-Mesh Graphics */}
+              {(() => {
+                const liveGranular = evaluateGranularMatterSynthesis({
+                  biome: telemetry.biome,
+                  species: telemetry.nearestPlant.species,
+                  atmosphere,
+                  attuned: telemetry.nearestPlant.attuned,
+                  harmonyPct: telemetry.harmony,
+                  neuromorphicWeight: telemetry.neuromorphic.lastActiveSynapticWeight,
+                });
+                const liveHdMesh = evaluateHighDefinitionVisualSynthesis({
+                  biome: telemetry.biome,
+                  species: telemetry.nearestPlant.species,
+                  substrate: telemetry.nearestPlant.substrate ?? 'terrestrial-loam',
+                  atmosphere,
+                  attuned: telemetry.nearestPlant.attuned,
+                  lifecycleStage: getPlantLifecycleStage(telemetry.nearestPlant),
+                });
+                return (
+                  <div className="rounded-lg border border-emerald-400/25 bg-[#0c1d17] p-3 space-y-2">
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                      <div className="text-[10px] font-mono text-emerald-300 uppercase tracking-wider">
+                        6-STAGE GRANULAR SYNTHESIS &amp; BLENDER-GRADE PARAMETRIC B-MESH GRAPHICS ({VERDANT_ECOLOGY_STANDARD.profile})
+                      </div>
+                      <div className="text-[10px] font-mono text-amber-200 tabular-nums">
+                        T1:{liveGranular.tier1AtomicValenceIndex} &lt; T2:{liveGranular.tier2MolecularBondIndex} &lt; T3:{liveGranular.tier3MacromolecularPolymerIndex} &lt; T4:{liveGranular.tier4CompoundManifestationIndex} &lt; T5:{liveGranular.tier5EnvironmentalModalIndex} &lt; T6:{liveGranular.tier6AtomicRemineralizationIndex} · Mesh: {liveHdMesh.radialSegments}x{liveHdMesh.longitudinalSegments} B-Spline · Thin-Film: {liveHdMesh.iridescenceThinFilmMinNm}–{liveHdMesh.iridescenceThinFilmMaxNm}nm (IOR {liveHdMesh.iridescenceIor})
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px]">
+                      {Object.values(REACTION_PATHWAYS).map((pw) => (
+                        <div
+                          key={pw.id}
+                          className="rounded border border-emerald-400/15 bg-[#081510] p-2 space-y-0.5"
+                        >
+                          <div className="font-semibold text-amber-100 truncate">{pw.name}</div>
+                          <div className="font-mono text-emerald-300/85 truncate">{pw.chemicalEquation}</div>
+                          <div className="font-mono text-teal-200/80 tabular-nums">
+                            Rate: {Math.round(liveGranular.reactionKinetics.pathwayRates[pw.id] * 100)}% · Yield: {Math.round(pw.quantumOrThermalYield * 100)}%
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
           )}
         </div>

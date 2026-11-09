@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
+    "extract:prism": "tsx scripts/extractPrismArtifacts.ts",
     "lint": "tsc --noEmit",
     "test": "tsx --test src/game/prismModel.test.ts"
   },

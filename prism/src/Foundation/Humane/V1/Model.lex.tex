@@ -2,6 +2,7 @@
 \useglossary{lexlean.std.bool@1.2.0}
 \useglossary{lexlean.std.nat@1.2.0}
 \useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.Neuromorphic.V1.Model}
 \title{Text application model}
 \begin{semanticmodule}
 structure{
@@ -84,6 +85,34 @@ structure{
 }
 
 structure{
+  name: SymbioticEnvironmentalAgencySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: environmentObservesSelfAndPlayer, type: Bool},
+    {name: environmentActsOnSelfAndPlayer, type: Bool},
+    {name: playerObjectiveUnchanged, type: Bool},
+    {name: optimizedModalityCount, type: Nat},
+    {name: maxZephyrGuidanceAccelMmPerSec2, type: Nat},
+    {name: maxReciprocalBowMillirad, type: Nat},
+    {name: autonomousBeckoningIntervalMs, type: Nat}
+  ]
+}
+
+structure{
+  name: FocalGazeSelectionPolicy,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: forwardFovHalfAngleDeg, type: Nat},
+    {name: maxInteractiveRangeMeters, type: Nat},
+    {name: rayAlignmentWeightPct, type: Nat},
+    {name: rejectsBehindCameraTargets, type: Bool},
+    {name: behindPlayerActivationsCount, type: Nat}
+  ]
+}
+
+structure{
   name: HumaneDesignStandard,
   type_parameters: [],
   parameters: [],
@@ -95,6 +124,8 @@ structure{
     {name: pacingModel, type: RestorativePacingModel},
     {name: cameraKinematics, type: CameraKinematicsPolicy},
     {name: gestureHoldPolicy, type: GestureHoldAndCooldownPolicy},
+    {name: focalGazeSelection, type: FocalGazeSelectionPolicy},
+    {name: environmentalAgency, type: SymbioticEnvironmentalAgencySpec},
     {name: neuromorphicBridge, type: NeuromorphicHumaneBridgeSpec}
   ]
 }
@@ -156,10 +187,128 @@ definition{
 }
 
 definition{
+  name: verdantMaxZephyrAccelMmPerSec2,
+  parameters: [],
+  result: Nat,
+  body: 280
+}
+
+definition{
+  name: maxPermissibleGentleZephyrMmPerSec2,
+  parameters: [],
+  result: Nat,
+  body: 350
+}
+
+definition{
+  name: verdantOptimizedModalityCount,
+  parameters: [],
+  result: Nat,
+  body: 6
+}
+
+definition{
+  name: verdantBehindPlayerActivationsCount,
+  parameters: [],
+  result: Nat,
+  body: 0
+}
+
+definition{
+  name: verdantForwardFovHalfAngleDeg,
+  parameters: [],
+  result: Nat,
+  body: 62
+}
+
+definition{
+  name: maxForwardHemisphereHalfAngleDeg,
+  parameters: [],
+  result: Nat,
+  body: 90
+}
+
+definition{
+  name: stepHumaneBusModulation,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (120 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 10 : Nat))
+}
+
+definition{
+  name: evaluateGazeTargetInForwardCone,
+  parameters: [angleDeg : Nat, distMeters : Nat],
+  result: Bool,
+  body: ((angleDeg <=? (verdantForwardFovHalfAngleDeg)) && (distMeters <=? 22))
+}
+
+definition{
   name: verdantHumaneStandard,
   parameters: [],
   result: HumaneDesignStandard,
-  body: (record HumaneDesignStandard {profile := "prism/humane-design/1", philosophy := "Calm Technology, Restorative Attention, Zero Camera Snap & Sustained Mindful Hold", viewportBudget := (record ViewportCalmBudget {minUnobstructedPct := 85, actualUnobstructedPct := 88, maxCornerClusters := 3, actualCornerClusters := 2, collapsibleControlDock := true}), safetyGuarantee := (record HumaneSafetyGuarantee {violenceElements := 0, punitiveTimers := 0, darkPatterns := 0, nonViolentSanctuary := true, userAgencyPreserved := true}), pacingModel := (record RestorativePacingModel {stillnessVelocityDm := 0, calmAttuneMaxVelocityDm := 10, gentleStrollMaxVelocityDm := 20, blossomFramingDistanceDm := 36}), cameraKinematics := (record CameraKinematicsPolicy {zeroPositionTeleportOnInteract := true, zeroHardYawSnapOnInteract := true, positionSpringDampingPerSec := 14, rotationSpringDampingPerSec := 12, softGazeAssistMaxMillirad := 65}), gestureHoldPolicy := (record GestureHoldAndCooldownPolicy {suppressOsKeyRepeat := true, touchRefractoryMs := 550, attuneRefractoryMs := 1100, stillnessBreathCycleMs := 4200, sustainedHoldPulseMs := 2400, mindfulExplorationNeverForceEnds := true}), neuromorphicBridge := (record NeuromorphicHumaneBridgeSpec {neuromorphicBusCoupled := true, domainBasisPrime := 103, rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := true, autopoieticSelfRefinementEnabled := true})})
+  body: (record HumaneDesignStandard {
+    profile := "prism/humane-design/3",
+    philosophy := "Calm Technology, Focal Gaze-Cone Selection, Reciprocal Environmental Co-Agency, Zero Camera Snap & Sustained Mindful Hold",
+    viewportBudget := (record ViewportCalmBudget {
+      minUnobstructedPct := 85,
+      actualUnobstructedPct := 88,
+      maxCornerClusters := 3,
+      actualCornerClusters := 2,
+      collapsibleControlDock := ((requiredOpenViewportPct) <=? (verdantOpenViewportPct))
+    }),
+    safetyGuarantee := (record HumaneSafetyGuarantee {
+      violenceElements := 0,
+      punitiveTimers := 0,
+      darkPatterns := 0,
+      nonViolentSanctuary := ((verdantViolenceCount) =? 0),
+      userAgencyPreserved := ((verdantMaxZephyrAccelMmPerSec2) <=? (maxPermissibleGentleZephyrMmPerSec2))
+    }),
+    pacingModel := (record RestorativePacingModel {
+      stillnessVelocityDm := 0,
+      calmAttuneMaxVelocityDm := 10,
+      gentleStrollMaxVelocityDm := 20,
+      blossomFramingDistanceDm := 36
+    }),
+    cameraKinematics := (record CameraKinematicsPolicy {
+      zeroPositionTeleportOnInteract := ((verdantTeleportCountOnInteract) =? 0),
+      zeroHardYawSnapOnInteract := ((verdantTeleportCountOnInteract) =? 0),
+      positionSpringDampingPerSec := 14,
+      rotationSpringDampingPerSec := 12,
+      softGazeAssistMaxMillirad := 65
+    }),
+    gestureHoldPolicy := (record GestureHoldAndCooldownPolicy {
+      suppressOsKeyRepeat := ((verdantOsKeyRepeatChaosCount) =? 0),
+      touchRefractoryMs := 550,
+      attuneRefractoryMs := 1100,
+      stillnessBreathCycleMs := 4200,
+      sustainedHoldPulseMs := 2400,
+      mindfulExplorationNeverForceEnds := ((minRequiredBreathCycleMs) <=? (verdantStillnessBreathCycleMs))
+    }),
+    focalGazeSelection := (record FocalGazeSelectionPolicy {
+      forwardFovHalfAngleDeg := 62,
+      maxInteractiveRangeMeters := 22,
+      rayAlignmentWeightPct := 72,
+      rejectsBehindCameraTargets := (not (evaluateGazeTargetInForwardCone 180 5)),
+      behindPlayerActivationsCount := 0
+    }),
+    environmentalAgency := (record SymbioticEnvironmentalAgencySpec {
+      environmentObservesSelfAndPlayer := (evaluateGazeTargetInForwardCone 10 8),
+      environmentActsOnSelfAndPlayer := ((stepHumaneBusModulation 8) <=? (verdantMaxZephyrAccelMmPerSec2)),
+      playerObjectiveUnchanged := ((verdantMaxZephyrAccelMmPerSec2) <=? (maxPermissibleGentleZephyrMmPerSec2)),
+      optimizedModalityCount := 6,
+      maxZephyrGuidanceAccelMmPerSec2 := 280,
+      maxReciprocalBowMillirad := 140,
+      autonomousBeckoningIntervalMs := 4800
+    }),
+    neuromorphicBridge := (record NeuromorphicHumaneBridgeSpec {
+      neuromorphicBusCoupled := ((stepHumaneBusModulation 1) <? (stepHumaneBusModulation 16)),
+      domainBasisPrime := (verdantHumaneBasisPrime),
+      rule30RegisterBits := 64,
+      pointKeyBits := 28,
+      crossDomainTransferEnabled := ((stepHumaneBusModulation 8) <? (stepHumaneBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))),
+      autopoieticSelfRefinementEnabled := ((stepHumaneBusModulation 8) <? (stepHumaneBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))
+    })
+  })
 }
 
 definition{
@@ -194,16 +343,46 @@ theorem{
 
 definition{
   name: breaksHumaneNeuromorphicCoupling,
-  parameters: [prime : Nat],
+  parameters: [busWeight : Nat],
   result: Bool,
-  body: ((prime =? (verdantHumaneBasisPrime)) && (prime <? 103))
+  body: (((stepHumaneBusModulation busWeight) <? 130) || (((verdantMaxZephyrAccelMmPerSec2) <? (stepHumaneBusModulation busWeight)) || ((stepHumaneBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <? (stepHumaneBusModulation busWeight))))
 }
 
 theorem{
   name: humaneNeuromorphicCouplingHolds,
-  parameters: [prime : Nat],
-  statement: ((breaksHumaneNeuromorphicCoupling prime) = false),
-  proof: linear_arithmetic{definitions: [breaksHumaneNeuromorphicCoupling, verdantHumaneBasisPrime]},
+  parameters: [busWeight : Nat],
+  statement: ((breaksHumaneNeuromorphicCoupling busWeight) = false),
+  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksHumaneNeuromorphicCoupling, stepHumaneBusModulation, verdantMaxZephyrAccelMmPerSec2]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksSymbioticAgencyAutonomyBounds,
+  parameters: [zephyrMm : Nat, modalities : Nat],
+  result: Bool,
+  body: (((zephyrMm =? (verdantMaxZephyrAccelMmPerSec2)) && ((maxPermissibleGentleZephyrMmPerSec2) <? zephyrMm)) || ((modalities =? (verdantOptimizedModalityCount)) && (modalities <? 6)))
+}
+
+theorem{
+  name: symbioticEnvironmentalAgencyBoundedAndPreservesAutonomyHolds,
+  parameters: [zephyrMm : Nat, modalities : Nat],
+  statement: ((breaksSymbioticAgencyAutonomyBounds zephyrMm modalities) = false),
+  proof: linear_arithmetic{definitions: [breaksSymbioticAgencyAutonomyBounds, maxPermissibleGentleZephyrMmPerSec2, verdantMaxZephyrAccelMmPerSec2, verdantOptimizedModalityCount]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksFocalGazeSelectionLaw,
+  parameters: [angleDeg : Nat, distMeters : Nat],
+  result: Bool,
+  body: (((maxForwardHemisphereHalfAngleDeg) <? angleDeg) && (evaluateGazeTargetInForwardCone angleDeg distMeters))
+}
+
+theorem{
+  name: focalGazeExcludesBehindPlayerHolds,
+  parameters: [angleDeg : Nat, distMeters : Nat],
+  statement: ((breaksFocalGazeSelectionLaw angleDeg distMeters) = false),
+  proof: linear_arithmetic{definitions: [breaksFocalGazeSelectionLaw, evaluateGazeTargetInForwardCone, maxForwardHemisphereHalfAngleDeg, verdantForwardFovHalfAngleDeg]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

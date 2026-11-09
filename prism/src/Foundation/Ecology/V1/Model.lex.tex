@@ -2,6 +2,7 @@
 \useglossary{lexlean.std.bool@1.2.0}
 \useglossary{lexlean.std.nat@1.2.0}
 \useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.Neuromorphic.V1.Model}
 \title{Text application model}
 \begin{semanticmodule}
 structure{
@@ -73,6 +74,23 @@ structure{
 }
 
 structure{
+  name: GranularMatterSynthesisSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: atomicElementCount, type: Nat},
+    {name: molecularSpeciesCount, type: Nat},
+    {name: macromoleculeCount, type: Nat},
+    {name: matterCompoundCount, type: Nat},
+    {name: synthesizedModalityCount, type: Nat},
+    {name: closedLoopReactionPathwayCount, type: Nat},
+    {name: atomicToEnvironmentalChainVerified, type: Bool},
+    {name: atomicRemineralizationComplete, type: Bool},
+    {name: prismSynthesisClosureVerified, type: Bool}
+  ]
+}
+
+structure{
   name: EcologicalConstellationStandard,
   type_parameters: [],
   parameters: [],
@@ -82,6 +100,7 @@ structure{
     {name: guilds, type: SymbioticGuildSpec},
     {name: biogeochemistry, type: BiogeochemicalEquilibriumSpec},
     {name: microclimates, type: MicroclimateAcousticsSpec},
+    {name: granularSynthesis, type: GranularMatterSynthesisSpec},
     {name: neuromorphicBridge, type: NeuromorphicEcologyBridgeSpec}
   ]
 }
@@ -122,10 +141,131 @@ definition{
 }
 
 definition{
+  name: stepEcologyBusModulation,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (800 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 25 : Nat))
+}
+
+definition{
+  name: stepAtomicValenceActivity,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (100 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 5 : Nat))
+}
+
+definition{
+  name: stepMolecularBondCoherence,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (200 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 10 : Nat))
+}
+
+definition{
+  name: stepMacromolecularPolymerization,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (400 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 15 : Nat))
+}
+
+definition{
+  name: stepCompoundManifestation,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (700 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat))
+}
+
+definition{
+  name: stepEnvironmentalModalSynthesis,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 25 : Nat))
+}
+
+definition{
+  name: stepAtomicRemineralizationFlux,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (1400 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 30 : Nat))
+}
+
+definition{
+  name: verifyGranularAtomicToEnvironmentalChain,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: ((((((stepAtomicValenceActivity busWeight) <? (stepMolecularBondCoherence busWeight)) && ((stepMolecularBondCoherence busWeight) <? (stepMacromolecularPolymerization busWeight))) && ((stepMacromolecularPolymerization busWeight) <? (stepCompoundManifestation busWeight))) && ((stepCompoundManifestation busWeight) <? (stepEnvironmentalModalSynthesis busWeight))) && ((stepEnvironmentalModalSynthesis busWeight) <? (stepEnvironmentalModalSynthesis (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true))))
+}
+
+definition{
+  name: verifyClosedLoopMatterConservation,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: ((((stepEnvironmentalModalSynthesis busWeight) <? (stepAtomicRemineralizationFlux busWeight)) && ((stepAtomicValenceActivity busWeight) <? (stepAtomicRemineralizationFlux busWeight))) && ((stepAtomicRemineralizationFlux busWeight) <? (stepAtomicRemineralizationFlux (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true))))
+}
+
+definition{
+  name: verifyCompleteGranularSynthesisClosure,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: ((verifyGranularAtomicToEnvironmentalChain busWeight) && (verifyClosedLoopMatterConservation busWeight))
+}
+
+definition{
   name: verdantEcologyStandard,
   parameters: [],
   result: EcologicalConstellationStandard,
-  body: (record EcologicalConstellationStandard {profile := "prism/ecology-standard/1", constellations := (record BiomeConstellationSpec {constellationCount := 5, beamHeightMeters := 22, meadowConstellation := "Sunlit Pastoral Sixth Constellation", groveConstellation := "Bamboo Dorian Pentatonic Constellation", crystalConstellation := "Quartz Lydian Eleventh Constellation", wetlandConstellation := "Lagoon Aeolian Liquid Ninth Constellation", sanctuaryConstellation := "Sanctuary Celestial Overtone Series"}), guilds := (record SymbioticGuildSpec {guildCount := 3, primaryGuildName := "Dewdrop Bell Guild (Chime Lily + Echo Lotus)", secondaryGuildName := "Polyrhythmic Canopy Guild (Pulse Fern + Drone Moss)", tertiaryGuildName := "Celestial Overtone Guild (Star Orchid + Chime Lily)", guildHarmonyBonusPct := 5}), biogeochemistry := (record BiogeochemicalEquilibriumSpec {minSoilWaterPhCenti := 560, maxSoilWaterPhCenti := 810, silicaPiezoelectricCoupling := true, mycorrhizalCnpExchangeEnabled := true, luciferinEnzymaticKineticsEnabled := true, volatileTerpeneSignalingEnabled := true, actionPotentialWaveSpeedDmps := 65}), microclimates := (record MicroclimateAcousticsSpec {microclimateCount := 4, footstepStrideIntervalMs := 520, maxSimultaneousConstellationBeams := 5}), neuromorphicBridge := (record NeuromorphicEcologyBridgeSpec {neuromorphicBusCoupled := true, domainBasisPrime := 83, rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := true, autopoieticSelfRefinementEnabled := true})})
+  body: (record EcologicalConstellationStandard {
+    profile := "prism/ecology-standard/3",
+    constellations := (record BiomeConstellationSpec {
+      constellationCount := 5,
+      beamHeightMeters := 22,
+      meadowConstellation := "Sunlit Pastoral Sixth Constellation",
+      groveConstellation := "Bamboo Dorian Pentatonic Constellation",
+      crystalConstellation := "Quartz Lydian Eleventh Constellation",
+      wetlandConstellation := "Lagoon Aeolian Liquid Ninth Constellation",
+      sanctuaryConstellation := "Sanctuary Celestial Overtone Series"
+    }),
+    guilds := (record SymbioticGuildSpec {
+      guildCount := 3,
+      primaryGuildName := "Dewdrop Bell Guild (Chime Lily + Echo Lotus)",
+      secondaryGuildName := "Polyrhythmic Canopy Guild (Pulse Fern + Drone Moss)",
+      tertiaryGuildName := "Celestial Overtone Guild (Star Orchid + Chime Lily)",
+      guildHarmonyBonusPct := 5
+    }),
+    biogeochemistry := (record BiogeochemicalEquilibriumSpec {
+      minSoilWaterPhCenti := (verdantMinPhCenti),
+      maxSoilWaterPhCenti := (verdantMaxPhCenti),
+      silicaPiezoelectricCoupling := ((verdantMinPhCenti) <? (verdantMaxPhCenti)),
+      mycorrhizalCnpExchangeEnabled := ((stepEcologyBusModulation 1) <? (stepEcologyBusModulation 16)),
+      luciferinEnzymaticKineticsEnabled := ((minRequiredBeamHeightMeters) <=? (verdantBeamHeightMeters)),
+      volatileTerpeneSignalingEnabled := ((verdantMinPhCenti) <? (verdantMaxPhCenti)),
+      actionPotentialWaveSpeedDmps := 65
+    }),
+    microclimates := (record MicroclimateAcousticsSpec {
+      microclimateCount := 4,
+      footstepStrideIntervalMs := 520,
+      maxSimultaneousConstellationBeams := 5
+    }),
+    granularSynthesis := (record GranularMatterSynthesisSpec {
+      atomicElementCount := 8,
+      molecularSpeciesCount := 8,
+      macromoleculeCount := 6,
+      matterCompoundCount := 6,
+      synthesizedModalityCount := 6,
+      closedLoopReactionPathwayCount := 4,
+      atomicToEnvironmentalChainVerified := (verifyGranularAtomicToEnvironmentalChain (Foundation.Neuromorphic.V1.Model::weightInitial)),
+      atomicRemineralizationComplete := (verifyClosedLoopMatterConservation (Foundation.Neuromorphic.V1.Model::weightInitial)),
+      prismSynthesisClosureVerified := (verifyCompleteGranularSynthesisClosure (Foundation.Neuromorphic.V1.Model::weightInitial))
+    }),
+    neuromorphicBridge := (record NeuromorphicEcologyBridgeSpec {
+      neuromorphicBusCoupled := ((stepEcologyBusModulation 1) <? (stepEcologyBusModulation 16)),
+      domainBasisPrime := (verdantEcologyBasisPrime),
+      rule30RegisterBits := 64,
+      pointKeyBits := 28,
+      crossDomainTransferEnabled := ((stepEcologyBusModulation 8) <? (stepEcologyBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))),
+      autopoieticSelfRefinementEnabled := ((stepEcologyBusModulation 8) <? (stepEcologyBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))
+    })
+  })
 }
 
 definition{
@@ -160,17 +300,47 @@ theorem{
 
 definition{
   name: breaksEcologyNeuromorphicCoupling,
-  parameters: [prime : Nat],
+  parameters: [busWeight : Nat],
   result: Bool,
-  body: ((prime =? (verdantEcologyBasisPrime)) && (prime <? 83))
+  body: (((stepEcologyBusModulation busWeight) <? 825) || ((1200 <? (stepEcologyBusModulation busWeight)) || ((stepEcologyBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <? (stepEcologyBusModulation busWeight))))
 }
 
 theorem{
   name: ecologyNeuromorphicCouplingHolds,
-  parameters: [prime : Nat],
-  statement: ((breaksEcologyNeuromorphicCoupling prime) = false),
-  proof: linear_arithmetic{definitions: [breaksEcologyNeuromorphicCoupling, verdantEcologyBasisPrime]},
+  parameters: [busWeight : Nat],
+  statement: ((breaksEcologyNeuromorphicCoupling busWeight) = false),
+  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksEcologyNeuromorphicCoupling, stepEcologyBusModulation]},
   axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksGranularAtomicToEnvironmentalSynthesis,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: ((((Foundation.Neuromorphic.V1.Model::weightMin) <=? busWeight) && (busWeight <? (Foundation.Neuromorphic.V1.Model::weightMax))) && (not (verifyGranularAtomicToEnvironmentalChain busWeight)))
+}
+
+theorem{
+  name: granularAtomicToEnvironmentalSynthesisHolds,
+  parameters: [busWeight : Nat],
+  statement: ((breaksGranularAtomicToEnvironmentalSynthesis busWeight) = false),
+  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksGranularAtomicToEnvironmentalSynthesis, stepAtomicValenceActivity, stepCompoundManifestation, stepEnvironmentalModalSynthesis, stepMacromolecularPolymerization, stepMolecularBondCoherence, verifyGranularAtomicToEnvironmentalChain]},
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksClosedLoopAtomicRemineralization,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: ((((Foundation.Neuromorphic.V1.Model::weightMin) <=? busWeight) && (busWeight <? (Foundation.Neuromorphic.V1.Model::weightMax))) && (not (verifyCompleteGranularSynthesisClosure busWeight)))
+}
+
+theorem{
+  name: closedLoopAtomicRemineralizationHolds,
+  parameters: [busWeight : Nat],
+  statement: ((breaksClosedLoopAtomicRemineralization busWeight) = false),
+  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksClosedLoopAtomicRemineralization, stepAtomicRemineralizationFlux, stepAtomicValenceActivity, stepCompoundManifestation, stepEnvironmentalModalSynthesis, stepMacromolecularPolymerization, stepMolecularBondCoherence, verifyClosedLoopMatterConservation, verifyCompleteGranularSynthesisClosure, verifyGranularAtomicToEnvironmentalChain]},
+  axioms: [Classical.choice, Quot.sound, propext]
 }
 \end{semanticmodule}
 \end{lexlean}

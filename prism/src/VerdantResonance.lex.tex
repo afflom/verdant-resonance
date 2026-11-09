@@ -674,10 +674,45 @@ definition{
 }
 
 definition{
-  name: judge,
+  name: judgeRules,
   parameters: [request : Request],
   result: Nat,
   body: (if (rule1 request) then (answerSereneRest) else (if (rule2 request) then (answerSanctuaryChorus) else (if (rule3 request) then (answerSanctuaryChorus) else (if (rule4 request) then (answerSanctuaryChorus) else (if (rule5 request) then (answerHarmonicBloom) else (if (rule6 request) then (answerHarmonicBloom) else (if (rule7 request) then (answerNocturnalSymphony) else (if (rule8 request) then (answerNocturnalSymphony) else (if (rule9 request) then (answerNocturnalSymphony) else (if (rule10 request) then (answerDawnArpeggio) else (if (rule11 request) then (answerDawnArpeggio) else (if (rule12 request) then (answerDawnArpeggio) else (if (rule13 request) then (answerCrystallineChoir) else (if (rule14 request) then (answerCrystallineChoir) else (if (rule15 request) then (answerMelodicChime) else (if (rule16 request) then (answerMelodicChime) else (if (rule17 request) then (answerRhythmicPulse) else (if (rule18 request) then (answerRhythmicPulse) else (if (rule19 request) then (answerAmbientDrone) else (if (rule20 request) then (answerMelodicChime) else (if (rule21 request) then (answerRhythmicPulse) else (if (rule22 request) then (answerSereneRest) else (if (rule23 request) then (answerHarmonicBloom) else (if (rule24 request) then (answerCrystallineChoir) else (if (rule25 request) then (answerSanctuaryChorus) else (if (rule26 request) then (answerHarmonicBloom) else (if (rule27 request) then (answerDawnArpeggio) else (if (rule28 request) then (answerSanctuaryChorus) else (if (rule29 request) then (answerCrystallineChoir) else (if (rule30 request) then (answerSereneRest) else (if (rule31 request) then (answerNocturnalSymphony) else (if (rule32 request) then (answerHarmonicBloom) else (if (rule33 request) then (answerDawnArpeggio) else (if (rule34 request) then (answerCrystallineChoir) else (if (rule35 request) then (answerAmbientDrone) else (answerWindWhisper))))))))))))))))))))))))))))))))))))
+}
+
+definition{
+  name: stepJudgeBusManifold,
+  parameters: [request : Request],
+  result: Foundation.Neuromorphic.V1.Model::BusManifoldState,
+  body: (Foundation.Neuromorphic.V1.Model::stepUniversalBusBroadcast (Foundation.Neuromorphic.V1.Model::uniformBusManifold (Foundation.Neuromorphic.V1.Model::weightInitial)) (0 <=? (project request proximity)))
+}
+
+definition{
+  name: verifyBusModulationsFromState,
+  parameters: [bus : Foundation.Neuromorphic.V1.Model::BusManifoldState],
+  result: Bool,
+  body: ((((((((((1005 <=? (Foundation.Infrastructure.V1.Model::stepInfrastructureBusModulation (project bus wInfrastructure))) && (875 <=? (Foundation.Physics.V1.Model::stepPhysicsBusModulation (project bus wPhysics)))) && (20 <=? (Foundation.Botany.V1.Model::stepBotanyBusModulation (project bus wBotany)))) && (825 <=? (Foundation.Ecology.V1.Model::stepEcologyBusModulation (project bus wEcology)))) && (915 <=? (Foundation.Acoustics.V1.Model::stepAcousticsBusModulation (project bus wAcoustics)))) && (920 <=? (Foundation.Articulation.V1.Model::stepArticulationBusModulation (project bus wArticulation)))) && (53 <=? (Foundation.Soundtrack.V1.Model::stepSoundtrackBusModulation (project bus wSoundtrack)))) && (130 <=? (Foundation.Humane.V1.Model::stepHumaneBusModulation (project bus wHumane)))) && (85 <=? (Foundation.Brand.V1.Model::stepBrandBusModulation (project bus wBrand)))) && ((Foundation.Neuromorphic.V1.Model::weightInitial) <? (project bus wNeuromorphic)))
+}
+
+definition{
+  name: verifyJudgeCrossDomainBusGate,
+  parameters: [request : Request],
+  result: Bool,
+  body: (verifyBusModulationsFromState (stepJudgeBusManifold request))
+}
+
+definition{
+  name: verifyCompletePrismModelClosure,
+  parameters: [request : Request],
+  result: Bool,
+  body: (((verifyJudgeCrossDomainBusGate request) && (Foundation.Neuromorphic.V1.Model::verifyEmergentEntitySynthesizesFacets (Foundation.Neuromorphic.V1.Model::weightInitial))) && (Foundation.Ecology.V1.Model::verifyCompleteGranularSynthesisClosure (Foundation.Neuromorphic.V1.Model::weightInitial)))
+}
+
+definition{
+  name: judge,
+  parameters: [request : Request],
+  result: Nat,
+  body: (if (verifyJudgeCrossDomainBusGate request) then (judgeRules request) else (answerWindWhisper))
 }
 
 definition{

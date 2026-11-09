@@ -2,6 +2,7 @@
 \useglossary{lexlean.std.bool@1.2.0}
 \useglossary{lexlean.std.nat@1.2.0}
 \useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.Neuromorphic.V1.Model}
 \title{Text application model}
 \begin{semanticmodule}
 structure{
@@ -151,10 +152,65 @@ definition{
 }
 
 definition{
+  name: stepBotanyBusModulation,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat)
+}
+
+definition{
   name: verdantBotanicalStandard,
   parameters: [],
   result: BotanicalFidelityStandard,
-  body: (record BotanicalFidelityStandard {profile := "prism/botanical-standard/1", morphologySystem := "Fibonacci Golden-Angle Phyllotaxis, 5-Substrate Fertile Soil/Water Holdfast Morphology (Zero Hard-Surface or Rock Growth), Slope-Embedded Grounding, Circadian Stomatal Turgor & Kuramoto Phase Entrainment", phyllotaxis := (record PhyllotaxisGeometrySpec {goldenAngleDeciDeg := 1375, minPartsPerSpecimen := 14, maxPartsPerSpecimen := 19, matteStemRoughnessMilli := 780, glossyPetalRoughnessMilli := 180, clearcoatEnabled := true}), substrates := (record GrowthSubstrateTaxonomySpec {substrateClassCount := 5, terrestrialLoamEnabled := true, pelagicWaterEnabled := true, lithophyticRockEnabled := true, architecturalFoundationEnabled := true, crystallineEpiphyteEnabled := true, gravitropicStemAlignment := true, zeroHardSurfaceOrRockPlantGrowth := true, zeroFloatingTreeTrunks := true, zeroDetachedCanopyCrowns := true}), monuments := (record BiomeArchitecturalMonumentSpec {monumentCount := 5, meadowMonument := "Sunlit Sundial Compass Rotunda", groveMonument := "Wind-Carved Bamboo Chime Pergola", crystalMonument := "Prismatic Quartz Geode Archway", wetlandMonument := "Mirror Lagoon Lantern Pier", sanctuaryMonument := "Levitating Tuning-Fork Obelisk & Gimbal Halo"}), sympatheticResonance := (record SympatheticResonanceSpec {crossPollinationRadiusDm := 49, harmonicFilamentCount := 6, sympatheticHarmonyBonus := 3, kuramotoPhaseLockingEnabled := true, circadianStomatalTurgorEnabled := true, minTurgorPressureCenti := 72, maxTurgorPressureCenti := 118}), neuromorphicBridge := (record NeuromorphicBotanyBridgeSpec {neuromorphicBusCoupled := true, domainBasisPrime := 79, rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := true, autopoieticSelfRefinementEnabled := true})})
+  body: (record BotanicalFidelityStandard {
+    profile := "prism/botanical-standard/1",
+    morphologySystem := "Fibonacci Golden-Angle Phyllotaxis, 5-Substrate Fertile Soil/Water Holdfast Morphology (Zero Hard-Surface or Rock Growth), Slope-Embedded Grounding, Circadian Stomatal Turgor & Kuramoto Phase Entrainment",
+    phyllotaxis := (record PhyllotaxisGeometrySpec {
+      goldenAngleDeciDeg := 1375,
+      minPartsPerSpecimen := 14,
+      maxPartsPerSpecimen := 19,
+      matteStemRoughnessMilli := 780,
+      glossyPetalRoughnessMilli := 180,
+      clearcoatEnabled := ((minRequiredRoughnessDeltaMilli) <=? (verdantRoughnessDeltaMilli))
+    }),
+    substrates := (record GrowthSubstrateTaxonomySpec {
+      substrateClassCount := (verdantSubstrateClassCount),
+      terrestrialLoamEnabled := (1 <=? (verdantSubstrateClassCount)),
+      pelagicWaterEnabled := (2 <=? (verdantSubstrateClassCount)),
+      lithophyticRockEnabled := (3 <=? (verdantSubstrateClassCount)),
+      architecturalFoundationEnabled := (4 <=? (verdantSubstrateClassCount)),
+      crystallineEpiphyteEnabled := (5 <=? (verdantSubstrateClassCount)),
+      gravitropicStemAlignment := ((verdantHardSurfaceOrRockViolations) =? 0),
+      zeroHardSurfaceOrRockPlantGrowth := ((verdantHardSurfaceOrRockViolations) =? 0),
+      zeroFloatingTreeTrunks := ((verdantHardSurfaceOrRockViolations) =? 0),
+      zeroDetachedCanopyCrowns := ((verdantHardSurfaceOrRockViolations) =? 0)
+    }),
+    monuments := (record BiomeArchitecturalMonumentSpec {
+      monumentCount := 5,
+      meadowMonument := "Sunlit Sundial Compass Rotunda",
+      groveMonument := "Wind-Carved Bamboo Chime Pergola",
+      crystalMonument := "Prismatic Quartz Geode Archway",
+      wetlandMonument := "Mirror Lagoon Lantern Pier",
+      sanctuaryMonument := "Levitating Tuning-Fork Obelisk & Gimbal Halo"
+    }),
+    sympatheticResonance := (record SympatheticResonanceSpec {
+      crossPollinationRadiusDm := 49,
+      harmonicFilamentCount := 6,
+      sympatheticHarmonyBonus := 3,
+      kuramotoPhaseLockingEnabled := ((stepBotanyBusModulation 1) <? (stepBotanyBusModulation 16)),
+      circadianStomatalTurgorEnabled := ((verdantMinTurgorCenti) <? (verdantMaxTurgorCenti)),
+      minTurgorPressureCenti := 72,
+      maxTurgorPressureCenti := 118
+    }),
+    neuromorphicBridge := (record NeuromorphicBotanyBridgeSpec {
+      neuromorphicBusCoupled := ((stepBotanyBusModulation 1) <? (stepBotanyBusModulation 16)),
+      domainBasisPrime := (verdantBotanyBasisPrime),
+      rule30RegisterBits := 64,
+      pointKeyBits := 28,
+      crossDomainTransferEnabled := ((stepBotanyBusModulation 8) <? (stepBotanyBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))),
+      autopoieticSelfRefinementEnabled := ((stepBotanyBusModulation 8) <? (stepBotanyBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))
+    })
+  })
 }
 
 definition{
@@ -219,16 +275,16 @@ theorem{
 
 definition{
   name: breaksBotanyNeuromorphicCoupling,
-  parameters: [prime : Nat],
+  parameters: [busWeight : Nat],
   result: Bool,
-  body: ((prime =? (verdantBotanyBasisPrime)) && (prime <? 79))
+  body: (((stepBotanyBusModulation busWeight) <? 20) || ((320 <? (stepBotanyBusModulation busWeight)) || ((stepBotanyBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <? (stepBotanyBusModulation busWeight))))
 }
 
 theorem{
   name: botanyNeuromorphicCouplingHolds,
-  parameters: [prime : Nat],
-  statement: ((breaksBotanyNeuromorphicCoupling prime) = false),
-  proof: linear_arithmetic{definitions: [breaksBotanyNeuromorphicCoupling, verdantBotanyBasisPrime]},
+  parameters: [busWeight : Nat],
+  statement: ((breaksBotanyNeuromorphicCoupling busWeight) = false),
+  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksBotanyNeuromorphicCoupling, stepBotanyBusModulation]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

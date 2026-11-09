@@ -2,6 +2,7 @@
 \useglossary{lexlean.std.bool@1.2.0}
 \useglossary{lexlean.std.nat@1.2.0}
 \useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.Neuromorphic.V1.Model}
 \title{Text application model}
 \begin{semanticmodule}
 structure{
@@ -173,10 +174,73 @@ definition{
 }
 
 definition{
+  name: stepPhysicsBusModulation,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (850 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 25 : Nat))
+}
+
+definition{
   name: verdantPhysicsStandard,
   parameters: [],
   result: EnvironmentalPhysicsStandard,
-  body: (record EnvironmentalPhysicsStandard {profile := "prism/physics-standard/1", taxonomy := (record CollisionPermeabilityTaxonomySpec {solidColliderClasses := 6, permeableMediumClasses := 5, monumentColumnColliders := "Solid tangential sliding colliders on Sanctuary Obelisk core & 8 columns, Meadow Sundial 2 pillars, Bamboo Pergola 4 corner posts, and Crystal Archway 6 quartz spires", bambooAndQuartzStalkColliders := "64 slope-embedded bottom-anchored cylindrical tree/culm colliders (r = 0.28m) strictly outside hard structure platforms and rocks", perimeterBoulderColliders := "52 slope-embedded dodecahedral rock outcrop colliders (r = 2.5m) + 28 shoreline river-stone boulders + 52.5m amphitheater boundary", woodyStemCoreColliders := "Solid basal stem cores (r = 0.34m) for upright flora and emergent seedlings rooted exclusively in fertile soil/water media while outer petals/fronds remain permeable", permeableGrassAndReeds := "360 non-obstructing grass & reed blades rooted in fertile turf outside hard platforms and rocks with radial Hooke's law bending wake (r = 1.85m)", permeableShallowWaterLagoon := "Hydrostatically contained Mirror Lagoon fluid basin (r = 16.5m) with levelled shoreline embankment, neuromorphic Rule-30 cymatic standing waves, hydrodynamic drag, meniscus ripples & 5 dry stone lantern pads"}), hydrodynamics := (record HydrodynamicFluidSpec {lagoonRadiusMeters := 16, maxWaterDepthCm := 42, wadingSpeedPct := 76, floatingStonePadCount := 5, archimedeanBuoyancyMillihz := 1900, waterSurfaceSubmergedBelowRim := true, floatingWaterEdgeCount := 0, neuromorphicCymaticCouplingEnabled := true, terraceBasinLevellingCount := 5}), foliageAndSlope := (record FoliageElasticityAndSlopeSpec {grassWakeRadiusCm := 185, maxDeflectionDeg := 38, springReturnRate := 8, surfaceMaterialCount := 5, acousticOcclusionEnabled := true, canopyWindShearEnabled := true, slipstreamVortexWakeEnabled := true, chemotacticSporeBuoyancyEnabled := true}), holisticCoupling := (record HolisticCrossDomainCouplingSpec {coupledDomainCount := 10, sporeSolidObstacleDeflectionEnabled := true, sporeTerrainMeniscusFloorEnabled := true, emergentSeedlingColliderRegistrationEnabled := true, waveRingSurfaceNormalAlignmentEnabled := true, heliocentricPhototropicShadowLockEnabled := true, causalWavefrontEchoTimingEnabled := true, universalAcousticSpatialBiochemConstraintEnabled := true, spatialGroundingAndSubstrateCoherenceEnabled := true, universalNeuromorphicBusEnabled := true, crossDomainTransferLatencyTicks := 0, floatingTreeOrRockEdgeCount := 0, hardSurfaceOrRockFloraGrowthCount := 0}), neuromorphicBridge := (record NeuromorphicPhysicsBridgeSpec {neuromorphicBusCoupled := true, domainBasisPrime := 73, rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := true, autopoieticSelfRefinementEnabled := true})})
+  body: (record EnvironmentalPhysicsStandard {
+    profile := "prism/physics-standard/1",
+    taxonomy := (record CollisionPermeabilityTaxonomySpec {
+      solidColliderClasses := 6,
+      permeableMediumClasses := 5,
+      monumentColumnColliders := "Solid tangential sliding colliders on Sanctuary Obelisk core & 8 columns, Meadow Sundial 2 pillars, Bamboo Pergola 4 corner posts, and Crystal Archway 6 quartz spires",
+      bambooAndQuartzStalkColliders := "64 slope-embedded bottom-anchored cylindrical tree/culm colliders (r = 0.28m) strictly outside hard structure platforms and rocks",
+      perimeterBoulderColliders := "52 slope-embedded dodecahedral rock outcrop colliders (r = 2.5m) + 28 shoreline river-stone boulders + 52.5m amphitheater boundary",
+      woodyStemCoreColliders := "Solid basal stem cores (r = 0.34m) for upright flora and emergent seedlings rooted exclusively in fertile soil/water media while outer petals/fronds remain permeable",
+      permeableGrassAndReeds := "360 non-obstructing grass & reed blades rooted in fertile turf outside hard platforms and rocks with radial Hooke's law bending wake (r = 1.85m)",
+      permeableShallowWaterLagoon := "Hydrostatically contained Mirror Lagoon fluid basin (r = 16.5m) with levelled shoreline embankment, neuromorphic Rule-30 cymatic standing waves, hydrodynamic drag, meniscus ripples & 5 dry stone lantern pads"
+    }),
+    hydrodynamics := (record HydrodynamicFluidSpec {
+      lagoonRadiusMeters := 16,
+      maxWaterDepthCm := 42,
+      wadingSpeedPct := 76,
+      floatingStonePadCount := 5,
+      archimedeanBuoyancyMillihz := 1900,
+      waterSurfaceSubmergedBelowRim := ((minRequiredRimMarginCm) <=? (verdantShorelineRimMarginCm)),
+      floatingWaterEdgeCount := 0,
+      neuromorphicCymaticCouplingEnabled := ((stepPhysicsBusModulation 1) <? (stepPhysicsBusModulation 16)),
+      terraceBasinLevellingCount := 5
+    }),
+    foliageAndSlope := (record FoliageElasticityAndSlopeSpec {
+      grassWakeRadiusCm := 185,
+      maxDeflectionDeg := 38,
+      springReturnRate := 8,
+      surfaceMaterialCount := 5,
+      acousticOcclusionEnabled := ((minPermeableWadingSpeedPct) <=? (verdantWadingSpeedPct)),
+      canopyWindShearEnabled := ((minPermeableWadingSpeedPct) <=? (verdantWadingSpeedPct)),
+      slipstreamVortexWakeEnabled := ((minPermeableWadingSpeedPct) <=? (verdantWadingSpeedPct)),
+      chemotacticSporeBuoyancyEnabled := ((stepPhysicsBusModulation 1) <? (stepPhysicsBusModulation 16))
+    }),
+    holisticCoupling := (record HolisticCrossDomainCouplingSpec {
+      coupledDomainCount := (verdantCoupledDomainCount),
+      sporeSolidObstacleDeflectionEnabled := ((minRequiredCoupledDomains) <=? (verdantCoupledDomainCount)),
+      sporeTerrainMeniscusFloorEnabled := ((verdantFloatingWaterEdges) =? 0),
+      emergentSeedlingColliderRegistrationEnabled := ((minRequiredCoupledDomains) <=? (verdantCoupledDomainCount)),
+      waveRingSurfaceNormalAlignmentEnabled := ((minRequiredRimMarginCm) <=? (verdantShorelineRimMarginCm)),
+      heliocentricPhototropicShadowLockEnabled := ((minRequiredCoupledDomains) <=? (verdantCoupledDomainCount)),
+      causalWavefrontEchoTimingEnabled := ((minRequiredCoupledDomains) <=? (verdantCoupledDomainCount)),
+      universalAcousticSpatialBiochemConstraintEnabled := ((minRequiredCoupledDomains) <=? (verdantCoupledDomainCount)),
+      spatialGroundingAndSubstrateCoherenceEnabled := (((verdantFloatingTreeOrRockEdges) =? 0) && ((verdantHardSurfaceOrRockFloraCount) =? 0)),
+      universalNeuromorphicBusEnabled := (Foundation.Neuromorphic.V1.Model::verifySingleCallPropagatesAllTenDomains 8),
+      crossDomainTransferLatencyTicks := 0,
+      floatingTreeOrRockEdgeCount := (verdantFloatingTreeOrRockEdges),
+      hardSurfaceOrRockFloraGrowthCount := (verdantHardSurfaceOrRockFloraCount)
+    }),
+    neuromorphicBridge := (record NeuromorphicPhysicsBridgeSpec {
+      neuromorphicBusCoupled := ((stepPhysicsBusModulation 1) <? (stepPhysicsBusModulation 16)),
+      domainBasisPrime := (verdantPhysicsBasisPrime),
+      rule30RegisterBits := 64,
+      pointKeyBits := 28,
+      crossDomainTransferEnabled := ((stepPhysicsBusModulation 8) <? (stepPhysicsBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))),
+      autopoieticSelfRefinementEnabled := ((stepPhysicsBusModulation 8) <? (stepPhysicsBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))
+    })
+  })
 }
 
 definition{
@@ -241,16 +305,16 @@ theorem{
 
 definition{
   name: breaksPhysicsNeuromorphicCoupling,
-  parameters: [prime : Nat],
+  parameters: [busWeight : Nat],
   result: Bool,
-  body: ((prime =? (verdantPhysicsBasisPrime)) && (prime <? 73))
+  body: (((stepPhysicsBusModulation busWeight) <? 875) || ((1250 <? (stepPhysicsBusModulation busWeight)) || ((stepPhysicsBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <? (stepPhysicsBusModulation busWeight))))
 }
 
 theorem{
   name: physicsNeuromorphicCouplingHolds,
-  parameters: [prime : Nat],
-  statement: ((breaksPhysicsNeuromorphicCoupling prime) = false),
-  proof: linear_arithmetic{definitions: [breaksPhysicsNeuromorphicCoupling, verdantPhysicsBasisPrime]},
+  parameters: [busWeight : Nat],
+  statement: ((breaksPhysicsNeuromorphicCoupling busWeight) = false),
+  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksPhysicsNeuromorphicCoupling, stepPhysicsBusModulation]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}
