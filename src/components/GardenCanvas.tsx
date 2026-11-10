@@ -232,7 +232,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     renderer.toneMappingExposure = 1.14;
     renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = !isSoftwareGl;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.setSize(container.clientWidth || window.innerWidth, container.clientHeight || window.innerHeight);
 
     container.innerHTML = '';
@@ -2790,8 +2790,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
     emitTelemetry(true);
 
-    // 11. Animation Loop with Software-WebGL Pacing (`afterDraw`)
-    const clock = new THREE.Clock();
+    // 11. Animation Loop with Software-WebGL Pacing (`afterDraw`) & Zero-Allocation High-Resolution Timer
+    let lastFrameTimeMs = performance.now();
+    let elapsedSecAccumulator = 0;
     let frameId = 0;
     let unmounted = false;
 
@@ -2814,9 +2815,12 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
     function tick() {
       if (unmounted) return;
-      const rawDt = clock.getDelta();
+      const nowMs = performance.now();
+      const rawDt = Math.max(0, (nowMs - lastFrameTimeMs) * 0.001);
+      lastFrameTimeMs = nowMs;
       const dt = Math.min(rawDt, 0.05);
-      const elapsed = clock.getElapsedTime();
+      elapsedSecAccumulator += dt;
+      const elapsed = elapsedSecAccumulator;
       const currentState = gameStateRef.current;
 
       const frameEnvLifecycle = evaluateEnvironmentalLifecycle({

@@ -79,6 +79,19 @@ structure{
 }
 
 structure{
+  name: KinematicRigAndMorphSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: kinematicJointsPerSpecimen, type: Nat},
+    {name: shapeKeyMorphChannels, type: Nat},
+    {name: phaseLagMilliRadPerJoint, type: Nat},
+    {name: threeJointKinematicChainVerified, type: Bool},
+    {name: shapeKeyMorphCouplingVerified, type: Bool}
+  ]
+}
+
+structure{
   name: BotanicalArticulationStandard,
   type_parameters: [],
   parameters: [],
@@ -88,6 +101,7 @@ structure{
     {name: gestureContrast, type: GestureArticulationContrastSpec},
     {name: landscapeTerraces, type: BiomeLandscapeTerraceSpec},
     {name: sympatheticArcs, type: SympatheticArcAudioVisualSpec},
+    {name: kinematicRig, type: KinematicRigAndMorphSpec},
     {name: neuromorphicBridge, type: NeuromorphicArticulationBridgeSpec}
   ]
 }
@@ -135,6 +149,34 @@ definition{
 }
 
 definition{
+  name: stepBasalJointTorqueMilli,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (120 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 8 : Nat))
+}
+
+definition{
+  name: stepMidCulmFlexureMilli,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (260 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 12 : Nat))
+}
+
+definition{
+  name: stepApicalCorollaGimbalMilli,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (420 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 18 : Nat))
+}
+
+definition{
+  name: verifyThreeJointKinematicHierarchy,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: ((((stepBasalJointTorqueMilli busWeight) <? (stepMidCulmFlexureMilli busWeight)) && ((stepMidCulmFlexureMilli busWeight) <? (stepApicalCorollaGimbalMilli busWeight))) && ((stepApicalCorollaGimbalMilli busWeight) <? (stepApicalCorollaGimbalMilli (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true))))
+}
+
+definition{
   name: verdantArticulationStandard,
   parameters: [],
   result: BotanicalArticulationStandard,
@@ -174,6 +216,13 @@ definition{
       parabolicArcSegments := 9,
       sympatheticEchoDelayMs := 140,
       constellationVoices := 6
+    }),
+    kinematicRig := (record KinematicRigAndMorphSpec {
+      kinematicJointsPerSpecimen := 3,
+      shapeKeyMorphChannels := 2,
+      phaseLagMilliRadPerJoint := 550,
+      threeJointKinematicChainVerified := (verifyThreeJointKinematicHierarchy (Foundation.Neuromorphic.V1.Model::weightInitial)),
+      shapeKeyMorphCouplingVerified := ((verdantTouchAttackMs) <? (verdantAttuneAttackMs))
     }),
     neuromorphicBridge := (record NeuromorphicArticulationBridgeSpec {
       neuromorphicBusCoupled := ((stepArticulationBusModulation 1) <? (stepArticulationBusModulation 16)),
@@ -229,6 +278,21 @@ theorem{
   statement: ((breaksArticulationNeuromorphicCoupling busWeight) = false),
   proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksArticulationNeuromorphicCoupling, stepArticulationBusModulation]},
   axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksThreeJointKinematicHierarchy,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: ((((Foundation.Neuromorphic.V1.Model::weightMin) <=? busWeight) && (busWeight <? (Foundation.Neuromorphic.V1.Model::weightMax))) && (not (verifyThreeJointKinematicHierarchy busWeight)))
+}
+
+theorem{
+  name: threeJointKinematicHierarchyHolds,
+  parameters: [busWeight : Nat],
+  statement: ((breaksThreeJointKinematicHierarchy busWeight) = false),
+  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksThreeJointKinematicHierarchy, stepApicalCorollaGimbalMilli, stepBasalJointTorqueMilli, stepMidCulmFlexureMilli, verifyThreeJointKinematicHierarchy]},
+  axioms: [Classical.choice, Quot.sound, propext]
 }
 \end{semanticmodule}
 \end{lexlean}

@@ -822,6 +822,51 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         ),
       ),
     ),
+    bMeshSubdivisionDensity: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepBMeshSubdivisionDensity ${w}`,
+          'Foundation.Botany.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    thinFilmIridescenceSpanNm: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepThinFilmIridescenceSpanNm ${w}`,
+          'Foundation.Botany.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    basalJointTorqueMilli: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepBasalJointTorqueMilli ${w}`,
+          'Foundation.Articulation.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    midCulmFlexureMilli: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepMidCulmFlexureMilli ${w}`,
+          'Foundation.Articulation.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    apicalCorollaGimbalMilli: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepApicalCorollaGimbalMilli ${w}`,
+          'Foundation.Articulation.V1.Model',
+          modules,
+        ),
+      ),
+    ),
   };
 
   const plasticityLut = {
@@ -953,6 +998,24 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         evaluateLexExpr(
           `verifyCompleteGranularSynthesisClosure ${w}`,
           'Foundation.Ecology.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    verifyHighDefinitionBMeshSynthesis: weightDomain.map((w) =>
+      Boolean(
+        evaluateLexExpr(
+          `verifyHighDefinitionBMeshSynthesis ${w}`,
+          'Foundation.Botany.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    verifyThreeJointKinematicHierarchy: weightDomain.map((w) =>
+      Boolean(
+        evaluateLexExpr(
+          `verifyThreeJointKinematicHierarchy ${w}`,
+          'Foundation.Articulation.V1.Model',
           modules,
         ),
       ),

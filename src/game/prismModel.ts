@@ -325,6 +325,41 @@ export function verifyCompleteGranularSynthesisClosure(busWeight: number): boole
   return lut[clampLutIndex(busWeight, lut.length)];
 }
 
+export function stepBMeshSubdivisionDensity(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.bMeshSubdivisionDensity;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepThinFilmIridescenceSpanNm(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.thinFilmIridescenceSpanNm;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function verifyHighDefinitionBMeshSynthesis(busWeight: number): boolean {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyHighDefinitionBMeshSynthesis;
+  return lut[clampLutIndex(busWeight, lut.length)];
+}
+
+export function stepBasalJointTorqueMilli(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.basalJointTorqueMilli;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepMidCulmFlexureMilli(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.midCulmFlexureMilli;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function stepApicalCorollaGimbalMilli(busWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.apicalCorollaGimbalMilli;
+  return lut[clampPrismBusWeight(busWeight)];
+}
+
+export function verifyThreeJointKinematicHierarchy(busWeight: number): boolean {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyThreeJointKinematicHierarchy;
+  return lut[clampLutIndex(busWeight, lut.length)];
+}
+
 export function uniformJudgeBusManifold(w: number): JudgeBusManifoldState {
   return {
     wInfrastructure: w,
@@ -477,7 +512,9 @@ export function verifyCompletePrismModelClosure(
   return (
     verifyBusModulationsFromState(bus) &&
     verifyEmergentEntitySynthesizesFacets(bus.wNeuromorphic) &&
-    verifyCompleteGranularSynthesisClosure(bus.wEcology)
+    verifyCompleteGranularSynthesisClosure(bus.wEcology) &&
+    verifyHighDefinitionBMeshSynthesis(bus.wBotany) &&
+    verifyThreeJointKinematicHierarchy(bus.wArticulation)
   );
 }
 
@@ -4138,6 +4175,16 @@ export interface BotanicalFidelityStandardModel {
   circadianStomatalTurgorEnabled: boolean;
   minTurgorPressure: number;
   maxTurgorPressure: number;
+  highDefinitionBMesh: {
+    parametricBMeshBuildersCount: number;
+    sobelNormalMapResolutionPx: number;
+    minThinFilmIridescenceNm: number;
+    maxThinFilmIridescenceNm: number;
+    shapeKeyMorphTargetsPerOrgan: number;
+    customBotanicalGlslShaderEnabled: boolean;
+    subsurfaceTranslucencyCoupled: boolean;
+    bMeshTopologyVerified: boolean;
+  };
   neuromorphicBridge: NeuromorphicDomainBridgeSpec;
 }
 
@@ -4179,6 +4226,9 @@ export const VERDANT_BOTANICAL_STANDARD: BotanicalFidelityStandardModel = {
     GENERATED_PRISM_STANDARDS.botany.sympatheticResonance.minTurgorPressureCenti / 100,
   maxTurgorPressure:
     GENERATED_PRISM_STANDARDS.botany.sympatheticResonance.maxTurgorPressureCenti / 100,
+  highDefinitionBMesh: {
+    ...GENERATED_PRISM_STANDARDS.botany.highDefinitionBMesh,
+  },
   neuromorphicBridge: {
     ...GENERATED_PRISM_STANDARDS.botany.neuromorphicBridge,
   },
@@ -6179,6 +6229,13 @@ export interface BotanicalArticulationStandardModel {
   sympatheticEchoDelayMs: number;
   constellationVoices: number;
   gestureContrast: GestureArticulationContrastModel;
+  kinematicRig: {
+    kinematicJointsPerSpecimen: number;
+    shapeKeyMorphChannels: number;
+    phaseLagMilliRadPerJoint: number;
+    threeJointKinematicChainVerified: boolean;
+    shapeKeyMorphCouplingVerified: boolean;
+  };
   neuromorphicBridge: NeuromorphicDomainBridgeSpec;
 }
 
@@ -6209,6 +6266,9 @@ export const VERDANT_ARTICULATION_STANDARD: BotanicalArticulationStandardModel =
     stillnessDecayMs: GENERATED_PRISM_STANDARDS.articulation.gestureContrast.stillnessDecayMs,
     stillnessGestureSummary:
       'Meditative Stillness [C]: Self-decaying 650ms inhale / 3.2s exhale warm pastoral ninth breathing pad that fades cleanly to natural silence.',
+  },
+  kinematicRig: {
+    ...GENERATED_PRISM_STANDARDS.articulation.kinematicRig,
   },
   neuromorphicBridge: {
     ...GENERATED_PRISM_STANDARDS.articulation.neuromorphicBridge,
@@ -9611,6 +9671,7 @@ export interface HolisticSystemCouplingReport {
   symbioticEnvironmentalAgencyVerified: boolean;
   emergentStakeholderEntityVerified: boolean;
   granularAtomicToEnvironmentalSynthesisVerified: boolean;
+  highDefinitionBMeshAndKinematicRigVerified: boolean;
   completePrismModelClosureVerified: boolean;
 }
 
@@ -9916,7 +9977,44 @@ export function verifyHolisticSystemCoupling(params?: {
     granularSample.compoundManifestations.inorganic.travertineLimestoneSpar > 0 &&
     granularSample.compoundManifestations.organic.lignocellulosicVascularTissue > 0;
 
-  // 14. Complete Prism Model Closure (`VerdantResonance::verifyCompletePrismModelClosure` & `VerdantResonanceProofs::completePrismModelClosureHolds`):
+  // 14. High-Definition B-Mesh & 3-Joint Kinematic Rig Synthesis (`Foundation.Botany.V1.Model::HighDefinitionBMeshVisualSpec` & `Foundation.Articulation.V1.Model::KinematicRigAndMorphSpec`):
+  const sampleBMeshProfile = evaluateHighDefinitionVisualSynthesis({
+    biome: 'sanctuary',
+    species: 'star-orchid',
+    substrate: 'crystalline-epiphyte',
+    atmosphere: 'starlight',
+    attuned: true,
+    lifecycleStage: 'mycelial-memory',
+  });
+  const sampleRigPose = evaluateKinematicRigPose({
+    species: 'star-orchid',
+    attuned: true,
+    lifecycleStage: 'mycelial-memory',
+    elapsedSeconds: 1.8,
+    pulsePhase: 0.5,
+    proximityDm: 8,
+    tactileShiverImpulse: 0.4,
+    windTiltX: 0.04,
+    windTiltZ: -0.03,
+    neuromorphicSynapticWeight: 12,
+    circadianApertureBoost: 0.12,
+  });
+  const highDefinitionBMeshAndKinematicRigVerified =
+    VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.parametricBMeshBuildersCount === 11 &&
+    VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.sobelNormalMapResolutionPx === 256 &&
+    VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.shapeKeyMorphTargetsPerOrgan === 2 &&
+    VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.bMeshTopologyVerified &&
+    VERDANT_ARTICULATION_STANDARD.kinematicRig.kinematicJointsPerSpecimen === 3 &&
+    VERDANT_ARTICULATION_STANDARD.kinematicRig.shapeKeyMorphChannels === 2 &&
+    VERDANT_ARTICULATION_STANDARD.kinematicRig.threeJointKinematicChainVerified &&
+    VERDANT_ARTICULATION_STANDARD.kinematicRig.shapeKeyMorphCouplingVerified &&
+    verifyHighDefinitionBMeshSynthesis(12) &&
+    verifyThreeJointKinematicHierarchy(12) &&
+    sampleBMeshProfile.iridescenceThinFilmMaxNm > sampleBMeshProfile.iridescenceThinFilmMinNm &&
+    sampleRigPose.morphBloomOpenWeight > 0 &&
+    sampleRigPose.morphAcousticRippleWeight > 0;
+
+  // 15. Complete Prism Model Closure (`VerdantResonance::verifyCompletePrismModelClosure` & `VerdantResonanceProofs::completePrismModelClosureHolds`):
   const sampleClosureRequest: Record<string, string | bigint> = {
     biome: 'sanctuary',
     plant: 'star-orchid',
@@ -9931,7 +10029,8 @@ export function verifyHolisticSystemCoupling(params?: {
     verifyCompletePrismModelClosure(sampleClosureRequest) &&
     universalNeuromorphicBusVerified &&
     emergentStakeholderEntityVerified &&
-    granularAtomicToEnvironmentalSynthesisVerified;
+    granularAtomicToEnvironmentalSynthesisVerified &&
+    highDefinitionBMeshAndKinematicRigVerified;
 
   const allConstrained =
     solidExclusionVerified &&
@@ -9947,6 +10046,7 @@ export function verifyHolisticSystemCoupling(params?: {
     symbioticEnvironmentalAgencyVerified &&
     emergentStakeholderEntityVerified &&
     granularAtomicToEnvironmentalSynthesisVerified &&
+    highDefinitionBMeshAndKinematicRigVerified &&
     completePrismModelClosureVerified;
 
   return {
@@ -9965,6 +10065,7 @@ export function verifyHolisticSystemCoupling(params?: {
     symbioticEnvironmentalAgencyVerified,
     emergentStakeholderEntityVerified,
     granularAtomicToEnvironmentalSynthesisVerified,
+    highDefinitionBMeshAndKinematicRigVerified,
     completePrismModelClosureVerified,
   };
 }

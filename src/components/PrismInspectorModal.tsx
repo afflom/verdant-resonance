@@ -18,6 +18,7 @@ import {
   SPECIES_ARTICULATION_PROFILES,
   SYMBIOTIC_GUILDS,
   SoundscapeOutcome,
+  VERDANT_ARTICULATION_STANDARD,
   VERDANT_BOTANICAL_STANDARD,
   VERDANT_BRAND_STANDARD,
   VERDANT_ECOLOGY_STANDARD,
@@ -1006,10 +1007,10 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                   <div className="rounded-lg border border-emerald-400/25 bg-[#0c1d17] p-3 space-y-2">
                     <div className="flex items-center justify-between gap-2 flex-wrap">
                       <div className="text-[10px] font-mono text-emerald-300 uppercase tracking-wider">
-                        6-STAGE GRANULAR SYNTHESIS &amp; BLENDER-GRADE PARAMETRIC B-MESH GRAPHICS ({VERDANT_ECOLOGY_STANDARD.profile})
+                        6-STAGE GRANULAR SYNTHESIS &amp; BLENDER-GRADE PARAMETRIC B-MESH GRAPHICS ({VERDANT_ECOLOGY_STANDARD.profile} · {VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.parametricBMeshBuildersCount} B-Meshes · {VERDANT_ARTICULATION_STANDARD.kinematicRig.kinematicJointsPerSpecimen}-Joint Rig)
                       </div>
                       <div className="text-[10px] font-mono text-amber-200 tabular-nums">
-                        T1:{liveGranular.tier1AtomicValenceIndex} &lt; T2:{liveGranular.tier2MolecularBondIndex} &lt; T3:{liveGranular.tier3MacromolecularPolymerIndex} &lt; T4:{liveGranular.tier4CompoundManifestationIndex} &lt; T5:{liveGranular.tier5EnvironmentalModalIndex} &lt; T6:{liveGranular.tier6AtomicRemineralizationIndex} · Mesh: {liveHdMesh.radialSegments}x{liveHdMesh.longitudinalSegments} B-Spline · Thin-Film: {liveHdMesh.iridescenceThinFilmMinNm}–{liveHdMesh.iridescenceThinFilmMaxNm}nm (IOR {liveHdMesh.iridescenceIor})
+                        T1:{liveGranular.tier1AtomicValenceIndex} &lt; T2:{liveGranular.tier2MolecularBondIndex} &lt; T3:{liveGranular.tier3MacromolecularPolymerIndex} &lt; T4:{liveGranular.tier4CompoundManifestationIndex} &lt; T5:{liveGranular.tier5EnvironmentalModalIndex} &lt; T6:{liveGranular.tier6AtomicRemineralizationIndex} · Mesh: {liveHdMesh.radialSegments}x{liveHdMesh.longitudinalSegments} B-Spline ({VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.sobelNormalMapResolutionPx}px Sobel Normal) · Thin-Film: {liveHdMesh.iridescenceThinFilmMinNm}–{liveHdMesh.iridescenceThinFilmMaxNm}nm (IOR {liveHdMesh.iridescenceIor})
                       </div>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px]">

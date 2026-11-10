@@ -145,6 +145,13 @@ import {
   synthesizeBotanicalOrganogenesis,
   evaluateHighDefinitionVisualSynthesis,
   evaluateKinematicRigPose,
+  stepBMeshSubdivisionDensity,
+  stepThinFilmIridescenceSpanNm,
+  verifyHighDefinitionBMeshSynthesis,
+  stepBasalJointTorqueMilli,
+  stepMidCulmFlexureMilli,
+  stepApicalCorollaGimbalMilli,
+  verifyThreeJointKinematicHierarchy,
 } from './prismModel';
 import {
   createCordateLotusPadGeometry,
@@ -2240,6 +2247,70 @@ test('High-Definition Parametric B-Mesh 3D Modeling Engine, Blender-Style Shape-
   );
   assert.equal(boulderMeta.vertexCount, 15 * 19);
   assert.equal(boulderMeta.hasNormals, true);
+});
+
+test('Formal .lex.tex High-Definition B-Mesh & 3-Joint Kinematic Rig Synthesis specifications and Lean 4 theorems hold across all synaptic weights', () => {
+  // 1. Verify Foundation.Botany.V1.Model::HighDefinitionBMeshVisualSpec & theorem highDefinitionBMeshSynthesisHolds
+  const botanyTheorems = GENERATED_PRISM_THEOREMS_BY_MODULE[
+    'Foundation.Botany.V1.Model'
+  ] as readonly string[];
+  assert.ok(
+    botanyTheorems.includes('highDefinitionBMeshSynthesisHolds'),
+    'Expected highDefinitionBMeshSynthesisHolds in Foundation.Botany.V1.Model.lex.tex',
+  );
+  assert.equal(VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.parametricBMeshBuildersCount, 11);
+  assert.equal(VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.sobelNormalMapResolutionPx, 256);
+  assert.equal(VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.minThinFilmIridescenceNm, 180);
+  assert.equal(VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.maxThinFilmIridescenceNm, 520);
+  assert.equal(VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.shapeKeyMorphTargetsPerOrgan, 2);
+  assert.equal(VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.customBotanicalGlslShaderEnabled, true);
+  assert.equal(VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.subsurfaceTranslucencyCoupled, true);
+  assert.equal(VERDANT_BOTANICAL_STANDARD.highDefinitionBMesh.bMeshTopologyVerified, true);
+
+  // 2. Verify Foundation.Articulation.V1.Model::KinematicRigAndMorphSpec & theorem threeJointKinematicHierarchyHolds
+  const articulationTheorems = GENERATED_PRISM_THEOREMS_BY_MODULE[
+    'Foundation.Articulation.V1.Model'
+  ] as readonly string[];
+  assert.ok(
+    articulationTheorems.includes('threeJointKinematicHierarchyHolds'),
+    'Expected threeJointKinematicHierarchyHolds in Foundation.Articulation.V1.Model.lex.tex',
+  );
+  assert.equal(VERDANT_ARTICULATION_STANDARD.kinematicRig.kinematicJointsPerSpecimen, 3);
+  assert.equal(VERDANT_ARTICULATION_STANDARD.kinematicRig.shapeKeyMorphChannels, 2);
+  assert.equal(VERDANT_ARTICULATION_STANDARD.kinematicRig.phaseLagMilliRadPerJoint, 550);
+  assert.equal(VERDANT_ARTICULATION_STANDARD.kinematicRig.threeJointKinematicChainVerified, true);
+  assert.equal(VERDANT_ARTICULATION_STANDARD.kinematicRig.shapeKeyMorphCouplingVerified, true);
+
+  // 3. Verify constructive LUT functions across all synaptic weights w in [1..16] (with strict monotonicity predicates holding for w in [1..15])
+  for (let w = 1; w <= 16; w++) {
+    const subdiv = stepBMeshSubdivisionDensity(w);
+    const iridSpan = stepThinFilmIridescenceSpanNm(w);
+    assert.ok(subdiv >= 134 && subdiv < iridSpan);
+
+    const basal = stepBasalJointTorqueMilli(w);
+    const mid = stepMidCulmFlexureMilli(w);
+    const apical = stepApicalCorollaGimbalMilli(w);
+    assert.ok(basal < mid && mid < apical, `Expected strict 3-joint kinematic hierarchy at w=${w}`);
+
+    if (w <= 15) {
+      assert.equal(
+        verifyHighDefinitionBMeshSynthesis(w),
+        true,
+        `Expected verifyHighDefinitionBMeshSynthesis(${w}) to hold`,
+      );
+      assert.equal(
+        verifyThreeJointKinematicHierarchy(w),
+        true,
+        `Expected verifyThreeJointKinematicHierarchy(${w}) to hold`,
+      );
+    }
+  }
+
+  // 4. Verify Holistic System Coupling includes highDefinitionBMeshAndKinematicRigVerified
+  const holistic = verifyHolisticSystemCoupling();
+  assert.equal(holistic.highDefinitionBMeshAndKinematicRigVerified, true);
+  assert.equal(holistic.completePrismModelClosureVerified, true);
+  assert.equal(holistic.allConstrained, true);
 });
 
 
