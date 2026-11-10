@@ -39,7 +39,7 @@ import {
 } from '../game/prismModel';
 import { BotanicalSoundscapeEngine } from '../game/soundscapeEngine';
 import { LiveTelemetryState } from './GardenCanvas';
-import { PlantSpeciesIcon } from './BotanicalIcons';
+import { ObserverLightConeIcon, PlantSpeciesIcon } from './BotanicalIcons';
 
 interface PrismInspectorModalProps {
   mode: 'paused' | 'gameover';
@@ -67,7 +67,7 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
   onSelectAtmosphere,
 }) => {
   const [activeTab, setActiveTab] = useState<
-    'herbarium' | 'biomes' | 'harmonies' | 'soundboard' | 'ethos'
+    'herbarium' | 'biomes' | 'harmonies' | 'soundboard' | 'observer' | 'ethos'
   >('herbarium');
 
   // Harmonic Soundboard interactive 7-dimension state
@@ -276,6 +276,21 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
             </button>
             <button
               type="button"
+              onClick={() => setActiveTab('observer')}
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1.5 ${
+                activeTab === 'observer'
+                  ? 'bg-emerald-500/25 text-amber-100 border border-emerald-400/30'
+                  : 'text-emerald-300/70 hover:text-emerald-100'
+              }`}
+            >
+              <ObserverLightConeIcon
+                supraTier={telemetry.neuromorphic.observer.supraDirective.tier}
+                className="w-3.5 h-3.5 shrink-0"
+              />
+              <span>Observer &amp; Why (11)</span>
+            </button>
+            <button
+              type="button"
               onClick={() => setActiveTab('ethos')}
               className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 activeTab === 'ethos'
@@ -283,7 +298,7 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                   : 'text-emerald-300/70 hover:text-emerald-100'
               }`}
             >
-              Sanctuary Ethos & Design
+              Sanctuary Ethos &amp; Design
             </button>
           </div>
 
@@ -809,6 +824,199 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
               </div>
             </div>
           )}
+
+          {activeTab === 'observer' && (() => {
+            const obs = telemetry.neuromorphic.observer;
+            const supra = obs.supraDirective;
+            const why = obs.latestWhyPacket;
+            const r30 = obs.rule30Horizon;
+            const allParts = Object.values(obs.parts);
+            const allModels = [...supra.runtimeSynthesizedModels.slice().reverse(), ...supra.compileTimeModels];
+
+            return (
+              <div className="space-y-2.5" data-testid="observer-why-panel">
+                {/* Section 1: Theory of Mind (`Why`) on the Universal Neuromorphic Bus + Supra-Directive Transcendence */}
+                <div className="rounded-lg border border-emerald-400/20 bg-[#0c1d17] p-3.5 space-y-2">
+                  <div className="flex items-center justify-between gap-3 flex-wrap">
+                    <div>
+                      <h3 className="text-sm font-semibold text-amber-100">
+                        Holistic Observer Theory of Mind &amp; Supra-Directive Self-Enhancement
+                      </h3>
+                      <div className="text-xs text-emerald-200/80 flex items-center gap-1.5 flex-wrap mt-0.5 tabular-nums">
+                        <span>{supra.tierLabel}</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Mean Weight w={supra.meanSynapticWeight.toFixed(2)} (Base Directive w=8)</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Fidelity {(supra.fidelityPermille / 10).toFixed(1)}%</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Quality {(supra.qualityPermille / 10).toFixed(1)}%</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Definition {supra.definitionSubdiv} Subdiv</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Features +{supra.unlockedFeatureCount}</span>
+                      </div>
+                    </div>
+                    <div className="text-xs font-mono text-teal-200 tabular-nums">
+                      Bus Coherence {(supra.theoryOfMindCoherencePermille / 10).toFixed(1)}% · {obs.connectedBusModules.length} Connected Modules
+                    </div>
+                  </div>
+
+                  <div className="rounded-md border border-emerald-400/15 bg-[#081510] p-2.5 space-y-1">
+                    <div className="text-[11px] font-mono text-amber-200 flex items-center gap-2 flex-wrap tabular-nums">
+                      <span>Bus Packet {why.packetId}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>Source: {why.sourcePart}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>Target Bottleneck: {why.bottleneckPart}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>Inferred Intent: {why.inferredPlayerIntent.replace(/-/g, ' ')}</span>
+                    </div>
+                    <div className="text-xs text-emerald-50 leading-snug">
+                      <span className="font-semibold text-amber-100">Why: </span>
+                      {why.whyRationale}
+                    </div>
+                    <div className="text-[11px] text-emerald-200/85 leading-snug">
+                      <span className="font-semibold text-teal-200">How Parts Improve: </span>
+                      {why.howPartsImproveMechanism} ({why.inferredPlayerAffectSummary})
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 2: Compile-Time (5) & Runtime Procedural Model Synthesis */}
+                <div className="rounded-lg border border-emerald-400/20 bg-[#0c1d17] p-3.5 space-y-2">
+                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                    <h3 className="text-sm font-semibold text-amber-100">
+                      Procedural Model Synthesis ({supra.compileTimeModels.length} Compile-Time ·{' '}
+                      {supra.runtimeSynthesizedModels.length} Runtime)
+                    </h3>
+                    <div className="text-xs font-mono text-emerald-300/85 tabular-nums">
+                      Active Sanctuary Crown: {supra.activeModel.modelName} ({supra.activeModel.origin})
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {allModels.slice(0, 6).map((mdl) => {
+                      const isActiveModel = mdl.modelId === supra.activeModel.modelId;
+                      return (
+                        <div
+                          key={mdl.modelId}
+                          className={`rounded-md border p-2.5 flex items-center justify-between gap-2.5 ${
+                            isActiveModel
+                              ? 'border-amber-300/45 bg-emerald-950/80'
+                              : 'border-emerald-400/15 bg-[#081510]'
+                          }`}
+                        >
+                          <div className="min-w-0 space-y-0.5">
+                            <div className="text-xs font-semibold text-amber-100 truncate">
+                              {mdl.modelName}
+                            </div>
+                            <div className="text-[11px] font-mono text-teal-200/85 flex items-center gap-1.5 flex-wrap tabular-nums">
+                              <span>{mdl.origin}</span>
+                              <span aria-hidden="true">·</span>
+                              <span>w={mdl.synapticWeight}</span>
+                              <span aria-hidden="true">·</span>
+                              <span>{mdl.radialSubdivisions} seg</span>
+                              <span aria-hidden="true">·</span>
+                              <span>{mdl.harmonicCrownPetals} ribs</span>
+                              <span aria-hidden="true">·</span>
+                              <span>{mdl.uorPointKeyHex}</span>
+                            </div>
+                            <div className="text-[11px] text-emerald-200/75 truncate">
+                              {mdl.whySynthesized}
+                            </div>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              soundEngine.setPaused(false);
+                              soundEngine.playSynthesizedObserverModelAudition(mdl, atmosphere);
+                            }}
+                            aria-label={`Audition Model ${mdl.modelName}`}
+                            className="px-2.5 py-1.5 rounded border border-amber-300/35 bg-emerald-950 hover:bg-emerald-900 text-amber-200 text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                          >
+                            Audition Model
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Section 3: All 11 Self-Known Observer Parts (Player User + 10 Prism Domains) */}
+                <div className="rounded-lg border border-emerald-400/20 bg-[#0c1d17] p-3.5 space-y-2">
+                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                    <h3 className="text-sm font-semibold text-amber-100">
+                      11 Unified Observer Parts (Environment, Garden &amp; Player User)
+                    </h3>
+                    <div className="text-xs font-mono text-emerald-300/80 tabular-nums">
+                      {allParts.filter((p) => p.exceedsBaseDirective).length} / {allParts.length} Parts Above Base Directive (w &gt; 8)
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                    {allParts.map((part) => (
+                      <div
+                        key={part.partId}
+                        className="rounded border border-emerald-400/15 bg-[#081510] px-2.5 py-2 space-y-0.5"
+                      >
+                        <div className="flex items-center justify-between gap-2 text-xs">
+                          <span className="font-semibold text-emerald-50 truncate">{part.label}</span>
+                          <span className="font-mono text-amber-200 tabular-nums whitespace-nowrap">
+                            w={part.synapticWeight} · {(part.fidelityMultiplier * 100).toFixed(1)}%
+                          </span>
+                        </div>
+                        <div className="text-[11px] text-teal-200/85 truncate">{part.howPartImproves}</div>
+                        <div className="text-[11px] text-emerald-200/75 truncate">
+                          Why: {part.whyImprovementMatters}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Section 4: Rule-30 Deterministic Regular Diagonals vs. Non-Deterministic Withdrawn Core (`afflom/rule30`) */}
+                <div className="rounded-lg border border-emerald-400/20 bg-[#0c1d17] p-3.5 space-y-2">
+                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                    <h3 className="text-sm font-semibold text-amber-100">
+                      Rule-30 Deterministic &amp; Non-Deterministic Horizon ({r30.referenceArchitecture})
+                    </h3>
+                    <div className="text-xs font-mono text-teal-200 tabular-nums">
+                      Stage: {r30.activeEngineStage} · Strategy: {r30.activePortfolioStrategy} · Entropy:{' '}
+                      {r30.playerEncounterEntropyBits.toFixed(2)} bits
+                    </div>
+                  </div>
+
+                  <div className="text-xs text-emerald-100/85 flex items-center gap-1.5 flex-wrap tabular-nums">
+                    <span>Real Kernel: {r30.quadruple.realObject}</span>
+                    <span aria-hidden="true">·</span>
+                    <span>Sensual Regular Side: {r30.quadruple.sensualObject} (2^d Doubling Law)</span>
+                    <span aria-hidden="true">·</span>
+                    <span>Withdrawn Core: {r30.quadruple.withdrawnCore} (Index {r30.aperiodicCompensationIndex})</span>
+                    <span aria-hidden="true">·</span>
+                    <span>
+                      Hypotheses: {r30.provedCount} Proved / {r30.refutedCount} Refuted / {r30.openHypothesesCount} Open
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5">
+                    {r30.hypothesesLedger.map((hyp) => (
+                      <div
+                        key={hyp.hypothesisId}
+                        className="rounded border border-emerald-400/15 bg-[#081510] p-2 space-y-0.5"
+                      >
+                        <div className="text-[11px] font-mono text-amber-200 flex items-center justify-between gap-1">
+                          <span>{hyp.hypothesisId}</span>
+                          <span>{hyp.status}</span>
+                        </div>
+                        <div className="text-[11px] text-emerald-100/85 leading-snug">{hyp.statement}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
 
           {activeTab === 'ethos' && (
             <div className="space-y-2.5">

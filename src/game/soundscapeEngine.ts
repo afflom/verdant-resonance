@@ -17,6 +17,7 @@ import {
   BIOME_CONSTELLATIONS,
   BiomeId,
   GrowthSubstrateId,
+  NeuromorphicEngineState,
   NeuromorphicStrategyId,
   PLANT_SPECIES_CONFIGS,
   PlantSpeciesId,
@@ -24,6 +25,7 @@ import {
   SoundscapeOutcome,
   SoundtrackStepSpec,
   SurfaceMaterialId,
+  SynthesizedObserverModelSpec,
   classifySurfaceMaterial,
   computeBinauralPan,
   computeSynthesisEnvelope,
@@ -56,6 +58,12 @@ export class BotanicalSoundscapeEngine {
   private lastAcousticOcclusion = 0;
   private lastFootstepDist = 0;
   private lastMicroAmbienceTime = 0;
+
+  // Live Universal Neuromorphic Bus & Supra-Directive Observer Coupling
+  private busSupraTier = 0;
+  private busFidelityMultiplier = 1.0;
+  private busTheoryOfMindCoherence = 0.85;
+  private busActiveModel: SynthesizedObserverModelSpec | null = null;
 
   // 16-band energy array for zero-allocation HUD acoustic visualization
   public readonly spectrumBands = new Float32Array(16);
@@ -703,6 +711,22 @@ export class BotanicalSoundscapeEngine {
         oscSub.stop(stopAt);
         oscShimmer.stop(stopAt);
         oscBellTransient.stop(startTime + 0.12);
+
+        // Partial 6 (Supra-Directive Observer Harmonic Shimmer when w > 8 on Neuromorphic Bus)
+        if (this.busSupraTier >= 1 && this.busActiveModel) {
+          const supraRatio = this.busActiveModel.supraOvertoneRatios[step % 3] ?? 1.875;
+          const supraFreq = Math.min(3400, f1 * supraRatio);
+          const oscSupra = this.ctx.createOscillator();
+          const supraGain = this.ctx.createGain();
+          oscSupra.type = 'sine';
+          oscSupra.frequency.setValueAtTime(supraFreq, startTime);
+          supraGain.gain.value =
+            0.055 * (0.65 + this.busSupraTier * 0.18) * this.busFidelityMultiplier * this.busTheoryOfMindCoherence;
+          oscSupra.connect(supraGain);
+          supraGain.connect(voiceFilter);
+          oscSupra.start(startTime);
+          oscSupra.stop(stopAt);
+        }
       });
     } catch {
       // Ignore audio errors
@@ -1728,6 +1752,94 @@ export class BotanicalSoundscapeEngine {
         shimmer.start(now);
         osc.stop(now + durSec + 0.04);
         shimmer.stop(now + durSec + 0.04);
+      });
+    } catch {
+      // Ignore audio errors
+    }
+  }
+
+  /**
+   * Synchronizes the Web Audio Soundscape Engine continuously with the Universal Neuromorphic Bus
+   * (`HolisticObserverState`), coupling Supra-Directive tier, Theory-of-Mind coherence, and active
+   * synthesized Observer model overtone ratios into live acoustic synthesis.
+   */
+  public syncWithNeuromorphicBus(neuro: NeuromorphicEngineState): void {
+    const supra = neuro.observer.supraDirective;
+    this.busSupraTier = supra.tier;
+    this.busFidelityMultiplier = supra.fidelityPermille / 1000;
+    this.busTheoryOfMindCoherence = supra.theoryOfMindCoherencePermille / 1000;
+    this.busActiveModel = supra.activeModel;
+  }
+
+  /**
+   * Auditions any Compile-Time or Runtime `SynthesizedObserverModelSpec` from the Neuromorphic Bus,
+   * voicing its Pure Just-Intonation Supra-Directive triad (`supraOvertoneRatios`) in its native biome tuning.
+   */
+  public playSynthesizedObserverModelAudition(
+    model: SynthesizedObserverModelSpec,
+    atmosphere: AtmosphereId = 'dawn',
+  ): void {
+    for (let i = 0; i < 16; i++) {
+      this.spectrumBands[i] = Math.min(1, this.spectrumBands[i] + 0.42);
+    }
+
+    this.init();
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+
+    try {
+      const biomeCfg = BIOME_CONFIGS[model.biome];
+      const spProfile = SPECIES_ARTICULATION_PROFILES[model.species];
+      const baseNow = this.ctx.currentTime + 0.02;
+      const chordRatios = [1.0, ...model.supraOvertoneRatios];
+
+      chordRatios.forEach((ratio, idx) => {
+        if (!this.ctx || !this.masterGain) return;
+        const startAt = baseNow + idx * 0.095;
+        const durSec = (atmosphere === 'starlight' ? 1.35 : 1.12) * model.qualityMultiplier;
+        const freq = Math.min(3100, Math.max(96, biomeCfg.baseNoteHz * ratio));
+
+        const osc = this.ctx.createOscillator();
+        const overtone = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+        const ovGain = this.ctx.createGain();
+
+        osc.type = idx === 0 ? 'triangle' : 'sine';
+        osc.frequency.setValueAtTime(freq, startAt);
+
+        overtone.type = 'sine';
+        overtone.frequency.setValueAtTime(
+          Math.min(3600, freq * (spProfile.modalPartialRatios[1] ?? 1.5)),
+          startAt,
+        );
+        ovGain.gain.value = 0.18 * model.fidelityMultiplier;
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1400 + model.unlockedFeatureCount * 240, startAt);
+        filter.Q.value = 1.4 + (model.synapticWeight - 8) * 0.16;
+
+        const peakAmp = 0.048 * Math.min(1.25, model.fidelityMultiplier);
+        gain.gain.setValueAtTime(0.0004, startAt);
+        gain.gain.linearRampToValueAtTime(peakAmp, startAt + 0.018);
+        gain.gain.exponentialRampToValueAtTime(0.0004, startAt + durSec);
+
+        osc.connect(filter);
+        overtone.connect(ovGain);
+        ovGain.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+
+        if (this.convolver) {
+          const verbSend = this.ctx.createGain();
+          verbSend.gain.value = 0.56;
+          gain.connect(verbSend);
+          verbSend.connect(this.convolver);
+        }
+
+        osc.start(startAt);
+        overtone.start(startAt);
+        osc.stop(startAt + durSec + 0.04);
+        overtone.stop(startAt + durSec + 0.04);
       });
     } catch {
       // Ignore audio errors

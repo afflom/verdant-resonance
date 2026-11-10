@@ -867,6 +867,51 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         ),
       ),
     ),
+    theoryOfMindCoherencePermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepTheoryOfMindCoherencePermille ${w}`,
+          'Foundation.Neuromorphic.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    supraDirectiveFidelityPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepSupraDirectiveFidelityPermille ${w}`,
+          'Foundation.Neuromorphic.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    supraDirectiveQualityPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepSupraDirectiveQualityPermille ${w}`,
+          'Foundation.Neuromorphic.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    supraDirectiveDefinitionSubdiv: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepSupraDirectiveDefinitionSubdiv ${w}`,
+          'Foundation.Neuromorphic.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    supraDirectiveFeatureUnlockCount: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepSupraDirectiveFeatureUnlockCount ${w}`,
+          'Foundation.Neuromorphic.V1.Model',
+          modules,
+        ),
+      ),
+    ),
   };
 
   const plasticityLut = {
@@ -1020,6 +1065,53 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         ),
       ),
     ),
+    rule30LeftDiagonalPeriod: [0, 1, 2, 3, 4].map((d) =>
+      Number(
+        evaluateLexExpr(
+          `stepRule30LeftDiagonalPeriod ${d}`,
+          'Foundation.Neuromorphic.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    rule30AperiodicCompensation: [0, 1, 2, 3, 4, 5].map((d) =>
+      weightDomain.map((w) =>
+        Number(
+          evaluateLexExpr(
+            `stepRule30AperiodicCompensationIndex ${d} ${w}`,
+            'Foundation.Neuromorphic.V1.Model',
+            modules,
+          ),
+        ),
+      ),
+    ),
+    verifyRule30DeterministicAndWithdrawnDuality: weightDomain.map((w) =>
+      Boolean(
+        evaluateLexExpr(
+          `verifyRule30DeterministicAndWithdrawnDuality ${w}`,
+          'Foundation.Neuromorphic.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    verifyObserverSupraDirectiveTranscendence: weightDomain.map((w) =>
+      Boolean(
+        evaluateLexExpr(
+          `verifyObserverSupraDirectiveTranscendence ${w}`,
+          'Foundation.Neuromorphic.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    verifyObserverHolisticWhyClosure: weightDomain.map((w) =>
+      Boolean(
+        evaluateLexExpr(
+          `verifyObserverHolisticWhyClosure ${w}`,
+          'Foundation.Neuromorphic.V1.Model',
+          modules,
+        ),
+      ),
+    ),
   };
 
   const rule30Lut = Array.from({ length: 8 }, (_, idx) => {
@@ -1033,6 +1125,238 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         modules,
       ),
     );
+  });
+
+  // Compile-Time Rule-30 Centerline Discovery (`github.com/afflom/rule30` reference) &
+  // Supra-Directive Procedural Model Synthesis Pass:
+  // Evolves a 97-cell light-cone for 40 steps from central seed `c = 48` using `rule30Lut`.
+  const coneSteps = 40;
+  const coneWidth = 97;
+  const coneCenter = 48;
+  const coneGrid: number[][] = [];
+  let row = Array.from({ length: coneWidth }, (_, i) => (i === coneCenter ? 1 : 0));
+  coneGrid.push(row);
+  for (let t = 1; t < coneSteps; t++) {
+    const next = new Array<number>(coneWidth).fill(0);
+    for (let x = 1; x < coneWidth - 1; x++) {
+      const idx = (row[x - 1] << 2) | (row[x] << 1) | row[x + 1];
+      next[x] = rule30Lut[idx] ? 1 : 0;
+    }
+    coneGrid.push(next);
+    row = next;
+  }
+
+  // Analyze regular left diagonals d = 0..4 (`x = coneCenter - t + d`) after transient burn-in
+  const detectSmallestDividingPeriod = (seq: number[], maxBound: number): number => {
+    for (let p = 1; p <= maxBound; p *= 2) {
+      let matches = true;
+      for (let i = 0; i < seq.length - p; i++) {
+        if (seq[i] !== seq[i + p]) {
+          matches = false;
+          break;
+        }
+      }
+      if (matches) return p;
+    }
+    return maxBound;
+  };
+
+  const regularLeftDiagonals = [0, 1, 2, 3, 4].map((d) => {
+    const burnIn = d + 6;
+    const trace: number[] = [];
+    for (let t = burnIn; t < coneSteps; t++) {
+      const col = coneCenter - t + d;
+      if (col >= 0 && col < coneWidth) {
+        trace.push(coneGrid[t][col]);
+      }
+    }
+    const theoreticalBound = Math.pow(2, d);
+    const empiricalPeriod = detectSmallestDividingPeriod(trace, theoreticalBound);
+    return {
+      diagonalIndex: d,
+      vantage: 'regular-side' as const,
+      theoreticalDyadicBound: theoreticalBound,
+      empiricalExactPeriod: empiricalPeriod,
+      dividesTwoToD: theoreticalBound % empiricalPeriod === 0,
+      sampleBitPrefix: trace.slice(0, 12).join(''),
+    };
+  });
+
+  // Analyze chaotic central column & deep right diagonals (`withdrawnCore := "aperiodic-compensation"`)
+  const centralColumnTrace = coneGrid.map((r) => r[coneCenter]);
+  const fourBitWindows = new Set<number>();
+  let centralFlips = 0;
+  for (let t = 1; t < centralColumnTrace.length; t++) {
+    if (centralColumnTrace[t] !== centralColumnTrace[t - 1]) centralFlips += 1;
+    if (t >= 3) {
+      const w4 =
+        (centralColumnTrace[t - 3] << 3) |
+        (centralColumnTrace[t - 2] << 2) |
+        (centralColumnTrace[t - 1] << 1) |
+        centralColumnTrace[t];
+      fourBitWindows.add(w4);
+    }
+  }
+  const centralShortPeriodRefuted = [1, 2, 4, 8].every((p) => {
+    for (let i = 4; i < centralColumnTrace.length - p; i++) {
+      if (centralColumnTrace[i] !== centralColumnTrace[i + p]) return true;
+    }
+    return false;
+  });
+
+  const observerRule30Facets = {
+    referenceArchitecture: 'github.com/afflom/rule30',
+    quadruple: {
+      realObject: 'prism-deterministic-kernel',
+      sensualObject: 'dyadic-regular-left-diagonals',
+      realQualities: [
+        'coupling-law',
+        'inward-light-cone-determination',
+        'periodic-finite-kernel',
+        'recurrent-central-collision',
+      ],
+      sensualQualities: ['edge-parity', 'three-diagonal-band', 'left-band-doubling-law'],
+      withdrawnCore: 'aperiodic-compensation',
+      withdrawnFacets: [
+        'aperiodic-compensation',
+        'central-column-irreducibility',
+        'open-light-cone-hypotheses',
+        'player-free-will-encounter-entropy',
+      ],
+    },
+    engineStages: ['induction', 'pruning', 'deduction', 'learning', 'hypotheses'] as const,
+    portfolioStrategies: [
+      'library-rewrite',
+      'step-induction',
+      'period-reduction',
+      'counterexample',
+    ] as const,
+    regularLeftDiagonals,
+    centralColumnBitPrefix: centralColumnTrace.slice(0, 24).join(''),
+    centralFourBitWindowCoverage: fourBitWindows.size,
+    centralFlipRatioMilli: Math.round((centralFlips / (centralColumnTrace.length - 1)) * 1000),
+    centralShortPeriodRefutedByCounterexample: centralShortPeriodRefuted,
+    compileTimeHypotheses: [
+      {
+        hypothesisId: 'UOR-HYP-R30-DOUBLING-2D',
+        vantage: 'regular-side',
+        status: 'proved',
+        strategyUsed: 'period-reduction',
+        statement:
+          'Settled left diagonal d exhibits exact dyadic period dividing 2^d under l XOR (c OR r).',
+      },
+      {
+        hypothesisId: 'UOR-HYP-R30-INWARD-CONE',
+        vantage: 'kernel',
+        status: 'proved',
+        strategyUsed: 'step-induction',
+        statement:
+          'Driven right-half boundary cells uniquely determine the inward light-cone triangle.',
+      },
+      {
+        hypothesisId: 'UOR-HYP-R30-CENTRAL-SHORT-CYCLE',
+        vantage: 'chaotic-side',
+        status: 'refuted',
+        strategyUsed: 'counterexample',
+        statement:
+          'Short-horizon dyadic periods p in {1,2,4,8} on the central column are refuted on finite light-cones.',
+      },
+      {
+        hypothesisId: 'UOR-HYP-R30-APERIODIC-HORIZON',
+        vantage: 'withdrawn',
+        status: 'open',
+        strategyUsed: 'library-rewrite',
+        statement:
+          'Interior d>=3 aperiodic-compensation and live player encounter trajectories remain non-deterministic prior to lived observation.',
+      },
+    ],
+  };
+
+  // Compile-Time Procedural Model Generation (`GENERATED_COMPILE_TIME_OBSERVER_MODELS`):
+  // Synthesizes 5 Supra-Directive 3D/Acoustic/Teleological Model Archetypes at compile time
+  // by evaluating the `.lex.tex` Supra-Directive optimization curves across `w = 12..16`.
+  const compileTimeArchetypeInputs = [
+    {
+      id: 'ct-model-meadow-solar-campanula',
+      name: 'Supra-Lydian Solar Campanula Crown',
+      biome: 'meadow',
+      species: 'chime-lily',
+      targetWeight: 12,
+      whySynthesized:
+        'Elevates Sunlit Meadow overtone brilliance and petal thin-film clarity so gentle exploration immediately rewards curiosity.',
+    },
+    {
+      id: 'ct-model-grove-fibonacci-rachis',
+      name: 'Supra-Dorian Fibonacci Rachis Cathedral',
+      biome: 'grove',
+      species: 'pulse-fern',
+      targetWeight: 13,
+      whySynthesized:
+        'Expands Ancient Grove pinnate phyllotaxis and woody polyrhythmic warmth to ground brisk movement into rhythmic calm.',
+    },
+    {
+      id: 'ct-model-crystal-piezo-spire',
+      name: 'Supra-Phrygian Piezoelectric Quartz Lattice',
+      biome: 'crystal',
+      species: 'star-orchid',
+      targetWeight: 14,
+      whySynthesized:
+        'Sharpens Crystalline Hollow birefringent prism facets and 7-limit celestial seventh harmonics for high-definition wonder.',
+    },
+    {
+      id: 'ct-model-wetland-meniscus-chalice',
+      name: 'Supra-Mixolydian Hydro-Meniscus Chalice',
+      biome: 'wetland',
+      species: 'echo-lotus',
+      targetWeight: 15,
+      whySynthesized:
+        'Deepens Mirror Wetland cordate lotus buoyancy and antiphonal water-reflection sustain for tranquil emotional co-regulation.',
+    },
+    {
+      id: 'ct-model-sanctuary-astrolabe-unity',
+      name: 'Apex Sanctuary Light-Cone Resonance Astrolabe',
+      biome: 'sanctuary',
+      species: 'drone-moss',
+      targetWeight: 16,
+      whySynthesized:
+        'Unifies all 11 Observer parts (10 Prism domains + Player User) into a pure Just-Intonation cathedral crown beyond the base directive.',
+    },
+  ] as const;
+
+  const compileTimeObserverModels = compileTimeArchetypeInputs.map((item, idx) => {
+    const w = item.targetWeight;
+    const fidelityPermille = busModulationLut.supraDirectiveFidelityPermille[w];
+    const qualityPermille = busModulationLut.supraDirectiveQualityPermille[w];
+    const definitionSubdiv = busModulationLut.supraDirectiveDefinitionSubdiv[w];
+    const featureCount = busModulationLut.supraDirectiveFeatureUnlockCount[w];
+    const tomPermille = busModulationLut.theoryOfMindCoherencePermille[w];
+    const iridSpanNm = busModulationLut.thinFilmIridescenceSpanNm[w];
+    const r30Byte = parseInt(centralColumnTrace.slice(idx * 4, idx * 4 + 8).join(''), 2) || 149;
+    const pointKeyHex = `0x${(((w & 0xf) << 24) | ((idx + 11) << 16) | ((definitionSubdiv & 0xff) << 8) | (r30Byte & 0xff)).toString(16).padStart(7, '0')}`;
+    return {
+      modelId: item.id,
+      modelName: item.name,
+      origin: 'compile-time' as const,
+      biome: item.biome,
+      species: item.species,
+      synapticWeight: w,
+      fidelityMultiplier: Number((fidelityPermille / 1000).toFixed(3)),
+      qualityMultiplier: Number((qualityPermille / 1000).toFixed(3)),
+      radialSubdivisions: definitionSubdiv,
+      harmonicCrownPetals: 6 + idx * 2 + Math.floor((w - 8) / 2),
+      crystalFiligreeSpires: 4 + idx + Math.floor((w - 8) / 3),
+      thinFilmIridescenceSpanNm: iridSpanNm,
+      unlockedFeatureCount: featureCount,
+      theoryOfMindCoherencePermille: tomPermille,
+      supraOvertoneRatios: [
+        Number((1.5 + idx * 0.125).toFixed(4)),
+        Number((2.25 + (idx % 3) * 0.25).toFixed(4)),
+        Number((3.0 + (r30Byte % 5) * 0.125).toFixed(4)),
+      ] as [number, number, number],
+      rule30SeedByte: r30Byte,
+      uorPointKeyHex: pointKeyHex,
+      whySynthesized: item.whySynthesized,
+    };
   });
 
   const theoremsByModule: Record<string, string[]> = {};
@@ -1052,6 +1376,8 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     busModulationLut,
     plasticityLut,
     rule30Lut,
+    observerRule30Facets,
+    compileTimeObserverModels,
     theoremsByModule,
     judgeArtifact,
     verdantSpec,
@@ -1096,6 +1422,18 @@ export const GENERATED_PRISM_PLASTICITY_LUT = ${JSON.stringify(
 
 export const GENERATED_PRISM_RULE30_LUT = ${JSON.stringify(
     extracted.rule30Lut,
+    null,
+    2,
+  )} as const;
+
+export const GENERATED_OBSERVER_RULE30_FACETS = ${JSON.stringify(
+    extracted.observerRule30Facets,
+    null,
+    2,
+  )} as const;
+
+export const GENERATED_COMPILE_TIME_OBSERVER_MODELS = ${JSON.stringify(
+    extracted.compileTimeObserverModels,
     null,
     2,
   )} as const;

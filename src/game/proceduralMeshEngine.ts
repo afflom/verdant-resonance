@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import type { SynthesizedObserverModelSpec } from './prismModel';
 
 /**
  * High-Definition Procedural 3D B-Mesh, Lofted Spline, Shape-Key (Morph Target)
@@ -7,6 +8,7 @@ import * as THREE from 'three';
  * Replaces primitive boxes, cones, and cylinders with parametrically sculpted,
  * anatomically accurate 3D geometries complete with analytical normals, UVs,
  * vertex color gradients, and Blender-style Shape Keys (`morphAttributes.position`).
+ * Connected to the Universal Neuromorphic Bus for Supra-Directive (`w > 8`) model synthesis.
  */
 
 export interface ProceduralGeometryMetadata {
@@ -22,6 +24,8 @@ export interface ProceduralGeometryMetadata {
 export interface BotanicalShaderUniforms {
   uTime: { value: number };
   uResonancePulse: { value: number };
+  uSupraDefinition: { value: number };
+  uAperiodicShimmer: { value: number };
 }
 
 export function inspectGeometryMetadata(
@@ -363,7 +367,8 @@ export function createPinnateFrondGeometry(options?: {
 
       for (let iu = 0; iu <= pinnaUSegs; iu++) {
         const u = iu / pinnaUSegs; // 0 at rachis stem -> 1 at pinna leaflet tip
-        const widthProfile = Math.sin(Math.pow(u, 0.75) * Math.PI);
+        // Non-zero petiolule attachment width (0.22) at u=0 so every leaflet is physically embedded inside the central rachis spine
+        const widthProfile = 0.22 * (1 - u) + Math.sin(Math.pow(u, 0.75) * Math.PI);
         const localReach = u * pinnaLength;
 
         for (let iv = 0; iv <= pinnaVSegs; iv++) {
@@ -456,18 +461,19 @@ export function createLogarithmicCrozierGeometry(options?: {
 
   let idx = 0;
   for (let it = 0; it <= tSegs; it++) {
-    const t = it / tSegs; // 0 at outer stem entry -> 1 at tightly coiled inner apex
-    const theta = t * Math.PI * 2 * turns;
+    const t = it / tSegs; // 0 at basal stem attachment (0,0,0) -> 1 at tightly coiled inner apex
+    const theta = -Math.PI * 0.5 + t * Math.PI * 2 * turns;
     const spiralR = outerRadius * Math.exp(-1.35 * t);
+    // Offset by (0, +outerRadius) so at t = 0 (theta = -pi/2), centerX = 0 and centerY = 0 (anchored directly at the stem apex!)
     const centerX = Math.cos(theta) * spiralR;
-    const centerY = Math.sin(theta) * spiralR;
-    const centerZ = (t - 0.5) * 0.035;
+    const centerY = outerRadius + Math.sin(theta) * spiralR;
+    const centerZ = t * 0.025;
 
-    // Unfurl morph target unwinds the spiral angle by 32% and lifts Y
-    const unfurlTheta = theta * 0.68;
-    const unfurlR = outerRadius * Math.exp(-0.95 * t) * 1.15;
+    // Unfurl morph target unwinds the spiral angle by 32% while keeping t=0 anchored at (0,0,0)
+    const unfurlTheta = -Math.PI * 0.5 + t * Math.PI * 2 * turns * 0.68;
+    const unfurlR = outerRadius * Math.exp(-0.95 * t);
     const unfurlCenterX = Math.cos(unfurlTheta) * unfurlR;
-    const unfurlCenterY = Math.sin(unfurlTheta) * unfurlR + t * 0.14;
+    const unfurlCenterY = outerRadius + Math.sin(unfurlTheta) * unfurlR + t * 0.14;
 
     // Tangent normal in XY plane
     const radAngle = theta;
@@ -710,11 +716,12 @@ export function createSculptedCanopyCrownGeometry(options?: {
   const rSegs = options?.radialSegments ?? 27;
   const ringSegs = options?.ringSegments ?? 10;
 
-  const vertexCount = (rSegs + 1) * (ringSegs + 1);
-  const positions = new Float32Array(vertexCount * 3);
-  const uvs = new Float32Array(vertexCount * 2);
+  const positions: number[] = [];
+  const uvs: number[] = [];
+  const indices: number[] = [];
+  let vOffset = 0;
 
-  let idx = 0;
+  // Part A: Sculpted Multi-Lobed Foliage Dome
   for (let ir = 0; ir <= ringSegs; ir++) {
     const v = ir / ringSegs; // 0 at crown apex (+height*0.5), 1 at drooping outer leaf tips (-height*0.5)
     for (let ia = 0; ia <= rSegs; ia++) {
@@ -731,32 +738,60 @@ export function createSculptedCanopyCrownGeometry(options?: {
         leafLobe * 0.085 * Math.sin(v * Math.PI) -
         Math.pow(v, 3.0) * Math.max(0, leafLobe) * 0.14;
 
-      positions[idx * 3] = Math.cos(theta) * sprayReach;
-      positions[idx * 3 + 1] = archY;
-      positions[idx * 3 + 2] = Math.sin(theta) * sprayReach;
-
-      uvs[idx * 2] = u;
-      uvs[idx * 2 + 1] = v;
-      idx++;
+      positions.push(Math.cos(theta) * sprayReach, archY, Math.sin(theta) * sprayReach);
+      uvs.push(u, v);
     }
   }
 
-  const indices: number[] = [];
   const stride = rSegs + 1;
   for (let ir = 0; ir < ringSegs; ir++) {
     for (let ia = 0; ia < rSegs; ia++) {
-      const a = ir * stride + ia;
+      const a = vOffset + ir * stride + ia;
       const b = a + 1;
-      const c = (ir + 1) * stride + ia;
+      const c = (ir + 1) * stride + ia + vOffset;
       const d = c + 1;
       indices.push(a, b, d);
       indices.push(a, d, c);
     }
   }
+  vOffset += (ringSegs + 1) * stride;
+
+  // Part B: Underside Foliar Cup & Trunk-Clasping Nodal Collar (`r = 0.20m` at `y = -height * 0.42`)
+  // Connects the outer drooping canopy margin (`v = 1`) smoothly inward and downward to the central tree trunk axis (0, -height*0.42, 0)
+  const underRings = 4;
+  const collarR = 0.18;
+  for (let ur = 0; ur <= underRings; ur++) {
+    const t = ur / underRings; // 0 at outer canopy rim -> 1 at central trunk nodal collar
+    for (let ia = 0; ia <= rSegs; ia++) {
+      const u = ia / rSegs;
+      const theta = u * Math.PI * 2;
+      const leafLobe = Math.cos(theta * lobeCount);
+      const outerR =
+        Math.sin(Math.PI * 0.58) * radius * (1 + leafLobe * 0.22);
+      const outerY =
+        -height * 0.5 - Math.max(0, leafLobe) * 0.14;
+      const boughRib = Math.pow(Math.max(0, Math.cos(theta * lobeCount)), 2) * 0.08 * Math.sin(t * Math.PI);
+      const r = outerR * (1 - t) + collarR * t;
+      const y = outerY * (1 - t) + (-height * 0.36) * t + Math.sin(t * Math.PI) * 0.22 + boughRib;
+
+      positions.push(Math.cos(theta) * r, y, Math.sin(theta) * r);
+      uvs.push(u, 1 - t * 0.5);
+    }
+  }
+  for (let ur = 0; ur < underRings; ur++) {
+    for (let ia = 0; ia < rSegs; ia++) {
+      const a = vOffset + ur * stride + ia;
+      const b = a + 1;
+      const c = a + stride;
+      const d = c + 1;
+      indices.push(a, d, b);
+      indices.push(a, c, d);
+    }
+  }
 
   const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
   geometry.setIndex(indices);
   geometry.computeVertexNormals();
   return geometry;
@@ -1366,11 +1401,15 @@ export function enhanceMaterialWithBotanicalShader(
   const uniforms: BotanicalShaderUniforms = {
     uTime: { value: 0 },
     uResonancePulse: { value: 0 },
+    uSupraDefinition: { value: 0 },
+    uAperiodicShimmer: { value: 0 },
   };
 
   material.onBeforeCompile = (shader) => {
     shader.uniforms.uBotanicalTime = uniforms.uTime;
     shader.uniforms.uResonancePulse = uniforms.uResonancePulse;
+    shader.uniforms.uSupraDefinition = uniforms.uSupraDefinition;
+    shader.uniforms.uAperiodicShimmer = uniforms.uAperiodicShimmer;
     shader.uniforms.uWaveFreq = { value: waveFreq };
     shader.uniforms.uWaveAmp = { value: waveAmp };
     shader.uniforms.uPulseSpeed = { value: pulseSpeed };
@@ -1379,6 +1418,7 @@ export function enhanceMaterialWithBotanicalShader(
       `
       uniform float uBotanicalTime;
       uniform float uResonancePulse;
+      uniform float uSupraDefinition;
       uniform float uWaveFreq;
       uniform float uWaveAmp;
       varying vec3 vBotanicalLocalPos;
@@ -1389,7 +1429,8 @@ export function enhanceMaterialWithBotanicalShader(
         #include <begin_vertex>
         vBotanicalLocalPos = position;
         float heightMask = clamp(position.y * 1.2, 0.0, 1.5);
-        float harmonicRipple = sin(position.y * 5.5 - uBotanicalTime * uWaveFreq + position.x * 3.0) * uWaveAmp * (1.0 + uResonancePulse * 0.8) * heightMask;
+        float supraHarmonic = sin(position.y * 11.0 + position.x * 7.0 - uBotanicalTime * (uWaveFreq * 1.618)) * (uWaveAmp * 0.35 * uSupraDefinition) * heightMask;
+        float harmonicRipple = sin(position.y * 5.5 - uBotanicalTime * uWaveFreq + position.x * 3.0) * uWaveAmp * (1.0 + uResonancePulse * 0.8) * heightMask + supraHarmonic;
         transformed.x += harmonicRipple * 0.45;
         transformed.z += harmonicRipple;
         `,
@@ -1399,6 +1440,8 @@ export function enhanceMaterialWithBotanicalShader(
       `
       uniform float uBotanicalTime;
       uniform float uResonancePulse;
+      uniform float uSupraDefinition;
+      uniform float uAperiodicShimmer;
       uniform float uPulseSpeed;
       varying vec3 vBotanicalLocalPos;
       ` +
@@ -1406,11 +1449,247 @@ export function enhanceMaterialWithBotanicalShader(
         '#include <emissivemap_fragment>',
         `
         #include <emissivemap_fragment>
-        float veinWave = 0.82 + (0.28 + uResonancePulse * 0.35) * sin(vBotanicalLocalPos.y * 7.0 - uBotanicalTime * uPulseSpeed);
-        totalEmissiveRadiance *= veinWave;
+        float supraFineVein = uSupraDefinition * 0.16 * sin(vBotanicalLocalPos.x * 18.0 + vBotanicalLocalPos.y * 13.0 - uBotanicalTime * (uPulseSpeed * 1.5));
+        float aperiodicSpark = uAperiodicShimmer * 0.12 * cos(vBotanicalLocalPos.y * 23.0 + uBotanicalTime * 3.1);
+        float veinWave = 0.82 + (0.28 + uResonancePulse * 0.35) * sin(vBotanicalLocalPos.y * 7.0 - uBotanicalTime * uPulseSpeed) + supraFineVein + aperiodicSpark;
+        totalEmissiveRadiance *= max(0.35, veinWave);
         `,
       );
   };
 
   return uniforms;
+}
+
+/**
+ * 14. Supra-Directive Observer Light-Cone Astrolabe & Harmonic Crown B-Mesh (`createObserverAstrolabeCrownGeometry`)
+ * - Driven directly by compile-time or runtime `SynthesizedObserverModelSpec` from the Universal Neuromorphic Bus.
+ * - Topologically unified, 100% physically connected assembly merged into a single indexed `THREE.BufferGeometry`
+ *   with analytical normals, UVs, vertex colors, and 2 Shape Keys (`lightConeExpansion`, `aperiodicHarmonicWave`):
+ *   1. Seated Basal Cupola Collar Ring at `y = 0` (`r = 1.15m`) that clasps flush onto the Sanctuary Pavilion cupola.
+ *   2. `harmonicCrownPetals` Golden-Ratio Meridian Rib Arcs curving seamlessly from the basal collar (`r = 1.15m, y = 0`)
+ *      into the Upper Light-Cone Crown Hub (`r = 0.36m, y = crownHeight`).
+ *   3. `crystalFiligreeSpires` Inclined Buttress Struts welded from the basal collar (`r = 1.12m, y = 0.02m`) into the
+ *      Central Light-Cone Finial Spire (`r = 0, y = 0..finialApexY`), leaving zero floating or disjoint geometry.
+ */
+export function createObserverAstrolabeCrownGeometry(
+  model?: Partial<SynthesizedObserverModelSpec>,
+): THREE.BufferGeometry {
+  const radialSegs = Math.max(16, Math.min(40, Math.round(model?.radialSubdivisions ?? 28)));
+  const crownRibCount = Math.max(5, Math.min(16, Math.round(model?.harmonicCrownPetals ?? 8)));
+  const filigreeCount = Math.max(3, Math.min(12, Math.round(model?.crystalFiligreeSpires ?? 5)));
+  const qualityMult = Math.max(0.85, Math.min(1.45, model?.qualityMultiplier ?? 1.08));
+  const fidelityMult = Math.max(0.85, Math.min(1.35, model?.fidelityMultiplier ?? 1.05));
+  const seedPhase = ((model?.rule30SeedByte ?? 30) & 0xff) / 255;
+
+  const baseRadius = 1.15;
+  const crownHeight = 1.48 * qualityMult;
+  const upperHubRadius = 0.34;
+  const finialApexY = crownHeight + 0.72 * fidelityMult;
+
+  const positions: number[] = [];
+  const morphExpand: number[] = [];
+  const morphWave: number[] = [];
+  const uvs: number[] = [];
+  const colors: number[] = [];
+  const indices: number[] = [];
+
+  const pushTubeStrip = (
+    centerCurve: (t: number) => [number, number, number],
+    radiusAt: (t: number) => number,
+    lengthSegs: number,
+    tubeRadialSegs: number,
+    colorBase: [number, number, number],
+    colorTip: [number, number, number],
+    expandRadialFactor: number,
+    phaseOffset: number,
+  ) => {
+    const startVertex = positions.length / 3;
+    const ringStride = tubeRadialSegs + 1;
+
+    for (let il = 0; il <= lengthSegs; il++) {
+      const t = il / lengthSegs;
+      const [cx, cy, cz] = centerCurve(t);
+      const dt = 0.002;
+      const tNext = Math.min(1, t + dt);
+      const tPrev = Math.max(0, t - dt);
+      const [nx, ny, nz] = centerCurve(tNext);
+      const [px, py, pz] = centerCurve(tPrev);
+
+      let tx = nx - px;
+      let ty = ny - py;
+      let tz = nz - pz;
+      const tLen = Math.hypot(tx, ty, tz) || 1;
+      tx /= tLen;
+      ty /= tLen;
+      tz /= tLen;
+
+      // Orthonormal frame around curve tangent
+      let ux = -tz;
+      let uy = 0;
+      let uz = tx;
+      let uLen = Math.hypot(ux, uy, uz);
+      if (uLen < 1e-4) {
+        ux = 1;
+        uy = 0;
+        uz = 0;
+        uLen = 1;
+      }
+      ux /= uLen;
+      uz /= uLen;
+
+      const bx = ty * uz - tz * uy;
+      const by = tz * ux - tx * uz;
+      const bz = tx * uy - ty * ux;
+
+      const r = radiusAt(t);
+      for (let ir = 0; ir <= tubeRadialSegs; ir++) {
+        const theta = (ir / tubeRadialSegs) * Math.PI * 2;
+        const cosT = Math.cos(theta);
+        const sinT = Math.sin(theta);
+
+        const ox = (ux * cosT + bx * sinT) * r;
+        const oy = (uy * cosT + by * sinT) * r;
+        const oz = (uz * cosT + bz * sinT) * r;
+
+        const vx = cx + ox;
+        const vy = cy + oy;
+        const vz = cz + oz;
+
+        positions.push(vx, vy, vz);
+
+        // Shape Key 0: Light-Cone Supra-Directive Expansion (preserves y=0 collar anchor!)
+        const anchorMask = Math.sin(t * Math.PI);
+        const radialLen = Math.hypot(vx, vz) || 1;
+        const expandDelta = anchorMask * 0.14 * expandRadialFactor;
+        morphExpand.push(
+          vx + (vx / radialLen) * expandDelta,
+          vy + t * 0.08 * expandRadialFactor,
+          vz + (vz / radialLen) * expandDelta,
+        );
+
+        // Shape Key 1: Rule-30 Aperiodic Compensation Standing Wave
+        const waveAmp = anchorMask * 0.032 * Math.sin(t * Math.PI * 5 + phaseOffset + seedPhase * Math.PI * 2);
+        morphWave.push(vx + ux * waveAmp, vy + waveAmp * 0.4, vz + uz * waveAmp);
+
+        uvs.push(ir / tubeRadialSegs, t);
+        colors.push(
+          colorBase[0] + (colorTip[0] - colorBase[0]) * t,
+          colorBase[1] + (colorTip[1] - colorBase[1]) * t,
+          colorBase[2] + (colorTip[2] - colorBase[2]) * t,
+        );
+      }
+    }
+
+    for (let il = 0; il < lengthSegs; il++) {
+      for (let ir = 0; ir < tubeRadialSegs; ir++) {
+        const a = startVertex + il * ringStride + ir;
+        const b = a + 1;
+        const c = startVertex + (il + 1) * ringStride + ir;
+        const d = c + 1;
+        indices.push(a, b, d);
+        indices.push(a, d, c);
+      }
+    }
+  };
+
+  // Part A: Seated Basal Collar Torus at y = 0 (clasps Sanctuary innerCupolaRing at r = 1.15m)
+  pushTubeStrip(
+    (t) => {
+      const ang = t * Math.PI * 2;
+      return [Math.cos(ang) * baseRadius, 0, Math.sin(ang) * baseRadius];
+    },
+    () => 0.085,
+    radialSegs,
+    8,
+    [0.86, 0.72, 0.34],
+    [0.95, 0.84, 0.48],
+    0.0,
+    0,
+  );
+
+  // Part B: Upper Light-Cone Crown Collar Torus at y = crownHeight (r = upperHubRadius)
+  pushTubeStrip(
+    (t) => {
+      const ang = t * Math.PI * 2;
+      return [Math.cos(ang) * upperHubRadius, crownHeight, Math.sin(ang) * upperHubRadius];
+    },
+    () => 0.068,
+    Math.max(16, Math.round(radialSegs * 0.75)),
+    8,
+    [0.92, 0.82, 0.45],
+    [0.65, 0.96, 0.84],
+    0.55,
+    1.1,
+  );
+
+  // Part C: Central Continuous Light-Cone Finial Spire (anchored into Sanctuary centralSpindle at y = -0.18m up to finialApexY)
+  pushTubeStrip(
+    (t) => [0, -0.18 + t * (finialApexY + 0.18), 0],
+    (t) => {
+      if (t < 0.12) return 0.075 + t * 0.45;
+      const spireT = (t - 0.12) / 0.88;
+      return Math.max(0.008, 0.14 * (1 - Math.pow(spireT, 0.82)) * (1 + 0.18 * Math.sin(spireT * Math.PI * 3)));
+    },
+    18,
+    10,
+    [0.88, 0.76, 0.38],
+    [0.72, 0.98, 0.92],
+    0.4,
+    2.2,
+  );
+
+  // Part D: `harmonicCrownPetals` Golden-Spiral Meridian Ribs welded from Basal Collar (y=0, r=1.15m) to Upper Hub (y=crownHeight, r=0.34m)
+  const ribSteps = Math.max(12, Math.round(radialSegs * 0.6));
+  for (let i = 0; i < crownRibCount; i++) {
+    const baseAngle = (i / crownRibCount) * Math.PI * 2;
+    const twistRad = 0.38 * qualityMult;
+    pushTubeStrip(
+      (t) => {
+        const ang = baseAngle + twistRad * Math.sin(t * Math.PI * 0.5);
+        const archBulge = Math.sin(t * Math.PI) * 0.26 * fidelityMult;
+        const r = baseRadius * (1 - t) + upperHubRadius * t + archBulge;
+        const y = Math.pow(t, 0.86) * crownHeight;
+        return [Math.cos(ang) * r, y, Math.sin(ang) * r];
+      },
+      (t) => 0.046 * (1 - 0.32 * t) + 0.012 * Math.sin(t * Math.PI),
+      ribSteps,
+      6,
+      [0.85, 0.72, 0.35],
+      [0.58, 0.96, 0.82],
+      1.0,
+      i * 0.85,
+    );
+  }
+
+  // Part E: `crystalFiligreeSpires` Inner Light-Cone Buttress Struts welded from Basal Collar (r=1.14m, y=0) into Central Spire (r=0.06m, y=crownHeight*0.72)
+  for (let k = 0; k < filigreeCount; k++) {
+    const strutAngle = (k / filigreeCount) * Math.PI * 2 + Math.PI / crownRibCount;
+    pushTubeStrip(
+      (t) => {
+        const r = (baseRadius - 0.01) * (1 - t) + 0.055 * t;
+        const y = t * (crownHeight * 0.72) + Math.sin(t * Math.PI) * 0.14;
+        return [Math.cos(strutAngle) * r, y, Math.sin(strutAngle) * r];
+      },
+      (t) => 0.034 * (1 - 0.35 * t),
+      10,
+      6,
+      [0.78, 0.68, 0.34],
+      [0.98, 0.91, 0.62],
+      0.65,
+      k * 1.3,
+    );
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
+  geometry.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(uvs), 2));
+  geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3));
+  geometry.setIndex(indices);
+  geometry.morphAttributes.position = [
+    new THREE.BufferAttribute(new Float32Array(morphExpand), 3),
+    new THREE.BufferAttribute(new Float32Array(morphWave), 3),
+  ];
+  geometry.computeVertexNormals();
+  geometry.computeBoundingSphere();
+  return geometry;
 }

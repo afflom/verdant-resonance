@@ -322,7 +322,10 @@ export default function App() {
           {/* Left-Third Focal Brand Lockup */}
           <div className="max-w-xl space-y-5 my-auto pointer-events-auto">
             <div className="flex items-center gap-4">
-              <VerdantResonanceEmblem className="w-20 h-20 shrink-0" />
+              <VerdantResonanceEmblem
+                className="w-20 h-20 shrink-0"
+                supraTier={telemetry.neuromorphic.observer.supraDirective.tier}
+              />
               <div className="space-y-0.5">
                 <div className="text-[11px] font-mono tracking-widest text-emerald-300/90 uppercase">
                   {VERDANT_BRAND_STANDARD.genreClassification}
@@ -486,6 +489,16 @@ export default function App() {
                   {activeBiomeCfg.tuningLabel} · Score: {telemetry.soundtrackScore.activeStems.length}/4 Stems ·{' '}
                   {telemetry.environmentalLifecycle.label}
                 </div>
+                <div
+                  className="text-[10px] font-mono text-teal-200/85 truncate mt-0.5"
+                  data-testid="hud-observer-why-status"
+                >
+                  Observer T{telemetry.neuromorphic.observer.supraDirective.tier} (w=
+                  {telemetry.neuromorphic.observer.supraDirective.meanSynapticWeight.toFixed(1)}) · Why:{' '}
+                  {telemetry.neuromorphic.observer.inferredPlayerIntent.replace(/-/g, ' ')} · Models:{' '}
+                  {telemetry.neuromorphic.observer.supraDirective.compileTimeModels.length +
+                    telemetry.neuromorphic.observer.supraDirective.runtimeSynthesizedModels.length}
+                </div>
               </div>
 
               {/* 16-Band Zero-Allocation SVG Spectrum Visualizer */}
@@ -519,6 +532,7 @@ export default function App() {
                 <PlantSpeciesIcon
                   species={telemetry.nearestPlant.species}
                   attuned={telemetry.nearestPlant.attuned}
+                  supraTier={telemetry.neuromorphic.observer.supraDirective.tier}
                   className="w-7 h-7 shrink-0"
                 />
                 <div>

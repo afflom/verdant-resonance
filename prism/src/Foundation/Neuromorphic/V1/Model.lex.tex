@@ -96,6 +96,51 @@ structure{
 }
 
 structure{
+  name: ObserverQuadrupleSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: observerPartCount, type: Nat},
+    {name: centerlineVantageCount, type: Nat},
+    {name: realObjectPole, type: String},
+    {name: sensualObjectPole, type: String},
+    {name: withdrawnCoreFacet, type: String},
+    {name: includesEnvironmentGardenAndPlayer, type: Bool},
+    {name: deterministicKernelVerified, type: Bool},
+    {name: nonDeterministicWithdrawnHorizonVerified, type: Bool}
+  ]
+}
+
+structure{
+  name: TheoryOfMindTeleologySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: teleologyWhyChannelCount, type: Nat},
+    {name: engineStageCount, type: Nat},
+    {name: portfolioStrategyCount, type: Nat},
+    {name: busCarriesTeleologicalWhy, type: Bool},
+    {name: observerKnowsPartsAndImprovement, type: Bool},
+    {name: enhancesGardenAndUserMutually, type: Bool}
+  ]
+}
+
+structure{
+  name: SupraDirectiveOptimizationSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: baseDirectiveWeight, type: Nat},
+    {name: supraDirectiveMaxWeight, type: Nat},
+    {name: compileTimeGeneratedModelCount, type: Nat},
+    {name: runtimeMaxSynthesizedModels, type: Nat},
+    {name: exceedsBaseFidelityAndQuality, type: Bool},
+    {name: exceedsBaseDefinitionAndFeatures, type: Bool},
+    {name: compileAndRuntimeSynthesisCoupled, type: Bool}
+  ]
+}
+
+structure{
   name: NeuromorphicSynthesisStandard,
   type_parameters: [],
   parameters: [],
@@ -105,7 +150,10 @@ structure{
     {name: cellularAutomaton, type: Rule30CellularAutomatonSpec},
     {name: lutStack, type: UORLutStackSpec},
     {name: universalBus, type: UniversalNeuromorphicBusSpec},
-    {name: stakeholderEntity, type: EmergentEntityStakeholderSpec}
+    {name: stakeholderEntity, type: EmergentEntityStakeholderSpec},
+    {name: observerQuadruple, type: ObserverQuadrupleSpec},
+    {name: theoryOfMind, type: TheoryOfMindTeleologySpec},
+    {name: supraDirective, type: SupraDirectiveOptimizationSpec}
   ]
 }
 
@@ -322,11 +370,88 @@ definition{
 }
 
 definition{
+  name: observerPartCountTotal,
+  parameters: [],
+  result: Nat,
+  body: 11
+}
+
+definition{
+  name: stepTheoryOfMindCoherencePermille,
+  parameters: [w : Nat],
+  result: Nat,
+  body: (720 + (prim multiply (clampBusWeight w) 18 : Nat))
+}
+
+definition{
+  name: stepSupraDirectiveFidelityPermille,
+  parameters: [w : Nat],
+  result: Nat,
+  body: (840 + (prim multiply (clampBusWeight w) 20 : Nat))
+}
+
+definition{
+  name: stepSupraDirectiveQualityPermille,
+  parameters: [w : Nat],
+  result: Nat,
+  body: (860 + (prim multiply (clampBusWeight w) 22 : Nat))
+}
+
+definition{
+  name: stepSupraDirectiveDefinitionSubdiv,
+  parameters: [w : Nat],
+  result: Nat,
+  body: (16 + (prim multiply (clampBusWeight w) 2 : Nat))
+}
+
+definition{
+  name: stepSupraDirectiveFeatureUnlockCount,
+  parameters: [w : Nat],
+  result: Nat,
+  body: (4 + (clampBusWeight w))
+}
+
+definition{
+  name: stepRule30LeftDiagonalPeriod,
+  parameters: [d : Nat],
+  result: Nat,
+  body: (if (d =? 0) then 1 else (if (d =? 1) then 2 else (if (d =? 2) then 4 else (if (d =? 3) then 8 else 16))))
+}
+
+definition{
+  name: stepRule30AperiodicCompensationIndex,
+  parameters: [d : Nat, w : Nat],
+  result: Nat,
+  body: (if (d <? 3) then 0 else ((prim multiply d 12 : Nat) + (prim multiply (clampBusWeight w) 4 : Nat)))
+}
+
+definition{
+  name: verifyRule30DeterministicAndWithdrawnDuality,
+  parameters: [w : Nat],
+  result: Bool,
+  body: ((((((stepRule30LeftDiagonalPeriod 0) <? (stepRule30LeftDiagonalPeriod 1)) && ((stepRule30LeftDiagonalPeriod 1) <? (stepRule30LeftDiagonalPeriod 2))) && ((stepRule30LeftDiagonalPeriod 2) <? (stepRule30LeftDiagonalPeriod 3))) && ((stepRule30AperiodicCompensationIndex 2 w) =? 0)) && (0 <? (stepRule30AperiodicCompensationIndex 3 w)))
+}
+
+definition{
+  name: verifyObserverSupraDirectiveTranscendence,
+  parameters: [w : Nat],
+  result: Bool,
+  body: ((((((stepSupraDirectiveFidelityPermille (weightInitial)) <? (stepSupraDirectiveFidelityPermille (learnWeightPotentiated w))) && ((stepSupraDirectiveQualityPermille (weightInitial)) <? (stepSupraDirectiveQualityPermille (learnWeightPotentiated w)))) && ((stepSupraDirectiveDefinitionSubdiv (weightInitial)) <? (stepSupraDirectiveDefinitionSubdiv (learnWeightPotentiated w)))) && ((stepSupraDirectiveFeatureUnlockCount (weightInitial)) <? (stepSupraDirectiveFeatureUnlockCount (learnWeightPotentiated w)))) && ((stepTheoryOfMindCoherencePermille (weightInitial)) <? (stepTheoryOfMindCoherencePermille (learnWeightPotentiated w))))
+}
+
+definition{
+  name: verifyObserverHolisticWhyClosure,
+  parameters: [w : Nat],
+  result: Bool,
+  body: (((((verifySingleCallPropagatesAllTenDomains w) && (verifyEmergentEntitySynthesizesFacets w)) && (verifyRule30DeterministicAndWithdrawnDuality w)) && (verifyObserverSupraDirectiveTranscendence w)) && (11 =? (observerPartCountTotal)))
+}
+
+definition{
   name: verdantNeuromorphicStandard,
   parameters: [],
   result: NeuromorphicSynthesisStandard,
   body: (record NeuromorphicSynthesisStandard {
-    profile := "prism/neuromorphic-standard/4",
+    profile := "prism/neuromorphic-standard/5",
     plasticity := (record HebbianPlasticitySpec {
       weightMin := (weightMin),
       weightMax := (weightMax),
@@ -369,6 +494,33 @@ definition{
       wisdomExpressedAsEnvironmentalPhenomena := ((stepWisdomPhenomenonModulation (weightInitial)) <? (stepWisdomPhenomenonModulation (consolidationThreshold))),
       stakeholderReinforcesPlayerValue := ((weightInitial) <? (stepStakeholderValueReinforcement (weightInitial) true)),
       baselinePlayerValueIndex := (stepStakeholderValueReinforcement (weightInitial) true)
+    }),
+    observerQuadruple := (record ObserverQuadrupleSpec {
+      observerPartCount := (observerPartCountTotal),
+      centerlineVantageCount := 6,
+      realObjectPole := "prism-deterministic-kernel",
+      sensualObjectPole := "dyadic-regular-left-diagonals",
+      withdrawnCoreFacet := "aperiodic-compensation",
+      includesEnvironmentGardenAndPlayer := (10 <? (observerPartCountTotal)),
+      deterministicKernelVerified := ((rule30CellStep false true false) && (not (rule30CellStep true true true))),
+      nonDeterministicWithdrawnHorizonVerified := (verifyRule30DeterministicAndWithdrawnDuality (weightInitial))
+    }),
+    theoryOfMind := (record TheoryOfMindTeleologySpec {
+      teleologyWhyChannelCount := (observerPartCountTotal),
+      engineStageCount := 5,
+      portfolioStrategyCount := 4,
+      busCarriesTeleologicalWhy := ((stepTheoryOfMindCoherencePermille (weightInitial)) <? (stepTheoryOfMindCoherencePermille (consolidationThreshold))),
+      observerKnowsPartsAndImprovement := (verifyObserverHolisticWhyClosure (weightInitial)),
+      enhancesGardenAndUserMutually := ((verifyEmergentEntitySynthesizesFacets (weightInitial)) && (verifySingleCallPropagatesAllTenDomains (weightInitial)))
+    }),
+    supraDirective := (record SupraDirectiveOptimizationSpec {
+      baseDirectiveWeight := (weightInitial),
+      supraDirectiveMaxWeight := (weightMax),
+      compileTimeGeneratedModelCount := 5,
+      runtimeMaxSynthesizedModels := 16,
+      exceedsBaseFidelityAndQuality := (((stepSupraDirectiveFidelityPermille (weightInitial)) <? (stepSupraDirectiveFidelityPermille (consolidationThreshold))) && ((stepSupraDirectiveQualityPermille (weightInitial)) <? (stepSupraDirectiveQualityPermille (consolidationThreshold)))),
+      exceedsBaseDefinitionAndFeatures := (((stepSupraDirectiveDefinitionSubdiv (weightInitial)) <? (stepSupraDirectiveDefinitionSubdiv (consolidationThreshold))) && ((stepSupraDirectiveFeatureUnlockCount (weightInitial)) <? (stepSupraDirectiveFeatureUnlockCount (consolidationThreshold)))),
+      compileAndRuntimeSynthesisCoupled := (verifyObserverSupraDirectiveTranscendence (weightInitial))
     })
   })
 }
@@ -535,6 +687,51 @@ theorem{
   parameters: [w : Nat],
   statement: ((breaksEmergentEntityWisdomPhenomena w) = false),
   proof: linear_arithmetic{definitions: [breaksEmergentEntityWisdomPhenomena, clampBusWeight, stepStakeholderValueReinforcement, stepWisdomPhenomenonModulation, verifyEmergentEntitySynthesizesFacets, weightMax, weightMin]},
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksObserverTheoryOfMindMonotonic,
+  parameters: [w : Nat],
+  result: Bool,
+  body: ((((weightMin) <=? w) && (w <? (weightMax))) && (not ((stepTheoryOfMindCoherencePermille w) <? (stepTheoryOfMindCoherencePermille (w + 1)))))
+}
+
+theorem{
+  name: observerTheoryOfMindMonotonicHolds,
+  parameters: [w : Nat],
+  statement: ((breaksObserverTheoryOfMindMonotonic w) = false),
+  proof: linear_arithmetic{definitions: [breaksObserverTheoryOfMindMonotonic, clampBusWeight, stepTheoryOfMindCoherencePermille, weightMax, weightMin]},
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksSupraDirectiveExceedsBaseDirective,
+  parameters: [w : Nat],
+  result: Bool,
+  body: ((((weightInitial) <=? w) && (w <=? (weightMax))) && (not (verifyObserverSupraDirectiveTranscendence w)))
+}
+
+theorem{
+  name: supraDirectiveExceedsBaseDirectiveHolds,
+  parameters: [w : Nat],
+  statement: ((breaksSupraDirectiveExceedsBaseDirective w) = false),
+  proof: linear_arithmetic{definitions: [breaksSupraDirectiveExceedsBaseDirective, clampBusWeight, learnWeightPotentiated, stepSupraDirectiveDefinitionSubdiv, stepSupraDirectiveFeatureUnlockCount, stepSupraDirectiveFidelityPermille, stepSupraDirectiveQualityPermille, stepTheoryOfMindCoherencePermille, verifyObserverSupraDirectiveTranscendence, weightInitial, weightMax, weightMin, weightRaise]},
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksRule30DoublingLawDuality,
+  parameters: [w : Nat],
+  result: Bool,
+  body: (not (verifyRule30DeterministicAndWithdrawnDuality w))
+}
+
+theorem{
+  name: rule30DoublingLawAndWithdrawnDualityHolds,
+  parameters: [w : Nat],
+  statement: ((breaksRule30DoublingLawDuality w) = false),
+  proof: linear_arithmetic{definitions: [breaksRule30DoublingLawDuality, clampBusWeight, stepRule30AperiodicCompensationIndex, stepRule30LeftDiagonalPeriod, verifyRule30DeterministicAndWithdrawnDuality, weightMax, weightMin]},
   axioms: [Classical.choice, Quot.sound, propext]
 }
 \end{semanticmodule}

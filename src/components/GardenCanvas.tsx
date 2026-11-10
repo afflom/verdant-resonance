@@ -33,6 +33,7 @@ import {
   computeBinauralPan,
   computeCameraKinematics,
   computeCliffordBasinState,
+  computeCrossDomainRefinementDirectives,
   computeEcologicalAffinity,
   computeFoliageDeflection,
   computeGardenHarmonyPct,
@@ -50,6 +51,7 @@ import {
   evaluateDiurnalProfile,
   evaluateEnvironmentalLifecycle,
   evaluateGroundWavePropagation,
+  evaluateHolisticObserverState,
   evaluateHydrodynamics,
   evaluatePrismRequest,
   evaluateWindField,
@@ -86,6 +88,7 @@ import {
   createHexagonalQuartzCrystalGeometry,
   createHighDefinitionPbrTextureSuite,
   createLogarithmicCrozierGeometry,
+  createObserverAstrolabeCrownGeometry,
   createPinnateFrondGeometry,
   createSculptedCanopyCrownGeometry,
   createSculptedGrassBladeGeometry,
@@ -212,28 +215,45 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     const container = mountRef.current;
     if (!container) return;
 
-    // 1. Software-WebGL Guard per Three.js skill
+    // 1. Software-WebGL Guard & Resilient WebGL Context Initialization per Three.js skill
     const isSoftwareGl = (() => {
-      const gl = document.createElement('canvas').getContext('webgl2');
-      if (!gl) return true;
-      const ext = gl.getExtension('WEBGL_debug_renderer_info');
-      const param = ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER;
-      const gpu = String(gl.getParameter(param));
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
-      return /SwiftShader|llvmpipe|softpipe|Software|Basic Render/i.test(gpu);
+      try {
+        const gl = document.createElement('canvas').getContext('webgl2');
+        if (!gl) return true;
+        const ext = gl.getExtension('WEBGL_debug_renderer_info');
+        const param = ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER;
+        const gpu = String(gl.getParameter(param));
+        gl.getExtension('WEBGL_lose_context')?.loseContext();
+        return /SwiftShader|llvmpipe|softpipe|Software|Basic Render/i.test(gpu);
+      } catch {
+        return true;
+      }
     })();
 
-    const renderer = new THREE.WebGLRenderer({
-      antialias: !isSoftwareGl,
-      powerPreference: 'high-performance',
-    });
+    let renderer: THREE.WebGLRenderer;
+    try {
+      renderer = new THREE.WebGLRenderer({
+        antialias: !isSoftwareGl,
+        powerPreference: 'high-performance',
+      });
+    } catch {
+      try {
+        renderer = new THREE.WebGLRenderer({ antialias: false });
+      } catch {
+        return;
+      }
+    }
+
+    const initialW = Math.max(1, container.clientWidth || window.innerWidth || 1280);
+    const initialH = Math.max(1, container.clientHeight || window.innerHeight || 720);
+
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.14;
-    renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(isSoftwareGl ? 1 : Math.min(window.devicePixelRatio || 1, 2));
     renderer.shadowMap.enabled = !isSoftwareGl;
     renderer.shadowMap.type = THREE.PCFShadowMap;
-    renderer.setSize(container.clientWidth || window.innerWidth, container.clientHeight || window.innerHeight);
+    renderer.setSize(initialW, initialH);
 
     container.innerHTML = '';
     renderer.domElement.setAttribute('data-testid', 'garden-webgl-canvas');
@@ -242,16 +262,22 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     renderer.domElement.style.height = '100%';
     container.appendChild(renderer.domElement);
 
+    let contextLost = false;
+    const onContextLost = (e: Event) => {
+      e.preventDefault();
+      contextLost = true;
+    };
+    const onContextRestored = () => {
+      contextLost = false;
+    };
+    renderer.domElement.addEventListener('webglcontextlost', onContextLost, false);
+    renderer.domElement.addEventListener('webglcontextrestored', onContextRestored, false);
+
     const scene = new THREE.Scene();
     scene.background = new THREE.Color('#162d24');
     scene.fog = new THREE.FogExp2('#1a362b', 0.0155);
 
-    const camera = new THREE.PerspectiveCamera(
-      65,
-      (container.clientWidth || window.innerWidth) / (container.clientHeight || window.innerHeight),
-      0.15,
-      165,
-    );
+    const camera = new THREE.PerspectiveCamera(65, initialW / initialH, 0.15, 165);
 
     // 2. Mandatory Studio Environment Reflection (RoomEnvironment)
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
@@ -467,10 +493,11 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       clearcoat: quartzCompoundProfile.clearcoatStrength,
       iridescence: 0.62,
       iridescenceIOR: 1.54,
-      iridescenceThicknessRange: [220, 540],
+      iridescenceThicknessMinimum: 220,
+      iridescenceThicknessMaximum: 540,
     });
 
-    // Monument 1 (Sanctuary [0, -34]): Levitating Tuning-Fork Obelisk & Double-Gimbal Halo (12 parts, Fluted Entasis Columns + Hexagonal Quartz Spire)
+    // Monument 1 (Sanctuary [0, -34]): Levitating Tuning-Fork Obelisk & Double-Gimbal Halo (Connected Colonnade + Architrave Ribs + Gimbal Cradle Yoke)
     const buildSanctuaryPavilion = () => {
       const group = new THREE.Group();
       const sy = groundHeightAt(0, -34);
@@ -495,17 +522,85 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         height: 5.6,
         fluteCount: 16,
       });
+      const radialStrutGeo = new THREE.CylinderGeometry(0.08, 0.11, 2.75, 10);
+      radialStrutGeo.rotateZ(Math.PI / 2);
+
       for (let i = 0; i < 6; i++) {
         const angle = (i / 6) * Math.PI * 2;
+        const px = Math.cos(angle) * 3.9;
+        const pz = Math.sin(angle) * 3.9;
         const pillar = new THREE.Mesh(pillarGeo, sharedStoneMat);
-        pillar.position.set(Math.cos(angle) * 3.9, 3.6, Math.sin(angle) * 3.9);
+        pillar.position.set(px, 3.6, pz);
         group.add(pillar);
+
+        // Capital block clasping the top of each pillar into the haloRing at y = 6.40m
+        const capitalCollar = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.42, 0.34, 0.28, 16),
+          sharedGoldTrimMat,
+        );
+        capitalCollar.position.set(px, 6.36, pz);
+        group.add(capitalCollar);
+
+        // Radial architrave rib strut connecting each outer column (r = 3.9m) to the central cupola ring (r = 1.15m) at y = 6.40m
+        const strut = new THREE.Mesh(radialStrutGeo, sharedStoneMat);
+        strut.position.set(Math.cos(angle) * 2.525, 6.4, Math.sin(angle) * 2.525);
+        strut.rotation.y = -angle;
+        group.add(strut);
       }
 
-      const haloRing = new THREE.Mesh(new THREE.TorusGeometry(3.9, 0.22, 16, 48), sharedGoldTrimMat);
+      const haloRing = new THREE.Mesh(new THREE.TorusGeometry(3.9, 0.24, 16, 48), sharedGoldTrimMat);
       haloRing.rotation.x = Math.PI / 2;
       haloRing.position.y = 6.4;
       group.add(haloRing);
+
+      const innerCupolaRing = new THREE.Mesh(
+        new THREE.TorusGeometry(1.15, 0.14, 14, 36),
+        sharedGoldTrimMat,
+      );
+      innerCupolaRing.rotation.x = Math.PI / 2;
+      innerCupolaRing.position.y = 6.4;
+      group.add(innerCupolaRing);
+
+      // Central sculpted altar pedestal & tuning-fork gimbal cradle yoke supporting the gimbal rings & spire at y = 3.9m
+      const altarPedestal = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.95, 1.45, 1.35, 24),
+        sharedStoneMat,
+      );
+      altarPedestal.position.y = 1.52;
+      group.add(altarPedestal);
+
+      const yokeBaseBeam = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.14, 0.14, 3.84, 12),
+        sharedGoldTrimMat,
+      );
+      yokeBaseBeam.rotation.z = Math.PI / 2;
+      yokeBaseBeam.position.y = 2.15;
+      group.add(yokeBaseBeam);
+
+      for (const side of [-1, 1] as const) {
+        const forkArm = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.095, 0.13, 1.82, 12),
+          sharedGoldTrimMat,
+        );
+        forkArm.position.set(side * 1.92, 3.02, 0);
+        group.add(forkArm);
+
+        const trunnionBearing = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.14, 0.14, 0.26, 12),
+          sharedGoldTrimMat,
+        );
+        trunnionBearing.rotation.z = Math.PI / 2;
+        trunnionBearing.position.set(side * 1.88, 3.9, 0);
+        group.add(trunnionBearing);
+      }
+
+      // Vertical central harmonic axis spindle connecting altar pedestal (y = 2.15m) through spire (y = 3.9m) up to cupola crown (y = 6.4m)
+      const centralSpindle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.055, 0.055, 4.3, 12),
+        sharedGoldTrimMat,
+      );
+      centralSpindle.position.y = 4.28;
+      group.add(centralSpindle);
 
       const spireGeo = createHexagonalQuartzCrystalGeometry({
         radius: 0.95,
@@ -516,52 +611,120 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       spire.position.y = 3.9;
       group.add(spire);
 
-      const orbitRing = new THREE.Mesh(new THREE.TorusGeometry(1.85, 0.065, 12, 40), sharedGoldTrimMat);
+      const orbitRing = new THREE.Mesh(new THREE.TorusGeometry(1.85, 0.075, 12, 40), sharedGoldTrimMat);
       orbitRing.position.y = 3.9;
+      // Cross-axle pins connecting outer orbitRing (r = 1.85m) to innerGimbalRing (r = 1.35m)
+      const gimbalAxle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.04, 0.04, 3.72, 8),
+        sharedGoldTrimMat,
+      );
+      gimbalAxle.rotation.z = Math.PI / 2;
+      orbitRing.add(gimbalAxle);
       group.add(orbitRing);
 
-      const innerGimbalRing = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.05, 12, 36), sharedGoldTrimMat);
+      const innerGimbalRing = new THREE.Mesh(new THREE.TorusGeometry(1.35, 0.06, 12, 36), sharedGoldTrimMat);
       innerGimbalRing.position.y = 3.9;
+      const innerSpireAxle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.038, 0.038, 2.72, 8),
+        sharedGoldTrimMat,
+      );
+      innerSpireAxle.rotation.z = Math.PI / 2;
+      innerGimbalRing.add(innerSpireAxle);
       group.add(innerGimbalRing);
 
-      return { group, spire, orbitRing, innerGimbalRing };
+      // Supra-Directive Observer Light-Cone Astrolabe Crown seated flush onto innerCupolaRing (r = 1.15m, y = 6.40m)
+      // and welded directly into centralSpindle (x = 0, z = 0, y = 6.40m) — zero floating or disjoint pieces
+      const crownMat = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        vertexColors: true,
+        emissive: 0x34d399,
+        emissiveIntensity: 0.24,
+        metalness: 0.72,
+        roughness: 0.22,
+        clearcoat: 0.85,
+        clearcoatRoughness: 0.14,
+      });
+      const initialCrownGeo = createObserverAstrolabeCrownGeometry();
+      const observerCrown = new THREE.Mesh(initialCrownGeo, crownMat);
+      observerCrown.position.y = 6.4;
+      group.add(observerCrown);
+
+      return { group, spire, orbitRing, innerGimbalRing, observerCrown, crownMat };
     };
 
     const sanctuaryMonument = buildSanctuaryPavilion();
+    let activeCrownModelId = '';
     scene.add(sanctuaryMonument.group);
 
-    // Monument 2 (Sunlit Meadow [0, -14]): Sunlit Sundial Compass Rotunda
+    // Monument 2 (Sunlit Meadow [0, -14]): Sunlit Sundial Compass Rotunda (Grounded Arch Buttresses + Central Gnomon Spindle + Mounted Sun Orb)
     const buildMeadowSundial = () => {
       const group = new THREE.Group();
       const my = groundHeightAt(0, -14);
       group.position.set(0, my, -14);
 
-      const dialBase = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 3.5, 0.18, 24), sharedStoneMat);
-      dialBase.position.y = 0.09;
+      const dialBase = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 3.5, 0.22, 28), sharedStoneMat);
+      dialBase.position.y = 0.11;
       group.add(dialBase);
 
       const compassRing = new THREE.Mesh(new THREE.RingGeometry(2.2, 2.85, 32), sharedGoldTrimMat);
       compassRing.rotation.x = -Math.PI / 2;
-      compassRing.position.y = 0.2;
+      compassRing.position.y = 0.23;
       group.add(compassRing);
 
+      // East & West Sundial Arch Buttress Plinths (matching physics colliders at x = ±1.45)
+      for (const side of [-1, 1] as const) {
+        const buttress = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.24, 0.30, 0.42, 16),
+          sharedStoneMat,
+        );
+        buttress.position.set(side * 1.45, 0.32, 0);
+        group.add(buttress);
+      }
+
       const gnomonArch = new THREE.Mesh(
-        new THREE.TorusGeometry(1.45, 0.07, 10, 28, Math.PI),
+        new THREE.TorusGeometry(1.45, 0.085, 12, 32, Math.PI),
         sharedGoldTrimMat,
       );
-      gnomonArch.position.y = 0.2;
+      gnomonArch.position.y = 0.22;
       group.add(gnomonArch);
 
-      const sunOrb = new THREE.Mesh(new THREE.OctahedronGeometry(0.28, 0), sharedCrystalMat);
-      sunOrb.position.y = 1.65;
-      group.add(sunOrb);
+      // Central vertical gnomon spindle shaft connecting dialBase (y = 0.20m) to the apex of gnomonArch (y = 1.67m)
+      const gnomonShaft = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.055, 0.085, 1.52, 14),
+        sharedGoldTrimMat,
+      );
+      gnomonShaft.position.y = 0.92;
+      group.add(gnomonShaft);
 
-      return { group, sunOrb };
+      // Rotating diurnal arm & collar mounted directly on the central gnomon spindle
+      const sunOrbPivot = new THREE.Group();
+      sunOrbPivot.position.set(0, 1.25, 0);
+      const collar = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.11, 0.11, 0.14, 14),
+        sharedGoldTrimMat,
+      );
+      sunOrbPivot.add(collar);
+      const armRod = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.032, 0.032, 0.36, 10),
+        sharedGoldTrimMat,
+      );
+      armRod.rotation.z = Math.PI / 2;
+      armRod.position.x = 0.18;
+      sunOrbPivot.add(armRod);
+
+      const sunOrb = new THREE.Mesh(new THREE.OctahedronGeometry(0.28, 0), sharedCrystalMat);
+      sunOrb.position.set(0.35, 0, 0);
+      sunOrbPivot.add(sunOrb);
+      group.add(sunOrbPivot);
+
+      return { group, sunOrb, sunOrbPivot };
     };
     const meadowMonument = buildMeadowSundial();
     scene.add(meadowMonument.group);
 
     // Monument 3 (Bamboo Chime Grove [-36, -24]): Wind-Carved Bamboo Chime Pergola
+    // All 4 corner posts at (±2.2, ±2.2) (r = 3.111m) physically pierce and support the outer roof ring (r = 3.111m),
+    // 4 square lintel beams, and 2 diagonal cross-tie beams supporting the inner chime suspension ring (r = 1.40m).
     const buildGrovePergola = () => {
       const group = new THREE.Group();
       const gy = groundHeightAt(-36, -24);
@@ -574,12 +737,11 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       });
 
       const postGeo = createSegmentedBambooStalkGeometry({
-        radiusBase: 0.22,
-        radiusTop: 0.18,
-        height: 4.4,
+        radiusBase: 0.24,
+        radiusTop: 0.19,
+        height: 4.55,
         nodeCount: 4,
       });
-      postGeo.translate(0, -2.2, 0);
       const offsets = [
         [-2.2, -2.2],
         [2.2, -2.2],
@@ -587,24 +749,118 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         [2.2, 2.2],
       ];
       for (const [ox, oz] of offsets) {
+        // Grounded stone post footing pad
+        const footing = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.34, 0.42, 0.22, 16),
+          sharedStoneMat,
+        );
+        footing.position.set(ox, 0.11, oz);
+        group.add(footing);
+
+        // Segmented bamboo post (bottom-pivoted at y = 0, rising to y = 4.55m right through the roof ring at y = 4.35m)
         const post = new THREE.Mesh(postGeo, jadeWoodMat);
-        post.position.set(ox, 2.2, oz);
+        post.position.set(ox, 0, oz);
         group.add(post);
+
+        // Golden mortise-and-tenon capital collar clasping the post and roof ring at y = 4.35m
+        const capital = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.28, 0.25, 0.32, 16),
+          sharedGoldTrimMat,
+        );
+        capital.position.set(ox, 4.35, oz);
+        group.add(capital);
       }
 
-      const roofRing = new THREE.Mesh(new THREE.TorusGeometry(2.6, 0.16, 12, 32), jadeWoodMat);
+      // Outer circular roof ring at exact post radius r = sqrt(2.2^2 + 2.2^2) = 3.111m so all 4 posts pierce directly through the ring
+      const outerPostRadius = Math.hypot(2.2, 2.2);
+      const roofRing = new THREE.Mesh(
+        new THREE.TorusGeometry(outerPostRadius, 0.18, 14, 48),
+        jadeWoodMat,
+      );
       roofRing.rotation.x = Math.PI / 2;
       roofRing.position.y = 4.35;
       group.add(roofRing);
 
-      const chimeTubes: THREE.Mesh[] = [];
-      const chimeGeo = new THREE.CylinderGeometry(0.055, 0.055, 1.45, 12);
+      // 4 square perimeter lintel tie-beams connecting adjacent corner posts at y = 4.35m
+      const lintelGeo = new THREE.CylinderGeometry(0.11, 0.11, 4.4, 12);
+      for (const oz of [-2.2, 2.2]) {
+        const beamX = new THREE.Mesh(lintelGeo, jadeWoodMat);
+        beamX.rotation.z = Math.PI / 2;
+        beamX.position.set(0, 4.35, oz);
+        group.add(beamX);
+      }
+      for (const ox of [-2.2, 2.2]) {
+        const beamZ = new THREE.Mesh(lintelGeo, jadeWoodMat);
+        beamZ.rotation.x = Math.PI / 2;
+        beamZ.position.set(ox, 4.35, 0);
+        group.add(beamZ);
+      }
+
+      // 2 diagonal cross-tie beams spanning across the corner post pairs to support the inner chime suspension ring
+      const diagBeamGeo = new THREE.CylinderGeometry(0.10, 0.10, outerPostRadius * 2, 12);
+      diagBeamGeo.rotateZ(Math.PI / 2);
+      for (const diagAngle of [Math.PI / 4, -Math.PI / 4]) {
+        const dBeam = new THREE.Mesh(diagBeamGeo, jadeWoodMat);
+        dBeam.position.set(0, 4.35, 0);
+        dBeam.rotation.y = diagAngle;
+        group.add(dBeam);
+      }
+
+      // Inner chime suspension ring at r = 1.40m, y = 4.35m + central finial boss
+      const chimeSuspensionRing = new THREE.Mesh(
+        new THREE.TorusGeometry(1.4, 0.10, 12, 36),
+        sharedGoldTrimMat,
+      );
+      chimeSuspensionRing.rotation.x = Math.PI / 2;
+      chimeSuspensionRing.position.y = 4.35;
+      group.add(chimeSuspensionRing);
+
+      const centerBoss = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.24, 0.20, 0.26, 16),
+        sharedGoldTrimMat,
+      );
+      centerBoss.position.y = 4.35;
+      group.add(centerBoss);
+
+      // 6 Top-Pivoted Acoustic Chime Tubes physically suspended from chimeSuspensionRing (r = 1.40m, y = 4.35m)
+      const chimeTubes: THREE.Object3D[] = [];
       for (let i = 0; i < 6; i++) {
         const a = (i / 6) * Math.PI * 2;
-        const tube = new THREE.Mesh(chimeGeo, sharedGoldTrimMat);
-        tube.position.set(Math.cos(a) * 1.4, 3.45 - (i % 3) * 0.18, Math.sin(a) * 1.4);
-        group.add(tube);
-        chimeTubes.push(tube);
+        const tubeLen = 1.38 + (i % 3) * 0.18;
+        const cordLen = 0.28;
+
+        const chimePivot = new THREE.Group();
+        chimePivot.position.set(Math.cos(a) * 1.4, 4.35, Math.sin(a) * 1.4);
+
+        const hangerClamp = new THREE.Mesh(
+          new THREE.TorusGeometry(0.11, 0.028, 8, 16),
+          sharedGoldTrimMat,
+        );
+        chimePivot.add(hangerClamp);
+
+        const suspensionRod = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.016, 0.016, cordLen, 8),
+          sharedGoldTrimMat,
+        );
+        suspensionRod.position.y = -cordLen * 0.5;
+        chimePivot.add(suspensionRod);
+
+        const tubeCap = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.078, 0.078, 0.06, 12),
+           jadeWoodMat,
+        );
+        tubeCap.position.y = -cordLen;
+        chimePivot.add(tubeCap);
+
+        const tubeBody = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.062, 0.062, tubeLen, 14),
+          sharedGoldTrimMat,
+        );
+        tubeBody.position.y = -cordLen - tubeLen * 0.5;
+        chimePivot.add(tubeBody);
+
+        group.add(chimePivot);
+        chimeTubes.push(chimePivot);
       }
 
       return { group, chimeTubes };
@@ -612,7 +868,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     const groveMonument = buildGrovePergola();
     scene.add(groveMonument.group);
 
-    // Monument 4 (Crystal Cavern Basin [36, -24]): Prismatic Quartz Geode Archway (Crystallographic Hexagonal alpha-Quartz)
+    // Monument 4 (Crystal Cavern Basin [36, -24]): Prismatic Quartz Geode Archway (Converging Arch Spires + Keystone Ring + Central Pedestal)
     const buildCrystalArchway = () => {
       const group = new THREE.Group();
       const cy = groundHeightAt(36, -24);
@@ -627,23 +883,64 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         clearcoat: 1.0,
         iridescence: 0.78,
         iridescenceIOR: 1.544,
-        iridescenceThicknessRange: [240, 580],
+        iridescenceThicknessMinimum: 240,
+        iridescenceThicknessMaximum: 580,
       });
+
+      const geodeBaseRing = new THREE.Mesh(
+        new THREE.TorusGeometry(2.9, 0.36, 10, 24),
+        sharedStoneMat,
+      );
+      geodeBaseRing.rotation.x = Math.PI / 2;
+      geodeBaseRing.position.y = 0.14;
+      group.add(geodeBaseRing);
 
       const spireGeo = createHexagonalQuartzCrystalGeometry({
         radius: 0.64,
-        height: 4.6,
+        height: 4.8,
         doubleTerminated: false,
       });
       for (let i = 0; i < 6; i++) {
         const a = (i / 6) * Math.PI * 2;
+        const spireSocket = new THREE.Group();
+        spireSocket.position.set(Math.cos(a) * 2.9, 0, Math.sin(a) * 2.9);
+        spireSocket.rotation.y = -a;
+        // Lean inward (+Z of local socket is tangential, +X is outward -> positive Z rotation tilts +Y inward toward center!)
         const spire = new THREE.Mesh(spireGeo, quartzMat);
-        spire.position.set(Math.cos(a) * 2.9, 2.1, Math.sin(a) * 2.9);
-        spire.rotation.z = -Math.cos(a) * 0.24;
-        spire.rotation.x = Math.sin(a) * 0.24;
-        spire.scale.setScalar(0.8 + (i % 3) * 0.22);
-        group.add(spire);
+        spire.position.set(-0.48, 2.15, 0);
+        spire.rotation.z = 0.24;
+        spire.scale.setScalar(0.86 + (i % 2) * 0.14);
+        spireSocket.add(spire);
+        group.add(spireSocket);
       }
+
+      // Upper hexagonal keystone ring binding all 6 inward-leaning quartz spires at y = 4.15m
+      const keystoneRing = new THREE.Mesh(
+        new THREE.TorusGeometry(1.92, 0.20, 8, 6),
+        quartzMat,
+      );
+      keystoneRing.rotation.x = Math.PI / 2;
+      keystoneRing.position.y = 4.15;
+      group.add(keystoneRing);
+
+      // Central basal stalagmite pedestal & harmonic crystal spindle supporting corePrism at y = 3.2m
+      const basalCluster = new THREE.Mesh(
+        createHexagonalQuartzCrystalGeometry({
+          radius: 0.58,
+          height: 2.35,
+          doubleTerminated: false,
+        }),
+        sharedStoneMat,
+      );
+      basalCluster.position.y = 1.05;
+      group.add(basalCluster);
+
+      const crystalSpindle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.065, 0.085, 2.3, 6),
+        quartzMat,
+      );
+      crystalSpindle.position.y = 3.1;
+      group.add(crystalSpindle);
 
       const corePrismGeo = createHexagonalQuartzCrystalGeometry({
         radius: 0.72,
@@ -660,8 +957,6 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     scene.add(crystalMonument.group);
 
     // Monument 5 (Bioluminescent Wetland [-28, 30]): Hydrostatic Mirror Lagoon & Grounded Lantern Pier
-    // The equipotential water plane sits at `MIRROR_LAGOON_WATER_SURFACE_Y` (-0.14m), recessed below the
-    // surrounding 360-degree concave shoreline bank (`+0.02m` at r = 16.8m, intersecting water at r = 14.9m).
     const lagoonGeo = new THREE.CircleGeometry(15.2, 64);
     lagoonGeo.rotateX(-Math.PI / 2);
     const lagoonMat = new THREE.MeshPhysicalMaterial({
@@ -673,7 +968,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       clearcoat: 0.95,
       iridescence: 0.45,
       iridescenceIOR: 1.33,
-      iridescenceThicknessRange: [180, 420],
+      iridescenceThicknessMinimum: 180,
+      iridescenceThicknessMaximum: 420,
       transparent: true,
       opacity: 0.84,
     });
@@ -724,15 +1020,72 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       for (let i = 0; i < 5; i++) {
         const a = (i / 5) * Math.PI * 2;
         const r = i === 0 ? 0 : 4.2;
-        // Grounded stone pier plinth extending from the recessed lakebed (-0.42m below water) up to +0.06m above water
-        const pad = new THREE.Mesh(new THREE.CylinderGeometry(0.78, 0.96, 0.52, 12), sharedStoneMat);
-        pad.position.set(Math.cos(a) * r, -0.18, Math.sin(a) * r);
-        group.add(pad);
+        const lx = Math.cos(a) * r;
+        const lz = Math.sin(a) * r;
 
-        const orb = new THREE.Mesh(new THREE.OctahedronGeometry(0.32, 1), lanternMat);
-        orb.position.set(Math.cos(a) * r, 0.55, Math.sin(a) * r);
-        group.add(orb);
+        const lanternUnit = new THREE.Group();
+        lanternUnit.position.set(lx, 0, lz);
+
+        // Grounded stone pier plinth extending from the recessed lakebed (-0.42m below water) up to +0.08m above water
+        const pad = new THREE.Mesh(new THREE.CylinderGeometry(0.78, 0.96, 0.52, 12), sharedStoneMat);
+        pad.position.y = -0.18;
+        lanternUnit.add(pad);
+
+        // Carved stone Tōrō lantern pedestal post & chamber base (y = 0.08m .. 0.34m)
+        const postColumn = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.24, 0.36, 0.28, 8),
+          sharedStoneMat,
+        );
+        postColumn.position.y = 0.22;
+        lanternUnit.add(postColumn);
+
+        const chamberDeck = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.42, 0.30, 0.08, 6),
+          sharedGoldTrimMat,
+        );
+        chamberDeck.position.y = 0.36;
+        lanternUnit.add(chamberDeck);
+
+        // 4 bronze lantern frame struts connecting chamberDeck (y = 0.36m) to pagodaRoof (y = 0.78m)
+        for (let s = 0; s < 4; s++) {
+          const sa = (s / 4) * Math.PI * 2 + Math.PI / 4;
+          const strut = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.025, 0.025, 0.44, 6),
+            sharedGoldTrimMat,
+          );
+          strut.position.set(Math.cos(sa) * 0.28, 0.58, Math.sin(sa) * 0.28);
+          lanternUnit.add(strut);
+        }
+
+        // Glowing bioluminescent orb seated on a central spindle inside the lantern chamber
+        const orbSpindle = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.04, 0.05, 0.42, 8),
+          sharedGoldTrimMat,
+        );
+        orbSpindle.position.y = 0.58;
+        lanternUnit.add(orbSpindle);
+
+        const orb = new THREE.Mesh(new THREE.OctahedronGeometry(0.24, 1), lanternMat);
+        orb.position.y = 0.56;
+        lanternUnit.add(orb);
         lanternOrbs.push(orb);
+
+        // Hexagonal stone pagoda roof cap & finial resting atop the 4 lantern frame struts
+        const pagodaRoof = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.08, 0.58, 0.22, 6),
+          sharedStoneMat,
+        );
+        pagodaRoof.position.y = 0.88;
+        lanternUnit.add(pagodaRoof);
+
+        const finial = new THREE.Mesh(
+          new THREE.SphereGeometry(0.075, 10, 8),
+          sharedGoldTrimMat,
+        );
+        finial.position.y = 1.02;
+        lanternUnit.add(finial);
+
+        group.add(lanternUnit);
       }
       return { group, lanternOrbs };
     };
@@ -880,14 +1233,25 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       beamMesh.position.set(bx, by + 0.5, bz);
       scene.add(beamMesh);
 
+      const crownHeightsByBiome: Record<BiomeId, number> = {
+        sanctuary: 6.42,
+        meadow: 1.68,
+        grove: 4.38,
+        crystal: 4.18,
+        wetland: 0.92,
+      };
       const crownMat = new THREE.MeshBasicMaterial({
         color: cCfg.beamColorHex,
         transparent: true,
-        opacity: 0.22,
+        opacity: 0.16,
         depthWrite: false,
       });
       const crownMesh = new THREE.Mesh(constellationCrownGeo, crownMat);
-      crownMesh.position.set(bx, by + 5.8, bz);
+      crownMesh.position.set(
+        bx,
+        (bId === 'wetland' ? MIRROR_LAGOON_WATER_SURFACE_Y : by) + crownHeightsByBiome[bId],
+        bz,
+      );
       scene.add(crownMesh);
 
       biomeConstellationBeams.push({
@@ -979,7 +1343,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     for (let i = 0; i < stalkCount; i++) {
       const tr = conservatoryTrees[i];
       _dummyPos.set(tr.x, tr.baseY, tr.z);
-      _dummyEuler.set(tr.tiltX, tr.yaw, tr.tiltZ);
+      // Zero yaw inside Euler(tiltX, 0, tiltZ) so the 3D tilted trunk centerline passes through the exact center of both canopy tiers
+      _dummyEuler.set(tr.tiltX, 0, tr.tiltZ);
       _dummyQuat.setFromEuler(_dummyEuler);
       _dummyScale.set(tr.scaleXZ, tr.scaleY, tr.scaleXZ);
       _dummyMatrix.compose(_dummyPos, _dummyQuat, _dummyScale);
@@ -992,7 +1357,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     stalksInstanced.computeBoundingSphere();
     scene.add(stalksInstanced);
 
-    // 7a-2. Bamboo & Crystal Canopy Foliage Crowns (128 sculpted multi-lobe botanical crowns attached to 3D tilted trunk axes)
+    // 7a-2. Bamboo & Crystal Canopy Foliage Crowns (128 sculpted multi-lobe botanical crowns with underside collar attached to 3D tilted trunk axes)
     const canopyCount = stalkCount * 2;
     const canopyGeo = createSculptedCanopyCrownGeometry({
       radius: 1.05,
@@ -1005,6 +1370,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       normalScale: new THREE.Vector2(0.32, 0.32),
       roughness: 0.46,
       metalness: 0.12,
+      side: THREE.DoubleSide,
     });
     const canopyInstanced = new THREE.InstancedMesh(canopyGeo, canopyMat, canopyCount);
     const canopyX = new Float32Array(canopyCount);
@@ -1315,10 +1681,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         clearcoatRoughness: 0.12,
         iridescence: hdSynthesis.iridescenceStrength,
         iridescenceIOR: hdSynthesis.iridescenceIor,
-        iridescenceThicknessRange: [
-          hdSynthesis.iridescenceThinFilmMinNm,
-          hdSynthesis.iridescenceThinFilmMaxNm,
-        ],
+        iridescenceThicknessMinimum: hdSynthesis.iridescenceThinFilmMinNm,
+        iridescenceThicknessMaximum: hdSynthesis.iridescenceThinFilmMaxNm,
         sheen: hdSynthesis.cuticularSheenStrength,
         sheenColor: new THREE.Color(cfg.emissiveHue),
         sheenRoughness: hdSynthesis.cuticularSheenRoughness,
@@ -1340,7 +1704,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
       if (substrate === 'pelagic-water') {
         const rhizomeTether = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.035, 0.058, 0.42, 10),
+          new THREE.CylinderGeometry(0.045, 0.068, 0.46, 10),
           stemMat,
         );
         rhizomeTether.position.y = -0.21;
@@ -1353,19 +1717,22 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           roughness: 0.9,
           metalness: 0.04,
         });
-        const humusMound = new THREE.Mesh(new THREE.SphereGeometry(0.34, 14, 10), humusMat);
-        humusMound.scale.set(1.15, 0.28, 1.15);
-        humusMound.position.y = 0.015;
+        const humusMound = new THREE.Mesh(new THREE.SphereGeometry(0.36, 14, 10), humusMat);
+        humusMound.scale.set(1.15, 0.30, 1.15);
+        humusMound.position.y = 0.02;
         holdfastGroup.add(humusMound);
 
-        const rootTendrilGeo = new THREE.CylinderGeometry(0.018, 0.034, 0.42, 8);
+        const rootTendrilGeo = new THREE.CylinderGeometry(0.018, 0.036, 0.40, 8);
         for (let rIdx = 0; rIdx < 4; rIdx++) {
           const ra = (rIdx / 4) * Math.PI * 2 + 0.35;
+          const tendrilSocket = new THREE.Group();
+          tendrilSocket.rotation.y = -ra;
           const tendril = new THREE.Mesh(rootTendrilGeo, stemMat);
-          tendril.position.set(Math.cos(ra) * 0.22, 0.04, Math.sin(ra) * 0.22);
-          tendril.rotation.z = -Math.cos(ra) * 0.78;
-          tendril.rotation.x = Math.sin(ra) * 0.78;
-          holdfastGroup.add(tendril);
+          // Anchored inside the central stem collar (r = 0.04, y = 0.10) sloping down into the humus mound
+          tendril.position.set(0.18, 0.02, 0);
+          tendril.rotation.z = 1.15;
+          tendrilSocket.add(tendril);
+          holdfastGroup.add(tendrilSocket);
         }
       }
       group.add(holdfastGroup);
@@ -1381,10 +1748,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         clearcoat: 0.9,
         iridescence: hdSynthesis.iridescenceStrength * 0.85,
         iridescenceIOR: hdSynthesis.iridescenceIor,
-        iridescenceThicknessRange: [
-          hdSynthesis.iridescenceThinFilmMinNm,
-          hdSynthesis.iridescenceThinFilmMaxNm,
-        ],
+        iridescenceThicknessMinimum: hdSynthesis.iridescenceThinFilmMinNm,
+        iridescenceThicknessMaximum: hdSynthesis.iridescenceThinFilmMaxNm,
         side: THREE.DoubleSide,
       });
 
@@ -1406,7 +1771,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       };
 
       const emissiveMaterials = [bloomMat, accentMat];
-      const bellMeshes: THREE.Mesh[] = [];
+      const bellMeshes: THREE.Object3D[] = [];
       const croziers: THREE.Mesh[] = [];
       const fronds: THREE.Mesh[] = [];
       const outerPetals: THREE.Mesh[] = [];
@@ -1415,217 +1780,335 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       const capsules: THREE.Mesh[] = [];
       let starHeadRef: THREE.Group | null = null;
       let stemApexY = 1.85;
+      let localApicalCrownY = 0.08;
 
       if (plant.species === 'chime-lily') {
-        // Fibonacci 5-leaf sculpted B-Mesh basal rosette + segmented stem + 3 pedicel branches + 3 Fluted 8-Rib Bell Corollas with Shape Keys
+        // Fibonacci 5-leaf sculpted B-Mesh basal rosette anchored inside the 0.12m stem collar + segmented stem + 3 pedicel branches with hinged bell + internal stamen pendulums
         for (let i = 0; i < 5; i++) {
+          const a = i * GOLDEN_ANGLE_RAD;
+          const leafSocket = new THREE.Group();
+          leafSocket.position.y = 0.06;
+          leafSocket.rotation.y = -a + Math.PI / 2;
           const leaf = new THREE.Mesh(hdRosetteLeafGeo, stemMat);
           registerMorphMesh(leaf);
-          const a = i * GOLDEN_ANGLE_RAD;
-          leaf.position.set(Math.cos(a) * 0.12, 0.08, Math.sin(a) * 0.12);
-          leaf.rotation.y = -a + Math.PI / 2;
-          leaf.rotation.x = 0.42;
-          basalJoint.add(leaf);
+          leaf.position.set(0, 0, 0.04);
+          leaf.rotation.x = 0.44;
+          leafSocket.add(leaf);
+          basalJoint.add(leafSocket);
         }
-        const lowerStem = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.12, 1.15, 14), stemMat);
-        lowerStem.position.y = 0.575;
+        const lowerStem = new THREE.Mesh(new THREE.CylinderGeometry(0.082, 0.125, 1.16, 14), stemMat);
+        lowerStem.position.y = 0.56;
         basalJoint.add(lowerStem);
 
         medialJoint.position.y = 1.12;
-        const upperStem = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.08, 1.18, 14), stemMat);
-        upperStem.position.y = 0.59;
+        const medialNode = new THREE.Mesh(new THREE.SphereGeometry(0.088, 12, 10), stemMat);
+        medialJoint.add(medialNode);
+
+        const upperStem = new THREE.Mesh(new THREE.CylinderGeometry(0.056, 0.082, 1.18, 14), stemMat);
+        upperStem.position.y = 0.58;
         medialJoint.add(upperStem);
 
-        apicalJoint.position.y = 1.15;
+        apicalJoint.position.y = 1.16;
+
+        const pedicelLen = 0.48;
+        const pedicelTilt = 0.82; // ~47 deg outward arch from stem
+        const tipX = pedicelLen * Math.sin(pedicelTilt);
+        const tipY = pedicelLen * Math.cos(pedicelTilt);
 
         for (let b = 0; b < 3; b++) {
           const branchAngle = (b / 3) * Math.PI * 2 + 0.3;
-          const bx = Math.cos(branchAngle) * 0.44;
-          const bz = Math.sin(branchAngle) * 0.44;
-          const by = 0.34 + b * 0.32 - 1.12;
+          const attachY = 0.24 + b * 0.30;
 
-          const pedicel = new THREE.Mesh(new THREE.CylinderGeometry(0.024, 0.034, 0.52, 10), stemMat);
-          pedicel.position.set(bx * 0.5, by + 1.12 + 0.08, bz * 0.5);
-          pedicel.rotation.z = -Math.cos(branchAngle) * 0.72;
-          pedicel.rotation.x = Math.sin(branchAngle) * 0.72;
-          medialJoint.add(pedicel);
+          const branchGroup = new THREE.Group();
+          branchGroup.position.set(0, attachY, 0);
+          branchGroup.rotation.y = -branchAngle;
+
+          // Nodal bract collar where pedicel joins the main stem at (0,0,0)
+          const nodeBract = new THREE.Mesh(new THREE.SphereGeometry(0.068, 10, 8), stemMat);
+          branchGroup.add(nodeBract);
+
+          // Pedicel cylinder spanning from (0,0,0) on main stem to exact tip (tipX, tipY, 0)
+          const pedicel = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.024, 0.038, pedicelLen, 10),
+            stemMat,
+          );
+          pedicel.position.set(tipX * 0.5, tipY * 0.5, 0);
+          pedicel.rotation.z = -pedicelTilt;
+          branchGroup.add(pedicel);
+
+          // Hinged Bell + Stamen Pendulum Group anchored at exact pedicel tip (tipX, tipY, 0)
+          const bellPendulum = new THREE.Group();
+          bellPendulum.position.set(tipX, tipY, 0);
+
+          const calyxCup = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.028, 0.065, 0.09, 10),
+            stemMat,
+          );
+          calyxCup.position.y = -0.02;
+          bellPendulum.add(calyxCup);
 
           const bell = new THREE.Mesh(hdBellCorollaGeo, bloomMat);
           registerMorphMesh(bell);
           bell.rotation.x = Math.PI;
-          bell.position.set(bx, by + 1.12, bz);
-          medialJoint.add(bell);
-          bellMeshes.push(bell);
+          bell.position.set(0, 0, 0);
+          bellPendulum.add(bell);
 
-          const stamen = new THREE.Mesh(new THREE.SphereGeometry(0.085, 14, 12), accentMat);
-          stamen.position.set(bx, by + 1.12 - 0.34, bz);
-          medialJoint.add(stamen);
+          // Internal stamen filament rod extending from bell receptacle (0, 0, 0) down to clapper anther (0, -0.44, 0)
+          const stamenFilament = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.012, 0.016, 0.44, 8),
+            stemMat,
+          );
+          stamenFilament.position.y = -0.22;
+          bellPendulum.add(stamenFilament);
+
+          const stamenAnther = new THREE.Mesh(new THREE.SphereGeometry(0.078, 14, 12), accentMat);
+          stamenAnther.position.y = -0.44;
+          bellPendulum.add(stamenAnther);
+
+          branchGroup.add(bellPendulum);
+          medialJoint.add(branchGroup);
+          bellMeshes.push(bellPendulum as unknown as THREE.Mesh);
         }
 
-        const crownBud = new THREE.Mesh(new THREE.OctahedronGeometry(0.14, 2), accentMat);
-        crownBud.position.y = 0.02;
+        const crownBud = new THREE.Mesh(new THREE.OctahedronGeometry(0.13, 2), accentMat);
+        crownBud.position.y = 0.04;
         apicalJoint.add(crownBud);
-        stemApexY = 2.34;
+        stemApexY = 2.28;
+        localApicalCrownY = 0.06;
       } else if (plant.species === 'pulse-fern') {
-        // Organic caudex mound + central vascular rachis + 8 Compound Pinnate Fronds (18 leaflets each + Shape Keys) + 2 Golden Logarithmic Crozier Spirals
+        // Organic caudex mound + central vascular rachis + 8 Compound Pinnate Fronds anchored inside the rachis + 2 bottom-pivoted Croziers + 3 connected Sporangiophores
         const mound = new THREE.Mesh(new THREE.SphereGeometry(0.46, 16, 12), stemMat);
-        mound.scale.set(1, 0.5, 1);
-        mound.position.y = 0.14;
+        mound.scale.set(1, 0.55, 1);
+        mound.position.y = 0.15;
         basalJoint.add(mound);
 
+        medialJoint.position.y = 0.22;
         const centralRachis = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.042, 0.085, 1.66, 12),
+          new THREE.CylinderGeometry(0.048, 0.095, 1.36, 12),
           stemMat,
         );
-        centralRachis.position.y = 0.83;
+        centralRachis.position.y = 0.66;
         medialJoint.add(centralRachis);
 
         for (let i = 0; i < 8; i++) {
           const a = i * GOLDEN_ANGLE_RAD;
-          const r = 0.22 + (i % 3) * 0.06;
+          const frondSocket = new THREE.Group();
+          frondSocket.position.set(0, 0.08 + (i % 4) * 0.07, 0);
+          frondSocket.rotation.y = -a + Math.PI / 2;
+
           const frond = new THREE.Mesh(hdPinnateFrondGeo, i % 2 === 0 ? bloomMat : stemMat);
           registerMorphMesh(frond);
-          frond.position.set(Math.cos(a) * r, 0.24 + (i % 2) * 0.08, Math.sin(a) * r);
-          frond.rotation.y = -a + Math.PI / 2;
+          // Anchored directly inside the central rachis (z = 0.03m) so zero fronds float outside the stem
+          frond.position.set(0, 0, 0.03);
           frond.rotation.x = 0.36 + (i % 3) * 0.08;
-          medialJoint.add(frond);
+          frondSocket.add(frond);
+          medialJoint.add(frondSocket);
           fronds.push(frond);
         }
 
-        apicalJoint.position.y = 1.24;
+        apicalJoint.position.y = 1.32;
+        const apicalNode = new THREE.Mesh(new THREE.SphereGeometry(0.065, 12, 10), stemMat);
+        apicalJoint.add(apicalNode);
+
+        // Both crozier spirals have their basal stipe (t = 0) at (0, 0, 0) inside apicalJoint!
         const crozierA = new THREE.Mesh(hdCrozierGeoA, accentMat);
         registerMorphMesh(crozierA);
-        crozierA.position.y = 0.04;
+        crozierA.position.set(0, 0, 0);
         apicalJoint.add(crozierA);
         croziers.push(crozierA);
 
         const crozierB = new THREE.Mesh(hdCrozierGeoB, bloomMat);
         registerMorphMesh(crozierB);
         crozierB.rotation.y = Math.PI * 0.5;
-        crozierB.position.y = 0.24;
+        crozierB.position.set(0, 0.02, 0);
         apicalJoint.add(crozierB);
         croziers.push(crozierB);
 
+        const sporangioLen = 0.36;
+        const sporangioTilt = 0.58;
+        const spTipX = sporangioLen * Math.sin(sporangioTilt);
+        const spTipY = sporangioLen * Math.cos(sporangioTilt);
+
         for (let s = 0; s < 3; s++) {
           const sa = (s / 3) * Math.PI * 2;
-          const sx = Math.cos(sa) * 0.26;
-          const sz = Math.sin(sa) * 0.26;
-          const sy = 0.40 + s * 0.07;
+          const sporeBranch = new THREE.Group();
+          sporeBranch.position.set(0, 0.02, 0);
+          sporeBranch.rotation.y = -sa;
+
           const sporangiophore = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.014, 0.022, 0.42, 8),
+            new THREE.CylinderGeometry(0.016, 0.026, sporangioLen, 8),
             stemMat,
           );
-          sporangiophore.position.set(sx * 0.5, sy - 0.14, sz * 0.5);
-          sporangiophore.rotation.z = -Math.cos(sa) * 0.62;
-          sporangiophore.rotation.x = Math.sin(sa) * 0.62;
-          apicalJoint.add(sporangiophore);
+          sporangiophore.position.set(spTipX * 0.5, spTipY * 0.5, 0);
+          sporangiophore.rotation.z = -sporangioTilt;
+          sporeBranch.add(sporangiophore);
 
           const spore = new THREE.Mesh(new THREE.OctahedronGeometry(0.082, 1), accentMat);
-          spore.position.set(sx, sy, sz);
-          apicalJoint.add(spore);
+          spore.position.set(spTipX, spTipY, 0);
+          sporeBranch.add(spore);
+          apicalJoint.add(sporeBranch);
         }
-        stemApexY = 1.78;
+        stemApexY = 1.54;
+        localApicalCrownY = 0.04;
       } else if (plant.species === 'echo-lotus') {
-        // Cordate heart-notched floating lily pad with upturned rim & 14 radial veins + Sculpted B-Mesh Outer & Inner Petals with Shape Keys
+        // Cordate heart-notched floating lily pad + receptacle cup + outer & inner petals embedded directly inside the receptacle collar
         const pad = new THREE.Mesh(hdLotusPadGeo, stemMat);
         pad.position.y = 0.015;
         basalJoint.add(pad);
 
+        medialJoint.position.y = 0.02;
         const receptacleStalk = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.08, 0.12, 0.36, 14),
+          new THREE.CylinderGeometry(0.11, 0.14, 0.24, 14),
           stemMat,
         );
-        receptacleStalk.position.y = 0.18;
+        receptacleStalk.position.y = 0.11;
         medialJoint.add(receptacleStalk);
 
         const lotusCup = new THREE.Mesh(lotusCupLatheGeo, bloomMat);
-        lotusCup.position.y = 0.04;
+        lotusCup.position.y = 0.02;
         medialJoint.add(lotusCup);
 
-        apicalJoint.position.y = 0.22;
+        apicalJoint.position.y = 0.18;
+
+        // Receptacle torus collar binding all outer & inner petals to the seed crown base
+        const receptacleCollar = new THREE.Mesh(
+          new THREE.TorusGeometry(0.11, 0.045, 10, 20),
+          stemMat,
+        );
+        receptacleCollar.rotation.x = Math.PI / 2;
+        receptacleCollar.position.y = 0.02;
+        apicalJoint.add(receptacleCollar);
 
         for (let i = 0; i < 8; i++) {
           const a = (i / 8) * Math.PI * 2;
+          const petalSocket = new THREE.Group();
+          petalSocket.position.y = 0.02;
+          petalSocket.rotation.y = -a + Math.PI / 2;
+
           const petal = new THREE.Mesh(hdLotusOuterPetalGeo, bloomMat);
           registerMorphMesh(petal);
-          petal.position.set(Math.cos(a) * 0.26, 0.02, Math.sin(a) * 0.26);
-          petal.rotation.y = -a + Math.PI / 2;
-          petal.rotation.x = 0.54;
-          apicalJoint.add(petal);
+          // Anchored inside the 0.11m receptacle collar (z = 0.08m) so zero petals float detached
+          petal.position.set(0, 0, 0.08);
+          petal.rotation.x = 0.52;
+          petalSocket.add(petal);
+          apicalJoint.add(petalSocket);
           outerPetals.push(petal);
         }
 
         for (let i = 0; i < 5; i++) {
           const a = (i / 5) * Math.PI * 2 + 0.3;
+          const innerSocket = new THREE.Group();
+          innerSocket.position.y = 0.05;
+          innerSocket.rotation.y = -a + Math.PI / 2;
+
           const innerPetal = new THREE.Mesh(hdLotusInnerPetalGeo, accentMat);
           registerMorphMesh(innerPetal);
-          innerPetal.position.set(Math.cos(a) * 0.18, 0.08, Math.sin(a) * 0.18);
-          innerPetal.rotation.y = -a + Math.PI / 2;
+          innerPetal.position.set(0, 0, 0.06);
           innerPetal.rotation.x = 0.32;
-          apicalJoint.add(innerPetal);
+          innerSocket.add(innerPetal);
+          apicalJoint.add(innerSocket);
         }
 
-        const seedCrown = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.12, 0.36, 18), accentMat);
-        seedCrown.position.y = 0.14;
+        const seedCrown = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.11, 0.28, 18), accentMat);
+        seedCrown.position.y = 0.12;
         apicalJoint.add(seedCrown);
-        stemApexY = 0.62;
+        stemApexY = 0.46;
+        localApicalCrownY = 0.26;
       } else if (plant.species === 'drone-moss') {
-        // 4 organic soil-rooted bryophyte moss cushions + 4 bottom-anchored seta stalks + 4 sculpted operculum spore capsules + 6 basal micro-fronds
-        const setaGeo = new THREE.CylinderGeometry(0.02, 0.032, 0.56, 10);
+        // Unified basal bryophyte colony mat + 4 moss cushions + 4 seta stalks with operculum capsules parented to the stalk tips
+        const basalColonyMat = new THREE.Mesh(new THREE.SphereGeometry(0.58, 18, 12), stemMat);
+        basalColonyMat.scale.set(1.12, 0.26, 1.12);
+        basalColonyMat.position.y = 0.06;
+        basalJoint.add(basalColonyMat);
+
+        medialJoint.position.y = 0.12;
+        apicalJoint.position.y = 0.56;
+
+        const setaGeo = new THREE.CylinderGeometry(0.022, 0.036, 0.56, 10);
         setaGeo.translate(0, 0.28, 0);
         for (let i = 0; i < 4; i++) {
           const a = i * GOLDEN_ANGLE_RAD;
-          const rad = i === 0 ? 0.05 : 0.34;
-          const cushionY = 0.11 + i * 0.04;
+          const rad = i === 0 ? 0.04 : 0.30;
+          const cushionY = 0.11 + i * 0.035;
+          const cx = Math.cos(a) * rad;
+          const cz = Math.sin(a) * rad;
 
           const cushion = new THREE.Mesh(new THREE.SphereGeometry(0.35, 18, 14), bloomMat);
           cushion.scale.set(1.08, 0.52, 1.08);
-          cushion.position.set(Math.cos(a) * rad, cushionY, Math.sin(a) * rad);
+          cushion.position.set(cx, cushionY, cz);
           basalJoint.add(cushion);
           cushions.push(cushion);
 
+          // Seta stalk rooted inside the top of its cushion (medialJoint y = 0.12)
+          const stalkLocalY = cushionY + 0.02 - 0.12;
           const stalk = new THREE.Mesh(setaGeo, stemMat);
-          stalk.position.set(Math.cos(a) * rad, cushionY + 0.06, Math.sin(a) * rad);
+          stalk.position.set(cx, stalkLocalY, cz);
           medialJoint.add(stalk);
           stalks.push(stalk);
 
+          // Operculum spore capsule + calyptra cap parented inside medialJoint at the exact top of the stalk
           const capsule = new THREE.Mesh(hdBellCorollaGeo, accentMat);
           registerMorphMesh(capsule);
           capsule.scale.setScalar(0.28);
-          capsule.position.set(Math.cos(a) * rad, cushionY + 0.62, Math.sin(a) * rad);
-          apicalJoint.add(capsule);
+          capsule.position.set(cx, stalkLocalY + 0.54, cz);
+          // Conical operculum cap closing the top of the moss sporangium capsule
+          const operculumCap = new THREE.Mesh(
+            new THREE.ConeGeometry(0.45, 0.36, 16),
+            stemMat,
+          );
+          operculumCap.position.y = 0.72;
+          capsule.add(operculumCap);
+          medialJoint.add(capsule);
           capsules.push(capsule);
         }
-        stemApexY = 0.92;
+        stemApexY = 0.86;
+        localApicalCrownY = 0.14;
       } else {
-        // star-orchid: 3 sculpted B-Mesh basal leaves + fluted stem + attached 5-sepal + 3-tepal + fluted labellum star blossom head
+        // star-orchid: 3 sculpted B-Mesh basal leaves + segmented stem + ovary receptacle collar + 5 sepals + 3 tepals + forward-flaring labellum + central gynostemium column
         for (let i = 0; i < 3; i++) {
           const a = (i / 3) * Math.PI * 2;
+          const leafSocket = new THREE.Group();
+          leafSocket.position.y = 0.06;
+          leafSocket.rotation.y = -a + Math.PI / 2;
           const leaf = new THREE.Mesh(hdRosetteLeafGeo, stemMat);
           registerMorphMesh(leaf);
-          leaf.scale.setScalar(0.82);
-          leaf.position.set(Math.cos(a) * 0.14, 0.10, Math.sin(a) * 0.14);
-          leaf.rotation.y = -a + Math.PI / 2;
+          leaf.scale.setScalar(0.84);
+          leaf.position.set(0, 0, 0.04);
           leaf.rotation.x = 0.46;
-          basalJoint.add(leaf);
+          leafSocket.add(leaf);
+          basalJoint.add(leafSocket);
         }
 
-        const lowerStem = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.12, 0.92, 14), stemMat);
+        const lowerStem = new THREE.Mesh(new THREE.CylinderGeometry(0.082, 0.125, 0.94, 14), stemMat);
         lowerStem.position.y = 0.46;
         basalJoint.add(lowerStem);
 
         medialJoint.position.y = 0.90;
-        const upperStem = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.08, 0.92, 14), stemMat);
+        const medialNode = new THREE.Mesh(new THREE.SphereGeometry(0.086, 12, 10), stemMat);
+        medialJoint.add(medialNode);
+
+        const upperStem = new THREE.Mesh(new THREE.CylinderGeometry(0.062, 0.082, 0.94, 14), stemMat);
         upperStem.position.y = 0.46;
         medialJoint.add(upperStem);
 
-        apicalJoint.position.y = 0.88;
+        apicalJoint.position.y = 0.90;
         const starHead = new THREE.Group();
+
+        // Sculpted ovary receptacle collar & curved pedicel neck uniting upperStem (0,0,0) with all sepals, tepals, and labellum
+        const receptacleHub = new THREE.Mesh(
+          new THREE.SphereGeometry(0.095, 14, 12),
+          stemMat,
+        );
+        receptacleHub.scale.set(1.0, 1.0, 1.25);
+        receptacleHub.position.set(0, 0, 0.02);
+        starHead.add(receptacleHub);
+
         for (let i = 0; i < 5; i++) {
           const a = (i / 5) * Math.PI * 2;
           const petal = new THREE.Mesh(hdOrchidSepalGeo, bloomMat);
           registerMorphMesh(petal);
-          petal.position.set(Math.cos(a) * 0.08, Math.sin(a) * 0.08, 0.04);
+          // Zero radial offset so all 5 sepal claws grow directly out of receptacleHub at (0, 0, 0.01)
+          petal.position.set(0, 0, 0.01);
           petal.rotation.z = a - Math.PI / 2;
           starHead.add(petal);
         }
@@ -1633,24 +2116,44 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           const a = (i / 3) * Math.PI * 2 + Math.PI / 6;
           const tepal = new THREE.Mesh(hdOrchidTepalGeo, accentMat);
           registerMorphMesh(tepal);
-          tepal.position.set(Math.cos(a) * 0.06, Math.sin(a) * 0.06, 0.10);
+          tepal.position.set(0, 0, 0.03);
           tepal.rotation.z = a - Math.PI / 2;
           starHead.add(tepal);
         }
+
+        // Forward-flaring labellum trumpet (+Math.PI / 2 rotates +Y bell axis forward along +Z!)
         const labellum = new THREE.Mesh(hdBellCorollaGeo, accentMat);
         registerMorphMesh(labellum);
-        labellum.scale.setScalar(0.56);
-        labellum.rotation.x = -Math.PI / 2;
-        labellum.position.z = 0.16;
+        labellum.scale.setScalar(0.52);
+        labellum.rotation.x = Math.PI / 2;
+        labellum.position.set(0, 0, 0.02);
         starHead.add(labellum);
+
+        // Central orchid gynostemium column & glowing pollinia anther cap inside the labellum throat
+        const gynostemiumColumn = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.026, 0.038, 0.24, 10),
+          stemMat,
+        );
+        gynostemiumColumn.rotation.x = Math.PI / 2;
+        gynostemiumColumn.position.set(0, 0, 0.12);
+        starHead.add(gynostemiumColumn);
+
+        const polliniaCap = new THREE.Mesh(
+          new THREE.SphereGeometry(0.052, 12, 10),
+          accentMat,
+        );
+        polliniaCap.position.set(0, 0, 0.24);
+        starHead.add(polliniaCap);
+
         apicalJoint.add(starHead);
         starHeadRef = starHead;
-        stemApexY = 1.86;
+        stemApexY = 1.84;
+        localApicalCrownY = 0.06;
       }
 
-      // Stage 3 Harmonic Fruiting Crown physically attached at the species' stem apex via 3 golden pedicels
+      // Stage 3 Harmonic Fruiting Crown parented directly to `apicalJoint` so it moves 100% locked to the bending stem apex!
       const fruitingCrown = new THREE.Group();
-      fruitingCrown.position.y = stemApexY;
+      fruitingCrown.position.y = localApicalCrownY;
       const crownPearlMat = new THREE.MeshStandardMaterial({
         color: 0xfef08a,
         emissive: 0xf59e0b,
@@ -1658,33 +2161,45 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         roughness: 0.15,
         metalness: 0.55,
       });
-      const crownStem = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.018, 0.028, 0.22, 8),
+      const crownReceptacle = new THREE.Mesh(
+        new THREE.SphereGeometry(0.048, 10, 8),
         stemMat,
       );
-      crownStem.position.y = -0.08;
+      fruitingCrown.add(crownReceptacle);
+
+      const crownStem = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.022, 0.032, 0.16, 8),
+        stemMat,
+      );
+      crownStem.position.y = -0.06;
       fruitingCrown.add(crownStem);
 
-      const crownPearlGeo = new THREE.OctahedronGeometry(0.088, 2);
+      const crownPearlGeo = new THREE.OctahedronGeometry(0.082, 2);
+      const cPedLen = 0.24;
+      const cPedTilt = 0.85;
+      const cTipX = cPedLen * Math.sin(cPedTilt);
+      const cTipY = cPedLen * Math.cos(cPedTilt);
+
       for (let cp = 0; cp < 3; cp++) {
         const cAngle = (cp / 3) * Math.PI * 2;
-        const px = Math.cos(cAngle) * 0.22;
-        const pz = Math.sin(cAngle) * 0.22;
+        const cBranch = new THREE.Group();
+        cBranch.rotation.y = -cAngle;
+
         const crownPedicel = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.012, 0.018, 0.26, 8),
+          new THREE.CylinderGeometry(0.014, 0.022, cPedLen, 8),
           stemMat,
         );
-        crownPedicel.position.set(px * 0.5, 0.01, pz * 0.5);
-        crownPedicel.rotation.z = -Math.cos(cAngle) * 0.95;
-        crownPedicel.rotation.x = Math.sin(cAngle) * 0.95;
-        fruitingCrown.add(crownPedicel);
+        crownPedicel.position.set(cTipX * 0.5, cTipY * 0.5, 0);
+        crownPedicel.rotation.z = -cPedTilt;
+        cBranch.add(crownPedicel);
 
         const pearl = new THREE.Mesh(crownPearlGeo, crownPearlMat);
-        pearl.position.set(px, 0.06, pz);
-        fruitingCrown.add(pearl);
+        pearl.position.set(cTipX, cTipY, 0);
+        cBranch.add(pearl);
+        fruitingCrown.add(cBranch);
       }
       fruitingCrown.visible = BOTANICAL_LIFECYCLE_STAGES[initStage].hasFruitingCrown;
-      group.add(fruitingCrown);
+      apicalJoint.add(fruitingCrown);
 
       // Stage 4 Mycelial Elder Spore Halo Ring
       const elderHaloMat = new THREE.MeshBasicMaterial({
@@ -1713,7 +2228,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         haloRing,
         fruitingCrown,
         elderHaloRing,
-        bellMeshes,
+        bellMeshes: bellMeshes as THREE.Mesh[],
         croziers,
         fronds,
         outerPetals,
@@ -1722,7 +2237,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         capsules,
         starHead: starHeadRef,
         baseY: plant.y,
-        stemApexY,
+        stemApexY: localApicalCrownY,
         pulsePhase: Math.random() * Math.PI * 2,
         tactileShiverImpulse: 0,
       };
@@ -1997,19 +2512,18 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       f.group.visible = true;
     };
 
-    // 7-Node Bioluminescent Mycelial Guidance Filament (`Foundation.Neuromorphic.V1.Model::EmergentEntityStakeholderSpec`):
+    // 7-Node Ground-Hugging Bioluminescent Mycelial Guidance Rings (`Foundation.Neuromorphic.V1.Model::EmergentEntityStakeholderSpec`):
     // Expresses the emergent entity's synthesized wisdom (Intelligence + Memory + Observation + Feedback)
-    // as a living golden-ratio trail of glowing spore nodes along the terrain contour toward the next kinship specimen.
+    // as a living golden-ratio trail of terrain-hugging mycelial rings along the ground contour toward the next kinship specimen.
     const GUIDANCE_WAYPOINT_COUNT = 7;
-    const guidanceNodeGeo = new THREE.OctahedronGeometry(0.085, 1);
-    const guidanceNodeMat = new THREE.MeshStandardMaterial({
+    const guidanceNodeGeo = new THREE.RingGeometry(0.14, 0.24, 24);
+    guidanceNodeGeo.rotateX(-Math.PI / 2);
+    const guidanceNodeMat = new THREE.MeshBasicMaterial({
       color: 0xfef08a,
-      emissive: 0x38bdf8,
-      emissiveIntensity: 0.9,
-      roughness: 0.25,
-      metalness: 0.1,
       transparent: true,
-      opacity: 0.78,
+      opacity: 0.52,
+      side: THREE.DoubleSide,
+      depthWrite: false,
     });
     const guidanceFilamentMesh = new THREE.InstancedMesh(
       guidanceNodeGeo,
@@ -2017,11 +2531,23 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       GUIDANCE_WAYPOINT_COUNT,
     );
     guidanceFilamentMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    for (let wIdx = 0; wIdx < GUIDANCE_WAYPOINT_COUNT; wIdx++) {
+      _dummyPos.set(0, -50, 0);
+      _dummyQuat.identity();
+      _dummyScale.setScalar(0.001);
+      _dummyMatrix.compose(_dummyPos, _dummyQuat, _dummyScale);
+      guidanceFilamentMesh.setMatrixAt(wIdx, _dummyMatrix);
+    }
+    guidanceFilamentMesh.instanceMatrix.needsUpdate = true;
     scene.add(guidanceFilamentMesh);
 
     // Pre-compile shaders on hardware GPUs
     if (!isSoftwareGl) {
-      renderer.compile(scene, camera);
+      try {
+        renderer.compile(scene, camera);
+      } catch {
+        // Ignore driver-specific precompile warnings; Three.js compiles lazily on render
+      }
     }
 
     // Build deterministic solid collider registry (`Foundation.Physics.V1.Model`)
@@ -2460,6 +2986,14 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       player.yaw = 0;
       player.pitch = 0.04;
       player.exploredBiomes.add(biome);
+      cameraKinematics = {
+        ...cameraKinematics,
+        camX: player.x,
+        camY: player.y + 1.68,
+        camZ: player.z,
+        camYaw: player.yaw,
+        camPitch: player.pitch,
+      };
 
       if (biome === 'sanctuary') {
         player.action = 'stillness';
@@ -2523,6 +3057,14 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       player.z = 0;
       player.yaw = 0;
       player.pitch = 0.04;
+      cameraKinematics = {
+        ...cameraKinematics,
+        camX: player.x,
+        camY: player.y + 1.68,
+        camZ: player.z,
+        camYaw: player.yaw,
+        camPitch: player.pitch,
+      };
       player.guidedStroll = false;
       player.trailIndex = 0;
       player.velocityDm = 0;
@@ -2681,12 +3223,17 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
     const onResize = () => {
       if (!container) return;
-      const w = container.clientWidth || window.innerWidth;
-      const h = container.clientHeight || window.innerHeight;
-      camera.aspect = w / h;
+      const rawW = container.clientWidth || window.innerWidth;
+      const rawH = container.clientHeight || window.innerHeight;
+      if (rawW <= 0 || rawH <= 0) return;
+      camera.aspect = rawW / rawH;
       camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+      renderer.setSize(rawW, rawH);
     };
+
+    const resizeObserver =
+      typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => onResize()) : null;
+    resizeObserver?.observe(container);
 
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener('keyup', onKeyUp);
@@ -2838,26 +3385,48 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       sanctuaryMonument.innerGimbalRing.rotation.z = Math.PI / 4 + Math.cos(elapsed * 1.1) * 0.42;
       sanctuaryMonument.innerGimbalRing.rotation.y = -elapsed * 0.85 * spinMult;
 
+      // Live Runtime Procedural Model Synthesis on Sanctuary Supra-Directive Astrolabe Crown
+      const activeObserverModel = neuromorphicState.observer.supraDirective.activeModel;
+      if (activeObserverModel.modelId !== activeCrownModelId) {
+        activeCrownModelId = activeObserverModel.modelId;
+        const prevCrownGeo = sanctuaryMonument.observerCrown.geometry;
+        sanctuaryMonument.observerCrown.geometry =
+          createObserverAstrolabeCrownGeometry(activeObserverModel);
+        prevCrownGeo.dispose();
+      }
+      sanctuaryMonument.observerCrown.rotation.y = elapsed * 0.32 * spinMult;
+      if (sanctuaryMonument.observerCrown.morphTargetInfluences) {
+        const supraNorm = neuromorphicState.observer.supraDirective.tier / 4;
+        const aperiodicNorm = Math.min(
+          1,
+          neuromorphicState.observer.rule30Horizon.aperiodicCompensationIndex / 255,
+        );
+        sanctuaryMonument.observerCrown.morphTargetInfluences[0] = supraNorm;
+        sanctuaryMonument.observerCrown.morphTargetInfluences[1] =
+          aperiodicNorm * (0.5 + 0.5 * Math.sin(elapsed * 2.2));
+      }
+      sanctuaryMonument.crownMat.emissiveIntensity =
+        0.2 + neuromorphicState.observer.supraDirective.tier * 0.09;
+
+      // Synchronize Web Audio Soundscape Engine with Universal Neuromorphic Bus
+      soundEngineRef.current.syncWithNeuromorphicBus(neuromorphicState);
+
       const frameDiurnal = evaluateDiurnalProfile(
         atmosphereRef.current,
         biomeAt(player.x, player.z),
         player.harmony,
       );
-      meadowMonument.sunOrb.position.set(
-        Math.cos(frameDiurnal.sunAzimuthRad) * 0.35,
-        1.65 + Math.sin(elapsed * 1.8) * 0.14,
-        Math.sin(frameDiurnal.sunAzimuthRad) * 0.35,
-      );
-      meadowMonument.sunOrb.rotation.y = elapsed * 0.6 * spinMult + frameDiurnal.sunAzimuthRad;
+      meadowMonument.sunOrbPivot.rotation.y = frameDiurnal.sunAzimuthRad + elapsed * 0.25 * spinMult;
+      meadowMonument.sunOrb.rotation.y = elapsed * 0.6 * spinMult;
 
       for (let c = 0; c < groveMonument.chimeTubes.length; c++) {
         groveMonument.chimeTubes[c].rotation.z =
           Math.sin(elapsed * 2.1 * frameEnvLifecycle.windCadenceMultiplier + c * 1.1) * 0.075;
       }
 
-      crystalMonument.corePrism.position.y = 3.2 + Math.cos(elapsed * 1.5) * 0.22;
+      crystalMonument.corePrism.position.y = 3.2 + Math.cos(elapsed * 1.5) * 0.12;
       crystalMonument.corePrism.rotation.y = -elapsed * 0.55 * spinMult;
-      crystalMonument.corePrism.rotation.x = Math.sin(elapsed * 0.8) * 0.25;
+      crystalMonument.corePrism.rotation.x = Math.sin(elapsed * 0.8) * 0.15;
 
       const activeRule30Byte =
         neuromorphicState.rule30History[neuromorphicState.rule30History.length - 1] ?? 30;
@@ -2923,9 +3492,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
       for (let l = 0; l < wetlandMonument.lanternOrbs.length; l++) {
         wetlandMonument.lanternOrbs[l].position.y =
-          0.55 +
-          Math.sin(elapsed * 1.7 + l) * 0.08 +
-          centerCymatics.waveDisplacementY * 1.2;
+          0.56 + Math.sin(elapsed * 1.7 + l) * 0.035;
+        wetlandMonument.lanternOrbs[l].rotation.y = elapsed * 0.8 + l;
       }
 
       // Animate 5 Biome Constellation Pillar Beams & Crown Halos based on per-biome flora mastery + Infrastructure Halo Directive
@@ -2944,8 +3512,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         const ratio = totalInB > 0 ? attunedInB / totalInB : 0;
         const pulse = 0.85 + Math.sin(elapsed * 2.0 + bIdx) * 0.15;
         bc.beamMat.opacity = (0.04 + ratio * 0.22) * pulse * haloRefinementRatio;
-        bc.crownMat.opacity = (0.18 + ratio * 0.65) * pulse * haloRefinementRatio;
-        bc.crownMesh.rotation.z = elapsed * (0.35 + ratio * 0.8);
+        bc.crownMat.opacity = (0.14 + ratio * 0.65) * pulse * haloRefinementRatio;
+        bc.crownMesh.rotation.y = elapsed * (0.35 + ratio * 0.8);
       }
 
       // Animate Expanding Acoustic Ground Wave Rings constrained by local terrain normals & medium dispersion (`evaluateGroundWavePropagation`)
@@ -3228,6 +3796,12 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         if (pm.shaderUniforms) {
           pm.shaderUniforms.uTime.value = elapsed + pm.pulsePhase;
           pm.shaderUniforms.uResonancePulse.value = rigPose.morphAcousticRippleWeight;
+          pm.shaderUniforms.uSupraDefinition.value =
+            neuromorphicState.observer.supraDirective.tier / 4;
+          pm.shaderUniforms.uAperiodicShimmer.value = Math.min(
+            1,
+            neuromorphicState.observer.rule30Horizon.aperiodicCompensationIndex / 255,
+          );
         }
 
         // Species-specific anatomical articulation (`Foundation.Articulation.V1.Model` + Lifecycle + Circadian Turgor)
@@ -3273,13 +3847,13 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
             );
           }
           for (let cap = 0; cap < pm.capsules.length; cap++) {
-            const cushionY = 0.11 + cap * 0.04;
-            const stalkBaseY = cushionY + 0.06;
-            const stretchedLen = 0.56 * setaStretch;
+            const cushionY = 0.11 + cap * 0.035;
+            const stalkLocalY = cushionY + 0.02 - 0.12;
+            const stretchedLen = 0.54 * setaStretch;
             if (pm.stalks[cap]) {
               pm.stalks[cap].scale.set(1, setaStretch, 1);
             }
-            pm.capsules[cap].position.y = stalkBaseY + stretchedLen;
+            pm.capsules[cap].position.y = stalkLocalY + stretchedLen;
           }
         }
         if (pm.starHead) {
@@ -3698,37 +4272,56 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
               PLANT_SPECIES_CONFIGS[environmentalAgencyState.beckoningSpecies].emissiveHue,
             );
           }
-          // Autopoietic cross-domain transfer from the environment's active agency domain
+          // Autopoietic cross-domain transfer + Theory-of-Mind Why packet & Supra-Directive Observer update
+          const agencyNextTick = neuromorphicState.tickCount + 1;
+          const agencyNextManifold = propagateCrossDomainEnhancement(
+            neuromorphicState.universalManifold,
+            {
+              sourceDomain: environmentalAgencyState.activeRefinementDomain,
+              rule30Row: neuromorphicState.rule30Row,
+              basinState: neuromorphicState.lastBasinState,
+              icosianRootIndex: neuromorphicState.lastIcosianRoot,
+              contextPrimeAddress: neuromorphicState.lastPrimeAddress,
+              resonantSuccess: true,
+              tickId: agencyNextTick,
+            },
+          );
           neuromorphicState = {
             ...neuromorphicState,
-            universalManifold: propagateCrossDomainEnhancement(
-              neuromorphicState.universalManifold,
-              {
-                sourceDomain: environmentalAgencyState.activeRefinementDomain,
-                rule30Row: neuromorphicState.rule30Row,
-                basinState: neuromorphicState.lastBasinState,
-                icosianRootIndex: neuromorphicState.lastIcosianRoot,
-                contextPrimeAddress: neuromorphicState.lastPrimeAddress,
-                resonantSuccess: true,
-              },
-            ),
+            tickCount: agencyNextTick,
+            universalManifold: agencyNextManifold,
+            refinementDirectives: computeCrossDomainRefinementDirectives(agencyNextManifold),
+            observer: evaluateHolisticObserverState({
+              manifold: agencyNextManifold,
+              tickCount: agencyNextTick,
+              rule30History: neuromorphicState.rule30History,
+              prevObserver: neuromorphicState.observer,
+              biome: biomeAt(player.x, player.z),
+              species: environmentalAgencyState.beckoningSpecies,
+              action: player.action,
+              velocityDm: player.velocityDm,
+              harmonyPct: Math.round(player.harmony),
+              playerX: player.x,
+              playerZ: player.z,
+              playerYaw: player.yaw,
+            }),
           };
         }
 
-        // Update 7-Node Mycelial Guidance Filament (`stakeholderEntity.guidanceFilamentWaypoints`)
+        // Update 7-Node Ground-Hugging Mycelial Guidance Rings (`stakeholderEntity.guidanceFilamentWaypoints`)
         const guidanceWaypoints =
           environmentalAgencyState.stakeholderEntity.guidanceFilamentWaypoints;
         const guidanceLum = environmentalAgencyState.stakeholderEntity.guidanceFilamentLuminance;
-        guidanceNodeMat.emissiveIntensity = 0.45 + guidanceLum * 1.15;
-        guidanceNodeMat.opacity = Math.min(0.88, 0.28 + guidanceLum * 0.56);
+        guidanceNodeMat.opacity = Math.min(0.68, 0.22 + guidanceLum * 0.42);
         for (let wIdx = 0; wIdx < GUIDANCE_WAYPOINT_COUNT; wIdx++) {
           const wp = guidanceWaypoints[wIdx];
           if (wp) {
             const pulseWave = Math.sin(elapsed * 2.8 - wIdx * 0.65) * 0.5 + 0.5;
-            _dummyPos.set(wp[0], wp[1] + pulseWave * 0.08, wp[2]);
-            _dummyEuler.set(elapsed * 0.9 + wIdx, elapsed * 1.2, 0);
+            const groundY = groundHeightAt(wp[0], wp[2]) + 0.03;
+            _dummyPos.set(wp[0], groundY, wp[2]);
+            _dummyEuler.set(0, elapsed * 0.6 + wIdx, 0);
             _dummyQuat.setFromEuler(_dummyEuler);
-            _dummyScale.setScalar(0.72 + pulseWave * 0.45);
+            _dummyScale.setScalar(0.75 + pulseWave * 0.35);
           } else {
             _dummyPos.set(0, -50, 0);
             _dummyQuat.identity();
@@ -3819,7 +4412,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         emitTelemetry(false);
       }
 
-      renderer.render(scene, camera);
+      if (!contextLost) {
+        renderer.render(scene, camera);
+      }
 
       if (isSoftwareGl) {
         afterDraw(tick);
@@ -3834,6 +4429,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       unmounted = true;
       cancelAnimationFrame(frameId);
       clearTimeout(frameId);
+      resizeObserver?.disconnect();
+      renderer.domElement.removeEventListener('webglcontextlost', onContextLost, false);
+      renderer.domElement.removeEventListener('webglcontextrestored', onContextRestored, false);
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
       window.removeEventListener('blur', onWindowBlur);

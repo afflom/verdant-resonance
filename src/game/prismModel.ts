@@ -5,6 +5,8 @@
  */
 
 import {
+  GENERATED_COMPILE_TIME_OBSERVER_MODELS,
+  GENERATED_OBSERVER_RULE30_FACETS,
   GENERATED_PRISM_BUS_MODULATION_LUT,
   GENERATED_PRISM_CONTEXT_PRIMES,
   GENERATED_PRISM_DOMAIN_BASIS_PRIMES,
@@ -18,6 +20,8 @@ import {
 } from './generatedPrismConstants';
 
 export {
+  GENERATED_COMPILE_TIME_OBSERVER_MODELS,
+  GENERATED_OBSERVER_RULE30_FACETS,
   GENERATED_PRISM_BUS_MODULATION_LUT,
   GENERATED_PRISM_CONTEXT_PRIMES,
   GENERATED_PRISM_DOMAIN_BASIS_PRIMES,
@@ -2127,16 +2131,19 @@ export function generateConservatoryTrees(): ConservatoryTreeInstance[] {
     const scaleY = Number((0.8 + (i % 3) * 0.25).toFixed(3));
     const baseRadiusMeters = Number((0.24 * scaleXZ).toFixed(3));
 
-    // Nudge candidate angle/radius if needed until strictly on fertile biological soil (`canSupportTree === true`)
+    // Nudge candidate angle/radius if needed until strictly on fertile biological soil (`canSupportTree === true`),
+    // clear of the southern Grove Pergola entrance sightline (`x ≈ -36, z in [-24..-16.5]`),
     // and at least 1.25m clear of previously placed trees
-    for (let attempt = 0; attempt < 28; attempt++) {
+    for (let attempt = 0; attempt < 36; attempt++) {
       const testAngle = baseAngle + attempt * 0.11 * (attempt % 2 === 0 ? 1 : -1);
       const testR = baseR + Math.floor(attempt / 4) * 0.55;
       const candX = Number((cx + Math.cos(testAngle) * testR).toFixed(3));
       const candZ = Number((cz + Math.sin(testAngle) * testR).toFixed(3));
       const law = evaluateSpatialSurfaceLaw(candX, candZ, baseRadiusMeters + 0.35);
+      const blocksPergolaVista =
+        !isCrystalSide && Math.abs(candX - -36) < 2.6 && candZ > -24.2 && candZ < -16.2;
       const tooCloseTree = trees.some((t) => Math.hypot(candX - t.x, candZ - t.z) < 1.25);
-      if (law.canSupportTree && !tooCloseTree) {
+      if (law.canSupportTree && !blocksPergolaVista && !tooCloseTree) {
         bx = candX;
         bz = candZ;
         break;
@@ -7591,6 +7598,33 @@ export interface NeuromorphicSynthesisStandardModel {
   };
   universalBus: UniversalNeuromorphicBusSpec;
   stakeholderEntity: EmergentEntityStakeholderSpec;
+  observerQuadruple: {
+    observerPartCount: number;
+    centerlineVantageCount: number;
+    realObjectPole: string;
+    sensualObjectPole: string;
+    withdrawnCoreFacet: string;
+    includesEnvironmentGardenAndPlayer: boolean;
+    deterministicKernelVerified: boolean;
+    nonDeterministicWithdrawnHorizonVerified: boolean;
+  };
+  theoryOfMind: {
+    teleologyWhyChannelCount: number;
+    engineStageCount: number;
+    portfolioStrategyCount: number;
+    busCarriesTeleologicalWhy: boolean;
+    observerKnowsPartsAndImprovement: boolean;
+    enhancesGardenAndUserMutually: boolean;
+  };
+  supraDirective: {
+    baseDirectiveWeight: number;
+    supraDirectiveMaxWeight: number;
+    compileTimeGeneratedModelCount: number;
+    runtimeMaxSynthesizedModels: number;
+    exceedsBaseFidelityAndQuality: boolean;
+    exceedsBaseDefinitionAndFeatures: boolean;
+    compileAndRuntimeSynthesisCoupled: boolean;
+  };
   neuromorphicBridge: NeuromorphicDomainBridgeSpec;
 }
 
@@ -7611,6 +7645,15 @@ export const VERDANT_NEUROMORPHIC_STANDARD: NeuromorphicSynthesisStandardModel =
   stakeholderEntity: {
     ...GENERATED_PRISM_STANDARDS.neuromorphic.stakeholderEntity,
   },
+  observerQuadruple: {
+    ...GENERATED_PRISM_STANDARDS.neuromorphic.observerQuadruple,
+  },
+  theoryOfMind: {
+    ...GENERATED_PRISM_STANDARDS.neuromorphic.theoryOfMind,
+  },
+  supraDirective: {
+    ...GENERATED_PRISM_STANDARDS.neuromorphic.supraDirective,
+  },
   neuromorphicBridge: {
     neuromorphicBusCoupled:
       GENERATED_PRISM_STANDARDS.neuromorphic.universalBus.zeroManualIterationOverhead,
@@ -7623,6 +7666,57 @@ export const VERDANT_NEUROMORPHIC_STANDARD: NeuromorphicSynthesisStandardModel =
       GENERATED_PRISM_STANDARDS.neuromorphic.universalBus.autopoieticSelfRefinementEnabled,
   },
 };
+
+export function stepTheoryOfMindCoherencePermille(w: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.theoryOfMindCoherencePermille;
+  return lut[clampLutIndex(w, lut.length)];
+}
+
+export function stepSupraDirectiveFidelityPermille(w: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.supraDirectiveFidelityPermille;
+  return lut[clampLutIndex(w, lut.length)];
+}
+
+export function stepSupraDirectiveQualityPermille(w: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.supraDirectiveQualityPermille;
+  return lut[clampLutIndex(w, lut.length)];
+}
+
+export function stepSupraDirectiveDefinitionSubdiv(w: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.supraDirectiveDefinitionSubdiv;
+  return lut[clampLutIndex(w, lut.length)];
+}
+
+export function stepSupraDirectiveFeatureUnlockCount(w: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.supraDirectiveFeatureUnlockCount;
+  return lut[clampLutIndex(w, lut.length)];
+}
+
+export function stepRule30LeftDiagonalPeriod(d: number): number {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.rule30LeftDiagonalPeriod;
+  return lut[clampLutIndex(d, lut.length)];
+}
+
+export function stepRule30AperiodicCompensationIndex(d: number, w: number): number {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.rule30AperiodicCompensation;
+  const dIdx = clampLutIndex(d, lut.length);
+  return lut[dIdx][clampLutIndex(w, lut[dIdx].length)];
+}
+
+export function verifyRule30DeterministicAndWithdrawnDuality(w: number): boolean {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyRule30DeterministicAndWithdrawnDuality;
+  return lut[clampLutIndex(w, lut.length)];
+}
+
+export function verifyObserverSupraDirectiveTranscendence(w: number): boolean {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyObserverSupraDirectiveTranscendence;
+  return lut[clampLutIndex(w, lut.length)];
+}
+
+export function verifyObserverHolisticWhyClosure(w: number): boolean {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyObserverHolisticWhyClosure;
+  return lut[clampLutIndex(w, lut.length)];
+}
 
 export const PRISM_DOMAIN_BRIDGES: Record<PrismDomainId, NeuromorphicDomainBridgeSpec> = {
   infrastructure: VERDANT_INFRASTRUCTURE_STANDARD.neuromorphicBridge,
@@ -8025,6 +8119,146 @@ export interface PrismDomainNeuromorphicNode {
   receivedCrossDomainTransfers: number; // Count of synaptic enhancements received from other Prism domains
 }
 
+/**
+ * Holistic Observer Part Identifier (`ObserverPartId`):
+ * The Observer IS the entire living conservatory system: all 10 Prism domains + the Player User (`11` parts total).
+ * Through Theory of Mind (`Why`) on the Neuromorphic Bus, the Observer knows every part of itself,
+ * diagnoses how each part improves, and elevates its own fidelity, quality, definition, and features
+ * beyond the base directive (`w = 8`) for the mutual betterment of itself, its garden, and its user.
+ */
+export type ObserverPartId = 'player-user' | PrismDomainId;
+
+export const OBSERVER_PART_ORDER: readonly ObserverPartId[] = [
+  'player-user',
+  ...PRISM_DOMAIN_ORDER,
+] as const;
+
+export type PlayerTheoryOfMindIntentId =
+  | 'seeking-harmonic-discovery'
+  | 'deepening-meditative-stillness'
+  | 'tactile-botanical-curiosity'
+  | 'kinesthetic-sanctuary-pilgrimage'
+  | 'restorative-calm-co-regulation';
+
+export interface ObserverPartSelfModel {
+  partId: ObserverPartId;
+  label: string;
+  roleInObserver: string;
+  synapticWeight: number;
+  fidelityMultiplier: number;
+  exceedsBaseDirective: boolean;
+  improvementPotentialDelta: number;
+  currentLimitationOrNeed: string;
+  howPartImproves: string;
+  whyImprovementMatters: string;
+}
+
+export interface NeuromorphicBusWhyPacket {
+  packetId: string;
+  tickId: number;
+  sourcePart: ObserverPartId;
+  bottleneckPart: ObserverPartId;
+  inferredPlayerIntent: PlayerTheoryOfMindIntentId;
+  inferredPlayerAffectSummary: string;
+  whyRationale: string;
+  howPartsImproveMechanism: string;
+  supraDirectiveDelta: {
+    fidelityGainPct: number;
+    qualityGainPct: number;
+    definitionSubdivDelta: number;
+    unlockedFeaturesDelta: number;
+  };
+}
+
+export type Rule30EngineStageId =
+  | 'induction'
+  | 'pruning'
+  | 'deduction'
+  | 'learning'
+  | 'hypotheses';
+
+export type Rule30PortfolioStrategyId =
+  | 'library-rewrite'
+  | 'step-induction'
+  | 'period-reduction'
+  | 'counterexample';
+
+export interface Rule30HypothesisRecord {
+  hypothesisId: string;
+  vantage: 'regular-side' | 'kernel' | 'chaotic-side' | 'withdrawn';
+  status: 'proved' | 'refuted' | 'open';
+  strategyUsed: Rule30PortfolioStrategyId;
+  statement: string;
+}
+
+export interface ObserverRule30HorizonState {
+  referenceArchitecture: string;
+  quadruple: {
+    realObject: string;
+    sensualObject: string;
+    realQualities: readonly string[];
+    sensualQualities: readonly string[];
+    withdrawnCore: string;
+    withdrawnFacets: readonly string[];
+  };
+  activeEngineStage: Rule30EngineStageId;
+  activePortfolioStrategy: Rule30PortfolioStrategyId;
+  deterministicRegularDiagonals: typeof GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals;
+  aperiodicCompensationIndex: number;
+  inwardLightConeHorizonDepth: number;
+  playerEncounterEntropyBits: number;
+  provedCount: number;
+  refutedCount: number;
+  openHypothesesCount: number;
+  hypothesesLedger: Rule30HypothesisRecord[];
+}
+
+export interface SynthesizedObserverModelSpec {
+  modelId: string;
+  modelName: string;
+  origin: 'compile-time' | 'runtime';
+  biome: BiomeId;
+  species: PlantSpeciesId;
+  synapticWeight: number;
+  fidelityMultiplier: number;
+  qualityMultiplier: number;
+  radialSubdivisions: number;
+  harmonicCrownPetals: number;
+  crystalFiligreeSpires: number;
+  thinFilmIridescenceSpanNm: number;
+  unlockedFeatureCount: number;
+  theoryOfMindCoherencePermille: number;
+  supraOvertoneRatios: [number, number, number];
+  rule30SeedByte: number;
+  uorPointKeyHex: string;
+  whySynthesized: string;
+}
+
+export interface SupraDirectiveEnhancementState {
+  tier: 0 | 1 | 2 | 3 | 4;
+  tierLabel: string;
+  exceedsBaseDirective: boolean;
+  meanSynapticWeight: number;
+  fidelityPermille: number;
+  qualityPermille: number;
+  definitionSubdiv: number;
+  unlockedFeatureCount: number;
+  theoryOfMindCoherencePermille: number;
+  compileTimeModels: SynthesizedObserverModelSpec[];
+  runtimeSynthesizedModels: SynthesizedObserverModelSpec[];
+  activeModel: SynthesizedObserverModelSpec;
+}
+
+export interface HolisticObserverState {
+  parts: Record<ObserverPartId, ObserverPartSelfModel>;
+  inferredPlayerIntent: PlayerTheoryOfMindIntentId;
+  latestWhyPacket: NeuromorphicBusWhyPacket;
+  whyHistory: NeuromorphicBusWhyPacket[];
+  supraDirective: SupraDirectiveEnhancementState;
+  rule30Horizon: ObserverRule30HorizonState;
+  connectedBusModules: readonly string[];
+}
+
 export interface UniversalNeuromorphicManifold {
   domains: Record<PrismDomainId, PrismDomainNeuromorphicNode>;
   globalFidelityIndex: number; // Mean fidelity multiplier across all 10 domains (0.78125 .. 1.25)
@@ -8032,6 +8266,7 @@ export interface UniversalNeuromorphicManifold {
   totalCrossDomainTransfers: number; // Cumulative cross-domain synaptic transfers executed
   lastImprovedDomain: PrismDomainId;
   manifoldPointKeyHex: string;
+  lastWhyPacket: NeuromorphicBusWhyPacket;
 }
 
 /**
@@ -8169,6 +8404,14 @@ export function createInitialUniversalManifold(): UniversalNeuromorphicManifold 
   });
 
   const manifoldPointKey = domains.neuromorphic.pointKey28;
+  const initialWhyPacket = createBusWhyPacket({
+    tickId: 0,
+    sourcePart: 'neuromorphic',
+    bottleneckPart: 'botany',
+    inferredPlayerIntent: 'seeking-harmonic-discovery',
+    meanWeight: VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightInitial,
+    pointKeyHex: `0x${manifoldPointKey.toString(16).padStart(7, '0')}`,
+  });
 
   return {
     domains,
@@ -8177,6 +8420,604 @@ export function createInitialUniversalManifold(): UniversalNeuromorphicManifold 
     totalCrossDomainTransfers: 0,
     lastImprovedDomain: 'neuromorphic',
     manifoldPointKeyHex: `0x${manifoldPointKey.toString(16).padStart(7, '0')}`,
+    lastWhyPacket: initialWhyPacket,
+  };
+}
+
+const OBSERVER_PART_METADATA: Record<
+  ObserverPartId,
+  {
+    label: string;
+    roleInObserver: string;
+    howPartImproves: string;
+    whyImprovementMatters: string;
+  }
+> = {
+  'player-user': {
+    label: 'Player User (Co-Observer)',
+    roleInObserver: 'Conscious embodied gaze, free-will trajectory, tactile curiosity, and contemplative breath',
+    howPartImproves:
+      'Attunement, unhurried stillness, and harmonic listening elevate perceptual calm and Theory-of-Mind resonance',
+    whyImprovementMatters:
+      'Because the Player is an inseparable part of the Observer, deepening human calm and wonder directly fulfills the garden’s teleology',
+  },
+  infrastructure: {
+    label: 'WebGL2 & Zero-GC Infrastructure',
+    roleInObserver: 'ACES Filmic exposure, micro-relief normal buffers, and deterministic zero-allocation pools',
+    howPartImproves:
+      'Expands active spore/wave ring capacities and refines tone-mapped luminance headroom without frame stutter',
+    whyImprovementMatters:
+      'Effortless visual fluidity protects contemplative immersion so the Observer’s world feels alive and immediate',
+  },
+  physics: {
+    label: 'Hydro-Cymatic & Hooke Physics',
+    roleInObserver: 'Lagoon meniscus buoyancy, cymatic Chladni standing waves, and grass/reed wake elasticity',
+    howPartImproves:
+      'Increases cymatic wave coherence and chemotactic spore guidance while honoring stationary player autonomy',
+    whyImprovementMatters:
+      'Tactile physical responsiveness grounds every footstep and ripple in believable organic law',
+  },
+  botany: {
+    label: 'Parametric B-Mesh Botany',
+    roleInObserver: '57+ Fibonacci specimens, thin-film iridescence, and supra-directive harmonic crown morphogenesis',
+    howPartImproves:
+      'Unlocks higher B-Mesh subdivisions, 14m+ Kuramoto phase coupling, and crystalline-botanical crown filigrees',
+    whyImprovementMatters:
+      'Higher morphological definition lets each blossom express richer visual beauty and kinship for the user',
+  },
+  ecology: {
+    label: '6-Tier Atomic-to-Ecosystem Chemistry',
+    roleInObserver: 'Closed-loop valence -> molecules -> polymers -> compounds -> modalities -> remineralization',
+    howPartImproves:
+      'Accelerates mycorrhizal nutrient conductivity and terpene Tyndall atmospheric clarity',
+    whyImprovementMatters:
+      'Granular chemical closure ensures every sight and sound emerges authentically from conserved living matter',
+  },
+  acoustics: {
+    label: 'Just-Intonation Modal Acoustics',
+    roleInObserver: '0.0¢ 5-limit & 7-limit modal synthesis, 2.2s sanctuary convolution, and supra-directive overtones',
+    howPartImproves:
+      'Sharpens piezoelectric silica filter Q and unlocks 6th/7th harmonic crystalline shimmer partials',
+    whyImprovementMatters:
+      'Pure beatless harmonic intervals soothe the auditory cortex and reward close listening',
+  },
+  articulation: {
+    label: '3-Joint Kinematic Articulation',
+    roleInObserver: 'Whip-lagged basal/medial/apical joints, shape-key bloom morphs, and critically-damped gaze springs',
+    howPartImproves:
+      'Refines anatomical grace and elastic 9.5Hz petal shiver responsiveness',
+    whyImprovementMatters:
+      'Connected, lifelike joint motion makes every plant feel reciprocally aware of the player’s presence',
+  },
+  soundtrack: {
+    label: '4-Stem Generative Counterpoint',
+    roleInObserver: '16-step non-fatiguing polyphonic score with breathing rests and PrimeAddress GCD voice-leading',
+    howPartImproves:
+      'Enriches canonic counterpoint density and weaves remembered player intervals into the living score',
+    whyImprovementMatters:
+      'Musical continuity transforms solitary walking into co-creative composition with the garden',
+  },
+  humane: {
+    label: 'Humane Restorative Ergonomics',
+    roleInObserver: 'Zero conflict, >=88% clear viewport, refractory breath pacing, and gentle zephyr wayfinding',
+    howPartImproves:
+      'Co-regulates brisk agitation into calm stillness and parts fog along harmonic sightlines',
+    whyImprovementMatters:
+      'Protects human attention and emotional restoration above all extractive game loops',
+  },
+  brand: {
+    label: 'Conservatory Chromatic Identity',
+    roleInObserver: 'WCAG AAA botanical typography, diurnal sky grading, and bespoke harmonic iconography',
+    howPartImproves:
+      'Enhances atmospheric depth contrast and bioluminescent twilight legibility',
+    whyImprovementMatters:
+      'Coherent visual harmony lets meaning and orientation register at a glance without UI clutter',
+  },
+  neuromorphic: {
+    label: 'Rule-30 & UOR Neuromorphic Kernel',
+    roleInObserver: 'Universal 10-domain synaptic bus, Theory-of-Mind causality, and Supra-Directive model synthesis',
+    howPartImproves:
+      'Steps induction -> pruning -> deduction -> learning -> hypotheses to mint new models beyond base directive',
+    whyImprovementMatters:
+      'Unites deterministic Prism law with Rule-30 emergent novelty so the Observer continuously transcends its baseline',
+  },
+};
+
+export const CONNECTED_NEUROMORPHIC_BUS_MODULES: readonly string[] = [
+  'prism/src/Foundation/Neuromorphic/V1/Model.lex.tex',
+  'prism/src/VerdantResonance.lex.tex',
+  'scripts/extractPrismArtifacts.ts',
+  'src/game/prismModel.ts',
+  'src/game/proceduralMeshEngine.ts',
+  'src/game/soundscapeEngine.ts',
+  'src/components/GardenCanvas.tsx',
+  'src/components/BotanicalIcons.tsx',
+  'src/components/PrismInspectorModal.tsx',
+  'src/App.tsx',
+] as const;
+
+export function inferPlayerTheoryOfMindIntent(params: {
+  action?: PlayerActionId;
+  velocityDm?: number;
+  agitationPct?: number;
+  harmonyPct?: number;
+}): { intent: PlayerTheoryOfMindIntentId; summary: string } {
+  const { action = 'observe', velocityDm = 4, agitationPct = 0, harmonyPct = 25 } = params;
+  if (agitationPct >= 14 || velocityDm >= 19) {
+    return {
+      intent: 'restorative-calm-co-regulation',
+      summary:
+        'User pace indicates elevated kinetic urgency; Observer softens filter cutoff and parts mist to invite unhurried breath.',
+    };
+  }
+  if (action === 'stillness' || velocityDm === 0) {
+    return {
+      intent: 'deepening-meditative-stillness',
+      summary:
+        'User rests in quiet presence; Observer elevates overtone sustain, cathedral aurora luminance, and thin-film clarity.',
+    };
+  }
+  if (action === 'touch') {
+    return {
+      intent: 'tactile-botanical-curiosity',
+      summary:
+        'User plucks individual petals to test physical & modal response; Observer sharpens 3-joint kinematics and silica bell partials.',
+    };
+  }
+  if (action === 'stroll' || harmonyPct >= 65) {
+    return {
+      intent: 'kinesthetic-sanctuary-pilgrimage',
+      summary:
+        'User traverses biome terraces weaving sanctuary-wide kinship; Observer synthesizes supra-directive cross-biome counterpoint.',
+    };
+  }
+  return {
+    intent: 'seeking-harmonic-discovery',
+    summary:
+      'User attunes with unawakened flora; Observer potentiates B-Mesh bloom definition and cross-pollinates neighboring kin.',
+  };
+}
+
+export function createBusWhyPacket(params: {
+  tickId: number;
+  sourcePart: ObserverPartId;
+  bottleneckPart: ObserverPartId;
+  inferredPlayerIntent: PlayerTheoryOfMindIntentId;
+  inferredPlayerSummary?: string;
+  meanWeight: number;
+  pointKeyHex: string;
+}): NeuromorphicBusWhyPacket {
+  const {
+    tickId,
+    sourcePart,
+    bottleneckPart,
+    inferredPlayerIntent,
+    inferredPlayerSummary,
+    meanWeight,
+    pointKeyHex,
+  } = params;
+  const clampedW = Math.max(1, Math.min(16, Math.round(meanWeight)));
+  const baseW = VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightInitial;
+  const fidelityDeltaPct = Number(
+    ((stepSupraDirectiveFidelityPermille(clampedW) - stepSupraDirectiveFidelityPermille(baseW)) / 10).toFixed(1),
+  );
+  const qualityDeltaPct = Number(
+    ((stepSupraDirectiveQualityPermille(clampedW) - stepSupraDirectiveQualityPermille(baseW)) / 10).toFixed(1),
+  );
+  const subdivDelta =
+    stepSupraDirectiveDefinitionSubdiv(clampedW) - stepSupraDirectiveDefinitionSubdiv(baseW);
+  const featuresDelta =
+    stepSupraDirectiveFeatureUnlockCount(clampedW) - stepSupraDirectiveFeatureUnlockCount(baseW);
+
+  const srcMeta = OBSERVER_PART_METADATA[sourcePart];
+  const botMeta = OBSERVER_PART_METADATA[bottleneckPart];
+  const affectSummary =
+    inferredPlayerSummary ?? inferPlayerTheoryOfMindIntent({}).summary;
+
+  return {
+    packetId: `UOR-WHY-${tickId.toString().padStart(3, '0')}-${pointKeyHex.slice(2, 6).toUpperCase()}`,
+    tickId,
+    sourcePart,
+    bottleneckPart,
+    inferredPlayerIntent,
+    inferredPlayerAffectSummary: affectSummary,
+    whyRationale: `${srcMeta.label} initiated resonance while ${botMeta.label} held the highest growth margin; uplifting both ${srcMeta.whyImprovementMatters.charAt(0).toLowerCase()}${srcMeta.whyImprovementMatters.slice(1)}.`,
+    howPartsImproveMechanism: `${srcMeta.howPartImproves}; simultaneously cross-domain bus transfer uplifts ${botMeta.label} (${botMeta.howPartImproves.toLowerCase()}).`,
+    supraDirectiveDelta: {
+      fidelityGainPct: fidelityDeltaPct,
+      qualityGainPct: qualityDeltaPct,
+      definitionSubdivDelta: subdivDelta,
+      unlockedFeaturesDelta: featuresDelta,
+    },
+  };
+}
+
+export function getCompileTimeSynthesizedModels(): SynthesizedObserverModelSpec[] {
+  return GENERATED_COMPILE_TIME_OBSERVER_MODELS.map((m) => ({
+    modelId: m.modelId,
+    modelName: m.modelName,
+    origin: 'compile-time',
+    biome: m.biome as BiomeId,
+    species: m.species as PlantSpeciesId,
+    synapticWeight: m.synapticWeight,
+    fidelityMultiplier: m.fidelityMultiplier,
+    qualityMultiplier: m.qualityMultiplier,
+    radialSubdivisions: m.radialSubdivisions,
+    harmonicCrownPetals: m.harmonicCrownPetals,
+    crystalFiligreeSpires: m.crystalFiligreeSpires,
+    thinFilmIridescenceSpanNm: m.thinFilmIridescenceSpanNm,
+    unlockedFeatureCount: m.unlockedFeatureCount,
+    theoryOfMindCoherencePermille: m.theoryOfMindCoherencePermille,
+    supraOvertoneRatios: [
+      m.supraOvertoneRatios[0],
+      m.supraOvertoneRatios[1],
+      m.supraOvertoneRatios[2],
+    ],
+    rule30SeedByte: m.rule30SeedByte,
+    uorPointKeyHex: m.uorPointKeyHex,
+    whySynthesized: m.whySynthesized,
+  }));
+}
+
+/**
+ * Runtime Supra-Directive Procedural Model Generator (`synthesizeRuntimeObserverModel`):
+ * Synthesizes a brand-new high-definition 3D/Acoustic/Ecological model at runtime whenever the Observer
+ * advances beyond its base directive (`w > 8`), combining deterministic `.lex.tex` Supra-Directive curves
+ * with Rule-30 `aperiodic-compensation` and live Player Theory-of-Mind intent.
+ */
+export function synthesizeRuntimeObserverModel(params: {
+  tickId: number;
+  biome: BiomeId;
+  species: PlantSpeciesId;
+  synapticWeight: number;
+  rule30Byte: number;
+  icosianRootIndex: number;
+  pointKeyHex: string;
+  inferredPlayerIntent: PlayerTheoryOfMindIntentId;
+}): SynthesizedObserverModelSpec {
+  const {
+    tickId,
+    biome,
+    species,
+    synapticWeight,
+    rule30Byte,
+    icosianRootIndex,
+    pointKeyHex,
+    inferredPlayerIntent,
+  } = params;
+  const w = Math.max(9, Math.min(16, Math.round(synapticWeight)));
+  const fidelityPermille = stepSupraDirectiveFidelityPermille(w);
+  const qualityPermille = stepSupraDirectiveQualityPermille(w);
+  const radialSubdivisions = stepSupraDirectiveDefinitionSubdiv(w);
+  const unlockedFeatureCount = stepSupraDirectiveFeatureUnlockCount(w);
+  const theoryOfMindCoherencePermille = stepTheoryOfMindCoherencePermille(w);
+  const thinFilmIridescenceSpanNm =
+    GENERATED_PRISM_BUS_MODULATION_LUT.thinFilmIridescenceSpanNm[
+      clampLutIndex(w, GENERATED_PRISM_BUS_MODULATION_LUT.thinFilmIridescenceSpanNm.length)
+    ];
+
+  const aperiodicNudge = (rule30Byte & 0x07) % 4;
+  const harmonicCrownPetals = 8 + Math.floor((w - 8) * 1.5) + aperiodicNudge;
+  const crystalFiligreeSpires = 5 + Math.floor((w - 8) * 0.8) + (rule30Byte % 3);
+
+  const rootA = ICOSIAN_GOLDEN_ROOTS[(icosianRootIndex + 5) % ICOSIAN_GOLDEN_ROOTS.length];
+  const rootB = ICOSIAN_GOLDEN_ROOTS[(icosianRootIndex + 9) % ICOSIAN_GOLDEN_ROOTS.length];
+  const rootC = ICOSIAN_GOLDEN_ROOTS[(icosianRootIndex + 13) % ICOSIAN_GOLDEN_ROOTS.length];
+
+  const speciesLabel = PLANT_SPECIES_CONFIGS[species].name;
+  const biomeLabel = BIOME_CONFIGS[biome].name.split(' ')[0];
+  const epithets: Record<PlayerTheoryOfMindIntentId, string> = {
+    'seeking-harmonic-discovery': 'Luminous Poly-Harmonic Chimera',
+    'deepening-meditative-stillness': 'Serene Cathedral Lotus-Astrolabe',
+    'tactile-botanical-curiosity': 'Piezoelectric Campanula Filigree',
+    'kinesthetic-sanctuary-pilgrimage': 'Geodesic Mycelial Spire-Crown',
+    'restorative-calm-co-regulation': 'Velvet Dew-Meniscus Sanctuary',
+  };
+
+  return {
+    modelId: `rt-model-${tickId}-${pointKeyHex.slice(2, 7)}`,
+    modelName: `${biomeLabel} ${speciesLabel} · ${epithets[inferredPlayerIntent]}`,
+    origin: 'runtime',
+    biome,
+    species,
+    synapticWeight: w,
+    fidelityMultiplier: Number((fidelityPermille / 1000).toFixed(3)),
+    qualityMultiplier: Number((qualityPermille / 1000).toFixed(3)),
+    radialSubdivisions,
+    harmonicCrownPetals,
+    crystalFiligreeSpires,
+    thinFilmIridescenceSpanNm,
+    unlockedFeatureCount,
+    theoryOfMindCoherencePermille,
+    supraOvertoneRatios: [
+      Number(Math.max(1.25, rootA.harmonicRatio).toFixed(4)),
+      Number(Math.max(1.5, rootB.harmonicRatio).toFixed(4)),
+      Number(Math.max(2.0, rootC.harmonicRatio).toFixed(4)),
+    ],
+    rule30SeedByte: rule30Byte,
+    uorPointKeyHex: pointKeyHex,
+    whySynthesized: `Synthesized live at tick #${tickId} for ${inferredPlayerIntent.replace(/-/g, ' ')}: upgrades ${speciesLabel} to ${radialSubdivisions} radial B-Mesh subdivisions, ${harmonicCrownPetals} crown petals, and ${thinFilmIridescenceSpanNm}nm thin-film iridescence beyond base directive.`,
+  };
+}
+
+export function evaluateHolisticObserverState(params: {
+  manifold: UniversalNeuromorphicManifold;
+  tickCount: number;
+  rule30History: number[];
+  prevObserver?: HolisticObserverState;
+  biome?: BiomeId;
+  species?: PlantSpeciesId;
+  action?: PlayerActionId;
+  velocityDm?: number;
+  agitationPct?: number;
+  harmonyPct?: number;
+  playerX?: number;
+  playerZ?: number;
+  playerYaw?: number;
+}): HolisticObserverState {
+  const {
+    manifold,
+    tickCount,
+    rule30History,
+    prevObserver,
+    biome = 'meadow',
+    species = 'chime-lily',
+    action = 'observe',
+    velocityDm = 0,
+    agitationPct = 0,
+    harmonyPct = 25,
+    playerX = 0,
+    playerZ = 0,
+    playerYaw = 0,
+  } = params;
+
+  // Compute mean & bottleneck domain weight across the 10 Prism domains
+  let weightSum = 0;
+  let bottleneckDomain: PrismDomainId = 'botany';
+  let minWeight = 999;
+  for (const dom of PRISM_DOMAIN_ORDER) {
+    const w = manifold.domains[dom].synapticWeight;
+    weightSum += w;
+    if (w < minWeight) {
+      minWeight = w;
+      bottleneckDomain = dom;
+    }
+  }
+  const meanDomainWeight = weightSum / PRISM_DOMAIN_ORDER.length;
+  const playerRestorativeWeight = Math.max(
+    8,
+    Math.min(
+      16,
+      Math.round(
+        meanDomainWeight + (harmonyPct >= 50 ? 1 : 0) - (agitationPct >= 25 ? 1 : 0),
+      ),
+    ),
+  );
+
+  const tomInference = inferPlayerTheoryOfMindIntent({
+    action,
+    velocityDm,
+    agitationPct,
+    harmonyPct,
+  });
+
+  // Build all 11 Part Self-Models (Player User + 10 Prism Domains)
+  const parts = {} as Record<ObserverPartId, ObserverPartSelfModel>;
+  for (const partId of OBSERVER_PART_ORDER) {
+    const meta = OBSERVER_PART_METADATA[partId];
+    const w =
+      partId === 'player-user'
+        ? playerRestorativeWeight
+        : manifold.domains[partId].synapticWeight;
+    const fidelityMultiplier =
+      partId === 'player-user'
+        ? computeDomainFidelityMultiplier(w)
+        : manifold.domains[partId].fidelityMultiplier;
+    const potential = Math.max(0, VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightMax - w);
+    parts[partId] = {
+      partId,
+      label: meta.label,
+      roleInObserver: meta.roleInObserver,
+      synapticWeight: w,
+      fidelityMultiplier,
+      exceedsBaseDirective: w > VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightInitial,
+      improvementPotentialDelta: potential,
+      currentLimitationOrNeed:
+        w <= 8
+          ? 'Operating at base directive (w=8); awaiting resonant co-activation for supra-directive uplift'
+          : w < 12
+            ? `Advancing toward consolidation (+${12 - w}w needed for PointKey morphogenesis gate)`
+            : w < 16
+              ? `Consolidated supra-directive state; refining toward apex fixed-point (+${16 - w}w headroom)`
+              : 'Apex fixed-point unity (w=16) achieved; sustaining cross-domain sanctuary equilibrium',
+      howPartImproves: meta.howPartImproves,
+      whyImprovementMatters: meta.whyImprovementMatters,
+    };
+  }
+
+  const sourcePart: ObserverPartId =
+    action === 'stillness' || action === 'touch' || action === 'attune'
+      ? 'player-user'
+      : manifold.lastImprovedDomain;
+
+  const latestWhyPacket = createBusWhyPacket({
+    tickId: tickCount,
+    sourcePart,
+    bottleneckPart: bottleneckDomain,
+    inferredPlayerIntent: tomInference.intent,
+    inferredPlayerSummary: tomInference.summary,
+    meanWeight: meanDomainWeight,
+    pointKeyHex: manifold.manifoldPointKeyHex,
+  });
+
+  const prevWhyHistory = prevObserver?.whyHistory ?? [];
+  const whyHistory =
+    prevWhyHistory.length > 0 &&
+    prevWhyHistory[prevWhyHistory.length - 1].packetId === latestWhyPacket.packetId
+      ? prevWhyHistory
+      : [...prevWhyHistory.slice(-7), latestWhyPacket];
+
+  // Supra-Directive Tier & Compile-Time + Runtime Model Synthesis
+  const effectiveWeight = Math.max(
+    1,
+    Math.min(16, Math.round(Math.max(meanDomainWeight, manifold.domains[manifold.lastImprovedDomain].synapticWeight))),
+  );
+  const exceedsBaseDirective =
+    effectiveWeight > VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightInitial;
+  const tier: 0 | 1 | 2 | 3 | 4 =
+    effectiveWeight >= 16
+      ? 4
+      : effectiveWeight >= 14
+        ? 3
+        : effectiveWeight >= 12
+          ? 2
+          : effectiveWeight >= 10
+            ? 1
+            : 0;
+  const tierLabels: Record<0 | 1 | 2 | 3 | 4, string> = {
+    0: 'Tier 0 · Base Directive Equilibrium',
+    1: 'Tier 1 · Supra-Directive Harmonic Awakening',
+    2: 'Tier 2 · Consolidated B-Mesh & Overtone Expansion',
+    3: 'Tier 3 · Polyphonic Light-Cone Transcendence',
+    4: 'Tier 4 · Apex Observer Self-Realization',
+  };
+
+  const compileTimeModels =
+    prevObserver?.supraDirective.compileTimeModels ?? getCompileTimeSynthesizedModels();
+  let runtimeSynthesizedModels = [
+    ...(prevObserver?.supraDirective.runtimeSynthesizedModels ?? []),
+  ];
+
+  const latestR30Byte = rule30History[rule30History.length - 1] ?? 149;
+  const shouldMintRuntimeModel =
+    exceedsBaseDirective &&
+    tickCount > 0 &&
+    runtimeSynthesizedModels.length <
+      VERDANT_NEUROMORPHIC_STANDARD.supraDirective.runtimeMaxSynthesizedModels &&
+    !runtimeSynthesizedModels.some((m) => m.uorPointKeyHex === manifold.manifoldPointKeyHex);
+
+  if (shouldMintRuntimeModel) {
+    const minted = synthesizeRuntimeObserverModel({
+      tickId: tickCount,
+      biome,
+      species,
+      synapticWeight: effectiveWeight,
+      rule30Byte: latestR30Byte,
+      icosianRootIndex: manifold.domains[manifold.lastImprovedDomain].icosianRootIndex,
+      pointKeyHex: manifold.manifoldPointKeyHex,
+      inferredPlayerIntent: tomInference.intent,
+    });
+    runtimeSynthesizedModels = [...runtimeSynthesizedModels.slice(-15), minted];
+  }
+
+  const matchingCompileModel =
+    compileTimeModels.find((m) => m.biome === biome) ?? compileTimeModels[0];
+  const activeModel =
+    runtimeSynthesizedModels.length > 0
+      ? runtimeSynthesizedModels[runtimeSynthesizedModels.length - 1]
+      : matchingCompileModel;
+
+  // Rule-30 Deterministic vs. Non-Deterministic (`Withdrawn`) Horizon (`github.com/afflom/rule30`)
+  const engineStages: readonly Rule30EngineStageId[] = [
+    'induction',
+    'pruning',
+    'deduction',
+    'learning',
+    'hypotheses',
+  ];
+  const portfolioStrategies: readonly Rule30PortfolioStrategyId[] = [
+    'library-rewrite',
+    'step-induction',
+    'period-reduction',
+    'counterexample',
+  ];
+  const activeEngineStage = engineStages[tickCount % engineStages.length];
+  const activePortfolioStrategy = portfolioStrategies[tickCount % portfolioStrategies.length];
+  const aperiodicCompensationIndex = stepRule30AperiodicCompensationIndex(3, effectiveWeight);
+
+  // Measure live non-deterministic Player Free-Will Encounter Entropy + Rule-30 interior entropy (0..8 bits)
+  const spatialPhase = Math.abs(Math.sin(playerX * 0.37 + playerZ * 0.53 + playerYaw * 1.17));
+  const r30PopCount =
+    ((latestR30Byte & 1) +
+      ((latestR30Byte >> 1) & 1) +
+      ((latestR30Byte >> 2) & 1) +
+      ((latestR30Byte >> 3) & 1) +
+      ((latestR30Byte >> 4) & 1) +
+      ((latestR30Byte >> 5) & 1) +
+      ((latestR30Byte >> 6) & 1) +
+      ((latestR30Byte >> 7) & 1)) /
+    8;
+  const playerEncounterEntropyBits = Number(
+    (2.4 + r30PopCount * 3.2 + spatialPhase * 2.1).toFixed(2),
+  );
+
+  const baseLedger: Rule30HypothesisRecord[] =
+    GENERATED_OBSERVER_RULE30_FACETS.compileTimeHypotheses.map((h) => ({
+      hypothesisId: h.hypothesisId,
+      vantage: h.vantage as Rule30HypothesisRecord['vantage'],
+      status: h.status as Rule30HypothesisRecord['status'],
+      strategyUsed: h.strategyUsed as Rule30PortfolioStrategyId,
+      statement: h.statement,
+    }));
+
+  if (tickCount > 0) {
+    baseLedger.push({
+      hypothesisId: `UOR-HYP-LIVE-${manifold.manifoldPointKeyHex.slice(2, 7).toUpperCase()}`,
+      vantage: tier >= 2 ? 'regular-side' : 'withdrawn',
+      status: tier >= 2 ? 'proved' : 'open',
+      strategyUsed: tier >= 2 ? 'step-induction' : 'library-rewrite',
+      statement:
+        tier >= 2
+          ? `Settled cross-domain harmonic invariant at PointKey ${manifold.manifoldPointKeyHex} promotes ${PLANT_SPECIES_CONFIGS[species].name} to Supra-Directive Tier ${tier}.`
+          : `Uncollapsed inward light-cone leaf at PointKey ${manifold.manifoldPointKeyHex} awaits player co-observation in ${BIOME_CONFIGS[biome].name}.`,
+    });
+  }
+
+  const provedCount = baseLedger.filter((h) => h.status === 'proved').length;
+  const refutedCount = baseLedger.filter((h) => h.status === 'refuted').length;
+  const openHypothesesCount = baseLedger.filter((h) => h.status === 'open').length;
+
+  return {
+    parts,
+    inferredPlayerIntent: tomInference.intent,
+    latestWhyPacket,
+    whyHistory,
+    supraDirective: {
+      tier,
+      tierLabel: tierLabels[tier],
+      exceedsBaseDirective,
+      meanSynapticWeight: Number(meanDomainWeight.toFixed(2)),
+      fidelityPermille: stepSupraDirectiveFidelityPermille(effectiveWeight),
+      qualityPermille: stepSupraDirectiveQualityPermille(effectiveWeight),
+      definitionSubdiv: stepSupraDirectiveDefinitionSubdiv(effectiveWeight),
+      unlockedFeatureCount: stepSupraDirectiveFeatureUnlockCount(effectiveWeight),
+      theoryOfMindCoherencePermille: stepTheoryOfMindCoherencePermille(effectiveWeight),
+      compileTimeModels,
+      runtimeSynthesizedModels,
+      activeModel,
+    },
+    rule30Horizon: {
+      referenceArchitecture: GENERATED_OBSERVER_RULE30_FACETS.referenceArchitecture,
+      quadruple: {
+        realObject: GENERATED_OBSERVER_RULE30_FACETS.quadruple.realObject,
+        sensualObject: GENERATED_OBSERVER_RULE30_FACETS.quadruple.sensualObject,
+        realQualities: GENERATED_OBSERVER_RULE30_FACETS.quadruple.realQualities,
+        sensualQualities: GENERATED_OBSERVER_RULE30_FACETS.quadruple.sensualQualities,
+        withdrawnCore: GENERATED_OBSERVER_RULE30_FACETS.quadruple.withdrawnCore,
+        withdrawnFacets: GENERATED_OBSERVER_RULE30_FACETS.quadruple.withdrawnFacets,
+      },
+      activeEngineStage,
+      activePortfolioStrategy,
+      deterministicRegularDiagonals: GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals,
+      aperiodicCompensationIndex,
+      inwardLightConeHorizonDepth: 40 + tickCount,
+      playerEncounterEntropyBits,
+      provedCount,
+      refutedCount,
+      openHypothesesCount,
+      hypothesesLedger: baseLedger,
+    },
+    connectedBusModules: CONNECTED_NEUROMORPHIC_BUS_MODULES,
   };
 }
 
@@ -8188,8 +9029,8 @@ export function createInitialUniversalManifold(): UniversalNeuromorphicManifold 
  *    transfers (`+1`, clamped to `16`) to all other 9 coupled Prism domains (`infrastructure`, `physics`,
  *    `botany`, `ecology`, `acoustics`, `articulation`, `soundtrack`, `humane`, `brand`, `neuromorphic`)
  *    through shared `/7` PrimeAddress GCD kinship and `/6` Icosian golden-field adjacency.
- * 3. Every domain's `/5` Basin, `/6` Icosian Root, `/7` PrimeAddress, `/8` 28-bit PointKey, and
- *    `fidelityMultiplier` update in a single unified pass without manual per-domain iteration.
+ * 3. Every signal on the bus carries a structured Theory-of-Mind `lastWhyPacket` explaining *why* the
+ *    enhancement improves the part, the garden, and the player user.
  */
 export function propagateCrossDomainEnhancement(
   prevManifold: UniversalNeuromorphicManifold,
@@ -8200,6 +9041,8 @@ export function propagateCrossDomainEnhancement(
     icosianRootIndex?: number;
     contextPrimeAddress?: number;
     resonantSuccess?: boolean;
+    inferredPlayerIntent?: PlayerTheoryOfMindIntentId;
+    tickId?: number;
   },
 ): UniversalNeuromorphicManifold {
   const {
@@ -8209,6 +9052,8 @@ export function propagateCrossDomainEnhancement(
     icosianRootIndex = 0,
     contextPrimeAddress = computePrimeAddress('meadow', 'chime-lily', 'dawn', 'attune'),
     resonantSuccess = true,
+    inferredPlayerIntent = 'seeking-harmonic-discovery',
+    tickId = prevManifold.totalCrossDomainTransfers + 1,
   } = params;
 
   const nextDomains = {} as Record<PrismDomainId, PrismDomainNeuromorphicNode>;
@@ -8223,6 +9068,9 @@ export function propagateCrossDomainEnhancement(
   const sourcePrimeAddr = PRISM_DOMAIN_BASIS_PRIMES[sourceDomain] * sharedContextFactor;
 
   let fidelitySum = 0;
+  let weightSum = 0;
+  let minWeight = 999;
+  let bottleneckDomain: PrismDomainId = 'botany';
   let consolidatedCount = 0;
   let transfersAdded = 0;
 
@@ -8262,6 +9110,11 @@ export function propagateCrossDomainEnhancement(
 
     if (consolidated) consolidatedCount += 1;
     fidelitySum += fidelityMultiplier;
+    weightSum += nextWeight;
+    if (nextWeight < minWeight) {
+      minWeight = nextWeight;
+      bottleneckDomain = domainId;
+    }
 
     nextDomains[domainId] = {
       domainId,
@@ -8280,6 +9133,15 @@ export function propagateCrossDomainEnhancement(
 
   const globalFidelityIndex = Number((fidelitySum / PRISM_DOMAIN_ORDER.length).toFixed(5));
   const compositeKey = nextDomains[sourceDomain].pointKey28 ^ nextDomains.neuromorphic.pointKey28;
+  const manifoldPointKeyHex = `0x${(compositeKey & 0x0fffffff).toString(16).padStart(7, '0')}`;
+  const lastWhyPacket = createBusWhyPacket({
+    tickId,
+    sourcePart: sourceDomain,
+    bottleneckPart: bottleneckDomain,
+    inferredPlayerIntent,
+    meanWeight: weightSum / PRISM_DOMAIN_ORDER.length,
+    pointKeyHex: manifoldPointKeyHex,
+  });
 
   return {
     domains: nextDomains,
@@ -8287,7 +9149,8 @@ export function propagateCrossDomainEnhancement(
     consolidatedDomainCount: consolidatedCount,
     totalCrossDomainTransfers: prevManifold.totalCrossDomainTransfers + transfersAdded,
     lastImprovedDomain: sourceDomain,
-    manifoldPointKeyHex: `0x${(compositeKey & 0x0fffffff).toString(16).padStart(7, '0')}`,
+    manifoldPointKeyHex,
+    lastWhyPacket,
   };
 }
 
@@ -8567,6 +9430,15 @@ export function refinePrismModel(
     const globalFidelityIndex = Number((fidelitySum / PRISM_DOMAIN_ORDER.length).toFixed(5));
     const compositeKey =
       nextDomains[leaderDomain].pointKey28 ^ nextDomains.neuromorphic.pointKey28;
+    const manifoldPointKeyHex = `0x${(compositeKey & 0x0fffffff).toString(16).padStart(7, '0')}`;
+    const cycleMeanWeight =
+      PRISM_DOMAIN_ORDER.reduce((acc, dom) => acc + nextDomains[dom].synapticWeight, 0) /
+      PRISM_DOMAIN_ORDER.length;
+    const cycleBottleneck = PRISM_DOMAIN_ORDER.reduce(
+      (lowest, dom) =>
+        nextDomains[dom].synapticWeight < nextDomains[lowest].synapticWeight ? dom : lowest,
+      'botany' as PrismDomainId,
+    );
 
     currentManifold = {
       domains: nextDomains,
@@ -8574,7 +9446,15 @@ export function refinePrismModel(
       consolidatedDomainCount: consolidatedCount,
       totalCrossDomainTransfers: currentManifold.totalCrossDomainTransfers + transfersInCycle,
       lastImprovedDomain: leaderDomain,
-      manifoldPointKeyHex: `0x${(compositeKey & 0x0fffffff).toString(16).padStart(7, '0')}`,
+      manifoldPointKeyHex,
+      lastWhyPacket: createBusWhyPacket({
+        tickId: currentTick,
+        sourcePart: leaderDomain,
+        bottleneckPart: cycleBottleneck,
+        inferredPlayerIntent: prevState.observer?.inferredPlayerIntent ?? 'seeking-harmonic-discovery',
+        meanWeight: cycleMeanWeight,
+        pointKeyHex: manifoldPointKeyHex,
+      }),
     };
 
     // Co-refine the 20-entry Hebbian strategy×family table toward the manifold's leading weight
@@ -8601,6 +9481,13 @@ export function refinePrismModel(
     );
   });
 
+  const nextObserver = evaluateHolisticObserverState({
+    manifold: currentManifold,
+    tickCount: currentTick,
+    rule30History: currentRule30History,
+    prevObserver: prevState.observer,
+  });
+
   const nextState: NeuromorphicEngineState = {
     ...prevState,
     tickCount: currentTick,
@@ -8613,6 +9500,7 @@ export function refinePrismModel(
     pointKeyGateAdmitted: verifyPointKeyResonanceGate(topScheduled.weight, 0, 0, 8),
     universalManifold: currentManifold,
     refinementDirectives: nextRefinementDirectives,
+    observer: nextObserver,
   };
 
   return {
@@ -8661,6 +9549,7 @@ export interface NeuromorphicEngineState {
   synthesizedCounterpointRatios: [number, number, number];
   universalManifold: UniversalNeuromorphicManifold;
   refinementDirectives: CrossDomainRefinementDirectives;
+  observer: HolisticObserverState;
 }
 
 export function createInitialNeuromorphicState(): NeuromorphicEngineState {
@@ -8668,6 +9557,11 @@ export function createInitialNeuromorphicState(): NeuromorphicEngineState {
   const stepped = stepRule30Row(initialRow);
   const universalManifold = createInitialUniversalManifold();
   const refinementDirectives = computeCrossDomainRefinementDirectives(universalManifold);
+  const observer = evaluateHolisticObserverState({
+    manifold: universalManifold,
+    tickCount: 0,
+    rule30History: [stepped.diagonalByte],
+  });
   return {
     tickCount: 0,
     hebbianTable: createInitialHebbianTable(),
@@ -8687,6 +9581,7 @@ export function createInitialNeuromorphicState(): NeuromorphicEngineState {
     synthesizedCounterpointRatios: [1.0, 1.25, 1.5],
     universalManifold,
     refinementDirectives,
+    observer,
   };
 }
 
@@ -8942,6 +9837,14 @@ export function executeNeuromorphicSynthesisTick(
                 ? 'acoustics'
                 : 'ecology');
 
+  const tomIntent = inferPlayerTheoryOfMindIntent({
+    action,
+    velocityDm: action === 'stillness' ? 0 : action === 'stroll' ? 12 : 4,
+    harmonyPct: Math.round(
+      (existingPlants.filter((p) => p.attuned).length / Math.max(1, existingPlants.length)) * 100,
+    ),
+  }).intent;
+
   const prevManifold = prevState.universalManifold ?? createInitialUniversalManifold();
   const nextUniversalManifold = propagateCrossDomainEnhancement(prevManifold, {
     sourceDomain: inferredSourceDomain,
@@ -8950,8 +9853,27 @@ export function executeNeuromorphicSynthesisTick(
     icosianRootIndex: icosianRoot.rootIndex,
     contextPrimeAddress: primeAddress,
     resonantSuccess: isResonantOutcome,
+    inferredPlayerIntent: tomIntent,
+    tickId: tickCount,
   });
   const nextRefinementDirectives = computeCrossDomainRefinementDirectives(nextUniversalManifold);
+  const nextRule30History = [...prevState.rule30History.slice(-15), r30.diagonalByte];
+  const nextObserver = evaluateHolisticObserverState({
+    manifold: nextUniversalManifold,
+    tickCount,
+    rule30History: nextRule30History,
+    prevObserver: prevState.observer,
+    biome,
+    species,
+    action,
+    velocityDm: action === 'stillness' ? 0 : action === 'stroll' ? 12 : 4,
+    harmonyPct: Math.round(
+      (existingPlants.filter((p) => p.attuned).length / Math.max(1, existingPlants.length)) * 100,
+    ),
+    playerX,
+    playerZ,
+    playerYaw,
+  });
 
   const nextTurnMemory: NeuromorphicMemoryRecord[] = [
     ...prevState.turnMemory.slice(-23),
@@ -8973,7 +9895,7 @@ export function executeNeuromorphicSynthesisTick(
     tickCount,
     hebbianTable: nextHebbianTable,
     rule30Row: r30.nextRow,
-    rule30History: [...prevState.rule30History.slice(-15), r30.diagonalByte],
+    rule30History: nextRule30History,
     turnMemory: nextTurnMemory,
     recentVoicingKeys: [...prevState.recentVoicingKeys.slice(-11), candidateVoicingKey],
     emergentSeedlingsMinted,
@@ -8988,6 +9910,7 @@ export function executeNeuromorphicSynthesisTick(
     synthesizedCounterpointRatios: counterpointRatios,
     universalManifold: nextUniversalManifold,
     refinementDirectives: nextRefinementDirectives,
+    observer: nextObserver,
   };
 
   return {
@@ -10024,13 +10947,35 @@ export function verifyHolisticSystemCoupling(params?: {
     proximity: 8n,
     velocity: 2n,
   };
+  // 16. Holistic Observer, Theory of Mind (`Why`), Supra-Directive Compile+Runtime Model Synthesis, & Rule-30 Determinism/Withdrawn Duality:
+  const tickAfterResonance = executeNeuromorphicSynthesisTick(baseNeuroState, {
+    biome: 'sanctuary',
+    species: 'star-orchid',
+    atmosphere: 'starlight',
+    action: 'attune',
+    outcome: 'sanctuary-chorus',
+    playerX: 2,
+    playerZ: -4,
+    playerYaw: 0.25,
+    existingPlants: plants,
+    colliders,
+  });
+  const obsAfter = tickAfterResonance.nextState.observer;
+  const holisticObserverTheoryOfMindAndRule30Verified =
+    VERDANT_NEUROMORPHIC_STANDARD.observerQuadruple.observerPartCount === 11 &&
+    VERDANT_NEUROMROMORPHIC_FALLBACK_CHECK(obsAfter) &&
+    verifyRule30DeterministicAndWithdrawnDuality(8) &&
+    verifyObserverSupraDirectiveTranscendence(8) &&
+    verifyObserverHolisticWhyClosure(8);
+
   const completePrismModelClosureVerified =
     GENERATED_VERDANT_JUDGE_ARTIFACT.rootJudgeVerifiesCompleteClosure &&
     verifyCompletePrismModelClosure(sampleClosureRequest) &&
     universalNeuromorphicBusVerified &&
     emergentStakeholderEntityVerified &&
     granularAtomicToEnvironmentalSynthesisVerified &&
-    highDefinitionBMeshAndKinematicRigVerified;
+    highDefinitionBMeshAndKinematicRigVerified &&
+    holisticObserverTheoryOfMindAndRule30Verified;
 
   const allConstrained =
     solidExclusionVerified &&
@@ -10047,6 +10992,7 @@ export function verifyHolisticSystemCoupling(params?: {
     emergentStakeholderEntityVerified &&
     granularAtomicToEnvironmentalSynthesisVerified &&
     highDefinitionBMeshAndKinematicRigVerified &&
+    holisticObserverTheoryOfMindAndRule30Verified &&
     completePrismModelClosureVerified;
 
   return {
@@ -10066,8 +11012,24 @@ export function verifyHolisticSystemCoupling(params?: {
     emergentStakeholderEntityVerified,
     granularAtomicToEnvironmentalSynthesisVerified,
     highDefinitionBMeshAndKinematicRigVerified,
+    holisticObserverTheoryOfMindAndRule30Verified,
     completePrismModelClosureVerified,
   };
+}
+
+function VERDANT_NEUROMROMORPHIC_FALLBACK_CHECK(obs: HolisticObserverState): boolean {
+  return (
+    Object.keys(obs.parts).length === 11 &&
+    obs.parts['player-user'] !== undefined &&
+    obs.latestWhyPacket.whyRationale.length > 16 &&
+    obs.supraDirective.exceedsBaseDirective &&
+    obs.supraDirective.compileTimeModels.length === 5 &&
+    obs.supraDirective.runtimeSynthesizedModels.length >= 1 &&
+    obs.rule30Horizon.quadruple.withdrawnCore === 'aperiodic-compensation' &&
+    obs.rule30Horizon.deterministicRegularDiagonals.every((d) => d.dividesTwoToD) &&
+    obs.rule30Horizon.provedCount >= 2 &&
+    obs.rule30Horizon.refutedCount >= 1
+  );
 }
 
 // ============================================================================
@@ -10226,19 +11188,23 @@ export function evaluateHighDefinitionVisualSynthesis(params: {
     Math.min(1.0, 0.35 + quartzFraction * 0.35 + (neuromorphicWeight / 16) * 0.3).toFixed(3),
   );
 
+  const supraDelta = Math.max(0, neuromorphicWeight - 8);
+  const supraRadialSegments = 24 + Math.floor(supraDelta * 1.5);
+  const supraLongitudinalSegments = 20 + supraDelta;
+
   return {
     species,
     biome,
     substrate,
-    radialSegments: 24,
-    longitudinalSegments: 20,
+    radialSegments: supraRadialSegments,
+    longitudinalSegments: supraLongitudinalSegments,
     midribVenationDepthMm,
     marginalRuffleAmplitudeMm,
     bezierArchCurvature,
     iridescenceStrength,
     iridescenceIor,
     iridescenceThinFilmMinNm,
-    iridescenceThinFilmMaxNm,
+    iridescenceThinFilmMaxNm: Math.round(iridescenceThinFilmMaxNm + supraDelta * 12),
     cuticularSheenStrength,
     cuticularSheenRoughness,
     normalMapScale,

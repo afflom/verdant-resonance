@@ -152,6 +152,22 @@ import {
   stepMidCulmFlexureMilli,
   stepApicalCorollaGimbalMilli,
   verifyThreeJointKinematicHierarchy,
+  CONNECTED_NEUROMORPHIC_BUS_MODULES,
+  GENERATED_COMPILE_TIME_OBSERVER_MODELS,
+  GENERATED_OBSERVER_RULE30_FACETS,
+  OBSERVER_PART_ORDER,
+  getCompileTimeSynthesizedModels,
+  synthesizeRuntimeObserverModel,
+  stepTheoryOfMindCoherencePermille,
+  stepSupraDirectiveFidelityPermille,
+  stepSupraDirectiveQualityPermille,
+  stepSupraDirectiveDefinitionSubdiv,
+  stepSupraDirectiveFeatureUnlockCount,
+  stepRule30LeftDiagonalPeriod,
+  stepRule30AperiodicCompensationIndex,
+  verifyRule30DeterministicAndWithdrawnDuality,
+  verifyObserverSupraDirectiveTranscendence,
+  verifyObserverHolisticWhyClosure,
 } from './prismModel';
 import {
   createCordateLotusPadGeometry,
@@ -159,6 +175,7 @@ import {
   createFlutedEntasisPillarGeometry,
   createHexagonalQuartzCrystalGeometry,
   createLogarithmicCrozierGeometry,
+  createObserverAstrolabeCrownGeometry,
   createPinnateFrondGeometry,
   createSculptedCanopyCrownGeometry,
   createSculptedGrassBladeGeometry,
@@ -464,7 +481,7 @@ test('Environmental physics distinguishes solid obstructions from permeable gras
 });
 
 test('Neuromorphic synthesis engine verifies Rule-30 cellular steps, bounded Hebbian plasticity, UORLUT01 PrimeAddress GCD sieve, and live seedling morphogenesis', () => {
-  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.profile, 'prism/neuromorphic-standard/4');
+  assert.equal(VERDANT_NEUROMORPHIC_STANDARD.profile, 'prism/neuromorphic-standard/5');
   assert.equal(VERDANT_NEUROMORPHIC_STANDARD.lutStack.headerMagic, 'UORLUT01');
   assert.equal(VERDANT_NEUROMORPHIC_STANDARD.lutStack.primeAddressBasisCount, 21);
   assert.equal(VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightMin, 1);
@@ -2312,5 +2329,158 @@ test('Formal .lex.tex High-Definition B-Mesh & 3-Joint Kinematic Rig Synthesis s
   assert.equal(holistic.completePrismModelClosureVerified, true);
   assert.equal(holistic.allConstrained, true);
 });
+
+test('26. Unified 11-Part Holistic Observer & Theory of Mind (Why) on Neuromorphic Bus', () => {
+  assert.equal(OBSERVER_PART_ORDER.length, 11);
+  assert.equal(OBSERVER_PART_ORDER[0], 'player-user');
+  assert.equal(CONNECTED_NEUROMORPHIC_BUS_MODULES.length, 10);
+
+  const plants = generateGardenPlants(42026);
+  const initial = createInitialNeuromorphicState();
+  assert.equal(Object.keys(initial.observer.parts).length, 11);
+  assert.ok(initial.observer.parts['player-user'].whyImprovementMatters.length > 12);
+  assert.ok(initial.universalManifold.lastWhyPacket.whyRationale.length > 16);
+
+  // Execute resonant attunement tick on the bus and verify Why packet + part self-models advance
+  const tickRes = executeNeuromorphicSynthesisTick(initial, {
+    biome: 'sanctuary',
+    species: 'star-orchid',
+    action: 'attune',
+    outcome: 'sanctuary-chorus',
+    existingPlants: plants,
+    colliders: buildGardenColliders(plants),
+    playerX: 0,
+    playerZ: -30,
+    playerYaw: 0,
+  });
+
+  const obsAfter = tickRes.nextState.observer;
+  assert.equal(obsAfter.inferredPlayerIntent, 'seeking-harmonic-discovery');
+  assert.equal(obsAfter.latestWhyPacket.inferredPlayerIntent, 'seeking-harmonic-discovery');
+  assert.ok(obsAfter.whyHistory.length >= 1);
+  assert.ok(
+    obsAfter.supraDirective.meanSynapticWeight > initial.observer.supraDirective.meanSynapticWeight,
+    'Expected Observer mean synaptic weight to advance for betterment of garden and player user',
+  );
+  assert.ok(
+    obsAfter.parts['player-user'].fidelityMultiplier >= initial.observer.parts['player-user'].fidelityMultiplier,
+  );
+});
+
+test('27. Supra-Directive Self-Enhancement Beyond Base Directive (w > 8) & Compile-Time + Runtime Model Synthesis', () => {
+  // 1. Verify .lex.tex constructive LUT invariants across w in [9..16] and closure across w in [8..15]
+  const baseFidelity = stepSupraDirectiveFidelityPermille(8);
+  const baseQuality = stepSupraDirectiveQualityPermille(8);
+  const baseSubdiv = stepSupraDirectiveDefinitionSubdiv(8);
+  const baseFeatures = stepSupraDirectiveFeatureUnlockCount(8);
+  const baseCoherence = stepTheoryOfMindCoherencePermille(8);
+
+  for (let w = 9; w <= 16; w++) {
+    assert.ok(stepSupraDirectiveFidelityPermille(w) > baseFidelity);
+    assert.ok(stepSupraDirectiveQualityPermille(w) > baseQuality);
+    assert.ok(stepSupraDirectiveDefinitionSubdiv(w) > baseSubdiv);
+    assert.ok(stepSupraDirectiveFeatureUnlockCount(w) > baseFeatures);
+    assert.ok(stepTheoryOfMindCoherencePermille(w) > baseCoherence);
+    assert.equal(verifyObserverSupraDirectiveTranscendence(w), true);
+  }
+  for (let w = 8; w <= 15; w++) {
+    assert.equal(verifyObserverHolisticWhyClosure(w), true);
+  }
+
+  // 2. Compile-time procedural models extracted into generatedPrismConstants.ts
+  assert.equal(GENERATED_COMPILE_TIME_OBSERVER_MODELS.length, 5);
+  const compileModels = getCompileTimeSynthesizedModels();
+  assert.equal(compileModels.length, 5);
+  for (const mdl of compileModels) {
+    assert.equal(mdl.origin, 'compile-time');
+    assert.ok(mdl.synapticWeight > 8, `Compile-time model ${mdl.modelId} must exceed base directive w=8`);
+    assert.ok(mdl.radialSubdivisions > 24);
+  }
+
+  // 3. Runtime procedural model synthesis + connected 3D B-Mesh Crown generation
+  const refined = refinePrismModel(createInitialNeuromorphicState(), 3);
+  assert.equal(refined.nextState.observer.supraDirective.exceedsBaseDirective, true);
+  assert.ok(refined.nextState.observer.supraDirective.tier >= 1);
+  assert.ok(refined.nextState.observer.supraDirective.runtimeSynthesizedModels.length >= 1);
+
+  const runtimeModel = synthesizeRuntimeObserverModel({
+    tickId: 12,
+    biome: 'sanctuary',
+    species: 'star-orchid',
+    synapticWeight: 14,
+    rule30Byte: 135,
+    icosianRootIndex: 3,
+    pointKeyHex: '0x0abc123',
+    inferredPlayerIntent: 'deepening-meditative-stillness',
+  });
+  assert.equal(runtimeModel.origin, 'runtime');
+  assert.ok(runtimeModel.fidelityMultiplier > 1.0);
+  assert.ok(runtimeModel.radialSubdivisions > 24);
+
+  // Verify connected 3D Astrolabe Crown geometry synthesized from runtimeModel
+  const crownGeo = createObserverAstrolabeCrownGeometry(runtimeModel);
+  const posAttr = crownGeo.getAttribute('position');
+  const normAttr = crownGeo.getAttribute('normal');
+  const uvAttr = crownGeo.getAttribute('uv');
+  const colAttr = crownGeo.getAttribute('color');
+  assert.ok(posAttr && posAttr.count > 400);
+  assert.ok(normAttr && normAttr.count === posAttr.count);
+  assert.ok(uvAttr && uvAttr.count === posAttr.count);
+  assert.ok(colAttr && colAttr.count === posAttr.count);
+  assert.equal(crownGeo.morphAttributes.position?.length, 2);
+  crownGeo.dispose();
+
+  // Verify evaluateHighDefinitionVisualSynthesis scales beyond base directive when neuromorphicWeight > 8
+  const hdBase = evaluateHighDefinitionVisualSynthesis({
+    biome: 'sanctuary',
+    species: 'star-orchid',
+    substrate: 'crystalline-silt',
+    atmosphere: 'starlight',
+    attuned: true,
+    neuromorphicWeight: 8,
+  });
+  const hdSupra = evaluateHighDefinitionVisualSynthesis({
+    biome: 'sanctuary',
+    species: 'star-orchid',
+    substrate: 'crystalline-silt',
+    atmosphere: 'starlight',
+    attuned: true,
+    neuromorphicWeight: 15,
+  });
+  assert.ok(hdSupra.radialSegments > hdBase.radialSegments);
+  assert.ok(hdSupra.longitudinalSegments > hdBase.longitudinalSegments);
+  assert.ok(hdSupra.iridescenceThinFilmMaxNm > hdBase.iridescenceThinFilmMaxNm);
+});
+
+test('28. afflom/rule30 Deterministic (2^d Regular Diagonals) & Non-Deterministic (Withdrawn Aperiodic) Horizon', () => {
+  assert.equal(GENERATED_OBSERVER_RULE30_FACETS.referenceArchitecture, 'github.com/afflom/rule30');
+  assert.equal(GENERATED_OBSERVER_RULE30_FACETS.centralShortPeriodRefutedByCounterexample, true);
+  assert.equal(GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals.length, 5);
+
+  for (let d = 0; d <= 4; d++) {
+    const diag = GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[d];
+    assert.equal(diag.diagonalIndex, d);
+    assert.equal(diag.theoreticalDyadicBound, 1 << d);
+    assert.equal(diag.dividesTwoToD, true);
+    assert.equal(stepRule30LeftDiagonalPeriod(d), 1 << d);
+    assert.ok(stepRule30AperiodicCompensationIndex(d) > 0);
+    assert.equal(verifyRule30DeterministicAndWithdrawnDuality(d), true);
+  }
+
+  const state = createInitialNeuromorphicState();
+  const r30 = state.observer.rule30Horizon;
+  assert.equal(r30.quadruple.realObject, 'prism-deterministic-kernel');
+  assert.equal(r30.quadruple.sensualObject, 'dyadic-regular-left-diagonals');
+  assert.equal(r30.quadruple.withdrawnCore, 'aperiodic-compensation');
+  assert.ok(r30.provedCount >= 1);
+  assert.ok(r30.refutedCount >= 1);
+  assert.ok(r30.openHypothesesCount >= 1);
+  assert.ok(r30.playerEncounterEntropyBits > 0);
+
+  const holistic = verifyHolisticSystemCoupling();
+  assert.equal(holistic.holisticObserverTheoryOfMindAndRule30Verified, true);
+  assert.equal(holistic.allConstrained, true);
+});
+
 
 

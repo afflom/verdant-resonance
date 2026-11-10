@@ -5,7 +5,10 @@ import { PlantSpeciesId } from '../game/prismModel';
  * Bespoke Inline <svg> Title Lockup Crest for Verdant Resonance
  * Combines a tuning-fork harmonic obelisk, lotus petals, and orbital acoustic rings.
  */
-export const VerdantResonanceEmblem: React.FC<{ className?: string }> = ({ className = 'w-16 h-16' }) => (
+export const VerdantResonanceEmblem: React.FC<{
+  className?: string;
+  supraTier?: number;
+}> = ({ className = 'w-16 h-16', supraTier = 0 }) => (
   <svg
     viewBox="0 0 96 96"
     fill="none"
@@ -15,6 +18,18 @@ export const VerdantResonanceEmblem: React.FC<{ className?: string }> = ({ class
   >
     {/* Dark outer protective silhouette disc */}
     <circle cx="48" cy="48" r="44" fill="#07130f" stroke="#34d399" strokeWidth="1.5" strokeOpacity="0.45" />
+    {supraTier >= 1 && (
+      <circle
+        cx="48"
+        cy="48"
+        r="40.5"
+        fill="none"
+        stroke="#fde047"
+        strokeWidth={1 + supraTier * 0.22}
+        strokeOpacity={Math.min(0.9, 0.35 + supraTier * 0.14)}
+        strokeDasharray="6 3"
+      />
+    )}
     {/* Acoustic orbital rings */}
     <ellipse cx="48" cy="48" rx="36" ry="15" transform="rotate(-24 48 48)" stroke="#fde047" strokeWidth="1.2" strokeOpacity="0.45" />
     <ellipse cx="48" cy="48" rx="36" ry="15" transform="rotate(24 48 48)" stroke="#2dd4bf" strokeWidth="1.2" strokeOpacity="0.45" />
@@ -49,7 +64,7 @@ export const VerdantResonanceEmblem: React.FC<{ className?: string }> = ({ class
     />
     <path d="M48 53V76" stroke="#fef08a" strokeWidth="2.4" strokeLinecap="round" />
     {/* Top Harmonic Crown Star */}
-    <circle cx="48" cy="22" r="3.5" fill="#fef08a" />
+    <circle cx="48" cy="22" r={3.5 + supraTier * 0.45} fill="#fef08a" />
     {/* Basal Water Ripple Arcs */}
     <path d="M32 76C38 79 58 79 64 76" stroke="#6ee7b7" strokeWidth="1.5" strokeLinecap="round" />
     <path d="M38 81C43 83 53 83 58 81" stroke="#34d399" strokeWidth="1.2" strokeLinecap="round" strokeOpacity="0.7" />
@@ -59,14 +74,16 @@ export const VerdantResonanceEmblem: React.FC<{ className?: string }> = ({ class
 /**
  * Code-authored <svg viewBox="0 0 24 24"> Plant Species Icons
  * Built with dark outer silhouette, interior structural detail, and top highlight + state fill.
+ * Modulated by Neuromorphic Bus Supra-Directive tier (`supraTier`).
  */
 export const PlantSpeciesIcon: React.FC<{
   species: PlantSpeciesId;
   attuned?: boolean;
+  supraTier?: number;
   className?: string;
-}> = ({ species, attuned = false, className = 'w-5 h-5' }) => {
-  const strokeColor = attuned ? '#fef08a' : '#a7f3d0';
-  const fillAccent = attuned ? '#facc15' : '#10b981';
+}> = ({ species, attuned = false, supraTier = 0, className = 'w-5 h-5' }) => {
+  const strokeColor = attuned || supraTier >= 2 ? '#fef08a' : '#a7f3d0';
+  const fillAccent = attuned ? '#facc15' : supraTier >= 1 ? '#34d399' : '#10b981';
 
   switch (species) {
     case 'chime-lily':
@@ -169,5 +186,17 @@ export const ResetGlyphIcon: React.FC<{ className?: string }> = ({ className = '
       strokeLinecap="round"
     />
     <path d="M20 3V8H15" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+export const ObserverLightConeIcon: React.FC<{
+  supraTier?: number;
+  className?: string;
+}> = ({ supraTier = 0, className = 'w-4 h-4' }) => (
+  <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+    <circle cx="12" cy="12" r="10" fill="#06120e" stroke={supraTier >= 1 ? '#fde047' : '#34d399'} strokeWidth="1.4" />
+    <path d="M6.5 7.5L12 17.5L17.5 7.5" stroke="#5eead4" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    <ellipse cx="12" cy="7.5" rx="5.5" ry="2" stroke="#fde047" strokeWidth="1.2" />
+    <circle cx="12" cy="12" r="1.8" fill="#fef08a" />
   </svg>
 );
