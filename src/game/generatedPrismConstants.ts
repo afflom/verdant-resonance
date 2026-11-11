@@ -867,7 +867,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Soundtrack (11-Limit Just Intonation Tonnetz + Voice-Leading Parsimony)",
     "sourceModule": "Foundation.Soundtrack.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Soundtrack/V1/Model.lex.tex",
-    "sourceSha256": "bd77167206774f22156e7efb6fa10088377968f4de32e7ec3c950ede7e4da7fe",
+    "sourceSha256": "262c6e94938f57062d1d2c55e6803c95d58928d8c551424a23b0b6a68e665330",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 0,
@@ -2154,7 +2154,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Teleology (Requirement-Grounded Environmental Synthesis + Interactive Landmarks + Inherent Plasticity)",
     "sourceModule": "Foundation.Teleology.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Teleology/V1/Model.lex.tex",
-    "sourceSha256": "295bff4c7039a4ab47ff30b36f17e501ac7de8e9a46a6ecba8a5676c266a21d0",
+    "sourceSha256": "692a84faf85733dfb2ed9cc354fa56cd3a9bbee8b9b37f5eaf7e5381a653587f",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -7055,10 +7055,14 @@ export const GENERATED_PRISM_STANDARDS = {
       "playerCoObserverBasisPrime": 167,
       "intrinsicObserverDirectiveCount": 3,
       "minFoundationEmbedmentMm": 250,
+      "cardanKinematicHierarchyDepth": 4,
+      "minWalkablePortalClearanceMm": 1400,
       "baseCuratorialAffinityPermille": 756,
       "apexCuratorialAffinityPermille": 1000,
       "physicalBasisRequiredForEveryManifestation": true,
       "structuralLoadPathAndPendulumLawEnforced": true,
+      "cardanTrunnionZeroSlipEnforced": true,
+      "walkableMonumentPortalsEnforced": true,
       "triuneObserverMotivationNonContrived": true,
       "emergentResonanceReplacesFixedTimers": true
     },
@@ -9134,9 +9138,11 @@ export const GENERATED_PRISM_STANDARDS = {
     "tonnetzLatticeDimension": 5,
     "eulerGradusConsonanceBound": 12,
     "curatedParsimoniousStepMax": 2,
+    "pureHarmonicOvertoneCentsDriftZero": 0,
     "speciesCounterpointRulesEnforced": true,
     "tenneyHarmonicDistanceCoupled": true,
-    "observerCuratedNonRandom": true
+    "observerCuratedNonRandom": true,
+    "deterministicPhysicalCausationEnforced": true
   },
   "w3cDesignTokens": {
     "w3cDtcgTokenCount": 36,

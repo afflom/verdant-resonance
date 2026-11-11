@@ -8740,7 +8740,7 @@ export function buildGardenColliders(
       label: 'Prismatic Quartz Monolith Spire',
       x: Number((crystal.centerXZ[0] + Math.cos(a) * crystal.baseRingRadius).toFixed(2)),
       z: Number((crystal.centerXZ[1] + Math.sin(a) * crystal.baseRingRadius).toFixed(2)),
-      radiusMeters: Number((0.56 * inorg.monuments.crystal.structuralScale).toFixed(2)),
+      radiusMeters: Number((0.42 * inorg.monuments.crystal.structuralScale).toFixed(2)),
       heightMeters: crystal.spireHeight,
       acousticOcclusion: 0.28,
     });
@@ -15116,7 +15116,7 @@ export function synthesizeObserverInorganicMonuments(
     (3 * ATOMIC_ELEMENTS.Si.basisPrime * 0.1 * structuralScale).toFixed(4),
   ); // 3.90m at scale=1
   const sanctInnerCupolaRadius = Number(
-    ((SPECIES_PRIMES['chime-lily'] / 20) * structuralScale).toFixed(4),
+    ((SPECIES_PRIMES['drone-moss'] / 20) * structuralScale).toFixed(4),
   ); // 1.15m matching Astrolabe Crown collar
   const sanctHaloElevationY = Number(
     (
@@ -15158,7 +15158,7 @@ export function synthesizeObserverInorganicMonuments(
   // 2. Meadow Sundial
   const meadowDialTopY = Number((0.22 * structuralScale).toFixed(4));
   const meadowArchRadius = Number(
-    ((SPECIES_PRIMES['pulse-fern'] / 20 + supraDelta * 0.015) * structuralScale).toFixed(4),
+    ((SPECIES_PRIMES['drone-moss'] / 10 + supraDelta * 0.015) * structuralScale).toFixed(4),
   );
   const meadowGnomonHeight = Number((meadowArchRadius + mortiseOverlapMeters).toFixed(4));
   const meadowGeom: MeadowMonumentParametricSpec = {
@@ -15174,7 +15174,7 @@ export function synthesizeObserverInorganicMonuments(
     gnomonCenterY: Number(
       (meadowDialTopY + meadowGnomonHeight * 0.5 - mortiseOverlapMeters * 0.5).toFixed(4),
     ),
-    sunOrbPivotY: Number((meadowDialTopY + meadowArchRadius * 0.71).toFixed(4)),
+    sunOrbPivotY: Number((meadowDialTopY + meadowArchRadius + 0.18 * structuralScale).toFixed(4)),
   };
 
   // 3. Grove Bamboo Chime Pergola: Exact Euclidean weld `outerRoofRingRadius = hypot(postHalfSpan, postHalfSpan)`
@@ -15198,7 +15198,7 @@ export function synthesizeObserverInorganicMonuments(
 
   // 4. Crystal Quartz Geode Archway: Tilted spires converge into elevated hexagonal keystone ring
   const crystalBaseRingRadius = Number(
-    ((SPECIES_PRIMES['pulse-fern'] / 10) * structuralScale).toFixed(4),
+    ((SPECIES_PRIMES['star-orchid'] / 10) * structuralScale).toFixed(4),
   );
   const crystalSpireHeight = Number(((4.8 + supraDelta * 0.04) * structuralScale).toFixed(4));
   const crystalSpireLeanRad = 0.24;
@@ -15206,7 +15206,7 @@ export function synthesizeObserverInorganicMonuments(
   const crystalKeystoneRadius = Number(
     (crystalBaseRingRadius - Math.sin(crystalSpireLeanRad) * crystalKeystoneY).toFixed(4),
   );
-  const crystalCoreY = Number((crystalKeystoneY * 0.77).toFixed(4));
+  const crystalCoreY = Number((crystalKeystoneY * 0.62).toFixed(4));
   const crystalGeom: CrystalMonumentParametricSpec = {
     centerXZ: topology.biomeCenters.crystal,
     mirrorBasinRadius: Number((11.5 * structuralScale).toFixed(4)),
@@ -15223,8 +15223,8 @@ export function synthesizeObserverInorganicMonuments(
 
   // 5. Wetland Hydro-Lantern Piers: 5 lakebed-anchored stone piers (`4 + 1`)
   const wetlandPierCount = VERDANT_COSMOGENESIS_STANDARD.inorganicRealm.observerMonumentCount;
-  const wetlandChamberDeckY = Number((0.36 * structuralScale).toFixed(4));
-  const wetlandPagodaRoofY = Number(((0.88 + supraDelta * 0.015) * structuralScale).toFixed(4));
+  const wetlandChamberDeckY = Number((1.18 * structuralScale).toFixed(4));
+  const wetlandPagodaRoofY = Number(((1.92 + supraDelta * 0.015) * structuralScale).toFixed(4));
   const wetlandGeom: WetlandMonumentParametricSpec = {
     centerXZ: topology.lagoonCenterXZ,
     pierCount: wetlandPierCount,
@@ -15238,9 +15238,9 @@ export function synthesizeObserverInorganicMonuments(
       (wetlandPagodaRoofY - wetlandChamberDeckY + mortiseOverlapMeters * 0.5).toFixed(4),
     ),
     orbCenterY: Number(
-      ((wetlandChamberDeckY + wetlandPagodaRoofY) * 0.5 - 0.06 * structuralScale).toFixed(4),
+      ((wetlandChamberDeckY + wetlandPagodaRoofY) * 0.5 - 0.02 * structuralScale).toFixed(4),
     ),
-    orbRadius: Number(((0.24 + supraDelta * 0.005) * structuralScale).toFixed(4)),
+    orbRadius: Number(((0.2 + supraDelta * 0.005) * structuralScale).toFixed(4)),
   };
 
   const archetypes = GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.monumentDemiurgicArchetypes;

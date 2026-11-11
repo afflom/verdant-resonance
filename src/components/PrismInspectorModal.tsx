@@ -86,12 +86,10 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
 
   const handleAuditionSpecies = (speciesId: PlantSpeciesId) => {
     const spCfg = PLANT_SPECIES_CONFIGS[speciesId];
-    soundEngine.setPaused(false);
-    soundEngine.playSpeciesAudition(speciesId, spCfg.nativeBiome, spCfg.diurnalAffinity);
+    soundEngine.playSpeciesAudition(speciesId, spCfg.nativeBiome, spCfg.diurnalAffinity, true);
   };
 
   const handleAuditionOutcome = (outcomeId: SoundscapeOutcome) => {
-    soundEngine.setPaused(false);
     soundEngine.playOutcomeMotif(
       outcomeId,
       telemetry.biome,
@@ -99,6 +97,8 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
       atmosphere,
       0,
       telemetry.nearestPlant.species,
+      'terrestrial-loam',
+      true,
     );
   };
 

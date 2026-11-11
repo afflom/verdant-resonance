@@ -1094,6 +1094,7 @@ const CHIME_PITCH_X_BUF = [0, 0, 0, 0, 0, 0];
 const CHIME_ROLL_Z_BUF = [0, 0, 0, 0, 0, 0];
 const WETLAND_PILING_HEIGHT_BUF = [0, 0, 0, 0, 0];
 const WETLAND_ORB_PULSE_BUF = [0, 0, 0, 0, 0];
+const DORIAN_CHIME_JI_RATIOS = Object.freeze([1.0, 9 / 8, 6 / 5, 4 / 3, 3 / 2, 5 / 3] as const);
 
 export interface MonumentPhysicalMechanicsEvaluation {
   readonly gravityMps2: 9.80665;
@@ -1104,12 +1105,15 @@ export interface MonumentPhysicalMechanicsEvaluation {
     readonly innerGimbalRollZ: number;
     readonly spireSpinY: number;
     readonly gimbalOrthogonalityDeg: 90;
+    readonly cardanKinematicHierarchyDepth: 4;
+    readonly cardanTrunnionSlipMeters: 0;
     readonly spireVerticalShearMeters: 0;
   };
   readonly meadow: {
     readonly gnomonLatitudeInclinationRad: number;
     readonly anemometerAngularRateRadPerSec: number;
     readonly sunCrystalSpinY: number;
+    readonly walkableArchClearanceMeters: number;
   };
   readonly grove: {
     readonly chimeEffectiveLengthsM: readonly [number, number, number, number, number, number];
@@ -1118,6 +1122,9 @@ export interface MonumentPhysicalMechanicsEvaluation {
     readonly chimeRollZ: readonly number[];
     readonly clapperPitchX: number;
     readonly clapperRollZ: number;
+    readonly activeChimeStrikeIndex: number;
+    readonly chimeStrikeVelocity01: number;
+    readonly struckChimeJustIntonationRatio: number;
   };
   readonly crystal: {
     readonly spireSpanFraction: 1.0;
@@ -1125,6 +1132,7 @@ export interface MonumentPhysicalMechanicsEvaluation {
     readonly pendulumPitchX: number;
     readonly pendulumRollZ: number;
     readonly prismVerticalShearMeters: 0;
+    readonly walkablePortalClearanceMeters: number;
   };
   readonly wetland: {
     readonly foundationEmbedMeters: number;
@@ -1204,6 +1212,32 @@ export function evaluateMonumentPhysicalMechanics(params: {
   const clapperRollZ =
     params.groveWindTiltZ * 0.82 + Math.cos(t * clapperOmega) * groveAmp * 1.12;
 
+  // Physical striker-to-chime radial contact evaluation at striker star elevation `y_s = cordLen + 0.42 * baseLen`
+  const strikerElevationM = cordLen + 0.42 * baseLen;
+  const strikerDx = Math.sin(clapperRollZ) * strikerElevationM;
+  const strikerDz = -Math.sin(clapperPitchX) * strikerElevationM;
+  let activeChimeStrikeIndex = -1;
+  let maxRadialApproachM = 0;
+  for (let i = 0; i < 6; i++) {
+    const theta = (i / 6) * Math.PI * 2;
+    const chimeDx = Math.sin(CHIME_ROLL_Z_BUF[i]) * strikerElevationM;
+    const chimeDz = -Math.sin(CHIME_PITCH_X_BUF[i]) * strikerElevationM;
+    const relOutwardM =
+      (strikerDx - chimeDx) * Math.cos(theta) + (strikerDz - chimeDz) * Math.sin(theta);
+    if (relOutwardM > maxRadialApproachM) {
+      maxRadialApproachM = relOutwardM;
+      activeChimeStrikeIndex = i;
+    }
+  }
+  const contactThresholdM = 0.036;
+  const didContactChime = maxRadialApproachM >= contactThresholdM && activeChimeStrikeIndex >= 0;
+  const chimeStrikeVelocity01 = didContactChime
+    ? Number(Math.min(1, 0.28 + (maxRadialApproachM - contactThresholdM) * 9.5).toFixed(4))
+    : 0;
+  const struckChimeJustIntonationRatio = didContactChime
+    ? DORIAN_CHIME_JI_RATIOS[activeChimeStrikeIndex]
+    : 1.0;
+
   // 4. Crystal Geode Archway: 100% arch compression + Hookean torsion filament oscillation
   const torsionOmega = 1.18;
   const torsionYawRad =
@@ -1235,12 +1269,15 @@ export function evaluateMonumentPhysicalMechanics(params: {
       innerGimbalRollZ,
       spireSpinY,
       gimbalOrthogonalityDeg: 90,
+      cardanKinematicHierarchyDepth: 4,
+      cardanTrunnionSlipMeters: 0,
       spireVerticalShearMeters: 0,
     },
     meadow: {
       gnomonLatitudeInclinationRad,
       anemometerAngularRateRadPerSec,
       sunCrystalSpinY,
+      walkableArchClearanceMeters: Number(((2.3 - 0.3) * 2 * params.structuralScale).toFixed(3)),
     },
     grove: {
       chimeEffectiveLengthsM: effLengths,
@@ -1249,6 +1286,9 @@ export function evaluateMonumentPhysicalMechanics(params: {
       chimeRollZ: CHIME_ROLL_Z_BUF,
       clapperPitchX,
       clapperRollZ,
+      activeChimeStrikeIndex: didContactChime ? activeChimeStrikeIndex : -1,
+      chimeStrikeVelocity01,
+      struckChimeJustIntonationRatio,
     },
     crystal: {
       spireSpanFraction: 1.0,
@@ -1256,6 +1296,7 @@ export function evaluateMonumentPhysicalMechanics(params: {
       pendulumPitchX,
       pendulumRollZ,
       prismVerticalShearMeters: 0,
+      walkablePortalClearanceMeters: Number(((2.9 - 0.84) * params.structuralScale).toFixed(3)),
     },
     wetland: {
       foundationEmbedMeters,

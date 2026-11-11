@@ -179,15 +179,21 @@ structure{
     {name: tonnetzLatticeDimension, type: Nat},
     {name: eulerGradusConsonanceBound, type: Nat},
     {name: curatedParsimoniousStepMax, type: Nat},
+    {name: pureHarmonicOvertoneCentsDriftZero, type: Nat},
     {name: speciesCounterpointRulesEnforced, type: Bool},
     {name: tenneyHarmonicDistanceCoupled, type: Bool},
-    {name: observerCuratedNonRandom, type: Bool}
+    {name: observerCuratedNonRandom, type: Bool},
+    {name: deterministicPhysicalCausationEnforced, type: Bool}
   ]
 }
 
 definition{name: maxCuratedMelodicStepLeap, parameters: [], result: Nat, body: 2}
 
 definition{name: eulerGradusConsonanceCeiling, parameters: [], result: Nat, body: 12}
+
+definition{name: pureHarmonicOvertoneCentsDriftZero, parameters: [], result: Nat, body: 0}
+
+definition{name: stochasticRandomTriggerCountZero, parameters: [], result: Nat, body: 0}
 
 definition{
   name: stepCuratedConsonancePurityPermille,
@@ -204,10 +210,17 @@ definition{
 }
 
 definition{
+  name: verifyPureHarmonicOvertonesAndZeroRandomness,
+  parameters: [centsDrift : Nat, randomCalls : Nat],
+  result: Bool,
+  body: ((centsDrift <=? (pureHarmonicOvertoneCentsDriftZero)) && (randomCalls <=? (stochasticRandomTriggerCountZero)))
+}
+
+definition{
   name: verdantPrimeLimitTonnetzStandard,
   parameters: [],
   result: PrimeLimitTonnetzHarmonySpec,
-  body: (record PrimeLimitTonnetzHarmonySpec {maxPrimeHarmonicLimit := 11, tonnetzLatticeDimension := 5, eulerGradusConsonanceBound := (eulerGradusConsonanceCeiling), curatedParsimoniousStepMax := (maxCuratedMelodicStepLeap), speciesCounterpointRulesEnforced := ((minRestStepsPerBar) <=? (prim subtract (stepsPerBar) (maxActiveStepsPerBar) : Nat)), tenneyHarmonicDistanceCoupled := ((stepSoundtrackBusModulation 1) <? (stepSoundtrackBusModulation 16)), observerCuratedNonRandom := (verifyObserverCuratedVoiceLeading 1 4 6)})
+  body: (record PrimeLimitTonnetzHarmonySpec {maxPrimeHarmonicLimit := 11, tonnetzLatticeDimension := 5, eulerGradusConsonanceBound := (eulerGradusConsonanceCeiling), curatedParsimoniousStepMax := (maxCuratedMelodicStepLeap), pureHarmonicOvertoneCentsDriftZero := (pureHarmonicOvertoneCentsDriftZero), speciesCounterpointRulesEnforced := ((minRestStepsPerBar) <=? (prim subtract (stepsPerBar) (maxActiveStepsPerBar) : Nat)), tenneyHarmonicDistanceCoupled := ((stepSoundtrackBusModulation 1) <? (stepSoundtrackBusModulation 16)), observerCuratedNonRandom := (verifyObserverCuratedVoiceLeading 1 4 6), deterministicPhysicalCausationEnforced := (verifyPureHarmonicOvertonesAndZeroRandomness 0 0)})
 }
 
 definition{
@@ -248,7 +261,7 @@ definition{
   name: breaksObserverCuratedVoiceLeadingAndPurity,
   parameters: [stepDist : Nat, gradus : Nat, rests : Nat],
   result: Bool,
-  body: (((((2 <? stepDist) || ((12 <? gradus) || (rests <? 6))) && (verifyObserverCuratedVoiceLeading stepDist gradus rests)) || (not (verifyObserverCuratedVoiceLeading 1 4 6))) || ((stepCuratedConsonancePurityPermille 16 100) <=? (stepCuratedConsonancePurityPermille 8 50)))
+  body: ((((((2 <? stepDist) || ((12 <? gradus) || (rests <? 6))) && (verifyObserverCuratedVoiceLeading stepDist gradus rests)) || (not (verifyObserverCuratedVoiceLeading 1 4 6))) || ((verifyPureHarmonicOvertonesAndZeroRandomness 1 0) || (not (verifyPureHarmonicOvertonesAndZeroRandomness 0 0)))) || ((stepCuratedConsonancePurityPermille 16 100) <=? (stepCuratedConsonancePurityPermille 8 50)))
 }
 
 theorem{
@@ -264,8 +277,11 @@ theorem{
       eulerGradusConsonanceCeiling,
       maxCuratedMelodicStepLeap,
       minRestStepsPerBar,
+      pureHarmonicOvertoneCentsDriftZero,
       stepCuratedConsonancePurityPermille,
-      verifyObserverCuratedVoiceLeading
+      stochasticRandomTriggerCountZero,
+      verifyObserverCuratedVoiceLeading,
+      verifyPureHarmonicOvertonesAndZeroRandomness
     ]
   },
   axioms: [Classical.choice, Quot.sound, propext]

@@ -314,6 +314,7 @@ import {
   computeZwickerBarkBandIndex,
   computeZwickerBarkRate,
   evaluate24BarkMaskingGovernor,
+  resolvePureSustainedHarmonicSeries,
 } from './soundscapeEngine';
 import path from 'node:path';
 import { extractAllPrismArtifacts } from '../../scripts/extractPrismArtifacts';
@@ -4812,15 +4813,16 @@ test('54. Physical Basis & Form Detail of All 5 Biome Monuments, Triune 20-Facet
     true,
     'GardenCanvas must elevate Tyndall beam plume start above monument crown',
   );
-  // Cardan double-gimbal rotation without artificial vertical shearing
+  // True 4-level Cardan double-gimbal hierarchy (`group -> orbitRing -> innerGimbalRing -> spireCradle -> spire`) without artificial vertical shearing
   assert.equal(
     canvasSource.includes('sanctuaryMonument.orbitRing.rotation.x = monumentMechanics.sanctuary.outerGimbalPitchX'),
     true,
   );
   assert.equal(
-    canvasSource.includes('sanctuaryMonument.spire.position.y = sanctSpec.gimbalCenterY'),
+    canvasSource.includes('spireCradle.add(spire)') &&
+      canvasSource.includes('orbitRing.add(innerGimbalRing)'),
     true,
-    'Sanctuary spire must maintain fixed collar position with zero clipping',
+    'Sanctuary spire must be hierarchically nested inside spireCradle -> innerGimbalRing -> orbitRing with zero clipping',
   );
   // Grove compound chimes driven by eigenfrequencies and local wind
   assert.equal(
@@ -4840,6 +4842,189 @@ test('54. Physical Basis & Form Detail of All 5 Biome Monuments, Triune 20-Facet
   assert.equal(
     canvasSource.includes('monumentMechanics.wetland.orbBioluminescentPulse[l]'),
     true,
+  );
+});
+
+test('55. Pure Harmonic Overtone Lock (0.0¢ Drift), Zero Stochastic Audio Randomness, True Cardan & Torsion Hierarchies, and Walkable Monument Portals', () => {
+  // 1. Formal .lex.tex AST standards verify 0¢ harmonic overtone drift, zero random calls, 4-level Cardan chain, and >=1400mm walkable portals
+  const tonnetzStd = GENERATED_PRISM_STANDARDS.primeLimitTonnetz as {
+    pureHarmonicOvertoneCentsDriftZero: number;
+    deterministicPhysicalCausationEnforced: boolean;
+  };
+  assert.equal(tonnetzStd.pureHarmonicOvertoneCentsDriftZero, 0);
+  assert.equal(tonnetzStd.deterministicPhysicalCausationEnforced, true);
+
+  const teleologyPhys = (
+    GENERATED_PRISM_STANDARDS.teleology as {
+      physicalBasisAndTriuneCuration: {
+        cardanKinematicHierarchyDepth: number;
+        minWalkablePortalClearanceMm: number;
+        cardanTrunnionZeroSlipEnforced: boolean;
+        walkableMonumentPortalsEnforced: boolean;
+      };
+    }
+  ).physicalBasisAndTriuneCuration;
+  assert.equal(teleologyPhys.cardanKinematicHierarchyDepth, 4);
+  assert.equal(teleologyPhys.minWalkablePortalClearanceMm, 1400);
+  assert.equal(teleologyPhys.cardanTrunnionZeroSlipEnforced, true);
+  assert.equal(teleologyPhys.walkableMonumentPortalsEnforced, true);
+
+  // 2. Zero Math.random() calls and zero contrived 8.5s clock timers in soundscapeEngine.ts
+  const soundEngineSource = fs.readFileSync(
+    path.resolve(process.cwd(), 'src/game/soundscapeEngine.ts'),
+    'utf8',
+  );
+  assert.equal(
+    soundEngineSource.includes('Math.random('),
+    false,
+    'soundscapeEngine.ts must contain zero stochastic Math.random() calls',
+  );
+  assert.equal(
+    soundEngineSource.includes('lastMicroAmbienceTime'),
+    false,
+    'soundscapeEngine.ts must contain zero contrived periodic micro-ambience clock timers',
+  );
+  assert.equal(
+    soundEngineSource.includes('/ 1.58'),
+    false,
+    'soundscapeEngine.ts must never multiply sustained partials by the +408¢ (2.0 / 1.58) detuning factor',
+  );
+
+  // 3. Every botanical species sustained harmonic series is exact rational Just Intonation (0.0 cents beating)
+  const exactRationalSet = new Set([0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0]);
+  for (const sp of [
+    'chime-lily',
+    'pulse-fern',
+    'echo-lotus',
+    'drone-moss',
+    'star-orchid',
+  ] as const) {
+    const series = resolvePureSustainedHarmonicSeries(sp);
+    assert.equal(series.length, 3);
+    for (const mult of series) {
+      assert.equal(
+        exactRationalSet.has(mult),
+        true,
+        `Species ${sp} sustained harmonic multiplier ${mult} must be an exact pure harmonic ratio`,
+      );
+    }
+  }
+
+  // 4. Parametric Monument Proportions & Walkable Portal Clearances across alphaSeed = 1..8
+  const playerDiameterM = 0.84;
+  for (let seed = 1; seed <= 8; seed++) {
+    const inorg = synthesizeObserverInorganicMonuments({ alphaSeed: seed });
+    const sanct = inorg.monuments.sanctuary.sanctuary!;
+    const meadow = inorg.monuments.meadow.meadow!;
+    const crystal = inorg.monuments.crystal.crystal!;
+    const wetland = inorg.monuments.wetland.wetland!;
+
+    // Sanctuary innerCupolaRadius matches 1.15m * scale so outer & inner Cardan gimbals clear the 0.62m quartz spire
+    assert.ok(
+      sanct.innerCupolaRadius >= 1.1 * inorg.monuments.sanctuary.structuralScale,
+      `Sanctuary innerCupolaRadius (${sanct.innerCupolaRadius}) must accommodate Cardan gimbals`,
+    );
+    assert.ok(
+      meadow.sunOrbPivotY > meadow.dialTopY + meadow.archRadius,
+      'Meadow sunOrbPivotY must sit cleanly above the meridian arch crown without skewering',
+    );
+    assert.ok(
+      meadow.dialTopY + meadow.archRadius >= 2.2,
+      'Meadow meridian arch crown must clear the 1.68m player eye height',
+    );
+    assert.ok(
+      wetland.pagodaRoofY >= 1.8 && wetland.chamberDeckY >= 1.1,
+      'Wetland Tōrō water-lantern piers must have full sculpted sao shaft & hibukuro chamber elevation',
+    );
+
+    const plants = generateGardenPlants({ alphaSeed: seed });
+    const colliders = buildGardenColliders(plants, { alphaSeed: seed });
+    const meadowWest = colliders.find((c) => c.id === 'col-meadow-gnomon-west')!;
+    const meadowEast = colliders.find((c) => c.id === 'col-meadow-gnomon-east')!;
+    const meadowClearanceM =
+      Math.hypot(meadowEast.x - meadowWest.x, meadowEast.z - meadowWest.z) -
+      (meadowWest.radiusMeters + meadowEast.radiusMeters);
+    assert.ok(
+      meadowClearanceM >= 3.2,
+      `Meadow Sundial arch walkway clearance (${meadowClearanceM.toFixed(2)}m) must comfortably admit player (${playerDiameterM}m)`,
+    );
+
+    const spire1 = colliders.find((c) => c.id === 'col-crystal-spire-1')!;
+    const spire2 = colliders.find((c) => c.id === 'col-crystal-spire-2')!;
+    const crystalPortalClearanceM =
+      Math.hypot(spire2.x - spire1.x, spire2.z - spire1.z) -
+      (spire1.radiusMeters + spire2.radiusMeters);
+    assert.ok(
+      crystalPortalClearanceM >= 1.75,
+      `Crystal Archway hexagonal portal clearance (${crystalPortalClearanceM.toFixed(2)}m) must comfortably admit player (${playerDiameterM}m)`,
+    );
+    assert.ok(
+      crystal.keystoneRingRadius >= 1.5,
+      `Crystal keystone ring radius (${crystal.keystoneRingRadius}m) must surround the suspended 0.42m core prism cleanly`,
+    );
+  }
+
+  // 5. Immanent Co-Observer Witness 3D Rig: centered core (y = 0) & coaxial X-trunnion / Y-journal Cardan rotation
+  const witnessRig = buildImmanentObserverWitnessGroup();
+  assert.equal(
+    witnessRig.quartzCoreMesh.position.y,
+    0,
+    'Witness double-terminated quartz core must be centered at local y = 0 inside innerGimbalGroup without downward offset',
+  );
+  assert.equal(
+    witnessRig.innerGimbalGroup.parent,
+    witnessRig.outerGimbalGroup,
+    'Witness innerGimbalGroup must be hierarchically parented to outerGimbalGroup',
+  );
+
+  // 6. Physical Chime-Striker Contact Causation & Dynamic Wetland Reprojection
+  const calmMech = evaluateMonumentPhysicalMechanics({
+    elapsedSeconds: 0,
+    structuralScale: 1.0,
+    spinMultiplier: 1.0,
+    resonanceState: createInitialLandmarkResonanceState(),
+    groveWindTiltX: 0,
+    groveWindTiltZ: 0,
+    meadowWindSpeedMps: 0.2,
+  });
+  assert.equal(calmMech.sanctuary.cardanKinematicHierarchyDepth, 4);
+  assert.equal(calmMech.sanctuary.cardanTrunnionSlipMeters, 0);
+
+  const gustMech = evaluateMonumentPhysicalMechanics({
+    elapsedSeconds: 1.25,
+    structuralScale: 1.0,
+    spinMultiplier: 1.0,
+    resonanceState: { sanctuary: 0.5, meadow: 0.5, grove: 0.9, crystal: 0.5, wetland: 0.5 },
+    groveWindTiltX: 0.34,
+    groveWindTiltZ: 0.22,
+    meadowWindSpeedMps: 4.5,
+  });
+  assert.ok(
+    gustMech.grove.activeChimeStrikeIndex >= 0 && gustMech.grove.activeChimeStrikeIndex < 6,
+    'Strong Grove wind gust + resonance must physically bring the 6-point striker into chime contact',
+  );
+  assert.ok(gustMech.grove.chimeStrikeVelocity01 > 0.28);
+
+  const canvasSource = fs.readFileSync(
+    path.resolve(process.cwd(), 'src/components/GardenCanvas.tsx'),
+    'utf8',
+  );
+  assert.equal(
+    canvasSource.includes('immanentWitness.outerGimbalGroup.rotation.x = liveWitness.gimbalInnerTiltRad') &&
+      canvasSource.includes('immanentWitness.innerGimbalGroup.rotation.y ='),
+    true,
+    'GardenCanvas must rotate Witness outerGimbalGroup around X-trunnions and innerGimbalGroup around Y-journals',
+  );
+  assert.equal(
+    canvasSource.includes('crystalMonument.torsionPendulumGroup.rotation.x = monumentMechanics.crystal.pendulumPitchX'),
+    true,
+    'Crystal torsionPendulumGroup must swing filament, bezel, and corePrism together',
+  );
+  assert.equal(
+    canvasSource.includes('wetlandMonument.group.position.set(') &&
+      canvasSource.includes('soundEngine.playPhysicalLandmarkResonance('),
+    true,
+    'GardenCanvas must dynamically reproject Wetland piers and drive landmark resonance from physical mechanics',
   );
 });
 

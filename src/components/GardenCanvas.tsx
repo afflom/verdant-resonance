@@ -872,83 +872,101 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         group.add(trunnionBearing);
       }
 
-      // Hierarchical Cardan Double-Gimbal assembly (strictly orthogonal trunnions, zero rod-shearing)
-      // Outer gimbal rotates purely around X-axis trunnions
-      const orbitRing = new THREE.Mesh(
-        new THREE.TorusGeometry(orbitRadius, 0.08, 14, 48),
-        sharedGoldTrimMat,
-      );
+      // True 4-Level Hierarchical Cardan Double-Gimbal Assembly (`group -> orbitRing -> innerGimbalRing -> spireCradle -> spire`)
+      // Outer gimbal (`orbitRing`) lies in the XZ plane and pitches purely around its X-axis trunnions (`0.000m` bearing slip)
+      const orbitRing = new THREE.Group();
       orbitRing.position.y = sanctSpec.gimbalCenterY;
-
-      // Outer gimbal X-axis pivot pins seating into the fork trunnions
-      const gimbalAxleLeft = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.045, 0.045, 0.24, 12),
+      const orbitTorus = new THREE.Mesh(
+        new THREE.TorusGeometry(orbitRadius, 0.08, 16, 56),
         sharedGoldTrimMat,
       );
-      gimbalAxleLeft.rotation.z = Math.PI / 2;
-      gimbalAxleLeft.position.x = -orbitRadius;
-      orbitRing.add(gimbalAxleLeft);
+      orbitTorus.rotation.x = Math.PI / 2;
+      orbitRing.add(orbitTorus);
 
-      const gimbalAxleRight = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.045, 0.045, 0.24, 12),
-        sharedGoldTrimMat,
-      );
-      gimbalAxleRight.rotation.z = Math.PI / 2;
-      gimbalAxleRight.position.x = orbitRadius;
-      orbitRing.add(gimbalAxleRight);
-
-      // Inner gimbal rotates purely around orthogonal Z-axis trunnions mounted on orbitRing
-      const innerGimbalRadius = sanctSpec.innerCupolaRadius * 1.174;
-      const innerGimbalRing = new THREE.Mesh(
-        new THREE.TorusGeometry(innerGimbalRadius, 0.065, 12, 40),
-        sharedGoldTrimMat,
-      );
-      innerGimbalRing.position.y = sanctSpec.gimbalCenterY;
-
-      // Z-axis trunnion pins for inner gimbal
+      // Outer gimbal X-axis pivot pins seating coaxially into the fork trunnion housings
       for (const side of [-1, 1] as const) {
-        const zTrunnion = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.042, 0.042, 0.22, 12),
+        const gimbalAxle = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.048, 0.048, 0.28, 12),
           sharedGoldTrimMat,
         );
-        zTrunnion.rotation.x = Math.PI / 2;
-        zTrunnion.position.set(0, 0, side * (innerGimbalRadius + 0.02));
-        innerGimbalRing.add(zTrunnion);
+        gimbalAxle.rotation.z = Math.PI / 2;
+        gimbalAxle.position.set(side * (orbitRadius + 0.03), 0, 0);
+        orbitRing.add(gimbalAxle);
       }
 
-      // Sculpted 6-prong bronze bezel collar cradling the crystal spire
+      // Inner gimbal (`innerGimbalRing`) mounted inside `orbitRing` via orthogonal Z-axis journal bridges
+      const innerGimbalRadius = sanctSpec.innerCupolaRadius * 1.174;
+      const zBridgeSpan = orbitRadius - innerGimbalRadius + 0.09;
+      const zBridgeMid = (orbitRadius + innerGimbalRadius) * 0.5;
+      for (const side of [-1, 1] as const) {
+        const zJournalHousing = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.075, 0.075, 0.22, 14),
+          sharedGoldTrimMat,
+        );
+        zJournalHousing.rotation.x = Math.PI / 2;
+        zJournalHousing.position.set(0, 0, side * orbitRadius);
+        orbitRing.add(zJournalHousing);
+
+        const zTrunnionPin = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.042, 0.042, zBridgeSpan, 12),
+          sharedGoldTrimMat,
+        );
+        zTrunnionPin.rotation.x = Math.PI / 2;
+        zTrunnionPin.position.set(0, 0, side * zBridgeMid);
+        orbitRing.add(zTrunnionPin);
+      }
+
+      const innerGimbalRing = new THREE.Group();
+      const innerTorus = new THREE.Mesh(
+        new THREE.TorusGeometry(innerGimbalRadius, 0.065, 14, 48),
+        sharedGoldTrimMat,
+      );
+      innerTorus.rotation.x = Math.PI / 2;
+      innerGimbalRing.add(innerTorus);
+
+      // Sculpted 6-prong bronze bezel collar (`spireCradle`) bridged radially inside `innerGimbalRing`
       const spireCradle = new THREE.Group();
+      const cradleCollarRadius = 0.68;
+      const xArmSpan = innerGimbalRadius - cradleCollarRadius + 0.08;
+      const xArmMid = (innerGimbalRadius + cradleCollarRadius) * 0.5;
+      for (const side of [-1, 1] as const) {
+        const xBridgeArm = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.038, 0.044, xArmSpan, 12),
+          sharedGoldTrimMat,
+        );
+        xBridgeArm.rotation.z = Math.PI / 2;
+        xBridgeArm.position.set(side * xArmMid, 0, 0);
+        innerGimbalRing.add(xBridgeArm);
+      }
+
       const cradleCollar = new THREE.Mesh(
-        new THREE.CylinderGeometry(1.02, 0.98, 0.32, 24),
+        new THREE.CylinderGeometry(cradleCollarRadius, cradleCollarRadius * 0.95, 0.28, 24),
         sharedGoldTrimMat,
       );
       spireCradle.add(cradleCollar);
       for (let p = 0; p < 6; p++) {
         const pa = (p / 6) * Math.PI * 2;
         const prong = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.035, 0.055, 0.65, 10),
+          new THREE.CylinderGeometry(0.028, 0.048, 0.56, 10),
           sharedGoldTrimMat,
         );
-        prong.position.set(Math.cos(pa) * 0.96, 0.25, Math.sin(pa) * 0.96);
-        prong.rotation.z = -Math.cos(pa) * 0.18;
-        prong.rotation.x = Math.sin(pa) * 0.18;
+        prong.position.set(Math.cos(pa) * 0.64, 0.22, Math.sin(pa) * 0.64);
+        prong.rotation.z = -Math.cos(pa) * 0.16;
+        prong.rotation.x = Math.sin(pa) * 0.16;
         spireCradle.add(prong);
       }
-      spireCradle.position.y = sanctSpec.gimbalCenterY;
-      group.add(spireCradle);
+      innerGimbalRing.add(spireCradle);
 
-      // Double-terminated quartz crystal spire (cradled in inner gimbal, spins axially with zero vertical rod-shearing)
+      // Double-terminated quartz crystal spire (`r=0.62m, h=2.72m`, 25cm bottom clearance above yoke beam!)
       const spireGeo = createHexagonalQuartzCrystalGeometry({
-        radius: 0.95,
-        height: 3.4,
+        radius: 0.62,
+        height: 2.72,
         doubleTerminated: true,
       });
       const spire = new THREE.Mesh(spireGeo, sharedCrystalMat);
-      spire.position.y = sanctSpec.gimbalCenterY;
-      group.add(spire);
-
+      spireCradle.add(spire);
+      orbitRing.add(innerGimbalRing);
       group.add(orbitRing);
-      group.add(innerGimbalRing);
 
       // Supra-Directive Observer Light-Cone Astrolabe Crown seated flush onto innerCupolaRing
       const crownMat = new THREE.MeshPhysicalMaterial({
@@ -1034,7 +1052,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       compassRing.position.y = dialFaceY;
       group.add(compassRing);
 
-      // Lateral stone buttresses clasping the base of the meridian arch
+      // East-West stone buttresses (matching `col-meadow-gnomon-west` & `col-meadow-gnomon-east`)
       for (const side of [-1, 1] as const) {
         const buttress = new THREE.Mesh(
           new THREE.CylinderGeometry(0.26, 0.34, 0.48, 18),
@@ -1047,36 +1065,76 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           new THREE.TorusGeometry(0.24, 0.065, 10, 24),
           sharedGoldTrimMat,
         );
-        voluteCap.position.set(side * meadowSpec.buttressOffsetX, meadowSpec.dialTopY + 0.28, 0);
+        voluteCap.rotation.x = Math.PI / 2;
+        voluteCap.position.set(side * meadowSpec.buttressOffsetX, meadowSpec.dialTopY + 0.32, 0);
         group.add(voluteCap);
       }
 
-      // Semicircular bronze meridian arch
+      // Walkable 2.30m Semicircular Prime-Vertical Arch (crown at y = 2.52m, 0.84m above player eye height!)
       const gnomonArch = new THREE.Mesh(
-        new THREE.TorusGeometry(meadowSpec.archRadius, meadowSpec.archTubeRadius * 1.08, 14, 40, Math.PI),
+        new THREE.TorusGeometry(meadowSpec.archRadius, meadowSpec.archTubeRadius * 1.08, 16, 48, Math.PI),
         sharedGoldTrimMat,
       );
       gnomonArch.position.y = meadowSpec.dialTopY;
       group.add(gnomonArch);
 
-      // Inclined astronomical polar gnomon blade/style (38° inclination = 0.6632 rad)
-      const gnomonBlade = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.045, 0.075, meadowSpec.gnomonHeight * 1.05, 16),
+      // Orthogonal North-South Celestial Meridian Arch clasping the dial perimeter & uniting at the Zenith Boss
+      const meridianArch = new THREE.Mesh(
+        new THREE.TorusGeometry(meadowSpec.archRadius, meadowSpec.archTubeRadius * 0.92, 14, 48, Math.PI),
         sharedGoldTrimMat,
       );
-      gnomonBlade.rotation.x = 0.6632;
-      gnomonBlade.position.set(0, meadowSpec.gnomonCenterY, 0.15);
+      meridianArch.rotation.y = Math.PI / 2;
+      meridianArch.position.y = meadowSpec.dialTopY;
+      group.add(meridianArch);
+
+      for (const zSide of [-1, 1] as const) {
+        const meridianFoot = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.18, 0.24, 0.28, 14),
+          sharedGoldTrimMat,
+        );
+        meridianFoot.position.set(0, meadowSpec.dialTopY + 0.08, zSide * meadowSpec.archRadius);
+        group.add(meridianFoot);
+      }
+
+      // Sculpted bronze Zenith Boss & Vertical Spindle at arch crown (center walkway at y=0..2.45m is 100% clear!)
+      const archCrownY = meadowSpec.dialTopY + meadowSpec.archRadius;
+      const zenithBoss = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.2, 0.22, 0.18, 18),
+        sharedGoldTrimMat,
+      );
+      zenithBoss.position.set(0, archCrownY, 0);
+      group.add(zenithBoss);
+
+      const zenithSpindleH = Math.max(0.14, meadowSpec.sunOrbPivotY - archCrownY + 0.06);
+      const zenithSpindle = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.036, 0.048, zenithSpindleH, 12),
+        sharedGoldTrimMat,
+      );
+      zenithSpindle.position.set(0, (archCrownY + meadowSpec.sunOrbPivotY) * 0.5, 0);
+      group.add(zenithSpindle);
+
+      // Peripheral-anchored 38° Astronomical Polar Gnomon Style (spans northern meridian foot up into upper meridian arch rib without blocking center walkway!)
+      const gnomonFootZ = -meadowSpec.archRadius * 0.92;
+      const gnomonTopZ = -meadowSpec.archRadius * 0.34;
+      const gnomonTopY =
+        meadowSpec.dialTopY +
+        Math.sqrt(Math.max(0.1, meadowSpec.archRadius * meadowSpec.archRadius - gnomonTopZ * gnomonTopZ));
+      const gnomonDz = gnomonTopZ - gnomonFootZ;
+      const gnomonDy = gnomonTopY - meadowSpec.dialTopY;
+      const gnomonStyleLen = Math.hypot(gnomonDz, gnomonDy) + 0.08;
+      const gnomonBlade = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.036, 0.062, gnomonStyleLen, 14),
+        sharedGoldTrimMat,
+      );
+      gnomonBlade.rotation.x = Math.atan2(gnomonDz, gnomonDy);
+      gnomonBlade.position.set(
+        0,
+        meadowSpec.dialTopY + gnomonDy * 0.5,
+        gnomonFootZ + gnomonDz * 0.5,
+      );
       group.add(gnomonBlade);
 
-      // Vertical central shaft supporting apex anemometer
-      const gnomonShaft = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.055, 0.085, meadowSpec.gnomonHeight, 16),
-        sharedGoldTrimMat,
-      );
-      gnomonShaft.position.y = meadowSpec.gnomonCenterY;
-      group.add(gnomonShaft);
-
-      // Jewel-pivoted 3-cup wind anemometer / solar radiometer at the apex
+      // Jewel-pivoted 3-cup wind anemometer / solar radiometer seated cleanly ABOVE the Zenith Boss (`0m` skewering!)
       const sunOrbPivot = new THREE.Group();
       sunOrbPivot.position.set(0, meadowSpec.sunOrbPivotY, 0);
 
@@ -1120,6 +1178,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       return { group, sunOrb, sunOrbPivot };
     };
     const meadowMonument = buildMeadowSundial();
+    let meadowAnemometerAngleRad = 0;
     scene.add(meadowMonument.group);
 
     // Monument 3 (Bamboo Chime Grove): Wind-Carved Bamboo Pergola & Compound Chimes (`weldGapMeters === 0`)
@@ -1167,7 +1226,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         group.add(shoe);
 
         const post = new THREE.Mesh(postGeo, jadeWoodMat);
-        post.position.set(ox, 0.08, oz);
+        // Embed base of bamboo post inside footing so post top terminates flush inside capital at `roofElevationY`
+        post.position.set(ox, groveSpec.roofElevationY - groveSpec.postHeight + 0.08, oz);
         group.add(post);
 
         const capital = new THREE.Mesh(
@@ -1227,23 +1287,69 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       centerBoss.position.y = groveSpec.roofElevationY;
       group.add(centerBoss);
 
-      // Central wind-catcher clapper disc suspended inside the chime cluster
+      // Central 6-point bronze harmonic striker ring + carved jade wind-sail vane (physically reaches `chimeRingRadius`!)
       const clapperPivot = new THREE.Group();
       clapperPivot.position.set(0, groveSpec.roofElevationY, 0);
+      const strikerY = -(0.28 + groveSpec.chimeBaseLength * 0.42);
+      const strikerRadius = Math.max(0.45, groveSpec.chimeRingRadius - 0.16);
 
       const clapperCord = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.014, 0.014, 0.95, 8),
+        new THREE.CylinderGeometry(0.014, 0.014, Math.abs(strikerY), 8),
         sharedGoldTrimMat,
       );
-      clapperCord.position.y = -0.48;
+      clapperCord.position.y = strikerY * 0.5;
       clapperPivot.add(clapperCord);
 
-      const clapperDisc = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.38, 0.38, 0.06, 24),
+      const strikerRing = new THREE.Mesh(
+        new THREE.TorusGeometry(strikerRadius, 0.026, 10, 36),
         sharedGoldTrimMat,
       );
-      clapperDisc.position.y = -0.95;
-      clapperPivot.add(clapperDisc);
+      strikerRing.rotation.x = Math.PI / 2;
+      strikerRing.position.y = strikerY;
+      clapperPivot.add(strikerRing);
+
+      for (let sp = 0; sp < groveSpec.chimeCount; sp++) {
+        const spa = (sp / groveSpec.chimeCount) * Math.PI * 2;
+        const spoke = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.012, 0.016, strikerRadius, 8),
+          sharedGoldTrimMat,
+        );
+        spoke.rotation.z = Math.PI / 2;
+        spoke.rotation.y = -spa;
+        spoke.position.set(
+          Math.cos(spa) * strikerRadius * 0.5,
+          strikerY,
+          Math.sin(spa) * strikerRadius * 0.5,
+        );
+        clapperPivot.add(spoke);
+
+        const strikerBead = new THREE.Mesh(
+          new THREE.SphereGeometry(0.048, 12, 10),
+          sharedGoldTrimMat,
+        );
+        strikerBead.position.set(
+          Math.cos(spa) * strikerRadius,
+          strikerY,
+          Math.sin(spa) * strikerRadius,
+        );
+        clapperPivot.add(strikerBead);
+      }
+
+      // Lower jade wind-sail vane suspended beneath striker hub to catch ambient breeze
+      const vaneCord = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.01, 0.01, 0.58, 8),
+        sharedGoldTrimMat,
+      );
+      vaneCord.position.y = strikerY - 0.29;
+      clapperPivot.add(vaneCord);
+
+      const windSailVane = new THREE.Mesh(
+        new THREE.BoxGeometry(0.32, 0.52, 0.028),
+        jadeWoodMat,
+      );
+      windSailVane.position.y = strikerY - 0.62;
+      windSailVane.rotation.y = Math.PI / 6;
+      clapperPivot.add(windSailVane);
       group.add(clapperPivot);
 
       // 6 Compound pendulum chime tubes of staggered lengths
@@ -1348,14 +1454,18 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         group.add(druseMesh);
       }
 
-      // ALL 6 Primary Hexagonal Bravais Arch Spires at full 100% length (sockets-to-keystone compression closure)
+      // ALL 6 Primary Hexagonal Bravais Arch Ribs spanning exact base-to-keystone chord (`2.06m` walkable portals, `0.000m` weld gap!)
+      const ribDx = crystalSpec.keystoneRingRadius - crystalSpec.baseRingRadius;
+      const ribDy = crystalSpec.keystoneElevationY + 0.1;
+      const ribChordLen = Math.hypot(ribDx, ribDy);
+      const ribTiltZ = Math.atan2(-ribDx, ribDy);
+
       for (let i = 0; i < crystalSpec.spireCount; i++) {
         const a = (i / crystalSpec.spireCount) * Math.PI * 2;
-        const habitId = ALL_14_BRAVAIS_CRYSTAL_HABITS[i % ALL_14_BRAVAIS_CRYSTAL_HABITS.length];
-        const spireHabitGeo = createBravaisCrystalHabitGeometry({
-          habit: habitId,
-          radius: 0.65,
-          height: crystalSpec.spireHeight,
+        const spireHabitGeo = createHexagonalQuartzCrystalGeometry({
+          radius: 0.28,
+          height: ribChordLen + 0.18,
+          doubleTerminated: false,
         });
         const spireSocket = new THREE.Group();
         spireSocket.position.set(
@@ -1364,58 +1474,110 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           Math.sin(a) * crystalSpec.baseRingRadius,
         );
         spireSocket.rotation.y = -a;
-        const spire = new THREE.Mesh(spireHabitGeo, quartzMat);
-        spire.position.set(
-          -Math.sin(crystalSpec.spireLeanRad) * (crystalSpec.spireHeight * 0.42),
-          crystalSpec.spireHeight * 0.45,
-          0,
+
+        const basePlinthSocket = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.36, 0.44, 0.38, 6),
+          sharedStoneMat,
         );
-        spire.rotation.z = crystalSpec.spireLeanRad;
-        // Strictly 1.0 full span - eliminates floating arch gaps!
+        basePlinthSocket.position.set(0, 0.12, 0);
+        spireSocket.add(basePlinthSocket);
+
+        const spire = new THREE.Mesh(spireHabitGeo, quartzMat);
+        // `createHexagonalQuartzCrystalGeometry` with `doubleTerminated: false` spans `y = 0 .. height`:
+        // place base at `(0, -0.10, 0)` and tilt by `ribTiltZ` so tip locks straight into `(ribDx, keystoneElevationY, 0)`!
+        spire.position.set(0, -0.1, 0);
+        spire.rotation.z = ribTiltZ;
         spire.scale.setScalar(1.0);
         spireSocket.add(spire);
+
+        const keystoneSocketCuff = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.24, 0.28, 0.22, 6),
+          sharedGoldTrimMat,
+        );
+        keystoneSocketCuff.position.set(ribDx, crystalSpec.keystoneElevationY, 0);
+        keystoneSocketCuff.rotation.z = ribTiltZ;
+        spireSocket.add(keystoneSocketCuff);
+
         group.add(spireSocket);
       }
 
-      // Sculpted hexagonal keystone compression collar
+      // Sculpted hexagonal keystone compression collar + 6-spoke spider hub carrying the central torsion pivot
       const keystoneRing = new THREE.Mesh(
-        new THREE.TorusGeometry(crystalSpec.keystoneRingRadius, 0.22, 12, crystalSpec.spireCount * 2),
+        new THREE.TorusGeometry(crystalSpec.keystoneRingRadius, 0.18, 12, crystalSpec.spireCount * 3),
         quartzMat,
       );
       keystoneRing.rotation.x = Math.PI / 2;
       keystoneRing.position.y = crystalSpec.keystoneElevationY;
       group.add(keystoneRing);
 
+      for (let k = 0; k < crystalSpec.spireCount; k++) {
+        const ka = (k / crystalSpec.spireCount) * Math.PI * 2;
+        const spiderSpoke = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.032, 0.042, crystalSpec.keystoneRingRadius, 8),
+          sharedGoldTrimMat,
+        );
+        spiderSpoke.rotation.z = Math.PI / 2;
+        spiderSpoke.rotation.y = -ka;
+        spiderSpoke.position.set(
+          Math.cos(ka) * crystalSpec.keystoneRingRadius * 0.5,
+          crystalSpec.keystoneElevationY,
+          Math.sin(ka) * crystalSpec.keystoneRingRadius * 0.5,
+        );
+        group.add(spiderSpoke);
+      }
+
+      const keystoneSpiderBoss = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.22, 0.18, 0.24, 12),
+        sharedGoldTrimMat,
+      );
+      keystoneSpiderBoss.position.set(0, crystalSpec.keystoneElevationY, 0);
+      group.add(keystoneSpiderBoss);
+
+      // Low sculpted geode druse altar bed (`top = 0.80m`, >0.75m clear below suspended torsion prism!)
       const basalCluster = new THREE.Mesh(
         createBravaisCrystalHabitGeometry({
           habit: 'cI-garnet',
-          radius: 0.76,
-          height: 2.45,
+          radius: 0.62,
+          height: 0.85,
         }),
         sharedStoneMat,
       );
-      basalCluster.position.y = 0.95;
+      basalCluster.position.y = 0.38;
       group.add(basalCluster);
 
-      // Tensioned torsion-pendulum suspension cord (zero rod-skewering through the core prism)
-      const suspensionCordLen = crystalSpec.keystoneElevationY - crystalSpec.corePrismElevationY - 0.45;
+      // True Nested Torsion-Pendulum Assembly pivoted at `(0, keystoneElevationY, 0)` (`filament + bezel + corePrism` swing together!)
+      const torsionPendulumGroup = new THREE.Group();
+      torsionPendulumGroup.position.set(0, crystalSpec.keystoneElevationY, 0);
+
+      const suspensionCordLen = Math.max(
+        0.75,
+        crystalSpec.keystoneElevationY - crystalSpec.corePrismElevationY - 0.72,
+      );
       const suspensionCord = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.018, 0.018, suspensionCordLen, 8),
+        new THREE.CylinderGeometry(0.016, 0.016, suspensionCordLen, 8),
         sharedGoldTrimMat,
       );
-      suspensionCord.position.y = crystalSpec.keystoneElevationY - suspensionCordLen * 0.5;
-      group.add(suspensionCord);
+      suspensionCord.position.y = -suspensionCordLen * 0.5;
+      torsionPendulumGroup.add(suspensionCord);
 
-      const corePrismGeo = createBravaisCrystalHabitGeometry({
-        habit: 'hP-quartz',
-        radius: 0.76,
-        height: 2.15,
+      const upperPrismBezel = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.08, 0.22, 0.18, 6),
+        sharedGoldTrimMat,
+      );
+      upperPrismBezel.position.y = -suspensionCordLen - 0.06;
+      torsionPendulumGroup.add(upperPrismBezel);
+
+      const corePrismGeo = createHexagonalQuartzCrystalGeometry({
+        radius: 0.42,
+        height: 1.56,
+        doubleTerminated: true,
       });
       const corePrism = new THREE.Mesh(corePrismGeo, quartzMat);
-      corePrism.position.y = crystalSpec.corePrismElevationY;
-      group.add(corePrism);
+      corePrism.position.y = -suspensionCordLen - 0.78;
+      torsionPendulumGroup.add(corePrism);
+      group.add(torsionPendulumGroup);
 
-      return { group, corePrism, quartzMat };
+      return { group, torsionPendulumGroup, corePrism, quartzMat };
     };
     const crystalMonument = buildCrystalArchway();
     scene.add(crystalMonument.group);
@@ -1498,6 +1660,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         wetlandSpec.centerXZ[1],
       );
       const lanternOrbs: THREE.Mesh[] = [];
+      const pierLakebedHeightsY: number[] = [];
       const lanternMat = new THREE.MeshStandardMaterial({
         color: 0x5eead4,
         emissive: 0x2dd4bf,
@@ -1514,9 +1677,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         const lanternUnit = new THREE.Group();
         lanternUnit.position.set(lx, 0, lz);
 
-        // Grounded stepped tufa foundation piling embedded >= 0.28m into lakebed floor (zero mid-water floating gap)
+        // Grounded stepped tufa foundation piling embedded >= 0.32m into lakebed floor (zero mid-water floating gap)
         const lakebedY = groundHeightAt(wetlandSpec.centerXZ[0] + lx, wetlandSpec.centerXZ[1] + lz);
-        const embedMeters = 0.28;
+        pierLakebedHeightsY.push(lakebedY);
+        const embedMeters = 0.32;
         const pilingTotalH = Math.max(0.65, (MIRROR_LAGOON_WATER_SURFACE_Y - lakebedY) + embedMeters + 0.12);
         const pierPiling = new THREE.Mesh(
           new THREE.CylinderGeometry(
@@ -1530,7 +1694,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         pierPiling.position.y = (lakebedY - embedMeters) + pilingTotalH * 0.5 - MIRROR_LAGOON_WATER_SURFACE_Y;
         lanternUnit.add(pierPiling);
 
-        // Carved lotus-petal stone capital plinth emerging cleanly through the water meniscus
+        // Walkable lotus-carved travertine landing pad (`r = 0.96m`) emerging cleanly through the water meniscus
         const capitalPad = new THREE.Mesh(
           new THREE.CylinderGeometry(
             wetlandSpec.padRadius * 0.95,
@@ -1543,11 +1707,36 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         capitalPad.position.y = 0.12;
         lanternUnit.add(capitalPad);
 
-        const chamberDeck = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.44, 0.32, 0.09, 8),
+        // Sculpted Tōrō `sao` fluted stone column shaft rising from landing pad to `chamberDeckY` (matches `col-wetland-lantern-*` r=0.24m!)
+        const saoShaftH = Math.max(0.4, wetlandSpec.chamberDeckY - 0.2);
+        const saoShaft = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.18, 0.23, saoShaftH, 12),
+          sharedStoneMat,
+        );
+        saoShaft.position.y = 0.2 + saoShaftH * 0.5;
+        lanternUnit.add(saoShaft);
+
+        const saoMidBand = new THREE.Mesh(
+          new THREE.TorusGeometry(0.215, 0.032, 10, 20),
           sharedGoldTrimMat,
         );
-        chamberDeck.position.y = wetlandSpec.chamberDeckY;
+        saoMidBand.rotation.x = Math.PI / 2;
+        saoMidBand.position.y = 0.2 + saoShaftH * 0.5;
+        lanternUnit.add(saoMidBand);
+
+        // Carved `chūdai` middle lotus platform supporting the open light chamber (`hibukuro`)
+        const chudaiLotusBase = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.48, 0.24, 0.14, 6),
+          sharedStoneMat,
+        );
+        chudaiLotusBase.position.y = wetlandSpec.chamberDeckY - 0.06;
+        lanternUnit.add(chudaiLotusBase);
+
+        const chamberDeck = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.44, 0.36, 0.08, 6),
+          sharedGoldTrimMat,
+        );
+        chamberDeck.position.y = wetlandSpec.chamberDeckY + 0.02;
         lanternUnit.add(chamberDeck);
 
         // Open 6-strut bronze lantern cage cradling the glowing crystal (no skewering central rod)
@@ -1564,10 +1753,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
         // Lower sculpted lotus pedestal holding the glowing calcite crystal
         const lotusCup = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.24, 0.16, 0.12, 12),
+          new THREE.CylinderGeometry(0.22, 0.15, 0.11, 12),
           sharedGoldTrimMat,
         );
-        lotusCup.position.y = wetlandSpec.orbCenterY - 0.22;
+        lotusCup.position.y = wetlandSpec.orbCenterY - wetlandSpec.orbRadius - 0.04;
         lanternUnit.add(lotusCup);
 
         const orb = new THREE.Mesh(
@@ -1581,16 +1770,16 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         lanternUnit.add(orb);
         lanternOrbs.push(orb);
 
-        // 2-Tiered hexagonal pagoda roof
+        // 2-Tiered hexagonal `kasa` stone pagoda roof + `hōju` sacred jewel finial
         const pagodaRoofLower = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.18, 0.62, 0.16, 6),
+          new THREE.CylinderGeometry(0.18, 0.64, 0.16, 6),
           sharedStoneMat,
         );
         pagodaRoofLower.position.y = wetlandSpec.pagodaRoofY;
         lanternUnit.add(pagodaRoofLower);
 
         const pagodaRoofUpper = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.08, 0.38, 0.14, 6),
+          new THREE.CylinderGeometry(0.08, 0.4, 0.14, 6),
           sharedStoneMat,
         );
         pagodaRoofUpper.position.y = wetlandSpec.pagodaRoofY + 0.15;
@@ -1605,7 +1794,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
         group.add(lanternUnit);
       }
-      return { group, lanternOrbs, lanternMat };
+      return { group, lanternOrbs, lanternMat, pierLakebedHeightsY };
     };
     const wetlandMonument = buildWetlandLanterns();
     scene.add(wetlandMonument.group);
@@ -4418,6 +4607,26 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       );
 
       const nextLagoonXZ = nextMonuments.monuments.wetland.wetland!.centerXZ;
+      const nextWetlandSpec = nextMonuments.monuments.wetland.wetland!;
+      lagoonMesh.position.set(nextLagoonXZ[0], nextTopo.lagoonWaterSurfaceY, nextLagoonXZ[1]);
+      wetlandMonument.group.position.set(
+        nextLagoonXZ[0],
+        nextTopo.lagoonWaterSurfaceY,
+        nextLagoonXZ[1],
+      );
+      for (let pIdx = 0; pIdx < nextWetlandSpec.pierCount; pIdx++) {
+        const pa = (pIdx / nextWetlandSpec.pierCount) * Math.PI * 2;
+        const pr = pIdx === 0 ? 0 : nextWetlandSpec.outerPierRingRadius;
+        wetlandMonument.pierLakebedHeightsY[pIdx] = groundHeightAt(
+          nextLagoonXZ[0] + Math.cos(pa) * pr,
+          nextLagoonXZ[1] + Math.sin(pa) * pr,
+          nextTopo,
+        );
+      }
+      for (let mIdx = 0; mIdx < wetlandMeniscusRings.length; mIdx++) {
+        wetlandMeniscusRings[mIdx].mesh.position.x = nextLagoonXZ[0];
+        wetlandMeniscusRings[mIdx].mesh.position.z = nextLagoonXZ[1];
+      }
       const nextAnchorsByBiome: Record<BiomeId, readonly [number, number]> = {
         sanctuary: [nextSanctX, nextSanctZ],
         meadow: [nextMeadowX, nextMeadowZ],
@@ -4962,17 +5171,17 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         chimeLengthStepM: groveSpec.chimeLengthStep,
         chimeSustainFactor: liveCosmo.inorganicRealm.chimeSustainFactor,
         wetlandWaterSurfaceY: liveCosmo.worldTopology.lagoonWaterSurfaceY,
+        wetlandLakebedHeightsY: wetlandMonument.pierLakebedHeightsY,
       });
 
       // Animate all 5 Biome Architectural Monuments governed by MonumentPhysicalMechanics & Landmark Resonance
       const sanctRes = landmarkResonance.sanctuary;
       const sanctSpin = spinMult * (1 + sanctRes * 0.85);
 
-      // Sanctuary: Orthogonal Cardan Gimbal & Spire Axial Spin (zero vertical shearing)
-      sanctuaryMonument.spire.position.y = sanctSpec.gimbalCenterY;
-      sanctuaryMonument.spire.rotation.y = monumentMechanics.sanctuary.spireSpinY;
+      // Sanctuary: True 4-Level Cardan Hierarchy (`orbitRing -> innerGimbalRing -> spireCradle -> spire`, zero bearing slip, zero vertical shear)
       sanctuaryMonument.orbitRing.rotation.x = monumentMechanics.sanctuary.outerGimbalPitchX;
       sanctuaryMonument.innerGimbalRing.rotation.z = monumentMechanics.sanctuary.innerGimbalRollZ;
+      sanctuaryMonument.spire.rotation.y = monumentMechanics.sanctuary.spireSpinY;
       sharedGoldTrimMat.emissiveIntensity = 0.28 + inorgGlow * 0.35 + sanctRes * 0.22;
 
       // Live Runtime Procedural Model Synthesis on Sanctuary Supra-Directive Astrolabe Crown
@@ -5047,11 +5256,13 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         0,
       );
       immanentWitness.group.scale.setScalar(liveWitness.scaleMultiplier);
-      immanentWitness.outerGimbalGroup.rotation.y =
+      // Outer gimbal rotates strictly around its horizontal X-axis trunnions seated in the tuning-fork sleeves (`0.000m` slip)
+      immanentWitness.outerGimbalGroup.rotation.x = liveWitness.gimbalInnerTiltRad;
+      // Inner gimbal rotates strictly around its vertical Y-axis journal pins inside `outerGimbalGroup`
+      immanentWitness.innerGimbalGroup.rotation.y =
         liveWitness.gimbalOuterSpinRad *
         liveSteering.witnessGimbalCadenceScale *
         (1 + witnessCommunionGlowImpulse * 0.65);
-      immanentWitness.innerGimbalGroup.rotation.x = liveWitness.gimbalInnerTiltRad;
       immanentWitness.quartzCoreMesh.rotation.y =
         -elapsed * 0.9 * liveSteering.witnessGimbalCadenceScale;
       immanentWitness.primeSpokeArmsGroup.rotation.y =
@@ -5072,27 +5283,46 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         player.harmony,
       );
       const meadowSpin = spinMult * (1 + landmarkResonance.meadow * 0.95);
-      // Meadow Sundial: Wind-driven 3-cup anemometer and spinning pyrite crystal
-      meadowMonument.sunOrbPivot.rotation.y =
-        frameDiurnal.sunAzimuthRad +
-        elapsed * 0.25 * meadowSpin +
-        monumentMechanics.meadow.anemometerAngularRateRadPerSec * 0.35;
+      // Meadow Sundial: Wind-driven 3-cup anemometer (integrated continuously with `dt`) and spinning pyrite crystal
+      meadowAnemometerAngleRad =
+        (meadowAnemometerAngleRad +
+          monumentMechanics.meadow.anemometerAngularRateRadPerSec * dt * meadowSpin) %
+        (Math.PI * 2);
+      meadowMonument.sunOrbPivot.rotation.y = frameDiurnal.sunAzimuthRad + meadowAnemometerAngleRad;
       meadowMonument.sunOrb.rotation.y = monumentMechanics.meadow.sunCrystalSpinY;
 
-      // Grove Pergola: Compound pendulums obeying Galileo/Newton law omega_i = sqrt(g / L_eff,i) + central clapper
+      // Grove Pergola: Compound pendulums obeying Galileo/Newton law omega_i = sqrt(g / L_eff,i) + central 6-point striker
       for (let c = 0; c < groveMonument.chimeTubes.length; c++) {
         groveMonument.chimeTubes[c].rotation.x = monumentMechanics.grove.chimePitchX[c];
         groveMonument.chimeTubes[c].rotation.z = monumentMechanics.grove.chimeRollZ[c];
       }
       groveMonument.clapperPivot.rotation.x = monumentMechanics.grove.clapperPitchX;
       groveMonument.clapperPivot.rotation.z = monumentMechanics.grove.clapperRollZ;
+      if (monumentMechanics.grove.activeChimeStrikeIndex >= 0) {
+        const groveDx = groveMonument.group.position.x - player.x;
+        const groveDz = groveMonument.group.position.z - player.z;
+        const groveDist = Math.hypot(groveDx, groveDz);
+        if (groveDist <= 38) {
+          const rightVecX = Math.cos(player.yaw);
+          const rightVecZ = -Math.sin(player.yaw);
+          const grovePan =
+            groveDist > 0.1 ? (groveDx * rightVecX + groveDz * rightVecZ) / groveDist : 0;
+          soundEngine.playPhysicalLandmarkResonance({
+            biome: 'grove',
+            justIntonationRatio: monumentMechanics.grove.struckChimeJustIntonationRatio,
+            intensity01: monumentMechanics.grove.chimeStrikeVelocity01,
+            stereoPan: grovePan,
+            distanceMeters: groveDist,
+            atmosphere: atmosphereRef.current,
+          });
+        }
+      }
 
-      // Crystal Archway: Hookean torsion pendulum filament + 2D pendulum sway (zero gap, zero skewering)
+      // Crystal Archway: Nested Hookean torsion pendulum (`torsionPendulumGroup` swings filament + clasp + prism as one!)
       const crystalRes = landmarkResonance.crystal;
-      crystalMonument.corePrism.position.y = crystalSpec.corePrismElevationY;
+      crystalMonument.torsionPendulumGroup.rotation.x = monumentMechanics.crystal.pendulumPitchX;
+      crystalMonument.torsionPendulumGroup.rotation.z = monumentMechanics.crystal.pendulumRollZ;
       crystalMonument.corePrism.rotation.y = monumentMechanics.crystal.torsionYawRad;
-      crystalMonument.corePrism.rotation.x = monumentMechanics.crystal.pendulumPitchX;
-      crystalMonument.corePrism.rotation.z = monumentMechanics.crystal.pendulumRollZ;
       crystalMonument.quartzMat.emissiveIntensity = 0.5 + inorgGlow * 0.38 + crystalRes * 0.65;
       const liveFidelity =
         neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity;
@@ -5142,6 +5372,24 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         liveCosmo.worldTopology.lagoonWaterSurfaceY +
         centerCymatics.waveDisplacementY * 0.45 * directives.physics.cymaticWaveCoherence;
       lagoonMat.emissiveIntensity = 0.18 + centerCymatics.meniscusPulseFactor * 0.16;
+      if (centerCymatics.meniscusPulseFactor > 0.92 && landmarkResonance.wetland > 0.08) {
+        const wetDx = wetlandMonument.group.position.x - player.x;
+        const wetDz = wetlandMonument.group.position.z - player.z;
+        const wetDist = Math.hypot(wetDx, wetDz);
+        if (wetDist <= 34) {
+          const rightVecX = Math.cos(player.yaw);
+          const rightVecZ = -Math.sin(player.yaw);
+          const wetPan = wetDist > 0.1 ? (wetDx * rightVecX + wetDz * rightVecZ) / wetDist : 0;
+          soundEngine.playPhysicalLandmarkResonance({
+            biome: 'wetland',
+            justIntonationRatio: centerCymatics.meniscusPulseFactor > 0.96 ? 1.5 : 1.25,
+            intensity01: Math.min(1, 0.35 + landmarkResonance.wetland * 0.55),
+            stereoPan: wetPan,
+            distanceMeters: wetDist,
+            atmosphere: atmosphereRef.current,
+          });
+        }
+      }
 
       for (let mIdx = 0; mIdx < wetlandMeniscusRings.length; mIdx++) {
         const mr = wetlandMeniscusRings[mIdx];

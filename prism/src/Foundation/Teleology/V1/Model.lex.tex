@@ -52,10 +52,14 @@ structure{
     {name: playerCoObserverBasisPrime, type: Nat},
     {name: intrinsicObserverDirectiveCount, type: Nat},
     {name: minFoundationEmbedmentMm, type: Nat},
+    {name: cardanKinematicHierarchyDepth, type: Nat},
+    {name: minWalkablePortalClearanceMm, type: Nat},
     {name: baseCuratorialAffinityPermille, type: Nat},
     {name: apexCuratorialAffinityPermille, type: Nat},
     {name: physicalBasisRequiredForEveryManifestation, type: Bool},
     {name: structuralLoadPathAndPendulumLawEnforced, type: Bool},
+    {name: cardanTrunnionZeroSlipEnforced, type: Bool},
+    {name: walkableMonumentPortalsEnforced, type: Bool},
     {name: triuneObserverMotivationNonContrived, type: Bool},
     {name: emergentResonanceReplacesFixedTimers, type: Bool}
   ]
@@ -83,6 +87,10 @@ definition{name: observerUnifiedFacetTotal, parameters: [], result: Nat, body: 2
 definition{name: intrinsicObserverDirectiveTotal, parameters: [], result: Nat, body: 3}
 
 definition{name: minMonumentFoundationEmbedMm, parameters: [], result: Nat, body: 250}
+
+definition{name: cardanKinematicChainDepth, parameters: [], result: Nat, body: 4}
+
+definition{name: minWalkablePortalClearanceMm, parameters: [], result: Nat, body: 1400}
 
 definition{name: synthesizedWorldPhenomenaTotal, parameters: [], result: Nat, body: 20}
 
@@ -174,6 +182,13 @@ definition{
 }
 
 definition{
+  name: verifyHierarchicalCardanAndPortalClearance,
+  parameters: [chainDepth : Nat, trunnionSlipMm : Nat, portalClearanceMm : Nat],
+  result: Bool,
+  body: ((((cardanKinematicChainDepth) <=? chainDepth) && (trunnionSlipMm <=? 0)) && ((minWalkablePortalClearanceMm) <=? portalClearanceMm))
+}
+
+definition{
   name: verifyTriuneObserverMotivation,
   parameters: [foundationEmbedMm : Nat, uniqueFacetNiches : Nat, directiveCount : Nat, curatorialAffinityPermille : Nat],
   result: Bool,
@@ -191,7 +206,7 @@ definition{
   name: verdantTeleologyStandard,
   parameters: [],
   result: TeleologyStandardModel,
-  body: (record TeleologyStandardModel {profile := "prism/teleology-standard/1", requirementChain := (record EnvironmentalRequirementChainSpec {synthesizedWorldPhenomenonTotal := (synthesizedWorldPhenomenaTotal), concreteSceneGroupCount := (synthesizedWorldPhenomenaTotal), synthesizedLandmarkTotal := (synthesizedBiomeLandmarkTotal), orphanUnexplainedElementCount := (orphanUnexplainedElementsZero), ungroundedArbitraryPropCount := (orphanUnexplainedElementsZero), minUpstreamRequiringModelsPerFeature := (minRequiringModelsPerPhenomenon), everyFeatureSynthesizedFromEnvironment := (verifyRequirementGroundsEnvironmentalSynthesis 3 100 (stepTeleologicalFulfillmentPermille 8)), requirementsPrecedeAndGroundSynthesis := (verifyZeroOrphanElementsAndZeroManualControls (orphanUnexplainedElementsZero) (manualNeuromorphicControlsZero)), sceneBijectiveClosureVerified := (verifySceneBijectivePhenomenonClosure (synthesizedWorldPhenomenaTotal) (synthesizedWorldPhenomenaTotal) (minRequiringModelsPerPhenomenon) (orphanUnexplainedElementsZero))}), purposeAndAutonomy := (record InteractivePurposeAndAutonomousPlasticitySpec {interactiveLandmarkResonatorCount := (synthesizedBiomeLandmarkTotal), interactiveLithophoneWaystoneCount := (interactiveWaystoneFlagstoneTotal), interactiveChladniTerraceCount := (synthesizedBiomeLandmarkTotal), manualNeuromorphicControlCount := (manualNeuromorphicControlsZero), clutteredBackendReadoutCount := (manualNeuromorphicControlsZero), basePurposeFulfillmentPermille := (stepTeleologicalFulfillmentPermille 8), apexPurposeFulfillmentPermille := (stepTeleologicalFulfillmentPermille 16), neuromorphicsInherentToGameplay := ((manualNeuromorphicControlsZero) =? 0), landmarksInteractiveViaContemplativeGestures := ((stepLandmarkResonanceCouplingPermille 8) <? (stepLandmarkResonanceCouplingPermille 16)), witnessCommunionInteractive := ((stepWitnessCommunionReciprocityPermille 8) <? (stepWitnessCommunionReciprocityPermille 16))}), physicalBasisAndTriuneCuration := (record PhysicalBasisAndTriuneObserverCurationSpec {unifiedObserverFacetCount := (observerUnifiedFacetTotal), playerCoObserverBasisPrime := (playerCoObserverPrime), intrinsicObserverDirectiveCount := (intrinsicObserverDirectiveTotal), minFoundationEmbedmentMm := (minMonumentFoundationEmbedMm), baseCuratorialAffinityPermille := (stepCuratorialAffinityPermille 8 50), apexCuratorialAffinityPermille := (stepCuratorialAffinityPermille 16 100), physicalBasisRequiredForEveryManifestation := (verifyPhysicalLoadPathAndPendulumLaw 280 100 90 2670 2374), structuralLoadPathAndPendulumLawEnforced := ((minMonumentFoundationEmbedMm) <=? 280), triuneObserverMotivationNonContrived := (verifyTriuneObserverMotivation 280 20 3 (stepCuratorialAffinityPermille 8 50)), emergentResonanceReplacesFixedTimers := ((stepCuratorialAffinityPermille 8 50) <? (stepCuratorialAffinityPermille 16 100))}), canonicalDescriptor := (teleologyCanonicalDescriptor)})
+  body: (record TeleologyStandardModel {profile := "prism/teleology-standard/1", requirementChain := (record EnvironmentalRequirementChainSpec {synthesizedWorldPhenomenonTotal := (synthesizedWorldPhenomenaTotal), concreteSceneGroupCount := (synthesizedWorldPhenomenaTotal), synthesizedLandmarkTotal := (synthesizedBiomeLandmarkTotal), orphanUnexplainedElementCount := (orphanUnexplainedElementsZero), ungroundedArbitraryPropCount := (orphanUnexplainedElementsZero), minUpstreamRequiringModelsPerFeature := (minRequiringModelsPerPhenomenon), everyFeatureSynthesizedFromEnvironment := (verifyRequirementGroundsEnvironmentalSynthesis 3 100 (stepTeleologicalFulfillmentPermille 8)), requirementsPrecedeAndGroundSynthesis := (verifyZeroOrphanElementsAndZeroManualControls (orphanUnexplainedElementsZero) (manualNeuromorphicControlsZero)), sceneBijectiveClosureVerified := (verifySceneBijectivePhenomenonClosure (synthesizedWorldPhenomenaTotal) (synthesizedWorldPhenomenaTotal) (minRequiringModelsPerPhenomenon) (orphanUnexplainedElementsZero))}), purposeAndAutonomy := (record InteractivePurposeAndAutonomousPlasticitySpec {interactiveLandmarkResonatorCount := (synthesizedBiomeLandmarkTotal), interactiveLithophoneWaystoneCount := (interactiveWaystoneFlagstoneTotal), interactiveChladniTerraceCount := (synthesizedBiomeLandmarkTotal), manualNeuromorphicControlCount := (manualNeuromorphicControlsZero), clutteredBackendReadoutCount := (manualNeuromorphicControlsZero), basePurposeFulfillmentPermille := (stepTeleologicalFulfillmentPermille 8), apexPurposeFulfillmentPermille := (stepTeleologicalFulfillmentPermille 16), neuromorphicsInherentToGameplay := ((manualNeuromorphicControlsZero) =? 0), landmarksInteractiveViaContemplativeGestures := ((stepLandmarkResonanceCouplingPermille 8) <? (stepLandmarkResonanceCouplingPermille 16)), witnessCommunionInteractive := ((stepWitnessCommunionReciprocityPermille 8) <? (stepWitnessCommunionReciprocityPermille 16))}), physicalBasisAndTriuneCuration := (record PhysicalBasisAndTriuneObserverCurationSpec {unifiedObserverFacetCount := (observerUnifiedFacetTotal), playerCoObserverBasisPrime := (playerCoObserverPrime), intrinsicObserverDirectiveCount := (intrinsicObserverDirectiveTotal), minFoundationEmbedmentMm := (minMonumentFoundationEmbedMm), cardanKinematicHierarchyDepth := (cardanKinematicChainDepth), minWalkablePortalClearanceMm := (minWalkablePortalClearanceMm), baseCuratorialAffinityPermille := (stepCuratorialAffinityPermille 8 50), apexCuratorialAffinityPermille := (stepCuratorialAffinityPermille 16 100), physicalBasisRequiredForEveryManifestation := (verifyPhysicalLoadPathAndPendulumLaw 280 100 90 2670 2374), structuralLoadPathAndPendulumLawEnforced := ((minMonumentFoundationEmbedMm) <=? 280), cardanTrunnionZeroSlipEnforced := (verifyHierarchicalCardanAndPortalClearance 4 0 1780), walkableMonumentPortalsEnforced := ((minWalkablePortalClearanceMm) <=? 1780), triuneObserverMotivationNonContrived := (verifyTriuneObserverMotivation 280 20 3 (stepCuratorialAffinityPermille 8 50)), emergentResonanceReplacesFixedTimers := ((stepCuratorialAffinityPermille 8 50) <? (stepCuratorialAffinityPermille 16 100))}), canonicalDescriptor := (teleologyCanonicalDescriptor)})
 }
 
 definition{
@@ -319,7 +334,7 @@ definition{
   name: breaksPhysicalBasisAndTriuneObserverCuration,
   parameters: [embedMm : Nat, archPct : Nat, uniqueNiches : Nat],
   result: Bool,
-  body: (((((embedMm <? (minMonumentFoundationEmbedMm)) || (archPct <? 100)) && (verifyPhysicalLoadPathAndPendulumLaw embedMm archPct 90 2670 2374)) || (((uniqueNiches <? (observerUnifiedFacetTotal)) || ((observerUnifiedFacetTotal) <? uniqueNiches)) && (verifyTriuneObserverMotivation 280 uniqueNiches 3 (stepCuratorialAffinityPermille 16 100)))) || ((not (verifyPhysicalLoadPathAndPendulumLaw 280 100 90 2670 2374)) || ((not (verifyTriuneObserverMotivation 280 20 3 (stepCuratorialAffinityPermille 16 100))) || ((stepCuratorialAffinityPermille 16 100) <=? (stepCuratorialAffinityPermille 8 50)))))
+  body: ((((((embedMm <? (minMonumentFoundationEmbedMm)) || (archPct <? 100)) && (verifyPhysicalLoadPathAndPendulumLaw embedMm archPct 90 2670 2374)) || (((uniqueNiches <? (observerUnifiedFacetTotal)) || ((observerUnifiedFacetTotal) <? uniqueNiches)) && (verifyTriuneObserverMotivation 280 uniqueNiches 3 (stepCuratorialAffinityPermille 16 100)))) || ((verifyHierarchicalCardanAndPortalClearance 3 0 1780) || ((verifyHierarchicalCardanAndPortalClearance 4 1 1780) || (verifyHierarchicalCardanAndPortalClearance 4 0 800)))) || ((not (verifyHierarchicalCardanAndPortalClearance 4 0 1780)) || ((not (verifyPhysicalLoadPathAndPendulumLaw 280 100 90 2670 2374)) || ((not (verifyTriuneObserverMotivation 280 20 3 (stepCuratorialAffinityPermille 16 100))) || ((stepCuratorialAffinityPermille 16 100) <=? (stepCuratorialAffinityPermille 8 50))))))
 }
 
 theorem{
@@ -332,10 +347,13 @@ theorem{
       Foundation.Neuromorphic.V1.Model::weightMax,
       Foundation.Neuromorphic.V1.Model::weightMin,
       breaksPhysicalBasisAndTriuneObserverCuration,
+      cardanKinematicChainDepth,
       intrinsicObserverDirectiveTotal,
       minMonumentFoundationEmbedMm,
+      minWalkablePortalClearanceMm,
       observerUnifiedFacetTotal,
       stepCuratorialAffinityPermille,
+      verifyHierarchicalCardanAndPortalClearance,
       verifyPhysicalLoadPathAndPendulumLaw,
       verifyTriuneObserverMotivation
     ]

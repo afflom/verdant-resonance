@@ -2042,7 +2042,7 @@ export function buildImmanentObserverWitnessGroup(options?: {
   }
   group.add(outerGimbalGroup);
 
-  // PART 4: Inner Just-Intonation Gimbal Ring + Vertical Spindle Axle welded inside Outer Gimbal
+  // PART 4: Inner Just-Intonation Gimbal Ring + Upper/Lower Y-Axis Journals welded inside Outer Gimbal (zero crystal skewering!)
   const innerGimbalGroup = new THREE.Group();
   const innerRingMesh = new THREE.Mesh(
     trackGeo(new THREE.TorusGeometry(0.31, 0.024, 14, segs)),
@@ -2051,15 +2051,26 @@ export function buildImmanentObserverWitnessGroup(options?: {
   innerRingMesh.rotation.y = Math.PI / 2;
   innerGimbalGroup.add(innerRingMesh);
 
-  // Vertical spindle rod spanning y = -0.43 .. +0.43m (locks inner ring r=0.31 and quartz core directly into outer gimbal r=0.42!)
-  const innerVerticalSpindle = new THREE.Mesh(
-    trackGeo(new THREE.CylinderGeometry(0.018, 0.018, 0.86, 10)),
-    specularGoldMat,
-  );
-  innerGimbalGroup.add(innerVerticalSpindle);
+  // Upper & lower Y-axis journal pins bridging outer gimbal (r=0.42) to inner gimbal (r=0.31) + jewel prong caps cradling crystal tips (y=+-0.24)
+  for (const sign of [-1, 1]) {
+    const yJournalPin = new THREE.Mesh(
+      trackGeo(new THREE.CylinderGeometry(0.018, 0.018, 0.14, 10)),
+      specularGoldMat,
+    );
+    yJournalPin.position.set(0, sign * 0.365, 0);
+    innerGimbalGroup.add(yJournalPin);
+
+    const jewelBezelCap = new THREE.Mesh(
+      trackGeo(new THREE.CylinderGeometry(0.032, 0.018, 0.09, 10)),
+      specularGoldMat,
+    );
+    jewelBezelCap.position.set(0, sign * 0.27, 0);
+    if (sign < 0) jewelBezelCap.rotation.x = Math.PI;
+    innerGimbalGroup.add(jewelBezelCap);
+  }
   outerGimbalGroup.add(innerGimbalGroup);
 
-  // PART 5: Birefringent Double-Terminated Quartz Resonance Core impaled directly on the vertical spindle at (0, 1.38, 0)
+  // PART 5: Birefringent Double-Terminated Quartz Resonance Core centered cleanly at (0, 0, 0) inside innerGimbalGroup
   const quartzCoreGeo = trackGeo(
     createHexagonalQuartzCrystalGeometry({
       radius: 0.155,
@@ -2068,7 +2079,7 @@ export function buildImmanentObserverWitnessGroup(options?: {
     }),
   );
   const quartzCoreMesh = new THREE.Mesh(quartzCoreGeo, coreMaterial);
-  quartzCoreMesh.position.set(0, -0.24, 0); // centers 0.48m crystal symmetrically around (0,0,0) of innerGimbalGroup!
+  quartzCoreMesh.position.set(0, 0, 0);
   innerGimbalGroup.add(quartzCoreMesh);
 
   // PART 6: Three Welded Prime-Address Radial Spoke Arms emerging from the Upper Crown Hub at y = 1.84m
