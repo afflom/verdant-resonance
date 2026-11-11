@@ -827,6 +827,11 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
       'Foundation.Anamnesis.V1.Model',
       modules,
     ),
+    teleology: evaluateLexExpr(
+      'verdantTeleologyStandard',
+      'Foundation.Teleology.V1.Model',
+      modules,
+    ),
     holisticObserverRegistry: evaluateLexExpr(
       'verdantHolisticObserverRegistry',
       'Foundation.Cosmogenesis.V1.Model',
@@ -942,10 +947,13 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     anamnesis: Number(
       evaluateLexExpr('verdantAnamnesisBasisPrime', 'Foundation.Anamnesis.V1.Model', modules),
     ),
+    teleology: Number(
+      evaluateLexExpr('verdantTeleologyBasisPrime', 'Foundation.Teleology.V1.Model', modules),
+    ),
   };
 
   const expectedConsecutivePrimes = [
-    71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157,
+    71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163,
   ];
   const actualSortedPrimes = Object.values(canonicalModelBasisPrimes).slice().sort((a, b) => a - b);
   if (
@@ -953,7 +961,7 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     actualSortedPrimes.some((p, idx) => p !== expectedConsecutivePrimes[idx])
   ) {
     throw new Error(
-      `Canonical 18-model UOR prime basis mismatch: expected consecutive primes [71..157], got [${actualSortedPrimes.join(', ')}]`,
+      `Canonical 19-model UOR prime basis mismatch: expected consecutive primes [71..163], got [${actualSortedPrimes.join(', ')}]`,
     );
   }
 
@@ -965,12 +973,12 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
   );
   if (
     !canonicalAllTheWayDownVerified ||
-    !standards.holisticObserverRegistry.allEighteenModelsAndElevenElementsVerified ||
+    !standards.holisticObserverRegistry.allNineteenModelsAndElevenElementsVerified ||
     !standards.holisticObserverRegistry.zeroCherryPickedModelsVerified ||
     !standards.holisticObserverRegistry.observerSelfKnowledgeComplete
   ) {
     throw new Error(
-      'Canonical 18x11 Standard Model completeness verification failed during AST extraction!',
+      'Canonical 19x11 Standard Model completeness verification failed during AST extraction!',
     );
   }
 
@@ -1050,13 +1058,13 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     {
       registryField: 'm13NeuromorphicBus',
       modelKey: 'neuromorphic',
-      displayName: 'Neuromorphic Bus (18x18 Functorial Feature-Transfer Matrix + STDP + Active Inference)',
+      displayName: 'Neuromorphic Bus (19x19 Inherent Gameplay Functor Matrix + STDP + Active Inference)',
       sourceModule: 'Foundation.Neuromorphic.V1.Model',
     },
     {
       registryField: 'm14ObserverCosmogenesis',
       modelKey: 'cosmogenesis',
-      displayName: 'Holistic Observer & Cosmogenesis (Complete 18x11 Context = 198 Cells + Alpha-Omega)',
+      displayName: 'Holistic Observer & Cosmogenesis (Complete 19x11 Context = 209 Cells + Alpha-Omega)',
       sourceModule: 'Foundation.Cosmogenesis.V1.Model',
     },
     {
@@ -1082,6 +1090,12 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
       modelKey: 'anamnesis',
       displayName: 'Anamnesis (Content-Addressed Merkle State-DAG Persistence + Modular Cold-Load Delivery)',
       sourceModule: 'Foundation.Anamnesis.V1.Model',
+    },
+    {
+      registryField: 'm19Teleology',
+      modelKey: 'teleology',
+      displayName: 'Teleology (Requirement-Grounded Environmental Synthesis + Interactive Landmarks + Inherent Plasticity)',
+      sourceModule: 'Foundation.Teleology.V1.Model',
     },
   ] as const;
 
@@ -1269,6 +1283,33 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         evaluateLexExpr(
           `stepAnamnesisBusModulation ${w}`,
           'Foundation.Anamnesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    teleology: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepTeleologyBusModulation ${w}`,
+          'Foundation.Teleology.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    teleologicalFulfillmentPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepTeleologicalFulfillmentPermille ${w}`,
+          'Foundation.Teleology.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    landmarkResonanceCouplingPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepLandmarkResonanceCouplingPermille ${w}`,
+          'Foundation.Teleology.V1.Model',
           modules,
         ),
       ),

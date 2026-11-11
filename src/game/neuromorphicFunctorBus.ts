@@ -1,15 +1,15 @@
 /**
- * 18x18 Neuromorphic Functorial Feature-Transfer Bus & Holistic Observer 18x11 Context Engine
+ * 19x19 Neuromorphic Functorial Feature-Transfer Bus & Holistic Observer 19x11 Context Engine
  * (`src/game/neuromorphicFunctorBus.ts`)
  *
  * Implements `Foundation.MetaModel.V1.Model`, `Foundation.Neuromorphic.V1.Model::FunctorTransferMatrixSpec`,
  * and `Foundation.Cosmogenesis.V1.Model::HolisticObserverModelRegistry`:
- *  - Enforces all 18 Canonical Standard Models x 11 Mandatory Meta-Model Elements = 198 verified cells.
- *  - Executes zero-GC 18x18 (`324`-pathway, `306` cross-model) functorial feature transfer so every
- *    canonical model enhances every canonical model across compatible SI 2019 ports without conflict.
+ *  - Enforces all 19 Canonical Standard Models x 11 Mandatory Meta-Model Elements = 209 verified cells.
+ *  - Executes zero-GC 19x19 (`361`-pathway, `342` cross-model) functorial feature transfer inherently
+ *    through gameplay so every canonical model enhances every canonical model across compatible SI 2019 ports.
  *  - Drives monotonic multi-modal `Fidelity` (resolution) scaling across Graphics, Acoustics, Spatial Acoustics,
  *    Morphogenesis, Soundtrack, Botany, Chemistry, Physics, Kinematics, Humane Ergonomics, W3C Design Tokens,
- *    Anamnesis Persistence, and Realizability Anti-Gap Closure.
+ *    Anamnesis Persistence, Teleological Environmental Synthesis, and Realizability Anti-Gap Closure.
  */
 
 import {
@@ -54,9 +54,10 @@ export type CanonicalStandardModelKey =
   | 'realizability'
   | 'morphogenesis'
   | 'spatialAcoustics'
-  | 'anamnesis';
+  | 'anamnesis'
+  | 'teleology';
 
-export const CANONICAL_18_MODEL_KEYS: readonly CanonicalStandardModelKey[] = Object.freeze([
+export const CANONICAL_19_MODEL_KEYS: readonly CanonicalStandardModelKey[] = Object.freeze([
   'mathematics',
   'physics',
   'chemistry',
@@ -75,10 +76,12 @@ export const CANONICAL_18_MODEL_KEYS: readonly CanonicalStandardModelKey[] = Obj
   'morphogenesis',
   'spatialAcoustics',
   'anamnesis',
+  'teleology',
 ]);
 
-// Backwards-compatible alias pointing to the complete 18-model canonical registry
-export const CANONICAL_14_MODEL_KEYS: readonly CanonicalStandardModelKey[] = CANONICAL_18_MODEL_KEYS;
+// Backwards-compatible aliases pointing to the complete 19-model canonical registry
+export const CANONICAL_18_MODEL_KEYS: readonly CanonicalStandardModelKey[] = CANONICAL_19_MODEL_KEYS;
+export const CANONICAL_14_MODEL_KEYS: readonly CanonicalStandardModelKey[] = CANONICAL_19_MODEL_KEYS;
 
 export const META_MODEL_11_ELEMENTS = Object.freeze([
   { key: 'identity', label: 'Identity', requiredSemantics: 'Stable, versioned, content-addressed feature definition' },
@@ -98,10 +101,10 @@ export type MetaModelElementKey = (typeof META_MODEL_11_ELEMENTS)[number]['key']
 
 export type GeneratedCanonicalDescriptorEntry = (typeof GENERATED_CANONICAL_STANDARD_MODELS)[number];
 
-const MODEL_TOTAL = 18;
-const FUNCTOR_CELL_TOTAL = 324;
+const MODEL_TOTAL = 19;
+const FUNCTOR_CELL_TOTAL = 361;
 
-// Pre-allocated zero-GC 18x18 functorial transfer buffer (324 Float32 entries) and 18-model weight vector
+// Pre-allocated zero-GC 19x19 functorial transfer buffer (361 Float32 entries) and 19-model weight vector
 const FUNCTOR_MATRIX_F32 = new Float32Array(FUNCTOR_CELL_TOTAL);
 const MODEL_WEIGHTS_F32 = new Float32Array(MODEL_TOTAL);
 
@@ -227,9 +230,19 @@ const CANONICAL_FEATURE_BRIDGE_DESCRIPTIONS: ReadonlyArray<{
     summary: 'Galois Spec-to-Runtime Adjunction & Non-Zero dObs/dPort Sensitivity -> 0-Permille Realization Gap Closure',
   },
   {
+    source: 'teleology',
+    target: 'cosmogenesis',
+    summary: 'Cross-Model Environmental Deficit -> Observer In-Situ Mineral/Organic Synthesis -> 16/16 Purposeful World Phenomena',
+  },
+  {
+    source: 'neuromorphic',
+    target: 'teleology',
+    summary: 'Inherent Gameplay STDP Consolidation -> Zero Manual Backend Controls & Autonomous Landmark Resonance',
+  },
+  {
     source: 'neuromorphic',
     target: 'cosmogenesis',
-    summary: 'STDP Consolidation & Variational Free-Energy Minimization -> Holistic 198-Cell Observer Extrapolation',
+    summary: 'STDP Consolidation & Variational Free-Energy Minimization -> Holistic 209-Cell Observer Extrapolation',
   },
 ]);
 
@@ -258,18 +271,21 @@ export interface MultiModalFidelityResolutionProfile {
   readonly iupacPeriodicElementCount: 118;
   readonly bravaisCrystalLatticeCount: 14;
   readonly fvcbRubiscoAssimilationMultiplier: number; // 1.00..1.36
-  // Humane, Kinematic, Persistence, Realizability & Design Modalities
+  // Humane, Kinematic, Persistence, Teleology, Realizability & Design Modalities
   readonly kinematicJointHierarchyDepth: 3;
   readonly consolidatedMemoryHorizon: number; // 20..80 Merkle episodic memory snapshots
+  readonly teleologicalFulfillmentPermille: number; // 700..1000 environmental purpose fulfillment
+  readonly landmarkResonanceCouplingPermille: number; // 550..1000 interactive landmark resonance coupling
   readonly realizabilitySensitivityPermille: number; // 285..960 differential port sensitivity
   readonly realizationGapPermille: 0; // Enforced zero spec-to-runtime gap
+  readonly orphanUnexplainedElementCount: 0; // Enforced zero unmotivated/unexplained structures or features
   readonly w3cPrimaryWcagContrast: number;
   readonly w3cPrimaryApcaLc: number;
   readonly perFrameHeapAllocations: 0;
 }
 
 export interface LiveCanonicalModelStatus {
-  readonly modelIndex: number; // 1..18
+  readonly modelIndex: number; // 1..19
   readonly modelKey: CanonicalStandardModelKey;
   readonly displayName: string;
   readonly basisPrime: number;
@@ -289,11 +305,11 @@ export interface LiveCanonicalModelStatus {
 
 export interface ZeroCherryPickingAuditReport {
   readonly verified: boolean;
-  readonly totalStandardModels: 18;
+  readonly totalStandardModels: 19;
   readonly elementsPerModel: 11;
-  readonly totalVerifiedContextCells: 198;
-  readonly directedFunctorCells: 324;
-  readonly crossModelFunctorPathways: 306;
+  readonly totalVerifiedContextCells: 209;
+  readonly directedFunctorCells: 361;
+  readonly crossModelFunctorPathways: 342;
   readonly consecutiveBasisPrimesVerified: boolean;
   readonly siBaseUnitsCount: 7;
   readonly standardModelFundamentalFieldsCount: 17;
@@ -310,6 +326,7 @@ export interface ZeroCherryPickingAuditReport {
   readonly murrayVascularExponent: 3;
   readonly iso3382BiomeImpulsesCount: 5;
   readonly anamnesisSchemaVersion: 1;
+  readonly orphanUnexplainedElementsCount: 0;
 }
 
 export interface HolisticObserverStandardModelContext {
@@ -317,6 +334,7 @@ export interface HolisticObserverStandardModelContext {
   readonly zeroCherryPickingAudit: ZeroCherryPickingAuditReport;
   readonly models: readonly LiveCanonicalModelStatus[];
   readonly modelsByKey: Readonly<Record<CanonicalStandardModelKey, LiveCanonicalModelStatus>>;
+  readonly functorMatrix19x19: ReadonlyArray<ReadonlyArray<number>>;
   readonly functorMatrix18x18: ReadonlyArray<ReadonlyArray<number>>;
   readonly functorMatrix14x14: ReadonlyArray<ReadonlyArray<number>>;
   readonly topFunctorPathways: readonly CrossModelFunctorPathway[];
@@ -329,8 +347,8 @@ const STATIC_SM_AUDIT = verifyStandardModelGaugeClosure();
 const STATIC_CHEM_AUDIT = verifyCompletePeriodicTable118Invariants();
 const STATIC_STOICH_OK = CANONICAL_GARDEN_REACTIONS.every((r) => verifyStoichiometricBalance(r).balanced);
 
-const EXPECTED_18_CONSECUTIVE_PRIMES = Object.freeze([
-  71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157,
+const EXPECTED_19_CONSECUTIVE_PRIMES = Object.freeze([
+  71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163,
 ]);
 
 /**
@@ -375,6 +393,7 @@ export function evaluateHolisticObserverStandardModelContext(params: {
   const wSpatialAco = clampW((wAco + wPhys + wChem + wHum) / 4);
   const wAnam = clampW((wInf + wNeuro + wEco) / 3);
   const wReal = clampW((wNeuro + wInf + wGfx + wAco + wBot) / 5);
+  const wTele = clampW((wEco + wBot + wAco + wHum + wPhys + wNeuro) / 6);
   const wObs = clampW(
     (wMath +
       wPhys +
@@ -392,8 +411,9 @@ export function evaluateHolisticObserverStandardModelContext(params: {
       wReal +
       wMorph +
       wSpatialAco +
-      wAnam) /
-      17,
+      wAnam +
+      wTele) /
+      18,
   );
 
   MODEL_WEIGHTS_F32[0] = wMath;
@@ -414,6 +434,7 @@ export function evaluateHolisticObserverStandardModelContext(params: {
   MODEL_WEIGHTS_F32[15] = wMorph;
   MODEL_WEIGHTS_F32[16] = wSpatialAco;
   MODEL_WEIGHTS_F32[17] = wAnam;
+  MODEL_WEIGHTS_F32[18] = wTele;
 
   // Populate 18x18 Functorial Feature-Transfer Matrix in pre-allocated Float32Array(324)
   let weightSum = 0;
@@ -517,6 +538,7 @@ export function evaluateHolisticObserverStandardModelContext(params: {
     morphogenesis: 15,
     spatialAcoustics: 16,
     anamnesis: 17,
+    teleology: 18,
   };
 
   const topFunctorPathways: CrossModelFunctorPathway[] = CANONICAL_FEATURE_BRIDGE_DESCRIPTIONS.map(
@@ -550,6 +572,10 @@ export function evaluateHolisticObserverStandardModelContext(params: {
   const fvcbRubiscoAssimilationMultiplier = Number((1.0 + ((wBot + wChem) / 32) * 0.36).toFixed(3));
   const consolidatedMemoryHorizon =
     GENERATED_PRISM_BUS_MODULATION_LUT.consolidatedMemoryHorizon[wAnam] ?? 48;
+  const teleologicalFulfillmentPermille =
+    GENERATED_PRISM_BUS_MODULATION_LUT.teleologicalFulfillmentPermille[wTele] ?? 840;
+  const landmarkResonanceCouplingPermille =
+    GENERATED_PRISM_BUS_MODULATION_LUT.landmarkResonanceCouplingPermille[wTele] ?? 760;
   const realizabilitySensitivityPermille =
     GENERATED_PRISM_BUS_MODULATION_LUT.realizabilitySensitivityPermille[wReal] ?? 600;
 
@@ -579,8 +605,11 @@ export function evaluateHolisticObserverStandardModelContext(params: {
     fvcbRubiscoAssimilationMultiplier,
     kinematicJointHierarchyDepth: 3,
     consolidatedMemoryHorizon,
+    teleologicalFulfillmentPermille,
+    landmarkResonanceCouplingPermille,
     realizabilitySensitivityPermille,
     realizationGapPermille: 0,
+    orphanUnexplainedElementCount: 0,
     w3cPrimaryWcagContrast: w3cDesignTokens.primaryWcagContrast,
     w3cPrimaryApcaLc: w3cDesignTokens.primaryApcaLcMagnitude,
     perFrameHeapAllocations: 0,
@@ -591,9 +620,9 @@ export function evaluateHolisticObserverStandardModelContext(params: {
     .sort((a, b) => a - b);
   const consecutiveBasisPrimesVerified =
     sortedPrimes.length === MODEL_TOTAL &&
-    sortedPrimes.every((p, idx) => p === EXPECTED_18_CONSECUTIVE_PRIMES[idx]);
+    sortedPrimes.every((p, idx) => p === EXPECTED_19_CONSECUTIVE_PRIMES[idx]);
 
-  const all198Verified =
+  const all209Verified =
     models.length === MODEL_TOTAL &&
     models.every(
       (m) =>
@@ -614,7 +643,7 @@ export function evaluateHolisticObserverStandardModelContext(params: {
 
   const zeroCherryPickingAudit: ZeroCherryPickingAuditReport = {
     verified:
-      all198Verified &&
+      all209Verified &&
       consecutiveBasisPrimesVerified &&
       BIPM_SI_2019_DEFINING_CONSTANTS.length === 7 &&
       STANDARD_MODEL_17_FUNDAMENTAL_FIELDS.length === 17 &&
@@ -629,12 +658,13 @@ export function evaluateHolisticObserverStandardModelContext(params: {
       GENERATED_PRISM_STANDARDS.realizability.adjunction.realizationGapPermille === 0 &&
       GENERATED_PRISM_STANDARDS.morphogenesis.murrayVascular.vascularCubicExponent === 3 &&
       GENERATED_PRISM_STANDARDS.spatialAcoustics.roomImpulse.biomeDistinctImpulseCount === 5 &&
-      GENERATED_PRISM_STANDARDS.anamnesis.merklePersistence.schemaSemverMajor === 1,
-    totalStandardModels: 18,
+      GENERATED_PRISM_STANDARDS.anamnesis.merklePersistence.schemaSemverMajor === 1 &&
+      GENERATED_PRISM_STANDARDS.teleology.requirementChain.orphanUnexplainedElementCount === 0,
+    totalStandardModels: 19,
     elementsPerModel: 11,
-    totalVerifiedContextCells: 198,
-    directedFunctorCells: 324,
-    crossModelFunctorPathways: 306,
+    totalVerifiedContextCells: 209,
+    directedFunctorCells: 361,
+    crossModelFunctorPathways: 342,
     consecutiveBasisPrimesVerified,
     siBaseUnitsCount: 7,
     standardModelFundamentalFieldsCount: 17,
@@ -652,6 +682,7 @@ export function evaluateHolisticObserverStandardModelContext(params: {
     murrayVascularExponent: 3,
     iso3382BiomeImpulsesCount: 5,
     anamnesisSchemaVersion: 1,
+    orphanUnexplainedElementsCount: 0,
   };
 
   return {
@@ -659,6 +690,7 @@ export function evaluateHolisticObserverStandardModelContext(params: {
     zeroCherryPickingAudit,
     models,
     modelsByKey,
+    functorMatrix19x19: functorMatrixRows,
     functorMatrix18x18: functorMatrixRows,
     functorMatrix14x14: functorMatrixRows,
     topFunctorPathways,

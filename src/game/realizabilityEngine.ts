@@ -17,7 +17,7 @@ import {
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
 import {
-  CANONICAL_18_MODEL_KEYS,
+  CANONICAL_19_MODEL_KEYS,
   evaluateHolisticObserverStandardModelContext,
   type CanonicalStandardModelKey,
 } from './neuromorphicFunctorBus';
@@ -33,6 +33,7 @@ import {
   type ContentAddressedAnamnesisEnvelope,
   type VerdantAnamnesisPayload,
 } from './anamnesisEngine';
+import { evaluateVerdantTeleologySynthesis } from './teleologyEngine';
 
 export interface ModelRealizabilitySensitivityRecord {
   readonly modelIndex: number;
@@ -51,7 +52,7 @@ export interface VerdantRealizabilityAuditReport {
   readonly profile: string;
   readonly verified: boolean;
   readonly basisPrime: number;
-  readonly auditedStandardModelCount: 18;
+  readonly auditedStandardModelCount: 19;
   readonly sensitiveModelCount: number;
   readonly auditedRuntimeSubsystemCount: 6;
   readonly danglingUnprojectedPortCount: number;
@@ -62,6 +63,7 @@ export interface VerdantRealizabilityAuditReport {
   readonly iso3382DistinctBiomesVerified: boolean;
   readonly woodworth3DHrtfVerified: boolean;
   readonly anamnesisLosslessMerkleVerified: boolean;
+  readonly teleologyZeroOrphanClosureVerified: boolean;
   readonly modelSensitivities: readonly ModelRealizabilitySensitivityRecord[];
 }
 
@@ -232,8 +234,19 @@ export function evaluateVerdantRealizabilityAudit(params?: {
   const anamnesisLosslessMerkleVerified =
     roundTrip.verified && roundTrip.digestMatches && roundTrip.roundTripDriftCount === 0;
 
-  // 4. Evaluate per-model differential sensitivity across all 18 Canonical Standard Models
-  const modelSensitivities: ModelRealizabilitySensitivityRecord[] = CANONICAL_18_MODEL_KEYS.map(
+  // 4. Audit Teleology (Model #19, Prime 163): 16/16 world phenomena requirement-grounded & 0 unexplained elements
+  const teleologyBase = evaluateVerdantTeleologySynthesis(8);
+  const teleologyApex = evaluateVerdantTeleologySynthesis(16);
+  const teleologyZeroOrphanClosureVerified =
+    teleologyBase.verified &&
+    teleologyApex.verified &&
+    teleologyApex.orphanUnexplainedElementCount === 0 &&
+    teleologyApex.manualNeuromorphicControlCount === 0 &&
+    teleologyApex.teleologicalFulfillmentPermille > teleologyBase.teleologicalFulfillmentPermille &&
+    teleologyApex.landmarkResonanceCouplingPermille > teleologyBase.landmarkResonanceCouplingPermille;
+
+  // 5. Evaluate per-model differential sensitivity across all 19 Canonical Standard Models
+  const modelSensitivities: ModelRealizabilitySensitivityRecord[] = CANONICAL_19_MODEL_KEYS.map(
     (key) => {
       const bMod = baseCtx.modelsByKey[key];
       const aMod = apexCtx.modelsByKey[key];
@@ -311,8 +324,8 @@ export function evaluateVerdantRealizabilityAudit(params?: {
             aFid.functorTransferGainPermille + (1000 - aFid.variationalFreeEnergySurprisalPermille);
           break;
         case 'cosmogenesis':
-          label = '198-Cell Holistic Observer Extrapolation Units';
-          invariantOk = invariantOk && apexCtx.zeroCherryPickingAudit.totalVerifiedContextCells === 198;
+          label = '209-Cell Holistic Observer Extrapolation Units';
+          invariantOk = invariantOk && apexCtx.zeroCherryPickingAudit.totalVerifiedContextCells === 209;
           break;
         case 'realizability':
           label = 'Galois Differential Port Sensitivity (permille)';
@@ -343,6 +356,16 @@ export function evaluateVerdantRealizabilityAudit(params?: {
           apexVal = horizonApex;
           invariantOk = invariantOk && anamnesisLosslessMerkleVerified;
           break;
+        case 'teleology':
+          label = 'Environmental Purpose Fulfillment + Landmark Coupling (permille)';
+          baseVal =
+            teleologyBase.teleologicalFulfillmentPermille +
+            teleologyBase.landmarkResonanceCouplingPermille;
+          apexVal =
+            teleologyApex.teleologicalFulfillmentPermille +
+            teleologyApex.landmarkResonanceCouplingPermille;
+          invariantOk = invariantOk && teleologyZeroOrphanClosureVerified;
+          break;
       }
 
       const delta = Number((apexVal - baseVal).toFixed(4));
@@ -364,11 +387,11 @@ export function evaluateVerdantRealizabilityAudit(params?: {
   const sensitiveModelCount = modelSensitivities.filter(
     (m) => m.nonZeroSensitivityVerified && m.domainInvariantVerified,
   ).length;
-  const danglingUnprojectedPortCount = 18 - sensitiveModelCount;
+  const danglingUnprojectedPortCount = 19 - sensitiveModelCount;
   const staticStubViolationCount = modelSensitivities.filter(
     (m) => !m.nonZeroSensitivityVerified,
   ).length;
-  const realizationGapPermille = Math.round(((18 - sensitiveModelCount) / 18) * 1000);
+  const realizationGapPermille = Math.round(((19 - sensitiveModelCount) / 19) * 1000);
   const observerRuntimeCounitClosed =
     danglingUnprojectedPortCount === 0 &&
     staticStubViolationCount === 0 &&
@@ -382,9 +405,10 @@ export function evaluateVerdantRealizabilityAudit(params?: {
       murrayLawAllSpeciesVerified &&
       iso3382DistinctBiomesVerified &&
       woodworth3DHrtfVerified &&
-      anamnesisLosslessMerkleVerified,
+      anamnesisLosslessMerkleVerified &&
+      teleologyZeroOrphanClosureVerified,
     basisPrime: GENERATED_CANONICAL_MODEL_BASIS_PRIMES.realizability,
-    auditedStandardModelCount: 18,
+    auditedStandardModelCount: 19,
     sensitiveModelCount,
     auditedRuntimeSubsystemCount: 6,
     danglingUnprojectedPortCount,
@@ -395,6 +419,7 @@ export function evaluateVerdantRealizabilityAudit(params?: {
     iso3382DistinctBiomesVerified,
     woodworth3DHrtfVerified,
     anamnesisLosslessMerkleVerified,
+    teleologyZeroOrphanClosureVerified,
     modelSensitivities,
   };
 }

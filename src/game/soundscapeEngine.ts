@@ -2807,4 +2807,161 @@ export class BotanicalSoundscapeEngine {
       // Ignore audio errors
     }
   }
+
+  /**
+   * Voices an Observer-synthesized Biome Landmark (`Foundation.Teleology.V1.Model`) when the player
+   * performs `[Space]` Attune, `[T]` Touch, or `[C]` Stillness within its sanctuary resonance aura.
+   * Uses the landmark's native mineral/organic Chladni eigenmodes and 3D Woodworth-Schlosberg HRTF.
+   */
+  public playLandmarkResonatorVoice(params: {
+    readonly biome: BiomeId;
+    readonly gesture: 'attune' | 'touch' | 'stillness';
+    readonly atmosphere: AtmosphereId;
+    readonly fundamentalHz: number;
+    readonly mineralModalRatios: readonly [number, number, number, number];
+    readonly listenerX: number;
+    readonly listenerY: number;
+    readonly listenerZ: number;
+    readonly listenerYaw: number;
+    readonly listenerPitch: number;
+    readonly landmarkX: number;
+    readonly landmarkY: number;
+    readonly landmarkZ: number;
+  }): void {
+    for (let i = 2; i < 14; i++) {
+      this.spectrumBands[i] = Math.min(1, this.spectrumBands[i] + 0.35);
+    }
+
+    this.init();
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+
+    try {
+      const compoundKey =
+        params.biome === 'meadow'
+          ? 'travertine-limestone-spar'
+          : params.biome === 'grove'
+            ? 'lignocellulosic-vascular-tissue'
+            : params.biome === 'crystal'
+              ? 'piezoelectric-quartz-geode'
+              : params.biome === 'wetland'
+                ? 'structured-hydro-mineral-electrolyte'
+                : 'pyrite-solar-bronze-crystal';
+      const compound = MATTER_COMPOUNDS[compoundKey];
+      const chladniRatios = computeMaterialChladniModalRatios(
+        compound.bulkElasticModulusGPa,
+        compound.compoundDensityGPerCm3,
+        this.liveModalPartialsPerVoice,
+      );
+
+      const spatialCue = computeWoodworth3DBinauralSpatializer({
+        listenerX: params.listenerX,
+        listenerY: params.listenerY,
+        listenerZ: params.listenerZ,
+        listenerYaw: params.listenerYaw,
+        listenerPitch: params.listenerPitch,
+        sourceX: params.landmarkX,
+        sourceY: params.landmarkY,
+        sourceZ: params.landmarkZ,
+      });
+
+      const distMeters = Math.hypot(
+        params.landmarkX - params.listenerX,
+        params.landmarkZ - params.listenerZ,
+      );
+      const arrivalDelaySec = Math.min(0.08, distMeters / 343.0);
+      const distAtten = 1 / (1 + distMeters * 0.065);
+      const baseStart = this.ctx.currentTime + 0.012 + arrivalDelaySec;
+
+      const activeRatios =
+        params.gesture === 'touch'
+          ? [params.mineralModalRatios[1], params.mineralModalRatios[2], params.mineralModalRatios[3]]
+          : params.mineralModalRatios;
+
+      const barkAudit = evaluate24BarkMaskingGovernor(
+        activeRatios.map((r, idx) => ({
+          freqHz: Math.min(3200, Math.max(90, params.fundamentalHz * r)),
+          gain: (idx === 0 ? 0.055 : 0.038) * distAtten,
+        })),
+        this.liveBarkHeadroomDb,
+        this.barkScratchBuffer,
+      );
+
+      const panVal = Math.max(
+        -0.9,
+        Math.min(0.9, spatialCue.interauralTimeDiffMicros / 660),
+      );
+
+      activeRatios.forEach((ratio, idx) => {
+        if (!this.ctx || !this.masterGain) return;
+        const staggerSec =
+          params.gesture === 'touch' ? idx * 0.045 : params.gesture === 'stillness' ? idx * 0.14 : idx * 0.085;
+        const startAt = baseStart + staggerSec;
+        const durSec =
+          (params.gesture === 'touch' ? 0.68 : params.gesture === 'stillness' ? 1.85 : 1.35) *
+          this.busMonumentChimeSustain;
+        const freq = Math.min(3200, Math.max(90, params.fundamentalHz * ratio));
+
+        const osc = this.ctx.createOscillator();
+        const modalOvertone = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+        const modalGain = this.ctx.createGain();
+
+        osc.type = params.biome === 'grove' || params.biome === 'sanctuary' ? 'triangle' : 'sine';
+        osc.frequency.setValueAtTime(freq, startAt);
+
+        const chladniFactor = (chladniRatios[idx % chladniRatios.length] ?? 1.5) / 1.5;
+        modalOvertone.type = 'sine';
+        modalOvertone.frequency.setValueAtTime(
+          Math.min(3500, freq * Math.max(1.25, Math.min(2.75, chladniFactor * 1.5))),
+          startAt,
+        );
+        modalGain.gain.value = 0.16;
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(
+          Math.min(3400, (params.biome === 'crystal' ? 2800 : 2100) * this.busAffectWarmthScale),
+          startAt,
+        );
+        filter.Q.value = params.biome === 'crystal' ? 2.4 : 1.5;
+
+        const peakAmp =
+          (barkAudit.attenuatedGains[idx] ?? 0.042 * distAtten) *
+          computeIso226EqualLoudnessWeight(freq, 60);
+        const attackSec = params.gesture === 'touch' ? 0.006 : params.gesture === 'stillness' ? 0.18 : 0.028;
+
+        gain.gain.setValueAtTime(0.0004, startAt);
+        gain.gain.linearRampToValueAtTime(peakAmp, startAt + attackSec);
+        gain.gain.exponentialRampToValueAtTime(0.0004, startAt + durSec);
+
+        osc.connect(filter);
+        modalOvertone.connect(modalGain);
+        modalGain.connect(filter);
+        filter.connect(gain);
+
+        if (typeof this.ctx.createStereoPanner === 'function') {
+          const panner = this.ctx.createStereoPanner();
+          panner.pan.setValueAtTime(panVal, startAt);
+          gain.connect(panner);
+          panner.connect(this.masterGain);
+        } else {
+          gain.connect(this.masterGain);
+        }
+
+        if (this.convolver) {
+          const verbSend = this.ctx.createGain();
+          verbSend.gain.value = Math.min(0.78, 0.52 * this.busAffectReverbScale);
+          gain.connect(verbSend);
+          verbSend.connect(this.convolver);
+        }
+
+        osc.start(startAt);
+        modalOvertone.start(startAt);
+        osc.stop(startAt + durSec + 0.04);
+        modalOvertone.stop(startAt + durSec + 0.04);
+      });
+    } catch {
+      // Ignore audio errors
+    }
+  }
 }

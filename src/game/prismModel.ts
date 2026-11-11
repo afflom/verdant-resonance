@@ -40,6 +40,7 @@ export * from './standardModelEngine';
 export * from './spectralColorEngine';
 export * from './neuromorphicFunctorBus';
 export * from './anamnesisEngine';
+export * from './teleologyEngine';
 export * from './realizabilityEngine';
 
 export {
@@ -14254,7 +14255,7 @@ function verifyObserverRuntimeInvariants(obs: HolisticObserverState): boolean {
     obs.affectAndPreferences.affect.permeatesAllElevenParts &&
     Object.keys(obs.affectAndPreferences.preferences).length === 6 &&
     obs.canonicalStandardModelsContext.zeroCherryPickingAudit.verified &&
-    obs.canonicalStandardModelsContext.zeroCherryPickingAudit.totalVerifiedContextCells === 198
+    obs.canonicalStandardModelsContext.zeroCherryPickingAudit.totalVerifiedContextCells === 209
   );
 }
 

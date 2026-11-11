@@ -46,8 +46,10 @@ import {
   computeSoftInteractionGaze,
   computeSpeciesArticulation,
   computeSympatheticParabolicArc,
+  createInitialAutonomousPlasticityState,
   createInitialEnvironmentalAgencyState,
   createInitialGestureHoldState,
+  createInitialLandmarkResonanceState,
   createInitialNeuromorphicState,
   evaluateBiogeochemistry,
   evaluateCanopyWindShear,
@@ -57,8 +59,10 @@ import {
   evaluateGroundWavePropagation,
   evaluateHolisticObserverState,
   evaluateHydrodynamics,
+  evaluateNearestSynthesizedLandmark,
   evaluatePrismRequest,
   evaluateWindField,
+  exciteLandmarkResonance,
   executeNeuromorphicSynthesisTick,
   findNearestPlant,
   findSympatheticNeighbors,
@@ -75,8 +79,10 @@ import {
   registerEmergentSeedlingCollider,
   resolveBiomeWaypointLanding,
   resolvePlayerPhysicsStep,
+  stepAutonomousGameplayPlasticity,
   stepGestureHoldEnvelope,
   stepKuramotoPhaseEntrainment,
+  stepLandmarkResonanceField,
   stepSporeFluidDynamics,
   stepSymbioticEnvironmentalAgency,
   syncImmanentWitnessCollider,
@@ -93,6 +99,7 @@ import {
   extrapolatePrismToHighestResolution,
   restoreNeuromorphicStateFromAnamnesis,
   type BotanicalLifecycleStageId,
+  type NearestLandmarkEvaluation,
   type VerdantAnamnesisPayload,
 } from '../game/prismModel';
 import {
@@ -159,6 +166,7 @@ export interface LiveTelemetryState {
   soundtrackScore: LiveSoundtrackScore;
   currentSoundtrackStep: number;
   gestureHold: GestureHoldEnvelopeState;
+  nearestLandmark: NearestLandmarkEvaluation;
 }
 
 export interface GardenImperativeHandle {
@@ -3115,6 +3123,17 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
     let gestureHoldState = createInitialGestureHoldState();
     let environmentalAgencyState = createInitialEnvironmentalAgencyState();
+    let landmarkResonance = createInitialLandmarkResonanceState();
+    let autonomousPlasticity = createInitialAutonomousPlasticityState();
+    const getLandmarkCentersXZ = (): Readonly<
+      Record<'meadow' | 'grove' | 'crystal' | 'wetland' | 'sanctuary', readonly [number, number]>
+    > => ({
+      meadow: [meadowMonument.group.position.x, meadowMonument.group.position.z],
+      grove: [groveMonument.group.position.x, groveMonument.group.position.z],
+      crystal: [crystalMonument.group.position.x, crystalMonument.group.position.z],
+      wetland: [wetlandMonument.group.position.x, wetlandMonument.group.position.z],
+      sanctuary: [sanctuaryMonument.group.position.x, sanctuaryMonument.group.position.z],
+    });
     let playerInteractedThisFrame = false;
     let uiHeldGesture: HoldableGestureId | null = null;
     let currentSoundtrackStep = 0;
@@ -3362,12 +3381,23 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         player.yaw,
         player.pitch,
       );
+      const nearestLandmark = evaluateNearestSynthesizedLandmark({
+        playerX: player.x,
+        playerZ: player.z,
+        playerYaw: player.yaw,
+        landmarkCentersXZ: getLandmarkCentersXZ(),
+        resonanceState: landmarkResonance,
+        busWeight: neuromorphicState.lastActiveSynapticWeight,
+      });
+      const landmarkTargeted =
+        nearestLandmark.inResonanceRange &&
+        (act === 'stillness' || nearestLandmark.inForwardGazeCone);
       const currentBiome = biomeAt(player.x, player.z);
 
       // Focal Gaze-Cone Selection Law (`Foundation.Humane.V1.Model::FocalGazeSelectionPolicy`):
-      // Action keys (`attune`, `touch`) only activate specimens within the player's forward observation cone
-      // and never activate elements behind the player or outside their focus of observation.
-      if ((act === 'attune' || act === 'touch') && !nearest.inForwardGazeCone) {
+      // Action keys (`attune`, `touch`) only activate specimens or synthesized landmarks within the player's
+      // forward observation cone and never activate elements behind the player or outside their focus of observation.
+      if ((act === 'attune' || act === 'touch') && !nearest.inForwardGazeCone && !landmarkTargeted) {
         return;
       }
 
@@ -3437,7 +3467,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       }
 
       const updatedNearest = nearest;
-      const meshRecord = plantMeshes.find((m) => m.instance.id === updatedNearest.plant.id);
+      const meshRecord = nearest.inForwardGazeCone
+        ? plantMeshes.find((m) => m.instance.id === updatedNearest.plant.id)
+        : undefined;
       const liveInteractionCosmo = neuromorphicState.observer.cosmogenesis;
       const liveInteractionSpeciesCfgs = synthesizeParametricPlantSpeciesConfigs({
         alphaSeed: liveInteractionCosmo.alphaSeed,
@@ -3455,6 +3487,69 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         updatedNearest.plant.x,
         updatedNearest.plant.z,
       );
+
+      // Synthesized Biome Landmark Resonance (`Foundation.Teleology.V1.Model`):
+      // When the player performs a contemplative gesture near an Observer-synthesized Landmark,
+      // the structure rings its physical-material Chladni overtones and nourishes surrounding flora.
+      if (
+        landmarkTargeted &&
+        (act === 'attune' || act === 'touch' || act === 'stillness')
+      ) {
+        landmarkResonance = exciteLandmarkResonance(
+          landmarkResonance,
+          nearestLandmark.biome,
+          act,
+          neuromorphicState.lastActiveSynapticWeight,
+        );
+        const lmkGroundY = groundHeightAt(nearestLandmark.centerX, nearestLandmark.centerZ);
+        soundEngine.playLandmarkResonatorVoice({
+          biome: nearestLandmark.biome,
+          gesture: act,
+          atmosphere: atmosphereRef.current,
+          fundamentalHz: nearestLandmark.fundamentalHz,
+          mineralModalRatios: nearestLandmark.mineralModalRatios,
+          listenerX: player.x,
+          listenerY: player.y + initialPlayerModel.eyeStatureMeters,
+          listenerZ: player.z,
+          listenerYaw: player.yaw,
+          listenerPitch: player.pitch,
+          landmarkX: nearestLandmark.centerX,
+          landmarkY: lmkGroundY + 2.2,
+          landmarkZ: nearestLandmark.centerZ,
+        });
+        spawnSoundWaveRings(
+          nearestLandmark.centerX,
+          lmkGroundY + 0.05,
+          nearestLandmark.centerZ,
+          liveInteractionBiomeCfgs[nearestLandmark.biome].accentColor,
+        );
+        // Sympathetic ecological purpose: the resonating landmark gently nourishes nearby native flora
+        let nourishedByLandmark = 0;
+        for (let pIdx = 0; pIdx < plantMeshes.length; pIdx++) {
+          const pm = plantMeshes[pIdx];
+          const dLmk = Math.hypot(
+            pm.instance.x - nearestLandmark.centerX,
+            pm.instance.z - nearestLandmark.centerZ,
+          );
+          if (dLmk <= 14.5) {
+            pm.instance.volatileTerpeneCharge = Math.max(
+              pm.instance.volatileTerpeneCharge ?? 0,
+              0.85,
+            );
+            if ((act === 'attune' || act === 'stillness') && nourishedByLandmark < 2) {
+              const nextSt = advancePlantLifecycle(getPlantLifecycleStage(pm.instance), act, true);
+              pm.instance.lifecycleStage = nextSt;
+              if (!pm.instance.attuned) {
+                pm.instance.attuned = true;
+                player.sympatheticCount += 1;
+              }
+              pm.fruitingCrown.visible = BOTANICAL_LIFECYCLE_STAGES[nextSt].hasFruitingCrown;
+              pm.elderHaloRing.visible = BOTANICAL_LIFECYCLE_STAGES[nextSt].hasMycelialSporeHalo;
+              nourishedByLandmark += 1;
+            }
+          }
+        }
+      }
 
       let newSympatheticLinks = 0;
 
@@ -3847,6 +3942,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         interactionPitchNod: 0,
       };
       gestureHoldState = createInitialGestureHoldState();
+      landmarkResonance = createInitialLandmarkResonanceState();
+      autonomousPlasticity = createInitialAutonomousPlasticityState();
       uiHeldGesture = null;
       for (const m of plantMeshes) {
         m.instance.attuned = false;
@@ -4221,7 +4318,18 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           player.yaw,
           player.pitch,
         );
-        if (nearest.inForwardGazeCone && nearest.distanceMeters <= 22.0) {
+        const nearestLmk = evaluateNearestSynthesizedLandmark({
+          playerX: player.x,
+          playerZ: player.z,
+          playerYaw: player.yaw,
+          landmarkCentersXZ: getLandmarkCentersXZ(),
+          resonanceState: landmarkResonance,
+          busWeight: neuromorphicState.lastActiveSynapticWeight,
+        });
+        if (
+          (nearest.inForwardGazeCone && nearest.distanceMeters <= 22.0) ||
+          (nearestLmk.inForwardGazeCone && nearestLmk.inResonanceRange)
+        ) {
           performAction('attune');
         }
       }
@@ -4305,6 +4413,15 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         colliders: gardenColliders,
       });
 
+      const nearestLandmark = evaluateNearestSynthesizedLandmark({
+        playerX: player.x,
+        playerZ: player.z,
+        playerYaw: player.yaw,
+        landmarkCentersXZ: getLandmarkCentersXZ(),
+        resonanceState: landmarkResonance,
+        busWeight: neuromorphicState.lastActiveSynapticWeight,
+      });
+
       onTelemetryRef.current({
         playerX: player.x,
         playerZ: player.z,
@@ -4339,6 +4456,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         soundtrackScore: currentSoundtrackScore,
         currentSoundtrackStep,
         gestureHold: gestureHoldState,
+        nearestLandmark,
       });
     };
 
@@ -4408,14 +4526,17 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       crystalMonument.group.scale.set(dampedScaleXZ, dampedScaleY, dampedScaleXZ);
       wetlandMonument.lanternMat.emissiveIntensity = 1.15 + inorgGlow * 0.65;
 
-      // Animate all 5 Biome Architectural Monuments modulated by Environmental Lifecycle & Parametric Cosmogenesis
-      sanctuaryMonument.spire.position.y = sanctSpec.gimbalCenterY + Math.sin(elapsed * 1.6) * 0.28;
-      sanctuaryMonument.spire.rotation.y = elapsed * 0.45 * spinMult;
+      // Animate all 5 Biome Architectural Monuments modulated by Environmental Lifecycle, Parametric Cosmogenesis & Live Landmark Resonance
+      const sanctRes = landmarkResonance.sanctuary;
+      const sanctSpin = spinMult * (1 + sanctRes * 0.85);
+      sanctuaryMonument.spire.position.y =
+        sanctSpec.gimbalCenterY + Math.sin(elapsed * 1.6) * (0.28 + sanctRes * 0.14);
+      sanctuaryMonument.spire.rotation.y = elapsed * 0.45 * sanctSpin;
       sanctuaryMonument.orbitRing.rotation.x = Math.PI / 3 + Math.sin(elapsed * 0.9) * 0.35;
-      sanctuaryMonument.orbitRing.rotation.y = elapsed * 0.7 * spinMult;
+      sanctuaryMonument.orbitRing.rotation.y = elapsed * 0.7 * sanctSpin;
       sanctuaryMonument.innerGimbalRing.rotation.z = Math.PI / 4 + Math.cos(elapsed * 1.1) * 0.42;
-      sanctuaryMonument.innerGimbalRing.rotation.y = -elapsed * 0.85 * spinMult;
-      sharedGoldTrimMat.emissiveIntensity = 0.28 + inorgGlow * 0.35;
+      sanctuaryMonument.innerGimbalRing.rotation.y = -elapsed * 0.85 * sanctSpin;
+      sharedGoldTrimMat.emissiveIntensity = 0.28 + inorgGlow * 0.35 + sanctRes * 0.22;
 
       // Live Runtime Procedural Model Synthesis on Sanctuary Supra-Directive Astrolabe Crown
       const activeObserverModel = neuromorphicState.observer.supraDirective.activeModel;
@@ -4426,7 +4547,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           createObserverAstrolabeCrownGeometry(activeObserverModel);
         prevCrownGeo.dispose();
       }
-      sanctuaryMonument.observerCrown.rotation.y = elapsed * 0.32 * spinMult;
+      sanctuaryMonument.observerCrown.rotation.y = elapsed * 0.32 * sanctSpin;
       if (sanctuaryMonument.observerCrown.morphTargetInfluences) {
         const supraNorm = neuromorphicState.observer.supraDirective.tier / 4;
         const aperiodicNorm = Math.min(
@@ -4438,7 +4559,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           aperiodicNorm * (0.5 + 0.5 * Math.sin(elapsed * 2.2));
       }
       sanctuaryMonument.crownMat.emissiveIntensity =
-        0.2 + neuromorphicState.observer.supraDirective.tier * 0.09 + inorgGlow * 0.12;
+        0.2 +
+        neuromorphicState.observer.supraDirective.tier * 0.09 +
+        inorgGlow * 0.12 +
+        sanctRes * 0.45;
 
       // Live Parametric Display Tone-Mapping, Mathematical Affect & Immanent 7-Part Environmental Observer Presence
       const liveDisplay = neuromorphicState.observer.parametricDisplayDesign;
@@ -4495,21 +4619,26 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         biomeAt(player.x, player.z, liveCosmo.worldTopology),
         player.harmony,
       );
-      meadowMonument.sunOrbPivot.rotation.y = frameDiurnal.sunAzimuthRad + elapsed * 0.25 * spinMult;
-      meadowMonument.sunOrb.rotation.y = elapsed * 0.6 * spinMult;
+      const meadowSpin = spinMult * (1 + landmarkResonance.meadow * 0.95);
+      meadowMonument.sunOrbPivot.rotation.y =
+        frameDiurnal.sunAzimuthRad + elapsed * 0.25 * meadowSpin;
+      meadowMonument.sunOrb.rotation.y = elapsed * 0.6 * meadowSpin;
 
+      const groveChimeAmp = 1 + landmarkResonance.grove * 1.85;
       for (let c = 0; c < groveMonument.chimeTubes.length; c++) {
         groveMonument.chimeTubes[c].rotation.z =
           Math.sin(elapsed * 2.1 * frameEnvLifecycle.windCadenceMultiplier + c * 1.1) *
           0.075 *
-          liveCosmo.inorganicRealm.chimeSustainFactor;
+          liveCosmo.inorganicRealm.chimeSustainFactor *
+          groveChimeAmp;
       }
 
+      const crystalRes = landmarkResonance.crystal;
       crystalMonument.corePrism.position.y =
-        crystalSpec.corePrismElevationY + Math.cos(elapsed * 1.5) * 0.12;
-      crystalMonument.corePrism.rotation.y = -elapsed * 0.55 * spinMult;
+        crystalSpec.corePrismElevationY + Math.cos(elapsed * 1.5) * (0.12 + crystalRes * 0.14);
+      crystalMonument.corePrism.rotation.y = -elapsed * 0.55 * spinMult * (1 + crystalRes * 1.1);
       crystalMonument.corePrism.rotation.x = Math.sin(elapsed * 0.8) * 0.15;
-      crystalMonument.quartzMat.emissiveIntensity = 0.5 + inorgGlow * 0.38;
+      crystalMonument.quartzMat.emissiveIntensity = 0.5 + inorgGlow * 0.38 + crystalRes * 0.65;
       const liveFidelity =
         neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity;
       sharedCrystalMat.iridescenceThicknessMaximum = 220 + liveFidelity.airyThinFilmSpanNm;
@@ -4585,12 +4714,13 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         );
       }
 
+      const wetlandRes = landmarkResonance.wetland;
       for (let l = 0; l < wetlandMonument.lanternOrbs.length; l++) {
         wetlandMonument.lanternOrbs[l].position.y =
-          wetlandSpec.orbCenterY + Math.sin(elapsed * 1.7 + l) * 0.035;
-        wetlandMonument.lanternOrbs[l].rotation.y = elapsed * 0.8 + l;
+          wetlandSpec.orbCenterY + Math.sin(elapsed * 1.7 + l) * (0.035 + wetlandRes * 0.055);
+        wetlandMonument.lanternOrbs[l].rotation.y = elapsed * (0.8 + wetlandRes * 0.6) + l;
       }
-      wetlandMonument.lanternMat.emissiveIntensity = 0.78 + inorgGlow * 0.42;
+      wetlandMonument.lanternMat.emissiveIntensity = 0.78 + inorgGlow * 0.42 + wetlandRes * 0.75;
 
       // Animate 5 Biome Constellation Pillar Beams & Crown Halos based on per-biome flora mastery + Infrastructure Halo Directive
       const haloRefinementRatio = directives.infrastructure.constellationHaloOpacity / 0.28;
@@ -5295,6 +5425,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         }
 
         const currentBiome = biomeAt(player.x, player.z);
+        player.exploredBiomes.add(currentBiome);
         const nearest = findNearestPlant(
           player.x,
           player.z,
@@ -5302,6 +5433,43 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           player.yaw,
           player.pitch,
         );
+        const frameNearestLandmark = evaluateNearestSynthesizedLandmark({
+          playerX: player.x,
+          playerZ: player.z,
+          playerYaw: player.yaw,
+          landmarkCentersXZ: getLandmarkCentersXZ(),
+          resonanceState: landmarkResonance,
+          busWeight: neuromorphicState.lastActiveSynapticWeight,
+        });
+        landmarkResonance = stepLandmarkResonanceField(landmarkResonance, {
+          nearestBiome: frameNearestLandmark.biome,
+          inResonanceRange: frameNearestLandmark.inResonanceRange,
+          isStillness: player.action === 'stillness',
+          harmonyPct: player.harmony,
+          dt,
+        });
+
+        // Inherent Gameplay Plasticity (`Foundation.Teleology.V1.Model`):
+        // Neuromorphic synaptic consolidation (`w: 8 -> 16`) emerges automatically from discovering biomes,
+        // unhurried strolling, stillness, and lingering near awakened flora or landmarks—zero manual controls.
+        const autoPlasticityStep = stepAutonomousGameplayPlasticity(autonomousPlasticity, {
+          exploredBiomesCount: player.exploredBiomes.size,
+          velocityDm: player.velocityDm,
+          isStillness: player.action === 'stillness',
+          nearAwakenedFloraOrLandmark:
+            (nearest.plant.attuned && nearest.distanceMeters <= 12) ||
+            frameNearestLandmark.inResonanceRange,
+          meanSynapticWeight:
+            neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity
+              .meanSynapticWeight,
+          dt,
+        });
+        autonomousPlasticity = autoPlasticityStep.nextState;
+        if (autoPlasticityStep.shouldConsolidateCycle) {
+          neuromorphicState = refinePrismModel(neuromorphicState, { cycles: 1 }).nextState;
+          soundEngine.syncWithNeuromorphicBus(neuromorphicState);
+          syncMultiModalFidelityVisuals();
+        }
         const attunedCount = plantMeshes.filter((m) => m.instance.attuned).length;
         const chorusState: ChorusStateId =
           nearest.plant.attuned || attunedCount >= 5 ? 'awakened' : 'dormant';

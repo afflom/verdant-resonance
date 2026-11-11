@@ -3,7 +3,7 @@
 
 export const GENERATED_PRISM_FOUNDATION_PURITY = {
   "verified": true,
-  "checkedModules": 20
+  "checkedModules": 21
 } as const;
 
 export const GENERATED_PRISM_DOMAIN_BASIS_PRIMES = {
@@ -37,7 +37,8 @@ export const GENERATED_CANONICAL_MODEL_BASIS_PRIMES = {
   "realizability": 139,
   "morphogenesis": 149,
   "spatialAcoustics": 151,
-  "anamnesis": 157
+  "anamnesis": 157,
+  "teleology": 163
 } as const;
 
 export const GENERATED_CANONICAL_STANDARD_MODELS = [
@@ -1448,10 +1449,10 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
   {
     "modelKey": "neuromorphic",
     "registryField": "m13NeuromorphicBus",
-    "displayName": "Neuromorphic Bus (18x18 Functorial Feature-Transfer Matrix + STDP + Active Inference)",
+    "displayName": "Neuromorphic Bus (19x19 Inherent Gameplay Functor Matrix + STDP + Active Inference)",
     "sourceModule": "Foundation.Neuromorphic.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Neuromorphic/V1/Model.lex.tex",
-    "sourceSha256": "cd7bc3ddfebe36d64378dbebb50b0e69bcfde35b9efaddc5b9f8cb1d124c1058",
+    "sourceSha256": "27f1dd5d364574050ab5eaef7b7436da99d3a450da97089e64afe62cd6c1f71c",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 0,
@@ -1470,8 +1471,8 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "semverMinor": 0,
         "semverPatch": 0,
         "uorPrimeSignature": 109,
-        "blake3DigestHead64": 10900324,
-        "blake3DigestTail64": 30600198,
+        "blake3DigestHead64": 10900361,
+        "blake3DigestTail64": 34200209,
         "stableContentAddressed": true
       },
       "vocabulary": {
@@ -1479,21 +1480,21 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "canonicalConceptCount": 28,
         "crossDomainSynonymCount": 14,
         "taxonomicRelationCount": 19,
-        "keyConceptsSummary": "Hebbian STDP Plasticity, 18x18 Functorial Feature-Transfer Matrix (324 Cells), Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Theory-of-Mind Teleology",
+        "keyConceptsSummary": "Hebbian STDP Plasticity, 19x19 Functorial Feature-Transfer Matrix (361 Cells), Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Inherent Gameplay Plasticity",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 18,
+        "capabilityFunctionCount": 19,
         "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 262143,
-        "promisedBehaviorSummary": "Transfers SI-typed mathematical, physical, chemical, botanical, morphogenetic, spatial-acoustic, spectral-PBR, realizability, and anamnesis feature tensors across all 18x18 model pairs to monotonically raise multi-modal Fidelity",
+        "exportedFeatureChannelMask": 524287,
+        "promisedBehaviorSummary": "Transfers SI-typed mathematical, physical, chemical, botanical, morphogenetic, spatial-acoustic, spectral-PBR, realizability, anamnesis, and teleological feature tensors across all 19x19 model pairs inherently through gameplay",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 18,
-        "typedOutputPortCount": 18,
+        "typedInputPortCount": 19,
+        "typedOutputPortCount": 19,
         "cloudEventTypeCount": 8,
-        "stateFieldCount": 18,
+        "stateFieldCount": 19,
         "effectKind": "PureKernel+BoundedRingSynapse",
         "siBiasedTimeExp": 15,
         "siBiasedLengthExp": 16,
@@ -1507,10 +1508,10 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       "composition": {
         "dagLayerRank": 1,
         "dependencyModelMask": 1,
-        "compatiblePartnerMask": 262143,
+        "compatiblePartnerMask": 524287,
         "conflictModelMask": 0,
-        "functorTransformationCount": 324,
-        "compositionSummary": "Universal 18x18 functorial bus connecting all canonical standard models with zero conflict and associative gain composition",
+        "functorTransformationCount": 361,
+        "compositionSummary": "Universal 19x19 functorial bus connecting all canonical standard models with zero conflict and associative gain composition",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -1534,7 +1535,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "maxLatencyMicros": 1000,
         "energyBudgetMilliwatts": 35,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Pre-allocated 18x18 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame",
+        "deviceConstraintSummary": "Pre-allocated 19x19 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame",
         "resourceBoundedZeroGc": true
       },
       "authority": {
@@ -1549,14 +1550,14 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "runtimePropertyOracleCount": 12,
         "acceptanceVectorCount": 36,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "14 machine-checked Lean 4.32 theorems proving boundedness, 18x18 functor monotonicity, free-energy reduction, and 11-element completeness",
+        "acceptanceOracleSummary": "14 machine-checked Lean 4.32 theorems proving boundedness, 19x19 functor monotonicity, free-energy reduction, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/neuromorphicFunctorBus.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 18x18 Functor Runtime -> Live WebGL2/WebAudio/W3C-Token/Anamnesis/Observer Fidelity Amplification",
+        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 19x19 Inherent Gameplay Functor Runtime -> Live Multi-Modal Amplification",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -1565,10 +1566,10 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
   {
     "modelKey": "cosmogenesis",
     "registryField": "m14ObserverCosmogenesis",
-    "displayName": "Holistic Observer & Cosmogenesis (Complete 18x11 Context = 198 Cells + Alpha-Omega)",
+    "displayName": "Holistic Observer & Cosmogenesis (Complete 19x11 Context = 209 Cells + Alpha-Omega)",
     "sourceModule": "Foundation.Cosmogenesis.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Cosmogenesis/V1/Model.lex.tex",
-    "sourceSha256": "a5c018a34a93f4f4bc27dd3f27fa0987a689f17ce9dfda303bd7b71a883f3447",
+    "sourceSha256": "c7435ff886913d4be44a59a3d4dd762fb4b604f52ade1828d0c9266631274d49",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -1587,8 +1588,8 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "semverMinor": 0,
         "semverPatch": 0,
         "uorPrimeSignature": 113,
-        "blake3DigestHead64": 11300198,
-        "blake3DigestTail64": 18011324,
+        "blake3DigestHead64": 11300209,
+        "blake3DigestTail64": 19011361,
         "stableContentAddressed": true
       },
       "vocabulary": {
@@ -1596,19 +1597,19 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "canonicalConceptCount": 48,
         "crossDomainSynonymCount": 22,
         "taxonomicRelationCount": 36,
-        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 18x11 Meta-Model Registry (198 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Foundational Affective Calculus, Gap-Free Realizability Closure",
+        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 19x11 Meta-Model Registry (209 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Teleological Environmental Synthesis Closure",
         "vocabularyComplete": true
       },
       "capability": {
         "capabilityFunctionCount": 26,
         "conservationLawCount": 8,
-        "exportedFeatureChannelMask": 262143,
-        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 18 canonical standard models and itself, orchestrating 18x18 Neuromorphic functor transfers to eliminate realization gaps and maximize multi-modal Fidelity",
+        "exportedFeatureChannelMask": 524287,
+        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 19 canonical standard models and itself, synthesizing every structure and phenomenon from environmental requirements and automating multi-modal Fidelity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 18,
-        "typedOutputPortCount": 18,
+        "typedInputPortCount": 19,
+        "typedOutputPortCount": 19,
         "cloudEventTypeCount": 8,
         "stateFieldCount": 30,
         "effectKind": "PureKernel+HolisticObserverView",
@@ -1623,18 +1624,18 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       },
       "composition": {
         "dagLayerRank": 7,
-        "dependencyModelMask": 262143,
-        "compatiblePartnerMask": 262143,
+        "dependencyModelMask": 524287,
+        "compatiblePartnerMask": 524287,
         "conflictModelMask": 0,
-        "functorTransformationCount": 324,
-        "compositionSummary": "Apex universal observer functor indexing and cross-verifying all 18 Canonical Standard Models (Mathematics through Anamnesis) across 198 Meta-Model cells and 324 directed pathways",
+        "functorTransformationCount": 361,
+        "compositionSummary": "Apex universal observer functor indexing and cross-verifying all 19 Canonical Standard Models (Mathematics through Teleology) across 209 Meta-Model cells and 361 directed pathways",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 16667,
         "adaptationRuleCount": 8,
-        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + Realizability counit gap elimination",
+        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + Teleological requirement-to-phenomenon closure",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
@@ -1642,7 +1643,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "baseResolutionUnits": 960,
         "apexResolutionUnits": 1320,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "198/198 verified Meta-Model context cells, 0 realization gap, 118/118 IUPAC elements, 17/17 SM fields, 24/24 Bark bands, 380-780nm CIE/OKLCH",
+        "fidelityCriteriaSummary": "209/209 verified Meta-Model context cells, 0 orphan unexplained elements, 0 realization gap, 118/118 IUPAC elements, 17/17 SM fields, 24/24 Bark bands, 380-780nm CIE/OKLCH",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -1663,17 +1664,17 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       },
       "evidence": {
         "leanTheoremCount": 5,
-        "runtimePropertyOracleCount": 18,
+        "runtimePropertyOracleCount": 19,
         "acceptanceVectorCount": 52,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 18x11 Registry completeness",
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 19x11 Registry completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
-        "runtimeModulePath": "src/components/PrismInspectorModal.tsx",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext -> Interactive 18x11 Standard-Model & Zero-Gap Fidelity Explorer",
+        "runtimeModulePath": "src/game/teleologyEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext & Teleological Synthesis -> Pure Gameplay Conservatory",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -1685,7 +1686,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Realizability (Spec-to-Runtime Galois Adjunction + Non-Zero Sensitivity + Zero-Stub Oracle)",
     "sourceModule": "Foundation.Realizability.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Realizability/V1/Model.lex.tex",
-    "sourceSha256": "a1a098efd3bebc8392212fc706a61e4c47373aed40a2f86206b9816c39660862",
+    "sourceSha256": "6f813dc19694e4e555f31f4861648723fb6894977c98a7d0418ecc3c52961aee",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -1704,8 +1705,8 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "semverMinor": 0,
         "semverPatch": 0,
         "uorPrimeSignature": 139,
-        "blake3DigestHead64": 13900198,
-        "blake3DigestTail64": 32400139,
+        "blake3DigestHead64": 13900209,
+        "blake3DigestTail64": 36100139,
         "stableContentAddressed": true
       },
       "vocabulary": {
@@ -1719,13 +1720,13 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       "capability": {
         "capabilityFunctionCount": 16,
         "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 262143,
-        "promisedBehaviorSummary": "Forces every formal Standard Model port to project end-to-end into live WebGL2, WebAudio, W3C CSS, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
+        "exportedFeatureChannelMask": 524287,
+        "promisedBehaviorSummary": "Forces every formal Standard Model port to project end-to-end into live WebGL2, WebAudio, W3C CSS, Teleological Landmarks, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 18,
-        "typedOutputPortCount": 18,
+        "typedInputPortCount": 19,
+        "typedOutputPortCount": 19,
         "cloudEventTypeCount": 6,
         "stateFieldCount": 20,
         "effectKind": "PureAntiGapOracle+LiveCounitReadback",
@@ -1741,10 +1742,10 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       "composition": {
         "dagLayerRank": 6,
         "dependencyModelMask": 16383,
-        "compatiblePartnerMask": 262143,
+        "compatiblePartnerMask": 524287,
         "conflictModelMask": 0,
-        "functorTransformationCount": 36,
-        "compositionSummary": "Audits all 18 canonical models and their 324 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
+        "functorTransformationCount": 38,
+        "compositionSummary": "Audits all 19 canonical models and their 361 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -1759,7 +1760,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "baseResolutionUnits": 285,
         "apexResolutionUnits": 960,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 18/18 models",
+        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 19/19 models",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -1780,8 +1781,8 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       },
       "evidence": {
         "leanTheoremCount": 4,
-        "runtimePropertyOracleCount": 18,
-        "acceptanceVectorCount": 36,
+        "runtimePropertyOracleCount": 19,
+        "acceptanceVectorCount": 38,
         "unprovedAdHocFlagCount": 0,
         "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero realization gap, monotonic differential sensitivity, neuromorphic coupling, and 11-element completeness",
         "evidenceMachineChecked": true
@@ -1790,7 +1791,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/realizabilityEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Realizability Anti-Gap Oracle -> Live Prism Inspector 18x11 Verification Badge",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Realizability Anti-Gap Oracle -> Automated Zero-Gap Runtime Closure",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -2142,6 +2143,123 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/anamnesisEngine.ts",
         "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Content-Addressed Anamnesis Codec & Vite Modular Chunking -> Persistent Browser Sanctuary",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "teleology",
+    "registryField": "m19Teleology",
+    "displayName": "Teleology (Requirement-Grounded Environmental Synthesis + Interactive Landmarks + Inherent Plasticity)",
+    "sourceModule": "Foundation.Teleology.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Teleology/V1/Model.lex.tex",
+    "sourceSha256": "ada9ed0e8961e659e39ad5dad0348ee584f6a786cb26d62f7615abfd314c40a8",
+    "unbiasedSiExponents": {
+      "s": 0,
+      "m": 0,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 19,
+        "canonicalModelId": "prism/standard-model/teleology-environmental-requirement-synthesis/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 163,
+        "blake3DigestHead64": 16300209,
+        "blake3DigestTail64": 36100163,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Teleology.V1",
+        "canonicalConceptCount": 34,
+        "crossDomainSynonymCount": 15,
+        "taxonomicRelationCount": 24,
+        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Cross-Model Environmental Deficit -> Observer In-Situ Synthesis -> Interactive Purpose Closure, Zero Unexplained Structures, Inherent Autonomous Neuromorphic Plasticity",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 524287,
+        "promisedBehaviorSummary": "Ensures every structure, botanical species, terrain pathway, acoustic basin, and embodied presence in Verdant Resonance is required by upstream Standard Models, synthesized by the Observer from local environmental matter, interactive in gameplay, and free of manual backend UI clutter",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 19,
+        "typedOutputPortCount": 19,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 20,
+        "effectKind": "PureTeleologicalClosure+AutonomousGameplayPlasticity",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 524287,
+        "compatiblePartnerMask": 524287,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 38,
+        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into purposeful in-world environmental phenomena while automating neuromorphic plasticity directly from contemplative gameplay",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Continuous gameplay-driven Hebbian/STDP consolidation + interactive landmark acoustic-optical resonance on proximity, touch, attune, and stillness",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 700,
+        "apexResolutionUnits": 1000,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, 16/16 requirement-grounded environmental phenomena, 5/5 interactive biome landmarks",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 200,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 14,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC teleological requirement registry and per-biome landmark resonance state; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Teleology.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Teleology/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Aristotle Physics II.8 Teleology, Kant Critique of Teleological Judgment, Rosen (1991) Life Itself Relational Closure, ISO-9241-110-2020 Calm Interaction, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 16,
+        "acceptanceVectorCount": 32,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero unexplained orphan elements & zero manual UI overrides, requirement-to-synthesis grounding, monotonic purpose coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/teleologyEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Teleological Synthesis & Interactive Landmark Engine -> Uncluttered Gameplay Experience",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -2541,6 +2659,75 @@ export const GENERATED_PRISM_BUS_MODULATION_LUT = {
     1416,
     1416,
     1416
+  ],
+  "teleology": [
+    1028,
+    1028,
+    1056,
+    1084,
+    1112,
+    1140,
+    1168,
+    1196,
+    1224,
+    1252,
+    1280,
+    1308,
+    1336,
+    1364,
+    1392,
+    1420,
+    1448,
+    1448,
+    1448,
+    1448,
+    1448
+  ],
+  "teleologicalFulfillmentPermille": [
+    700,
+    700,
+    720,
+    740,
+    760,
+    780,
+    800,
+    820,
+    840,
+    860,
+    880,
+    900,
+    920,
+    940,
+    960,
+    980,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000
+  ],
+  "landmarkResonanceCouplingPermille": [
+    550,
+    550,
+    580,
+    610,
+    640,
+    670,
+    700,
+    730,
+    760,
+    790,
+    820,
+    850,
+    880,
+    910,
+    940,
+    970,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000
   ],
   "realizabilitySensitivityPermille": [
     285,
@@ -6228,7 +6415,7 @@ export const GENERATED_PRISM_STANDARDS = {
   "realizability": {
     "profile": "prism/realizability-standard/1",
     "adjunction": {
-      "registeredObservablePortCount": 18,
+      "registeredObservablePortCount": 19,
       "danglingUnprojectedPortCount": 0,
       "realizationGapPermille": 0,
       "minDifferentialSensitivityPermille": 285,
@@ -6241,7 +6428,8 @@ export const GENERATED_PRISM_STANDARDS = {
       "staticStubViolationCount": 0,
       "deadConstantBranchCount": 0,
       "astAndRuntimeLiveAuditEnabled": true,
-      "allEighteenModelsProjectedEndToEnd": true
+      "allEighteenModelsProjectedEndToEnd": true,
+      "allNineteenModelsProjectedEndToEnd": true
     },
     "canonicalDescriptor": {
       "requiredElementCount": 11,
@@ -6252,8 +6440,8 @@ export const GENERATED_PRISM_STANDARDS = {
         "semverMinor": 0,
         "semverPatch": 0,
         "uorPrimeSignature": 139,
-        "blake3DigestHead64": 13900198,
-        "blake3DigestTail64": 32400139,
+        "blake3DigestHead64": 13900209,
+        "blake3DigestTail64": 36100139,
         "stableContentAddressed": true
       },
       "vocabulary": {
@@ -6267,13 +6455,13 @@ export const GENERATED_PRISM_STANDARDS = {
       "capability": {
         "capabilityFunctionCount": 16,
         "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 262143,
-        "promisedBehaviorSummary": "Forces every formal Standard Model port to project end-to-end into live WebGL2, WebAudio, W3C CSS, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
+        "exportedFeatureChannelMask": 524287,
+        "promisedBehaviorSummary": "Forces every formal Standard Model port to project end-to-end into live WebGL2, WebAudio, W3C CSS, Teleological Landmarks, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 18,
-        "typedOutputPortCount": 18,
+        "typedInputPortCount": 19,
+        "typedOutputPortCount": 19,
         "cloudEventTypeCount": 6,
         "stateFieldCount": 20,
         "effectKind": "PureAntiGapOracle+LiveCounitReadback",
@@ -6289,10 +6477,10 @@ export const GENERATED_PRISM_STANDARDS = {
       "composition": {
         "dagLayerRank": 6,
         "dependencyModelMask": 16383,
-        "compatiblePartnerMask": 262143,
+        "compatiblePartnerMask": 524287,
         "conflictModelMask": 0,
-        "functorTransformationCount": 36,
-        "compositionSummary": "Audits all 18 canonical models and their 324 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
+        "functorTransformationCount": 38,
+        "compositionSummary": "Audits all 19 canonical models and their 361 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -6307,7 +6495,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "baseResolutionUnits": 285,
         "apexResolutionUnits": 960,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 18/18 models",
+        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 19/19 models",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -6328,8 +6516,8 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "evidence": {
         "leanTheoremCount": 4,
-        "runtimePropertyOracleCount": 18,
-        "acceptanceVectorCount": 36,
+        "runtimePropertyOracleCount": 19,
+        "acceptanceVectorCount": 38,
         "unprovedAdHocFlagCount": 0,
         "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero realization gap, monotonic differential sensitivity, neuromorphic coupling, and 11-element completeness",
         "evidenceMachineChecked": true
@@ -6338,7 +6526,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/realizabilityEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Realizability Anti-Gap Oracle -> Live Prism Inspector 18x11 Verification Badge",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Realizability Anti-Gap Oracle -> Automated Zero-Gap Runtime Closure",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -6699,11 +6887,132 @@ export const GENERATED_PRISM_STANDARDS = {
       "completeAndEnforced": true
     }
   },
+  "teleology": {
+    "profile": "prism/teleology-standard/1",
+    "requirementChain": {
+      "synthesizedWorldPhenomenonTotal": 16,
+      "synthesizedLandmarkTotal": 5,
+      "orphanUnexplainedElementCount": 0,
+      "ungroundedArbitraryPropCount": 0,
+      "minUpstreamRequiringModelsPerFeature": 2,
+      "everyFeatureSynthesizedFromEnvironment": true,
+      "requirementsPrecedeAndGroundSynthesis": true
+    },
+    "purposeAndAutonomy": {
+      "interactiveLandmarkResonatorCount": 5,
+      "manualNeuromorphicControlCount": 0,
+      "clutteredBackendReadoutCount": 0,
+      "basePurposeFulfillmentPermille": 840,
+      "apexPurposeFulfillmentPermille": 1000,
+      "neuromorphicsInherentToGameplay": true,
+      "landmarksInteractiveViaContemplativeGestures": true
+    },
+    "canonicalDescriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 19,
+        "canonicalModelId": "prism/standard-model/teleology-environmental-requirement-synthesis/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 163,
+        "blake3DigestHead64": 16300209,
+        "blake3DigestTail64": 36100163,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Teleology.V1",
+        "canonicalConceptCount": 34,
+        "crossDomainSynonymCount": 15,
+        "taxonomicRelationCount": 24,
+        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Cross-Model Environmental Deficit -> Observer In-Situ Synthesis -> Interactive Purpose Closure, Zero Unexplained Structures, Inherent Autonomous Neuromorphic Plasticity",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 524287,
+        "promisedBehaviorSummary": "Ensures every structure, botanical species, terrain pathway, acoustic basin, and embodied presence in Verdant Resonance is required by upstream Standard Models, synthesized by the Observer from local environmental matter, interactive in gameplay, and free of manual backend UI clutter",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 19,
+        "typedOutputPortCount": 19,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 20,
+        "effectKind": "PureTeleologicalClosure+AutonomousGameplayPlasticity",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 524287,
+        "compatiblePartnerMask": 524287,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 38,
+        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into purposeful in-world environmental phenomena while automating neuromorphic plasticity directly from contemplative gameplay",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Continuous gameplay-driven Hebbian/STDP consolidation + interactive landmark acoustic-optical resonance on proximity, touch, attune, and stillness",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 700,
+        "apexResolutionUnits": 1000,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, 16/16 requirement-grounded environmental phenomena, 5/5 interactive biome landmarks",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 200,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 14,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC teleological requirement registry and per-biome landmark resonance state; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Teleology.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Teleology/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Aristotle Physics II.8 Teleology, Kant Critique of Teleological Judgment, Rosen (1991) Life Itself Relational Closure, ISO-9241-110-2020 Calm Interaction, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 16,
+        "acceptanceVectorCount": 32,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero unexplained orphan elements & zero manual UI overrides, requirement-to-synthesis grounding, monotonic purpose coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/teleologyEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Teleological Synthesis & Interactive Landmark Engine -> Uncluttered Gameplay Experience",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
   "holisticObserverRegistry": {
     "profile": "prism/holistic-observer-standard-model-registry/1",
-    "totalStandardModels": 18,
+    "totalStandardModels": 19,
     "elementsPerModel": 11,
-    "totalVerifiedContextCells": 198,
+    "totalVerifiedContextCells": 209,
     "m01Mathematics": {
       "requiredElementCount": 11,
       "identity": {
@@ -7913,8 +8222,8 @@ export const GENERATED_PRISM_STANDARDS = {
         "semverMinor": 0,
         "semverPatch": 0,
         "uorPrimeSignature": 109,
-        "blake3DigestHead64": 10900324,
-        "blake3DigestTail64": 30600198,
+        "blake3DigestHead64": 10900361,
+        "blake3DigestTail64": 34200209,
         "stableContentAddressed": true
       },
       "vocabulary": {
@@ -7922,21 +8231,21 @@ export const GENERATED_PRISM_STANDARDS = {
         "canonicalConceptCount": 28,
         "crossDomainSynonymCount": 14,
         "taxonomicRelationCount": 19,
-        "keyConceptsSummary": "Hebbian STDP Plasticity, 18x18 Functorial Feature-Transfer Matrix (324 Cells), Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Theory-of-Mind Teleology",
+        "keyConceptsSummary": "Hebbian STDP Plasticity, 19x19 Functorial Feature-Transfer Matrix (361 Cells), Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Inherent Gameplay Plasticity",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 18,
+        "capabilityFunctionCount": 19,
         "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 262143,
-        "promisedBehaviorSummary": "Transfers SI-typed mathematical, physical, chemical, botanical, morphogenetic, spatial-acoustic, spectral-PBR, realizability, and anamnesis feature tensors across all 18x18 model pairs to monotonically raise multi-modal Fidelity",
+        "exportedFeatureChannelMask": 524287,
+        "promisedBehaviorSummary": "Transfers SI-typed mathematical, physical, chemical, botanical, morphogenetic, spatial-acoustic, spectral-PBR, realizability, anamnesis, and teleological feature tensors across all 19x19 model pairs inherently through gameplay",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 18,
-        "typedOutputPortCount": 18,
+        "typedInputPortCount": 19,
+        "typedOutputPortCount": 19,
         "cloudEventTypeCount": 8,
-        "stateFieldCount": 18,
+        "stateFieldCount": 19,
         "effectKind": "PureKernel+BoundedRingSynapse",
         "siBiasedTimeExp": 15,
         "siBiasedLengthExp": 16,
@@ -7950,10 +8259,10 @@ export const GENERATED_PRISM_STANDARDS = {
       "composition": {
         "dagLayerRank": 1,
         "dependencyModelMask": 1,
-        "compatiblePartnerMask": 262143,
+        "compatiblePartnerMask": 524287,
         "conflictModelMask": 0,
-        "functorTransformationCount": 324,
-        "compositionSummary": "Universal 18x18 functorial bus connecting all canonical standard models with zero conflict and associative gain composition",
+        "functorTransformationCount": 361,
+        "compositionSummary": "Universal 19x19 functorial bus connecting all canonical standard models with zero conflict and associative gain composition",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -7977,7 +8286,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "maxLatencyMicros": 1000,
         "energyBudgetMilliwatts": 35,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Pre-allocated 18x18 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame",
+        "deviceConstraintSummary": "Pre-allocated 19x19 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame",
         "resourceBoundedZeroGc": true
       },
       "authority": {
@@ -7992,14 +8301,14 @@ export const GENERATED_PRISM_STANDARDS = {
         "runtimePropertyOracleCount": 12,
         "acceptanceVectorCount": 36,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "14 machine-checked Lean 4.32 theorems proving boundedness, 18x18 functor monotonicity, free-energy reduction, and 11-element completeness",
+        "acceptanceOracleSummary": "14 machine-checked Lean 4.32 theorems proving boundedness, 19x19 functor monotonicity, free-energy reduction, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/neuromorphicFunctorBus.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 18x18 Functor Runtime -> Live WebGL2/WebAudio/W3C-Token/Anamnesis/Observer Fidelity Amplification",
+        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 19x19 Inherent Gameplay Functor Runtime -> Live Multi-Modal Amplification",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -8013,8 +8322,8 @@ export const GENERATED_PRISM_STANDARDS = {
         "semverMinor": 0,
         "semverPatch": 0,
         "uorPrimeSignature": 113,
-        "blake3DigestHead64": 11300198,
-        "blake3DigestTail64": 18011324,
+        "blake3DigestHead64": 11300209,
+        "blake3DigestTail64": 19011361,
         "stableContentAddressed": true
       },
       "vocabulary": {
@@ -8022,19 +8331,19 @@ export const GENERATED_PRISM_STANDARDS = {
         "canonicalConceptCount": 48,
         "crossDomainSynonymCount": 22,
         "taxonomicRelationCount": 36,
-        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 18x11 Meta-Model Registry (198 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Foundational Affective Calculus, Gap-Free Realizability Closure",
+        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 19x11 Meta-Model Registry (209 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Teleological Environmental Synthesis Closure",
         "vocabularyComplete": true
       },
       "capability": {
         "capabilityFunctionCount": 26,
         "conservationLawCount": 8,
-        "exportedFeatureChannelMask": 262143,
-        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 18 canonical standard models and itself, orchestrating 18x18 Neuromorphic functor transfers to eliminate realization gaps and maximize multi-modal Fidelity",
+        "exportedFeatureChannelMask": 524287,
+        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 19 canonical standard models and itself, synthesizing every structure and phenomenon from environmental requirements and automating multi-modal Fidelity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 18,
-        "typedOutputPortCount": 18,
+        "typedInputPortCount": 19,
+        "typedOutputPortCount": 19,
         "cloudEventTypeCount": 8,
         "stateFieldCount": 30,
         "effectKind": "PureKernel+HolisticObserverView",
@@ -8049,18 +8358,18 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "composition": {
         "dagLayerRank": 7,
-        "dependencyModelMask": 262143,
-        "compatiblePartnerMask": 262143,
+        "dependencyModelMask": 524287,
+        "compatiblePartnerMask": 524287,
         "conflictModelMask": 0,
-        "functorTransformationCount": 324,
-        "compositionSummary": "Apex universal observer functor indexing and cross-verifying all 18 Canonical Standard Models (Mathematics through Anamnesis) across 198 Meta-Model cells and 324 directed pathways",
+        "functorTransformationCount": 361,
+        "compositionSummary": "Apex universal observer functor indexing and cross-verifying all 19 Canonical Standard Models (Mathematics through Teleology) across 209 Meta-Model cells and 361 directed pathways",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 16667,
         "adaptationRuleCount": 8,
-        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + Realizability counit gap elimination",
+        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + Teleological requirement-to-phenomenon closure",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
@@ -8068,7 +8377,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "baseResolutionUnits": 960,
         "apexResolutionUnits": 1320,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "198/198 verified Meta-Model context cells, 0 realization gap, 118/118 IUPAC elements, 17/17 SM fields, 24/24 Bark bands, 380-780nm CIE/OKLCH",
+        "fidelityCriteriaSummary": "209/209 verified Meta-Model context cells, 0 orphan unexplained elements, 0 realization gap, 118/118 IUPAC elements, 17/17 SM fields, 24/24 Bark bands, 380-780nm CIE/OKLCH",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -8089,17 +8398,17 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "evidence": {
         "leanTheoremCount": 5,
-        "runtimePropertyOracleCount": 18,
+        "runtimePropertyOracleCount": 19,
         "acceptanceVectorCount": 52,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 18x11 Registry completeness",
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 19x11 Registry completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
-        "runtimeModulePath": "src/components/PrismInspectorModal.tsx",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext -> Interactive 18x11 Standard-Model & Zero-Gap Fidelity Explorer",
+        "runtimeModulePath": "src/game/teleologyEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext & Teleological Synthesis -> Pure Gameplay Conservatory",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -8113,8 +8422,8 @@ export const GENERATED_PRISM_STANDARDS = {
         "semverMinor": 0,
         "semverPatch": 0,
         "uorPrimeSignature": 139,
-        "blake3DigestHead64": 13900198,
-        "blake3DigestTail64": 32400139,
+        "blake3DigestHead64": 13900209,
+        "blake3DigestTail64": 36100139,
         "stableContentAddressed": true
       },
       "vocabulary": {
@@ -8128,13 +8437,13 @@ export const GENERATED_PRISM_STANDARDS = {
       "capability": {
         "capabilityFunctionCount": 16,
         "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 262143,
-        "promisedBehaviorSummary": "Forces every formal Standard Model port to project end-to-end into live WebGL2, WebAudio, W3C CSS, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
+        "exportedFeatureChannelMask": 524287,
+        "promisedBehaviorSummary": "Forces every formal Standard Model port to project end-to-end into live WebGL2, WebAudio, W3C CSS, Teleological Landmarks, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 18,
-        "typedOutputPortCount": 18,
+        "typedInputPortCount": 19,
+        "typedOutputPortCount": 19,
         "cloudEventTypeCount": 6,
         "stateFieldCount": 20,
         "effectKind": "PureAntiGapOracle+LiveCounitReadback",
@@ -8150,10 +8459,10 @@ export const GENERATED_PRISM_STANDARDS = {
       "composition": {
         "dagLayerRank": 6,
         "dependencyModelMask": 16383,
-        "compatiblePartnerMask": 262143,
+        "compatiblePartnerMask": 524287,
         "conflictModelMask": 0,
-        "functorTransformationCount": 36,
-        "compositionSummary": "Audits all 18 canonical models and their 324 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
+        "functorTransformationCount": 38,
+        "compositionSummary": "Audits all 19 canonical models and their 361 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -8168,7 +8477,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "baseResolutionUnits": 285,
         "apexResolutionUnits": 960,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 18/18 models",
+        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 19/19 models",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -8189,8 +8498,8 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "evidence": {
         "leanTheoremCount": 4,
-        "runtimePropertyOracleCount": 18,
-        "acceptanceVectorCount": 36,
+        "runtimePropertyOracleCount": 19,
+        "acceptanceVectorCount": 38,
         "unprovedAdHocFlagCount": 0,
         "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero realization gap, monotonic differential sensitivity, neuromorphic coupling, and 11-element completeness",
         "evidenceMachineChecked": true
@@ -8199,7 +8508,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/realizabilityEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Realizability Anti-Gap Oracle -> Live Prism Inspector 18x11 Verification Badge",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Realizability Anti-Gap Oracle -> Automated Zero-Gap Runtime Closure",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -8504,9 +8813,110 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "completeAndEnforced": true
     },
+    "m19Teleology": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 19,
+        "canonicalModelId": "prism/standard-model/teleology-environmental-requirement-synthesis/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 163,
+        "blake3DigestHead64": 16300209,
+        "blake3DigestTail64": 36100163,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Teleology.V1",
+        "canonicalConceptCount": 34,
+        "crossDomainSynonymCount": 15,
+        "taxonomicRelationCount": 24,
+        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Cross-Model Environmental Deficit -> Observer In-Situ Synthesis -> Interactive Purpose Closure, Zero Unexplained Structures, Inherent Autonomous Neuromorphic Plasticity",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 524287,
+        "promisedBehaviorSummary": "Ensures every structure, botanical species, terrain pathway, acoustic basin, and embodied presence in Verdant Resonance is required by upstream Standard Models, synthesized by the Observer from local environmental matter, interactive in gameplay, and free of manual backend UI clutter",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 19,
+        "typedOutputPortCount": 19,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 20,
+        "effectKind": "PureTeleologicalClosure+AutonomousGameplayPlasticity",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 524287,
+        "compatiblePartnerMask": 524287,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 38,
+        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into purposeful in-world environmental phenomena while automating neuromorphic plasticity directly from contemplative gameplay",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Continuous gameplay-driven Hebbian/STDP consolidation + interactive landmark acoustic-optical resonance on proximity, touch, attune, and stillness",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 700,
+        "apexResolutionUnits": 1000,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, 16/16 requirement-grounded environmental phenomena, 5/5 interactive biome landmarks",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 200,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 14,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC teleological requirement registry and per-biome landmark resonance state; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Teleology.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Teleology/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Aristotle Physics II.8 Teleology, Kant Critique of Teleological Judgment, Rosen (1991) Life Itself Relational Closure, ISO-9241-110-2020 Calm Interaction, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 16,
+        "acceptanceVectorCount": 32,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero unexplained orphan elements & zero manual UI overrides, requirement-to-synthesis grounding, monotonic purpose coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/teleologyEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Teleological Synthesis & Interactive Landmark Engine -> Uncluttered Gameplay Experience",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
     "zeroCherryPickedModelsVerified": true,
     "allFourteenModelsAndElevenElementsVerified": true,
     "allEighteenModelsAndElevenElementsVerified": true,
+    "allNineteenModelsAndElevenElementsVerified": true,
     "observerSelfKnowledgeComplete": true
   },
   "si2019Metrology": {
@@ -8537,9 +8947,9 @@ export const GENERATED_PRISM_STANDARDS = {
     "electroweakBetaVertexConserved": true
   },
   "functorTransferMatrix": {
-    "registeredModelCount": 18,
-    "directedFunctorCellCount": 324,
-    "crossModelPathwayCount": 306,
+    "registeredModelCount": 19,
+    "directedFunctorCellCount": 361,
+    "crossModelPathwayCount": 342,
     "siDimensionalPortMatchingEnabled": true,
     "stdpSynapticPlasticityEnabled": true,
     "activeInferenceFreeEnergyEnabled": true,
@@ -8738,6 +9148,12 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "earlyReflectionTapFidelityMonotonicHolds",
     "spatialAcousticsNeuromorphicCouplingHolds",
     "spatialAcousticsDescriptorCompleteHolds"
+  ],
+  "Foundation.Teleology.V1.Model": [
+    "zeroOrphanElementsAndZeroManualOverridesHold",
+    "requirementImpliesEnvironmentalSynthesisHolds",
+    "teleologyFulfillmentAndLandmarkMonotonicHold",
+    "teleologyDescriptorCompleteHolds"
   ],
   "Foundation.View.Text.V1.Model": [],
   "VerdantResonance": [],

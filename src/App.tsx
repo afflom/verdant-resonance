@@ -8,7 +8,6 @@ import {
   ATMOSPHERE_CONFIGS,
   AtmosphereId,
   BIOME_CONFIGS,
-  BIOME_MONUMENTS,
   BiomeId,
   BOTANICAL_LIFECYCLE_STAGES,
   PLANT_SPECIES_CONFIGS,
@@ -22,10 +21,11 @@ import {
   computeCardinalWayfinder,
   computeGardenHarmonyPct,
   createInitialGestureHoldState,
+  createInitialLandmarkResonanceState,
   createInitialNeuromorphicState,
   evaluateBiomeMasteryAndGuilds,
   evaluateEnvironmentalLifecycle,
-  evaluateHumaneErgonomics,
+  evaluateNearestSynthesizedLandmark,
   generateGardenPlants,
   getPlantLifecycleStage,
   hydratePlantsFromAnamnesis,
@@ -35,7 +35,6 @@ import {
   serializeAnamnesisSnapshot,
   synthesizeParametricAtmosphereConfigs,
   synthesizeParametricBiomeConfigs,
-  synthesizeParametricBiomeMonuments,
   synthesizeParametricBotanicalLifecycleStages,
   synthesizeParametricPlantSpeciesConfigs,
   synthesizeParametricSoundOutcomeProfiles,
@@ -84,7 +83,7 @@ export default function App() {
   const [dockCollapsed, setDockCollapsed] = useState<boolean>(false);
   const [recentBanner, setRecentBanner] = useState<string | null>(null);
 
-  const [alphaSeed, setAlphaSeed] = useState<number>(initialAnamnesisPayload?.alphaSeed ?? 1);
+  const alphaSeed = initialAnamnesisPayload?.alphaSeed ?? 1;
   const [plants, setPlants] = useState(() => {
     const basePlants = generateGardenPlants({
       alphaSeed: initialAnamnesisPayload?.alphaSeed ?? 1,
@@ -122,6 +121,21 @@ export default function App() {
       plants,
       neuromorphic: initialNeuro,
     });
+    const initialTopo = initialNeuro.observer.cosmogenesis.worldTopology;
+    const initialNearestLandmark = evaluateNearestSynthesizedLandmark({
+      playerX: 0,
+      playerZ: 0,
+      playerYaw: 0,
+      landmarkCentersXZ: {
+        meadow: initialTopo.meadowSundialCenterXZ,
+        grove: initialTopo.biomeCenters.grove,
+        crystal: initialTopo.biomeCenters.crystal,
+        wetland: initialTopo.lagoonCenterXZ,
+        sanctuary: initialTopo.biomeCenters.sanctuary,
+      },
+      resonanceState: createInitialLandmarkResonanceState(),
+      busWeight: initialNeuro.lastActiveSynapticWeight,
+    });
     return {
       playerX: 0,
       playerZ: 0,
@@ -157,6 +171,7 @@ export default function App() {
       soundtrackScore: initialScore,
       currentSoundtrackStep: 0,
       gestureHold: createInitialGestureHoldState(),
+      nearestLandmark: initialNearestLandmark,
     };
   });
 
@@ -315,19 +330,6 @@ export default function App() {
     setGameState('playing');
   }, [alphaSeed, soundEngine]);
 
-  const handleSelectAlphaSeed = useCallback(
-    (nextSeed: number) => {
-      const nextPlants = generateGardenPlants({
-        alphaSeed: nextSeed,
-        manifold: telemetry.neuromorphic.universalManifold,
-      });
-      setAlphaSeed(nextSeed);
-      setPlants(nextPlants);
-      gardenHandleRef.current?.setAlphaSeed(nextSeed, nextPlants);
-    },
-    [telemetry.neuromorphic.universalManifold],
-  );
-
   const handleToggleMute = useCallback(
     (e?: React.MouseEvent<HTMLButtonElement>) => {
       e?.currentTarget.blur();
@@ -345,26 +347,6 @@ export default function App() {
       return ATMOSPHERE_ORDER[(idx + 1) % ATMOSPHERE_ORDER.length];
     });
   }, []);
-
-  const handleProjectApexFidelity = useCallback(
-    (e?: React.MouseEvent<HTMLButtonElement>) => {
-      e?.currentTarget.blur();
-      soundEngine.init();
-      soundEngine.setPaused(false);
-      if (liveMultiModalFidelity.normalizedFidelity01 >= 0.99) {
-        gardenHandleRef.current?.refineParametricCosmos(2);
-        setRecentBanner(
-          `18×18 Functor Bus Consolidated · 198 Cells · 73λ CIE · Murray r³ · ISO 3382`,
-        );
-      } else {
-        gardenHandleRef.current?.extrapolateToHighestResolution();
-        setRecentBanner(
-          `Apex 18-Model Fidelity · 73λ Spectral · L-System + Murray r³ · 3D HRTF · 11-Limit JI`,
-        );
-      }
-    },
-    [liveMultiModalFidelity.normalizedFidelity01, soundEngine],
-  );
 
   const liveCosmoParams = useMemo(
     () => ({
@@ -393,10 +375,6 @@ export default function App() {
   );
   const liveOutcomeProfiles = useMemo(
     () => synthesizeParametricSoundOutcomeProfiles(liveCosmoParams),
-    [liveCosmoParams],
-  );
-  const liveBiomeMonuments = useMemo(
-    () => synthesizeParametricBiomeMonuments(liveCosmoParams),
     [liveCosmoParams],
   );
   const liveLifecycleStages = useMemo(
@@ -453,9 +431,6 @@ export default function App() {
       } else if (e.code === 'KeyL' && gameState === 'playing') {
         e.preventDefault();
         cycleAtmosphere();
-      } else if (e.code === 'KeyX' && gameState === 'playing') {
-        e.preventDefault();
-        handleProjectApexFidelity();
       } else if (e.code === 'KeyH' && gameState === 'playing') {
         e.preventDefault();
         setDockCollapsed((prev) => !prev);
@@ -464,7 +439,7 @@ export default function App() {
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [gameState, startGame, handleToggleMute, handleRestart, cycleAtmosphere, handleProjectApexFidelity]);
+  }, [gameState, startGame, handleToggleMute, handleRestart, cycleAtmosphere]);
 
   // Mindful exploration never force-terminates gameplay at 100% Harmony.
   // Only extreme unmindful agitation (sustained rapid key mashing during refractory cooldowns >= 100%)
@@ -483,20 +458,12 @@ export default function App() {
   const outcomeProfile =
     liveOutcomeProfiles[telemetry.prismOutcome] ?? SOUND_OUTCOME_PROFILES['wind-whisper'];
 
-  const humaneEval = evaluateHumaneErgonomics({
-    velocityDm: telemetry.velocityDm,
-    dockCollapsed,
-    guidedStroll: telemetry.guidedStroll,
-    harmonyPct: telemetry.harmony,
-  });
-
   const wayfinder = computeCardinalWayfinder(
     telemetry.playerX,
     telemetry.playerZ,
     telemetry.playerYaw,
     telemetry.neuromorphic.observer.cosmogenesis.worldTopology,
   );
-  const activeMonument = liveBiomeMonuments[telemetry.biome] ?? BIOME_MONUMENTS[telemetry.biome];
   const biomeMastery = evaluateBiomeMasteryAndGuilds(telemetry.biome, plants);
 
   const stereoPan = computeBinauralPan(
@@ -544,7 +511,7 @@ export default function App() {
               {VERDANT_BRAND_STANDARD.editionTitle}
             </div>
             <div className="text-xs font-mono text-emerald-300/85 tracking-wide hud-text-shadow hidden sm:block">
-              14 STANDARD MODELS · {liveMultiModalFidelity.spectralBandCount}λ CIE 1931 · 14 BRAVAIS LATTICES · W3C OKLCH ({w3cDesignTokens.primaryWcagContrast}:1 AAA)
+              FIVE LIVING BIOMES · DIURNAL SKY · PURE BOTANICAL HARMONY
             </div>
           </div>
 
@@ -585,13 +552,11 @@ export default function App() {
 
             {/* Unboxed Sensory & Humane Design Pillars */}
             <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-emerald-300/90">
-              <span>{liveMultiModalFidelity.primeLimitHarmonicCeiling}-Limit Just Intonation (0.0¢)</span>
+              <span>Living Flora &amp; Landmarks</span>
               <span aria-hidden="true">·</span>
-              <span>{liveMultiModalFidelity.chladniModalPartialsPerVoice}-Mode Chladni + 24-Bark</span>
+              <span>Sympathetic Pollination</span>
               <span aria-hidden="true">·</span>
-              <span>14 IUCr Bravais Crystals</span>
-              <span aria-hidden="true">·</span>
-              <span>CIE 1931 Spectral + OKLCH</span>
+              <span>Restorative Soundscape</span>
             </div>
 
             {/* Primary CTA + Secondary Herbarium Button (<= 2 focal actions) */}
@@ -621,7 +586,7 @@ export default function App() {
 
           {/* Single Flat Borderless Control Hint Line in Bottom Safe Margin */}
           <div className="text-xs font-mono text-emerald-200/80 hud-text-shadow">
-            WASD / Arrows Move · Mouse Drag / Q-E Look · Space Attune Flora · T Touch · C Stillness · X Apex Fidelity · G Stroll · L Sky · 1-5 Biomes · P Guide
+            WASD / Arrows Move · Mouse Drag / Q-E Look · Space Attune · T Touch · C Stillness · G Stroll · L Sky · 1-5 Biomes · P Guide
           </div>
         </div>
       )}
@@ -767,55 +732,7 @@ export default function App() {
                   {outcomeProfile.label} · {outcomeProfile.timbre}
                 </div>
                 <div className="text-[10px] font-mono text-emerald-300/80" data-testid="hud-soundtrack-status">
-                  {activeBiomeCfg.tuningLabel} · Score: {telemetry.soundtrackScore.activeStems.length}/4 Stems ·{' '}
-                  {telemetry.environmentalLifecycle.label}
-                </div>
-                <div
-                  className="text-[10px] font-mono text-teal-200/85 whitespace-nowrap mt-0.5 tabular-nums"
-                  data-testid="hud-observer-why-status"
-                >
-                  T{telemetry.neuromorphic.observer.supraDirective.tier} · Res{' '}
-                  {
-                    telemetry.neuromorphic.observer.differentiationAndExtrapolation
-                      .highestResolution.resolutionRealizationPct
-                  }
-                  % · {telemetry.neuromorphic.observer.affectAndPreferences.affect.emotionLabel} · H{' '}
-                  {Math.round(
-                    telemetry.neuromorphic.observer.affectAndPreferences.affect.harmonyPermille /
-                      10,
-                  )}
-                  %/X{' '}
-                  {Math.round(
-                    telemetry.neuromorphic.observer.affectAndPreferences.affect.chaosPermille / 10,
-                  )}
-                  %
-                </div>
-                <div
-                  className="mt-1 flex items-center gap-2 text-[10px] font-mono text-emerald-200/90 tabular-nums"
-                  data-testid="hud-multimodal-fidelity"
-                >
-                  <span>
-                    {liveMultiModalFidelity.spectralBandCount}λ CIE ·{' '}
-                    {liveMultiModalFidelity.bMeshRadialSubdivisions}-seg B-Mesh ·{' '}
-                    {liveMultiModalFidelity.primeLimitHarmonicCeiling}-Lim JI ·{' '}
-                    {liveMultiModalFidelity.chladniModalPartialsPerVoice} Modes
-                  </span>
-                  <button
-                    type="button"
-                    tabIndex={-1}
-                    onClick={handleProjectApexFidelity}
-                    title="Project 14×14 Neuromorphic Functor Bus to Apex Multi-Modal Fidelity [X]"
-                    className="px-1.5 py-0.5 rounded border text-[9px] font-mono font-semibold uppercase tracking-wide transition-colors cursor-pointer shrink-0 hover:brightness-110"
-                    style={{
-                      backgroundColor: 'color-mix(in oklch, var(--vr-accent-solar) 18%, transparent)',
-                      borderColor: 'color-mix(in oklch, var(--vr-accent-solar) 48%, transparent)',
-                      color: 'var(--vr-accent-solar)',
-                    }}
-                  >
-                    {liveMultiModalFidelity.normalizedFidelity01 >= 0.99
-                      ? '✦ Apex [X]'
-                      : '↑ Apex [X]'}
-                  </button>
+                  {activeBiomeCfg.tuningLabel} · {telemetry.environmentalLifecycle.label}
                 </div>
               </div>
 
@@ -892,6 +809,15 @@ export default function App() {
                       ? `Wading Lagoon (${Math.round(telemetry.waterDepthMeters * 100)}cm)`
                       : telemetry.surfaceMaterial.replace('-', ' ')}
                   </div>
+                  {telemetry.nearestLandmark.inResonanceRange && (
+                    <div
+                      className="text-[10px] font-mono text-amber-200/90 mt-0.5 truncate max-w-[300px]"
+                      data-testid="hud-landmark-cue"
+                    >
+                      ✦ {telemetry.nearestLandmark.phenomenon.displayName} (
+                      {Math.round(telemetry.nearestLandmark.distanceMeters)}m)
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -1184,12 +1110,6 @@ export default function App() {
             onReturnTitle={() => setGameState('title')}
             onTeleportBiome={(biomeId) => gardenHandleRef.current?.teleportToBiome(biomeId)}
             onSelectAtmosphere={setAtmosphere}
-            alphaSeed={telemetry.neuromorphic.observer.cosmogenesis.alphaSeed ?? alphaSeed}
-            onSelectAlphaSeed={handleSelectAlphaSeed}
-            onRefineCosmos={(cycles) => gardenHandleRef.current?.refineParametricCosmos(cycles ?? 1)}
-            onExtrapolateHighestResolution={() =>
-              gardenHandleRef.current?.extrapolateToHighestResolution()
-            }
           />
         </Suspense>
       )}
