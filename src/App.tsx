@@ -125,14 +125,17 @@ export default function App() {
     soundEngine.setPaused(gameState !== 'playing');
   }, [gameState, soundEngine]);
 
-  // Synchronize live Prism Parametric Display & Design CSS custom properties onto `:root`
+  // Synchronize live Prism Parametric Display, Design & Mathematical Affect CSS custom properties onto `:root`
   const parametricDisplay = telemetry.neuromorphic.observer.parametricDisplayDesign;
+  const liveAffectAuraHex =
+    telemetry.neuromorphic.observer.affectAndPreferences.affect.coreAuraHex;
   useEffect(() => {
     const rootStyle = document.documentElement.style;
     for (const [varName, varVal] of Object.entries(parametricDisplay.cssVariables)) {
       rootStyle.setProperty(varName, varVal);
     }
-  }, [parametricDisplay.cssVariables]);
+    rootStyle.setProperty('--prism-affect-aura', liveAffectAuraHex);
+  }, [parametricDisplay.cssVariables, liveAffectAuraHex]);
 
   // Animate 16-band SVG acoustic spectrum bars directly via DOM refs without React re-renders
   useEffect(() => {
@@ -578,19 +581,21 @@ export default function App() {
                   className="text-[10px] font-mono text-teal-200/85 whitespace-nowrap mt-0.5 tabular-nums"
                   data-testid="hud-observer-why-status"
                 >
-                  Observer T{telemetry.neuromorphic.observer.supraDirective.tier} · Res{' '}
+                  T{telemetry.neuromorphic.observer.supraDirective.tier} · Res{' '}
                   {
                     telemetry.neuromorphic.observer.differentiationAndExtrapolation
                       .highestResolution.resolutionRealizationPct
                   }
-                  % · α={telemetry.neuromorphic.observer.cosmogenesis.alphaSeed} · Witness{' '}
+                  % · {telemetry.neuromorphic.observer.affectAndPreferences.affect.emotionLabel} · H{' '}
                   {Math.round(
-                    telemetry.neuromorphic.observer.immanentPresence.distanceToPlayerMeters,
+                    telemetry.neuromorphic.observer.affectAndPreferences.affect.harmonyPermille /
+                      10,
                   )}
-                  m ·{' '}
-                  {telemetry.neuromorphic.observer.inferredPlayerIntent
-                    .replace(/^(deepening|seeking|attuning|exploring|cultivating)-/, '')
-                    .replace(/-/g, ' ')}
+                  %/X{' '}
+                  {Math.round(
+                    telemetry.neuromorphic.observer.affectAndPreferences.affect.chaosPermille / 10,
+                  )}
+                  %
                 </div>
               </div>
 

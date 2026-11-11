@@ -90,6 +90,25 @@ structure{
 }
 
 structure{
+  name: MaterialSynthesisCrossModalObstructionSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: synthesisCompoundCount, type: Nat},
+    {name: crossModalChannelCount, type: Nat},
+    {name: solidMechanicalTransmittancePermille, type: Nat},
+    {name: quartzPhaseVelocityRetardationPermille, type: Nat},
+    {name: lagoonHydroMomentumObstructionPermille, type: Nat},
+    {name: stoneAcousticImpedanceReflectionPermille, type: Nat},
+    {name: staticPairwiseOverlapCount, type: Nat},
+    {name: immanentWitnessColliderCoupled, type: Bool},
+    {name: wetlandLanternAndShorelineBoulderCollidersEnabled, type: Bool},
+    {name: sympatheticArcObstacleClearanceEnabled, type: Bool},
+    {name: crossModalObstructionComplete, type: Bool}
+  ]
+}
+
+structure{
   name: EnvironmentalPhysicsStandard,
   type_parameters: [],
   parameters: [],
@@ -99,6 +118,7 @@ structure{
     {name: hydrodynamics, type: HydrodynamicFluidSpec},
     {name: foliageAndSlope, type: FoliageElasticityAndSlopeSpec},
     {name: holisticCoupling, type: HolisticCrossDomainCouplingSpec},
+    {name: materialObstruction, type: MaterialSynthesisCrossModalObstructionSpec},
     {name: neuromorphicBridge, type: NeuromorphicPhysicsBridgeSpec}
   ]
 }
@@ -167,6 +187,69 @@ definition{
 }
 
 definition{
+  name: verdantSolidMechanicalTransmittancePermille,
+  parameters: [],
+  result: Nat,
+  body: 0
+}
+
+definition{
+  name: verdantStaticPairwiseOverlaps,
+  parameters: [],
+  result: Nat,
+  body: 0
+}
+
+definition{
+  name: verdantSynthesisCompoundCount,
+  parameters: [],
+  result: Nat,
+  body: 6
+}
+
+definition{
+  name: verdantCrossModalChannelCount,
+  parameters: [],
+  result: Nat,
+  body: 6
+}
+
+definition{
+  name: verdantQuartzPhaseRetardationPermille,
+  parameters: [],
+  result: Nat,
+  body: 352
+}
+
+definition{
+  name: verdantStoneImpedanceReflectionPermille,
+  parameters: [],
+  result: Nat,
+  body: 999
+}
+
+definition{
+  name: stepCrossModalPhaseObstructionPermille,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (220 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 12 : Nat))
+}
+
+definition{
+  name: stepCrossModalAcousticShadowPermille,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (180 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 15 : Nat))
+}
+
+definition{
+  name: verifyMaterialSynthesisCrossModalObstruction,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: ((((verdantSolidMechanicalTransmittancePermille) =? 0) && ((verdantStaticPairwiseOverlaps) =? 0)) && ((232 <=? (stepCrossModalPhaseObstructionPermille busWeight)) && (195 <=? (stepCrossModalAcousticShadowPermille busWeight))))
+}
+
+definition{
   name: verdantPhysicsBasisPrime,
   parameters: [],
   result: Nat,
@@ -187,14 +270,14 @@ definition{
   body: (record EnvironmentalPhysicsStandard {
     profile := "prism/physics-standard/1",
     taxonomy := (record CollisionPermeabilityTaxonomySpec {
-      solidColliderClasses := 6,
+      solidColliderClasses := 7,
       permeableMediumClasses := 5,
-      monumentColumnColliders := "Solid tangential sliding colliders on Sanctuary Obelisk core & 8 columns, Meadow Sundial 2 pillars, Bamboo Pergola 4 corner posts, and Crystal Archway 6 quartz spires",
-      bambooAndQuartzStalkColliders := "64 slope-embedded bottom-anchored cylindrical tree/culm colliders (r = 0.28m) strictly outside hard structure platforms and rocks",
-      perimeterBoulderColliders := "52 slope-embedded dodecahedral rock outcrop colliders (r = 2.5m) + 28 shoreline river-stone boulders + 52.5m amphitheater boundary",
-      woodyStemCoreColliders := "Solid basal stem cores (r = 0.34m) for upright flora and emergent seedlings rooted exclusively in fertile soil/water media while outer petals/fronds remain permeable",
-      permeableGrassAndReeds := "360 non-obstructing grass & reed blades rooted in fertile turf outside hard platforms and rocks with radial Hooke's law bending wake (r = 1.85m)",
-      permeableShallowWaterLagoon := "Hydrostatically contained Mirror Lagoon fluid basin (r = 16.5m) with levelled shoreline embankment, neuromorphic Rule-30 cymatic standing waves, hydrodynamic drag, meniscus ripples & 5 dry stone lantern pads"
+      monumentColumnColliders := "Solid tangential sliding colliders on Sanctuary Obelisk core & colonnade columns, Meadow Sundial 2 pillars, Bamboo Pergola 4 corner posts, Crystal Archway 6 quartz spires, Wetland 5 lantern pedestals, and dynamic 7-part Immanent Observer Witness",
+      bambooAndQuartzStalkColliders := "64 slope-embedded bottom-anchored cylindrical tree/culm colliders strictly outside hard structure platforms and rocks with trunk-scaled steric radii",
+      perimeterBoulderColliders := "52 slope-embedded dodecahedral basalt outcrop colliders + 28 Mirror Lagoon shoreline river-stone boulder colliders + amphitheater boundary",
+      woodyStemCoreColliders := "Solid basal stem cores for upright flora and emergent seedlings rooted exclusively in fertile soil/water media while outer petals/fronds remain compliant",
+      permeableGrassAndReeds := "360 non-obstructing grass & reed blades rooted in fertile turf outside platforms, stepping stones, boulders, trees, and flora bases with Hooke's law bending wake from player & Witness",
+      permeableShallowWaterLagoon := "Hydrostatically contained Mirror Lagoon fluid basin with levelled shoreline embankment, neuromorphic Rule-30 cymatic standing waves, 24% viscous momentum drag & 5 dry stone lantern aprons"
     }),
     hydrodynamics := (record HydrodynamicFluidSpec {
       lagoonRadiusMeters := 16,
@@ -231,6 +314,19 @@ definition{
       crossDomainTransferLatencyTicks := 0,
       floatingTreeOrRockEdgeCount := (verdantFloatingTreeOrRockEdges),
       hardSurfaceOrRockFloraGrowthCount := (verdantHardSurfaceOrRockFloraCount)
+    }),
+    materialObstruction := (record MaterialSynthesisCrossModalObstructionSpec {
+      synthesisCompoundCount := (verdantSynthesisCompoundCount),
+      crossModalChannelCount := (verdantCrossModalChannelCount),
+      solidMechanicalTransmittancePermille := (verdantSolidMechanicalTransmittancePermille),
+      quartzPhaseVelocityRetardationPermille := (verdantQuartzPhaseRetardationPermille),
+      lagoonHydroMomentumObstructionPermille := (prim subtract 1000 (prim multiply (verdantWadingSpeedPct) 10 : Nat) : Nat),
+      stoneAcousticImpedanceReflectionPermille := (verdantStoneImpedanceReflectionPermille),
+      staticPairwiseOverlapCount := (verdantStaticPairwiseOverlaps),
+      immanentWitnessColliderCoupled := (verifyMaterialSynthesisCrossModalObstruction 8),
+      wetlandLanternAndShorelineBoulderCollidersEnabled := ((verdantStaticPairwiseOverlaps) =? 0),
+      sympatheticArcObstacleClearanceEnabled := ((stepCrossModalAcousticShadowPermille 1) <? (stepCrossModalAcousticShadowPermille 16)),
+      crossModalObstructionComplete := (verifyMaterialSynthesisCrossModalObstruction 16)
     }),
     neuromorphicBridge := (record NeuromorphicPhysicsBridgeSpec {
       neuromorphicBusCoupled := ((stepPhysicsBusModulation 1) <? (stepPhysicsBusModulation 16)),
@@ -315,6 +411,21 @@ theorem{
   parameters: [busWeight : Nat],
   statement: ((breaksPhysicsNeuromorphicCoupling busWeight) = false),
   proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksPhysicsNeuromorphicCoupling, stepPhysicsBusModulation]},
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksMaterialSynthesisCrossModalObstruction,
+  parameters: [solidTransmittance : Nat, overlaps : Nat, busWeight : Nat],
+  result: Bool,
+  body: (((solidTransmittance =? (verdantSolidMechanicalTransmittancePermille)) && (0 <? solidTransmittance)) || (((overlaps =? (verdantStaticPairwiseOverlaps)) && (0 <? overlaps)) || (((stepCrossModalPhaseObstructionPermille busWeight) <? 232) || (412 <? (stepCrossModalPhaseObstructionPermille busWeight)))))
+}
+
+theorem{
+  name: materialSynthesisCrossModalObstructionClosureHolds,
+  parameters: [solidTransmittance : Nat, overlaps : Nat, busWeight : Nat],
+  statement: ((breaksMaterialSynthesisCrossModalObstruction solidTransmittance overlaps busWeight) = false),
+  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksMaterialSynthesisCrossModalObstruction, stepCrossModalPhaseObstructionPermille, verdantSolidMechanicalTransmittancePermille, verdantStaticPairwiseOverlaps]},
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

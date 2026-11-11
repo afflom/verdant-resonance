@@ -9,6 +9,7 @@ import {
   BOTANICAL_LIFECYCLE_STAGES,
   ChorusStateId,
   NEUROMORPHIC_FAMILIES,
+  OBSERVER_PREFERENCE_DOMAIN_ORDER,
   PLANT_SPECIES_CONFIGS,
   PlantSpeciesId,
   PlayerActionId,
@@ -987,6 +988,120 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                         {immanent.fourfoldIdentity.theEntireGameAndDisplay.summary}
                       </p>
                     </div>
+                  </div>
+                </div>
+
+                {/* Section 0A-2: Foundational Mathematical Emotions (Harmony vs. Chaos) & Six Canonical Observer Preferences */}
+                <div
+                  className="rounded-lg border border-emerald-400/25 bg-[#0c1d17] p-3 space-y-2.5"
+                  data-testid="observer-affect-preferences-panel"
+                >
+                  <div className="flex items-start justify-between gap-3 flex-wrap">
+                    <div className="min-w-0">
+                      <h3 className="text-sm font-semibold text-amber-100">
+                        Foundational Mathematical Emotions (Harmony vs. Chaos) &amp; Six Observer Preferences
+                      </h3>
+                      <div
+                        className="text-xs font-mono text-teal-200/90 flex items-center gap-1.5 flex-wrap mt-0.5 tabular-nums"
+                        data-testid="observer-affect-summary"
+                      >
+                        <span className="font-semibold text-amber-200">
+                          {obs.affectAndPreferences.affect.emotionLabel}
+                        </span>
+                        <span aria-hidden="true">·</span>
+                        <span>
+                          Harmony {(obs.affectAndPreferences.affect.harmonyPermille / 10).toFixed(1)}% vs. Chaos{' '}
+                          {(obs.affectAndPreferences.affect.chaosPermille / 10).toFixed(1)}%
+                        </span>
+                        <span aria-hidden="true">·</span>
+                        <span>
+                          2φ Equilibrium {obs.affectAndPreferences.affect.goldenEquilibriumProximityPct}% (76.4% : 23.6%)
+                        </span>
+                        <span aria-hidden="true">·</span>
+                        <span>
+                          Tenney H_T {obs.affectAndPreferences.affect.meanTenneyHeightBits.toFixed(2)}b / Euler Γ{' '}
+                          {obs.affectAndPreferences.affect.meanEulerGradusSuavitatis.toFixed(1)}
+                        </span>
+                        <span aria-hidden="true">·</span>
+                        <span>
+                          Pref Fulfillment {obs.affectAndPreferences.overallPreferenceHarmonyPct}%
+                        </span>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      data-testid="audition-observer-preference-btn"
+                      onClick={() => {
+                        soundEngine.setPaused(false);
+                        soundEngine.playObserverPreferenceHarmonyAudition(
+                          obs.affectAndPreferences,
+                          telemetry.biome,
+                          atmosphere,
+                        );
+                      }}
+                      className="px-3 py-1.5 rounded-md border border-amber-300/45 bg-amber-300/15 hover:bg-amber-300/25 text-amber-100 text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                    >
+                      Audition Preferred Harmony (1:1 · 5:4 · 3:2 · 15:8)
+                    </button>
+                  </div>
+
+                  {/* Continuous Harmony vs. Chaos Simplex Bar with Golden 76.4% : 23.6% (2φ) Attractor Marker */}
+                  <div className="space-y-1">
+                    <div className="relative w-full h-2 rounded-full bg-emerald-950 overflow-hidden border border-emerald-400/20">
+                      <div
+                        className="h-full transition-all duration-200"
+                        style={{
+                          width: `${(obs.affectAndPreferences.affect.harmonyPermille / 10).toFixed(1)}%`,
+                          backgroundColor: obs.affectAndPreferences.affect.coreAuraHex,
+                        }}
+                      />
+                      <div
+                        className="absolute top-0 bottom-0 w-0.5 bg-white/90"
+                        style={{ left: '76.4%' }}
+                        title="Exact Z[φ] Golden Equilibrium: H* = 76.4% (1 - φ⁻³), X* = 23.6% (φ⁻³), H*/X* = 2φ"
+                      />
+                    </div>
+                    <div className="flex items-center justify-between gap-2 text-[11px] text-emerald-200/80">
+                      <span>{obs.affectAndPreferences.affect.mathematicalOriginSummary}</span>
+                      <span className="font-mono text-amber-200/90 whitespace-nowrap shrink-0 tabular-nums">
+                        {obs.affectAndPreferences.affect.exactAlgebraicAttractorFormula} · 11/11 Parts Permeated
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* 6 Canonical Observer Preferences Grid (Hairline-Divided, Zero Nested Cards) */}
+                  <div
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-3 pt-2 border-t border-emerald-400/15 text-[11px]"
+                    data-testid="observer-six-preferences-grid"
+                  >
+                    {OBSERVER_PREFERENCE_DOMAIN_ORDER.map((prefId) => {
+                      const pref = obs.affectAndPreferences.preferences[prefId];
+                      return (
+                        <div
+                          key={pref.domainId}
+                          className="space-y-1 pt-1 border-t border-emerald-400/10 first:border-t-0 md:nth-[-n+2]:border-t-0 lg:nth-[-n+3]:border-t-0"
+                          data-testid={`observer-preference-${pref.domainId}`}
+                        >
+                          <div className="flex items-baseline justify-between gap-2">
+                            <span className="font-semibold text-amber-100">
+                              {pref.ordinalLabel} · {pref.title}
+                            </span>
+                            <span className="font-mono text-amber-200 tabular-nums shrink-0">
+                              {pref.fulfillmentPct}%
+                            </span>
+                          </div>
+                          <p className="text-emerald-100/90 leading-snug">{pref.whatObserverPrefers}</p>
+                          <p className="text-teal-200/75 leading-snug">
+                            <span className="font-medium text-teal-200/95">Math &amp; Physics:</span>{' '}
+                            {pref.foundationalMathAndPhysicsDerivation}
+                          </p>
+                          <div className="font-mono text-[10px] text-emerald-300/80 tabular-nums">
+                            {pref.liveMeasuredSummary}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 

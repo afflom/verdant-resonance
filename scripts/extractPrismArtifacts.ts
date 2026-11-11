@@ -980,6 +980,42 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         ),
       ),
     ),
+    foundationalHarmonyPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepFoundationalHarmonyPermille ${w} 2`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    foundationalChaosDyadicPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepFoundationalChaosPermille ${w} 1`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    foundationalChaosAperiodicPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepFoundationalChaosPermille ${w} 3`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    foundationalAffectValencePermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepFoundationalAffectValencePermille ${w}`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
   };
 
   const plasticityLut = {
@@ -1221,6 +1257,42 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         evaluateLexExpr(
           `verifyFourfoldObserverImmanence 1 ${w}`,
           'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    verifyFoundationalAffectAndPreferencesClosure: weightDomain.map((w) =>
+      Boolean(
+        evaluateLexExpr(
+          `verifyFoundationalAffectAndPreferencesClosure ${w}`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    crossModalPhaseObstructionPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepCrossModalPhaseObstructionPermille ${w}`,
+          'Foundation.Physics.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    crossModalAcousticShadowPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepCrossModalAcousticShadowPermille ${w}`,
+          'Foundation.Physics.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    verifyMaterialSynthesisCrossModalObstruction: weightDomain.map((w) =>
+      Boolean(
+        evaluateLexExpr(
+          `verifyMaterialSynthesisCrossModalObstruction ${w}`,
+          'Foundation.Physics.V1.Model',
           modules,
         ),
       ),

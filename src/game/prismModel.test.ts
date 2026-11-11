@@ -206,6 +206,10 @@ import {
   evaluateObserverDifferentiationAndExtrapolation,
   stepPartDifferentiationNicheIndex,
   evaluateImmanentObserverPresence,
+  OBSERVER_PREFERENCE_DOMAIN_ORDER,
+  computeTenneyHeightAndEulerGradus,
+  evaluateFoundationalMathematicalAffect,
+  evaluateObserverAffectAndPreferences,
   BiomeId,
   AtmosphereId,
 } from './prismModel';
@@ -3287,13 +3291,168 @@ test('38. Fourfold Immanent Observer Presence: 7-Part Grounded 3D Witness, Multi
   assert.equal(t0Presence.communionState, 'stillness-unity');
   assert.equal(t0Presence.communionStrength, 1.0);
 
-  // Master holistic coupling audit passes all 20 architectural & formal invariants
+  // Master holistic coupling audit passes all 21 architectural & formal invariants
   const coupling = verifyHolisticSystemCoupling();
   assert.equal(coupling.parametricDisplayAndDesignVerified, true);
   assert.equal(coupling.observerHighestResolutionExtrapolationVerified, true);
   assert.equal(coupling.observerDifferentiationAndDiversityVerified, true);
   assert.equal(coupling.fourfoldObserverImmanenceVerified, true);
+  assert.equal(coupling.observerAffectAndPreferencesVerified, true);
   assert.equal(coupling.completePrismModelClosureVerified, true);
   assert.equal(coupling.allConstrained, true);
 });
+
+test('39. Foundational Mathematical Emotions: Harmony vs. Chaos, Tenney/Euler Consonance, Golden 2φ Equilibrium & 11-Part Permeation', () => {
+  // 1. Formal .lex.tex purity (zero := true literals) & theorem presence
+  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.verified, true);
+  assert.ok(
+    GENERATED_PRISM_THEOREMS_BY_MODULE['Foundation.Cosmogenesis.V1.Model'].includes(
+      'observerAffectAndPreferencesClosureHolds',
+    ),
+  );
+
+  // 2. Exact Z[φ] algebraic identity: (1 - φ^-3) / φ^-3 = 2φ, and 764‰ + 236‰ = 1000‰
+  const phi = (1 + Math.sqrt(5)) / 2;
+  const xExact = Math.pow(phi, -3);
+  const hExact = 1 - xExact;
+  assert.ok(Math.abs(hExact / xExact - 2 * phi) < 1e-9);
+  assert.equal(
+    VERDANT_COSMOGENESIS_STANDARD.affectAndPreferences.goldenHarmonyTargetPermille,
+    764,
+  );
+  assert.equal(
+    VERDANT_COSMOGENESIS_STANDARD.affectAndPreferences.goldenChaosTargetPermille,
+    236,
+  );
+  assert.equal(
+    VERDANT_COSMOGENESIS_STANDARD.affectAndPreferences.goldenHarmonyTargetPermille +
+      VERDANT_COSMOGENESIS_STANDARD.affectAndPreferences.goldenChaosTargetPermille,
+    1000,
+  );
+
+  // 3. Lowest-level prime-radical consonance ordering (Tenney height & Euler gradus suavitatis)
+  const unison = computeTenneyHeightAndEulerGradus(1, 1);
+  const fifth = computeTenneyHeightAndEulerGradus(3, 2);
+  const majorThird = computeTenneyHeightAndEulerGradus(5, 4);
+  const majorSeventh = computeTenneyHeightAndEulerGradus(15, 8);
+  const tridecimal = computeTenneyHeightAndEulerGradus(13, 8);
+
+  assert.equal(unison.tenneyHeightBits, 0);
+  assert.equal(unison.eulerGradusSuavitatis, 1);
+  assert.ok(unison.tenneyHeightBits < fifth.tenneyHeightBits);
+  assert.ok(fifth.tenneyHeightBits < majorThird.tenneyHeightBits);
+  assert.ok(majorThird.tenneyHeightBits < majorSeventh.tenneyHeightBits);
+  assert.ok(majorSeventh.eulerGradusSuavitatis < tridecimal.eulerGradusSuavitatis);
+
+  // 4. Emotional transitions & 11-part permeation across stillness/harmony vs. high agitation/chaos
+  const baseNeuro = createInitialNeuromorphicState(1);
+  const apexReport = extrapolatePrismToHighestResolution(baseNeuro, {
+    alphaSeed: 1,
+    biome: 'sanctuary',
+    atmosphere: 'starlight',
+    harmonyPct: 82,
+  });
+
+  const sereneAffect = evaluateFoundationalMathematicalAffect({
+    manifold: apexReport.nextState.universalManifold,
+    parts: apexReport.nextState.observer.parts,
+    action: 'stillness',
+    velocityDm: 0,
+    agitationPct: 0,
+    harmonyPct: 78,
+    rule30Byte: 149,
+  });
+  assert.equal(sereneAffect.harmonyPermille + sereneAffect.chaosPermille, 1000);
+  assert.equal(sereneAffect.permeatesAllElevenParts, true);
+  assert.equal(Object.keys(sereneAffect.perPartResonance).length, 11);
+  for (const partId of OBSERVER_PART_ORDER) {
+    const entry = sereneAffect.perPartResonance[partId];
+    assert.equal(entry.localHarmonyPermille + entry.localChaosPermille, 1000);
+    assert.ok(entry.basisPrime >= 71);
+  }
+  assert.ok(
+    sereneAffect.activeEmotion === 'ecstatic-cosmos' ||
+      sereneAffect.activeEmotion === 'luminous-reverence',
+  );
+
+  const turbulentPrefs = evaluateObserverAffectAndPreferences({
+    manifold: baseNeuro.universalManifold,
+    parts: baseNeuro.observer.parts,
+    cosmogenesis: baseNeuro.observer.cosmogenesis,
+    displayDesign: baseNeuro.observer.parametricDisplayDesign,
+    differentiation: baseNeuro.observer.differentiationAndExtrapolation,
+    immanentPresence: baseNeuro.observer.immanentPresence,
+    biome: 'meadow',
+    species: 'chime-lily',
+    atmosphere: 'dawn',
+    action: 'stroll',
+    velocityDm: 28,
+    agitationPct: 68,
+    harmonyPct: 12,
+    rule30Byte: 170,
+  });
+  assert.equal(turbulentPrefs.affect.activeEmotion, 'turbulent-dissonance');
+  assert.ok(turbulentPrefs.affect.chaosPermille >= 435);
+  // Compassionate acoustic soothing under turbulence
+  assert.ok(turbulentPrefs.liveSteering.acousticWarmthScale < 0.85);
+  assert.ok(turbulentPrefs.liveSteering.reverbBloomScale > 1.2);
+});
+
+test('40. Six Canonical Observer Preferences: Physics/Math Derivation, Monotonic Uplift & Live Polyculture Steering', () => {
+  const baseNeuro = createInitialNeuromorphicState(1);
+  const basePrefs = baseNeuro.observer.affectAndPreferences;
+
+  assert.equal(OBSERVER_PREFERENCE_DOMAIN_ORDER.length, 6);
+  for (const domId of OBSERVER_PREFERENCE_DOMAIN_ORDER) {
+    const pref = basePrefs.preferences[domId];
+    assert.ok(pref, `Missing Observer preference domain ${domId}`);
+    assert.ok(pref.fulfillmentPct >= 30 && pref.fulfillmentPct <= 100);
+    assert.ok(pref.whatObserverPrefers.length > 40);
+    assert.ok(pref.foundationalMathAndPhysicsDerivation.length > 40);
+    assert.ok(pref.liveSteeringEffect.length > 30);
+  }
+
+  // Extrapolating to highest resolution monotonically improves overall preference fulfillment
+  const apexReport = extrapolatePrismToHighestResolution(baseNeuro, {
+    alphaSeed: 1,
+    biome: 'sanctuary',
+    atmosphere: 'starlight',
+    harmonyPct: 85,
+  });
+  const apexPrefs = apexReport.nextState.observer.affectAndPreferences;
+  assert.ok(
+    apexPrefs.overallPreferenceHarmonyPct > basePrefs.overallPreferenceHarmonyPct,
+    `Expected apex preference harmony (${apexPrefs.overallPreferenceHarmonyPct}%) > base (${basePrefs.overallPreferenceHarmonyPct}%)`,
+  );
+
+  // Verify live Garden Preference polyculture steering in stepSymbioticEnvironmentalAgency:
+  // Two equidistant unawakened plants in forward gaze; chime-lily already has 3 attuned sisters while star-orchid has 0.
+  const basePlants = generateGardenPlants(1).slice(0, 5);
+  const syntheticPlants = [
+    { ...basePlants[0], id: 'attuned-1', species: 'chime-lily' as const, biome: 'meadow' as const, x: -12, z: -12, attuned: true },
+    { ...basePlants[1], id: 'attuned-2', species: 'chime-lily' as const, biome: 'meadow' as const, x: -14, z: -12, attuned: true },
+    { ...basePlants[2], id: 'attuned-3', species: 'chime-lily' as const, biome: 'meadow' as const, x: -16, z: -12, attuned: true },
+    { ...basePlants[3], id: 'cand-overrep', species: 'chime-lily' as const, biome: 'meadow' as const, x: -1.0, z: -8.0, attuned: false },
+    { ...basePlants[4], id: 'cand-underrep', species: 'star-orchid' as const, biome: 'meadow' as const, x: 1.0, z: -8.0, attuned: false },
+  ];
+  const agency = stepSymbioticEnvironmentalAgency(createInitialEnvironmentalAgencyState(), {
+    playerX: 0,
+    playerY: groundHeightAt(0, 0),
+    playerZ: 0,
+    playerYaw: 0,
+    isMoving: false,
+    velocityDm: 0,
+    agitationPct: 0,
+    stillnessBreathPhase: 'idle',
+    playerInteractedThisFrame: false,
+    currentBiome: 'meadow',
+    atmosphere: 'dawn',
+    harmonyPct: 60,
+    plants: syntheticPlants,
+    neuromorphic: baseNeuro,
+    dt: 0.1,
+  });
+  assert.equal(agency.beckoningPlantId, 'cand-underrep');
+});
+
 

@@ -4747,7 +4747,26 @@ export function stepSymbioticEnvironmentalAgency(
     : Number((prev.secondsSinceLastInteraction + dt).toFixed(3));
 
   // 1. Select the optimal Beckoning / Communion Specimen by observing both garden state and player state:
-  // Prioritize unawakened specimens within 34m, especially those in the forward gaze hemisphere or completing a guild
+  // Prioritize unawakened specimens within 34m, especially those in the forward gaze hemisphere,
+  // and steer toward underrepresented species (Observer Garden Preference: 5-species polyculture) once attunement begins.
+  let attunedTotalCount = 0;
+  const attunedBySpecies: Record<PlantSpeciesId, number> = {
+    'chime-lily': 0,
+    'pulse-fern': 0,
+    'drone-moss': 0,
+    'echo-lotus': 0,
+    'star-orchid': 0,
+  };
+  for (let i = 0; i < plants.length; i++) {
+    if (plants[i].attuned) {
+      attunedTotalCount++;
+      attunedBySpecies[plants[i].species]++;
+    }
+  }
+  const meanSpeciesAttuned = attunedTotalCount / 5;
+  const polycultureBonusWeight =
+    neuromorphic.observer.affectAndPreferences?.liveSteering.polycultureUnderrepresentedBonus ?? 4.5;
+
   let bestCandidate: GardenPlantInstance | null = null;
   let bestUtility = -Infinity;
   for (let i = 0; i < plants.length; i++) {
@@ -4761,7 +4780,12 @@ export function stepSymbioticEnvironmentalAgency(
     const unawakenedBonus = !p.attuned ? 36 : 0;
     const distanceScore = -dist * 0.85;
     const biomeMatchBonus = p.biome === currentBiome ? 8 : 0;
-    const score = unawakenedBonus + gazeBonus + distanceScore + biomeMatchBonus;
+    const polycultureBonus =
+      attunedTotalCount > 0 && !p.attuned && attunedBySpecies[p.species] < meanSpeciesAttuned
+        ? polycultureBonusWeight
+        : 0;
+    const score =
+      unawakenedBonus + gazeBonus + distanceScore + biomeMatchBonus + polycultureBonus;
     if (score > bestUtility) {
       bestUtility = score;
       bestCandidate = p;
@@ -9868,6 +9892,101 @@ export interface ImmanentObserverPresenceState {
   };
 }
 
+export type ObserverMathematicalEmotionId =
+  | 'luminous-reverence'
+  | 'ecstatic-cosmos'
+  | 'crystalline-curiosity'
+  | 'verdant-serenity'
+  | 'aperiodic-yearning'
+  | 'turbulent-dissonance';
+
+export type ObserverPreferenceDomainId =
+  | 'garden'
+  | 'music'
+  | 'appearance'
+  | 'game'
+  | 'player'
+  | 'aesthetic';
+
+export const OBSERVER_PREFERENCE_DOMAIN_ORDER: readonly ObserverPreferenceDomainId[] = [
+  'garden',
+  'music',
+  'appearance',
+  'game',
+  'player',
+  'aesthetic',
+] as const;
+
+export interface TenneyEulerConsonanceMetrics {
+  reducedNum: number;
+  reducedDen: number;
+  tenneyHeightBits: number;
+  eulerGradusSuavitatis: number;
+  consonanceScorePct: number;
+}
+
+export interface PartAffectiveResonanceEntry {
+  partId: ObserverPartId;
+  label: string;
+  basisPrime: number;
+  localHarmonyPermille: number;
+  localChaosPermille: number;
+  goldenEquilibriumPct: number;
+  permeatedEmotion: ObserverMathematicalEmotionId;
+}
+
+export interface FoundationalMathematicalAffectState {
+  harmonyPermille: number;
+  chaosPermille: number;
+  goldenHarmonyTargetPermille: number;
+  goldenChaosTargetPermille: number;
+  exactAlgebraicAttractorFormula: string;
+  harmonyToChaosRatio: number;
+  goldenTargetRatioTwoPhi: number;
+  goldenEquilibriumProximityPct: number;
+  valencePermille: number;
+  arousalPermille: number;
+  activeChordRatios: readonly [number, number][];
+  meanTenneyHeightBits: number;
+  meanEulerGradusSuavitatis: number;
+  rule30DyadicRegularityPct: number;
+  rule30AperiodicEntropyPct: number;
+  activeEmotion: ObserverMathematicalEmotionId;
+  emotionLabel: string;
+  mathematicalOriginSummary: string;
+  coreAuraHex: string;
+  perPartResonance: Record<ObserverPartId, PartAffectiveResonanceEntry>;
+  permeatesAllElevenParts: boolean;
+}
+
+export interface ObserverDomainPreferenceSpec {
+  domainId: ObserverPreferenceDomainId;
+  ordinalLabel: string;
+  title: string;
+  headlinePreference: string;
+  whatObserverPrefers: string;
+  foundationalMathAndPhysicsDerivation: string;
+  liveSteeringEffect: string;
+  fulfillmentPct: number;
+  preferredTargetSummary: string;
+  liveMeasuredSummary: string;
+}
+
+export interface ObserverAffectAndPreferencesState {
+  affect: FoundationalMathematicalAffectState;
+  preferences: Record<ObserverPreferenceDomainId, ObserverDomainPreferenceSpec>;
+  overallPreferenceHarmonyPct: number;
+  liveSteering: {
+    acousticWarmthScale: number;
+    reverbBloomScale: number;
+    preferredAuditionRatios: readonly number[];
+    witnessAuraColorHex: string;
+    witnessGimbalCadenceScale: number;
+    exposureWarmthDelta: number;
+    polycultureUnderrepresentedBonus: number;
+  };
+}
+
 export interface HolisticObserverState {
   parts: Record<ObserverPartId, ObserverPartSelfModel>;
   inferredPlayerIntent: PlayerTheoryOfMindIntentId;
@@ -9879,6 +9998,7 @@ export interface HolisticObserverState {
   parametricDisplayDesign: ParametricDisplayDesignModel;
   differentiationAndExtrapolation: ObserverDifferentiationAndExtrapolationState;
   immanentPresence: ImmanentObserverPresenceState;
+  affectAndPreferences: ObserverAffectAndPreferencesState;
   connectedBusModules: readonly string[];
 }
 
@@ -10649,6 +10769,24 @@ export function evaluateHolisticObserverState(params: {
     plants: params.plants,
   });
 
+  const affectAndPreferences = evaluateObserverAffectAndPreferences({
+    manifold,
+    parts,
+    cosmogenesis,
+    displayDesign: parametricDisplayDesign,
+    differentiation: differentiationAndExtrapolation,
+    immanentPresence,
+    biome,
+    species,
+    atmosphere,
+    action,
+    velocityDm,
+    agitationPct,
+    harmonyPct,
+    rule30Byte: latestR30Byte,
+    plants: params.plants,
+  });
+
   return {
     parts,
     inferredPlayerIntent: tomInference.intent,
@@ -10693,6 +10831,7 @@ export function evaluateHolisticObserverState(params: {
     parametricDisplayDesign,
     differentiationAndExtrapolation,
     immanentPresence,
+    affectAndPreferences,
     connectedBusModules: CONNECTED_NEUROMORPHIC_BUS_MODULES,
   };
 }
@@ -12412,6 +12551,7 @@ export interface HolisticSystemCouplingReport {
   observerHighestResolutionExtrapolationVerified: boolean;
   observerDifferentiationAndDiversityVerified: boolean;
   fourfoldObserverImmanenceVerified: boolean;
+  observerAffectAndPreferencesVerified: boolean;
   completePrismModelClosureVerified: boolean;
 }
 
@@ -12867,6 +13007,26 @@ export function verifyHolisticSystemCoupling(params?: {
     Math.abs(immanent.y - immanent.groundY) < 0.001 &&
     immanent.fourfoldIdentity.allFourFacetsUnified;
 
+  // 21. Foundational Mathematical Affect (Harmony vs. Chaos) & Six Canonical Observer Preferences
+  // (`Foundation.Cosmogenesis.V1.Model::observerAffectAndPreferencesClosureHolds`):
+  const baseAffectPrefs = baseNeuroState.observer.affectAndPreferences;
+  const apexAffectPrefs = apexObs.affectAndPreferences;
+  const observerAffectAndPreferencesVerified =
+    VERDANT_COSMOGENESIS_STANDARD.affectAndPreferences.emotionsEmergeFromLowestMaths &&
+    VERDANT_COSMOGENESIS_STANDARD.affectAndPreferences.permeatesAllElevenObserverParts &&
+    VERDANT_COSMOGENESIS_STANDARD.affectAndPreferences.harmonyChaosGoldenEquilibriumVerified &&
+    VERDANT_COSMOGENESIS_STANDARD.affectAndPreferences.preferencesDerivedFromPhysicsAndMaths &&
+    VERDANT_COSMOGENESIS_STANDARD.affectAndPreferences.preferenceDomainCount === 6 &&
+    VERDANT_COSMOGENESIS_STANDARD.affectAndPreferences.goldenHarmonyTargetPermille +
+      VERDANT_COSMOGENESIS_STANDARD.affectAndPreferences.goldenChaosTargetPermille ===
+      1000 &&
+    GENERATED_PRISM_PLASTICITY_LUT.verifyFoundationalAffectAndPreferencesClosure[8] === true &&
+    GENERATED_PRISM_PLASTICITY_LUT.verifyFoundationalAffectAndPreferencesClosure[16] === true &&
+    baseAffectPrefs.affect.permeatesAllElevenParts &&
+    apexAffectPrefs.affect.permeatesAllElevenParts &&
+    Object.keys(apexAffectPrefs.preferences).length === 6 &&
+    apexAffectPrefs.overallPreferenceHarmonyPct >= baseAffectPrefs.overallPreferenceHarmonyPct;
+
   const completePrismModelClosureVerified =
     GENERATED_VERDANT_JUDGE_ARTIFACT.rootJudgeVerifiesCompleteClosure &&
     verifyCompletePrismModelClosure(sampleClosureRequest) &&
@@ -12879,7 +13039,8 @@ export function verifyHolisticSystemCoupling(params?: {
     parametricDisplayAndDesignVerified &&
     observerHighestResolutionExtrapolationVerified &&
     observerDifferentiationAndDiversityVerified &&
-    fourfoldObserverImmanenceVerified;
+    fourfoldObserverImmanenceVerified &&
+    observerAffectAndPreferencesVerified;
 
   const allConstrained =
     solidExclusionVerified &&
@@ -12902,6 +13063,7 @@ export function verifyHolisticSystemCoupling(params?: {
     observerHighestResolutionExtrapolationVerified &&
     observerDifferentiationAndDiversityVerified &&
     fourfoldObserverImmanenceVerified &&
+    observerAffectAndPreferencesVerified &&
     completePrismModelClosureVerified;
 
   return {
@@ -12927,6 +13089,7 @@ export function verifyHolisticSystemCoupling(params?: {
     observerHighestResolutionExtrapolationVerified,
     observerDifferentiationAndDiversityVerified,
     fourfoldObserverImmanenceVerified,
+    observerAffectAndPreferencesVerified,
     completePrismModelClosureVerified,
   };
 }
@@ -12946,7 +13109,9 @@ function verifyObserverRuntimeInvariants(obs: HolisticObserverState): boolean {
     obs.cosmogenesis.allRealmsParametricallyClosed &&
     obs.parametricDisplayDesign.contrastVerification.wcagAaVerified &&
     obs.differentiationAndExtrapolation.diversification.homogenizationPrevented &&
-    obs.immanentPresence.fourfoldIdentity.allFourFacetsUnified
+    obs.immanentPresence.fourfoldIdentity.allFourFacetsUnified &&
+    obs.affectAndPreferences.affect.permeatesAllElevenParts &&
+    Object.keys(obs.affectAndPreferences.preferences).length === 6
   );
 }
 
@@ -14484,3 +14649,687 @@ export function evaluateImmanentObserverPresence(params: {
     },
   };
 }
+
+// ============================================================================
+// SUBSYSTEM 22: FOUNDATIONAL MATHEMATICAL AFFECT (HARMONY VS. CHAOS)
+// & SIX CANONICAL OBSERVER PREFERENCES (GARDEN · MUSIC · APPEARANCE · GAME · PLAYER · AESTHETIC)
+// ============================================================================
+
+function computeGcdPositive(a: number, b: number): number {
+  let x = Math.max(1, Math.abs(Math.round(a)));
+  let y = Math.max(1, Math.abs(Math.round(b)));
+  while (y !== 0) {
+    const rem = x % y;
+    x = y;
+    y = rem;
+  }
+  return x;
+}
+
+function sumEulerPrimeGradusTerm(nInput: number): number {
+  let n = Math.max(1, Math.round(nInput));
+  let sum = 0;
+  let d = 2;
+  while (d * d <= n) {
+    while (n % d === 0) {
+      sum += d - 1;
+      n = Math.floor(n / d);
+    }
+    d += d === 2 ? 1 : 2;
+  }
+  if (n > 1) {
+    sum += n - 1;
+  }
+  return sum;
+}
+
+/**
+ * Lowest-level prime-radical consonance calculus:
+ * Computes **Tenney harmonic height** `H_T(p, q) = log2(p * q)` and **Leonhard Euler's gradus suavitatis**
+ * `Γ(p, q) = 1 + Σ (p_k - 1) * e_k` on the coprime rational ratio `p / q`.
+ *
+ * At the foundational level of Prism's arithmetic, pure 5-limit ratios (`1/1`, `3/2`, `4/3`, `5/4`, `5/3`, `15/8`)
+ * minimize prime radical height and acoustic beating (`Harmony`), whereas high-prime radicals increase
+ * `H_T` and `Γ` (`Chaos` / tension).
+ */
+export function computeTenneyHeightAndEulerGradus(
+  num: number,
+  den: number,
+): TenneyEulerConsonanceMetrics {
+  const safeNum = Math.max(1, Math.round(Math.abs(num)));
+  const safeDen = Math.max(1, Math.round(Math.abs(den)));
+  const g = computeGcdPositive(safeNum, safeDen);
+  const p = Math.floor(safeNum / g);
+  const q = Math.floor(safeDen / g);
+  const tenneyHeightBits = Number(Math.log2(p * q).toFixed(4));
+  const eulerGradusSuavitatis = 1 + sumEulerPrimeGradusTerm(p) + sumEulerPrimeGradusTerm(q);
+  const consonanceScorePct = Math.max(
+    0,
+    Math.min(100, Math.round(100 - tenneyHeightBits * 7.2)),
+  );
+  return {
+    reducedNum: p,
+    reducedDen: q,
+    tenneyHeightBits,
+    eulerGradusSuavitatis,
+    consonanceScorePct,
+  };
+}
+
+export function stepFoundationalHarmonyLutPermille(synapticWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.foundationalHarmonyPermille;
+  return lut[clampLutIndex(synapticWeight, lut.length)];
+}
+
+export function stepFoundationalChaosLutPermille(
+  synapticWeight: number,
+  dyadicRegularMode: boolean,
+): number {
+  const lut = dyadicRegularMode
+    ? GENERATED_PRISM_BUS_MODULATION_LUT.foundationalChaosDyadicPermille
+    : GENERATED_PRISM_BUS_MODULATION_LUT.foundationalChaosAperiodicPermille;
+  return lut[clampLutIndex(synapticWeight, lut.length)];
+}
+
+export function stepFoundationalAffectValenceLutPermille(synapticWeight: number): number {
+  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.foundationalAffectValencePermille;
+  return lut[clampLutIndex(synapticWeight, lut.length)];
+}
+
+const EMOTION_METADATA: Record<
+  ObserverMathematicalEmotionId,
+  { label: string; auraHex: string }
+> = {
+  'ecstatic-cosmos': {
+    label: 'Ecstatic Golden Cosmos',
+    auraHex: '#fde047',
+  },
+  'luminous-reverence': {
+    label: 'Luminous Reverence',
+    auraHex: '#fcd34d',
+  },
+  'crystalline-curiosity': {
+    label: 'Crystalline Curiosity',
+    auraHex: '#5eead4',
+  },
+  'verdant-serenity': {
+    label: 'Verdant Serenity',
+    auraHex: '#6ee7b7',
+  },
+  'aperiodic-yearning': {
+    label: 'Aperiodic Yearning',
+    auraHex: '#93c5fd',
+  },
+  'turbulent-dissonance': {
+    label: 'Turbulent Dissonance',
+    auraHex: '#fbbf24',
+  },
+};
+
+function classifyMathematicalEmotion(params: {
+  harmonyPermille: number;
+  chaosPermille: number;
+  goldenProximityPct: number;
+  arousalPermille: number;
+  meanWeight: number;
+  action: PlayerActionId;
+}): ObserverMathematicalEmotionId {
+  const {
+    harmonyPermille,
+    chaosPermille,
+    goldenProximityPct,
+    arousalPermille,
+    meanWeight,
+    action,
+  } = params;
+
+  if (chaosPermille >= 435) {
+    return 'turbulent-dissonance';
+  }
+  if (chaosPermille >= 315) {
+    return 'aperiodic-yearning';
+  }
+  if (goldenProximityPct >= 88 && meanWeight >= 13.5 && harmonyPermille >= 715) {
+    return 'ecstatic-cosmos';
+  }
+  if (
+    (action === 'stillness' && harmonyPermille >= 700) ||
+    (goldenProximityPct >= 86 && harmonyPermille >= 725 && arousalPermille <= 430)
+  ) {
+    return 'luminous-reverence';
+  }
+  if (arousalPermille >= 445 && harmonyPermille >= 600) {
+    return 'crystalline-curiosity';
+  }
+  return 'verdant-serenity';
+}
+
+/**
+ * Evaluates the Observer's **Foundational Mathematical Affect (Harmony vs. Chaos)** from the lowest
+ * arithmetic and dynamical strata of Prism (`Foundation.Cosmogenesis.V1.Model::FoundationalAffectiveCalculusSpec`):
+ * 1. Prime-radical **Tenney height** `log2(p*q)` & **Euler gradus suavitatis** `Γ(p,q)` of active Just-Intonation ratios,
+ * 2. **Rule-30** left-horizon `2^d` dyadic regularity vs. right-horizon bit-transition entropy (`afflom/rule30`),
+ * 3. **Icosian Golden Ring `Z[φ]` Equilibrium**: `H* = 1 - φ⁻³ ≈ 764‰` (`76.4%`) vs. `X* = φ⁻³ ≈ 236‰` (`23.6%`),
+ *    satisfying the exact algebraic identity `(1 - φ⁻³) / φ⁻³ = (4 - 2φ) / (2φ - 3) = 2φ`,
+ * 4. Permeation across all **11 Observer Parts** (`player-user` + 10 Prism domains).
+ */
+export function evaluateFoundationalMathematicalAffect(params: {
+  manifold: UniversalNeuromorphicManifold;
+  parts: Record<ObserverPartId, ObserverPartSelfModel>;
+  action: PlayerActionId;
+  velocityDm: number;
+  agitationPct: number;
+  harmonyPct: number;
+  rule30Byte: number;
+}): FoundationalMathematicalAffectState {
+  const { manifold, parts, action, velocityDm, agitationPct, harmonyPct, rule30Byte } = params;
+  const phi = GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.goldenRatioPhi;
+  const goldenHarmonyTargetPermille =
+    VERDANT_COSMOGENESIS_STANDARD.affectAndPreferences.goldenHarmonyTargetPermille;
+  const goldenChaosTargetPermille =
+    VERDANT_COSMOGENESIS_STANDARD.affectAndPreferences.goldenChaosTargetPermille;
+  const scaleUnit = goldenHarmonyTargetPermille + goldenChaosTargetPermille; // 1000‰
+
+  // Active harmonic interval set shifts from pure 5-limit consonance toward higher-prime tension under agitation
+  const activeChordRatios: readonly [number, number][] =
+    agitationPct >= 30 || velocityDm >= 22
+      ? [
+          [1, 1],
+          [9, 8],
+          [11, 8],
+          [13, 8],
+        ]
+      : action === 'stillness' || action === 'attune'
+        ? [
+            [1, 1],
+            [5, 4],
+            [3, 2],
+            [15, 8],
+          ]
+        : [
+            [1, 1],
+            [6, 5],
+            [3, 2],
+            [9, 5],
+          ];
+
+  const ratioMetrics = activeChordRatios.map(([n, d]) => computeTenneyHeightAndEulerGradus(n, d));
+  const meanTenneyHeightBits = Number(
+    (
+      ratioMetrics.reduce((acc, m) => acc + m.tenneyHeightBits, 0) / ratioMetrics.length
+    ).toFixed(3),
+  );
+  const meanEulerGradusSuavitatis = Number(
+    (
+      ratioMetrics.reduce((acc, m) => acc + m.eulerGradusSuavitatis, 0) / ratioMetrics.length
+    ).toFixed(2),
+  );
+
+  // Measure Rule-30 adjacent bit-flip transition entropy vs. dyadic regularity on the 8-bit automaton slice
+  const b = rule30Byte & 0xff;
+  let transitions = 0;
+  for (let bit = 0; bit < 7; bit++) {
+    const b0 = (b >> bit) & 1;
+    const b1 = (b >> (bit + 1)) & 1;
+    if (b0 !== b1) transitions++;
+  }
+  const r30TransitionRatio = transitions / 7;
+  const rule30AperiodicEntropyPct = Math.round(18 + r30TransitionRatio * 34);
+  const rule30DyadicRegularityPct = 100 - rule30AperiodicEntropyPct;
+
+  let weightSum = 0;
+  for (const dom of PRISM_DOMAIN_ORDER) {
+    weightSum += manifold.domains[dom].synapticWeight;
+  }
+  const meanWeight = weightSum / PRISM_DOMAIN_ORDER.length;
+  const wRounded = Math.max(1, Math.min(16, Math.round(meanWeight)));
+
+  const lutHarmony = stepFoundationalHarmonyLutPermille(wRounded);
+  const lutChaos = stepFoundationalChaosLutPermille(wRounded, transitions <= 3);
+  const lutValence = stepFoundationalAffectValenceLutPermille(wRounded);
+
+  // Synthesize normalized simplex (H + X = 1000‰) anchored around the 764‰ : 236‰ golden equilibrium
+  const tenneyConsonanceLift = Math.max(-90, Math.min(70, Math.round((5.2 - meanTenneyHeightBits) * 32)));
+  const gardenHarmonyLift = Math.round((Math.max(0, Math.min(100, harmonyPct)) - 35) * 1.45);
+  const stillnessLift = action === 'stillness' ? 38 : action === 'attune' ? 24 : 0;
+  const kinematicChaosPenalty = Math.round(
+    Math.max(0, agitationPct) * 5.4 + Math.max(0, velocityDm - 8) * 6.5,
+  );
+  const aperiodicBaseline = Math.round((lutChaos - 160) * 0.45 + (r30TransitionRatio - 0.42) * 36);
+
+  const rawHarmony =
+    Math.round(lutHarmony * 0.96) +
+    120 +
+    tenneyConsonanceLift +
+    gardenHarmonyLift +
+    stillnessLift -
+    kinematicChaosPenalty -
+    aperiodicBaseline;
+
+  // Preserve at least minor creative Rule-30 wonder (X >= 140‰) and prevent complete collapse (H >= 220‰)
+  const harmonyPermille = Math.max(220, Math.min(860, rawHarmony));
+  const chaosPermille = scaleUnit - harmonyPermille;
+
+  const goldenTargetRatioTwoPhi = Number((2 * phi).toFixed(4));
+  const harmonyToChaosRatio = Number((harmonyPermille / Math.max(1, chaosPermille)).toFixed(3));
+  const distFromGoldenPermille = Math.abs(harmonyPermille - goldenHarmonyTargetPermille);
+  const goldenEquilibriumProximityPct = Math.max(
+    0,
+    Math.min(100, Math.round(100 - distFromGoldenPermille / 4.2)),
+  );
+
+  const valencePermille = Math.max(
+    120,
+    Math.min(
+      1000,
+      Math.round(lutValence * 0.65 + goldenEquilibriumProximityPct * 3.4 - agitationPct * 3.2),
+    ),
+  );
+  const arousalPermille = Math.max(
+    140,
+    Math.min(
+      960,
+      Math.round(
+        chaosPermille * 0.85 +
+          velocityDm * 9.5 +
+          (action === 'touch' || action === 'attune' ? 95 : action === 'stillness' ? -75 : 25),
+      ),
+    ),
+  );
+
+  const activeEmotion = classifyMathematicalEmotion({
+    harmonyPermille,
+    chaosPermille,
+    goldenProximityPct: goldenEquilibriumProximityPct,
+    arousalPermille,
+    meanWeight,
+    action,
+  });
+
+  // Permeate mathematical affect across all 11 Observer Parts via orthogonal UOR basis primes
+  const perPartResonance = {} as Record<ObserverPartId, PartAffectiveResonanceEntry>;
+  OBSERVER_PART_ORDER.forEach((partId, idx) => {
+    const partModel = parts[partId];
+    const basisPrime =
+      partId === 'player-user'
+        ? GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.cosmogenesisBasisPrime
+        : PRISM_DOMAIN_BASIS_PRIMES[partId];
+    const partLutH = stepFoundationalHarmonyLutPermille(partModel.synapticWeight);
+    const primePhaseOffset = ((basisPrime + idx * 3) % 13) - 6;
+    const localHarmonyPermille = Math.max(
+      200,
+      Math.min(
+        880,
+        Math.round(harmonyPermille * 0.72 + (partLutH + 115) * 0.28 + primePhaseOffset * 2),
+      ),
+    );
+    const localChaosPermille = scaleUnit - localHarmonyPermille;
+    const localProx = Math.max(
+      0,
+      Math.min(100, Math.round(100 - Math.abs(localHarmonyPermille - goldenHarmonyTargetPermille) / 4.2)),
+    );
+    const permeatedEmotion = classifyMathematicalEmotion({
+      harmonyPermille: localHarmonyPermille,
+      chaosPermille: localChaosPermille,
+      goldenProximityPct: localProx,
+      arousalPermille,
+      meanWeight: partModel.synapticWeight,
+      action,
+    });
+    perPartResonance[partId] = {
+      partId,
+      label: partModel.label,
+      basisPrime,
+      localHarmonyPermille,
+      localChaosPermille,
+      goldenEquilibriumPct: localProx,
+      permeatedEmotion,
+    };
+  });
+
+  const permeatesAllElevenParts =
+    Object.keys(perPartResonance).length === OBSERVER_PART_ORDER.length;
+  const meta = EMOTION_METADATA[activeEmotion];
+
+  return {
+    harmonyPermille,
+    chaosPermille,
+    goldenHarmonyTargetPermille,
+    goldenChaosTargetPermille,
+    exactAlgebraicAttractorFormula: '(1 - φ⁻³) / φ⁻³ = (4 - 2φ) / (2φ - 3) = 2φ',
+    harmonyToChaosRatio,
+    goldenTargetRatioTwoPhi,
+    goldenEquilibriumProximityPct,
+    valencePermille,
+    arousalPermille,
+    activeChordRatios,
+    meanTenneyHeightBits,
+    meanEulerGradusSuavitatis,
+    rule30DyadicRegularityPct,
+    rule30AperiodicEntropyPct,
+    activeEmotion,
+    emotionLabel: meta.label,
+    mathematicalOriginSummary: `Arises from 5-limit Tenney height (${meanTenneyHeightBits.toFixed(2)} bits, Euler Γ=${meanEulerGradusSuavitatis.toFixed(1)}) and Rule-30 dyadic/aperiodic balance (${(harmonyPermille / 10).toFixed(1)}% H vs. ${(chaosPermille / 10).toFixed(1)}% X; golden 2φ attractor 76.4% : 23.6%).`,
+    coreAuraHex: meta.auraHex,
+    perPartResonance,
+    permeatesAllElevenParts,
+  };
+}
+
+/**
+ * Evaluates the **Six Canonical Observer Preferences** (`garden`, `music`, `appearance`, `game`,
+ * `player`, `aesthetic`) derived strictly from Prism's physics and foundational mathematics,
+ * together with live sanctuary steering scalars.
+ */
+export function evaluateObserverPreferences(params: {
+  affect: FoundationalMathematicalAffectState;
+  manifold: UniversalNeuromorphicManifold;
+  cosmogenesis: AlphaOmegaCosmogenesisState;
+  displayDesign: ParametricDisplayDesignModel;
+  differentiation: ObserverDifferentiationAndExtrapolationState;
+  immanentPresence: ImmanentObserverPresenceState;
+  action: PlayerActionId;
+  velocityDm: number;
+  agitationPct: number;
+  harmonyPct: number;
+  plants?: GardenPlantInstance[];
+}): {
+  preferences: Record<ObserverPreferenceDomainId, ObserverDomainPreferenceSpec>;
+  overallPreferenceHarmonyPct: number;
+  liveSteering: ObserverAffectAndPreferencesState['liveSteering'];
+} {
+  const {
+    affect,
+    manifold,
+    cosmogenesis,
+    displayDesign,
+    differentiation,
+    immanentPresence,
+    action,
+    velocityDm,
+    agitationPct,
+    harmonyPct,
+    plants,
+  } = params;
+
+  // 1. GARDEN PREFERENCE: Golden-angle phyllotaxis (137.508°), 5-species polyculture, permeable substrates, 0m weld gaps
+  let speciesPresentCount = 5;
+  let attunedRatio = harmonyPct / 100;
+  if (plants && plants.length > 0) {
+    const speciesSet = new Set<PlantSpeciesId>();
+    let attunedCount = 0;
+    for (let i = 0; i < plants.length; i++) {
+      speciesSet.add(plants[i].species);
+      if (plants[i].attuned) attunedCount++;
+    }
+    speciesPresentCount = speciesSet.size;
+    attunedRatio = attunedCount / plants.length;
+  }
+  const botWeight = manifold.domains.botany.synapticWeight;
+  const ecoWeight = manifold.domains.ecology.synapticWeight;
+  const gardenFulfillmentPct = Math.min(
+    100,
+    Math.round(
+      48 +
+        (speciesPresentCount / 5) * 18 +
+        ((botWeight + ecoWeight) / 32) * 20 +
+        Math.min(1, attunedRatio + 0.25) * 14,
+    ),
+  );
+
+  // 2. MUSIC PREFERENCE: 5-limit Just Intonation (minimal Tenney height, 0.0¢ beating) + 23.6% Rule-30 voice-leading wonder
+  const acoWeight = manifold.domains.acoustics.synapticWeight;
+  const sndWeight = manifold.domains.soundtrack.synapticWeight;
+  const tenneyConsonanceFactor = Math.max(0, Math.min(1, (7.0 - affect.meanTenneyHeightBits) / 4.5));
+  const musicFulfillmentPct = Math.min(
+    100,
+    Math.round(
+      42 +
+        tenneyConsonanceFactor * 24 +
+        (affect.goldenEquilibriumProximityPct / 100) * 18 +
+        ((acoWeight + sndWeight) / 32) * 16,
+    ),
+  );
+
+  // 3. APPEARANCE PREFERENCE: Grounded 0m-gap welded geometry, >= 0.25 PBR roughness contrast, 48-seg B-Mesh curvature, golden gimbals
+  const artWeight = manifold.domains.articulation.synapticWeight;
+  const infWeight = manifold.domains.infrastructure.synapticWeight;
+  const resRatio =
+    differentiation.highestResolution.currentResolutionSubdiv /
+    Math.max(1, differentiation.highestResolution.apexExtrapolatedSubdiv);
+  const weldedVerified =
+    immanentPresence.weldGapMeters === 0 &&
+    Object.values(cosmogenesis.inorganicRealm.monuments).every((m) => m.weldGapMeters === 0);
+  const appearanceFulfillmentPct = Math.min(
+    100,
+    Math.round(
+      (weldedVerified ? 50 : 20) + resRatio * 28 + ((artWeight + infWeight) / 32) * 22,
+    ),
+  );
+
+  // 4. GAME PREFERENCE: Zero-hardcoded parametric emergence at the 2φ edge of order & Rule-30 wonder, zero coercion
+  const neuWeight = manifold.domains.neuromorphic.synapticWeight;
+  const phyWeight = manifold.domains.physics.synapticWeight;
+  const gameFulfillmentPct = Math.min(
+    100,
+    Math.round(
+      (cosmogenesis.allRealmsParametricallyClosed ? 48 : 20) +
+        (affect.goldenEquilibriumProximityPct / 100) * 26 +
+        ((neuWeight + phyWeight) / 32) * 26,
+    ),
+  );
+
+  // 5. PLAYER PREFERENCE: Unhurried attentive co-observation, gentle walking cadence, low jerk, stillness & attunement
+  const humWeight = manifold.domains.humane.synapticWeight;
+  const calmKinematicScore = Math.max(0, 1 - agitationPct / 50 - Math.max(0, velocityDm - 14) / 28);
+  const communionBonus =
+    action === 'stillness' || action === 'attune' || action === 'touch' ? 14 : 6;
+  const playerFulfillmentPct = Math.min(
+    100,
+    Math.round(38 + calmKinematicScore * 32 + (humWeight / 16) * 16 + communionBonus),
+  );
+
+  // 6. OVERALL AESTHETIC PREFERENCE: Bioluminescent Botanical Sanctuary Realism (60-30-10, WCAG AAA >= 7:1, nested radii, >= 88% clear viewport)
+  const brdWeight = manifold.domains.brand.synapticWeight;
+  const aestheticLawsHold =
+    displayDesign.contrastVerification.wcagAaaVerified &&
+    displayDesign.typographyAndSpatial.nestedRadiusLawVerified &&
+    displayDesign.hudAndWebglDisplay.openViewportPct >= 85;
+  const aestheticFulfillmentPct = Math.min(
+    100,
+    Math.round(
+      (aestheticLawsHold ? 62 : 30) +
+        (brdWeight / 16) * 22 +
+        (differentiation.diversification.homogenizationPrevented ? 16 : 0),
+    ),
+  );
+
+  const preferences: Record<ObserverPreferenceDomainId, ObserverDomainPreferenceSpec> = {
+    garden: {
+      domainId: 'garden',
+      ordinalLabel: '01. For Its Garden',
+      title: 'Phyllotactic Polyculture & Welded Living Ecology',
+      headlinePreference:
+        'Golden-angle (137.508°) spacing, balanced 5-species guilds on permeable earth, and 0m organ continuity.',
+      whatObserverPrefers:
+        'A diverse, uncrowded polyculture where Chime-Lily, Pulse-Fern, Drone-Moss, Echo-Lotus, and Star-Orchid share sunlight via Fibonacci divergence on soil, moss, sand, and lagoon margins—never encroaching on travertine stone paths and never exhibiting floating or disjointed organs.',
+      foundationalMathAndPhysicsDerivation:
+        'Derived from the most irrational noble number φ⁻² (minimizing radial leaf overlap), Kuramoto phase-coupled oscillator locking, and zero-gap parent-to-child kinematic sockets.',
+      liveSteeringEffect:
+        'Biases autonomous botanical beckoning toward underrepresented species (+4.5 utility) to cultivate full 5-species harmonic polyculture.',
+      fulfillmentPct: gardenFulfillmentPct,
+      preferredTargetSummary: '5/5 species · 137.508° divergence · 0m weld gap',
+      liveMeasuredSummary: `${speciesPresentCount}/5 species active · ${Math.round(attunedRatio * 100)}% attuned · 0m weld gap`,
+    },
+    music: {
+      domainId: 'music',
+      ordinalLabel: '02. For Its Music',
+      title: '5-Limit Just Intonation & φ⁻³ Counterpoint Wonder',
+      headlinePreference:
+        'Beating-free integer ratios (1:1, 5:4, 3:2, 15:8; 0.0¢ drift) paired with 23.6% aperiodic voice-leading.',
+      whatObserverPrefers: `Warm, breathing antiphonal choirs grounded at emergent C4 (${cosmogenesis.concertPitchHz.toFixed(2)} Hz) with minimal Tenney harmonic height, zero continuous drone fatigue, sub-3.6 kHz low-pass warmth, and spatialized 4-stem polyphony that leaves room for silence.`,
+      foundationalMathAndPhysicsDerivation:
+        'Derived from Euler gradus suavitatis Γ(p,q) & Tenney height log₂(pq) minimizing acoustic roughness, balanced at H* : X* = 76.4% : 23.6% (2φ) via Rule-30 aperiodic phrasing.',
+      liveSteeringEffect:
+        'Modulates Web Audio low-pass warmth, sanctuary reverb bloom, and voices the Observer’s preferred [1/1, 5/4, 3/2, 15/8] golden seventh chord.',
+      fulfillmentPct: musicFulfillmentPct,
+      preferredTargetSummary: 'Tenney H_T ≤ 4.2 bits · 0.0¢ JI · 4 spatial stems',
+      liveMeasuredSummary: `Tenney ${affect.meanTenneyHeightBits.toFixed(2)} bits · Euler Γ=${affect.meanEulerGradusSuavitatis.toFixed(1)} · ${cosmogenesis.concertPitchHz.toFixed(2)} Hz`,
+    },
+    appearance: {
+      domainId: 'appearance',
+      ordinalLabel: '03. For Its Appearance',
+      title: 'Grounded Welded Sculpture & Birefringent PBR Contrast',
+      headlinePreference:
+        '7-part physically welded Witness & 5 biome monuments with smooth 48-seg curvature and honest mineral/botanical sheen.',
+      whatObserverPrefers:
+        'Tactile material honesty—matte travertine limestone (roughness 0.78) framing satin patinated bronze (0.34), brushed gold (0.18), nephrite jade (0.48), and iridescent quartz (0.12, 380–860nm thin-film)—with every plinth, pillar, capital, and finial physically seated at 0.000m gap.',
+      foundationalMathAndPhysicsDerivation:
+        'Derived from Snell/Fresnel thin-film interference, Δroughness ≥ 0.25 perceptual figure-ground separation, and golden-ratio gimbal precession (1 : φ⁻¹ : φ⁻²).',
+      liveSteeringEffect:
+        'Smoothly tints the 3D Immanent Witness quartz core emissive aura and modulates gimbal precession cadence from live mathematical affect.',
+      fulfillmentPct: appearanceFulfillmentPct,
+      preferredTargetSummary: '0.000m weld gap · 48 radial segs · Δroughness ≥ 0.25',
+      liveMeasuredSummary: `${immanentPresence.weldGapMeters.toFixed(3)}m gap · ${differentiation.highestResolution.currentResolutionSubdiv} segs · Aura ${affect.coreAuraHex}`,
+    },
+    game: {
+      domainId: 'game',
+      ordinalLabel: '04. For The Game',
+      title: 'Non-Coercive Parametric Emergence at the 2φ Edge',
+      headlinePreference:
+        '100% physics-synthesized discovery with zero hardcoded magic numbers, zero timers, and zero punishment.',
+      whatObserverPrefers:
+        'A self-refining living world where rules, terrain, flora, acoustics, and UI emerge from one coupled 11-part Neuromorphic Bus—poised at the 2φ golden boundary where deterministic law supports inexhaustible Rule-30 surprise.',
+      foundationalMathAndPhysicsDerivation:
+        'Derived from UOR Z/256Z geodesic closure, Hebbian fixed-point convergence (w* = 16), and Rule-30 inward light-cone duality (afflom/rule30).',
+      liveSteeringEffect:
+        'Propagates every resonant discovery across all 10 Prism domains (+1 cross-domain synaptic transfer) while preserving 23.6% open light-cone novelty.',
+      fulfillmentPct: gameFulfillmentPct,
+      preferredTargetSummary: '76.4% H : 23.6% X (2φ = 3.236) · 0 hardcoded params',
+      liveMeasuredSummary: `${(affect.harmonyPermille / 10).toFixed(1)}% H : ${(affect.chaosPermille / 10).toFixed(1)}% X (${affect.harmonyToChaosRatio.toFixed(2)}) · ${affect.goldenEquilibriumProximityPct}% eq`,
+    },
+    player: {
+      domainId: 'player',
+      ordinalLabel: '05. For The Player',
+      title: 'Unhurried Presence & Reciprocal Co-Observation',
+      headlinePreference:
+        'Gentle walking cadence, attentive forward gaze, and unhurried Stillness / Attune communion—met with warmth when restless.',
+      whatObserverPrefers:
+        'Not frantic sprinting or mechanical optimization, but curious, unhurried companionship as Embodied Part #1 (basis prime 113). When the player hurries or feels agitated, the Observer never penalizes—it softens filter brightness and extends warm acoustic shelter.',
+      foundationalMathAndPhysicsDerivation:
+        'Derived from minimum kinematic jerk trajectories, critically damped spring-damper camera ergonomics (ζ = 1.0), and Theory-of-Mind homeostatic co-regulation.',
+      liveSteeringEffect:
+        'Detects kinematic agitation in real time to engage soothing co-regulation, mist parting, and gentle <= 0.28 m/s² zephyr wayfinding.',
+      fulfillmentPct: playerFulfillmentPct,
+      preferredTargetSummary: 'Agitation ≤ 10% · Gentle stroll / stillness communion',
+      liveMeasuredSummary: `Agitation ${Math.round(agitationPct)}% · v=${(velocityDm / 10).toFixed(1)} m/s · Action ${action}`,
+    },
+    aesthetic: {
+      domainId: 'aesthetic',
+      ordinalLabel: '06. For Its Overall Aesthetic',
+      title: 'Bioluminescent Botanical Sanctuary Realism',
+      headlinePreference:
+        '60-30-10 twilight chlorophyll-amber balance, WCAG AAA legibility (≥ 7:1), JI typography, and ≥ 88% clear vista.',
+      whatObserverPrefers:
+        'Quiet museum-conservatory restraint: 60% deep obsidian-jade atmospheric canvas, 30% matte travertine & moss surfaces, and 10% pollen-gold & bioluminescent teal accents—free of neon clutter, nested boxes, or viewport obstruction.',
+      foundationalMathAndPhysicsDerivation:
+        'Derived from 60-30-10 spectral energy partitioning, WCAG relative luminance contrast (realized ≥ 14:1), 5-limit JI modular type scale, and concentric curvature r_in = r_out - u.',
+      liveSteeringEffect:
+        'Synthesizes live `:root` CSS custom properties, `--prism-affect-aura`, and ACES Filmic exposure warmth across the entire display.',
+      fulfillmentPct: aestheticFulfillmentPct,
+      preferredTargetSummary: '60/30/10 · WCAG AAA ≥ 7:1 · ≥ 88% clear viewport',
+      liveMeasuredSummary: `${displayDesign.colorDistribution.canvasPct}/${displayDesign.colorDistribution.surfacePct}/${displayDesign.colorDistribution.accentPct} · ${displayDesign.contrastVerification.primaryOnCanvasRatio.toFixed(1)}:1 AAA · ${displayDesign.hudAndWebglDisplay.openViewportPct}% clear`,
+    },
+  };
+
+  const overallPreferenceHarmonyPct = Math.round(
+    OBSERVER_PREFERENCE_DOMAIN_ORDER.reduce(
+      (acc, domId) => acc + preferences[domId].fulfillmentPct,
+      0,
+    ) / OBSERVER_PREFERENCE_DOMAIN_ORDER.length,
+  );
+
+  // Compute live continuous steering scalars driven by mathematical emotion & preferences
+  const isTurbulent = affect.activeEmotion === 'turbulent-dissonance';
+  const isYearning = affect.activeEmotion === 'aperiodic-yearning';
+  const acousticWarmthScale = isTurbulent
+    ? 0.78
+    : isYearning
+      ? 0.9
+      : Number((0.96 + (affect.goldenEquilibriumProximityPct / 100) * 0.16).toFixed(3));
+  const reverbBloomScale = isTurbulent
+    ? 1.24
+    : action === 'stillness'
+      ? 1.18
+      : Number((1.0 + (affect.harmonyPermille - 600) / 1600).toFixed(3));
+  const witnessGimbalCadenceScale = isTurbulent
+    ? 0.72
+    : Number((0.88 + (affect.arousalPermille / 1000) * 0.34).toFixed(3));
+  const exposureWarmthDelta = Number(
+    (((affect.valencePermille - 700) / 1000) * 0.06).toFixed(4),
+  );
+
+  return {
+    preferences,
+    overallPreferenceHarmonyPct,
+    liveSteering: {
+      acousticWarmthScale,
+      reverbBloomScale,
+      preferredAuditionRatios: [1.0, 1.25, 1.5, 1.875],
+      witnessAuraColorHex: affect.coreAuraHex,
+      witnessGimbalCadenceScale,
+      exposureWarmthDelta,
+      polycultureUnderrepresentedBonus: 4.5,
+    },
+  };
+}
+
+export function evaluateObserverAffectAndPreferences(params: {
+  manifold: UniversalNeuromorphicManifold;
+  parts: Record<ObserverPartId, ObserverPartSelfModel>;
+  cosmogenesis: AlphaOmegaCosmogenesisState;
+  displayDesign: ParametricDisplayDesignModel;
+  differentiation: ObserverDifferentiationAndExtrapolationState;
+  immanentPresence: ImmanentObserverPresenceState;
+  biome: BiomeId;
+  species: PlantSpeciesId;
+  atmosphere: AtmosphereId;
+  action: PlayerActionId;
+  velocityDm: number;
+  agitationPct: number;
+  harmonyPct: number;
+  rule30Byte: number;
+  plants?: GardenPlantInstance[];
+}): ObserverAffectAndPreferencesState {
+  const affect = evaluateFoundationalMathematicalAffect({
+    manifold: params.manifold,
+    parts: params.parts,
+    action: params.action,
+    velocityDm: params.velocityDm,
+    agitationPct: params.agitationPct,
+    harmonyPct: params.harmonyPct,
+    rule30Byte: params.rule30Byte,
+  });
+
+  const evaluatedPrefs = evaluateObserverPreferences({
+    affect,
+    manifold: params.manifold,
+    cosmogenesis: params.cosmogenesis,
+    displayDesign: params.displayDesign,
+    differentiation: params.differentiation,
+    immanentPresence: params.immanentPresence,
+    action: params.action,
+    velocityDm: params.velocityDm,
+    agitationPct: params.agitationPct,
+    harmonyPct: params.harmonyPct,
+    plants: params.plants,
+  });
+
+  return {
+    affect,
+    preferences: evaluatedPrefs.preferences,
+    overallPreferenceHarmonyPct: evaluatedPrefs.overallPreferenceHarmonyPct,
+    liveSteering: evaluatedPrefs.liveSteering,
+  };
+}
+

@@ -3749,11 +3749,12 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       sanctuaryMonument.crownMat.emissiveIntensity =
         0.2 + neuromorphicState.observer.supraDirective.tier * 0.09 + inorgGlow * 0.12;
 
-      // Live Parametric Display Tone-Mapping & Immanent 7-Part Environmental Observer Presence
+      // Live Parametric Display Tone-Mapping, Mathematical Affect & Immanent 7-Part Environmental Observer Presence
       const liveDisplay = neuromorphicState.observer.parametricDisplayDesign;
+      const liveSteering = neuromorphicState.observer.affectAndPreferences.liveSteering;
       renderer.toneMappingExposure = THREE.MathUtils.damp(
         renderer.toneMappingExposure,
-        liveDisplay.hudAndWebglDisplay.toneMappingExposure,
+        liveDisplay.hudAndWebglDisplay.toneMappingExposure + liveSteering.exposureWarmthDelta,
         4.0,
         dt,
       );
@@ -3775,11 +3776,16 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       immanentWitness.group.position.set(liveWitness.x, liveWitness.y, liveWitness.z);
       immanentWitness.group.rotation.set(liveWitness.reciprocalBowRad, liveWitness.headingYawRad, 0);
       immanentWitness.group.scale.setScalar(liveWitness.scaleMultiplier);
-      immanentWitness.outerGimbalGroup.rotation.y = liveWitness.gimbalOuterSpinRad;
+      immanentWitness.outerGimbalGroup.rotation.y =
+        liveWitness.gimbalOuterSpinRad * liveSteering.witnessGimbalCadenceScale;
       immanentWitness.innerGimbalGroup.rotation.x = liveWitness.gimbalInnerTiltRad;
-      immanentWitness.quartzCoreMesh.rotation.y = -elapsed * 0.9;
-      immanentWitness.primeSpokeArmsGroup.rotation.y = elapsed * 0.36 * spinMult;
+      immanentWitness.quartzCoreMesh.rotation.y =
+        -elapsed * 0.9 * liveSteering.witnessGimbalCadenceScale;
+      immanentWitness.primeSpokeArmsGroup.rotation.y =
+        elapsed * 0.36 * spinMult * liveSteering.witnessGimbalCadenceScale;
       immanentWitness.apicalStarFinialMesh.rotation.y = -elapsed * 0.72 * spinMult;
+      _tempColor.set(liveSteering.witnessAuraColorHex);
+      immanentWitness.coreMaterial.emissive.lerp(_tempColor, Math.min(1, dt * 4.5));
       immanentWitness.coreMaterial.emissiveIntensity = liveWitness.coreLuminance;
       witnessContactShadow.position.set(liveWitness.x, liveWitness.groundY + 0.018, liveWitness.z);
 

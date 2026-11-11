@@ -19,6 +19,7 @@ import {
   GrowthSubstrateId,
   NeuromorphicEngineState,
   NeuromorphicStrategyId,
+  ObserverAffectAndPreferencesState,
   PLANT_SPECIES_CONFIGS,
   PlantSpeciesId,
   SPECIES_ARTICULATION_PROFILES,
@@ -66,6 +67,8 @@ export class BotanicalSoundscapeEngine {
   private busBinauralWidthMultiplier = 1.0;
   private busMonumentChimeSustain = 1.0;
   private busConcertPitchScale = 1.0;
+  private busAffectWarmthScale = 1.0;
+  private busAffectReverbScale = 1.0;
   private busActiveModel: SynthesizedObserverModelSpec | null = null;
 
   // 16-band energy array for zero-allocation HUD acoustic visualization
@@ -1804,7 +1807,108 @@ export class BotanicalSoundscapeEngine {
       0.85,
       Math.min(1.35, cosmo.concertPitchHz / BIOME_CONFIGS.meadow.baseNoteHz),
     );
+    const steering = neuro.observer.affectAndPreferences.liveSteering;
+    this.busAffectWarmthScale = steering.acousticWarmthScale;
+    this.busAffectReverbScale = steering.reverbBloomScale;
+    if (this.ctx && this.reverbReturnGain) {
+      this.reverbReturnGain.gain.setTargetAtTime(
+        Math.min(0.68, 0.42 * this.busAffectReverbScale),
+        this.ctx.currentTime,
+        0.14,
+      );
+    }
     this.busActiveModel = supra.activeModel;
+  }
+
+  /**
+   * Auditions the Observer's Preferred 5-Limit Just-Intonation Golden Chord (`[1/1, 5/4, 3/2, 15/8]`),
+   * shaped in real time by its Foundational Mathematical Affect (`Harmony vs. Chaos` warmth & sanctuary bloom).
+   */
+  public playObserverPreferenceHarmonyAudition(
+    affectPrefs: ObserverAffectAndPreferencesState,
+    biome: BiomeId = 'sanctuary',
+    atmosphere: AtmosphereId = 'dawn',
+  ): void {
+    for (let i = 0; i < 16; i++) {
+      this.spectrumBands[i] = Math.min(1, this.spectrumBands[i] + 0.46);
+    }
+
+    this.init();
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+
+    try {
+      const biomeCfg = BIOME_CONFIGS[biome];
+      const baseNow = this.ctx.currentTime + 0.02;
+      const ratios = affectPrefs.liveSteering.preferredAuditionRatios;
+      const warmth = affectPrefs.liveSteering.acousticWarmthScale;
+      const reverbScale = affectPrefs.liveSteering.reverbBloomScale;
+      // Subtle φ⁻³ (~0.236s) golden arpeggio stagger honoring the 76.4% : 23.6% Harmony-Chaos equilibrium
+      const goldenStaggerSec = 0.118;
+      const panSpread = [-0.36, -0.12, 0.14, 0.38];
+
+      ratios.forEach((ratio, idx) => {
+        if (!this.ctx || !this.masterGain) return;
+        const startAt = baseNow + idx * goldenStaggerSec;
+        const durSec = (atmosphere === 'starlight' ? 1.85 : 1.55) * this.busMonumentChimeSustain;
+        const freq = Math.min(
+          2800,
+          Math.max(96, biomeCfg.baseNoteHz * this.busConcertPitchScale * ratio),
+        );
+
+        const osc = this.ctx.createOscillator();
+        const overtone = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+        const ovGain = this.ctx.createGain();
+
+        osc.type = idx === 0 ? 'triangle' : 'sine';
+        osc.frequency.setValueAtTime(freq, startAt);
+
+        overtone.type = 'sine';
+        overtone.frequency.setValueAtTime(Math.min(3400, freq * 2.0), startAt);
+        ovGain.gain.value = 0.14 * this.busFidelityMultiplier;
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(Math.min(3400, 1850 * warmth + idx * 180), startAt);
+        filter.Q.value = 1.35;
+
+        const peakAmp = 0.046 * Math.min(1.22, this.busFidelityMultiplier);
+        gain.gain.setValueAtTime(0.0004, startAt);
+        gain.gain.linearRampToValueAtTime(peakAmp, startAt + 0.032);
+        gain.gain.exponentialRampToValueAtTime(0.0004, startAt + durSec);
+
+        osc.connect(filter);
+        overtone.connect(ovGain);
+        ovGain.connect(filter);
+        filter.connect(gain);
+
+        if (typeof this.ctx.createStereoPanner === 'function') {
+          const panner = this.ctx.createStereoPanner();
+          panner.pan.setValueAtTime(
+            Math.max(-0.85, Math.min(0.85, (panSpread[idx] ?? 0) * this.busBinauralWidthMultiplier)),
+            startAt,
+          );
+          gain.connect(panner);
+          panner.connect(this.masterGain);
+        } else {
+          gain.connect(this.masterGain);
+        }
+
+        if (this.convolver) {
+          const verbSend = this.ctx.createGain();
+          verbSend.gain.value = Math.min(0.78, 0.54 * reverbScale);
+          gain.connect(verbSend);
+          verbSend.connect(this.convolver);
+        }
+
+        osc.start(startAt);
+        overtone.start(startAt);
+        osc.stop(startAt + durSec + 0.05);
+        overtone.stop(startAt + durSec + 0.05);
+      });
+    } catch {
+      // Ignore audio errors
+    }
   }
 
   /**
@@ -1857,7 +1961,10 @@ export class BotanicalSoundscapeEngine {
         ovGain.gain.value = 0.18 * model.fidelityMultiplier;
 
         filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(1400 + model.unlockedFeatureCount * 240, startAt);
+        filter.frequency.setValueAtTime(
+          Math.min(3500, (1400 + model.unlockedFeatureCount * 240) * this.busAffectWarmthScale),
+          startAt,
+        );
         filter.Q.value = 1.4 + (model.synapticWeight - 8) * 0.16;
 
         const peakAmp = 0.048 * Math.min(1.25, model.fidelityMultiplier);
@@ -1873,7 +1980,7 @@ export class BotanicalSoundscapeEngine {
 
         if (this.convolver) {
           const verbSend = this.ctx.createGain();
-          verbSend.gain.value = 0.56;
+          verbSend.gain.value = Math.min(0.75, 0.56 * this.busAffectReverbScale);
           gain.connect(verbSend);
           verbSend.connect(this.convolver);
         }
