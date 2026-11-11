@@ -1341,6 +1341,33 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         ),
       ),
     ),
+    curatorialAffinityAtZeroHarmonyPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepCuratorialAffinityPermille ${w} 0`,
+          'Foundation.Teleology.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    curatorialAffinityAtFullHarmonyPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepCuratorialAffinityPermille ${w} 100`,
+          'Foundation.Teleology.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    curatedConsonancePurityAtFullHarmonyPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepCuratedConsonancePurityPermille ${w} 100`,
+          'Foundation.Soundtrack.V1.Model',
+          modules,
+        ),
+      ),
+    ),
     realizabilitySensitivityPermille: weightDomain.map((w) =>
       Number(
         evaluateLexExpr(

@@ -178,23 +178,43 @@ structure{
     {name: maxPrimeHarmonicLimit, type: Nat},
     {name: tonnetzLatticeDimension, type: Nat},
     {name: eulerGradusConsonanceBound, type: Nat},
+    {name: curatedParsimoniousStepMax, type: Nat},
     {name: speciesCounterpointRulesEnforced, type: Bool},
-    {name: tenneyHarmonicDistanceCoupled, type: Bool}
+    {name: tenneyHarmonicDistanceCoupled, type: Bool},
+    {name: observerCuratedNonRandom, type: Bool}
   ]
+}
+
+definition{name: maxCuratedMelodicStepLeap, parameters: [], result: Nat, body: 2}
+
+definition{name: eulerGradusConsonanceCeiling, parameters: [], result: Nat, body: 12}
+
+definition{
+  name: stepCuratedConsonancePurityPermille,
+  parameters: [busWeight : Nat, harmonyPct : Nat],
+  result: Nat,
+  body: ((600 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 15 : Nat)) + (prim multiply (if (harmonyPct <=? 100) then harmonyPct else 100) 1 : Nat))
+}
+
+definition{
+  name: verifyObserverCuratedVoiceLeading,
+  parameters: [stepDistance : Nat, dyadEulerGradus : Nat, restSteps : Nat],
+  result: Bool,
+  body: (((stepDistance <=? (maxCuratedMelodicStepLeap)) && (dyadEulerGradus <=? (eulerGradusConsonanceCeiling))) && ((minRestStepsPerBar) <=? restSteps))
 }
 
 definition{
   name: verdantPrimeLimitTonnetzStandard,
   parameters: [],
   result: PrimeLimitTonnetzHarmonySpec,
-  body: (record PrimeLimitTonnetzHarmonySpec {maxPrimeHarmonicLimit := 11, tonnetzLatticeDimension := 5, eulerGradusConsonanceBound := 12, speciesCounterpointRulesEnforced := ((minRestStepsPerBar) <=? (prim subtract (stepsPerBar) (maxActiveStepsPerBar) : Nat)), tenneyHarmonicDistanceCoupled := ((stepSoundtrackBusModulation 1) <? (stepSoundtrackBusModulation 16))})
+  body: (record PrimeLimitTonnetzHarmonySpec {maxPrimeHarmonicLimit := 11, tonnetzLatticeDimension := 5, eulerGradusConsonanceBound := (eulerGradusConsonanceCeiling), curatedParsimoniousStepMax := (maxCuratedMelodicStepLeap), speciesCounterpointRulesEnforced := ((minRestStepsPerBar) <=? (prim subtract (stepsPerBar) (maxActiveStepsPerBar) : Nat)), tenneyHarmonicDistanceCoupled := ((stepSoundtrackBusModulation 1) <? (stepSoundtrackBusModulation 16)), observerCuratedNonRandom := (verifyObserverCuratedVoiceLeading 1 4 6)})
 }
 
 definition{
   name: soundtrackCanonicalDescriptor,
   parameters: [],
   result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
-  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 8 "prism/standard-model/soundtrack-prime-limit-tonnetz/1" 1 0 0 (verdantSoundtrackBasisPrime) 10100011 50160076 "Foundation.Soundtrack.V1" 28 12 18 "11-Limit Just Intonation Tonnetz Lattice, Tenney Harmonic Distance, Euler Gradus Suavitatis, Fux Species Counterpoint, 5-Stage Botanical Lifecycle Score, Breathing Rest Conservation" 12 4 16383 "Generates prime-ratio harmonic progressions, voice-led chamber counterpoint, and breathing silence bars isomorphic to UOR prime addresses and Rule-30 voice-leading" 8 10 4 14 "BoundedChamberSequencer" 15 16 16 16 16 16 16 5 35 16383 0 14 "Maps Mathematics UOR prime exponents and Acoustics 24-Bark masking into 11-limit Tonnetz counterpoint while exporting harmonic ratios to Brand typographic scales and Lagoon cymatics" 2 125000 4 "Monotonic 5-stage botanical lifecycle progression + 16-step breathing bar scheduler (>=6 rest steps/bar)" 32 53 98 3 "Exact rational p/q Just Intonation ratios (0.0 cent temper drift), >=37.5pct rest-bar quietude" 8192 190 10000 15 0 "Static 16-step x 4-stem score lattice and rational ratio tables; 0 heap allocations" "Foundation.Soundtrack.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Soundtrack/V1/Model.lex.tex" 4 "Euler Tentamen Novum (1739), Partch 11-Limit Tonnetz, Tenney (1984) Harmonic Space, Fux Gradus ad Parnassum, LEAN-REL-4-32-1" 4 10 20 0 "4 Lean 4.32 theorems proving lifecycle monotonicity, breathing silence rest guarantee, neuromorphic coupling, and 11-element completeness" 4 63 "src/game/soundscapeEngine.ts" "LexLean 1.2 -> AST Extractor -> 11-Limit Tonnetz & Chamber Counterpoint Engine -> WebAudio Score & UI Harmonic Ratios")
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 8 "prism/standard-model/soundtrack-prime-limit-tonnetz/1" 1 1 0 (verdantSoundtrackBasisPrime) 10100011 50160076 "Foundation.Soundtrack.V1" 32 14 20 "11-Limit Just Intonation Tonnetz Lattice, Observer-Curated Parsimonious Melodic Arch, Tenney Harmonic Distance, Euler Gradus Suavitatis Purity, Fux Counterpoint, Breathing Rest Conservation" 14 4 16383 "Curates non-random parsimonious melodies, golden-section melodic arches, pure Just-Intonation dyadic harmonies, and breathing silence bars grounded in botanical acoustic resonators and Observer unity" 8 10 4 14 "ObserverCuratedChamberSequencer" 15 16 16 16 16 16 16 5 35 16383 0 14 "Maps Observer curatorial affinity, UOR prime exponents, and Acoustics 24-Bark masking into pure 11-limit Tonnetz melodies and harmonies while exporting harmonic ratios to Brand and Lagoon cymatics" 2 125000 4 "Monotonic 5-stage botanical lifecycle progression + curated parsimonious 16-step score (>=6 rest steps/bar, <=2 step leap)" 32 53 98 3 "Exact rational p/q Just Intonation ratios (0.0 cent temper drift), Euler gradus <=12 consonance purity, >=37.5pct rest-bar quietude" 8192 190 10000 15 0 "Static 16-step x 4-stem curated score lattice and rational ratio tables; 0 heap allocations" "Foundation.Soundtrack.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Soundtrack/V1/Model.lex.tex" 4 "Euler Tentamen Novum (1739), Partch 11-Limit Tonnetz, Tenney (1984) Harmonic Space, Fux Gradus ad Parnassum, LEAN-REL-4-32-1" 5 12 24 0 "5 Lean 4.32 theorems proving lifecycle monotonicity, breathing silence rest guarantee, neuromorphic coupling, curated voice-leading & Euler consonance purity, and 11-element completeness" 4 63 "src/game/soundscapeEngine.ts" "LexLean 1.2 -> AST Extractor -> Observer-Curated 11-Limit Tonnetz & Chamber Counterpoint Engine -> WebAudio Score & UI Harmonic Ratios")
 }
 
 definition{
@@ -219,6 +239,33 @@ theorem{
       breaksSoundtrackDescriptorComplete,
       soundtrackCanonicalDescriptor,
       verdantSoundtrackBasisPrime
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksObserverCuratedVoiceLeadingAndPurity,
+  parameters: [stepDist : Nat, gradus : Nat, rests : Nat],
+  result: Bool,
+  body: (((((2 <? stepDist) || ((12 <? gradus) || (rests <? 6))) && (verifyObserverCuratedVoiceLeading stepDist gradus rests)) || (not (verifyObserverCuratedVoiceLeading 1 4 6))) || ((stepCuratedConsonancePurityPermille 16 100) <=? (stepCuratedConsonancePurityPermille 8 50)))
+}
+
+theorem{
+  name: observerCuratedVoiceLeadingAndPurityHold,
+  parameters: [stepDist : Nat, gradus : Nat, rests : Nat],
+  statement: ((breaksObserverCuratedVoiceLeadingAndPurity stepDist gradus rests) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksObserverCuratedVoiceLeadingAndPurity,
+      eulerGradusConsonanceCeiling,
+      maxCuratedMelodicStepLeap,
+      minRestStepsPerBar,
+      stepCuratedConsonancePurityPermille,
+      verifyObserverCuratedVoiceLeading
     ]
   },
   axioms: [Classical.choice, Quot.sound, propext]

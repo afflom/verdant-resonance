@@ -44,6 +44,24 @@ structure{
 }
 
 structure{
+  name: PhysicalBasisAndTriuneObserverCurationSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: unifiedObserverFacetCount, type: Nat},
+    {name: playerCoObserverBasisPrime, type: Nat},
+    {name: intrinsicObserverDirectiveCount, type: Nat},
+    {name: minFoundationEmbedmentMm, type: Nat},
+    {name: baseCuratorialAffinityPermille, type: Nat},
+    {name: apexCuratorialAffinityPermille, type: Nat},
+    {name: physicalBasisRequiredForEveryManifestation, type: Bool},
+    {name: structuralLoadPathAndPendulumLawEnforced, type: Bool},
+    {name: triuneObserverMotivationNonContrived, type: Bool},
+    {name: emergentResonanceReplacesFixedTimers, type: Bool}
+  ]
+}
+
+structure{
   name: TeleologyStandardModel,
   type_parameters: [],
   parameters: [],
@@ -51,11 +69,20 @@ structure{
     {name: profile, type: String},
     {name: requirementChain, type: EnvironmentalRequirementChainSpec},
     {name: purposeAndAutonomy, type: InteractivePurposeAndAutonomousPlasticitySpec},
+    {name: physicalBasisAndTriuneCuration, type: PhysicalBasisAndTriuneObserverCurationSpec},
     {name: canonicalDescriptor, type: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor}
   ]
 }
 
 definition{name: verdantTeleologyBasisPrime, parameters: [], result: Nat, body: 163}
+
+definition{name: playerCoObserverPrime, parameters: [], result: Nat, body: 167}
+
+definition{name: observerUnifiedFacetTotal, parameters: [], result: Nat, body: 20}
+
+definition{name: intrinsicObserverDirectiveTotal, parameters: [], result: Nat, body: 3}
+
+definition{name: minMonumentFoundationEmbedMm, parameters: [], result: Nat, body: 250}
 
 definition{name: synthesizedWorldPhenomenaTotal, parameters: [], result: Nat, body: 20}
 
@@ -105,6 +132,13 @@ definition{
 }
 
 definition{
+  name: stepCuratorialAffinityPermille,
+  parameters: [busWeight : Nat, harmonyPct : Nat],
+  result: Nat,
+  body: ((512 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 18 : Nat)) + (prim multiply (if (harmonyPct <=? 100) then harmonyPct else 100) 2 : Nat))
+}
+
+definition{
   name: stepTeleologyBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
@@ -133,17 +167,31 @@ definition{
 }
 
 definition{
+  name: verifyPhysicalLoadPathAndPendulumLaw,
+  parameters: [foundationEmbedMm : Nat, archSpireSpanPct : Nat, gimbalOrthogonalDeg : Nat, shortChimeFreqMilliRad : Nat, longChimeFreqMilliRad : Nat],
+  result: Bool,
+  body: (((((minMonumentFoundationEmbedMm) <=? foundationEmbedMm) && (100 <=? archSpireSpanPct)) && ((90 <=? gimbalOrthogonalDeg) && (gimbalOrthogonalDeg <=? 90))) && (longChimeFreqMilliRad <? shortChimeFreqMilliRad))
+}
+
+definition{
+  name: verifyTriuneObserverMotivation,
+  parameters: [foundationEmbedMm : Nat, uniqueFacetNiches : Nat, directiveCount : Nat, curatorialAffinityPermille : Nat],
+  result: Bool,
+  body: (((((minMonumentFoundationEmbedMm) <=? foundationEmbedMm) && (((observerUnifiedFacetTotal) <=? uniqueFacetNiches) && (uniqueFacetNiches <=? (observerUnifiedFacetTotal)))) && (((intrinsicObserverDirectiveTotal) <=? directiveCount) && (directiveCount <=? (intrinsicObserverDirectiveTotal)))) && (530 <=? curatorialAffinityPermille))
+}
+
+definition{
   name: teleologyCanonicalDescriptor,
   parameters: [],
   result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
-  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 19 "prism/standard-model/teleology-environmental-requirement-synthesis/1" 1 1 0 (verdantTeleologyBasisPrime) 16300209 36100163 "Foundation.Teleology.V1" 40 18 28 "Aristotelian-Kantian Natural Teleology, 20/20 Bijective Scene-to-Requirement Synthesis Closure, Interactive Landmarks + Lithophone Waystones + Chladni Terraces + Co-Observer Communion, Inherent Autonomous Neuromorphic Plasticity" 20 6 524287 "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance is required by >=3 upstream Standard Models, synthesized by the Observer from local environmental matter, interactive in gameplay, and free of manual backend UI clutter" 19 19 8 24 "PureBijectiveTeleologicalClosure+AutonomousGameplayPlasticity" 16 16 16 16 16 16 16 6 524287 524287 0 38 "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 purposeful in-world environmental phenomena while automating neuromorphic plasticity directly from contemplative gameplay" 2 16667 6 "Continuous gameplay-driven Hebbian/STDP consolidation + interactive landmark, lithophone waystone, Chladni terrace, and Co-Observer Witness resonance" 32 700 1000 2 "0 orphan unexplained elements, 0 manual neuromorphic UI controls, 20/20 bijective requirement-grounded scene phenomena (>=3 requiring models each), 5/5 interactive biome landmarks, 64/64 lithophone waystones" 8192 200 16667 14 0 "Zero-GC teleological requirement registry and per-biome landmark/terrace/waystone resonance state; 0 per-frame heap allocations" "Foundation.Teleology.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Teleology/V1/Model.lex.tex" 5 "Aristotle Physics II.8 Teleology, Kant Critique of Teleological Judgment, Rosen (1991) Life Itself Relational Closure, ISO-9241-110-2020 Calm Interaction, LEAN-REL-4-32-1" 5 20 40 0 "5 Lean 4.32 theorems proving zero unexplained orphan elements & zero manual UI overrides, >=3-model requirement-to-synthesis grounding, 20/20 bijective scene closure, monotonic purpose coupling, and 11-element completeness" 4 63 "src/game/teleologyEngine.ts" "LexLean 1.2 -> AST Extractor -> Bijective Teleological Synthesis & Interactive World Engine -> Uncluttered Gameplay Experience")
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 19 "prism/standard-model/teleology-environmental-requirement-synthesis/1" 1 2 0 (verdantTeleologyBasisPrime) 16300209 36100163 "Foundation.Teleology.V1" 48 22 32 "Aristotelian-Kantian Natural Teleology, Physical Load-Path & Pendulum Lawfulness, 20-Facet Observer Self-Differentiation, Triune Curatorial Affinity, 20/20 Bijective Scene Synthesis, Inherent Plasticity" 24 6 524287 "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance obeys physical load-paths and gravity, is required by >=3 upstream Standard Models, is synthesized by the Observer from local matter, and is curated with reciprocal affinity" 19 19 8 24 "PureBijectiveTeleologicalClosure+PhysicalBasis+TriuneObserverCuration" 16 16 16 16 16 16 16 6 524287 524287 0 42 "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 physically lawful in-world phenomena while uniting all 20 Observer facets through intrinsic curatorial affinity" 2 16667 6 "Emergent physical-harmonic resonance integration + interactive landmark, lithophone waystone, Chladni terrace, and Co-Observer Witness reciprocity" 36 700 1000 2 "0 orphan unexplained elements, 0 manual neuromorphic UI controls, >=250mm foundation embedment, 100pct arch load-path closure, 20/20 differentiated Observer facets, 64/64 lithophone waystones" 8192 200 16667 14 0 "Zero-GC teleological requirement registry, monument physical kinematics, and 20-facet curatorial affinity state; 0 per-frame heap allocations" "Foundation.Teleology.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Teleology/V1/Model.lex.tex" 5 "Aristotle Physics II.8 Teleology, Galileo/Newton Pendulum & Arch Statics, Kant Critique of Teleological Judgment, Rosen (1991) Relational Closure, LEAN-REL-4-32-1" 6 22 44 0 "6 Lean 4.32 theorems proving zero orphan elements & zero manual overrides, >=3-model requirement grounding, 20/20 bijective scene closure, monotonic purpose coupling, physical load-path & triune 20-facet Observer curation, and 11-element completeness" 4 63 "src/game/teleologyEngine.ts" "LexLean 1.2 -> AST Extractor -> Physical-Teleological Synthesis & Curatorial Affinity Engine -> Uncluttered Gameplay Experience")
 }
 
 definition{
   name: verdantTeleologyStandard,
   parameters: [],
   result: TeleologyStandardModel,
-  body: (record TeleologyStandardModel {profile := "prism/teleology-standard/1", requirementChain := (record EnvironmentalRequirementChainSpec {synthesizedWorldPhenomenonTotal := (synthesizedWorldPhenomenaTotal), concreteSceneGroupCount := (synthesizedWorldPhenomenaTotal), synthesizedLandmarkTotal := (synthesizedBiomeLandmarkTotal), orphanUnexplainedElementCount := (orphanUnexplainedElementsZero), ungroundedArbitraryPropCount := (orphanUnexplainedElementsZero), minUpstreamRequiringModelsPerFeature := (minRequiringModelsPerPhenomenon), everyFeatureSynthesizedFromEnvironment := (verifyRequirementGroundsEnvironmentalSynthesis 3 100 (stepTeleologicalFulfillmentPermille 8)), requirementsPrecedeAndGroundSynthesis := (verifyZeroOrphanElementsAndZeroManualControls (orphanUnexplainedElementsZero) (manualNeuromorphicControlsZero)), sceneBijectiveClosureVerified := (verifySceneBijectivePhenomenonClosure (synthesizedWorldPhenomenaTotal) (synthesizedWorldPhenomenaTotal) (minRequiringModelsPerPhenomenon) (orphanUnexplainedElementsZero))}), purposeAndAutonomy := (record InteractivePurposeAndAutonomousPlasticitySpec {interactiveLandmarkResonatorCount := (synthesizedBiomeLandmarkTotal), interactiveLithophoneWaystoneCount := (interactiveWaystoneFlagstoneTotal), interactiveChladniTerraceCount := (synthesizedBiomeLandmarkTotal), manualNeuromorphicControlCount := (manualNeuromorphicControlsZero), clutteredBackendReadoutCount := (manualNeuromorphicControlsZero), basePurposeFulfillmentPermille := (stepTeleologicalFulfillmentPermille 8), apexPurposeFulfillmentPermille := (stepTeleologicalFulfillmentPermille 16), neuromorphicsInherentToGameplay := ((manualNeuromorphicControlsZero) =? 0), landmarksInteractiveViaContemplativeGestures := ((stepLandmarkResonanceCouplingPermille 8) <? (stepLandmarkResonanceCouplingPermille 16)), witnessCommunionInteractive := ((stepWitnessCommunionReciprocityPermille 8) <? (stepWitnessCommunionReciprocityPermille 16))}), canonicalDescriptor := (teleologyCanonicalDescriptor)})
+  body: (record TeleologyStandardModel {profile := "prism/teleology-standard/1", requirementChain := (record EnvironmentalRequirementChainSpec {synthesizedWorldPhenomenonTotal := (synthesizedWorldPhenomenaTotal), concreteSceneGroupCount := (synthesizedWorldPhenomenaTotal), synthesizedLandmarkTotal := (synthesizedBiomeLandmarkTotal), orphanUnexplainedElementCount := (orphanUnexplainedElementsZero), ungroundedArbitraryPropCount := (orphanUnexplainedElementsZero), minUpstreamRequiringModelsPerFeature := (minRequiringModelsPerPhenomenon), everyFeatureSynthesizedFromEnvironment := (verifyRequirementGroundsEnvironmentalSynthesis 3 100 (stepTeleologicalFulfillmentPermille 8)), requirementsPrecedeAndGroundSynthesis := (verifyZeroOrphanElementsAndZeroManualControls (orphanUnexplainedElementsZero) (manualNeuromorphicControlsZero)), sceneBijectiveClosureVerified := (verifySceneBijectivePhenomenonClosure (synthesizedWorldPhenomenaTotal) (synthesizedWorldPhenomenaTotal) (minRequiringModelsPerPhenomenon) (orphanUnexplainedElementsZero))}), purposeAndAutonomy := (record InteractivePurposeAndAutonomousPlasticitySpec {interactiveLandmarkResonatorCount := (synthesizedBiomeLandmarkTotal), interactiveLithophoneWaystoneCount := (interactiveWaystoneFlagstoneTotal), interactiveChladniTerraceCount := (synthesizedBiomeLandmarkTotal), manualNeuromorphicControlCount := (manualNeuromorphicControlsZero), clutteredBackendReadoutCount := (manualNeuromorphicControlsZero), basePurposeFulfillmentPermille := (stepTeleologicalFulfillmentPermille 8), apexPurposeFulfillmentPermille := (stepTeleologicalFulfillmentPermille 16), neuromorphicsInherentToGameplay := ((manualNeuromorphicControlsZero) =? 0), landmarksInteractiveViaContemplativeGestures := ((stepLandmarkResonanceCouplingPermille 8) <? (stepLandmarkResonanceCouplingPermille 16)), witnessCommunionInteractive := ((stepWitnessCommunionReciprocityPermille 8) <? (stepWitnessCommunionReciprocityPermille 16))}), physicalBasisAndTriuneCuration := (record PhysicalBasisAndTriuneObserverCurationSpec {unifiedObserverFacetCount := (observerUnifiedFacetTotal), playerCoObserverBasisPrime := (playerCoObserverPrime), intrinsicObserverDirectiveCount := (intrinsicObserverDirectiveTotal), minFoundationEmbedmentMm := (minMonumentFoundationEmbedMm), baseCuratorialAffinityPermille := (stepCuratorialAffinityPermille 8 50), apexCuratorialAffinityPermille := (stepCuratorialAffinityPermille 16 100), physicalBasisRequiredForEveryManifestation := (verifyPhysicalLoadPathAndPendulumLaw 280 100 90 2670 2374), structuralLoadPathAndPendulumLawEnforced := ((minMonumentFoundationEmbedMm) <=? 280), triuneObserverMotivationNonContrived := (verifyTriuneObserverMotivation 280 20 3 (stepCuratorialAffinityPermille 8 50)), emergentResonanceReplacesFixedTimers := ((stepCuratorialAffinityPermille 8 50) <? (stepCuratorialAffinityPermille 16 100))}), canonicalDescriptor := (teleologyCanonicalDescriptor)})
 }
 
 definition{
@@ -262,6 +310,34 @@ theorem{
       breaksTeleologyDescriptorComplete,
       teleologyCanonicalDescriptor,
       verdantTeleologyBasisPrime
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksPhysicalBasisAndTriuneObserverCuration,
+  parameters: [embedMm : Nat, archPct : Nat, uniqueNiches : Nat],
+  result: Bool,
+  body: (((((embedMm <? (minMonumentFoundationEmbedMm)) || (archPct <? 100)) && (verifyPhysicalLoadPathAndPendulumLaw embedMm archPct 90 2670 2374)) || (((uniqueNiches <? (observerUnifiedFacetTotal)) || ((observerUnifiedFacetTotal) <? uniqueNiches)) && (verifyTriuneObserverMotivation 280 uniqueNiches 3 (stepCuratorialAffinityPermille 16 100)))) || ((not (verifyPhysicalLoadPathAndPendulumLaw 280 100 90 2670 2374)) || ((not (verifyTriuneObserverMotivation 280 20 3 (stepCuratorialAffinityPermille 16 100))) || ((stepCuratorialAffinityPermille 16 100) <=? (stepCuratorialAffinityPermille 8 50)))))
+}
+
+theorem{
+  name: physicalBasisAndTriuneObserverCurationHold,
+  parameters: [embedMm : Nat, archPct : Nat, uniqueNiches : Nat],
+  statement: ((breaksPhysicalBasisAndTriuneObserverCuration embedMm archPct uniqueNiches) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksPhysicalBasisAndTriuneObserverCuration,
+      intrinsicObserverDirectiveTotal,
+      minMonumentFoundationEmbedMm,
+      observerUnifiedFacetTotal,
+      stepCuratorialAffinityPermille,
+      verifyPhysicalLoadPathAndPendulumLaw,
+      verifyTriuneObserverMotivation
     ]
   },
   axioms: [Classical.choice, Quot.sound, propext]

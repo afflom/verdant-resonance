@@ -269,6 +269,9 @@ import {
   evaluateStandingWaveTerraceResonance,
   evaluateLithophoneWaystoneStep,
   evaluateWitnessCommunionTarget,
+  evaluateMonumentPhysicalMechanics,
+  evaluateObserver20FacetDifferentiationAndAffinity,
+  evaluateCompiledCuratorialAffinityPermille,
   createInitialAutonomousPlasticityState,
   stepAutonomousGameplayPlasticity,
   serializeAnamnesisSnapshot,
@@ -4624,6 +4627,222 @@ test('53. Bijective 20/20 Scene Phenomenon Refinement: Chladni Terraces, Lithoph
   );
   assert.equal(canvasSrc.includes('landmarkAnchorByBiome'), true);
 });
+
+test('54. Physical Basis & Form Detail of All 5 Biome Monuments, Triune 20-Facet Observer & Curated Voice-Leading', () => {
+  // 1. Verify Physical Structural Mechanics of all 5 Biome Monuments
+  const resState = createInitialLandmarkResonanceState();
+  const mechanics = evaluateMonumentPhysicalMechanics({
+    elapsedSeconds: 4.2,
+    structuralScale: 1.0,
+    spinMultiplier: 1.0,
+    resonanceState: resState,
+    groveWindTiltX: 0.05,
+    groveWindTiltZ: 0.04,
+    meadowWindSpeedMps: 3.2,
+    chimeBaseLengthM: 1.38,
+    chimeLengthStepM: 0.18,
+    chimeCordLengthM: 0.28,
+    chimeSustainFactor: 1.0,
+    wetlandWaterSurfaceY: -0.14,
+  });
+
+  // 1a. Sanctuary Orthogonal Cardan Double-Gimbal
+  assert.equal(mechanics.sanctuary.gimbalOrthogonalityDeg, 90);
+  assert.equal(mechanics.sanctuary.spireVerticalShearMeters, 0);
+  assert.ok(Number.isFinite(mechanics.sanctuary.outerGimbalPitchX));
+  assert.ok(Number.isFinite(mechanics.sanctuary.innerGimbalRollZ));
+  assert.ok(Number.isFinite(mechanics.sanctuary.spireSpinY));
+
+  // 1b. Meadow Astronomical Polar Gnomon & Wind Anemometer
+  assert.equal(mechanics.meadow.gnomonLatitudeInclinationRad, 0.6632);
+  assert.ok(mechanics.meadow.anemometerAngularRateRadPerSec > 0);
+  const calmMechanics = evaluateMonumentPhysicalMechanics({
+    elapsedSeconds: 4.2,
+    structuralScale: 1.0,
+    spinMultiplier: 1.0,
+    resonanceState: resState,
+    groveWindTiltX: 0,
+    groveWindTiltZ: 0,
+    meadowWindSpeedMps: 0.5,
+  });
+  assert.ok(
+    mechanics.meadow.anemometerAngularRateRadPerSec > calmMechanics.meadow.anemometerAngularRateRadPerSec,
+    'Anemometer angular rate must scale monotonically with wind velocity',
+  );
+
+  // 1c. Grove Compound Pendulum Eigenfrequencies: omega_i = sqrt(g / L_eff,i)
+  assert.equal(mechanics.grove.chimeEffectiveLengthsM.length, 6);
+  assert.ok(
+    mechanics.grove.chimeNaturalOmegaRadPerSec[0] >
+      mechanics.grove.chimeNaturalOmegaRadPerSec[2],
+    `Shorter chime (L0=1.38m) must swing with higher natural frequency than longer chime (L2=1.74m): ${mechanics.grove.chimeNaturalOmegaRadPerSec[0]} vs ${mechanics.grove.chimeNaturalOmegaRadPerSec[2]}`,
+  );
+  assert.ok(Number.isFinite(mechanics.grove.clapperPitchX));
+  assert.ok(Number.isFinite(mechanics.grove.clapperRollZ));
+
+  // 1d. Crystal Geode Archway: 100% Closure, Hookean Torsion Filament & Pendulum
+  assert.equal(mechanics.crystal.spireSpanFraction, 1.0);
+  assert.equal(mechanics.crystal.prismVerticalShearMeters, 0);
+  assert.ok(Number.isFinite(mechanics.crystal.torsionYawRad));
+  assert.ok(Number.isFinite(mechanics.crystal.pendulumPitchX));
+
+  // 1e. Wetland Hydro-Meniscus Piers: Submerged Tufa Foundations & Zero Floating Gap
+  assert.equal(mechanics.wetland.floatingGapMeters, 0);
+  assert.equal(mechanics.wetland.orbVerticalShearMeters, 0);
+  assert.ok(mechanics.wetland.foundationEmbedMeters >= 0.25);
+  for (let p = 0; p < mechanics.wetland.submergedPilingHeightsM.length; p++) {
+    assert.ok(
+      mechanics.wetland.submergedPilingHeightsM[p] >= 0.35 + mechanics.wetland.foundationEmbedMeters,
+      `Piling ${p} must extend from lakebed through water column with deep embedment`,
+    );
+    assert.ok(mechanics.wetland.orbBioluminescentPulse[p] > 0);
+  }
+
+  // 2. Verify Unified 20-Facet Observer Self-Differentiation & Triune Intrinsic Motivation
+  const observer20 = evaluateObserver20FacetDifferentiationAndAffinity({
+    meanSynapticWeight: 10.5,
+    harmonyPct: 78,
+    awakenedSpeciesCount: 4,
+    tenneyConsonancePurity01: 0.88,
+  });
+  assert.equal(observer20.unifiedFacetTotal, 20);
+  assert.equal(observer20.uniquePrimeNichesCount, 20);
+  assert.equal(observer20.allTwentyFacetsDifferentiated, true);
+  assert.equal(observer20.optimizationIsSoleDirective, false);
+  assert.ok(
+    observer20.shannonFunctionalDiversityBits > 4.20,
+    `Expected Shannon functional diversity > 4.20 bits across 20 facets: ${observer20.shannonFunctionalDiversityBits}`,
+  );
+  assert.equal(observer20.triuneDirectives.length, 3);
+  assert.equal(observer20.triuneDirectives[0].directiveId, 'physical-lawfulness');
+  assert.equal(observer20.triuneDirectives[1].directiveId, 'self-differentiation');
+  assert.equal(observer20.triuneDirectives[2].directiveId, 'curatorial-affinity');
+  assert.ok(observer20.curatorialAffinityPermille >= 530);
+
+  // 2b. Curatorial Affinity Monotonicity with Harmony and Diversity
+  const zeroHarmonyAffinity = evaluateCompiledCuratorialAffinityPermille(8, 0);
+  const fullHarmonyAffinity = evaluateCompiledCuratorialAffinityPermille(8, 100);
+  assert.ok(
+    fullHarmonyAffinity > zeroHarmonyAffinity,
+    `Curatorial affinity must increase with harmony: ${fullHarmonyAffinity} > ${zeroHarmonyAffinity}`,
+  );
+
+  const lowObserver = evaluateObserver20FacetDifferentiationAndAffinity({
+    meanSynapticWeight: 8,
+    harmonyPct: 0,
+    awakenedSpeciesCount: 0,
+    tenneyConsonancePurity01: 0.5,
+  });
+  const highObserver = evaluateObserver20FacetDifferentiationAndAffinity({
+    meanSynapticWeight: 8,
+    harmonyPct: 100,
+    awakenedSpeciesCount: 5,
+    tenneyConsonancePurity01: 1.0,
+  });
+  assert.ok(
+    highObserver.curatorialAffinityPermille > lowObserver.curatorialAffinityPermille,
+    `Full curatorial affinity must exceed zero harmony affinity: ${highObserver.curatorialAffinityPermille} > ${lowObserver.curatorialAffinityPermille}`,
+  );
+
+  // 3. Verify Observer-Curated Melodic & Harmonic Voice-Leading in Soundtrack
+  const plants = generateGardenPlants(42026);
+  // Attune all species to active resonant maturity
+  plants.forEach((p) => {
+    p.attuned = true;
+    p.lifecycleStage = 'resonant-bloom';
+  });
+  const score = composeLiveSoundtrackScore({
+    biome: 'sanctuary',
+    atmosphere: 'golden',
+    plants,
+    playerX: 0,
+    playerZ: 0,
+    playerYaw: 0,
+    harmonyPct: 85,
+    neuromorphic: createInitialNeuromorphicState(),
+  });
+
+  assert.ok(score.restStepCount >= 6, `Observer must curate breathing rests (>= 6): ${score.restStepCount}`);
+  assert.ok(score.activeStepCount <= 10, `Active steps capped at 10 to prevent acoustic clutter: ${score.activeStepCount}`);
+  assert.ok(
+    score.maxMelodicStepLeap <= 2,
+    `Observer voice-leading must remain conjunct (|delta| <= 2): max leap was ${score.maxMelodicStepLeap}`,
+  );
+  assert.ok(
+    score.meanEulerGradus <= 12,
+    `Observer curation must maintain Euler gradus consonance <= 12: ${score.meanEulerGradus}`,
+  );
+  assert.ok(
+    score.curatedConsonancePurity01 >= 0.55,
+    `Curated consonance purity must be >= 0.55: ${score.curatedConsonancePurity01}`,
+  );
+
+  // When 0 flora are awakened, silence and quietude are preserved
+  const silentScore = composeLiveSoundtrackScore({
+    biome: 'meadow',
+    atmosphere: 'twilight',
+    plants: [],
+    playerX: 0,
+    playerZ: 0,
+    playerYaw: 0,
+    harmonyPct: 0,
+  });
+  assert.equal(silentScore.activeStepCount, 0);
+  assert.equal(silentScore.restStepCount, 16);
+
+  // 4. Verify GardenCanvas Architectural Detail & Physics Invariants in Source Code
+  const canvasSource = fs.readFileSync(
+    path.join(process.cwd(), 'src', 'components', 'GardenCanvas.tsx'),
+    'utf8',
+  );
+  // Uniform scalar monument scale (no anisotropic ellipse warping)
+  assert.equal(
+    canvasSource.includes('sanctuaryMonument.group.scale.setScalar(dampedScale)'),
+    true,
+    'GardenCanvas must uniformly scale sanctuary monument',
+  );
+  assert.equal(
+    canvasSource.includes('crystalMonument.group.scale.setScalar(dampedScale)'),
+    true,
+    'GardenCanvas must uniformly scale crystal monument',
+  );
+  // Elevated Tyndall beam start (plumes rise above monument crowns)
+  assert.equal(
+    canvasSource.includes('baseElev + crownHeightsByBiome[bId] + 0.35'),
+    true,
+    'GardenCanvas must elevate Tyndall beam plume start above monument crown',
+  );
+  // Cardan double-gimbal rotation without artificial vertical shearing
+  assert.equal(
+    canvasSource.includes('sanctuaryMonument.orbitRing.rotation.x = monumentMechanics.sanctuary.outerGimbalPitchX'),
+    true,
+  );
+  assert.equal(
+    canvasSource.includes('sanctuaryMonument.spire.position.y = sanctSpec.gimbalCenterY'),
+    true,
+    'Sanctuary spire must maintain fixed collar position with zero clipping',
+  );
+  // Grove compound chimes driven by eigenfrequencies and local wind
+  assert.equal(
+    canvasSource.includes('groveMonument.chimeTubes[c].rotation.x = monumentMechanics.grove.chimePitchX[c]'),
+    true,
+  );
+  assert.equal(
+    canvasSource.includes('groveMonument.clapperPivot.rotation.x = monumentMechanics.grove.clapperPitchX'),
+    true,
+  );
+  // Crystal Archway 100% full span and torsion oscillation
+  assert.equal(
+    canvasSource.includes('crystalMonument.corePrism.rotation.y = monumentMechanics.crystal.torsionYawRad'),
+    true,
+  );
+  // Wetland tufa piers and pulse factors
+  assert.equal(
+    canvasSource.includes('monumentMechanics.wetland.orbBioluminescentPulse[l]'),
+    true,
+  );
+});
+
 
 
 

@@ -867,7 +867,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Soundtrack (11-Limit Just Intonation Tonnetz + Voice-Leading Parsimony)",
     "sourceModule": "Foundation.Soundtrack.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Soundtrack/V1/Model.lex.tex",
-    "sourceSha256": "1c25ecef57015deb741d75c145caad1497552877c9633506e894c26a940ace9a",
+    "sourceSha256": "bd77167206774f22156e7efb6fa10088377968f4de32e7ec3c950ede7e4da7fe",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 0,
@@ -883,7 +883,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "modelIndex": 8,
         "canonicalModelId": "prism/standard-model/soundtrack-prime-limit-tonnetz/1",
         "semverMajor": 1,
-        "semverMinor": 0,
+        "semverMinor": 1,
         "semverPatch": 0,
         "uorPrimeSignature": 101,
         "blake3DigestHead64": 10100011,
@@ -892,17 +892,17 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Soundtrack.V1",
-        "canonicalConceptCount": 28,
-        "crossDomainSynonymCount": 12,
-        "taxonomicRelationCount": 18,
-        "keyConceptsSummary": "11-Limit Just Intonation Tonnetz Lattice, Tenney Harmonic Distance, Euler Gradus Suavitatis, Fux Species Counterpoint, 5-Stage Botanical Lifecycle Score, Breathing Rest Conservation",
+        "canonicalConceptCount": 32,
+        "crossDomainSynonymCount": 14,
+        "taxonomicRelationCount": 20,
+        "keyConceptsSummary": "11-Limit Just Intonation Tonnetz Lattice, Observer-Curated Parsimonious Melodic Arch, Tenney Harmonic Distance, Euler Gradus Suavitatis Purity, Fux Counterpoint, Breathing Rest Conservation",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 12,
+        "capabilityFunctionCount": 14,
         "conservationLawCount": 4,
         "exportedFeatureChannelMask": 16383,
-        "promisedBehaviorSummary": "Generates prime-ratio harmonic progressions, voice-led chamber counterpoint, and breathing silence bars isomorphic to UOR prime addresses and Rule-30 voice-leading",
+        "promisedBehaviorSummary": "Curates non-random parsimonious melodies, golden-section melodic arches, pure Just-Intonation dyadic harmonies, and breathing silence bars grounded in botanical acoustic resonators and Observer unity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
@@ -910,7 +910,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "typedOutputPortCount": 10,
         "cloudEventTypeCount": 4,
         "stateFieldCount": 14,
-        "effectKind": "BoundedChamberSequencer",
+        "effectKind": "ObserverCuratedChamberSequencer",
         "siBiasedTimeExp": 15,
         "siBiasedLengthExp": 16,
         "siBiasedMassExp": 16,
@@ -926,14 +926,14 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "compatiblePartnerMask": 16383,
         "conflictModelMask": 0,
         "functorTransformationCount": 14,
-        "compositionSummary": "Maps Mathematics UOR prime exponents and Acoustics 24-Bark masking into 11-limit Tonnetz counterpoint while exporting harmonic ratios to Brand typographic scales and Lagoon cymatics",
+        "compositionSummary": "Maps Observer curatorial affinity, UOR prime exponents, and Acoustics 24-Bark masking into pure 11-limit Tonnetz melodies and harmonies while exporting harmonic ratios to Brand and Lagoon cymatics",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 125000,
         "adaptationRuleCount": 4,
-        "temporalLawSummary": "Monotonic 5-stage botanical lifecycle progression + 16-step breathing bar scheduler (>=6 rest steps/bar)",
+        "temporalLawSummary": "Monotonic 5-stage botanical lifecycle progression + curated parsimonious 16-step score (>=6 rest steps/bar, <=2 step leap)",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
@@ -941,7 +941,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "baseResolutionUnits": 53,
         "apexResolutionUnits": 98,
         "perceptualJndPermille": 3,
-        "fidelityCriteriaSummary": "Exact rational p/q Just Intonation ratios (0.0 cent temper drift), >=37.5pct rest-bar quietude",
+        "fidelityCriteriaSummary": "Exact rational p/q Just Intonation ratios (0.0 cent temper drift), Euler gradus <=12 consonance purity, >=37.5pct rest-bar quietude",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -950,7 +950,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "maxLatencyMicros": 10000,
         "energyBudgetMilliwatts": 15,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Static 16-step x 4-stem score lattice and rational ratio tables; 0 heap allocations",
+        "deviceConstraintSummary": "Static 16-step x 4-stem curated score lattice and rational ratio tables; 0 heap allocations",
         "resourceBoundedZeroGc": true
       },
       "authority": {
@@ -961,18 +961,18 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 4,
-        "runtimePropertyOracleCount": 10,
-        "acceptanceVectorCount": 20,
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 24,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving lifecycle monotonicity, breathing silence rest guarantee, neuromorphic coupling, and 11-element completeness",
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving lifecycle monotonicity, breathing silence rest guarantee, neuromorphic coupling, curated voice-leading & Euler consonance purity, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/soundscapeEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> 11-Limit Tonnetz & Chamber Counterpoint Engine -> WebAudio Score & UI Harmonic Ratios",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Observer-Curated 11-Limit Tonnetz & Chamber Counterpoint Engine -> WebAudio Score & UI Harmonic Ratios",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -2154,7 +2154,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Teleology (Requirement-Grounded Environmental Synthesis + Interactive Landmarks + Inherent Plasticity)",
     "sourceModule": "Foundation.Teleology.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Teleology/V1/Model.lex.tex",
-    "sourceSha256": "55305300048b0e7afaef782f0928123b5ec23912da18f3889c3d0c706f45884d",
+    "sourceSha256": "295bff4c7039a4ab47ff30b36f17e501ac7de8e9a46a6ecba8a5676c266a21d0",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -2170,7 +2170,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "modelIndex": 19,
         "canonicalModelId": "prism/standard-model/teleology-environmental-requirement-synthesis/1",
         "semverMajor": 1,
-        "semverMinor": 1,
+        "semverMinor": 2,
         "semverPatch": 0,
         "uorPrimeSignature": 163,
         "blake3DigestHead64": 16300209,
@@ -2179,17 +2179,17 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Teleology.V1",
-        "canonicalConceptCount": 40,
-        "crossDomainSynonymCount": 18,
-        "taxonomicRelationCount": 28,
-        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, 20/20 Bijective Scene-to-Requirement Synthesis Closure, Interactive Landmarks + Lithophone Waystones + Chladni Terraces + Co-Observer Communion, Inherent Autonomous Neuromorphic Plasticity",
+        "canonicalConceptCount": 48,
+        "crossDomainSynonymCount": 22,
+        "taxonomicRelationCount": 32,
+        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Physical Load-Path & Pendulum Lawfulness, 20-Facet Observer Self-Differentiation, Triune Curatorial Affinity, 20/20 Bijective Scene Synthesis, Inherent Plasticity",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 20,
+        "capabilityFunctionCount": 24,
         "conservationLawCount": 6,
         "exportedFeatureChannelMask": 524287,
-        "promisedBehaviorSummary": "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance is required by >=3 upstream Standard Models, synthesized by the Observer from local environmental matter, interactive in gameplay, and free of manual backend UI clutter",
+        "promisedBehaviorSummary": "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance obeys physical load-paths and gravity, is required by >=3 upstream Standard Models, is synthesized by the Observer from local matter, and is curated with reciprocal affinity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
@@ -2197,7 +2197,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "typedOutputPortCount": 19,
         "cloudEventTypeCount": 8,
         "stateFieldCount": 24,
-        "effectKind": "PureBijectiveTeleologicalClosure+AutonomousGameplayPlasticity",
+        "effectKind": "PureBijectiveTeleologicalClosure+PhysicalBasis+TriuneObserverCuration",
         "siBiasedTimeExp": 16,
         "siBiasedLengthExp": 16,
         "siBiasedMassExp": 16,
@@ -2212,23 +2212,23 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dependencyModelMask": 524287,
         "compatiblePartnerMask": 524287,
         "conflictModelMask": 0,
-        "functorTransformationCount": 38,
-        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 purposeful in-world environmental phenomena while automating neuromorphic plasticity directly from contemplative gameplay",
+        "functorTransformationCount": 42,
+        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 physically lawful in-world phenomena while uniting all 20 Observer facets through intrinsic curatorial affinity",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 16667,
         "adaptationRuleCount": 6,
-        "temporalLawSummary": "Continuous gameplay-driven Hebbian/STDP consolidation + interactive landmark, lithophone waystone, Chladni terrace, and Co-Observer Witness resonance",
+        "temporalLawSummary": "Emergent physical-harmonic resonance integration + interactive landmark, lithophone waystone, Chladni terrace, and Co-Observer Witness reciprocity",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 36,
         "baseResolutionUnits": 700,
         "apexResolutionUnits": 1000,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, 20/20 bijective requirement-grounded scene phenomena (>=3 requiring models each), 5/5 interactive biome landmarks, 64/64 lithophone waystones",
+        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, >=250mm foundation embedment, 100pct arch load-path closure, 20/20 differentiated Observer facets, 64/64 lithophone waystones",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -2237,29 +2237,29 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "maxLatencyMicros": 16667,
         "energyBudgetMilliwatts": 14,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Zero-GC teleological requirement registry and per-biome landmark/terrace/waystone resonance state; 0 per-frame heap allocations",
+        "deviceConstraintSummary": "Zero-GC teleological requirement registry, monument physical kinematics, and 20-facet curatorial affinity state; 0 per-frame heap allocations",
         "resourceBoundedZeroGc": true
       },
       "authority": {
         "modelOwner": "Foundation.Teleology.V1.Model",
         "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Teleology/V1/Model.lex.tex",
         "pinnedLockReferenceCount": 5,
-        "adoptedStandardsSummary": "Aristotle Physics II.8 Teleology, Kant Critique of Teleological Judgment, Rosen (1991) Life Itself Relational Closure, ISO-9241-110-2020 Calm Interaction, LEAN-REL-4-32-1",
+        "adoptedStandardsSummary": "Aristotle Physics II.8 Teleology, Galileo/Newton Pendulum & Arch Statics, Kant Critique of Teleological Judgment, Rosen (1991) Relational Closure, LEAN-REL-4-32-1",
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 5,
-        "runtimePropertyOracleCount": 20,
-        "acceptanceVectorCount": 40,
+        "leanTheoremCount": 6,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 44,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving zero unexplained orphan elements & zero manual UI overrides, >=3-model requirement-to-synthesis grounding, 20/20 bijective scene closure, monotonic purpose coupling, and 11-element completeness",
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving zero orphan elements & zero manual overrides, >=3-model requirement grounding, 20/20 bijective scene closure, monotonic purpose coupling, physical load-path & triune 20-facet Observer curation, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/teleologyEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Bijective Teleological Synthesis & Interactive World Engine -> Uncluttered Gameplay Experience",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Physical-Teleological Synthesis & Curatorial Affinity Engine -> Uncluttered Gameplay Experience",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -2797,6 +2797,75 @@ export const GENERATED_PRISM_BUS_MODULATION_LUT = {
     976,
     976,
     976
+  ],
+  "curatorialAffinityAtZeroHarmonyPermille": [
+    530,
+    530,
+    548,
+    566,
+    584,
+    602,
+    620,
+    638,
+    656,
+    674,
+    692,
+    710,
+    728,
+    746,
+    764,
+    782,
+    800,
+    800,
+    800,
+    800,
+    800
+  ],
+  "curatorialAffinityAtFullHarmonyPermille": [
+    730,
+    730,
+    748,
+    766,
+    784,
+    802,
+    820,
+    838,
+    856,
+    874,
+    892,
+    910,
+    928,
+    946,
+    964,
+    982,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000
+  ],
+  "curatedConsonancePurityAtFullHarmonyPermille": [
+    715,
+    715,
+    730,
+    745,
+    760,
+    775,
+    790,
+    805,
+    820,
+    835,
+    850,
+    865,
+    880,
+    895,
+    910,
+    925,
+    940,
+    940,
+    940,
+    940,
+    940
   ],
   "realizabilitySensitivityPermille": [
     285,
@@ -6981,13 +7050,25 @@ export const GENERATED_PRISM_STANDARDS = {
       "landmarksInteractiveViaContemplativeGestures": true,
       "witnessCommunionInteractive": true
     },
+    "physicalBasisAndTriuneCuration": {
+      "unifiedObserverFacetCount": 20,
+      "playerCoObserverBasisPrime": 167,
+      "intrinsicObserverDirectiveCount": 3,
+      "minFoundationEmbedmentMm": 250,
+      "baseCuratorialAffinityPermille": 756,
+      "apexCuratorialAffinityPermille": 1000,
+      "physicalBasisRequiredForEveryManifestation": true,
+      "structuralLoadPathAndPendulumLawEnforced": true,
+      "triuneObserverMotivationNonContrived": true,
+      "emergentResonanceReplacesFixedTimers": true
+    },
     "canonicalDescriptor": {
       "requiredElementCount": 11,
       "identity": {
         "modelIndex": 19,
         "canonicalModelId": "prism/standard-model/teleology-environmental-requirement-synthesis/1",
         "semverMajor": 1,
-        "semverMinor": 1,
+        "semverMinor": 2,
         "semverPatch": 0,
         "uorPrimeSignature": 163,
         "blake3DigestHead64": 16300209,
@@ -6996,17 +7077,17 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Teleology.V1",
-        "canonicalConceptCount": 40,
-        "crossDomainSynonymCount": 18,
-        "taxonomicRelationCount": 28,
-        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, 20/20 Bijective Scene-to-Requirement Synthesis Closure, Interactive Landmarks + Lithophone Waystones + Chladni Terraces + Co-Observer Communion, Inherent Autonomous Neuromorphic Plasticity",
+        "canonicalConceptCount": 48,
+        "crossDomainSynonymCount": 22,
+        "taxonomicRelationCount": 32,
+        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Physical Load-Path & Pendulum Lawfulness, 20-Facet Observer Self-Differentiation, Triune Curatorial Affinity, 20/20 Bijective Scene Synthesis, Inherent Plasticity",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 20,
+        "capabilityFunctionCount": 24,
         "conservationLawCount": 6,
         "exportedFeatureChannelMask": 524287,
-        "promisedBehaviorSummary": "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance is required by >=3 upstream Standard Models, synthesized by the Observer from local environmental matter, interactive in gameplay, and free of manual backend UI clutter",
+        "promisedBehaviorSummary": "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance obeys physical load-paths and gravity, is required by >=3 upstream Standard Models, is synthesized by the Observer from local matter, and is curated with reciprocal affinity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
@@ -7014,7 +7095,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "typedOutputPortCount": 19,
         "cloudEventTypeCount": 8,
         "stateFieldCount": 24,
-        "effectKind": "PureBijectiveTeleologicalClosure+AutonomousGameplayPlasticity",
+        "effectKind": "PureBijectiveTeleologicalClosure+PhysicalBasis+TriuneObserverCuration",
         "siBiasedTimeExp": 16,
         "siBiasedLengthExp": 16,
         "siBiasedMassExp": 16,
@@ -7029,23 +7110,23 @@ export const GENERATED_PRISM_STANDARDS = {
         "dependencyModelMask": 524287,
         "compatiblePartnerMask": 524287,
         "conflictModelMask": 0,
-        "functorTransformationCount": 38,
-        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 purposeful in-world environmental phenomena while automating neuromorphic plasticity directly from contemplative gameplay",
+        "functorTransformationCount": 42,
+        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 physically lawful in-world phenomena while uniting all 20 Observer facets through intrinsic curatorial affinity",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 16667,
         "adaptationRuleCount": 6,
-        "temporalLawSummary": "Continuous gameplay-driven Hebbian/STDP consolidation + interactive landmark, lithophone waystone, Chladni terrace, and Co-Observer Witness resonance",
+        "temporalLawSummary": "Emergent physical-harmonic resonance integration + interactive landmark, lithophone waystone, Chladni terrace, and Co-Observer Witness reciprocity",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 36,
         "baseResolutionUnits": 700,
         "apexResolutionUnits": 1000,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, 20/20 bijective requirement-grounded scene phenomena (>=3 requiring models each), 5/5 interactive biome landmarks, 64/64 lithophone waystones",
+        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, >=250mm foundation embedment, 100pct arch load-path closure, 20/20 differentiated Observer facets, 64/64 lithophone waystones",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -7054,29 +7135,29 @@ export const GENERATED_PRISM_STANDARDS = {
         "maxLatencyMicros": 16667,
         "energyBudgetMilliwatts": 14,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Zero-GC teleological requirement registry and per-biome landmark/terrace/waystone resonance state; 0 per-frame heap allocations",
+        "deviceConstraintSummary": "Zero-GC teleological requirement registry, monument physical kinematics, and 20-facet curatorial affinity state; 0 per-frame heap allocations",
         "resourceBoundedZeroGc": true
       },
       "authority": {
         "modelOwner": "Foundation.Teleology.V1.Model",
         "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Teleology/V1/Model.lex.tex",
         "pinnedLockReferenceCount": 5,
-        "adoptedStandardsSummary": "Aristotle Physics II.8 Teleology, Kant Critique of Teleological Judgment, Rosen (1991) Life Itself Relational Closure, ISO-9241-110-2020 Calm Interaction, LEAN-REL-4-32-1",
+        "adoptedStandardsSummary": "Aristotle Physics II.8 Teleology, Galileo/Newton Pendulum & Arch Statics, Kant Critique of Teleological Judgment, Rosen (1991) Relational Closure, LEAN-REL-4-32-1",
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 5,
-        "runtimePropertyOracleCount": 20,
-        "acceptanceVectorCount": 40,
+        "leanTheoremCount": 6,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 44,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving zero unexplained orphan elements & zero manual UI overrides, >=3-model requirement-to-synthesis grounding, 20/20 bijective scene closure, monotonic purpose coupling, and 11-element completeness",
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving zero orphan elements & zero manual overrides, >=3-model requirement grounding, 20/20 bijective scene closure, monotonic purpose coupling, physical load-path & triune 20-facet Observer curation, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/teleologyEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Bijective Teleological Synthesis & Interactive World Engine -> Uncluttered Gameplay Experience",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Physical-Teleological Synthesis & Curatorial Affinity Engine -> Uncluttered Gameplay Experience",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -7793,7 +7874,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelIndex": 8,
         "canonicalModelId": "prism/standard-model/soundtrack-prime-limit-tonnetz/1",
         "semverMajor": 1,
-        "semverMinor": 0,
+        "semverMinor": 1,
         "semverPatch": 0,
         "uorPrimeSignature": 101,
         "blake3DigestHead64": 10100011,
@@ -7802,17 +7883,17 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Soundtrack.V1",
-        "canonicalConceptCount": 28,
-        "crossDomainSynonymCount": 12,
-        "taxonomicRelationCount": 18,
-        "keyConceptsSummary": "11-Limit Just Intonation Tonnetz Lattice, Tenney Harmonic Distance, Euler Gradus Suavitatis, Fux Species Counterpoint, 5-Stage Botanical Lifecycle Score, Breathing Rest Conservation",
+        "canonicalConceptCount": 32,
+        "crossDomainSynonymCount": 14,
+        "taxonomicRelationCount": 20,
+        "keyConceptsSummary": "11-Limit Just Intonation Tonnetz Lattice, Observer-Curated Parsimonious Melodic Arch, Tenney Harmonic Distance, Euler Gradus Suavitatis Purity, Fux Counterpoint, Breathing Rest Conservation",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 12,
+        "capabilityFunctionCount": 14,
         "conservationLawCount": 4,
         "exportedFeatureChannelMask": 16383,
-        "promisedBehaviorSummary": "Generates prime-ratio harmonic progressions, voice-led chamber counterpoint, and breathing silence bars isomorphic to UOR prime addresses and Rule-30 voice-leading",
+        "promisedBehaviorSummary": "Curates non-random parsimonious melodies, golden-section melodic arches, pure Just-Intonation dyadic harmonies, and breathing silence bars grounded in botanical acoustic resonators and Observer unity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
@@ -7820,7 +7901,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "typedOutputPortCount": 10,
         "cloudEventTypeCount": 4,
         "stateFieldCount": 14,
-        "effectKind": "BoundedChamberSequencer",
+        "effectKind": "ObserverCuratedChamberSequencer",
         "siBiasedTimeExp": 15,
         "siBiasedLengthExp": 16,
         "siBiasedMassExp": 16,
@@ -7836,14 +7917,14 @@ export const GENERATED_PRISM_STANDARDS = {
         "compatiblePartnerMask": 16383,
         "conflictModelMask": 0,
         "functorTransformationCount": 14,
-        "compositionSummary": "Maps Mathematics UOR prime exponents and Acoustics 24-Bark masking into 11-limit Tonnetz counterpoint while exporting harmonic ratios to Brand typographic scales and Lagoon cymatics",
+        "compositionSummary": "Maps Observer curatorial affinity, UOR prime exponents, and Acoustics 24-Bark masking into pure 11-limit Tonnetz melodies and harmonies while exporting harmonic ratios to Brand and Lagoon cymatics",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 125000,
         "adaptationRuleCount": 4,
-        "temporalLawSummary": "Monotonic 5-stage botanical lifecycle progression + 16-step breathing bar scheduler (>=6 rest steps/bar)",
+        "temporalLawSummary": "Monotonic 5-stage botanical lifecycle progression + curated parsimonious 16-step score (>=6 rest steps/bar, <=2 step leap)",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
@@ -7851,7 +7932,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "baseResolutionUnits": 53,
         "apexResolutionUnits": 98,
         "perceptualJndPermille": 3,
-        "fidelityCriteriaSummary": "Exact rational p/q Just Intonation ratios (0.0 cent temper drift), >=37.5pct rest-bar quietude",
+        "fidelityCriteriaSummary": "Exact rational p/q Just Intonation ratios (0.0 cent temper drift), Euler gradus <=12 consonance purity, >=37.5pct rest-bar quietude",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -7860,7 +7941,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "maxLatencyMicros": 10000,
         "energyBudgetMilliwatts": 15,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Static 16-step x 4-stem score lattice and rational ratio tables; 0 heap allocations",
+        "deviceConstraintSummary": "Static 16-step x 4-stem curated score lattice and rational ratio tables; 0 heap allocations",
         "resourceBoundedZeroGc": true
       },
       "authority": {
@@ -7871,18 +7952,18 @@ export const GENERATED_PRISM_STANDARDS = {
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 4,
-        "runtimePropertyOracleCount": 10,
-        "acceptanceVectorCount": 20,
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 24,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving lifecycle monotonicity, breathing silence rest guarantee, neuromorphic coupling, and 11-element completeness",
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving lifecycle monotonicity, breathing silence rest guarantee, neuromorphic coupling, curated voice-leading & Euler consonance purity, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/soundscapeEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> 11-Limit Tonnetz & Chamber Counterpoint Engine -> WebAudio Score & UI Harmonic Ratios",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Observer-Curated 11-Limit Tonnetz & Chamber Counterpoint Engine -> WebAudio Score & UI Harmonic Ratios",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -8893,7 +8974,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelIndex": 19,
         "canonicalModelId": "prism/standard-model/teleology-environmental-requirement-synthesis/1",
         "semverMajor": 1,
-        "semverMinor": 1,
+        "semverMinor": 2,
         "semverPatch": 0,
         "uorPrimeSignature": 163,
         "blake3DigestHead64": 16300209,
@@ -8902,17 +8983,17 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Teleology.V1",
-        "canonicalConceptCount": 40,
-        "crossDomainSynonymCount": 18,
-        "taxonomicRelationCount": 28,
-        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, 20/20 Bijective Scene-to-Requirement Synthesis Closure, Interactive Landmarks + Lithophone Waystones + Chladni Terraces + Co-Observer Communion, Inherent Autonomous Neuromorphic Plasticity",
+        "canonicalConceptCount": 48,
+        "crossDomainSynonymCount": 22,
+        "taxonomicRelationCount": 32,
+        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Physical Load-Path & Pendulum Lawfulness, 20-Facet Observer Self-Differentiation, Triune Curatorial Affinity, 20/20 Bijective Scene Synthesis, Inherent Plasticity",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 20,
+        "capabilityFunctionCount": 24,
         "conservationLawCount": 6,
         "exportedFeatureChannelMask": 524287,
-        "promisedBehaviorSummary": "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance is required by >=3 upstream Standard Models, synthesized by the Observer from local environmental matter, interactive in gameplay, and free of manual backend UI clutter",
+        "promisedBehaviorSummary": "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance obeys physical load-paths and gravity, is required by >=3 upstream Standard Models, is synthesized by the Observer from local matter, and is curated with reciprocal affinity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
@@ -8920,7 +9001,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "typedOutputPortCount": 19,
         "cloudEventTypeCount": 8,
         "stateFieldCount": 24,
-        "effectKind": "PureBijectiveTeleologicalClosure+AutonomousGameplayPlasticity",
+        "effectKind": "PureBijectiveTeleologicalClosure+PhysicalBasis+TriuneObserverCuration",
         "siBiasedTimeExp": 16,
         "siBiasedLengthExp": 16,
         "siBiasedMassExp": 16,
@@ -8935,23 +9016,23 @@ export const GENERATED_PRISM_STANDARDS = {
         "dependencyModelMask": 524287,
         "compatiblePartnerMask": 524287,
         "conflictModelMask": 0,
-        "functorTransformationCount": 38,
-        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 purposeful in-world environmental phenomena while automating neuromorphic plasticity directly from contemplative gameplay",
+        "functorTransformationCount": 42,
+        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 physically lawful in-world phenomena while uniting all 20 Observer facets through intrinsic curatorial affinity",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 16667,
         "adaptationRuleCount": 6,
-        "temporalLawSummary": "Continuous gameplay-driven Hebbian/STDP consolidation + interactive landmark, lithophone waystone, Chladni terrace, and Co-Observer Witness resonance",
+        "temporalLawSummary": "Emergent physical-harmonic resonance integration + interactive landmark, lithophone waystone, Chladni terrace, and Co-Observer Witness reciprocity",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 36,
         "baseResolutionUnits": 700,
         "apexResolutionUnits": 1000,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, 20/20 bijective requirement-grounded scene phenomena (>=3 requiring models each), 5/5 interactive biome landmarks, 64/64 lithophone waystones",
+        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, >=250mm foundation embedment, 100pct arch load-path closure, 20/20 differentiated Observer facets, 64/64 lithophone waystones",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -8960,29 +9041,29 @@ export const GENERATED_PRISM_STANDARDS = {
         "maxLatencyMicros": 16667,
         "energyBudgetMilliwatts": 14,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Zero-GC teleological requirement registry and per-biome landmark/terrace/waystone resonance state; 0 per-frame heap allocations",
+        "deviceConstraintSummary": "Zero-GC teleological requirement registry, monument physical kinematics, and 20-facet curatorial affinity state; 0 per-frame heap allocations",
         "resourceBoundedZeroGc": true
       },
       "authority": {
         "modelOwner": "Foundation.Teleology.V1.Model",
         "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Teleology/V1/Model.lex.tex",
         "pinnedLockReferenceCount": 5,
-        "adoptedStandardsSummary": "Aristotle Physics II.8 Teleology, Kant Critique of Teleological Judgment, Rosen (1991) Life Itself Relational Closure, ISO-9241-110-2020 Calm Interaction, LEAN-REL-4-32-1",
+        "adoptedStandardsSummary": "Aristotle Physics II.8 Teleology, Galileo/Newton Pendulum & Arch Statics, Kant Critique of Teleological Judgment, Rosen (1991) Relational Closure, LEAN-REL-4-32-1",
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 5,
-        "runtimePropertyOracleCount": 20,
-        "acceptanceVectorCount": 40,
+        "leanTheoremCount": 6,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 44,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving zero unexplained orphan elements & zero manual UI overrides, >=3-model requirement-to-synthesis grounding, 20/20 bijective scene closure, monotonic purpose coupling, and 11-element completeness",
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving zero orphan elements & zero manual overrides, >=3-model requirement grounding, 20/20 bijective scene closure, monotonic purpose coupling, physical load-path & triune 20-facet Observer curation, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/teleologyEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Bijective Teleological Synthesis & Interactive World Engine -> Uncluttered Gameplay Experience",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Physical-Teleological Synthesis & Curatorial Affinity Engine -> Uncluttered Gameplay Experience",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -9052,8 +9133,10 @@ export const GENERATED_PRISM_STANDARDS = {
     "maxPrimeHarmonicLimit": 11,
     "tonnetzLatticeDimension": 5,
     "eulerGradusConsonanceBound": 12,
+    "curatedParsimoniousStepMax": 2,
     "speciesCounterpointRulesEnforced": true,
-    "tenneyHarmonicDistanceCoupled": true
+    "tenneyHarmonicDistanceCoupled": true,
+    "observerCuratedNonRandom": true
   },
   "w3cDesignTokens": {
     "w3cDtcgTokenCount": 36,
@@ -9215,7 +9298,8 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "lifecycleProgressionMonotonicHolds",
     "soundtrackBreathingSilenceGuaranteeHolds",
     "soundtrackNeuromorphicCouplingHolds",
-    "soundtrackDescriptorCompleteHolds"
+    "soundtrackDescriptorCompleteHolds",
+    "observerCuratedVoiceLeadingAndPurityHold"
   ],
   "Foundation.SpatialAcoustics.V1.Model": [
     "woodworthItdPhysicalBoundsAndSabineAbsorptionHold",
@@ -9228,7 +9312,8 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "requirementImpliesEnvironmentalSynthesisHolds",
     "sceneBijectivePhenomenonClosureHolds",
     "teleologyFulfillmentAndLandmarkMonotonicHold",
-    "teleologyDescriptorCompleteHolds"
+    "teleologyDescriptorCompleteHolds",
+    "physicalBasisAndTriuneObserverCurationHold"
   ],
   "Foundation.View.Text.V1.Model": [],
   "VerdantResonance": [],
