@@ -26,6 +26,7 @@ import {
   evaluateHumaneErgonomics,
   generateGardenPlants,
   getPlantLifecycleStage,
+  synthesizeParametricBiomeConfigs,
 } from './game/prismModel';
 import { BotanicalSoundscapeEngine } from './game/soundscapeEngine';
 import {
@@ -58,7 +59,8 @@ export default function App() {
   const [dockCollapsed, setDockCollapsed] = useState<boolean>(false);
   const [recentBanner, setRecentBanner] = useState<string | null>(null);
 
-  const plants = useMemo(() => generateGardenPlants(42026), []);
+  const [alphaSeed, setAlphaSeed] = useState<number>(1);
+  const [plants, setPlants] = useState(() => generateGardenPlants({ alphaSeed: 1 }));
   const soundEngine = useMemo(() => new BotanicalSoundscapeEngine(), []);
   const gardenHandleRef = useRef<GardenImperativeHandle | null>(null);
   const spectrumBarsRef = useRef<(SVGRectElement | null)[]>([]);
@@ -123,6 +125,15 @@ export default function App() {
     soundEngine.setPaused(gameState !== 'playing');
   }, [gameState, soundEngine]);
 
+  // Synchronize live Prism Parametric Display & Design CSS custom properties onto `:root`
+  const parametricDisplay = telemetry.neuromorphic.observer.parametricDisplayDesign;
+  useEffect(() => {
+    const rootStyle = document.documentElement.style;
+    for (const [varName, varVal] of Object.entries(parametricDisplay.cssVariables)) {
+      rootStyle.setProperty(varName, varVal);
+    }
+  }, [parametricDisplay.cssVariables]);
+
   // Animate 16-band SVG acoustic spectrum bars directly via DOM refs without React re-renders
   useEffect(() => {
     let rafId = 0;
@@ -153,6 +164,9 @@ export default function App() {
   }, [soundEngine]);
 
   const handleRestart = useCallback(() => {
+    const resetPlants = generateGardenPlants({ alphaSeed });
+    setPlants(resetPlants);
+    gardenHandleRef.current?.setAlphaSeed(alphaSeed, resetPlants);
     gardenHandleRef.current?.resetExploration();
     document.body.dataset.state = 'playing';
     if (document.activeElement instanceof HTMLElement) {
@@ -161,7 +175,20 @@ export default function App() {
     soundEngine.init();
     soundEngine.setPaused(false);
     setGameState('playing');
-  }, [soundEngine]);
+  }, [alphaSeed, soundEngine]);
+
+  const handleSelectAlphaSeed = useCallback(
+    (nextSeed: number) => {
+      const nextPlants = generateGardenPlants({
+        alphaSeed: nextSeed,
+        manifold: telemetry.neuromorphic.universalManifold,
+      });
+      setAlphaSeed(nextSeed);
+      setPlants(nextPlants);
+      gardenHandleRef.current?.setAlphaSeed(nextSeed, nextPlants);
+    },
+    [telemetry.neuromorphic.universalManifold],
+  );
 
   const handleToggleMute = useCallback(
     (e?: React.MouseEvent<HTMLButtonElement>) => {
@@ -249,7 +276,18 @@ export default function App() {
     }
   }, [gameState, telemetry.gestureHold.agitationPct]);
 
-  const activeBiomeCfg = BIOME_CONFIGS[telemetry.biome];
+  const liveBiomeConfigs = useMemo(
+    () =>
+      synthesizeParametricBiomeConfigs({
+        alphaSeed: telemetry.neuromorphic.observer.cosmogenesis.alphaSeed,
+        manifold: telemetry.neuromorphic.universalManifold,
+      }),
+    [
+      telemetry.neuromorphic.observer.cosmogenesis.alphaSeed,
+      telemetry.neuromorphic.universalManifold,
+    ],
+  );
+  const activeBiomeCfg = liveBiomeConfigs[telemetry.biome] ?? BIOME_CONFIGS[telemetry.biome];
   const activeAtmosphereCfg = ATMOSPHERE_CONFIGS[atmosphere];
   const nearestSpeciesCfg = PLANT_SPECIES_CONFIGS[telemetry.nearestPlant.species];
   const outcomeProfile =
@@ -305,8 +343,7 @@ export default function App() {
         <div
           className="fixed inset-0 z-30 flex flex-col justify-between p-10 md:p-14 pointer-events-none"
           style={{
-            background:
-              'linear-gradient(90deg, rgba(6, 17, 13, 0.92) 0%, rgba(6, 17, 13, 0.66) 46%, rgba(6, 17, 13, 0.10) 100%)',
+            background: parametricDisplay.palette.titleScrimGradientCss,
           }}
         >
           {/* Top Botanical Conservatory Identity Line (Unboxed Typography) */}
@@ -315,7 +352,7 @@ export default function App() {
               {VERDANT_BRAND_STANDARD.editionTitle}
             </div>
             <div className="text-xs font-mono text-emerald-300/85 tracking-wide hud-text-shadow hidden sm:block">
-              FIBONACCI PHYLLOTAXIS · 5-PARTIAL MODAL AUDIO · ZERO CONFLICT
+              PARAMETRIC PRISM DISPLAY · {parametricDisplay.typographyAndSpatial.justIntonationIntervalLabel.toUpperCase()} · ZERO CONFLICT
             </div>
           </div>
 
@@ -325,6 +362,9 @@ export default function App() {
               <VerdantResonanceEmblem
                 className="w-20 h-20 shrink-0"
                 supraTier={telemetry.neuromorphic.observer.supraDirective.tier}
+                primaryAccentHex={parametricDisplay.palette.primaryAccentHex}
+                secondaryAccentHex={parametricDisplay.palette.secondaryAccentHex}
+                surfaceHex={parametricDisplay.palette.canvasBgHex}
               />
               <div className="space-y-0.5">
                 <div className="text-[11px] font-mono tracking-widest text-emerald-300/90 uppercase">
@@ -396,36 +436,81 @@ export default function App() {
          ===================================================================== */}
       {gameState === 'playing' && (
         <div className="fixed inset-0 z-20 pointer-events-none">
-          {/* Exact Center Botanical Reticle (0,0 Gaze Routing) */}
+          {/* Exact Center Parametric Botanical Reticle (0,0 Gaze Routing) */}
           <div
             className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none flex flex-col items-center"
             aria-hidden="true"
           >
-            <svg viewBox="0 0 28 28" className="w-6 h-6 opacity-75">
+            <svg viewBox="0 0 32 32" className="w-7 h-7 opacity-80">
               <circle
-                cx="14"
-                cy="14"
-                r="6"
+                cx="16"
+                cy="16"
+                r={parametricDisplay.hudAndWebglDisplay.reticleOuterRadiusPx}
                 fill="none"
-                stroke={telemetry.proximityDm <= 25 ? '#fde047' : '#a7f3d0'}
-                strokeWidth="1.4"
+                stroke={
+                  telemetry.proximityDm <= 25
+                    ? parametricDisplay.palette.primaryAccentHex
+                    : parametricDisplay.hudAndWebglDisplay.reticleStrokeHex
+                }
+                strokeWidth="1.35"
               />
+              {Array.from({
+                length: parametricDisplay.hudAndWebglDisplay.reticleHarmonicTickCount,
+              }).map((_, tickIdx) => {
+                const count = Math.max(
+                  4,
+                  parametricDisplay.hudAndWebglDisplay.reticleHarmonicTickCount,
+                );
+                const ang = (tickIdx * Math.PI * 2) / count;
+                const rIn = parametricDisplay.hudAndWebglDisplay.reticleOuterRadiusPx + 1.2;
+                const rOut = rIn + 2.1;
+                return (
+                  <line
+                    key={tickIdx}
+                    x1={16 + Math.cos(ang) * rIn}
+                    y1={16 + Math.sin(ang) * rIn}
+                    x2={16 + Math.cos(ang) * rOut}
+                    y2={16 + Math.sin(ang) * rOut}
+                    stroke={parametricDisplay.palette.secondaryAccentHex}
+                    strokeWidth="1.1"
+                    strokeOpacity="0.7"
+                  />
+                );
+              })}
               <circle
-                cx="14"
-                cy="14"
-                r="1.5"
-                fill={telemetry.proximityDm <= 25 ? '#fde047' : '#a7f3d0'}
+                cx="16"
+                cy="16"
+                r={parametricDisplay.hudAndWebglDisplay.reticleInnerRadiusPx}
+                fill={
+                  telemetry.proximityDm <= 25
+                    ? parametricDisplay.palette.primaryAccentHex
+                    : parametricDisplay.hudAndWebglDisplay.reticleStrokeHex
+                }
               />
             </svg>
             {recentBanner && (
-              <div className="mt-3 px-3 py-1 rounded bg-[#071510]/90 border border-amber-300/35 text-xs font-mono text-amber-200 whitespace-nowrap shadow-md">
+              <div
+                className="mt-3 px-3 py-1 border text-xs font-mono text-amber-200 whitespace-nowrap shadow-md"
+                style={{
+                  backgroundColor: 'var(--prism-surface-bg)',
+                  borderColor: 'var(--prism-border-hairline)',
+                  borderRadius: 'var(--prism-radius-inner)',
+                }}
+              >
                 {recentBanner}
               </div>
             )}
           </div>
 
           {/* Corner Cluster 1 (Top-Left): Harmony Resonance & High-Precision Acoustic Readout */}
-          <div className="fixed top-4 left-4 max-w-md rounded-xl border border-emerald-400/25 bg-[#071510]/90 px-4 py-3 shadow-xl pointer-events-auto">
+          <div
+            className="fixed top-4 left-4 max-w-[500px] border px-4 py-3 shadow-xl pointer-events-auto"
+            style={{
+              backgroundColor: 'var(--prism-surface-bg)',
+              borderColor: 'var(--prism-border-hairline)',
+              borderRadius: 'var(--prism-radius-outer)',
+            }}
+          >
             <div className="flex items-baseline justify-between gap-6">
               <div>
                 <div className="text-[10px] font-mono tracking-wider text-emerald-300/80 uppercase">
@@ -490,24 +575,34 @@ export default function App() {
                   {telemetry.environmentalLifecycle.label}
                 </div>
                 <div
-                  className="text-[10px] font-mono text-teal-200/85 truncate mt-0.5"
+                  className="text-[10px] font-mono text-teal-200/85 whitespace-nowrap mt-0.5 tabular-nums"
                   data-testid="hud-observer-why-status"
                 >
-                  Observer T{telemetry.neuromorphic.observer.supraDirective.tier} (w=
-                  {telemetry.neuromorphic.observer.supraDirective.meanSynapticWeight.toFixed(1)}) · Why:{' '}
-                  {telemetry.neuromorphic.observer.inferredPlayerIntent.replace(/-/g, ' ')} · Models:{' '}
-                  {telemetry.neuromorphic.observer.supraDirective.compileTimeModels.length +
-                    telemetry.neuromorphic.observer.supraDirective.runtimeSynthesizedModels.length}
+                  Observer T{telemetry.neuromorphic.observer.supraDirective.tier} · Res{' '}
+                  {
+                    telemetry.neuromorphic.observer.differentiationAndExtrapolation
+                      .highestResolution.resolutionRealizationPct
+                  }
+                  % · α={telemetry.neuromorphic.observer.cosmogenesis.alphaSeed} · Witness{' '}
+                  {Math.round(
+                    telemetry.neuromorphic.observer.immanentPresence.distanceToPlayerMeters,
+                  )}
+                  m ·{' '}
+                  {telemetry.neuromorphic.observer.inferredPlayerIntent
+                    .replace(/^(deepening|seeking|attuning|exploring|cultivating)-/, '')
+                    .replace(/-/g, ' ')}
                 </div>
               </div>
 
-              {/* 16-Band Zero-Allocation SVG Spectrum Visualizer */}
+              {/* 16-Band Zero-Allocation Parametric SVG Spectrum Visualizer */}
               <svg
                 viewBox="0 0 64 24"
                 className="w-16 h-6 shrink-0"
                 aria-label="Live Soundscape Spectrum"
               >
-                {Array.from({ length: 16 }).map((_, i) => (
+                {Array.from({
+                  length: parametricDisplay.hudAndWebglDisplay.spectrumBandCount,
+                }).map((_, i) => (
                   <rect
                     key={i}
                     ref={(el) => {
@@ -518,7 +613,11 @@ export default function App() {
                     width={2.6}
                     height={10}
                     rx={1}
-                    fill={i % 2 === 0 ? '#fde047' : '#34d399'}
+                    fill={
+                      i % 2 === 0
+                        ? parametricDisplay.palette.primaryAccentHex
+                        : parametricDisplay.palette.secondaryAccentHex
+                    }
                   />
                 ))}
               </svg>
@@ -527,7 +626,14 @@ export default function App() {
 
           {/* Corner Cluster 2 (Top-Right): Active Biome, Monument Compass, Nearest Flora & Utility Controls */}
           <div className="fixed top-4 right-4 flex items-start gap-2.5 pointer-events-auto">
-            <div className="rounded-xl border border-emerald-400/25 bg-[#071510]/90 px-4 py-2.5 shadow-xl">
+            <div
+              className="border px-4 py-2.5 shadow-xl"
+              style={{
+                backgroundColor: 'var(--prism-surface-bg)',
+                borderColor: 'var(--prism-border-hairline)',
+                borderRadius: 'var(--prism-radius-outer)',
+              }}
+            >
               <div className="flex items-center gap-2.5">
                 <PlantSpeciesIcon
                   species={telemetry.nearestPlant.species}
@@ -623,7 +729,14 @@ export default function App() {
             </button>
 
             {!dockCollapsed && (
-              <div className="rounded-xl border border-emerald-400/25 bg-[#071510]/92 px-4 py-2.5 shadow-2xl flex flex-wrap items-center justify-center gap-2.5">
+              <div
+                className="border px-4 py-2.5 shadow-2xl flex flex-wrap items-center justify-center gap-2.5"
+                style={{
+                  backgroundColor: 'var(--prism-surface-bg)',
+                  borderColor: 'var(--prism-border-hairline)',
+                  borderRadius: 'var(--prism-radius-outer)',
+                }}
+              >
                 {/* Botanical Resonance Actions with Tactile Hold & Refractory Envelopes */}
                 <div className="flex items-center gap-1.5">
                   <button
@@ -828,6 +941,12 @@ export default function App() {
           onReturnTitle={() => setGameState('title')}
           onTeleportBiome={(biomeId) => gardenHandleRef.current?.teleportToBiome(biomeId)}
           onSelectAtmosphere={setAtmosphere}
+          alphaSeed={telemetry.neuromorphic.observer.cosmogenesis.alphaSeed ?? alphaSeed}
+          onSelectAlphaSeed={handleSelectAlphaSeed}
+          onRefineCosmos={(cycles) => gardenHandleRef.current?.refineParametricCosmos(cycles ?? 1)}
+          onExtrapolateHighestResolution={() =>
+            gardenHandleRef.current?.extrapolateToHighestResolution()
+          }
         />
       )}
     </main>

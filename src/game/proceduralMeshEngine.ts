@@ -1693,3 +1693,434 @@ export function createObserverAstrolabeCrownGeometry(
   geometry.computeBoundingSphere();
   return geometry;
 }
+
+/**
+ * 12. Parametric Player/User Co-Observer Harmonic Locus Geometry (`createPlayerCoObserverLocusGeometry`):
+ * Synthesizes a grounded golden-ratio cymatic ring + `harmonicNodeCount` cardinal lotus-star nodes
+ * in the `XZ` plane (`y = 0` local) with warm amber-jade vertex colors, representing the Observer's
+ * parametric embodiment of the free-willed Player/User avatar on the Neuromorphic Bus.
+ */
+export function createPlayerCoObserverLocusGeometry(options?: {
+  innerRadius?: number;
+  outerRadius?: number;
+  harmonicNodeCount?: number;
+  radialSegments?: number;
+}): THREE.BufferGeometry {
+  const innerR = Math.max(0.18, options?.innerRadius ?? 0.36);
+  const outerR = Math.max(innerR + 0.08, options?.outerRadius ?? 0.58);
+  const nodeCount = Math.max(4, Math.min(12, Math.round(options?.harmonicNodeCount ?? 4)));
+  const segs = Math.max(24, Math.min(96, Math.round(options?.radialSegments ?? 48)));
+
+  const positions: number[] = [];
+  const normals: number[] = [];
+  const uvs: number[] = [];
+  const colors: number[] = [];
+  const indices: number[] = [];
+
+  const ringWidth = Math.max(0.032, (outerR - innerR) * 0.24);
+  const innerMidR = innerR + ringWidth * 0.5;
+  const outerMidR = outerR - ringWidth * 0.5;
+
+  const addFlatAnnulus = (
+    rMin: number,
+    rMax: number,
+    colInner: [number, number, number],
+    colOuter: [number, number, number],
+    yLift: number,
+    petalWaveAmp: number,
+  ) => {
+    const baseIdx = positions.length / 3;
+    for (let i = 0; i <= segs; i++) {
+      const u = i / segs;
+      const theta = u * Math.PI * 2;
+      const wave = petalWaveAmp * Math.cos(theta * nodeCount);
+      const r0 = rMin + wave * 0.4;
+      const r1 = rMax + wave;
+      const cosT = Math.cos(theta);
+      const sinT = Math.sin(theta);
+
+      positions.push(cosT * r0, yLift, sinT * r0);
+      normals.push(0, 1, 0);
+      uvs.push(u, 0);
+      colors.push(colInner[0], colInner[1], colInner[2]);
+
+      positions.push(cosT * r1, yLift, sinT * r1);
+      normals.push(0, 1, 0);
+      uvs.push(u, 1);
+      colors.push(colOuter[0], colOuter[1], colOuter[2]);
+    }
+    for (let i = 0; i < segs; i++) {
+      const a = baseIdx + i * 2;
+      const b = a + 1;
+      const c = a + 2;
+      const d = a + 3;
+      indices.push(a, c, b);
+      indices.push(b, c, d);
+    }
+  };
+
+  // Inner golden-amber focal ring (`r = innerR`)
+  addFlatAnnulus(
+    innerMidR - ringWidth * 0.5,
+    innerMidR + ringWidth * 0.5,
+    [0.98, 0.86, 0.46],
+    [0.92, 0.76, 0.34],
+    0.002,
+    0.008,
+  );
+
+  // Outer emerald-teal phi-harmonic cymatic ring (`r = outerR = phi * innerR`)
+  addFlatAnnulus(
+    outerMidR - ringWidth * 0.45,
+    outerMidR + ringWidth * 0.45,
+    [0.36, 0.92, 0.76],
+    [0.74, 0.96, 0.84],
+    0.0,
+    0.018,
+  );
+
+  // `nodeCount` radial bridge filaments welding inner ring to outer phi ring with zero disjoint pieces
+  const spokeHalfW = Math.max(0.012, ringWidth * 0.32);
+  for (let n = 0; n < nodeCount; n++) {
+    const ang = (n / nodeCount) * Math.PI * 2;
+    const cosA = Math.cos(ang);
+    const sinA = Math.sin(ang);
+    const perpX = -sinA * spokeHalfW;
+    const perpZ = cosA * spokeHalfW;
+    const rStart = innerMidR;
+    const rEnd = outerMidR + ringWidth * 0.75;
+    const baseIdx = positions.length / 3;
+
+    positions.push(
+      cosA * rStart - perpX,
+      0.001,
+      sinA * rStart - perpZ,
+      cosA * rStart + perpX,
+      0.001,
+      sinA * rStart + perpZ,
+      cosA * rEnd + perpX * 0.45,
+      0.001,
+      sinA * rEnd + perpZ * 0.45,
+      cosA * rEnd - perpX * 0.45,
+      0.001,
+      sinA * rEnd - perpZ * 0.45,
+    );
+    for (let v = 0; v < 4; v++) {
+      normals.push(0, 1, 0);
+      uvs.push(v < 2 ? 0 : 1, v % 2);
+      if (v < 2) {
+        colors.push(0.98, 0.86, 0.46);
+      } else {
+        colors.push(0.52, 0.96, 0.82);
+      }
+    }
+    indices.push(baseIdx, baseIdx + 2, baseIdx + 1);
+    indices.push(baseIdx, baseIdx + 3, baseIdx + 2);
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
+  geometry.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(normals), 3));
+  geometry.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(uvs), 2));
+  geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3));
+  geometry.setIndex(indices);
+  geometry.computeBoundingSphere();
+  return geometry;
+}
+
+export interface ImmanentObserverWitnessRig {
+  group: THREE.Group;
+  basalFootRingMesh: THREE.Mesh;
+  tuningForkSpineMesh: THREE.Mesh;
+  outerGimbalGroup: THREE.Group;
+  innerGimbalGroup: THREE.Group;
+  quartzCoreMesh: THREE.Mesh;
+  primeSpokeArmsGroup: THREE.Group;
+  apicalStarFinialMesh: THREE.Mesh;
+  coreMaterial: THREE.MeshPhysicalMaterial;
+  bronzeMaterial: THREE.MeshStandardMaterial;
+  jadeSpokeMaterial: THREE.MeshStandardMaterial;
+  partCount: number;
+  weldGapMeters: number;
+  dispose: () => void;
+}
+
+/**
+ * Builds the grounded, zero-gap 7-part sculptural **Immanent Environmental Observer Presence**
+ * ("The Observer is among us in its environment"):
+ *   1. Basal Cymatic Foot-Ring Plinth (embedded `-0.05m .. +0.16m` for zero-gap slope seating, roughness `0.78`)
+ *   2. Continuous Bifurcated Harmonic Tuning-Fork Spine + Trunnion Collars (`+0.10m .. +1.86m`, roughness `0.34`)
+ *   3. Outer Golden-Ratio Gimbal Ring + Integral Horizontal Trunnion Pins (`y = 1.38m`, roughness `0.20`)
+ *   4. Inner Just-Intonation Gimbal Ring + Vertical Spindle (`y = 1.38m`, roughness `0.50`)
+ *   5. Double-Terminated Birefringent Quartz Resonance Core (`y = 1.38m`, roughness `0.12`, iridescence `0.85`)
+ *   6. Three Welded Prime-Address Radial Spoke Arms + Resonator Nodes (`y = 1.82m`, roughness `0.44`)
+ *   7. Apical Harmonic Star Finial welded into the upper crown socket (`y = 1.84m .. 2.18m`, roughness `0.16`)
+ */
+export function buildImmanentObserverWitnessGroup(options?: {
+  radialSegments?: number;
+  primaryAccentHex?: string;
+  secondaryAccentHex?: string;
+}): ImmanentObserverWitnessRig {
+  const segs = Math.max(16, Math.min(48, Math.round(options?.radialSegments ?? 28)));
+  const primaryColor = new THREE.Color(options?.primaryAccentHex ?? '#fde047');
+  const secondaryColor = new THREE.Color(options?.secondaryAccentHex ?? '#5eead4');
+
+  const geometriesToDispose: THREE.BufferGeometry[] = [];
+  const materialsToDispose: THREE.Material[] = [];
+
+  const trackGeo = <T extends THREE.BufferGeometry>(g: T): T => {
+    geometriesToDispose.push(g);
+    return g;
+  };
+  const trackMat = <T extends THREE.Material>(m: T): T => {
+    materialsToDispose.push(m);
+    return m;
+  };
+
+  const group = new THREE.Group();
+  group.name = 'ImmanentObserverWitness';
+
+  // Material 1: Travertine-Basalt Grounded Plinth (matte mineral stone, roughness 0.78)
+  const stonePlinthMat = trackMat(
+    new THREE.MeshStandardMaterial({
+      color: new THREE.Color('#2c3b35'),
+      roughness: 0.78,
+      metalness: 0.14,
+    }),
+  );
+
+  // Material 2: Brushed Harmonic Cu-Sn-Au Bronze Spine (satin metal, roughness 0.34)
+  const bronzeMaterial = trackMat(
+    new THREE.MeshStandardMaterial({
+      color: new THREE.Color('#d8b972'),
+      emissive: primaryColor.clone().multiplyScalar(0.18),
+      emissiveIntensity: 0.45,
+      roughness: 0.34,
+      metalness: 0.84,
+    }),
+  );
+
+  // Material 3: Specular Gold Gimbal & Finial Alloy (gleaming gold, roughness 0.18)
+  const specularGoldMat = trackMat(
+    new THREE.MeshStandardMaterial({
+      color: primaryColor.clone().lerp(new THREE.Color('#fff3b0'), 0.25),
+      emissive: primaryColor.clone(),
+      emissiveIntensity: 0.38,
+      roughness: 0.18,
+      metalness: 0.9,
+    }),
+  );
+
+  // Material 4: Patinated Jade-Teal Harmonic Spoke Alloy (semi-matte patina, roughness 0.48)
+  const jadeSpokeMaterial = trackMat(
+    new THREE.MeshStandardMaterial({
+      color: secondaryColor.clone().lerp(new THREE.Color('#2bb59c'), 0.35),
+      emissive: secondaryColor.clone(),
+      emissiveIntensity: 0.42,
+      roughness: 0.48,
+      metalness: 0.58,
+    }),
+  );
+
+  // Material 5: Birefringent Quartz Resonance Core (crystalline clearcoat + iridescence, roughness 0.12)
+  const coreMaterial = trackMat(
+    new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color('#e6fff9'),
+      emissive: secondaryColor.clone().lerp(primaryColor, 0.45),
+      emissiveIntensity: 0.85,
+      roughness: 0.12,
+      metalness: 0.08,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.08,
+      iridescence: 0.85,
+      iridescenceIOR: 1.48,
+      transparent: true,
+      opacity: 0.94,
+    }),
+  );
+
+  // PART 1: Basal Cymatic Foot-Ring Plinth (embeds 0.05m below y=0 so uneven terrain never exposes a gap)
+  const plinthPoints = [
+    new THREE.Vector2(0.0, -0.05),
+    new THREE.Vector2(0.56, -0.05),
+    new THREE.Vector2(0.54, 0.05),
+    new THREE.Vector2(0.42, 0.09),
+    new THREE.Vector2(0.38, 0.15),
+    new THREE.Vector2(0.22, 0.18),
+    new THREE.Vector2(0.0, 0.18),
+  ];
+  const plinthGeo = trackGeo(new THREE.LatheGeometry(plinthPoints, segs));
+  const basalFootRingMesh = new THREE.Mesh(plinthGeo, stonePlinthMat);
+  basalFootRingMesh.castShadow = true;
+  basalFootRingMesh.receiveShadow = true;
+  group.add(basalFootRingMesh);
+
+  // PART 2: Continuous Bifurcated Harmonic Tuning-Fork Spine (welded 0.06m deep into basal plinth up to crown socket y=1.86m)
+  const spineGroup = new THREE.Mesh(
+    trackGeo(new THREE.CylinderGeometry(0.095, 0.155, 0.82, segs)),
+    bronzeMaterial,
+  );
+  spineGroup.position.set(0, 0.53, 0); // spans y = 0.12 .. 0.94 (6cm overlap into y=0.18 plinth!)
+  spineGroup.castShadow = true;
+
+  // Lower yoke collar at y = 0.92m
+  const lowerCollar = new THREE.Mesh(
+    trackGeo(new THREE.TorusGeometry(0.14, 0.042, 12, segs)),
+    bronzeMaterial,
+  );
+  lowerCollar.rotation.x = Math.PI / 2;
+  lowerCollar.position.set(0, 0.39, 0); // local to spineGroup -> world y = 0.92m
+  spineGroup.add(lowerCollar);
+
+  // Left & Right curved tuning-fork tines spanning world y = 0.90 .. 1.86m (local y = 0.37 .. 1.33m) around gimbal center y=1.38m (local y=0.85m)
+  for (const side of [-1, 1]) {
+    const tineCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(side * 0.09, 0.36, 0),
+      new THREE.Vector3(side * 0.48, 0.56, 0),
+      new THREE.Vector3(side * 0.54, 0.85, 0),
+      new THREE.Vector3(side * 0.46, 1.15, 0),
+      new THREE.Vector3(side * 0.10, 1.31, 0),
+    ]);
+    const tineMesh = new THREE.Mesh(
+      trackGeo(new THREE.TubeGeometry(tineCurve, 20, 0.042, 12, false)),
+      bronzeMaterial,
+    );
+    tineMesh.castShadow = true;
+    spineGroup.add(tineMesh);
+
+    // Integral inward trunnion bearing sleeve at gimbal height (local y = 0.85 -> world y = 1.38m)
+    const bearingSleeve = new THREE.Mesh(
+      trackGeo(new THREE.CylinderGeometry(0.036, 0.036, 0.14, 12)),
+      bronzeMaterial,
+    );
+    bearingSleeve.rotation.z = Math.PI / 2;
+    bearingSleeve.position.set(side * 0.49, 0.85, 0);
+    spineGroup.add(bearingSleeve);
+  }
+
+  // Upper crown collar uniting both tuning-fork tines at world y = 1.84m (local y = 1.31m)
+  const upperCrownHub = new THREE.Mesh(
+    trackGeo(new THREE.CylinderGeometry(0.13, 0.15, 0.14, segs)),
+    bronzeMaterial,
+  );
+  upperCrownHub.position.set(0, 1.31, 0);
+  spineGroup.add(upperCrownHub);
+  group.add(spineGroup);
+
+  // PART 3: Outer Golden-Ratio Gimbal Ring + Horizontal Trunnion Axle Pins seated inside tine bearings at y = 1.38m
+  const outerGimbalGroup = new THREE.Group();
+  outerGimbalGroup.position.set(0, 1.38, 0);
+  const outerRingMesh = new THREE.Mesh(
+    trackGeo(new THREE.TorusGeometry(0.42, 0.028, 14, segs)),
+    specularGoldMat,
+  );
+  outerRingMesh.castShadow = true;
+  outerGimbalGroup.add(outerRingMesh);
+
+  // Continuous horizontal trunnion axle spanning x = -0.53 .. +0.53m (welds outer ring r=0.42 directly into tine sleeves at x=+-0.49!)
+  for (const side of [-1, 1]) {
+    const outerPin = new THREE.Mesh(
+      trackGeo(new THREE.CylinderGeometry(0.022, 0.022, 0.15, 10)),
+      specularGoldMat,
+    );
+    outerPin.rotation.z = Math.PI / 2;
+    outerPin.position.set(side * 0.47, 0, 0);
+    outerGimbalGroup.add(outerPin);
+  }
+  group.add(outerGimbalGroup);
+
+  // PART 4: Inner Just-Intonation Gimbal Ring + Vertical Spindle Axle welded inside Outer Gimbal
+  const innerGimbalGroup = new THREE.Group();
+  const innerRingMesh = new THREE.Mesh(
+    trackGeo(new THREE.TorusGeometry(0.31, 0.024, 14, segs)),
+    jadeSpokeMaterial,
+  );
+  innerRingMesh.rotation.y = Math.PI / 2;
+  innerGimbalGroup.add(innerRingMesh);
+
+  // Vertical spindle rod spanning y = -0.43 .. +0.43m (locks inner ring r=0.31 and quartz core directly into outer gimbal r=0.42!)
+  const innerVerticalSpindle = new THREE.Mesh(
+    trackGeo(new THREE.CylinderGeometry(0.018, 0.018, 0.86, 10)),
+    specularGoldMat,
+  );
+  innerGimbalGroup.add(innerVerticalSpindle);
+  outerGimbalGroup.add(innerGimbalGroup);
+
+  // PART 5: Birefringent Double-Terminated Quartz Resonance Core impaled directly on the vertical spindle at (0, 1.38, 0)
+  const quartzCoreGeo = trackGeo(
+    createHexagonalQuartzCrystalGeometry({
+      radius: 0.155,
+      height: 0.48,
+      doubleTerminated: true,
+    }),
+  );
+  const quartzCoreMesh = new THREE.Mesh(quartzCoreGeo, coreMaterial);
+  quartzCoreMesh.position.set(0, -0.24, 0); // centers 0.48m crystal symmetrically around (0,0,0) of innerGimbalGroup!
+  innerGimbalGroup.add(quartzCoreMesh);
+
+  // PART 6: Three Welded Prime-Address Radial Spoke Arms emerging from the Upper Crown Hub at y = 1.84m
+  const primeSpokeArmsGroup = new THREE.Group();
+  primeSpokeArmsGroup.position.set(0, 1.84, 0);
+  for (let i = 0; i < 3; i++) {
+    const angle = (i * Math.PI * 2) / 3;
+    const armBranch = new THREE.Group();
+    armBranch.rotation.y = angle;
+
+    const armCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0.08, -0.02, 0), // embedded 5cm inside upperCrownHub (radius 0.13)
+      new THREE.Vector3(0.24, 0.05, 0),
+      new THREE.Vector3(0.38, 0.14, 0),
+    ]);
+    const armTube = new THREE.Mesh(
+      trackGeo(new THREE.TubeGeometry(armCurve, 10, 0.022, 8, false)),
+      jadeSpokeMaterial,
+    );
+    armBranch.add(armTube);
+
+    const nodeCrystal = new THREE.Mesh(
+      trackGeo(new THREE.OctahedronGeometry(0.058, 0)),
+      specularGoldMat,
+    );
+    nodeCrystal.position.set(0.38, 0.14, 0); // centered directly on arm end!
+    armBranch.add(nodeCrystal);
+    primeSpokeArmsGroup.add(armBranch);
+  }
+  group.add(primeSpokeArmsGroup);
+
+  // PART 7: Apical Harmonic Star Finial seated 0.05m inside the Upper Crown Hub (`y = 1.84m .. 2.18m`)
+  const finialStemAndStar = new THREE.Group();
+  const finialStem = new THREE.Mesh(
+    trackGeo(new THREE.CylinderGeometry(0.024, 0.055, 0.24, 12)),
+    specularGoldMat,
+  );
+  finialStem.position.set(0, 1.94, 0); // spans 1.82 .. 2.06 (embeds into y=1.84 crown hub!)
+  const apicalStarFinialMesh = new THREE.Mesh(
+    trackGeo(new THREE.OctahedronGeometry(0.105, 0)),
+    specularGoldMat,
+  );
+  apicalStarFinialMesh.position.set(0, 2.11, 0); // overlaps finialStem top at 2.06m by 5.5cm!
+  apicalStarFinialMesh.scale.set(1.0, 1.35, 1.0);
+  finialStemAndStar.add(finialStem);
+  finialStemAndStar.add(apicalStarFinialMesh);
+  group.add(finialStemAndStar);
+
+  return {
+    group,
+    basalFootRingMesh,
+    tuningForkSpineMesh: spineGroup,
+    outerGimbalGroup,
+    innerGimbalGroup,
+    quartzCoreMesh,
+    primeSpokeArmsGroup,
+    apicalStarFinialMesh,
+    coreMaterial,
+    bronzeMaterial,
+    jadeSpokeMaterial,
+    partCount: 7,
+    weldGapMeters: 0,
+    dispose: () => {
+      for (const g of geometriesToDispose) g.dispose();
+      for (const m of materialsToDispose) m.dispose();
+    },
+  };
+}

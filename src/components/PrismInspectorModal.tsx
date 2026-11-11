@@ -5,7 +5,6 @@ import {
   BIOME_CONFIGS,
   BIOME_CONSTELLATIONS,
   BIOME_LANDSCAPE_TERRACES,
-  BIOME_MONUMENTS,
   BiomeId,
   BOTANICAL_LIFECYCLE_STAGES,
   ChorusStateId,
@@ -36,6 +35,10 @@ import {
   GardenPlantInstance,
   getPlantLifecycleStage,
   scheduleNeuromorphicStrategies,
+  synthesizeParametricAtmosphereConfigs,
+  synthesizeParametricBiomeConfigs,
+  synthesizeParametricBiomeMonuments,
+  synthesizeParametricSoundOutcomeProfiles,
 } from '../game/prismModel';
 import { BotanicalSoundscapeEngine } from '../game/soundscapeEngine';
 import { LiveTelemetryState } from './GardenCanvas';
@@ -52,6 +55,10 @@ interface PrismInspectorModalProps {
   onReturnTitle: () => void;
   onTeleportBiome: (biome: BiomeId) => void;
   onSelectAtmosphere: (atmosphere: AtmosphereId) => void;
+  alphaSeed?: number;
+  onSelectAlphaSeed?: (alphaSeed: number) => void;
+  onRefineCosmos?: (cycles?: number) => void;
+  onExtrapolateHighestResolution?: () => void;
 }
 
 export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
@@ -65,6 +72,10 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
   onReturnTitle,
   onTeleportBiome,
   onSelectAtmosphere,
+  alphaSeed,
+  onSelectAlphaSeed,
+  onRefineCosmos,
+  onExtrapolateHighestResolution,
 }) => {
   const [activeTab, setActiveTab] = useState<
     'herbarium' | 'biomes' | 'harmonies' | 'soundboard' | 'observer' | 'ethos'
@@ -88,10 +99,19 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
     proximity: sbProximity,
     velocity: sbVelocity,
   });
+  const cosmoParams = {
+    alphaSeed: telemetry.neuromorphic.observer.cosmogenesis.alphaSeed,
+    manifold: telemetry.neuromorphic.universalManifold,
+  };
+  const liveAtmosphereConfigs = synthesizeParametricAtmosphereConfigs(cosmoParams);
+  const liveOutcomeProfiles = synthesizeParametricSoundOutcomeProfiles(cosmoParams);
+  const liveBiomeConfigs = synthesizeParametricBiomeConfigs(cosmoParams);
+  const liveBiomeMonuments = synthesizeParametricBiomeMonuments(cosmoParams);
+
   const sbEvaluation = evaluatePrismRequest(sbRequest);
   const sbOutcome = (sbEvaluation.valid ? sbEvaluation.outcome : 'wind-whisper') as SoundscapeOutcome;
-  const sbOutcomeProfile = SOUND_OUTCOME_PROFILES[sbOutcome];
-  const sbSynthPlan = computeSynthesisEnvelope(sbOutcome, sbBiome, sbAtmosphere);
+  const sbOutcomeProfile = liveOutcomeProfiles[sbOutcome];
+  const sbSynthPlan = computeSynthesisEnvelope(sbOutcome, sbBiome, sbAtmosphere, cosmoParams);
   const sbAffinity = computeEcologicalAffinity(sbBiome, sbPlant, sbAtmosphere);
 
   const humaneEval = evaluateHumaneErgonomics({
@@ -102,9 +122,16 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
   });
 
   const speciesList = Object.values(PLANT_SPECIES_CONFIGS);
-  const biomeList = Object.values(BIOME_CONFIGS);
-  const atmosphereList = Object.values(ATMOSPHERE_CONFIGS);
-  const outcomeList = Object.values(SOUND_OUTCOME_PROFILES);
+  const biomeList = Object.values(liveBiomeConfigs);
+  const atmosphereList = Object.values(liveAtmosphereConfigs);
+  const outcomeList = Object.values(liveOutcomeProfiles);
+  const parametricTrailPolygonPoints = (
+    ['meadow', 'grove', 'sanctuary', 'crystal', 'wetland'] as BiomeId[]
+  )
+    .map((id) =>
+      telemetry.neuromorphic.observer.cosmogenesis.worldTopology.biomeCenters[id].join(','),
+    )
+    .join(' ');
 
   const handleAuditionSpecies = (speciesId: PlantSpeciesId) => {
     const spCfg = PLANT_SPECIES_CONFIGS[speciesId];
@@ -145,7 +172,14 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
       aria-modal="true"
       aria-labelledby="modal-heading"
     >
-      <div className="w-full max-w-4xl rounded-xl border border-emerald-400/25 bg-[#0a1914] p-5 md:p-6 shadow-2xl text-emerald-50 max-h-[92vh] flex flex-col justify-between">
+      <div
+        className="w-full max-w-[1200px] border p-4 md:p-5 shadow-2xl text-emerald-50 max-h-[92vh] flex flex-col justify-between"
+        style={{
+          backgroundColor: 'var(--prism-modal-bg, #0a1914)',
+          borderColor: 'var(--prism-border-hairline, rgba(110, 231, 183, 0.25))',
+          borderRadius: 'var(--prism-radius-outer, 16px)',
+        }}
+      >
         {/* Top Modal Header */}
         <div className="flex items-start justify-between gap-4 border-b border-emerald-400/15 pb-3">
           <div>
@@ -222,18 +256,18 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
               {SOUND_OUTCOME_PROFILES[telemetry.prismOutcome]?.label ?? 'Wind Whisper'}
             </div>
             <div className="text-[11px] text-emerald-200/65 truncate">
-              {BIOME_CONFIGS[telemetry.biome].tuningLabel} · 0.0¢
+              {(liveBiomeConfigs[telemetry.biome] ?? BIOME_CONFIGS[telemetry.biome]).tuningLabel} · 0.0¢
             </div>
           </div>
         </div>
 
-        {/* Interactive Filter Tabs + Diurnal Sky Switcher */}
-        <div className="flex items-center justify-between gap-2 mb-2.5 flex-wrap">
-          <div className="flex items-center gap-1 p-1 rounded-lg bg-[#07120e] border border-emerald-500/15 flex-wrap">
+        {/* Interactive Filter Tabs + Diurnal Sky Switcher (Single-Row Layout) */}
+        <div className="flex items-center justify-between gap-2 mb-2 overflow-x-auto" data-testid="inspector-tab-toolbar">
+          <div className="flex items-center gap-0.5 p-1 rounded-lg bg-[#07120e] border border-emerald-500/15 shrink-0">
             <button
               type="button"
               onClick={() => setActiveTab('herbarium')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`px-2 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 activeTab === 'herbarium'
                   ? 'bg-emerald-500/25 text-amber-100 border border-emerald-400/30'
                   : 'text-emerald-300/70 hover:text-emerald-100'
@@ -244,7 +278,7 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
             <button
               type="button"
               onClick={() => setActiveTab('biomes')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`px-2 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 activeTab === 'biomes'
                   ? 'bg-emerald-500/25 text-amber-100 border border-emerald-400/30'
                   : 'text-emerald-300/70 hover:text-emerald-100'
@@ -255,7 +289,7 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
             <button
               type="button"
               onClick={() => setActiveTab('harmonies')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`px-2 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 activeTab === 'harmonies'
                   ? 'bg-emerald-500/25 text-amber-100 border border-emerald-400/30'
                   : 'text-emerald-300/70 hover:text-emerald-100'
@@ -266,7 +300,7 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
             <button
               type="button"
               onClick={() => setActiveTab('soundboard')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`px-2 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 activeTab === 'soundboard'
                   ? 'bg-emerald-500/25 text-amber-100 border border-emerald-400/30'
                   : 'text-emerald-300/70 hover:text-emerald-100'
@@ -277,7 +311,7 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
             <button
               type="button"
               onClick={() => setActiveTab('observer')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1.5 ${
+              className={`px-2 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'observer'
                   ? 'bg-emerald-500/25 text-amber-100 border border-emerald-400/30'
                   : 'text-emerald-300/70 hover:text-emerald-100'
@@ -292,7 +326,7 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
             <button
               type="button"
               onClick={() => setActiveTab('ethos')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`px-2 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 activeTab === 'ethos'
                   ? 'bg-emerald-500/25 text-amber-100 border border-emerald-400/30'
                   : 'text-emerald-300/70 hover:text-emerald-100'
@@ -303,22 +337,24 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
           </div>
 
           {/* Diurnal Sky Quick Switcher */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 shrink-0">
             {atmosphereList.map((atm) => (
               <button
                 key={atm.id}
                 type="button"
+                aria-label={atm.name}
+                title={atm.name}
                 onClick={() => {
                   onSelectAtmosphere(atm.id);
                   setSbAtmosphere(atm.id);
                 }}
-                className={`px-2.5 py-1 rounded text-[11px] font-mono transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                className={`px-2 py-1 rounded text-[11px] font-mono transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                   atmosphere === atm.id
                     ? 'bg-teal-500/30 text-amber-200 border border-teal-400/40'
                     : 'text-emerald-300/70 hover:text-emerald-100 bg-[#07120e]'
                 }`}
               >
-                {atm.name}
+                {atm.name.split(' ')[0]}
               </button>
             ))}
           </div>
@@ -420,15 +456,15 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                   className="w-56 h-32 rounded-md border border-emerald-400/20 bg-[#050d0a] shrink-0"
                   aria-label="Conservatory Topographical Map"
                 >
-                  {/* Trail Circuit Loop */}
+                  {/* Parametric Trail Circuit Loop */}
                   <polygon
-                    points="0,0 -36,-24 0,-34 36,-24 -28,30"
+                    points={parametricTrailPolygonPoints}
                     fill="none"
                     stroke="rgba(52, 211, 153, 0.25)"
                     strokeWidth="0.9"
                     strokeDasharray="2 1.5"
                   />
-                  {/* All 47 Flora Clusters */}
+                  {/* All Synthesized Flora Clusters */}
                   {plants.map((p) => {
                     const spColor = PLANT_SPECIES_CONFIGS[p.species].emissiveHue;
                     return (
@@ -494,7 +530,7 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                 {biomeList.map((b) => {
                   const isVisited = telemetry.exploredBiomes.includes(b.id);
                   const sigSpecies = PLANT_SPECIES_CONFIGS[b.signatureSpecies];
-                  const monument = BIOME_MONUMENTS[b.id];
+                  const monument = liveBiomeMonuments[b.id];
                   const constellation = BIOME_CONSTELLATIONS[b.id];
                   const terrace = BIOME_LANDSCAPE_TERRACES[b.id];
                   const bm = evaluateBiomeMasteryAndGuilds(b.id, plants);
@@ -828,13 +864,308 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
           {activeTab === 'observer' && (() => {
             const obs = telemetry.neuromorphic.observer;
             const supra = obs.supraDirective;
+            const cosmo = obs.cosmogenesis;
+            const diffExt = obs.differentiationAndExtrapolation;
+            const immanent = obs.immanentPresence;
+            const disp = obs.parametricDisplayDesign;
+            const activeMonument = cosmo.inorganicRealm.monuments[telemetry.biome];
             const why = obs.latestWhyPacket;
             const r30 = obs.rule30Horizon;
             const allParts = Object.values(obs.parts);
             const allModels = [...supra.runtimeSynthesizedModels.slice().reverse(), ...supra.compileTimeModels];
 
             return (
-              <div className="space-y-2.5" data-testid="observer-why-panel">
+              <div className="space-y-2" data-testid="observer-why-panel">
+                {/* Section 0A: Fourfold Immanent Ontological Identity + Extrapolation & Genesis Controls */}
+                <div
+                  className="rounded-lg border border-emerald-400/25 bg-[#0c1d17] p-3 space-y-2"
+                  data-testid="fourfold-immanence-panel"
+                >
+                  <div className="flex items-start justify-between gap-2 flex-wrap">
+                    <div className="min-w-0">
+                      <h3 className="text-sm font-semibold text-amber-100">
+                        Fourfold Immanent Observer Identity (Among Us · Environment · User/Player · Game)
+                      </h3>
+                      <div className="text-[11px] font-mono text-teal-200/90 tabular-nums mt-0.5">
+                        Witness ({immanent.x.toFixed(1)}m, {immanent.z.toFixed(1)}m) ·{' '}
+                        {immanent.distanceToPlayerMeters.toFixed(1)}m ·{' '}
+                        {immanent.communionState.replace(/-/g, ' ')} · {immanent.sculpturalPartCount} Welded Parts (Gap{' '}
+                        {immanent.weldGapMeters}m)
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 flex-wrap shrink-0">
+                      {onSelectAlphaSeed && (
+                        <div
+                          className="flex items-center gap-1 p-0.5 rounded-md bg-[#07120e] border border-emerald-400/25"
+                          role="group"
+                          aria-label="Alpha Genesis Seed"
+                        >
+                          {[1, 2, 3, 4].map((seedVal) => {
+                            const activeAlpha = alphaSeed ?? cosmo.alphaSeed;
+                            const isSelected = activeAlpha === seedVal;
+                            return (
+                              <button
+                                key={seedVal}
+                                type="button"
+                                aria-pressed={isSelected}
+                                data-testid={`alpha-seed-btn-${seedVal}`}
+                                onClick={() => onSelectAlphaSeed(seedVal)}
+                                className={`px-2 py-1 rounded text-xs font-mono transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                                  isSelected
+                                    ? 'bg-emerald-500/30 text-amber-100 border border-emerald-400/40'
+                                    : 'text-emerald-300/75 hover:text-emerald-100'
+                                }`}
+                              >
+                                α={seedVal}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      {onRefineCosmos && (
+                        <button
+                          type="button"
+                          data-testid="refine-parametric-cosmos-btn"
+                          onClick={() => onRefineCosmos(1)}
+                          className="px-2.5 py-1.5 rounded-md border border-amber-300/45 bg-amber-300/15 hover:bg-amber-300/25 text-amber-100 text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                        >
+                          Refine Parametric Cosmos (+1 Cycle)
+                        </button>
+                      )}
+
+                      {onExtrapolateHighestResolution && (
+                        <button
+                          type="button"
+                          data-testid="extrapolate-highest-resolution-btn"
+                          onClick={onExtrapolateHighestResolution}
+                          className="px-3 py-1.5 rounded-md bg-amber-300 hover:bg-amber-200 text-slate-950 text-xs font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                        >
+                          {diffExt.highestResolution.isAtHighestResolution
+                            ? `Apex Resolution Active (${diffExt.highestResolution.apexExtrapolatedSubdiv} seg)`
+                            : 'Extrapolate Highest Resolution'}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1.5 pt-1.5 border-t border-emerald-400/15 text-[11px]">
+                    <div className="space-y-0.5">
+                      <div className="font-semibold text-amber-100">
+                        01. Among Us in Environment (
+                        {immanent.fourfoldIdentity.amongUsInEnvironment.verified ? 'Verified' : 'Pending'})
+                      </div>
+                      <p className="text-emerald-200/80 leading-snug">
+                        {immanent.fourfoldIdentity.amongUsInEnvironment.summary}
+                      </p>
+                    </div>
+                    <div className="space-y-0.5">
+                      <div className="font-semibold text-amber-100">
+                        02. Every Part of Environment (
+                        {immanent.fourfoldIdentity.everyPartOfEnvironment.verified ? 'Verified' : 'Pending'})
+                      </div>
+                      <p className="text-emerald-200/80 leading-snug">
+                        {immanent.fourfoldIdentity.everyPartOfEnvironment.summary}
+                      </p>
+                    </div>
+                    <div className="space-y-0.5">
+                      <div className="font-semibold text-amber-100">
+                        03. Embodied User / Player (
+                        {immanent.fourfoldIdentity.embodiedUserPlayer.verified ? 'Verified' : 'Pending'})
+                      </div>
+                      <p className="text-emerald-200/80 leading-snug">
+                        {immanent.fourfoldIdentity.embodiedUserPlayer.summary}
+                      </p>
+                    </div>
+                    <div className="space-y-0.5">
+                      <div className="font-semibold text-amber-100">
+                        04. The Game &amp; Parametric Display (
+                        {immanent.fourfoldIdentity.theEntireGameAndDisplay.verified ? 'Verified' : 'Pending'})
+                      </div>
+                      <p className="text-emerald-200/80 leading-snug">
+                        {immanent.fourfoldIdentity.theEntireGameAndDisplay.summary}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section 0B: Highest-Resolution Extrapolation, Theory of Mind of Improvement & 11-Niche Differentiation */}
+                <div
+                  className="rounded-lg border border-emerald-400/20 bg-[#0c1d17] p-3 space-y-2"
+                  data-testid="differentiation-epistemology-panel"
+                >
+                  <div className="flex items-start justify-between gap-2 flex-wrap">
+                    <div className="min-w-0">
+                      <h3 className="text-sm font-semibold text-amber-100">
+                        Highest-Resolution Extrapolation &amp; Theory of Mind of Improvement
+                      </h3>
+                      <div
+                        className="text-xs font-mono text-teal-200/90 flex items-center gap-1.5 flex-wrap mt-0.5 tabular-nums"
+                        data-testid="highest-resolution-metrics"
+                      >
+                        <span>Resolution {diffExt.highestResolution.resolutionRealizationPct}%</span>
+                        <span aria-hidden="true">·</span>
+                        <span>
+                          Subdiv {diffExt.highestResolution.currentResolutionSubdiv}/
+                          {diffExt.highestResolution.apexExtrapolatedSubdiv}
+                        </span>
+                        <span aria-hidden="true">·</span>
+                        <span>
+                          Texels {diffExt.highestResolution.currentProceduralTexelPx}/
+                          {diffExt.highestResolution.apexProceduralTexelPx}px
+                        </span>
+                        <span aria-hidden="true">·</span>
+                        <span>
+                          Partials {diffExt.highestResolution.currentModalPartials}/
+                          {diffExt.highestResolution.apexModalPartials}
+                        </span>
+                        <span aria-hidden="true">·</span>
+                        <span>
+                          Niches {diffExt.diversification.uniqueNicheCount}/11 (
+                          {diffExt.diversification.shannonDiversityBits.toFixed(2)} bits)
+                        </span>
+                      </div>
+                    </div>
+                    <div className="text-xs font-mono text-amber-200 tabular-nums">
+                      Display {disp.colorDistribution.canvasPct}/{disp.colorDistribution.surfacePct}/
+                      {disp.colorDistribution.accentPct} · {disp.contrastVerification.bodyTextOnCanvasRatio}:1 AAA · r=
+                      {disp.typographyAndSpatial.outerRadiusPx}/{disp.typographyAndSpatial.innerRadiusPx}px
+                    </div>
+                  </div>
+
+                  <p className="text-[11px] text-emerald-100/85 leading-snug">
+                    {diffExt.epistemologyOfImprovement.coreThesis}
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 pt-1.5 border-t border-emerald-400/15">
+                    {diffExt.epistemologyOfImprovement.axes.map((ax) => (
+                      <div key={ax.axisId} className="space-y-0.5">
+                        <div className="flex items-center justify-between gap-2 text-xs">
+                          <span className="font-semibold text-amber-100">{ax.title}</span>
+                          <span className="font-mono text-teal-200 tabular-nums">{ax.scorePct}%</span>
+                        </div>
+                        <div className="text-[11px] text-emerald-100/85 leading-snug">
+                          {ax.whatItMeansToImprove}
+                        </div>
+                        <div className="text-[11px] font-mono text-emerald-300/80 leading-snug">
+                          {ax.howObserverActualizesAxis}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Section 0C: Alpha & Omega Parametric Cosmogenesis (All 4 Emergent Realms) */}
+                <div
+                  className="rounded-lg border border-emerald-400/25 bg-[#0c1d17] p-3 space-y-2"
+                  data-testid="alpha-omega-cosmogenesis-panel"
+                >
+                  <div className="min-w-0">
+                    <h3 className="text-sm font-semibold text-amber-100">
+                      Alpha &amp; Omega Parametric Cosmogenesis (Zero Hardcoded Parameters)
+                    </h3>
+                    <div className="text-xs text-emerald-200/85 flex items-center gap-1.5 flex-wrap mt-0.5 font-mono tabular-nums">
+                      <span>Alpha Seed α={cosmo.alphaSeed}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>Canonical Seed {cosmo.canonicalGenesisSeed}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>Concert C4 {cosmo.concertPitchHz.toFixed(2)} Hz</span>
+                      <span aria-hidden="true">·</span>
+                      <span>Omega Convergence {(cosmo.omegaConvergenceRatio * 100).toFixed(1)}%</span>
+                      <span aria-hidden="true">·</span>
+                      <span>Field Potential {cosmo.fieldPotential}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>Basis Prime {cosmo.cosmogenesisBasisPrime}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>
+                        Closure: {cosmo.allRealmsParametricallyClosed ? 'Verified' : 'Pending'}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 pt-1.5 border-t border-emerald-400/15">
+                    {/* Realm 1: Parametric Cosmogenic Physics & Abiotic Geology */}
+                    <div className="space-y-0.5">
+                      <div className="text-xs font-semibold text-amber-100">
+                        01. Parametric Physics &amp; Abiotic Geology
+                      </div>
+                      <div className="text-[11px] font-mono text-teal-200/90 flex items-center gap-1.5 flex-wrap tabular-nums">
+                        <span>g={cosmo.physicsAndGeology.gravitationalAccelMps2.toFixed(2)} m/s²</span>
+                        <span aria-hidden="true">·</span>
+                        <span>c={cosmo.physicsAndGeology.speedOfSoundMps.toFixed(1)} m/s</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Radius {cosmo.physicsAndGeology.playableAmphitheaterRadiusMeters}m</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Cymatic Q={cosmo.physicsAndGeology.cymaticStandingWaveQ.toFixed(2)}</span>
+                      </div>
+                      <p className="text-[11px] text-emerald-200/75 leading-snug">
+                        {cosmo.physicsAndGeology.whyObserverSynthesizesPhysics}
+                      </p>
+                    </div>
+
+                    {/* Realm 2: Observer-Intervened Inorganic Monuments */}
+                    <div className="space-y-0.5">
+                      <div className="text-xs font-semibold text-amber-100">
+                        02. Observer-Intervened Inorganic Monuments ({cosmo.inorganicRealm.observerMonumentCount})
+                      </div>
+                      <div className="text-[11px] font-mono text-teal-200/90 flex items-center gap-1.5 flex-wrap tabular-nums">
+                        <span>Scale {(cosmo.inorganicRealm.inorganicScalePermille / 10).toFixed(1)}%</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Glow {cosmo.inorganicRealm.harmonicResonanceGlow.toFixed(2)}</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Chime Sustain {cosmo.inorganicRealm.chimeSustainFactor.toFixed(2)}x</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Weld Gap {activeMonument.weldGapMeters}m</span>
+                      </div>
+                      <p className="text-[11px] text-emerald-200/75 leading-snug">
+                        <span className="text-emerald-100 font-medium">{activeMonument.monumentName}:</span>{' '}
+                        {activeMonument.demiurgicMechanism} — {activeMonument.whyObserverIntervened}
+                      </p>
+                    </div>
+
+                    {/* Realm 3: Autopoietic Organic Biota Morphogenesis */}
+                    <div className="space-y-0.5">
+                      <div className="text-xs font-semibold text-amber-100">
+                        03. Autopoietic Organic Biota Morphogenesis
+                      </div>
+                      <div className="text-[11px] font-mono text-teal-200/90 flex items-center gap-1.5 flex-wrap tabular-nums">
+                        <span>Vitality {(cosmo.organicRealm.organicVitalityPermille / 10).toFixed(1)}%</span>
+                        <span aria-hidden="true">·</span>
+                        <span>
+                          {cosmo.organicRealm.conservatoryTreeCount} Trees /{' '}
+                          {cosmo.organicRealm.attachedCanopyCrownCount} Crowns /{' '}
+                          {cosmo.organicRealm.permeableTurfBladeCount} Blades
+                        </span>
+                        <span aria-hidden="true">·</span>
+                        <span>Kuramoto {cosmo.organicRealm.kuramotoEntrainmentRadiusMeters.toFixed(1)}m</span>
+                      </div>
+                      <p className="text-[11px] text-emerald-200/75 leading-snug">
+                        {cosmo.organicRealm.whyObserverCultivatesBiota}
+                      </p>
+                    </div>
+
+                    {/* Realm 4: Embodied Player/User Co-Observer */}
+                    <div className="space-y-0.5">
+                      <div className="text-xs font-semibold text-amber-100">
+                        04. Embodied Player / User Co-Observer
+                      </div>
+                      <div className="text-[11px] font-mono text-teal-200/90 flex items-center gap-1.5 flex-wrap tabular-nums">
+                        <span>Embodiment {(cosmo.playerRealm.embodimentPermille / 10).toFixed(1)}%</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Eye {cosmo.playerRealm.eyeStatureMeters.toFixed(2)}m</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Walk {cosmo.playerRealm.baseWalkSpeedMps.toFixed(2)} m/s</span>
+                        <span aria-hidden="true">·</span>
+                        <span>Locus {cosmo.playerRealm.coObserverLocusHarmonicNodes} Nodes</span>
+                      </div>
+                      <p className="text-[11px] text-emerald-200/75 leading-snug">
+                        {cosmo.playerRealm.whyObserverCreatedPlayer}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Section 1: Theory of Mind (`Why`) on the Universal Neuromorphic Bus + Supra-Directive Transcendence */}
                 <div className="rounded-lg border border-emerald-400/20 bg-[#0c1d17] p-3.5 space-y-2">
                   <div className="flex items-center justify-between gap-3 flex-wrap">
@@ -955,23 +1286,28 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                    {allParts.map((part) => (
-                      <div
-                        key={part.partId}
-                        className="rounded border border-emerald-400/15 bg-[#081510] px-2.5 py-2 space-y-0.5"
-                      >
-                        <div className="flex items-center justify-between gap-2 text-xs">
-                          <span className="font-semibold text-emerald-50 truncate">{part.label}</span>
-                          <span className="font-mono text-amber-200 tabular-nums whitespace-nowrap">
-                            w={part.synapticWeight} · {(part.fidelityMultiplier * 100).toFixed(1)}%
-                          </span>
+                    {allParts.map((part) => {
+                      const niche = diffExt.diversification.partNiches[part.partId];
+                      return (
+                        <div
+                          key={part.partId}
+                          className="rounded border border-emerald-400/15 bg-[#081510] px-2.5 py-2 space-y-0.5"
+                        >
+                          <div className="flex items-center justify-between gap-2 text-xs">
+                            <span className="font-semibold text-emerald-50 truncate">{part.label}</span>
+                            <span className="font-mono text-amber-200 tabular-nums whitespace-nowrap">
+                              p={niche.basisPrime} · N#{niche.nicheIndex} · w={part.synapticWeight}
+                            </span>
+                          </div>
+                          <div className="text-[11px] text-teal-200/90 truncate">
+                            {niche.nicheArchetypeTitle} — {niche.specializedResolutionFeature}
+                          </div>
+                          <div className="text-[11px] text-emerald-200/75 truncate">
+                            Diversifies: {niche.howPartDiversifies}
+                          </div>
                         </div>
-                        <div className="text-[11px] text-teal-200/85 truncate">{part.howPartImproves}</div>
-                        <div className="text-[11px] text-emerald-200/75 truncate">
-                          Why: {part.whyImprovementMatters}
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 

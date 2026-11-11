@@ -8,7 +8,16 @@ import { PlantSpeciesId } from '../game/prismModel';
 export const VerdantResonanceEmblem: React.FC<{
   className?: string;
   supraTier?: number;
-}> = ({ className = 'w-16 h-16', supraTier = 0 }) => (
+  primaryAccentHex?: string;
+  secondaryAccentHex?: string;
+  surfaceHex?: string;
+}> = ({
+  className = 'w-16 h-16',
+  supraTier = 0,
+  primaryAccentHex = '#fde047',
+  secondaryAccentHex = '#6ee7b7',
+  surfaceHex = '#07130f',
+}) => (
   <svg
     viewBox="0 0 96 96"
     fill="none"
@@ -17,57 +26,57 @@ export const VerdantResonanceEmblem: React.FC<{
     aria-hidden="true"
   >
     {/* Dark outer protective silhouette disc */}
-    <circle cx="48" cy="48" r="44" fill="#07130f" stroke="#34d399" strokeWidth="1.5" strokeOpacity="0.45" />
+    <circle cx="48" cy="48" r="44" fill={surfaceHex} stroke={secondaryAccentHex} strokeWidth="1.5" strokeOpacity="0.5" />
     {supraTier >= 1 && (
       <circle
         cx="48"
         cy="48"
         r="40.5"
         fill="none"
-        stroke="#fde047"
+        stroke={primaryAccentHex}
         strokeWidth={1 + supraTier * 0.22}
         strokeOpacity={Math.min(0.9, 0.35 + supraTier * 0.14)}
         strokeDasharray="6 3"
       />
     )}
     {/* Acoustic orbital rings */}
-    <ellipse cx="48" cy="48" rx="36" ry="15" transform="rotate(-24 48 48)" stroke="#fde047" strokeWidth="1.2" strokeOpacity="0.45" />
-    <ellipse cx="48" cy="48" rx="36" ry="15" transform="rotate(24 48 48)" stroke="#2dd4bf" strokeWidth="1.2" strokeOpacity="0.45" />
+    <ellipse cx="48" cy="48" rx="36" ry="15" transform="rotate(-24 48 48)" stroke={primaryAccentHex} strokeWidth="1.2" strokeOpacity="0.48" />
+    <ellipse cx="48" cy="48" rx="36" ry="15" transform="rotate(24 48 48)" stroke={secondaryAccentHex} strokeWidth="1.2" strokeOpacity="0.48" />
     {/* Outer Lotus Petals */}
     <path
       d="M48 16C55 28 60 40 48 56C36 40 41 28 48 16Z"
-      fill="#10b981"
-      fillOpacity="0.28"
-      stroke="#6ee7b7"
+      fill={secondaryAccentHex}
+      fillOpacity="0.24"
+      stroke={secondaryAccentHex}
       strokeWidth="1.5"
     />
     <path
       d="M24 34C36 36 44 44 48 56C34 52 26 44 24 34Z"
-      fill="#14b8a6"
-      fillOpacity="0.25"
+      fill={secondaryAccentHex}
+      fillOpacity="0.2"
       stroke="#5eead4"
       strokeWidth="1.4"
     />
     <path
       d="M72 34C60 36 52 44 48 56C62 52 70 44 72 34Z"
-      fill="#14b8a6"
-      fillOpacity="0.25"
+      fill={secondaryAccentHex}
+      fillOpacity="0.2"
       stroke="#5eead4"
       strokeWidth="1.4"
     />
     {/* Central Tuning-Fork Resonance Spire */}
     <path
       d="M43 30V48C43 51 45 53 48 53C51 53 53 51 53 48V30"
-      stroke="#fef08a"
+      stroke={primaryAccentHex}
       strokeWidth="2.4"
       strokeLinecap="round"
     />
-    <path d="M48 53V76" stroke="#fef08a" strokeWidth="2.4" strokeLinecap="round" />
+    <path d="M48 53V76" stroke={primaryAccentHex} strokeWidth="2.4" strokeLinecap="round" />
     {/* Top Harmonic Crown Star */}
-    <circle cx="48" cy="22" r={3.5 + supraTier * 0.45} fill="#fef08a" />
+    <circle cx="48" cy="22" r={3.5 + supraTier * 0.45} fill={primaryAccentHex} />
     {/* Basal Water Ripple Arcs */}
-    <path d="M32 76C38 79 58 79 64 76" stroke="#6ee7b7" strokeWidth="1.5" strokeLinecap="round" />
-    <path d="M38 81C43 83 53 83 58 81" stroke="#34d399" strokeWidth="1.2" strokeLinecap="round" strokeOpacity="0.7" />
+    <path d="M32 76C38 79 58 79 64 76" stroke={secondaryAccentHex} strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M38 81C43 83 53 83 58 81" stroke={secondaryAccentHex} strokeWidth="1.2" strokeLinecap="round" strokeOpacity="0.7" />
   </svg>
 );
 

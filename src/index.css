@@ -5,6 +5,23 @@
     --font-display: 'Cormorant Garamond', Georgia, serif;
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
+    --prism-bg-canvas: #0b1612;
+    --prism-surface-bg: rgba(7, 19, 15, 0.84);
+    --prism-surface-elevated: rgba(11, 27, 21, 0.90);
+    --prism-modal-bg: rgba(6, 17, 13, 0.96);
+    --prism-subcard-bg: rgba(4, 12, 9, 0.68);
+    --prism-border-hairline: rgba(110, 231, 183, 0.22);
+    --prism-accent-primary: #fde047;
+    --prism-accent-secondary: #6ee7b7;
+    --prism-accent-tertiary: #5eead4;
+    --prism-text-primary: #f0f5f1;
+    --prism-text-muted: #b8d4c5;
+    --prism-radius-outer: 16px;
+    --prism-radius-inner: 12px;
+    --prism-space-unit: 4px;
+    --prism-pad-container: 16px;
+    --prism-title-scrim: radial-gradient(circle at 50% 44%, rgba(6, 18, 14, 0.34) 0%, rgba(4, 12, 9, 0.78) 100%);
+    --prism-reticle-stroke: #fef08a;
   }
 
   * {
@@ -20,8 +37,8 @@
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #0b1612;
-    color: #f0f5f1;
+    background-color: var(--prism-bg-canvas, #0b1612);
+    color: var(--prism-text-primary, #f0f5f1);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }

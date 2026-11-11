@@ -631,6 +631,11 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
       'Foundation.Brand.V1.Model',
       modules,
     ),
+    cosmogenesis: evaluateLexExpr(
+      'verdantCosmogenesisStandard',
+      'Foundation.Cosmogenesis.V1.Model',
+      modules,
+    ),
   };
 
   const domainBasisPrimes = {
@@ -912,6 +917,69 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         ),
       ),
     ),
+    alphaOmegaFieldPotential: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepAlphaOmegaFieldPotential 1 ${w}`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    parametricInorganicScalePermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `synthesizeParametricInorganicScalePermille 1 ${w} ${w}`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    parametricOrganicVitalityPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `synthesizeParametricOrganicVitalityPermille 1 ${w} ${w}`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    parametricPlayerEmbodimentPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `synthesizeParametricPlayerEmbodimentPermille 1 ${w} ${w}`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    parametricDisplayHarmonizedContrastTenths: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `synthesizeParametricDisplayHarmonizedContrastTenths ${w}`,
+          'Foundation.Brand.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    extrapolateHighestResolutionSubdiv: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `extrapolateHighestResolutionSubdiv 1 ${w}`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    extrapolateHighestResolutionPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `extrapolateHighestResolutionPermille 1 ${w}`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
   };
 
   const plasticityLut = {
@@ -1112,6 +1180,51 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         ),
       ),
     ),
+    verifyObserverCreatesAllThreeRealms: weightDomain.map((w) =>
+      Boolean(
+        evaluateLexExpr(
+          `verifyObserverCreatesAllThreeRealms 1 ${w}`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    verifyAlphaOmegaParametricClosure: weightDomain.map((w) =>
+      Boolean(
+        evaluateLexExpr(
+          `verifyAlphaOmegaParametricClosure 1 ${w}`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    verifyParametricDisplayDesignClosure: weightDomain.map((w) =>
+      Boolean(
+        evaluateLexExpr(
+          `verifyParametricDisplayDesignClosure ${w}`,
+          'Foundation.Brand.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    verifyTheoryOfMindDifferentiationAndDiversity: weightDomain.map((w) =>
+      Boolean(
+        evaluateLexExpr(
+          `verifyTheoryOfMindDifferentiationAndDiversity ${w}`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    verifyFourfoldObserverImmanence: weightDomain.map((w) =>
+      Boolean(
+        evaluateLexExpr(
+          `verifyFourfoldObserverImmanence 1 ${w}`,
+          'Foundation.Cosmogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
   };
 
   const rule30Lut = Array.from({ length: 8 }, (_, idx) => {
@@ -1133,11 +1246,11 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
   const coneSteps = 40;
   const coneWidth = 97;
   const coneCenter = 48;
-  const coneGrid: number[][] = [];
-  let row = Array.from({ length: coneWidth }, (_, i) => (i === coneCenter ? 1 : 0));
+  const coneGrid: (0 | 1)[][] = [];
+  let row: (0 | 1)[] = Array.from({ length: coneWidth }, (_, i) => (i === coneCenter ? 1 : 0));
   coneGrid.push(row);
   for (let t = 1; t < coneSteps; t++) {
-    const next = new Array<number>(coneWidth).fill(0);
+    const next: (0 | 1)[] = new Array<0 | 1>(coneWidth).fill(0);
     for (let x = 1; x < coneWidth - 1; x++) {
       const idx = (row[x - 1] << 2) | (row[x] << 1) | row[x + 1];
       next[x] = rule30Lut[idx] ? 1 : 0;
@@ -1359,6 +1472,147 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     };
   });
 
+  // Compile-Time Alpha-Omega Parametric Cosmogenesis Artifacts (`Foundation.Cosmogenesis.V1.Model`):
+  // Evaluates the parametric genesis operators across `alphaSeed = 1..8` and synthesizes the
+  // Observer-intervened demiurgic blueprint ratios from UOR algebraic invariants (`phi`, primes, `2^d`).
+  const cosmogenesisBasisPrime = Number(
+    evaluateLexExpr('cosmogenesisBasisPrime', 'Foundation.Cosmogenesis.V1.Model', modules),
+  );
+  const createdRealmCount = Number(
+    evaluateLexExpr('createdRealmCount', 'Foundation.Cosmogenesis.V1.Model', modules),
+  );
+  const observerMonumentCount = Number(
+    evaluateLexExpr('observerMonumentCount', 'Foundation.Cosmogenesis.V1.Model', modules),
+  );
+  const phiGolden = (1 + Math.sqrt(5)) / 2;
+  const alphaSeedSweepLut = [1, 2, 3, 4, 5, 6, 7, 8].map((seed) => ({
+    alphaSeed: seed,
+    canonicalGenesisSeed: Number(
+      evaluateLexExpr(
+        `synthesizeParametricCanonicalSeed ${seed} 8`,
+        'Foundation.Cosmogenesis.V1.Model',
+        modules,
+      ),
+    ),
+    concertPitchCentiHz: Number(
+      evaluateLexExpr(
+        `synthesizeParametricConcertPitchCentiHz ${seed} 8`,
+        'Foundation.Cosmogenesis.V1.Model',
+        modules,
+      ),
+    ),
+    baselineFieldPotential: Number(
+      evaluateLexExpr(
+        `stepAlphaOmegaFieldPotential ${seed} 8`,
+        'Foundation.Cosmogenesis.V1.Model',
+        modules,
+      ),
+    ),
+    apexFieldPotential: Number(
+      evaluateLexExpr(
+        `stepAlphaOmegaFieldPotential ${seed} 16`,
+        'Foundation.Cosmogenesis.V1.Model',
+        modules,
+      ),
+    ),
+    baselineInorganicPermille: Number(
+      evaluateLexExpr(
+        `synthesizeParametricInorganicScalePermille ${seed} 8 8`,
+        'Foundation.Cosmogenesis.V1.Model',
+        modules,
+      ),
+    ),
+    baselineOrganicPermille: Number(
+      evaluateLexExpr(
+        `synthesizeParametricOrganicVitalityPermille ${seed} 8 8`,
+        'Foundation.Cosmogenesis.V1.Model',
+        modules,
+      ),
+    ),
+    baselinePlayerPermille: Number(
+      evaluateLexExpr(
+        `synthesizeParametricPlayerEmbodimentPermille ${seed} 8 8`,
+        'Foundation.Cosmogenesis.V1.Model',
+        modules,
+      ),
+    ),
+    closureVerified: Boolean(
+      evaluateLexExpr(
+        `verifyAlphaOmegaParametricClosure ${seed} 8`,
+        'Foundation.Cosmogenesis.V1.Model',
+        modules,
+      ),
+    ),
+  }));
+
+  const alphaOmegaCosmogenesisArtifacts = {
+    cosmogenesisBasisPrime,
+    createdRealmCount,
+    observerMonumentCount,
+    canonicalGenesisSeedBaseline: alphaSeedSweepLut[0].canonicalGenesisSeed,
+    concertPitchCentiHzBaseline: alphaSeedSweepLut[0].concertPitchCentiHz,
+    goldenRatioPhi: Number(phiGolden.toFixed(8)),
+    goldenAngleRad: Number(((2 * Math.PI) / (phiGolden * phiGolden)).toFixed(8)),
+    alphaSeedSweepLut,
+    monumentDemiurgicArchetypes: [
+      {
+        monumentId: 'monument-sanctuary-pavilion',
+        biome: 'sanctuary' as const,
+        monumentName: 'Sanctuary Harmonic Colonnade & Observer Astrolabe',
+        biomeContextPrime: contextPrimes.sanctuaryPrime,
+        demiurgicMechanism:
+          'Acoustic standing-wave calcification of CaCO3 travertine and harmonic Cu-Sn-Au bronze at the 5-biome nodal origin.',
+        mineralCompounds: ['CaCO3-Travertine', 'SiO2-Quartz', 'CuSnAu-Harmonic-Bronze'],
+        whyObserverIntervened:
+          'Abiotic erosion cannot raise a 6-column harmonic rotunda; the Observer precipitates symmetric colonnade nodes so all five biome modes converge in phase.',
+      },
+      {
+        monumentId: 'monument-meadow-sundial',
+        biome: 'meadow' as const,
+        monumentName: 'Sunlit Meadow Lydian Meridian Sundial',
+        biomeContextPrime: contextPrimes.meadowPrime,
+        demiurgicMechanism:
+          'Photonic-acoustic standing-wave sintering of travertine plinth rings with an elevated solar bronze gnomon arch.',
+        mineralCompounds: ['CaCO3-Travertine', 'CuSnAu-Solar-Bronze', 'Fe2O3-Ochre-Inlay'],
+        whyObserverIntervened:
+          'Pure wind and sunlight cannot calibrate a meridian gnomon; the Observer crystallizes the solar arch to orient gentle player orientation and Lydian fourths.',
+      },
+      {
+        monumentId: 'monument-grove-pergola',
+        biome: 'grove' as const,
+        monumentName: 'Ancient Grove Silicified Bamboo Chime Pergola',
+        biomeContextPrime: contextPrimes.grovePrime,
+        demiurgicMechanism:
+          'Biomineralized lignocellulose-silica framing coupled with 6 hollow Dorian tubular bronze-bamboo resonators.',
+        mineralCompounds: ['SiO2-Phytolith-Timber', 'CaCO3-Footing', 'CuSn-Resonator-Alloy'],
+        whyObserverIntervened:
+          'Wild culms grow vertically without mortised lintels; the Observer weaves four corner culms into a closed Euclidean ring to suspend wind-driven Dorian chimes.',
+      },
+      {
+        monumentId: 'monument-crystal-archway',
+        biome: 'crystal' as const,
+        monumentName: 'Crystalline Hollow Piezoelectric Geode Archway',
+        biomeContextPrime: contextPrimes.crystalPrime,
+        demiurgicMechanism:
+          'Hydrothermal piezoelectric nucleation of 6 inward-cantilevered quartz spires locked by an elevated hexagonal keystone ring.',
+        mineralCompounds: ['SiO2-Alpha-Quartz', 'MgFeSiO4-Olivine-Basalt', 'Bi-ThinFilm-Oxide'],
+        whyObserverIntervened:
+          'Unassisted geodes remain buried cavities; the Observer focuses hydrothermal standing waves into a self-supporting 6-spire archway with a suspended prism core.',
+      },
+      {
+        monumentId: 'monument-wetland-lanterns',
+        biome: 'wetland' as const,
+        monumentName: 'Mirror Wetland Hydro-Meniscus Lantern Piers',
+        biomeContextPrime: contextPrimes.wetlandPrime,
+        demiurgicMechanism:
+          'Sub-aqueous basalt-travertine pier precipitation anchored into the lakebed with 4-strut bioluminescent pagoda chambers.',
+        mineralCompounds: ['CaCO3-Tufa-Pier', 'SiO2-Lantern-Glass', 'Luciferin-Chemiluminescent-Core'],
+        whyObserverIntervened:
+          'Still water dissipates ripples outward; the Observer raises 5 lakebed-anchored lantern piers to reflect antiphonal Mixolydian shimmer across the meniscus.',
+      },
+    ] as const,
+  };
+
   const theoremsByModule: Record<string, string[]> = {};
   for (const [modName, mod] of modules.entries()) {
     theoremsByModule[modName] = mod.theorems.map((t) => t.name);
@@ -1378,6 +1632,7 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     rule30Lut,
     observerRule30Facets,
     compileTimeObserverModels,
+    alphaOmegaCosmogenesisArtifacts,
     theoremsByModule,
     judgeArtifact,
     verdantSpec,
@@ -1434,6 +1689,12 @@ export const GENERATED_OBSERVER_RULE30_FACETS = ${JSON.stringify(
 
 export const GENERATED_COMPILE_TIME_OBSERVER_MODELS = ${JSON.stringify(
     extracted.compileTimeObserverModels,
+    null,
+    2,
+  )} as const;
+
+export const GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS = ${JSON.stringify(
+    extracted.alphaOmegaCosmogenesisArtifacts,
     null,
     2,
   )} as const;

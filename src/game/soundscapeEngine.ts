@@ -59,10 +59,13 @@ export class BotanicalSoundscapeEngine {
   private lastFootstepDist = 0;
   private lastMicroAmbienceTime = 0;
 
-  // Live Universal Neuromorphic Bus & Supra-Directive Observer Coupling
+  // Live Universal Neuromorphic Bus, Supra-Directive & Alpha/Omega Cosmogenesis Coupling
   private busSupraTier = 0;
   private busFidelityMultiplier = 1.0;
   private busTheoryOfMindCoherence = 0.85;
+  private busBinauralWidthMultiplier = 1.0;
+  private busMonumentChimeSustain = 1.0;
+  private busConcertPitchScale = 1.0;
   private busActiveModel: SynthesizedObserverModelSpec | null = null;
 
   // 16-band energy array for zero-allocation HUD acoustic visualization
@@ -1192,6 +1195,23 @@ export class BotanicalSoundscapeEngine {
         overtone.start(startTime);
         osc.stop(startTime + durationSec + 0.04);
         overtone.stop(startTime + durationSec + 0.04);
+
+        // Supra-Directive Partial: voice active synthesized model's Just-Intonation shimmer on upper choir voices
+        if (this.busSupraTier >= 1 && this.busActiveModel && idx >= 3) {
+          const supraRatio = this.busActiveModel.supraOvertoneRatios[idx % 3] ?? 1.875;
+          const supraOsc = this.ctx!.createOscillator();
+          const supraGain = this.ctx!.createGain();
+          supraOsc.type = 'sine';
+          supraOsc.frequency.setValueAtTime(
+            Math.min(3400, freq * supraRatio),
+            startTime,
+          );
+          supraGain.gain.setValueAtTime(0.055 + this.busSupraTier * 0.025, startTime);
+          supraOsc.connect(supraGain);
+          supraGain.connect(filter);
+          supraOsc.start(startTime);
+          supraOsc.stop(startTime + durationSec + 0.04);
+        }
       });
     } catch {
       // Ignore audio errors
@@ -1734,7 +1754,10 @@ export class BotanicalSoundscapeEngine {
 
         if (typeof this.ctx.createStereoPanner === 'function') {
           const panner = this.ctx.createStereoPanner();
-          panner.pan.setValueAtTime(Math.max(-0.85, Math.min(0.85, -stereoPan * 0.75)), now);
+          panner.pan.setValueAtTime(
+            Math.max(-0.88, Math.min(0.88, -stereoPan * 0.75 * this.busBinauralWidthMultiplier)),
+            now,
+          );
           gain.connect(panner);
           panner.connect(this.masterGain);
         } else {
@@ -1765,9 +1788,22 @@ export class BotanicalSoundscapeEngine {
    */
   public syncWithNeuromorphicBus(neuro: NeuromorphicEngineState): void {
     const supra = neuro.observer.supraDirective;
+    const cosmo = neuro.observer.cosmogenesis;
     this.busSupraTier = supra.tier;
     this.busFidelityMultiplier = supra.fidelityPermille / 1000;
     this.busTheoryOfMindCoherence = supra.theoryOfMindCoherencePermille / 1000;
+    this.busBinauralWidthMultiplier = Math.max(
+      0.85,
+      Math.min(1.25, cosmo.playerRealm.binauralEarSpacingMeters / 0.215),
+    );
+    this.busMonumentChimeSustain = Math.max(
+      0.9,
+      Math.min(1.85, cosmo.inorganicRealm.chimeSustainFactor),
+    );
+    this.busConcertPitchScale = Math.max(
+      0.85,
+      Math.min(1.35, cosmo.concertPitchHz / BIOME_CONFIGS.meadow.baseNoteHz),
+    );
     this.busActiveModel = supra.activeModel;
   }
 
@@ -1795,8 +1831,14 @@ export class BotanicalSoundscapeEngine {
       chordRatios.forEach((ratio, idx) => {
         if (!this.ctx || !this.masterGain) return;
         const startAt = baseNow + idx * 0.095;
-        const durSec = (atmosphere === 'starlight' ? 1.35 : 1.12) * model.qualityMultiplier;
-        const freq = Math.min(3100, Math.max(96, biomeCfg.baseNoteHz * ratio));
+        const durSec =
+          (atmosphere === 'starlight' ? 1.35 : 1.12) *
+          model.qualityMultiplier *
+          this.busMonumentChimeSustain;
+        const freq = Math.min(
+          3100,
+          Math.max(96, biomeCfg.baseNoteHz * this.busConcertPitchScale * ratio),
+        );
 
         const osc = this.ctx.createOscillator();
         const overtone = this.ctx.createOscillator();
