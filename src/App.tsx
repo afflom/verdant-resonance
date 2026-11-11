@@ -17,7 +17,6 @@ import {
   VERDANT_HUMANE_STANDARD,
   clearAnamnesisStorage,
   composeLiveSoundtrackScore,
-  computeBinauralPan,
   computeCardinalWayfinder,
   computeGardenHarmonyPct,
   createInitialGestureHoldState,
@@ -26,6 +25,7 @@ import {
   evaluateBiomeMasteryAndGuilds,
   evaluateEnvironmentalLifecycle,
   evaluateNearestSynthesizedLandmark,
+  evaluateWitnessCommunionTarget,
   generateGardenPlants,
   getPlantLifecycleStage,
   hydratePlantsFromAnamnesis,
@@ -136,6 +136,14 @@ export default function App() {
       resonanceState: createInitialLandmarkResonanceState(),
       busWeight: initialNeuro.lastActiveSynapticWeight,
     });
+    const initialWitnessCommunion = evaluateWitnessCommunionTarget({
+      playerX: 0,
+      playerZ: 0,
+      playerYaw: 0,
+      witnessX: initialNeuro.observer.immanentPresence.x,
+      witnessZ: initialNeuro.observer.immanentPresence.z,
+      busWeight: initialNeuro.lastActiveSynapticWeight,
+    });
     return {
       playerX: 0,
       playerZ: 0,
@@ -172,6 +180,7 @@ export default function App() {
       currentSoundtrackStep: 0,
       gestureHold: createInitialGestureHoldState(),
       nearestLandmark: initialNearestLandmark,
+      witnessCommunion: initialWitnessCommunion,
     };
   });
 
@@ -465,20 +474,6 @@ export default function App() {
     telemetry.neuromorphic.observer.cosmogenesis.worldTopology,
   );
   const biomeMastery = evaluateBiomeMasteryAndGuilds(telemetry.biome, plants);
-
-  const stereoPan = computeBinauralPan(
-    telemetry.playerX,
-    telemetry.playerZ,
-    telemetry.playerYaw,
-    telemetry.nearestPlant.x,
-    telemetry.nearestPlant.z,
-  );
-  const stereoLabel =
-    Math.abs(stereoPan) < 0.08
-      ? 'Center'
-      : stereoPan < 0
-        ? `${Math.round(Math.abs(stereoPan) * 100)}% L`
-        : `${Math.round(stereoPan * 100)}% R`;
 
   return (
     <main className="relative w-full h-full overflow-hidden select-none">
@@ -787,37 +782,39 @@ export default function App() {
                   <div className="text-[10px] font-mono tracking-wider text-emerald-300/80 uppercase flex items-center gap-1.5">
                     <span>{activeBiomeCfg.name}</span>
                     <span>·</span>
-                    <span className="text-amber-200">{wayfinder.compassCardinal} {wayfinder.headingDeg}°</span>
+                    <span className="text-amber-200">{wayfinder.compassCardinal}</span>
                     <span>·</span>
-                    <span>BIOME {telemetry.exploredBiomes.length}/5</span>
+                    <span>Biomes {telemetry.exploredBiomes.length}/5</span>
                   </div>
                   <div className="text-sm font-semibold text-emerald-50 flex items-center gap-2">
                     <span>{nearestSpeciesCfg.name}</span>
                     <span className="font-mono text-xs text-amber-200 tabular-nums">
                       {Math.round(telemetry.distanceMeters)}m
                     </span>
-                    <span className="text-emerald-400/40" aria-hidden="true">·</span>
-                    <span className="font-mono text-[11px] text-teal-200 tabular-nums">
-                      Pan {stereoLabel}
-                    </span>
                   </div>
                   <div className="text-[10px] font-mono text-emerald-300/75 whitespace-nowrap">
                     {(liveLifecycleStages[getPlantLifecycleStage(telemetry.nearestPlant)] ??
                       BOTANICAL_LIFECYCLE_STAGES[getPlantLifecycleStage(telemetry.nearestPlant)]).label}{' '}
-                    · {biomeMastery.attunedInBiome}/{biomeMastery.totalInBiome} Flora ·{' '}
-                    {telemetry.inWater
-                      ? `Wading Lagoon (${Math.round(telemetry.waterDepthMeters * 100)}cm)`
-                      : telemetry.surfaceMaterial.replace('-', ' ')}
+                    · {biomeMastery.attunedInBiome}/{biomeMastery.totalInBiome} Flora
+                    {telemetry.inWater ? ' · Wading Lagoon' : ''}
                   </div>
                   {telemetry.nearestLandmark.inResonanceRange && (
                     <div
-                      className="text-[10px] font-mono text-amber-200/90 mt-0.5 truncate max-w-[300px]"
+                      className="text-[10px] font-mono text-amber-200/90 mt-0.5 truncate max-w-[280px]"
                       data-testid="hud-landmark-cue"
                     >
-                      ✦ {telemetry.nearestLandmark.phenomenon.displayName} (
-                      {Math.round(telemetry.nearestLandmark.distanceMeters)}m)
+                      ✦ {telemetry.nearestLandmark.phenomenon.displayName}
                     </div>
                   )}
+                  {!telemetry.nearestLandmark.inResonanceRange &&
+                    telemetry.witnessCommunion.inCommunionRange && (
+                      <div
+                        className="text-[10px] font-mono text-teal-200/90 mt-0.5 truncate max-w-[280px]"
+                        data-testid="hud-witness-cue"
+                      >
+                        ✦ Co-Observer Witness Nearby
+                      </div>
+                    )}
                 </div>
               </div>
             </div>

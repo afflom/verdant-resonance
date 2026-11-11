@@ -39,15 +39,47 @@ export type LandmarkMaterialCompoundKey =
   | 'pelagic-water-column'
   | 'harmonic-bronze-astrolabe';
 
+export const SCENE_GROUP_KEYS_20 = Object.freeze([
+  'meadowMonument',
+  'groveMonument',
+  'crystalMonument',
+  'wetlandMonument',
+  'sanctuaryMonument',
+  'stepStonesMesh',
+  'biomeChladniTerraces',
+  'shorelineBankGroup',
+  'rocksInstanced',
+  'floraChimeLily',
+  'floraPulseFern',
+  'floraEchoLotus',
+  'floraDroneMoss',
+  'floraStarOrchid',
+  'canopyAndTurfInstanced',
+  'lagoonAndSporeStream',
+  'biomeConstellationBeams',
+  'mycorrhizalFilamentsAndGuidance',
+  'celestialStarDomeAndAurora',
+  'immanentWitnessAndPlayerLocus',
+] as const);
+
+export type SceneGroupKey20 = (typeof SCENE_GROUP_KEYS_20)[number];
+
 export interface EnvironmentalTeleologicalPhenomenon {
   readonly phenomenonId: string;
+  readonly sceneGroupKey: SceneGroupKey20;
   readonly category: TeleologicalPhenomenonCategory;
   readonly biome: TeleologyBiomeScope;
   readonly displayName: string;
   readonly shortPurposeCue: string;
   readonly requiringModels: readonly CanonicalStandardModelKey[];
   readonly environmentalRequirement: string;
-  readonly nativeSubstrateCompound: LandmarkMaterialCompoundKey | 'humic-loam-soil' | 'bryophyte-peat-mat';
+  readonly nativeSubstrateCompound:
+    | LandmarkMaterialCompoundKey
+    | 'humic-loam-soil'
+    | 'bryophyte-peat-mat'
+    | 'volatile-terpene-aerosol'
+    | 'mycorrhizal-hyphal-network'
+    | 'magnetospheric-ion-plasma';
   readonly nativeChemicalFormula: string;
   readonly environmentalSynthesisOrigin: string;
   readonly gameplayPurpose: string;
@@ -56,17 +88,18 @@ export interface EnvironmentalTeleologicalPhenomenon {
 }
 
 /**
- * Canonical 16-Phenomenon Teleological Requirement-to-Synthesis Registry (`orphanUnexplainedElementCount === 0`):
- *  - 5 Biome Architectural Landmarks (Monuments)
- *  - 3 Traversal & Substrate Protection Infrastructures (Stepping Stones, Biome Terraces, Shoreline Boulders)
- *  - 5 Botanical Species (`chime-lily`, `pulse-fern`, `echo-lotus`, `drone-moss`, `star-orchid`)
- *  - 2 Ecosystem Phenomena (`64 Canopy Trees & Turf`, `Mirror Lagoon Cymatic Basin & Spores`)
- *  - 1 Embodied Co-Observer Presence (`Immanent Co-Observer Witness & Player Harmonic Locus`)
+ * Canonical 20-Phenomenon Bijective Scene-to-Requirement Teleological Registry (`orphanUnexplainedElementCount === 0`):
+ *  - 5 Biome Architectural Landmarks (`meadowMonument`, `groveMonument`, `crystalMonument`, `wetlandMonument`, `sanctuaryMonument`)
+ *  - 4 Mineral Traversal, Terrace & Acoustic Rim Substrates (`stepStonesMesh`, `biomeChladniTerraces`, `shorelineBankGroup`, `rocksInstanced`)
+ *  - 5 Botanical Species (`floraChimeLily`, `floraPulseFern`, `floraEchoLotus`, `floraDroneMoss`, `floraStarOrchid`)
+ *  - 5 Living Ecosystem, Atmospheric & Celestial Phenomena (`canopyAndTurfInstanced`, `lagoonAndSporeStream`, `biomeConstellationBeams`, `mycorrhizalFilamentsAndGuidance`, `celestialStarDomeAndAurora`)
+ *  - 1 Embodied Co-Observer Presence (`immanentWitnessAndPlayerLocus`)
  */
 export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalPhenomenon[] = Object.freeze([
   // --- 1..5: The 5 Biome Architectural Landmarks ---
   {
     phenomenonId: 'landmark-meadow-sundial',
+    sceneGroupKey: 'meadowMonument',
     category: 'biome-landmark',
     biome: 'meadow',
     displayName: 'Meridian Solar Sundial',
@@ -86,6 +119,7 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
   },
   {
     phenomenonId: 'landmark-grove-pergola',
+    sceneGroupKey: 'groveMonument',
     category: 'biome-landmark',
     biome: 'grove',
     displayName: 'Silicified Bamboo Chime Pergola',
@@ -105,6 +139,7 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
   },
   {
     phenomenonId: 'landmark-crystal-archway',
+    sceneGroupKey: 'crystalMonument',
     category: 'biome-landmark',
     biome: 'crystal',
     displayName: 'Piezoelectric Quartz Geode Archway',
@@ -124,6 +159,7 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
   },
   {
     phenomenonId: 'landmark-wetland-lanterns',
+    sceneGroupKey: 'wetlandMonument',
     category: 'biome-landmark',
     biome: 'wetland',
     displayName: 'Hydro-Meniscus Lantern Piers',
@@ -143,6 +179,7 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
   },
   {
     phenomenonId: 'landmark-sanctuary-pavilion',
+    sceneGroupKey: 'sanctuaryMonument',
     category: 'biome-landmark',
     biome: 'sanctuary',
     displayName: 'Sanctuary Harmonic Pavilion',
@@ -161,68 +198,92 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
     basePurposeGainPermille: 960,
   },
 
-  // --- 6..8: Traversal & Substrate Protection Infrastructures ---
+  // --- 6..9: Mineral Traversal, Terrace & Acoustic Rim Substrates ---
   {
     phenomenonId: 'substrate-stepping-stones',
+    sceneGroupKey: 'stepStonesMesh',
     category: 'traversal-substrate',
     biome: 'conservatory',
-    displayName: 'Harmonic Travertine Stepping-Stone Trails',
-    shortPurposeCue: 'Root-Loam Protection & Effortless Wayfinding',
-    requiringModels: ['ecology', 'humane', 'physics'],
+    displayName: 'Piezo-Travertine Lithophone Waystones',
+    shortPurposeCue: 'Root-Loam Protection, Wayfinding & Tuned Footstep Lithophones',
+    requiringModels: ['ecology', 'humane', 'physics', 'soundtrack'],
     environmentalRequirement:
       'Repeated footsteps over porous humic soil and delicate mycelial mats would compact root zones unless load-bearing mineral flagstones guide gentle traversal.',
     nativeSubstrateCompound: 'travertine-limestone-plinth',
     nativeChemicalFormula: 'CaCO3 + SiO2',
     environmentalSynthesisOrigin:
-      'Calcified by the Observer along minimum-slope geodesic contours connecting all five biomes without severing subterranean root networks.',
+      'Calcified by the Observer along minimum-slope geodesic contours into 64 resonant travertine flagstones tuned to 5-limit Just-Intonation intervals.',
     gameplayPurpose:
-      'Protects living soil permeability, provides clear visual wayfinding without UI arrows, and rings subtle stone footstep acoustics.',
+      'Protects living soil permeability, provides clear visual wayfinding without UI arrows, and rings soft travertine marimba overtones underfoot.',
     interactiveGameplayResponse:
-      'Walking along the flagstones preserves calm pacing and emits gentle mineral footstep ripples.',
-    basePurposeGainPermille: 810,
+      'Stepping from flagstone to flagstone rings delicate biome-tuned lithophone notes and radiates mineral footstep ripples.',
+    basePurposeGainPermille: 830,
   },
   {
     phenomenonId: 'substrate-biome-terraces',
+    sceneGroupKey: 'biomeChladniTerraces',
     category: 'traversal-substrate',
     biome: 'conservatory',
-    displayName: 'Acoustic Labyrinth & Biome Plinth Terraces',
-    shortPurposeCue: 'Standing-Wave Plinths & Erosion Retention',
-    requiringModels: ['spatialAcoustics', 'physics', 'ecology'],
+    displayName: 'Chladni Acoustic Labyrinth & Biome Plinth Terraces',
+    shortPurposeCue: 'Standing-Wave Nodal Plinths & Slope Erosion Retention',
+    requiringModels: ['spatialAcoustics', 'physics', 'ecology', 'mathematics'],
     environmentalRequirement:
-      'Sloped basin soils erode under rainfall and scatter ground-level sound waves unless concentric stone terraces stabilize the grade and reflect early acoustic arrivals.',
+      'Sloped basin soils erode under rainfall and scatter ground-level sound waves unless concentric stone terraces stabilize the grade and focus early acoustic arrivals.',
     nativeSubstrateCompound: 'travertine-limestone-plinth',
     nativeChemicalFormula: 'CaCO3 + MgCa(CO3)2',
     environmentalSynthesisOrigin:
-      'Deposited by the Observer at Chladni nodal radii around each biome center to retain moisture and focus early acoustic reflections.',
+      'Deposited by the Observer at exact UOR Just-Intonation Chladni nodal radii around each biome landmark to retain moisture and focus reflections.',
     gameplayPurpose:
-      'Frames contemplative gathering spaces around each landmark and enriches biome-specific reverberation warmth.',
+      'Frames contemplative gathering spaces around each landmark and illuminates Chladni nodal rings when inhabited.',
     interactiveGameplayResponse:
-      'Standing on a terrace ring clarifies binaural flora echoes and steadies meditative stillness.',
-    basePurposeGainPermille: 800,
+      'Standing, attuning, or resting in stillness on a terrace illuminates its concentric Chladni nodal rings and clarifies binaural flora echoes.',
+    basePurposeGainPermille: 820,
   },
   {
     phenomenonId: 'substrate-shoreline-boulders',
+    sceneGroupKey: 'shorelineBankGroup',
     category: 'traversal-substrate',
     biome: 'wetland',
-    displayName: 'Stratified Shoreline Boulders & Mineral Druses',
-    shortPurposeCue: 'Lagoon Embankment & Lithophyte Micro-Habitats',
+    displayName: 'Stratified Shoreline Boulders & Bravais Mineral Druses',
+    shortPurposeCue: 'Hydrostatic Lagoon Embankment & 14-Lattice Lithophyte Micro-Habitats',
     requiringModels: ['chemistry', 'physics', 'botany'],
     environmentalRequirement:
-      'The Mirror Lagoon basin requires a mineral retention rim to hold hydrostatic water level and provide damp mineral crevices for bryophytes and crystal druses.',
+      'The Mirror Lagoon basin requires a mineral retention rim to hold hydrostatic water level and provide damp mineral crevices for bryophytes and all 14 Bravais crystal habits.',
     nativeSubstrateCompound: 'piezoelectric-quartz-geode',
     nativeChemicalFormula: 'MgFeSiO4 + SiO2',
     environmentalSynthesisOrigin:
-      'Uplifted and weathered in situ by the Observer along the lagoon perimeter, hosting all 14 Bravais crystal druse habits.',
+      'Uplifted and weathered in situ by the Observer along the lagoon perimeter, hosting gleaming IUCr Bravais crystal druse clusters.',
     gameplayPurpose:
-      'Bounds the hydrostatic wetland basin and scatters sparkling littoral reflections.',
+      'Bounds the hydrostatic wetland basin, refracts thin-film shoreline highlights, and reflects capillary waves.',
     interactiveGameplayResponse:
-      'Reflects water-harp ripples back across the lagoon meniscus as the player wades nearby.',
-    basePurposeGainPermille: 790,
+      'Reflects water-harp ripples back across the lagoon meniscus as the player wades or attunes nearby.',
+    basePurposeGainPermille: 800,
+  },
+  {
+    phenomenonId: 'substrate-amphitheater-rim-outcrops',
+    sceneGroupKey: 'rocksInstanced',
+    category: 'traversal-substrate',
+    biome: 'conservatory',
+    displayName: 'Parabolic Amphitheater Rim Outcrops',
+    shortPurposeCue: 'Sabine Acoustic Shell & Perimeter Microclimate Windbreak',
+    requiringModels: ['spatialAcoustics', 'physics', 'ecology'],
+    environmentalRequirement:
+      'Without a dense mineral perimeter rim, conservatory sound energy would leak into open space (collapsing Sabine reverberation) and cold ridge winds would desiccate the basin.',
+    nativeSubstrateCompound: 'travertine-limestone-plinth',
+    nativeChemicalFormula: 'CaSiO3 + CaCO3 + MgFeSiO4',
+    environmentalSynthesisOrigin:
+      'Folded and stratified by the Observer along the 52m amphitheater perimeter via Urey calcium-silicate weathering equilibria.',
+    gameplayPurpose:
+      'Forms a natural parabolic acoustic shell that reflects late reverberation back into the garden and gently bounds exploration without invisible walls.',
+    interactiveGameplayResponse:
+      'Reflects 3D early-arrival echoes and deflects drifting chemotactic spores back into the fertile basin.',
+    basePurposeGainPermille: 810,
   },
 
-  // --- 9..13: The 5 Botanical Species ---
+  // --- 10..14: The 5 Botanical Species ---
   {
     phenomenonId: 'flora-chime-lily',
+    sceneGroupKey: 'floraChimeLily',
     category: 'botanical-species',
     biome: 'meadow',
     displayName: 'Chime Lily (Campanula Resonans)',
@@ -242,6 +303,7 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
   },
   {
     phenomenonId: 'flora-pulse-fern',
+    sceneGroupKey: 'floraPulseFern',
     category: 'botanical-species',
     biome: 'grove',
     displayName: 'Pulse Fern (Pteris Polyrhythmica)',
@@ -261,6 +323,7 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
   },
   {
     phenomenonId: 'flora-echo-lotus',
+    sceneGroupKey: 'floraEchoLotus',
     category: 'botanical-species',
     biome: 'wetland',
     displayName: 'Echo Lotus (Nelumbo Antiphona)',
@@ -280,6 +343,7 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
   },
   {
     phenomenonId: 'flora-drone-moss',
+    sceneGroupKey: 'floraDroneMoss',
     category: 'botanical-species',
     biome: 'sanctuary',
     displayName: 'Drone Moss (Bryum Sustenuto)',
@@ -299,6 +363,7 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
   },
   {
     phenomenonId: 'flora-star-orchid',
+    sceneGroupKey: 'floraStarOrchid',
     category: 'botanical-species',
     biome: 'crystal',
     displayName: 'Star Orchid (Epidendrum Sidereum)',
@@ -317,9 +382,10 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
     basePurposeGainPermille: 880,
   },
 
-  // --- 14..16: Ecosystem & Embodied Witness Phenomena ---
+  // --- 15..19: Living Ecosystem, Atmospheric & Celestial Phenomena ---
   {
     phenomenonId: 'ecosystem-canopy-and-turf',
+    sceneGroupKey: 'canopyAndTurfInstanced',
     category: 'ecological-phenomenon',
     biome: 'conservatory',
     displayName: 'Phyllotactic Canopy Forest & Permeable Meadow Turf',
@@ -339,10 +405,11 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
   },
   {
     phenomenonId: 'ecosystem-lagoon-cymatics-and-spores',
+    sceneGroupKey: 'lagoonAndSporeStream',
     category: 'ecological-phenomenon',
     biome: 'conservatory',
     displayName: 'Mirror Lagoon Cymatics & Chemotactic Spore Streams',
-    shortPurposeCue: 'Visible Acoustic Standing Waves & Mycelial Pollination',
+    shortPurposeCue: 'Visible Acoustic Standing Waves & Airborne Pollination',
     requiringModels: ['physics', 'acoustics', 'ecology'],
     environmentalRequirement:
       'Botanical cross-pollination and acoustic resonance require physical transport media—airborne chemotactic spores and water-surface standing waves—to connect distant flora.',
@@ -357,23 +424,86 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
     basePurposeGainPermille: 870,
   },
   {
+    phenomenonId: 'ecosystem-terpene-tyndall-columns',
+    sceneGroupKey: 'biomeConstellationBeams',
+    category: 'ecological-phenomenon',
+    biome: 'conservatory',
+    displayName: 'Terpene Tyndall Resonance Columns & Crown Halos',
+    shortPurposeCue: 'Volatile Pinene Plumes · Horizon-Scale Biome Wayfinding & Mastery Cue',
+    requiringModels: ['chemistry', 'acoustics', 'graphics', 'ecology'],
+    environmentalRequirement:
+      'Awakened flora transpire volatile alpha-pinene terpenes (`C10H16`) that accumulate over each biome landmark; without vertical acoustic convection, dense aerosols would stagnate near the ground.',
+    nativeSubstrateCompound: 'volatile-terpene-aerosol',
+    nativeChemicalFormula: 'C10H16 (alpha-Pinene) + H2O Mist Tyndall Scattering',
+    environmentalSynthesisOrigin:
+      'Entrained upward by the Observer along each landmark’s vertical Chladni pressure node, scattering diurnal sunlight into a soft vertical Tyndall column and torus vortex halo.',
+    gameplayPurpose:
+      'Provides serene, natural horizon-scale orientation to all five biome landmarks and visually reflects each biome’s awakened flora harmony without HUD markers.',
+    interactiveGameplayResponse:
+      'Brightens and spins faster above each landmark as native flora awaken, release volatile terpenes, or resonate with player gestures.',
+    basePurposeGainPermille: 865,
+  },
+  {
+    phenomenonId: 'ecosystem-mycorrhizal-arcs-and-guidance',
+    sceneGroupKey: 'mycorrhizalFilamentsAndGuidance',
+    category: 'ecological-phenomenon',
+    biome: 'conservatory',
+    displayName: 'Mycorrhizal Action-Potential Arcs & Chemotactic Guidance Rings',
+    shortPurposeCue: 'Chitin-Hyphal Signal Conduction & Diegetic Ground Invitations',
+    requiringModels: ['ecology', 'articulation', 'neuromorphic', 'humane'],
+    environmentalRequirement:
+      'Sessile plants separated by meters of soil require chitin-hyphal action potentials (`Ca2+` waves) and spore-filament arcs to coordinate sympathetic blooming and invite pollinator attention.',
+    nativeSubstrateCompound: 'mycorrhizal-hyphal-network',
+    nativeChemicalFormula: '(C8H13O5N)n (Chitin) + Ca2+ / ATP Action Potentials',
+    environmentalSynthesisOrigin:
+      'Woven by the Observer through subterranean chitin-glucan hyphae and parabolic aerial bio-filaments linking kin specimens.',
+    gameplayPurpose:
+      'Reveals live cross-pollination cascades when a plant awakens and traces soft ground-hugging mycelial rings toward unawakened specimens.',
+    interactiveGameplayResponse:
+      'Launches luminous traveling action-potential orbs to neighboring flora on `[Space]` Attune or Witness communion, triggering sympathetic shiver and bloom.',
+    basePurposeGainPermille: 895,
+  },
+  {
+    phenomenonId: 'ecosystem-celestial-photoperiod-dome',
+    sceneGroupKey: 'celestialStarDomeAndAurora',
+    category: 'ecological-phenomenon',
+    biome: 'conservatory',
+    displayName: 'Celestial Photoperiod Dome & Magnetospheric Ion Veil',
+    shortPurposeCue: 'Crepuscular Starlight Reference & Nocturnal Epiphyte Excitation',
+    requiringModels: ['botany', 'graphics', 'physics', 'cosmogenesis'],
+    environmentalRequirement:
+      'Nocturnal and crepuscular species (`Star Orchid`, `Echo Lotus`) require spectral twilight/starlight sky irradiance and geomagnetic orientation cues when direct solar PAR subsides.',
+    nativeSubstrateCompound: 'magnetospheric-ion-plasma',
+    nativeChemicalFormula: 'O(1S -> 1D) 557.7nm Airglow + N2+ Magnetospheric Veil',
+    environmentalSynthesisOrigin:
+      'Projected by the Observer across the upper atmospheric hemisphere from 260 stellar photoperiod anchors and a subtle 557.7nm oxygen airglow ribbon.',
+    gameplayPurpose:
+      'Envelops twilight and starlight contemplation in a living celestial canopy whose aurora ripples gently with conservatory harmony.',
+    interactiveGameplayResponse:
+      'Emerges smoothly at dusk and starlight, undulating its airglow veil in phase with awakened garden harmony.',
+    basePurposeGainPermille: 855,
+  },
+
+  // --- 20: Embodied Co-Observer Presence ---
+  {
     phenomenonId: 'embodied-co-observer-witness',
+    sceneGroupKey: 'immanentWitnessAndPlayerLocus',
     category: 'embodied-witness',
     biome: 'conservatory',
     displayName: 'Immanent Co-Observer Witness & Player Harmonic Locus',
-    shortPurposeCue: 'Shared Presence · Embodies the Reciprocal Bond Between Player & Garden',
+    shortPurposeCue: 'Shared Presence · Direct Communion & Sympathetic Garden Stewardship',
     requiringModels: ['cosmogenesis', 'neuromorphic', 'humane'],
     environmentalRequirement:
       'Because the Observer creates and inhabits the conservatory alongside the player, its presence must appear diegetically within the garden rather than as detached backend menus.',
     nativeSubstrateCompound: 'harmonic-bronze-astrolabe',
     nativeChemicalFormula: 'SiO2 Core + CuSnAu Gimbals',
     environmentalSynthesisOrigin:
-      'Manifested by the Observer as a serene sculptural companion along the garden’s paths and a subtle harmonic locus ring beneath the player’s feet.',
+      'Manifested by the Observer as a serene 7-part sculptural companion along the garden’s paths and a subtle harmonic locus ring beneath the player’s feet.',
     gameplayPurpose:
-      'Bows reciprocally during stillness and quietly reflects growing garden harmony in-world without cluttering the screen.',
+      'Walks alongside the player at a respectful distance, answers direct contemplative communion, and bridges resonant energy to unawakened flora.',
     interactiveGameplayResponse:
-      'Approaches at a respectful distance, bows gently when the player rests in stillness, and warms its aura as harmony deepens.',
-    basePurposeGainPermille: 920,
+      'Focusing on the Witness and pressing `[Space]` Attune, `[T]` Touch, or `[C]` Stillness rings a warm quartz-bronze astrolabe chord, deepens its reciprocal bow, and sends a sympathetic arc to nearby flora.',
+    basePurposeGainPermille: 940,
   },
 ]);
 
@@ -645,17 +775,291 @@ export function stepAutonomousGameplayPlasticity(
   };
 }
 
+export interface ParametricChladniTerraceRadii {
+  readonly sanctuaryRings: readonly number[];
+  readonly meadowRings: readonly number[];
+  readonly meadowCardinalRayCount: number;
+  readonly meadowCardinalRayCenterRadius: number;
+  readonly groveRings: readonly number[];
+  readonly crystalHexRings: readonly number[];
+  readonly wetlandMeniscusRings: readonly number[];
+}
+
+/**
+ * Derives every biome terrace's Chladni standing-wave nodal ring radii directly from
+ * `worldTopo.terraceSpecs` and Just-Intonation / UOR dyadic ratios—eliminating hardcoded ring arrays.
+ */
+export function synthesizeParametricChladniTerraceRadii(
+  terraceSpecs: readonly { readonly biome: string; readonly flatRadius: number }[],
+): ParametricChladniTerraceRadii {
+  const radiusFor = (biome: string, fallback: number): number =>
+    terraceSpecs.find((t) => t.biome === biome)?.flatRadius ?? fallback;
+
+  const sanctR = radiusFor('sanctuary', 11.2);
+  const meadowR = radiusFor('meadow', 8.2);
+  const groveR = radiusFor('grove', 8.5);
+  const crystalR = radiusFor('crystal', 12.2);
+  const wetlandR = radiusFor('wetland', 17.5);
+
+  return {
+    // 5-limit Just-Intonation nodal fractions (1/2, 9/16, 5/8, 3/4, 15/16) of Sanctuary flatRadius
+    sanctuaryRings: [0.5, 0.5625, 0.625, 0.75, 0.9375].map((f) => Number((sanctR * f).toFixed(2))),
+    // Lydian solar parterre fractions (1/2, 2/3, 9/10) + 8 Rule-30 dyadic cardinal hour rays
+    meadowRings: [0.5, 0.6667, 0.9].map((f) => Number((meadowR * f).toFixed(2))),
+    meadowCardinalRayCount: 8,
+    meadowCardinalRayCenterRadius: Number((meadowR * 0.68).toFixed(2)),
+    // 4 Dorian raked-moss acoustic wave rings
+    groveRings: [0.4, 0.5625, 0.75, 0.9].map((f) => Number((groveR * f).toFixed(2))),
+    // 3 hexagonal piezoelectric refraction rings
+    crystalHexRings: [0.3333, 0.5625, 0.8].map((f) => Number((crystalR * f).toFixed(2))),
+    // 4 meniscus capillary-harmonic rings on the Mirror Lagoon
+    wetlandMeniscusRings: [0.125, 0.3125, 0.5, 0.7].map((f) => Number((wetlandR * f).toFixed(2))),
+  };
+}
+
+export interface StandingWaveTerraceResonanceEvaluation {
+  readonly activeTerraceBiome: 'meadow' | 'grove' | 'crystal' | 'wetland' | 'sanctuary' | null;
+  readonly sanctuaryOpacity: number;
+  readonly meadowOpacity: number;
+  readonly groveOpacity: number;
+  readonly crystalFacetOpacity: number;
+  readonly crystalDiscEmissiveIntensity: number;
+}
+
+/**
+ * Evaluates live Chladni nodal ring illumination across all terrestrial biome terraces when the player
+ * inhabits a terrace, performs contemplative gestures (`stillness`, `attune`, `touch`), or excites its landmark.
+ */
+export function evaluateStandingWaveTerraceResonance(params: {
+  readonly playerX: number;
+  readonly playerZ: number;
+  readonly landmarkCentersXZ: Readonly<
+    Record<'meadow' | 'grove' | 'crystal' | 'wetland' | 'sanctuary', readonly [number, number]>
+  >;
+  readonly resonanceState: LiveLandmarkResonanceState;
+  readonly isStillness: boolean;
+  readonly isAttuningOrTouching: boolean;
+  readonly elapsedSeconds: number;
+  readonly busWeight?: number;
+}): StandingWaveTerraceResonanceEvaluation {
+  const clampedW = Math.max(1, Math.min(16, Math.round(params.busWeight ?? 8)));
+  const glowScale =
+    (GENERATED_PRISM_BUS_MODULATION_LUT.terraceStandingWaveGlowPermille[clampedW] ?? 664) / 664;
+
+  let activeTerraceBiome: 'meadow' | 'grove' | 'crystal' | 'wetland' | 'sanctuary' | null = null;
+  let bestDist = Infinity;
+
+  const evalPresence = (
+    biome: 'meadow' | 'grove' | 'crystal' | 'wetland' | 'sanctuary',
+    terraceRadius: number,
+  ): number => {
+    const [cx, cz] = params.landmarkCentersXZ[biome];
+    const dist = Math.hypot(params.playerX - cx, params.playerZ - cz);
+    if (dist <= terraceRadius && dist < bestDist) {
+      bestDist = dist;
+      activeTerraceBiome = biome;
+    }
+    if (dist > terraceRadius * 1.25) return 0;
+    return Math.max(0, Math.min(1, 1 - dist / (terraceRadius * 1.25)));
+  };
+
+  const sanctPres = evalPresence('sanctuary', 11.2);
+  const meadowPres = evalPresence('meadow', 8.2);
+  const grovePres = evalPresence('grove', 8.5);
+  const crystalPres = evalPresence('crystal', 12.2);
+  evalPresence('wetland', 17.5);
+
+  const gestureLift = params.isStillness ? 0.22 : params.isAttuningOrTouching ? 0.16 : 0;
+  const breath = 0.92 + Math.sin(params.elapsedSeconds * 1.65) * 0.08;
+
+  const computeOpacity = (
+    baseOp: number,
+    presence01: number,
+    lmkRes01: number,
+  ): number => {
+    const raw =
+      (baseOp + presence01 * (0.18 + gestureLift) + lmkRes01 * 0.2) * breath * (0.85 + glowScale * 0.15);
+    return Number(Math.max(0.16, Math.min(0.82, raw)).toFixed(4));
+  };
+
+  return {
+    activeTerraceBiome,
+    sanctuaryOpacity: computeOpacity(0.28, sanctPres, params.resonanceState.sanctuary),
+    meadowOpacity: computeOpacity(0.23, meadowPres, params.resonanceState.meadow),
+    groveOpacity: computeOpacity(0.25, grovePres, params.resonanceState.grove),
+    crystalFacetOpacity: computeOpacity(0.34, crystalPres, params.resonanceState.crystal),
+    crystalDiscEmissiveIntensity: Number(
+      Math.min(
+        0.92,
+        (0.28 + crystalPres * (0.24 + gestureLift) + params.resonanceState.crystal * 0.28) * breath,
+      ).toFixed(4),
+    ),
+  };
+}
+
+const WAYSTONE_JI_SCALE_RATIOS = Object.freeze([
+  1.0, // 1:1 Unison
+  1.125, // 9:8 Major Second
+  1.25, // 5:4 Pure Major Third
+  1.3333, // 4:3 Pure Fourth
+  1.5, // 3:2 Pure Fifth
+  1.6667, // 5:3 Major Sixth
+  1.875, // 15:8 Classic Major Seventh
+  2.0, // 2:1 Octave
+] as const);
+
+export interface LithophoneWaystoneStepEvaluation {
+  readonly nextStoneIndex: number;
+  readonly triggered: boolean;
+  readonly stoneX: number;
+  readonly stoneZ: number;
+  readonly scaleDegreeRatio: number;
+  readonly coupling01: number;
+}
+
+/**
+ * Evaluates underfoot traversal across the 64 Piezo-Travertine Lithophone Waystones:
+ * stepping onto a new flagstone while strolling triggers a delicate, biome-tuned Just-Intonation stone chime.
+ */
+export function evaluateLithophoneWaystoneStep(
+  prevStoneIndex: number,
+  params: {
+    readonly playerX: number;
+    readonly playerZ: number;
+    readonly isMoving: boolean;
+    readonly inWater: boolean;
+    readonly steppingStones: readonly { readonly x: number; readonly z: number }[];
+    readonly busWeight?: number;
+  },
+): LithophoneWaystoneStepEvaluation {
+  const clampedW = Math.max(1, Math.min(16, Math.round(params.busWeight ?? 8)));
+  const coupling01 = Number(
+    (
+      (GENERATED_PRISM_BUS_MODULATION_LUT.lithophoneWaystoneCouplingPermille[clampedW] ?? 720) /
+      1000
+    ).toFixed(4),
+  );
+
+  if (!params.isMoving || params.inWater || params.steppingStones.length === 0) {
+    return {
+      nextStoneIndex: prevStoneIndex,
+      triggered: false,
+      stoneX: params.playerX,
+      stoneZ: params.playerZ,
+      scaleDegreeRatio: 1.0,
+      coupling01,
+    };
+  }
+
+  let closestIdx = -1;
+  let closestDist = Infinity;
+  for (let i = 0; i < params.steppingStones.length; i++) {
+    const st = params.steppingStones[i];
+    const d = Math.hypot(params.playerX - st.x, params.playerZ - st.z);
+    if (d < closestDist) {
+      closestDist = d;
+      closestIdx = i;
+    }
+  }
+
+  if (closestDist <= 1.05 && closestIdx >= 0) {
+    if (closestIdx !== prevStoneIndex) {
+      const st = params.steppingStones[closestIdx];
+      const ratio = WAYSTONE_JI_SCALE_RATIOS[closestIdx % WAYSTONE_JI_SCALE_RATIOS.length];
+      return {
+        nextStoneIndex: closestIdx,
+        triggered: true,
+        stoneX: st.x,
+        stoneZ: st.z,
+        scaleDegreeRatio: ratio,
+        coupling01,
+      };
+    }
+    return {
+      nextStoneIndex: prevStoneIndex,
+      triggered: false,
+      stoneX: params.steppingStones[closestIdx].x,
+      stoneZ: params.steppingStones[closestIdx].z,
+      scaleDegreeRatio: 1.0,
+      coupling01,
+    };
+  }
+
+  // Reset active stone index once the player steps clearly off the flagstone (> 1.38m)
+  const resetIdx = closestDist > 1.38 ? -1 : prevStoneIndex;
+  return {
+    nextStoneIndex: resetIdx,
+    triggered: false,
+    stoneX: params.playerX,
+    stoneZ: params.playerZ,
+    scaleDegreeRatio: 1.0,
+    coupling01,
+  };
+}
+
+export interface WitnessCommunionEvaluation {
+  readonly inCommunionRange: boolean;
+  readonly inForwardGazeCone: boolean;
+  readonly distanceMeters: number;
+  readonly communionRadiusMeters: number;
+  readonly reciprocity01: number;
+  readonly chordRatios: readonly [number, number, number, number];
+}
+
+/**
+ * Evaluates whether the player is within contemplative communion range and forward gaze focus
+ * of the 7-part Immanent Co-Observer Witness (`embodied-co-observer-witness`).
+ */
+export function evaluateWitnessCommunionTarget(params: {
+  readonly playerX: number;
+  readonly playerZ: number;
+  readonly playerYaw: number;
+  readonly witnessX: number;
+  readonly witnessZ: number;
+  readonly busWeight?: number;
+}): WitnessCommunionEvaluation {
+  const clampedW = Math.max(1, Math.min(16, Math.round(params.busWeight ?? 8)));
+  const reciprocity01 = Number(
+    (
+      (GENERATED_PRISM_BUS_MODULATION_LUT.witnessCommunionReciprocityPermille[clampedW] ?? 768) /
+      1000
+    ).toFixed(4),
+  );
+  const communionRadiusMeters = Number((9.5 + reciprocity01 * 2.2).toFixed(2));
+  const dx = params.witnessX - params.playerX;
+  const dz = params.witnessZ - params.playerZ;
+  const dist = Math.hypot(dx, dz);
+  const lookX = -Math.sin(params.playerYaw);
+  const lookZ = -Math.cos(params.playerYaw);
+  const cosTheta = dist > 0.001 ? (dx * lookX + dz * lookZ) / dist : 1.0;
+
+  return {
+    inCommunionRange: dist <= communionRadiusMeters,
+    inForwardGazeCone: cosTheta >= 0.42,
+    distanceMeters: Number(dist.toFixed(2)),
+    communionRadiusMeters,
+    reciprocity01,
+    chordRatios: [1.0, 1.25, 1.5, 1.875],
+  };
+}
+
 export interface VerdantTeleologySynthesisReport {
   readonly profile: string;
   readonly basisPrime: number;
   readonly verified: boolean;
-  readonly synthesizedWorldPhenomenonTotal: 16;
+  readonly synthesizedWorldPhenomenonTotal: 20;
+  readonly concreteSceneGroupCount: 20;
   readonly synthesizedLandmarkTotal: 5;
+  readonly interactiveLithophoneWaystoneCount: 64;
   readonly orphanUnexplainedElementCount: 0;
   readonly manualNeuromorphicControlCount: 0;
+  readonly sceneBijectiveClosureVerified: boolean;
   readonly minRequiringModelsAcrossAllPhenomena: number;
   readonly teleologicalFulfillmentPermille: number;
   readonly landmarkResonanceCouplingPermille: number;
+  readonly lithophoneWaystoneCouplingPermille: number;
+  readonly terraceStandingWaveGlowPermille: number;
+  readonly witnessCommunionReciprocityPermille: number;
   readonly phenomena: readonly EnvironmentalTeleologicalPhenomenon[];
   readonly landmarksByBiome: Readonly<
     Record<'meadow' | 'grove' | 'crystal' | 'wetland' | 'sanctuary', EnvironmentalTeleologicalPhenomenon>
@@ -663,7 +1067,7 @@ export interface VerdantTeleologySynthesisReport {
 }
 
 /**
- * Evaluates formal Teleological Requirement-to-Synthesis Closure across all 16 world phenomena.
+ * Evaluates formal Bijective Teleological Requirement-to-Synthesis Closure across all 20 concrete scene phenomena.
  */
 export function evaluateVerdantTeleologySynthesis(busWeight = 8): VerdantTeleologySynthesisReport {
   const clampedW = Math.max(1, Math.min(16, Math.round(busWeight)));
@@ -671,13 +1075,21 @@ export function evaluateVerdantTeleologySynthesis(busWeight = 8): VerdantTeleolo
     GENERATED_PRISM_BUS_MODULATION_LUT.teleologicalFulfillmentPermille[clampedW] ?? 840;
   const landmarkCouplingPermille =
     GENERATED_PRISM_BUS_MODULATION_LUT.landmarkResonanceCouplingPermille[clampedW] ?? 760;
+  const waystoneCouplingPermille =
+    GENERATED_PRISM_BUS_MODULATION_LUT.lithophoneWaystoneCouplingPermille[clampedW] ?? 720;
+  const terraceGlowPermille =
+    GENERATED_PRISM_BUS_MODULATION_LUT.terraceStandingWaveGlowPermille[clampedW] ?? 664;
+  const witnessReciprocityPermille =
+    GENERATED_PRISM_BUS_MODULATION_LUT.witnessCommunionReciprocityPermille[clampedW] ?? 768;
 
   let minReq = Infinity;
-  let allGrounded = VERDANT_TELEOLOGICAL_PHENOMENA.length === 16;
+  const coveredSceneGroups = new Set<SceneGroupKey20>();
+  let allGrounded = VERDANT_TELEOLOGICAL_PHENOMENA.length === 20;
   for (const p of VERDANT_TELEOLOGICAL_PHENOMENA) {
+    coveredSceneGroups.add(p.sceneGroupKey);
     minReq = Math.min(minReq, p.requiringModels.length);
     if (
-      p.requiringModels.length < 2 ||
+      p.requiringModels.length < 3 ||
       p.environmentalRequirement.length < 20 ||
       p.environmentalSynthesisOrigin.length < 20 ||
       p.gameplayPurpose.length < 20 ||
@@ -688,6 +1100,10 @@ export function evaluateVerdantTeleologySynthesis(busWeight = 8): VerdantTeleolo
     }
   }
 
+  const sceneBijectiveClosureVerified =
+    coveredSceneGroups.size === SCENE_GROUP_KEYS_20.length &&
+    SCENE_GROUP_KEYS_20.every((k) => coveredSceneGroups.has(k));
+
   const landmarkCount = VERDANT_TELEOLOGICAL_PHENOMENA.filter(
     (p) => p.category === 'biome-landmark',
   ).length;
@@ -697,16 +1113,23 @@ export function evaluateVerdantTeleologySynthesis(busWeight = 8): VerdantTeleolo
     basisPrime: GENERATED_CANONICAL_MODEL_BASIS_PRIMES.teleology,
     verified:
       allGrounded &&
+      sceneBijectiveClosureVerified &&
       landmarkCount === 5 &&
       GENERATED_PRISM_STANDARDS.teleology.requirementChain.orphanUnexplainedElementCount === 0 &&
       GENERATED_PRISM_STANDARDS.teleology.purposeAndAutonomy.manualNeuromorphicControlCount === 0,
-    synthesizedWorldPhenomenonTotal: 16,
+    synthesizedWorldPhenomenonTotal: 20,
+    concreteSceneGroupCount: 20,
     synthesizedLandmarkTotal: 5,
+    interactiveLithophoneWaystoneCount: 64,
     orphanUnexplainedElementCount: 0,
     manualNeuromorphicControlCount: 0,
+    sceneBijectiveClosureVerified,
     minRequiringModelsAcrossAllPhenomena: Number.isFinite(minReq) ? minReq : 0,
     teleologicalFulfillmentPermille: fulfillmentPermille,
     landmarkResonanceCouplingPermille: landmarkCouplingPermille,
+    lithophoneWaystoneCouplingPermille: waystoneCouplingPermille,
+    terraceStandingWaveGlowPermille: terraceGlowPermille,
+    witnessCommunionReciprocityPermille: witnessReciprocityPermille,
     phenomena: VERDANT_TELEOLOGICAL_PHENOMENA,
     landmarksByBiome: LANDMARK_PHENOMENON_BY_BIOME,
   };

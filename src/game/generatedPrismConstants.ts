@@ -1686,7 +1686,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Realizability (Spec-to-Runtime Galois Adjunction + Non-Zero Sensitivity + Zero-Stub Oracle)",
     "sourceModule": "Foundation.Realizability.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Realizability/V1/Model.lex.tex",
-    "sourceSha256": "6f813dc19694e4e555f31f4861648723fb6894977c98a7d0418ecc3c52961aee",
+    "sourceSha256": "50dcb4f44c081c396fda04247e643e6ddf0a2cd2faeef9b37bc712b6180d5d9f",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -2154,7 +2154,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Teleology (Requirement-Grounded Environmental Synthesis + Interactive Landmarks + Inherent Plasticity)",
     "sourceModule": "Foundation.Teleology.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Teleology/V1/Model.lex.tex",
-    "sourceSha256": "ada9ed0e8961e659e39ad5dad0348ee584f6a786cb26d62f7615abfd314c40a8",
+    "sourceSha256": "55305300048b0e7afaef782f0928123b5ec23912da18f3889c3d0c706f45884d",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -2170,7 +2170,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "modelIndex": 19,
         "canonicalModelId": "prism/standard-model/teleology-environmental-requirement-synthesis/1",
         "semverMajor": 1,
-        "semverMinor": 0,
+        "semverMinor": 1,
         "semverPatch": 0,
         "uorPrimeSignature": 163,
         "blake3DigestHead64": 16300209,
@@ -2179,25 +2179,25 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Teleology.V1",
-        "canonicalConceptCount": 34,
-        "crossDomainSynonymCount": 15,
-        "taxonomicRelationCount": 24,
-        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Cross-Model Environmental Deficit -> Observer In-Situ Synthesis -> Interactive Purpose Closure, Zero Unexplained Structures, Inherent Autonomous Neuromorphic Plasticity",
+        "canonicalConceptCount": 40,
+        "crossDomainSynonymCount": 18,
+        "taxonomicRelationCount": 28,
+        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, 20/20 Bijective Scene-to-Requirement Synthesis Closure, Interactive Landmarks + Lithophone Waystones + Chladni Terraces + Co-Observer Communion, Inherent Autonomous Neuromorphic Plasticity",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 16,
+        "capabilityFunctionCount": 20,
         "conservationLawCount": 6,
         "exportedFeatureChannelMask": 524287,
-        "promisedBehaviorSummary": "Ensures every structure, botanical species, terrain pathway, acoustic basin, and embodied presence in Verdant Resonance is required by upstream Standard Models, synthesized by the Observer from local environmental matter, interactive in gameplay, and free of manual backend UI clutter",
+        "promisedBehaviorSummary": "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance is required by >=3 upstream Standard Models, synthesized by the Observer from local environmental matter, interactive in gameplay, and free of manual backend UI clutter",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
         "typedInputPortCount": 19,
         "typedOutputPortCount": 19,
-        "cloudEventTypeCount": 6,
-        "stateFieldCount": 20,
-        "effectKind": "PureTeleologicalClosure+AutonomousGameplayPlasticity",
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 24,
+        "effectKind": "PureBijectiveTeleologicalClosure+AutonomousGameplayPlasticity",
         "siBiasedTimeExp": 16,
         "siBiasedLengthExp": 16,
         "siBiasedMassExp": 16,
@@ -2213,14 +2213,14 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "compatiblePartnerMask": 524287,
         "conflictModelMask": 0,
         "functorTransformationCount": 38,
-        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into purposeful in-world environmental phenomena while automating neuromorphic plasticity directly from contemplative gameplay",
+        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 purposeful in-world environmental phenomena while automating neuromorphic plasticity directly from contemplative gameplay",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 16667,
-        "adaptationRuleCount": 5,
-        "temporalLawSummary": "Continuous gameplay-driven Hebbian/STDP consolidation + interactive landmark acoustic-optical resonance on proximity, touch, attune, and stillness",
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Continuous gameplay-driven Hebbian/STDP consolidation + interactive landmark, lithophone waystone, Chladni terrace, and Co-Observer Witness resonance",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
@@ -2228,7 +2228,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "baseResolutionUnits": 700,
         "apexResolutionUnits": 1000,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, 16/16 requirement-grounded environmental phenomena, 5/5 interactive biome landmarks",
+        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, 20/20 bijective requirement-grounded scene phenomena (>=3 requiring models each), 5/5 interactive biome landmarks, 64/64 lithophone waystones",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -2237,7 +2237,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "maxLatencyMicros": 16667,
         "energyBudgetMilliwatts": 14,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Zero-GC teleological requirement registry and per-biome landmark resonance state; 0 per-frame heap allocations",
+        "deviceConstraintSummary": "Zero-GC teleological requirement registry and per-biome landmark/terrace/waystone resonance state; 0 per-frame heap allocations",
         "resourceBoundedZeroGc": true
       },
       "authority": {
@@ -2248,18 +2248,18 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 4,
-        "runtimePropertyOracleCount": 16,
-        "acceptanceVectorCount": 32,
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 20,
+        "acceptanceVectorCount": 40,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero unexplained orphan elements & zero manual UI overrides, requirement-to-synthesis grounding, monotonic purpose coupling, and 11-element completeness",
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving zero unexplained orphan elements & zero manual UI overrides, >=3-model requirement-to-synthesis grounding, 20/20 bijective scene closure, monotonic purpose coupling, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/teleologyEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Teleological Synthesis & Interactive Landmark Engine -> Uncluttered Gameplay Experience",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Bijective Teleological Synthesis & Interactive World Engine -> Uncluttered Gameplay Experience",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -2728,6 +2728,75 @@ export const GENERATED_PRISM_BUS_MODULATION_LUT = {
     1000,
     1000,
     1000
+  ],
+  "lithophoneWaystoneCouplingPermille": [
+    510,
+    510,
+    540,
+    570,
+    600,
+    630,
+    660,
+    690,
+    720,
+    750,
+    780,
+    810,
+    840,
+    870,
+    900,
+    930,
+    960,
+    960,
+    960,
+    960,
+    960
+  ],
+  "terraceStandingWaveGlowPermille": [
+    468,
+    468,
+    496,
+    524,
+    552,
+    580,
+    608,
+    636,
+    664,
+    692,
+    720,
+    748,
+    776,
+    804,
+    832,
+    860,
+    888,
+    888,
+    888,
+    888,
+    888
+  ],
+  "witnessCommunionReciprocityPermille": [
+    586,
+    586,
+    612,
+    638,
+    664,
+    690,
+    716,
+    742,
+    768,
+    794,
+    820,
+    846,
+    872,
+    898,
+    924,
+    950,
+    976,
+    976,
+    976,
+    976,
+    976
   ],
   "realizabilitySensitivityPermille": [
     285,
@@ -6424,7 +6493,7 @@ export const GENERATED_PRISM_STANDARDS = {
       "observerRuntimeCounitClosed": true
     },
     "antiStubAudit": {
-      "auditedRuntimeSubsystemCount": 6,
+      "auditedRuntimeSubsystemCount": 7,
       "staticStubViolationCount": 0,
       "deadConstantBranchCount": 0,
       "astAndRuntimeLiveAuditEnabled": true,
@@ -6890,22 +6959,27 @@ export const GENERATED_PRISM_STANDARDS = {
   "teleology": {
     "profile": "prism/teleology-standard/1",
     "requirementChain": {
-      "synthesizedWorldPhenomenonTotal": 16,
+      "synthesizedWorldPhenomenonTotal": 20,
+      "concreteSceneGroupCount": 20,
       "synthesizedLandmarkTotal": 5,
       "orphanUnexplainedElementCount": 0,
       "ungroundedArbitraryPropCount": 0,
-      "minUpstreamRequiringModelsPerFeature": 2,
+      "minUpstreamRequiringModelsPerFeature": 3,
       "everyFeatureSynthesizedFromEnvironment": true,
-      "requirementsPrecedeAndGroundSynthesis": true
+      "requirementsPrecedeAndGroundSynthesis": true,
+      "sceneBijectiveClosureVerified": true
     },
     "purposeAndAutonomy": {
       "interactiveLandmarkResonatorCount": 5,
+      "interactiveLithophoneWaystoneCount": 64,
+      "interactiveChladniTerraceCount": 5,
       "manualNeuromorphicControlCount": 0,
       "clutteredBackendReadoutCount": 0,
       "basePurposeFulfillmentPermille": 840,
       "apexPurposeFulfillmentPermille": 1000,
       "neuromorphicsInherentToGameplay": true,
-      "landmarksInteractiveViaContemplativeGestures": true
+      "landmarksInteractiveViaContemplativeGestures": true,
+      "witnessCommunionInteractive": true
     },
     "canonicalDescriptor": {
       "requiredElementCount": 11,
@@ -6913,7 +6987,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelIndex": 19,
         "canonicalModelId": "prism/standard-model/teleology-environmental-requirement-synthesis/1",
         "semverMajor": 1,
-        "semverMinor": 0,
+        "semverMinor": 1,
         "semverPatch": 0,
         "uorPrimeSignature": 163,
         "blake3DigestHead64": 16300209,
@@ -6922,25 +6996,25 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Teleology.V1",
-        "canonicalConceptCount": 34,
-        "crossDomainSynonymCount": 15,
-        "taxonomicRelationCount": 24,
-        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Cross-Model Environmental Deficit -> Observer In-Situ Synthesis -> Interactive Purpose Closure, Zero Unexplained Structures, Inherent Autonomous Neuromorphic Plasticity",
+        "canonicalConceptCount": 40,
+        "crossDomainSynonymCount": 18,
+        "taxonomicRelationCount": 28,
+        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, 20/20 Bijective Scene-to-Requirement Synthesis Closure, Interactive Landmarks + Lithophone Waystones + Chladni Terraces + Co-Observer Communion, Inherent Autonomous Neuromorphic Plasticity",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 16,
+        "capabilityFunctionCount": 20,
         "conservationLawCount": 6,
         "exportedFeatureChannelMask": 524287,
-        "promisedBehaviorSummary": "Ensures every structure, botanical species, terrain pathway, acoustic basin, and embodied presence in Verdant Resonance is required by upstream Standard Models, synthesized by the Observer from local environmental matter, interactive in gameplay, and free of manual backend UI clutter",
+        "promisedBehaviorSummary": "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance is required by >=3 upstream Standard Models, synthesized by the Observer from local environmental matter, interactive in gameplay, and free of manual backend UI clutter",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
         "typedInputPortCount": 19,
         "typedOutputPortCount": 19,
-        "cloudEventTypeCount": 6,
-        "stateFieldCount": 20,
-        "effectKind": "PureTeleologicalClosure+AutonomousGameplayPlasticity",
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 24,
+        "effectKind": "PureBijectiveTeleologicalClosure+AutonomousGameplayPlasticity",
         "siBiasedTimeExp": 16,
         "siBiasedLengthExp": 16,
         "siBiasedMassExp": 16,
@@ -6956,14 +7030,14 @@ export const GENERATED_PRISM_STANDARDS = {
         "compatiblePartnerMask": 524287,
         "conflictModelMask": 0,
         "functorTransformationCount": 38,
-        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into purposeful in-world environmental phenomena while automating neuromorphic plasticity directly from contemplative gameplay",
+        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 purposeful in-world environmental phenomena while automating neuromorphic plasticity directly from contemplative gameplay",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 16667,
-        "adaptationRuleCount": 5,
-        "temporalLawSummary": "Continuous gameplay-driven Hebbian/STDP consolidation + interactive landmark acoustic-optical resonance on proximity, touch, attune, and stillness",
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Continuous gameplay-driven Hebbian/STDP consolidation + interactive landmark, lithophone waystone, Chladni terrace, and Co-Observer Witness resonance",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
@@ -6971,7 +7045,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "baseResolutionUnits": 700,
         "apexResolutionUnits": 1000,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, 16/16 requirement-grounded environmental phenomena, 5/5 interactive biome landmarks",
+        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, 20/20 bijective requirement-grounded scene phenomena (>=3 requiring models each), 5/5 interactive biome landmarks, 64/64 lithophone waystones",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -6980,7 +7054,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "maxLatencyMicros": 16667,
         "energyBudgetMilliwatts": 14,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Zero-GC teleological requirement registry and per-biome landmark resonance state; 0 per-frame heap allocations",
+        "deviceConstraintSummary": "Zero-GC teleological requirement registry and per-biome landmark/terrace/waystone resonance state; 0 per-frame heap allocations",
         "resourceBoundedZeroGc": true
       },
       "authority": {
@@ -6991,18 +7065,18 @@ export const GENERATED_PRISM_STANDARDS = {
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 4,
-        "runtimePropertyOracleCount": 16,
-        "acceptanceVectorCount": 32,
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 20,
+        "acceptanceVectorCount": 40,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero unexplained orphan elements & zero manual UI overrides, requirement-to-synthesis grounding, monotonic purpose coupling, and 11-element completeness",
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving zero unexplained orphan elements & zero manual UI overrides, >=3-model requirement-to-synthesis grounding, 20/20 bijective scene closure, monotonic purpose coupling, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/teleologyEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Teleological Synthesis & Interactive Landmark Engine -> Uncluttered Gameplay Experience",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Bijective Teleological Synthesis & Interactive World Engine -> Uncluttered Gameplay Experience",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -8819,7 +8893,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelIndex": 19,
         "canonicalModelId": "prism/standard-model/teleology-environmental-requirement-synthesis/1",
         "semverMajor": 1,
-        "semverMinor": 0,
+        "semverMinor": 1,
         "semverPatch": 0,
         "uorPrimeSignature": 163,
         "blake3DigestHead64": 16300209,
@@ -8828,25 +8902,25 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Teleology.V1",
-        "canonicalConceptCount": 34,
-        "crossDomainSynonymCount": 15,
-        "taxonomicRelationCount": 24,
-        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Cross-Model Environmental Deficit -> Observer In-Situ Synthesis -> Interactive Purpose Closure, Zero Unexplained Structures, Inherent Autonomous Neuromorphic Plasticity",
+        "canonicalConceptCount": 40,
+        "crossDomainSynonymCount": 18,
+        "taxonomicRelationCount": 28,
+        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, 20/20 Bijective Scene-to-Requirement Synthesis Closure, Interactive Landmarks + Lithophone Waystones + Chladni Terraces + Co-Observer Communion, Inherent Autonomous Neuromorphic Plasticity",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 16,
+        "capabilityFunctionCount": 20,
         "conservationLawCount": 6,
         "exportedFeatureChannelMask": 524287,
-        "promisedBehaviorSummary": "Ensures every structure, botanical species, terrain pathway, acoustic basin, and embodied presence in Verdant Resonance is required by upstream Standard Models, synthesized by the Observer from local environmental matter, interactive in gameplay, and free of manual backend UI clutter",
+        "promisedBehaviorSummary": "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance is required by >=3 upstream Standard Models, synthesized by the Observer from local environmental matter, interactive in gameplay, and free of manual backend UI clutter",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
         "typedInputPortCount": 19,
         "typedOutputPortCount": 19,
-        "cloudEventTypeCount": 6,
-        "stateFieldCount": 20,
-        "effectKind": "PureTeleologicalClosure+AutonomousGameplayPlasticity",
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 24,
+        "effectKind": "PureBijectiveTeleologicalClosure+AutonomousGameplayPlasticity",
         "siBiasedTimeExp": 16,
         "siBiasedLengthExp": 16,
         "siBiasedMassExp": 16,
@@ -8862,14 +8936,14 @@ export const GENERATED_PRISM_STANDARDS = {
         "compatiblePartnerMask": 524287,
         "conflictModelMask": 0,
         "functorTransformationCount": 38,
-        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into purposeful in-world environmental phenomena while automating neuromorphic plasticity directly from contemplative gameplay",
+        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 purposeful in-world environmental phenomena while automating neuromorphic plasticity directly from contemplative gameplay",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 16667,
-        "adaptationRuleCount": 5,
-        "temporalLawSummary": "Continuous gameplay-driven Hebbian/STDP consolidation + interactive landmark acoustic-optical resonance on proximity, touch, attune, and stillness",
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Continuous gameplay-driven Hebbian/STDP consolidation + interactive landmark, lithophone waystone, Chladni terrace, and Co-Observer Witness resonance",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
@@ -8877,7 +8951,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "baseResolutionUnits": 700,
         "apexResolutionUnits": 1000,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, 16/16 requirement-grounded environmental phenomena, 5/5 interactive biome landmarks",
+        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, 20/20 bijective requirement-grounded scene phenomena (>=3 requiring models each), 5/5 interactive biome landmarks, 64/64 lithophone waystones",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -8886,7 +8960,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "maxLatencyMicros": 16667,
         "energyBudgetMilliwatts": 14,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Zero-GC teleological requirement registry and per-biome landmark resonance state; 0 per-frame heap allocations",
+        "deviceConstraintSummary": "Zero-GC teleological requirement registry and per-biome landmark/terrace/waystone resonance state; 0 per-frame heap allocations",
         "resourceBoundedZeroGc": true
       },
       "authority": {
@@ -8897,18 +8971,18 @@ export const GENERATED_PRISM_STANDARDS = {
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 4,
-        "runtimePropertyOracleCount": 16,
-        "acceptanceVectorCount": 32,
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 20,
+        "acceptanceVectorCount": 40,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero unexplained orphan elements & zero manual UI overrides, requirement-to-synthesis grounding, monotonic purpose coupling, and 11-element completeness",
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving zero unexplained orphan elements & zero manual UI overrides, >=3-model requirement-to-synthesis grounding, 20/20 bijective scene closure, monotonic purpose coupling, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/teleologyEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Teleological Synthesis & Interactive Landmark Engine -> Uncluttered Gameplay Experience",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Bijective Teleological Synthesis & Interactive World Engine -> Uncluttered Gameplay Experience",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -9152,6 +9226,7 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
   "Foundation.Teleology.V1.Model": [
     "zeroOrphanElementsAndZeroManualOverridesHold",
     "requirementImpliesEnvironmentalSynthesisHolds",
+    "sceneBijectivePhenomenonClosureHolds",
     "teleologyFulfillmentAndLandmarkMonotonicHold",
     "teleologyDescriptorCompleteHolds"
   ],

@@ -1314,6 +1314,33 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         ),
       ),
     ),
+    lithophoneWaystoneCouplingPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepLithophoneWaystoneCouplingPermille ${w}`,
+          'Foundation.Teleology.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    terraceStandingWaveGlowPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepTerraceStandingWaveGlowPermille ${w}`,
+          'Foundation.Teleology.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    witnessCommunionReciprocityPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepWitnessCommunionReciprocityPermille ${w}`,
+          'Foundation.Teleology.V1.Model',
+          modules,
+        ),
+      ),
+    ),
     realizabilitySensitivityPermille: weightDomain.map((w) =>
       Number(
         evaluateLexExpr(

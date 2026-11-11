@@ -259,11 +259,16 @@ import {
   evaluateHolisticObserverStandardModelContext,
   evaluateVerdantRealizabilityAudit,
   VERDANT_TELEOLOGICAL_PHENOMENA,
+  SCENE_GROUP_KEYS_20,
   evaluateVerdantTeleologySynthesis,
   createInitialLandmarkResonanceState,
   stepLandmarkResonanceField,
   exciteLandmarkResonance,
   evaluateNearestSynthesizedLandmark,
+  synthesizeParametricChladniTerraceRadii,
+  evaluateStandingWaveTerraceResonance,
+  evaluateLithophoneWaystoneStep,
+  evaluateWitnessCommunionTarget,
   createInitialAutonomousPlasticityState,
   stepAutonomousGameplayPlasticity,
   serializeAnamnesisSnapshot,
@@ -4377,10 +4382,15 @@ test('51. 19-Model Gap Elimination: Realizability Anti-Gap Oracle, L-System + Mu
 });
 
 test('52. 19th Model Teleological Closure: Zero Unexplained Structures/Features, Interactive Landmarks, Autonomous Plasticity & Uncluttered Gameplay UI', () => {
-  // 1. Verify formal Prism Teleology Model (#19, Prime 163) & 16/16 requirement-grounded world phenomena
+  // 1. Verify formal Prism Teleology Model (#19, Prime 163) & 20/20 bijective requirement-grounded world phenomena
   assert.ok(
     GENERATED_PRISM_THEOREMS_BY_MODULE['Foundation.Teleology.V1.Model']?.includes(
       'requirementImpliesEnvironmentalSynthesisHolds',
+    ),
+  );
+  assert.ok(
+    GENERATED_PRISM_THEOREMS_BY_MODULE['Foundation.Teleology.V1.Model']?.includes(
+      'sceneBijectivePhenomenonClosureHolds',
     ),
   );
   const baseTeleology = evaluateVerdantTeleologySynthesis(8);
@@ -4388,14 +4398,19 @@ test('52. 19th Model Teleological Closure: Zero Unexplained Structures/Features,
   assert.equal(baseTeleology.verified, true);
   assert.equal(apexTeleology.verified, true);
   assert.equal(baseTeleology.basisPrime, 163);
-  assert.equal(VERDANT_TELEOLOGICAL_PHENOMENA.length, 16);
-  assert.equal(baseTeleology.synthesizedWorldPhenomenonTotal, 16);
+  assert.equal(VERDANT_TELEOLOGICAL_PHENOMENA.length, 20);
+  assert.equal(baseTeleology.synthesizedWorldPhenomenonTotal, 20);
+  assert.equal(baseTeleology.concreteSceneGroupCount, 20);
+  assert.equal(baseTeleology.sceneBijectiveClosureVerified, true);
   assert.equal(baseTeleology.synthesizedLandmarkTotal, 5);
   assert.equal(baseTeleology.orphanUnexplainedElementCount, 0);
   assert.equal(baseTeleology.manualNeuromorphicControlCount, 0);
   assert.ok(baseTeleology.minRequiringModelsAcrossAllPhenomena >= 3);
   assert.ok(apexTeleology.teleologicalFulfillmentPermille > baseTeleology.teleologicalFulfillmentPermille);
   assert.ok(apexTeleology.landmarkResonanceCouplingPermille > baseTeleology.landmarkResonanceCouplingPermille);
+  assert.ok(apexTeleology.lithophoneWaystoneCouplingPermille > baseTeleology.lithophoneWaystoneCouplingPermille);
+  assert.ok(apexTeleology.terraceStandingWaveGlowPermille > baseTeleology.terraceStandingWaveGlowPermille);
+  assert.ok(apexTeleology.witnessCommunionReciprocityPermille > baseTeleology.witnessCommunionReciprocityPermille);
 
   // 2. Verify Interactive Landmark evaluation, excitation & exponential decay across all 5 biomes
   const topo = synthesizeParametricWorldTopology({ alphaSeed: 1 });
@@ -4484,6 +4499,130 @@ test('52. 19th Model Teleological Closure: Zero Unexplained Structures/Features,
       `PrismInspectorModal.tsx must not expose manual backend/neuromorphic UI token "${bannedUiToken}"`,
     );
   }
+});
+
+test('53. Bijective 20/20 Scene Phenomenon Refinement: Chladni Terraces, Lithophone Waystones, Witness Communion & Serene HUD', () => {
+  // 1. Verify exact 1-to-1 bijection across all 20 scene groups and Realizability subsystem #7
+  assert.equal(SCENE_GROUP_KEYS_20.length, 20);
+  const mappedGroups = new Set(VERDANT_TELEOLOGICAL_PHENOMENA.map((p) => p.sceneGroupKey));
+  assert.equal(mappedGroups.size, 20);
+  for (const key of SCENE_GROUP_KEYS_20) {
+    assert.equal(mappedGroups.has(key), true, `Missing teleological synthesis entry for scene group ${key}`);
+  }
+  const realizability = evaluateVerdantRealizabilityAudit({ alphaSeed: 1, atmosphere: 'twilight' });
+  assert.equal(realizability.verified, true);
+  assert.equal(realizability.auditedRuntimeSubsystemCount, 7);
+  assert.equal(realizability.sceneBijectiveCoverageVerified, true);
+
+  // 2. Verify Parametric Chladni Terrace Radii & Live Standing-Wave Illumination
+  const topo = synthesizeParametricWorldTopology({ alphaSeed: 1 });
+  const terraceRadii = synthesizeParametricChladniTerraceRadii(topo.terraceSpecs);
+  assert.equal(terraceRadii.sanctuaryRings.length, 5);
+  assert.equal(terraceRadii.meadowRings.length, 3);
+  assert.equal(terraceRadii.meadowCardinalRayCount, 8);
+  assert.equal(terraceRadii.groveRings.length, 4);
+  assert.equal(terraceRadii.crystalHexRings.length, 3);
+  assert.equal(terraceRadii.wetlandMeniscusRings.length, 4);
+
+  const landmarkCentersXZ = {
+    meadow: topo.meadowSundialCenterXZ,
+    grove: topo.biomeCenters.grove,
+    crystal: topo.biomeCenters.crystal,
+    wetland: topo.lagoonCenterXZ,
+    sanctuary: topo.biomeCenters.sanctuary,
+  };
+  const initRes = createInitialLandmarkResonanceState();
+  const farTerrace = evaluateStandingWaveTerraceResonance({
+    playerX: 25,
+    playerZ: 25,
+    landmarkCentersXZ,
+    resonanceState: initRes,
+    isStillness: false,
+    isAttuningOrTouching: false,
+    elapsedSeconds: 0,
+    busWeight: 8,
+  });
+  const inhabitedSanctuaryTerrace = evaluateStandingWaveTerraceResonance({
+    playerX: landmarkCentersXZ.sanctuary[0],
+    playerZ: landmarkCentersXZ.sanctuary[1],
+    landmarkCentersXZ,
+    resonanceState: exciteLandmarkResonance(initRes, 'sanctuary', 'stillness', 14),
+    isStillness: true,
+    isAttuningOrTouching: false,
+    elapsedSeconds: 0,
+    busWeight: 14,
+  });
+  assert.equal(inhabitedSanctuaryTerrace.activeTerraceBiome, 'sanctuary');
+  assert.ok(inhabitedSanctuaryTerrace.sanctuaryOpacity > farTerrace.sanctuaryOpacity);
+
+  // 3. Verify Interactive 64-Flagstone Piezo-Travertine Lithophone Waystones
+  const stones = generateConservatorySteppingStones({ alphaSeed: 1 });
+  assert.equal(stones.length, 64);
+  const firstStone = stones[3];
+  const step1 = evaluateLithophoneWaystoneStep(-1, {
+    playerX: firstStone.x + 0.2,
+    playerZ: firstStone.z - 0.15,
+    isMoving: true,
+    inWater: false,
+    steppingStones: stones,
+    busWeight: 12,
+  });
+  assert.equal(step1.triggered, true);
+  assert.equal(step1.nextStoneIndex, 3);
+  assert.ok(step1.scaleDegreeRatio >= 1.0 && step1.scaleDegreeRatio <= 2.0);
+
+  const stepSameStone = evaluateLithophoneWaystoneStep(step1.nextStoneIndex, {
+    playerX: firstStone.x + 0.1,
+    playerZ: firstStone.z,
+    isMoving: true,
+    inWater: false,
+    steppingStones: stones,
+    busWeight: 12,
+  });
+  assert.equal(stepSameStone.triggered, false, 'Staying on the same flagstone must not re-trigger');
+
+  const stepOffStone = evaluateLithophoneWaystoneStep(step1.nextStoneIndex, {
+    playerX: 48,
+    playerZ: 48,
+    isMoving: true,
+    inWater: false,
+    steppingStones: stones,
+    busWeight: 12,
+  });
+  assert.equal(stepOffStone.nextStoneIndex, -1);
+
+  // 4. Verify Interactive Immanent Co-Observer Witness Communion Gaze & Range Gating
+  const facingWitness = evaluateWitnessCommunionTarget({
+    playerX: 0,
+    playerZ: 0,
+    playerYaw: 0, // facing -Z
+    witnessX: 0,
+    witnessZ: -5.5,
+    busWeight: 12,
+  });
+  assert.equal(facingWitness.inCommunionRange, true);
+  assert.equal(facingWitness.inForwardGazeCone, true);
+
+  const behindWitness = evaluateWitnessCommunionTarget({
+    playerX: 0,
+    playerZ: 0,
+    playerYaw: 0, // facing -Z, witness behind at +Z
+    witnessX: 0,
+    witnessZ: 5.5,
+    busWeight: 12,
+  });
+  assert.equal(behindWitness.inCommunionRange, true);
+  assert.equal(behindWitness.inForwardGazeCone, false);
+
+  // 5. Verify Playing HUD cleanliness (no stereo pan engineering readout) & landmark-anchored beams
+  const appSrc = fs.readFileSync(path.join(process.cwd(), 'src', 'App.tsx'), 'utf8');
+  assert.equal(appSrc.includes('stereoLabel'), false, 'Playing HUD must not show raw stereo pan readout');
+  assert.equal(appSrc.includes('computeBinauralPan'), false);
+  const canvasSrc = fs.readFileSync(
+    path.join(process.cwd(), 'src', 'components', 'GardenCanvas.tsx'),
+    'utf8',
+  );
+  assert.equal(canvasSrc.includes('landmarkAnchorByBiome'), true);
 });
 
 

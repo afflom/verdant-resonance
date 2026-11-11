@@ -54,7 +54,7 @@ export interface VerdantRealizabilityAuditReport {
   readonly basisPrime: number;
   readonly auditedStandardModelCount: 19;
   readonly sensitiveModelCount: number;
-  readonly auditedRuntimeSubsystemCount: 6;
+  readonly auditedRuntimeSubsystemCount: 7;
   readonly danglingUnprojectedPortCount: number;
   readonly staticStubViolationCount: number;
   readonly realizationGapPermille: number;
@@ -64,6 +64,7 @@ export interface VerdantRealizabilityAuditReport {
   readonly woodworth3DHrtfVerified: boolean;
   readonly anamnesisLosslessMerkleVerified: boolean;
   readonly teleologyZeroOrphanClosureVerified: boolean;
+  readonly sceneBijectiveCoverageVerified: boolean;
   readonly modelSensitivities: readonly ModelRealizabilitySensitivityRecord[];
 }
 
@@ -234,16 +235,25 @@ export function evaluateVerdantRealizabilityAudit(params?: {
   const anamnesisLosslessMerkleVerified =
     roundTrip.verified && roundTrip.digestMatches && roundTrip.roundTripDriftCount === 0;
 
-  // 4. Audit Teleology (Model #19, Prime 163): 16/16 world phenomena requirement-grounded & 0 unexplained elements
+  // 4. Audit Teleology (Model #19, Prime 163): 20/20 bijective scene phenomena (>=3 models each) & 0 unexplained elements
   const teleologyBase = evaluateVerdantTeleologySynthesis(8);
   const teleologyApex = evaluateVerdantTeleologySynthesis(16);
+  const sceneBijectiveCoverageVerified =
+    teleologyApex.synthesizedWorldPhenomenonTotal === 20 &&
+    teleologyApex.concreteSceneGroupCount === 20 &&
+    teleologyApex.sceneBijectiveClosureVerified &&
+    teleologyApex.minRequiringModelsAcrossAllPhenomena >= 3;
   const teleologyZeroOrphanClosureVerified =
     teleologyBase.verified &&
     teleologyApex.verified &&
+    sceneBijectiveCoverageVerified &&
     teleologyApex.orphanUnexplainedElementCount === 0 &&
     teleologyApex.manualNeuromorphicControlCount === 0 &&
     teleologyApex.teleologicalFulfillmentPermille > teleologyBase.teleologicalFulfillmentPermille &&
-    teleologyApex.landmarkResonanceCouplingPermille > teleologyBase.landmarkResonanceCouplingPermille;
+    teleologyApex.landmarkResonanceCouplingPermille > teleologyBase.landmarkResonanceCouplingPermille &&
+    teleologyApex.lithophoneWaystoneCouplingPermille > teleologyBase.lithophoneWaystoneCouplingPermille &&
+    teleologyApex.terraceStandingWaveGlowPermille > teleologyBase.terraceStandingWaveGlowPermille &&
+    teleologyApex.witnessCommunionReciprocityPermille > teleologyBase.witnessCommunionReciprocityPermille;
 
   // 5. Evaluate per-model differential sensitivity across all 19 Canonical Standard Models
   const modelSensitivities: ModelRealizabilitySensitivityRecord[] = CANONICAL_19_MODEL_KEYS.map(
@@ -357,14 +367,18 @@ export function evaluateVerdantRealizabilityAudit(params?: {
           invariantOk = invariantOk && anamnesisLosslessMerkleVerified;
           break;
         case 'teleology':
-          label = 'Environmental Purpose Fulfillment + Landmark Coupling (permille)';
+          label = '20/20 Bijective Purpose + Landmark + Waystone + Witness Coupling (permille)';
           baseVal =
             teleologyBase.teleologicalFulfillmentPermille +
-            teleologyBase.landmarkResonanceCouplingPermille;
+            teleologyBase.landmarkResonanceCouplingPermille +
+            teleologyBase.lithophoneWaystoneCouplingPermille +
+            teleologyBase.witnessCommunionReciprocityPermille;
           apexVal =
             teleologyApex.teleologicalFulfillmentPermille +
-            teleologyApex.landmarkResonanceCouplingPermille;
-          invariantOk = invariantOk && teleologyZeroOrphanClosureVerified;
+            teleologyApex.landmarkResonanceCouplingPermille +
+            teleologyApex.lithophoneWaystoneCouplingPermille +
+            teleologyApex.witnessCommunionReciprocityPermille;
+          invariantOk = invariantOk && teleologyZeroOrphanClosureVerified && sceneBijectiveCoverageVerified;
           break;
       }
 
@@ -406,11 +420,12 @@ export function evaluateVerdantRealizabilityAudit(params?: {
       iso3382DistinctBiomesVerified &&
       woodworth3DHrtfVerified &&
       anamnesisLosslessMerkleVerified &&
-      teleologyZeroOrphanClosureVerified,
+      teleologyZeroOrphanClosureVerified &&
+      sceneBijectiveCoverageVerified,
     basisPrime: GENERATED_CANONICAL_MODEL_BASIS_PRIMES.realizability,
     auditedStandardModelCount: 19,
     sensitiveModelCount,
-    auditedRuntimeSubsystemCount: 6,
+    auditedRuntimeSubsystemCount: 7,
     danglingUnprojectedPortCount,
     staticStubViolationCount,
     realizationGapPermille,
@@ -420,6 +435,7 @@ export function evaluateVerdantRealizabilityAudit(params?: {
     woodworth3DHrtfVerified,
     anamnesisLosslessMerkleVerified,
     teleologyZeroOrphanClosureVerified,
+    sceneBijectiveCoverageVerified,
     modelSensitivities,
   };
 }

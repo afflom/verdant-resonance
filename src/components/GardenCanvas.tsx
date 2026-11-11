@@ -59,9 +59,12 @@ import {
   evaluateGroundWavePropagation,
   evaluateHolisticObserverState,
   evaluateHydrodynamics,
+  evaluateLithophoneWaystoneStep,
   evaluateNearestSynthesizedLandmark,
   evaluatePrismRequest,
+  evaluateStandingWaveTerraceResonance,
   evaluateWindField,
+  evaluateWitnessCommunionTarget,
   exciteLandmarkResonance,
   executeNeuromorphicSynthesisTick,
   findNearestPlant,
@@ -90,6 +93,7 @@ import {
   synthesizeCompoundSurfaceProfile,
   synthesizeObserverInorganicMonuments,
   synthesizeParametricBiomeConfigs,
+  synthesizeParametricChladniTerraceRadii,
   synthesizeParametricPlantSpeciesConfigs,
   synthesizeParametricWorldTopology,
   UniversalNeuromorphicManifold,
@@ -101,6 +105,7 @@ import {
   type BotanicalLifecycleStageId,
   type NearestLandmarkEvaluation,
   type VerdantAnamnesisPayload,
+  type WitnessCommunionEvaluation,
 } from '../game/prismModel';
 import {
   synthesizeSpectralDiurnalPalette,
@@ -167,6 +172,7 @@ export interface LiveTelemetryState {
   currentSoundtrackStep: number;
   gestureHold: GestureHoldEnvelopeState;
   nearestLandmark: NearestLandmarkEvaluation;
+  witnessCommunion: WitnessCommunionEvaluation;
 }
 
 export interface GardenImperativeHandle {
@@ -1359,18 +1365,18 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     const wetlandMonument = buildWetlandLanterns();
     scene.add(wetlandMonument.group);
 
-    // 5e. Intentional Biome Landscape Terraces & Sacred Geometry Floors (`Foundation.Articulation.V1.Model`)
+    // 5e. Intentional Biome Landscape Terraces & Chladni Standing-Wave Plinths (`Foundation.Teleology.V1.Model` + `Foundation.Articulation.V1.Model`)
     const worldTopo = DEFAULT_PARAMETRIC_WORLD_TOPOLOGY;
+    const chladniTerraces = synthesizeParametricChladniTerraceRadii(worldTopo.terraceSpecs);
     const [sanctTx, sanctTz] = worldTopo.biomeCenters.sanctuary;
     const [sundialTx, sundialTz] = worldTopo.meadowSundialCenterXZ;
     const [groveTx, groveTz] = worldTopo.biomeCenters.grove;
     const [crystalTx, crystalTz] = worldTopo.biomeCenters.crystal;
     const [lagoonTx, lagoonTz] = worldTopo.lagoonCenterXZ;
 
-    // Terrace 1: Sanctuary 5-Ring Golden-Ratio Harmonic Labyrinth (1:1, 9:8, 5:4, 3:2, 2:1)
+    // Terrace 1: Sanctuary 5-Ring Golden-Ratio Harmonic Labyrinth (derived from worldTopo.terraceSpecs)
     const labyrinthGroup = new THREE.Group();
     labyrinthGroup.position.set(sanctTx, groundHeightAt(sanctTx, sanctTz) + 0.03, sanctTz);
-    const jiRadii = [5.2, 6.4, 7.6, 9.0, 10.6];
     const labyrinthMat = new THREE.MeshBasicMaterial({
       color: 0xfbbf24,
       transparent: true,
@@ -1378,8 +1384,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       side: THREE.DoubleSide,
       depthWrite: false,
     });
-    for (let rIdx = 0; rIdx < jiRadii.length; rIdx++) {
-      const r = jiRadii[rIdx];
+    for (let rIdx = 0; rIdx < chladniTerraces.sanctuaryRings.length; rIdx++) {
+      const r = chladniTerraces.sanctuaryRings[rIdx];
       const ring = new THREE.Mesh(new THREE.RingGeometry(r, r + 0.14, 48), labyrinthMat);
       ring.rotation.x = -Math.PI / 2;
       ring.position.y = rIdx * 0.003;
@@ -1401,17 +1407,21 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       side: THREE.DoubleSide,
       depthWrite: false,
     });
-    for (const r of [4.2, 5.8, 7.5]) {
+    for (const r of chladniTerraces.meadowRings) {
       const ring = new THREE.Mesh(new THREE.RingGeometry(r, r + 0.12, 40), meadowParterreMat);
       ring.rotation.x = -Math.PI / 2;
       meadowTerraceGroup.add(ring);
     }
     const rayGeo = new THREE.PlaneGeometry(0.14, 4.2);
     rayGeo.rotateX(-Math.PI / 2);
-    for (let h = 0; h < 8; h++) {
-      const angle = (h / 8) * Math.PI * 2;
+    for (let h = 0; h < chladniTerraces.meadowCardinalRayCount; h++) {
+      const angle = (h / chladniTerraces.meadowCardinalRayCount) * Math.PI * 2;
       const ray = new THREE.Mesh(rayGeo, meadowParterreMat);
-      ray.position.set(Math.cos(angle) * 5.6, 0.004, Math.sin(angle) * 5.6);
+      ray.position.set(
+        Math.cos(angle) * chladniTerraces.meadowCardinalRayCenterRadius,
+        0.004,
+        Math.sin(angle) * chladniTerraces.meadowCardinalRayCenterRadius,
+      );
       ray.rotation.y = -angle;
       meadowTerraceGroup.add(ray);
     }
@@ -1427,7 +1437,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       side: THREE.DoubleSide,
       depthWrite: false,
     });
-    for (const r of [3.4, 4.8, 6.2, 7.8]) {
+    for (const r of chladniTerraces.groveRings) {
       const ring = new THREE.Mesh(new THREE.RingGeometry(r, r + 0.14, 36), zenRingMat);
       ring.rotation.x = -Math.PI / 2;
       groveTerraceGroup.add(ring);
@@ -1462,7 +1472,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       side: THREE.DoubleSide,
       depthWrite: false,
     });
-    for (const r of [4.2, 6.8, 9.4]) {
+    for (const r of chladniTerraces.crystalHexRings) {
       const hexRing = new THREE.Mesh(new THREE.RingGeometry(r, r + 0.16, 6), hexFacetMat);
       hexRing.rotation.x = -Math.PI / 2;
       hexRing.position.y = 0.015;
@@ -1472,7 +1482,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
     // Terrace 5: Wetland Concentric Meniscus Water-Harp Rings on Mirror Lagoon (coupled to Neuromorphic Cymatics)
     const wetlandMeniscusRings: { mesh: THREE.Mesh; mat: THREE.MeshBasicMaterial; radius: number }[] = [];
-    for (const r of [2.2, 5.4, 8.6, 12.2]) {
+    for (const r of chladniTerraces.wetlandMeniscusRings) {
       const mat = new THREE.MeshBasicMaterial({
         color: 0x5eead4,
         transparent: true,
@@ -1487,25 +1497,41 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       wetlandMeniscusRings.push({ mesh: mRing, mat, radius: r });
     }
 
-    // 5f. Biome Constellation Pillar Beams & Crown Halos (`Foundation.Ecology.V1.Model`)
+    // 5f. Terpene Tyndall Resonance Columns & Crown Halos (`ecosystem-terpene-tyndall-columns`)
+    // Anchored directly onto each synthesized Landmark's exact centerXZ and parametric crown elevation
     const constellationBeamGeo = new THREE.CylinderGeometry(0.18, 0.55, 22, 16, 1, true);
     constellationBeamGeo.translate(0, 11, 0);
     const constellationCrownGeo = new THREE.TorusGeometry(2.1, 0.045, 10, 40);
     constellationCrownGeo.rotateX(Math.PI / 2);
 
+    const landmarkAnchorByBiome: Record<BiomeId, readonly [number, number]> = {
+      sanctuary: sanctSpec.centerXZ,
+      meadow: meadowSpec.centerXZ,
+      grove: groveSpec.centerXZ,
+      crystal: crystalSpec.centerXZ,
+      wetland: wetlandSpec.centerXZ,
+    };
+    const crownHeightsByBiome: Record<BiomeId, number> = {
+      sanctuary: sanctSpec.haloElevationY + 0.55,
+      meadow: meadowSpec.sunOrbPivotY + 0.62,
+      grove: groveSpec.roofElevationY + 0.45,
+      crystal: crystalSpec.keystoneElevationY + 0.52,
+      wetland: wetlandSpec.pagodaRoofY + 0.45,
+    };
+
     const biomeConstellationBeams: {
       biome: BiomeId;
+      beamMesh: THREE.Mesh;
       beamMat: THREE.MeshBasicMaterial;
       crownMesh: THREE.Mesh;
       crownMat: THREE.MeshBasicMaterial;
+      crownOffsetY: number;
     }[] = [];
 
     (Object.keys(BIOME_CONFIGS) as BiomeId[]).forEach((bId) => {
-      const bCfg = BIOME_CONFIGS[bId];
       const cCfg = BIOME_CONSTELLATIONS[bId];
-      const bx = bCfg.center[0];
-      const bz = bCfg.center[1];
-      const by = groundHeightAt(bx, bz);
+      const [bx, bz] = landmarkAnchorByBiome[bId];
+      const baseElev = bId === 'wetland' ? MIRROR_LAGOON_WATER_SURFACE_Y : groundHeightAt(bx, bz);
 
       const beamMat = new THREE.MeshBasicMaterial({
         color: cCfg.beamColorHex,
@@ -1515,16 +1541,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         depthWrite: false,
       });
       const beamMesh = new THREE.Mesh(constellationBeamGeo, beamMat);
-      beamMesh.position.set(bx, by + 0.5, bz);
+      beamMesh.position.set(bx, baseElev + 0.45, bz);
       scene.add(beamMesh);
 
-      const crownHeightsByBiome: Record<BiomeId, number> = {
-        sanctuary: 6.42,
-        meadow: 1.68,
-        grove: 4.38,
-        crystal: 4.18,
-        wetland: 0.92,
-      };
       const crownMat = new THREE.MeshBasicMaterial({
         color: cCfg.beamColorHex,
         transparent: true,
@@ -1532,18 +1551,16 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         depthWrite: false,
       });
       const crownMesh = new THREE.Mesh(constellationCrownGeo, crownMat);
-      crownMesh.position.set(
-        bx,
-        (bId === 'wetland' ? MIRROR_LAGOON_WATER_SURFACE_Y : by) + crownHeightsByBiome[bId],
-        bz,
-      );
+      crownMesh.position.set(bx, baseElev + crownHeightsByBiome[bId], bz);
       scene.add(crownMesh);
 
       biomeConstellationBeams.push({
         biome: bId,
+        beamMesh,
         beamMat,
         crownMesh,
         crownMat,
+        crownOffsetY: crownHeightsByBiome[bId],
       });
     });
 
@@ -3125,6 +3142,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     let environmentalAgencyState = createInitialEnvironmentalAgencyState();
     let landmarkResonance = createInitialLandmarkResonanceState();
     let autonomousPlasticity = createInitialAutonomousPlasticityState();
+    let activeWaystoneIndex = -1;
+    let activeSteppingStones = steppingStones;
+    let witnessCommunionGlowImpulse = 0;
     const getLandmarkCentersXZ = (): Readonly<
       Record<'meadow' | 'grove' | 'crystal' | 'wetland' | 'sanctuary', readonly [number, number]>
     > => ({
@@ -3392,12 +3412,28 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       const landmarkTargeted =
         nearestLandmark.inResonanceRange &&
         (act === 'stillness' || nearestLandmark.inForwardGazeCone);
+      const witnessTarget = evaluateWitnessCommunionTarget({
+        playerX: player.x,
+        playerZ: player.z,
+        playerYaw: player.yaw,
+        witnessX: immanentWitness.group.position.x,
+        witnessZ: immanentWitness.group.position.z,
+        busWeight: neuromorphicState.lastActiveSynapticWeight,
+      });
+      const witnessTargeted =
+        witnessTarget.inCommunionRange &&
+        (act === 'stillness' || witnessTarget.inForwardGazeCone);
       const currentBiome = biomeAt(player.x, player.z);
 
       // Focal Gaze-Cone Selection Law (`Foundation.Humane.V1.Model::FocalGazeSelectionPolicy`):
-      // Action keys (`attune`, `touch`) only activate specimens or synthesized landmarks within the player's
-      // forward observation cone and never activate elements behind the player or outside their focus of observation.
-      if ((act === 'attune' || act === 'touch') && !nearest.inForwardGazeCone && !landmarkTargeted) {
+      // Action keys (`attune`, `touch`) only activate specimens, synthesized landmarks, or the Co-Observer Witness
+      // within the player's forward observation cone and never activate elements behind the player.
+      if (
+        (act === 'attune' || act === 'touch') &&
+        !nearest.inForwardGazeCone &&
+        !landmarkTargeted &&
+        !witnessTargeted
+      ) {
         return;
       }
 
@@ -3452,13 +3488,28 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       // Non-disruptive Soft Gaze Assist (`Foundation.Humane.V1.Model::CameraKinematicsPolicy`):
       // Never teleports player [x,z] and never snaps yaw; only applies a subtle damped <= 3.7° nod if in front of the player
       if (act === 'attune' || act === 'touch') {
+        const focusX = nearest.inForwardGazeCone
+          ? nearest.plant.x
+          : witnessTargeted
+            ? immanentWitness.group.position.x
+            : nearestLandmark.centerX;
+        const focusZ = nearest.inForwardGazeCone
+          ? nearest.plant.z
+          : witnessTargeted
+            ? immanentWitness.group.position.z
+            : nearestLandmark.centerZ;
+        const focusDist = nearest.inForwardGazeCone
+          ? nearest.distanceMeters
+          : witnessTargeted
+            ? witnessTarget.distanceMeters
+            : nearestLandmark.distanceMeters;
         const softGaze = computeSoftInteractionGaze({
           playerX: player.x,
           playerZ: player.z,
           currentYaw: player.yaw,
-          plantX: nearest.plant.x,
-          plantZ: nearest.plant.z,
-          distanceMeters: nearest.distanceMeters,
+          plantX: focusX,
+          plantZ: focusZ,
+          distanceMeters: focusDist,
         });
         player.yaw = softGaze.nextTargetYaw;
         cameraKinematics.interactionPitchNod = softGaze.pitchNodImpulse;
@@ -3551,6 +3602,80 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         }
       }
 
+      // Immanent Co-Observer Witness Communion (`Foundation.Teleology.V1.Model::witnessCommunionInteractive`):
+      // When the player communes with the Witness, it voices its harmonic-bronze + quartz astrolabe chord,
+      // deepens its reciprocal bow, and bridges a sympathetic pollination arc to nearby flora.
+      if (
+        witnessTargeted &&
+        (act === 'attune' || act === 'touch' || act === 'stillness')
+      ) {
+        witnessCommunionGlowImpulse = 1.0;
+        const wx = immanentWitness.group.position.x;
+        const wy = immanentWitness.group.position.y;
+        const wz = immanentWitness.group.position.z;
+        const wGroundY = groundHeightAt(wx, wz);
+        soundEngine.playWitnessCommunionResonance({
+          gesture: act,
+          chordRatios: witnessTarget.chordRatios,
+          reciprocity01: witnessTarget.reciprocity01,
+          listenerX: player.x,
+          listenerY: player.y + initialPlayerModel.eyeStatureMeters,
+          listenerZ: player.z,
+          listenerYaw: player.yaw,
+          listenerPitch: player.pitch,
+          witnessX: wx,
+          witnessY: wy + 0.85,
+          witnessZ: wz,
+        });
+        spawnSoundWaveRings(
+          wx,
+          wGroundY + 0.04,
+          wz,
+          neuromorphicState.observer.affectAndPreferences.liveSteering.witnessAuraColorHex,
+        );
+        // Find the closest unawakened (or maturing) specimen within 22m of the Witness to receive a sympathetic arc
+        let bestBridgeRec: (typeof plantMeshes)[number] | null = null;
+        let bestBridgeDist = 22.0;
+        for (let pIdx = 0; pIdx < plantMeshes.length; pIdx++) {
+          const cand = plantMeshes[pIdx];
+          const dW = Math.hypot(cand.instance.x - wx, cand.instance.z - wz);
+          const preferBoost = cand.instance.attuned ? 4.0 : 0.0;
+          if (dW <= 22.0 && dW + preferBoost < bestBridgeDist) {
+            bestBridgeDist = dW + preferBoost;
+            bestBridgeRec = cand;
+          }
+        }
+        if (bestBridgeRec && (act === 'attune' || act === 'stillness')) {
+          if (!bestBridgeRec.instance.attuned) {
+            bestBridgeRec.instance.attuned = true;
+            player.sympatheticCount += 1;
+          }
+          bestBridgeRec.instance.volatileTerpeneCharge = 0.9;
+          const bridgedStage = advancePlantLifecycle(
+            getPlantLifecycleStage(bestBridgeRec.instance),
+            act,
+            true,
+          );
+          bestBridgeRec.instance.lifecycleStage = bridgedStage;
+          bestBridgeRec.fruitingCrown.visible =
+            BOTANICAL_LIFECYCLE_STAGES[bridgedStage].hasFruitingCrown;
+          bestBridgeRec.elderHaloRing.visible =
+            BOTANICAL_LIFECYCLE_STAGES[bridgedStage].hasMycelialSporeHalo;
+          spawnSympatheticFilament(
+            wx,
+            wy + 0.9,
+            wz,
+            bestBridgeRec.instance.x,
+            bestBridgeRec.instance.y,
+            bestBridgeRec.instance.z,
+            liveInteractionSpeciesCfgs[bestBridgeRec.instance.species].emissiveHue,
+            bestBridgeRec.instance.id,
+            gardenColliders,
+            liveInteractionCosmo.worldTopology,
+          );
+        }
+      }
+
       let newSympatheticLinks = 0;
 
       if (act === 'touch') {
@@ -3582,78 +3707,78 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
             mat.emissiveIntensity = 1.38;
           }
           (meshRecord.haloRing.material as THREE.MeshBasicMaterial).opacity = 0.88;
-        }
 
-        const neighbors = findSympatheticNeighbors(updatedNearest.plant, plantsRef.current, 3);
-        for (let nbIdx = 0; nbIdx < neighbors.length; nbIdx++) {
-          const nb = neighbors[nbIdx];
-          const nbRecord = plantMeshes.find((m) => m.instance.id === nb.id);
-          if (nbRecord) {
-            if (!nbRecord.instance.attuned) {
-              nbRecord.instance.attuned = true;
-              player.sympatheticCount += 1;
+          const neighbors = findSympatheticNeighbors(updatedNearest.plant, plantsRef.current, 3);
+          for (let nbIdx = 0; nbIdx < neighbors.length; nbIdx++) {
+            const nb = neighbors[nbIdx];
+            const nbRecord = plantMeshes.find((m) => m.instance.id === nb.id);
+            if (nbRecord) {
+              if (!nbRecord.instance.attuned) {
+                nbRecord.instance.attuned = true;
+                player.sympatheticCount += 1;
+              }
+              nbRecord.instance.volatileTerpeneCharge = 0.75;
+              const nbNextStage = advancePlantLifecycle(
+                getPlantLifecycleStage(nbRecord.instance),
+                'attune',
+                true,
+              );
+              nbRecord.instance.lifecycleStage = nbNextStage;
+              nbRecord.fruitingCrown.visible = BOTANICAL_LIFECYCLE_STAGES[nbNextStage].hasFruitingCrown;
+              nbRecord.elderHaloRing.visible =
+                BOTANICAL_LIFECYCLE_STAGES[nbNextStage].hasMycelialSporeHalo;
+              newSympatheticLinks += 1;
+              for (const mat of nbRecord.emissiveMaterials) {
+                mat.emissiveIntensity = 1.25;
+              }
+              (nbRecord.haloRing.material as THREE.MeshBasicMaterial).opacity = 0.82;
+              spawnSympatheticFilament(
+                updatedNearest.plant.x,
+                updatedNearest.plant.y,
+                updatedNearest.plant.z,
+                nb.x,
+                nb.y,
+                nb.z,
+                speciesCfg.emissiveHue,
+                nb.id,
+                gardenColliders,
+                liveInteractionCosmo.worldTopology,
+              );
+              // Causal Finite-Velocity Wavefront Arrival (`Foundation.Ecology.V1.Model` `actionPotentialWaveSpeedMps = 6.5`):
+              // The sympathetic acoustic echo triggers at the exact parabolic arc travel time `arc.travelTimeSec`,
+              // attenuated and filtered by the neighbor's 3D distance, obstacle occlusion, and substrate biogeochemistry.
+              const nbArc = computeSympatheticParabolicArc({
+                x1: updatedNearest.plant.x,
+                y1: updatedNearest.plant.y,
+                z1: updatedNearest.plant.z,
+                x2: nb.x,
+                y2: nb.y,
+                z2: nb.z,
+                elapsedSinceTriggerSec: 0,
+                segments: PARABOLIC_SEGMENTS,
+                colliders: gardenColliders,
+                topology: liveInteractionCosmo.worldTopology,
+              });
+              const nbPan = computeBinauralPan(player.x, player.z, player.yaw, nb.x, nb.z);
+              const nbDist = Math.hypot(nb.x - player.x, nb.z - player.z);
+              const nbOcc = computeAcousticOcclusion(
+                player.x,
+                player.z,
+                nb.x,
+                nb.z,
+                gardenColliders,
+              );
+              soundEngine.playSympatheticPollinationEcho(
+                nb.species,
+                currentBiome,
+                nbArc.travelTimeSec,
+                nbPan,
+                atmosphereRef.current,
+                nbDist,
+                nbOcc,
+                nb.substrate ?? 'terrestrial-loam',
+              );
             }
-            nbRecord.instance.volatileTerpeneCharge = 0.75;
-            const nbNextStage = advancePlantLifecycle(
-              getPlantLifecycleStage(nbRecord.instance),
-              'attune',
-              true,
-            );
-            nbRecord.instance.lifecycleStage = nbNextStage;
-            nbRecord.fruitingCrown.visible = BOTANICAL_LIFECYCLE_STAGES[nbNextStage].hasFruitingCrown;
-            nbRecord.elderHaloRing.visible =
-              BOTANICAL_LIFECYCLE_STAGES[nbNextStage].hasMycelialSporeHalo;
-            newSympatheticLinks += 1;
-            for (const mat of nbRecord.emissiveMaterials) {
-              mat.emissiveIntensity = 1.25;
-            }
-            (nbRecord.haloRing.material as THREE.MeshBasicMaterial).opacity = 0.82;
-            spawnSympatheticFilament(
-              updatedNearest.plant.x,
-              updatedNearest.plant.y,
-              updatedNearest.plant.z,
-              nb.x,
-              nb.y,
-              nb.z,
-              speciesCfg.emissiveHue,
-              nb.id,
-              gardenColliders,
-              liveInteractionCosmo.worldTopology,
-            );
-            // Causal Finite-Velocity Wavefront Arrival (`Foundation.Ecology.V1.Model` `actionPotentialWaveSpeedMps = 6.5`):
-            // The sympathetic acoustic echo triggers at the exact parabolic arc travel time `arc.travelTimeSec`,
-            // attenuated and filtered by the neighbor's 3D distance, obstacle occlusion, and substrate biogeochemistry.
-            const nbArc = computeSympatheticParabolicArc({
-              x1: updatedNearest.plant.x,
-              y1: updatedNearest.plant.y,
-              z1: updatedNearest.plant.z,
-              x2: nb.x,
-              y2: nb.y,
-              z2: nb.z,
-              elapsedSinceTriggerSec: 0,
-              segments: PARABOLIC_SEGMENTS,
-              colliders: gardenColliders,
-              topology: liveInteractionCosmo.worldTopology,
-            });
-            const nbPan = computeBinauralPan(player.x, player.z, player.yaw, nb.x, nb.z);
-            const nbDist = Math.hypot(nb.x - player.x, nb.z - player.z);
-            const nbOcc = computeAcousticOcclusion(
-              player.x,
-              player.z,
-              nb.x,
-              nb.z,
-              gardenColliders,
-            );
-            soundEngine.playSympatheticPollinationEcho(
-              nb.species,
-              currentBiome,
-              nbArc.travelTimeSec,
-              nbPan,
-              atmosphereRef.current,
-              nbDist,
-              nbOcc,
-              nb.substrate ?? 'terrestrial-loam',
-            );
           }
         }
       } else if (act === 'stillness') {
@@ -3690,22 +3815,24 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       player.lastRuleDesc = decision.ruleDescription;
 
       if (act === 'touch') {
-        // Tight 12-droplet tactile dewdrop burst + crisp 3ms plucked upper-harmonic transient
-        spawnBurstAt(
-          updatedNearest.plant.x,
-          updatedNearest.plant.y,
-          updatedNearest.plant.z,
-          speciesCfg.primaryHue,
-          12,
-        );
-        soundEngine.playTactilePetalTouch(
-          updatedNearest.plant.species,
-          currentBiome,
-          updatedNearest.plant.pitchMultiplier,
-          atmosphereRef.current,
-          targetPan,
-          updatedNearest.plant.substrate ?? 'terrestrial-loam',
-        );
+        if (meshRecord) {
+          // Tight 12-droplet tactile dewdrop burst + crisp 3ms plucked upper-harmonic transient
+          spawnBurstAt(
+            updatedNearest.plant.x,
+            updatedNearest.plant.y,
+            updatedNearest.plant.z,
+            speciesCfg.primaryHue,
+            12,
+          );
+          soundEngine.playTactilePetalTouch(
+            updatedNearest.plant.species,
+            currentBiome,
+            updatedNearest.plant.pitchMultiplier,
+            atmosphereRef.current,
+            targetPan,
+            updatedNearest.plant.substrate ?? 'terrestrial-loam',
+          );
+        }
       } else if (act === 'stillness') {
         // Self-decaying 650ms inhale / 3.2s exhale warm pastoral ninth breathing pad
         spawnSoundWaveRings(
@@ -3715,7 +3842,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           liveInteractionBiomeCfgs[currentBiome].accentColor,
         );
         soundEngine.playStillnessMeditationSwell(currentBiome, atmosphereRef.current);
-      } else {
+      } else if (meshRecord) {
         // [Space] Attune Flora: 24-spore burst + 5 expanding ground wave rings + 220ms 6-voice polyphonic choir
         spawnBurstAt(
           updatedNearest.plant.x,
@@ -3944,6 +4071,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       gestureHoldState = createInitialGestureHoldState();
       landmarkResonance = createInitialLandmarkResonanceState();
       autonomousPlasticity = createInitialAutonomousPlasticityState();
+      activeWaystoneIndex = -1;
+      witnessCommunionGlowImpulse = 0;
       uiHeldGesture = null;
       for (const m of plantMeshes) {
         m.instance.attuned = false;
@@ -4042,7 +4171,27 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         nextCrystalZ,
       );
 
+      const nextLagoonXZ = nextMonuments.monuments.wetland.wetland!.centerXZ;
+      const nextAnchorsByBiome: Record<BiomeId, readonly [number, number]> = {
+        sanctuary: [nextSanctX, nextSanctZ],
+        meadow: [nextMeadowX, nextMeadowZ],
+        grove: [nextGroveX, nextGroveZ],
+        crystal: [nextCrystalX, nextCrystalZ],
+        wetland: nextLagoonXZ,
+      };
+      for (let bIdx = 0; bIdx < biomeConstellationBeams.length; bIdx++) {
+        const bc = biomeConstellationBeams[bIdx];
+        const [bx, bz] = nextAnchorsByBiome[bc.biome];
+        const baseY =
+          bc.biome === 'wetland'
+            ? nextTopo.lagoonWaterSurfaceY
+            : groundHeightAt(bx, bz, nextTopo);
+        bc.beamMesh.position.set(bx, baseY + 0.45, bz);
+        bc.crownMesh.position.set(bx, baseY + bc.crownOffsetY, bz);
+      }
+
       const nextStones = generateConservatorySteppingStones(cosmoParams);
+      activeSteppingStones = nextStones;
       const activeStoneLen = Math.min(stoneCount, nextStones.length);
       for (let i = 0; i < activeStoneLen; i++) {
         const st = nextStones[i];
@@ -4326,9 +4475,18 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           resonanceState: landmarkResonance,
           busWeight: neuromorphicState.lastActiveSynapticWeight,
         });
+        const witnessClick = evaluateWitnessCommunionTarget({
+          playerX: player.x,
+          playerZ: player.z,
+          playerYaw: player.yaw,
+          witnessX: immanentWitness.group.position.x,
+          witnessZ: immanentWitness.group.position.z,
+          busWeight: neuromorphicState.lastActiveSynapticWeight,
+        });
         if (
           (nearest.inForwardGazeCone && nearest.distanceMeters <= 22.0) ||
-          (nearestLmk.inForwardGazeCone && nearestLmk.inResonanceRange)
+          (nearestLmk.inForwardGazeCone && nearestLmk.inResonanceRange) ||
+          (witnessClick.inForwardGazeCone && witnessClick.inCommunionRange)
         ) {
           performAction('attune');
         }
@@ -4421,6 +4579,14 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         resonanceState: landmarkResonance,
         busWeight: neuromorphicState.lastActiveSynapticWeight,
       });
+      const witnessCommunion = evaluateWitnessCommunionTarget({
+        playerX: player.x,
+        playerZ: player.z,
+        playerYaw: player.yaw,
+        witnessX: immanentWitness.group.position.x,
+        witnessZ: immanentWitness.group.position.z,
+        busWeight: neuromorphicState.lastActiveSynapticWeight,
+      });
 
       onTelemetryRef.current({
         playerX: player.x,
@@ -4457,6 +4623,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         currentSoundtrackStep,
         gestureHold: gestureHoldState,
         nearestLandmark,
+        witnessCommunion,
       });
     };
 
@@ -4595,11 +4762,25 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       prevWitnessZ = liveWitness.z;
       syncImmanentWitnessCollider(gardenColliders, liveWitness);
       neuromorphicState.observer.immanentPresence = liveWitness;
+      if (witnessCommunionGlowImpulse > 0.002) {
+        witnessCommunionGlowImpulse = Math.max(
+          0,
+          witnessCommunionGlowImpulse * Math.exp(-1.6 * dt),
+        );
+      } else {
+        witnessCommunionGlowImpulse = 0;
+      }
       immanentWitness.group.position.set(liveWitness.x, liveWitness.y, liveWitness.z);
-      immanentWitness.group.rotation.set(liveWitness.reciprocalBowRad, liveWitness.headingYawRad, 0);
+      immanentWitness.group.rotation.set(
+        liveWitness.reciprocalBowRad + witnessCommunionGlowImpulse * 0.16,
+        liveWitness.headingYawRad,
+        0,
+      );
       immanentWitness.group.scale.setScalar(liveWitness.scaleMultiplier);
       immanentWitness.outerGimbalGroup.rotation.y =
-        liveWitness.gimbalOuterSpinRad * liveSteering.witnessGimbalCadenceScale;
+        liveWitness.gimbalOuterSpinRad *
+        liveSteering.witnessGimbalCadenceScale *
+        (1 + witnessCommunionGlowImpulse * 0.65);
       immanentWitness.innerGimbalGroup.rotation.x = liveWitness.gimbalInnerTiltRad;
       immanentWitness.quartzCoreMesh.rotation.y =
         -elapsed * 0.9 * liveSteering.witnessGimbalCadenceScale;
@@ -4608,7 +4789,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       immanentWitness.apicalStarFinialMesh.rotation.y = -elapsed * 0.72 * spinMult;
       _tempColor.set(liveSteering.witnessAuraColorHex);
       immanentWitness.coreMaterial.emissive.lerp(_tempColor, Math.min(1, dt * 4.5));
-      immanentWitness.coreMaterial.emissiveIntensity = liveWitness.coreLuminance;
+      immanentWitness.coreMaterial.emissiveIntensity =
+        liveWitness.coreLuminance + witnessCommunionGlowImpulse * 0.85;
       witnessContactShadow.position.set(liveWitness.x, liveWitness.groundY + 0.018, liveWitness.z);
 
       // Synchronize Web Audio Soundscape Engine with Universal Neuromorphic Bus
@@ -4722,24 +4904,77 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       }
       wetlandMonument.lanternMat.emissiveIntensity = 0.78 + inorgGlow * 0.42 + wetlandRes * 0.75;
 
-      // Animate 5 Biome Constellation Pillar Beams & Crown Halos based on per-biome flora mastery + Infrastructure Halo Directive
+      // Dynamically couple Biome Landmark PointLights to live monument positions, diurnal dusk glow & Landmark Resonance
+      const duskGlowFactor =
+        atmosphereRef.current === 'starlight'
+          ? 1.28
+          : atmosphereRef.current === 'twilight'
+            ? 1.15
+            : 0.92;
+      sanctuaryPointLight.position.set(
+        sanctuaryMonument.group.position.x,
+        sanctuaryMonument.group.position.y + 5.4 * dampedScaleY,
+        sanctuaryMonument.group.position.z,
+      );
+      sanctuaryPointLight.intensity = (2.8 + sanctRes * 1.9 + inorgGlow * 0.6) * duskGlowFactor;
+      crystalPointLight.position.set(
+        crystalMonument.group.position.x,
+        crystalMonument.group.position.y + 4.2 * dampedScaleY,
+        crystalMonument.group.position.z,
+      );
+      crystalPointLight.intensity = (2.1 + crystalRes * 1.8 + inorgGlow * 0.5) * duskGlowFactor;
+      wetlandPointLight.position.set(
+        wetlandMonument.group.position.x,
+        MIRROR_LAGOON_WATER_SURFACE_Y + 3.1,
+        wetlandMonument.group.position.z,
+      );
+      wetlandPointLight.intensity = (1.9 + wetlandRes * 1.7 + inorgGlow * 0.5) * duskGlowFactor;
+
+      // Dynamically illuminate Chladni Standing-Wave Terraces when inhabited or resonated (`evaluateStandingWaveTerraceResonance`)
+      const terraceEval = evaluateStandingWaveTerraceResonance({
+        playerX: player.x,
+        playerZ: player.z,
+        landmarkCentersXZ: getLandmarkCentersXZ(),
+        resonanceState: landmarkResonance,
+        isStillness: player.action === 'stillness',
+        isAttuningOrTouching: player.action === 'attune' || player.action === 'touch',
+        elapsedSeconds: elapsed,
+        busWeight: activeSynapticWeight,
+      });
+      labyrinthMat.opacity = terraceEval.sanctuaryOpacity;
+      meadowParterreMat.opacity = terraceEval.meadowOpacity;
+      zenRingMat.opacity = terraceEval.groveOpacity;
+      hexFacetMat.opacity = terraceEval.crystalFacetOpacity;
+      crystalDiscMat.emissiveIntensity = terraceEval.crystalDiscEmissiveIntensity;
+
+      // Animate 5 Terpene Tyndall Resonance Columns & Crown Halos anchored on each Biome Landmark
       const haloRefinementRatio = directives.infrastructure.constellationHaloOpacity / 0.28;
       for (let bIdx = 0; bIdx < biomeConstellationBeams.length; bIdx++) {
         const bc = biomeConstellationBeams[bIdx];
         let totalInB = 0;
         let attunedInB = 0;
+        let terpeneSumInB = 0;
         for (let pIdx = 0; pIdx < plantMeshes.length; pIdx++) {
           const inst = plantMeshes[pIdx].instance;
           if (inst.biome === bc.biome) {
             totalInB++;
             if (inst.attuned) attunedInB++;
+            terpeneSumInB += inst.volatileTerpeneCharge ?? 0;
           }
         }
         const ratio = totalInB > 0 ? attunedInB / totalInB : 0;
+        const meanTerpene = totalInB > 0 ? terpeneSumInB / totalInB : 0;
+        const lmkCharge = landmarkResonance[bc.biome];
         const pulse = 0.85 + Math.sin(elapsed * 2.0 + bIdx) * 0.15;
-        bc.beamMat.opacity = (0.04 + ratio * 0.22) * pulse * haloRefinementRatio;
-        bc.crownMat.opacity = (0.14 + ratio * 0.65) * pulse * haloRefinementRatio;
-        bc.crownMesh.rotation.y = elapsed * (0.35 + ratio * 0.8);
+        bc.beamMat.opacity = Math.min(
+          0.52,
+          (0.04 + ratio * 0.18 + meanTerpene * 0.12 + lmkCharge * 0.14) * pulse * haloRefinementRatio,
+        );
+        bc.crownMat.opacity = Math.min(
+          0.92,
+          (0.14 + ratio * 0.52 + meanTerpene * 0.16 + lmkCharge * 0.24) * pulse * haloRefinementRatio,
+        );
+        bc.crownMesh.rotation.y = elapsed * (0.35 + ratio * 0.7 + lmkCharge * 0.55);
       }
 
       // Animate Expanding Acoustic Ground Wave Rings constrained by local terrain normals & medium dispersion (`evaluateGroundWavePropagation`)
@@ -5342,6 +5577,43 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           player.velocityDm = Math.min(30, Math.round(speedMetersPerSec * 2.2));
           if (player.actionHoldTimer <= 0) {
             player.action = 'stroll';
+          }
+          // Interactive Piezo-Travertine Lithophone Waystones (`substrate-stepping-stones`):
+          // Stepping onto a travertine flagstone along the trails rings a soft biome-tuned Just-Intonation chime
+          const waystoneStep = evaluateLithophoneWaystoneStep(activeWaystoneIndex, {
+            playerX: player.x,
+            playerZ: player.z,
+            isMoving: true,
+            inWater: player.inWater,
+            steppingStones: activeSteppingStones,
+            busWeight: activeSynapticWeight,
+          });
+          activeWaystoneIndex = waystoneStep.nextStoneIndex;
+          if (waystoneStep.triggered) {
+            const waystoneBiome = biomeAt(
+              waystoneStep.stoneX,
+              waystoneStep.stoneZ,
+              liveCosmo.worldTopology,
+            );
+            const stY = groundHeightAt(
+              waystoneStep.stoneX,
+              waystoneStep.stoneZ,
+              liveCosmo.worldTopology,
+            );
+            soundEngine.playLithophoneWaystoneNote({
+              biome: waystoneBiome,
+              scaleDegreeRatio: waystoneStep.scaleDegreeRatio,
+              coupling01: waystoneStep.coupling01,
+              listenerX: player.x,
+              listenerY: player.y + initialPlayerModel.eyeStatureMeters,
+              listenerZ: player.z,
+              listenerYaw: player.yaw,
+              listenerPitch: player.pitch,
+              stoneX: waystoneStep.stoneX,
+              stoneY: stY,
+              stoneZ: waystoneStep.stoneZ,
+            });
+            spawnFootstepRipple(waystoneStep.stoneX, stY + 0.02, waystoneStep.stoneZ, '#fde68a');
           }
           // Spawn tighter meniscus wake ripples when wading in permeable lagoon water (1.45m vs 2.8m)
           const rippleSpacing = player.inWater ? 1.45 : 2.8;

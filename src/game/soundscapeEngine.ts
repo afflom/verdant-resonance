@@ -2964,4 +2964,258 @@ export class BotanicalSoundscapeEngine {
       // Ignore audio errors
     }
   }
+
+  /**
+   * Piezo-Travertine Lithophone Waystone Note (`Foundation.Teleology.V1.Model::interactiveLithophoneWaystoneCount`):
+   * Voices a delicate, velvet-mallet `CaCO3` travertine flagstone chime underfoot when the player steps
+   * onto a stepping stone along conservatory trails, spatialized in 3D Woodworth HRTF and governed by 24-Bark masking.
+   */
+  public playLithophoneWaystoneNote(params: {
+    readonly biome: BiomeId;
+    readonly scaleDegreeRatio: number;
+    readonly coupling01: number;
+    readonly listenerX: number;
+    readonly listenerY: number;
+    readonly listenerZ: number;
+    readonly listenerYaw: number;
+    readonly listenerPitch: number;
+    readonly stoneX: number;
+    readonly stoneY: number;
+    readonly stoneZ: number;
+  }): void {
+    this.spectrumBands[2] = Math.min(1, this.spectrumBands[2] + 0.24);
+    this.spectrumBands[6] = Math.min(1, this.spectrumBands[6] + 0.2);
+
+    this.init();
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+
+    try {
+      const biomeCfg = this.liveBiomeConfigs[params.biome];
+      const compound = MATTER_COMPOUNDS['travertine-limestone-spar'];
+      const chladniRatios = computeMaterialChladniModalRatios(
+        compound.bulkElasticModulusGPa,
+        compound.compoundDensityGPerCm3,
+        this.liveModalPartialsPerVoice,
+      );
+      const spatialCue = computeWoodworth3DBinauralSpatializer({
+        listenerX: params.listenerX,
+        listenerY: params.listenerY,
+        listenerZ: params.listenerZ,
+        listenerYaw: params.listenerYaw,
+        listenerPitch: params.listenerPitch,
+        sourceX: params.stoneX,
+        sourceY: params.stoneY,
+        sourceZ: params.stoneZ,
+      });
+
+      const baseHz = Math.min(
+        1180,
+        Math.max(130, biomeCfg.baseNoteHz * params.scaleDegreeRatio),
+      );
+      const marimbaOvertoneHz = Math.min(
+        2600,
+        baseHz * ((chladniRatios[1] ?? 1.5) * 1.32),
+      );
+      const rawAmp = 0.036 * (0.72 + params.coupling01 * 0.35);
+      const barkAudit = evaluate24BarkMaskingGovernor(
+        [
+          { freqHz: baseHz, gain: rawAmp },
+          { freqHz: marimbaOvertoneHz, gain: rawAmp * 0.35 },
+        ],
+        this.liveBarkHeadroomDb,
+        this.barkScratchBuffer,
+      );
+
+      const startAt = this.ctx.currentTime + 0.008;
+      const durSec = 0.44 * this.busMonumentChimeSustain;
+      const panVal = Math.max(
+        -0.75,
+        Math.min(0.75, spatialCue.interauralTimeDiffMicros / 660),
+      );
+
+      const osc = this.ctx.createOscillator();
+      const modalOsc = this.ctx.createOscillator();
+      const filter = this.ctx.createBiquadFilter();
+      const gain = this.ctx.createGain();
+      const modalGain = this.ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(baseHz, startAt);
+      modalOsc.type = 'triangle';
+      modalOsc.frequency.setValueAtTime(marimbaOvertoneHz, startAt);
+      modalGain.gain.setValueAtTime(0.24, startAt);
+      modalGain.gain.exponentialRampToValueAtTime(0.001, startAt + 0.14);
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(1650 * this.busAffectWarmthScale, startAt);
+      filter.Q.value = 1.2;
+
+      const peakAmp =
+        (barkAudit.attenuatedGains[0] ?? rawAmp) *
+        computeIso226EqualLoudnessWeight(baseHz, 60);
+      gain.gain.setValueAtTime(0.0003, startAt);
+      gain.gain.linearRampToValueAtTime(peakAmp, startAt + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0003, startAt + durSec);
+
+      osc.connect(filter);
+      modalOsc.connect(modalGain);
+      modalGain.connect(filter);
+      filter.connect(gain);
+
+      if (typeof this.ctx.createStereoPanner === 'function') {
+        const panner = this.ctx.createStereoPanner();
+        panner.pan.setValueAtTime(panVal, startAt);
+        gain.connect(panner);
+        panner.connect(this.masterGain);
+      } else {
+        gain.connect(this.masterGain);
+      }
+
+      if (this.convolver) {
+        const verbSend = this.ctx.createGain();
+        verbSend.gain.value = Math.min(0.55, 0.34 * this.busAffectReverbScale);
+        gain.connect(verbSend);
+        verbSend.connect(this.convolver);
+      }
+
+      osc.start(startAt);
+      modalOsc.start(startAt);
+      osc.stop(startAt + durSec + 0.03);
+      modalOsc.stop(startAt + durSec + 0.03);
+    } catch {
+      // Ignore audio errors
+    }
+  }
+
+  /**
+   * Immanent Co-Observer Witness Communion (`Foundation.Teleology.V1.Model::witnessCommunionInteractive`):
+   * Voices a warm 4-voice Just-Intonation harmonic-bronze + quartz-core astrolabe chord spatialized at the
+   * Witness's 3D coordinates when the player communes via `[Space]` Attune, `[T]` Touch, or `[C]` Stillness.
+   */
+  public playWitnessCommunionResonance(params: {
+    readonly gesture: 'attune' | 'touch' | 'stillness';
+    readonly chordRatios: readonly [number, number, number, number];
+    readonly reciprocity01: number;
+    readonly listenerX: number;
+    readonly listenerY: number;
+    readonly listenerZ: number;
+    readonly listenerYaw: number;
+    readonly listenerPitch: number;
+    readonly witnessX: number;
+    readonly witnessY: number;
+    readonly witnessZ: number;
+  }): void {
+    for (let b = 3; b < 13; b += 2) {
+      this.spectrumBands[b] = Math.min(1, this.spectrumBands[b] + 0.38);
+    }
+
+    this.init();
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+
+    try {
+      const compound = MATTER_COMPOUNDS['pyrite-solar-bronze-crystal'];
+      const chladniRatios = computeMaterialChladniModalRatios(
+        compound.bulkElasticModulusGPa,
+        compound.compoundDensityGPerCm3,
+        this.liveModalPartialsPerVoice,
+      );
+      const spatialCue = computeWoodworth3DBinauralSpatializer({
+        listenerX: params.listenerX,
+        listenerY: params.listenerY,
+        listenerZ: params.listenerZ,
+        listenerYaw: params.listenerYaw,
+        listenerPitch: params.listenerPitch,
+        sourceX: params.witnessX,
+        sourceY: params.witnessY,
+        sourceZ: params.witnessZ,
+      });
+
+      const distMeters = Math.hypot(
+        params.witnessX - params.listenerX,
+        params.witnessZ - params.listenerZ,
+      );
+      const arrivalDelaySec = Math.min(0.06, distMeters / 343.0);
+      const distAtten = 1 / (1 + distMeters * 0.055);
+      const baseHz = 261.63; // Pure C4 Sanctuary-Witness Astrolabe Reference
+      const baseStart = this.ctx.currentTime + 0.012 + arrivalDelaySec;
+      const panVal = Math.max(
+        -0.88,
+        Math.min(0.88, spatialCue.interauralTimeDiffMicros / 660),
+      );
+
+      const barkAudit = evaluate24BarkMaskingGovernor(
+        params.chordRatios.map((r, idx) => ({
+          freqHz: baseHz * r,
+          gain: (idx === 0 ? 0.052 : 0.038) * distAtten * (0.8 + params.reciprocity01 * 0.25),
+        })),
+        this.liveBarkHeadroomDb,
+        this.barkScratchBuffer,
+      );
+
+      params.chordRatios.forEach((ratio, idx) => {
+        if (!this.ctx || !this.masterGain) return;
+        const startAt =
+          baseStart + (params.gesture === 'touch' ? idx * 0.04 : idx * 0.095);
+        const durSec =
+          (params.gesture === 'touch' ? 0.85 : params.gesture === 'stillness' ? 2.1 : 1.55) *
+          this.busMonumentChimeSustain;
+        const freq = baseHz * ratio;
+
+        const osc = this.ctx.createOscillator();
+        const quartzHarmonic = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+        const qGain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, startAt);
+        quartzHarmonic.type = 'triangle';
+        quartzHarmonic.frequency.setValueAtTime(
+          Math.min(3400, freq * ((chladniRatios[idx % chladniRatios.length] ?? 1.5) / 1.5) * 2.0),
+          startAt,
+        );
+        qGain.gain.value = 0.15;
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(2400 * this.busAffectWarmthScale, startAt);
+        filter.Q.value = 1.6;
+
+        const peakAmp =
+          (barkAudit.attenuatedGains[idx] ?? 0.04 * distAtten) *
+          computeIso226EqualLoudnessWeight(freq, 60);
+        const attackSec = params.gesture === 'touch' ? 0.008 : 0.045;
+        gain.gain.setValueAtTime(0.0004, startAt);
+        gain.gain.linearRampToValueAtTime(peakAmp, startAt + attackSec);
+        gain.gain.exponentialRampToValueAtTime(0.0004, startAt + durSec);
+
+        osc.connect(filter);
+        quartzHarmonic.connect(qGain);
+        qGain.connect(filter);
+        filter.connect(gain);
+
+        if (typeof this.ctx.createStereoPanner === 'function') {
+          const panner = this.ctx.createStereoPanner();
+          panner.pan.setValueAtTime(panVal, startAt);
+          gain.connect(panner);
+          panner.connect(this.masterGain);
+        } else {
+          gain.connect(this.masterGain);
+        }
+
+        if (this.convolver) {
+          const verbSend = this.ctx.createGain();
+          verbSend.gain.value = Math.min(0.76, 0.54 * this.busAffectReverbScale);
+          gain.connect(verbSend);
+          verbSend.connect(this.convolver);
+        }
+
+        osc.start(startAt);
+        quartzHarmonic.start(startAt);
+        osc.stop(startAt + durSec + 0.04);
+        quartzHarmonic.stop(startAt + durSec + 0.04);
+      });
+    } catch {
+      // Ignore audio errors
+    }
+  }
 }
