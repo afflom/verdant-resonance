@@ -2,7 +2,10 @@
 \useglossary{lexlean.std.bool@1.2.0}
 \useglossary{lexlean.std.nat@1.2.0}
 \useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.MetaModel.V1.Model}
 \importmodule{Foundation.Neuromorphic.V1.Model}
+\importmodule{Foundation.Chemistry.V1.Model}
+\importmodule{Foundation.Botany.V1.Model}
 \title{Text application model}
 \begin{semanticmodule}
 structure{
@@ -189,7 +192,7 @@ definition{
   name: verdantEcologyStandard,
   parameters: [],
   result: EcologicalConstellationStandard,
-  body: (record EcologicalConstellationStandard {profile := "prism/ecology-standard/3", constellations := (record BiomeConstellationSpec {constellationCount := 5, beamHeightMeters := 22, meadowConstellation := "Sunlit Pastoral Sixth Constellation", groveConstellation := "Bamboo Dorian Pentatonic Constellation", crystalConstellation := "Quartz Lydian Eleventh Constellation", wetlandConstellation := "Lagoon Aeolian Liquid Ninth Constellation", sanctuaryConstellation := "Sanctuary Celestial Overtone Series"}), guilds := (record SymbioticGuildSpec {guildCount := 3, primaryGuildName := "Dewdrop Bell Guild (Chime Lily + Echo Lotus)", secondaryGuildName := "Polyrhythmic Canopy Guild (Pulse Fern + Drone Moss)", tertiaryGuildName := "Celestial Overtone Guild (Star Orchid + Chime Lily)", guildHarmonyBonusPct := 5}), biogeochemistry := (record BiogeochemicalEquilibriumSpec {minSoilWaterPhCenti := (verdantMinPhCenti), maxSoilWaterPhCenti := (verdantMaxPhCenti), silicaPiezoelectricCoupling := ((verdantMinPhCenti) <? (verdantMaxPhCenti)), mycorrhizalCnpExchangeEnabled := ((stepEcologyBusModulation 1) <? (stepEcologyBusModulation 16)), luciferinEnzymaticKineticsEnabled := ((minRequiredBeamHeightMeters) <=? (verdantBeamHeightMeters)), volatileTerpeneSignalingEnabled := ((verdantMinPhCenti) <? (verdantMaxPhCenti)), actionPotentialWaveSpeedDmps := 65}), microclimates := (record MicroclimateAcousticsSpec {microclimateCount := 4, footstepStrideIntervalMs := 520, maxSimultaneousConstellationBeams := 5}), granularSynthesis := (record GranularMatterSynthesisSpec {atomicElementCount := 8, molecularSpeciesCount := 8, macromoleculeCount := 6, matterCompoundCount := 6, synthesizedModalityCount := 6, closedLoopReactionPathwayCount := 4, atomicToEnvironmentalChainVerified := (verifyGranularAtomicToEnvironmentalChain (Foundation.Neuromorphic.V1.Model::weightInitial)), atomicRemineralizationComplete := (verifyClosedLoopMatterConservation (Foundation.Neuromorphic.V1.Model::weightInitial)), prismSynthesisClosureVerified := (verifyCompleteGranularSynthesisClosure (Foundation.Neuromorphic.V1.Model::weightInitial))}), neuromorphicBridge := (record NeuromorphicEcologyBridgeSpec {neuromorphicBusCoupled := ((stepEcologyBusModulation 1) <? (stepEcologyBusModulation 16)), domainBasisPrime := (verdantEcologyBasisPrime), rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := ((stepEcologyBusModulation 8) <? (stepEcologyBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))), autopoieticSelfRefinementEnabled := ((stepEcologyBusModulation 8) <? (stepEcologyBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))})})
+  body: (record EcologicalConstellationStandard {profile := "prism/ecology-standard/3", constellations := (record BiomeConstellationSpec {constellationCount := 5, beamHeightMeters := 22, meadowConstellation := "Sunlit Pastoral Sixth Constellation", groveConstellation := "Bamboo Dorian Pentatonic Constellation", crystalConstellation := "Quartz Lydian Eleventh Constellation", wetlandConstellation := "Lagoon Aeolian Liquid Ninth Constellation", sanctuaryConstellation := "Sanctuary Celestial Overtone Series"}), guilds := (record SymbioticGuildSpec {guildCount := 3, primaryGuildName := "Dewdrop Bell Guild (Chime Lily + Echo Lotus)", secondaryGuildName := "Polyrhythmic Canopy Guild (Pulse Fern + Drone Moss)", tertiaryGuildName := "Celestial Overtone Guild (Star Orchid + Chime Lily)", guildHarmonyBonusPct := 5}), biogeochemistry := (record BiogeochemicalEquilibriumSpec {minSoilWaterPhCenti := (verdantMinPhCenti), maxSoilWaterPhCenti := (verdantMaxPhCenti), silicaPiezoelectricCoupling := ((verdantMinPhCenti) <? (verdantMaxPhCenti)), mycorrhizalCnpExchangeEnabled := ((stepEcologyBusModulation 1) <? (stepEcologyBusModulation 16)), luciferinEnzymaticKineticsEnabled := ((minRequiredBeamHeightMeters) <=? (verdantBeamHeightMeters)), volatileTerpeneSignalingEnabled := ((verdantMinPhCenti) <? (verdantMaxPhCenti)), actionPotentialWaveSpeedDmps := 65}), microclimates := (record MicroclimateAcousticsSpec {microclimateCount := 4, footstepStrideIntervalMs := 520, maxSimultaneousConstellationBeams := 5}), granularSynthesis := (record GranularMatterSynthesisSpec {atomicElementCount := (Foundation.Chemistry.V1.Model::iupacTotalElementCount), molecularSpeciesCount := 24, macromoleculeCount := 12, matterCompoundCount := (Foundation.Chemistry.V1.Model::bravaisLatticeTotal), synthesizedModalityCount := 6, closedLoopReactionPathwayCount := 8, atomicToEnvironmentalChainVerified := (verifyGranularAtomicToEnvironmentalChain (Foundation.Neuromorphic.V1.Model::weightInitial)), atomicRemineralizationComplete := (verifyClosedLoopMatterConservation (Foundation.Neuromorphic.V1.Model::weightInitial)), prismSynthesisClosureVerified := (verifyCompleteGranularSynthesisClosure (Foundation.Neuromorphic.V1.Model::weightInitial))}), neuromorphicBridge := (record NeuromorphicEcologyBridgeSpec {neuromorphicBusCoupled := ((stepEcologyBusModulation 1) <? (stepEcologyBusModulation 16)), domainBasisPrime := (verdantEcologyBasisPrime), rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := ((stepEcologyBusModulation 8) <? (stepEcologyBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))), autopoieticSelfRefinementEnabled := ((stepEcologyBusModulation 8) <? (stepEcologyBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))})})
 }
 
 definition{
@@ -310,6 +313,40 @@ theorem{
       verifyClosedLoopMatterConservation,
       verifyCompleteGranularSynthesisClosure,
       verifyGranularAtomicToEnvironmentalChain
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: ecologyCanonicalDescriptor,
+  parameters: [],
+  result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 5 "prism/standard-model/ecology-biogeochemical-stoichiometry/1" 3 0 0 (verdantEcologyBasisPrime) 83000118 17560810 "Foundation.Ecology.V1" 34 14 22 "118-Element IUPAC Biogeochemical Cycling, 17 Essential Bio-Elements, Redfield C:N:P Stoichiometry, Penman-Monteith Evapotranspiration, Mycorrhizal Exchange, Lotka-Volterra Mutualistic Guilds" 14 6 16383 "Closes mass-balanced elemental cycles across soil, water, atmosphere, minerals, and symbiotic flora guilds with zero matter creation or loss" 10 12 5 20 "PureKernel+MassBalancePool" 15 17 17 16 17 17 16 6 23 16383 0 16 "Couples 118-element Chemistry and FvCB Botany into microclimate humidity/temperature for ISO 9613-1 Acoustics, Rayleigh haze for CIE Graphics, and biome guild resonance" 2 33333 5 "Closed mass-balance differential pools + Penman-Monteith moisture equilibrium + mutualistic guild facilitation" 32 825 1200 3 "0.01 pH precision (5.60-8.10), exact stoichiometric remineralization closure across all 118 IUPAC elements" 16384 310 16667 22 0 "Pre-allocated elemental pool vectors and microclimate grids; 0 per-frame heap allocations" "Foundation.Ecology.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Ecology/V1/Model.lex.tex" 5 "Redfield (1958) / Sterner & Elser Ecological Stoichiometry, Penman-Monteith FAO-56, IUPAC Biogeochemistry, Lotka-Volterra Mutualism, LEAN-REL-4-32-1" 6 12 24 0 "6 Lean 4.32 theorems proving constellation bounds, pH stability, granular atomic-to-environmental synthesis, closed-loop remineralization, and 11-element completeness" 4 63 "src/game/prismModel.ts" "LexLean 1.2 -> AST Extractor -> Mass-Balanced Biogeochemical & Microclimate Runtime -> Biome Atmosphere, Soil & Guilds")
+}
+
+definition{
+  name: breaksEcologyDescriptorComplete,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: ((probe =? 0) && (not (Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete (ecologyCanonicalDescriptor))))
+}
+
+theorem{
+  name: ecologyDescriptorCompleteHolds,
+  parameters: [probe : Nat],
+  statement: ((breaksEcologyDescriptorComplete probe) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
+      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
+      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
+      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
+      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
+      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
+      breaksEcologyDescriptorComplete,
+      ecologyCanonicalDescriptor,
+      verdantEcologyBasisPrime
     ]
   },
   axioms: [Classical.choice, Quot.sound, propext]

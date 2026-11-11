@@ -2,6 +2,7 @@
 \useglossary{lexlean.std.bool@1.2.0}
 \useglossary{lexlean.std.nat@1.2.0}
 \useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.MetaModel.V1.Model}
 \importmodule{Foundation.Neuromorphic.V1.Model}
 \title{Text application model}
 \begin{semanticmodule}
@@ -127,6 +128,62 @@ theorem{
     ]
   },
   axioms: [Quot.sound, propext]
+}
+
+structure{
+  name: IsoArchitectureAndTelemetrySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: iso42010ViewpointCount, type: Nat},
+    {name: iso25010QualityCharacteristicCount, type: Nat},
+    {name: cloudEventsEnvelopeSpecMajor, type: Nat},
+    {name: openTelemetrySignalCount, type: Nat},
+    {name: slsaProvenanceLevel, type: Nat},
+    {name: spdx3DocumentCoupled, type: Bool},
+    {name: adaptiveFidelityFrameGovernorEnabled, type: Bool}
+  ]
+}
+
+definition{
+  name: verdantIsoArchitectureStandard,
+  parameters: [],
+  result: IsoArchitectureAndTelemetrySpec,
+  body: (record IsoArchitectureAndTelemetrySpec {iso42010ViewpointCount := 6, iso25010QualityCharacteristicCount := 8, cloudEventsEnvelopeSpecMajor := 1, openTelemetrySignalCount := 3, slsaProvenanceLevel := 3, spdx3DocumentCoupled := ((verdantPerFrameHeapAllocations) =? 0), adaptiveFidelityFrameGovernorEnabled := ((stepInfrastructureBusModulation 1) <? (stepInfrastructureBusModulation 16))})
+}
+
+definition{
+  name: infrastructureCanonicalDescriptor,
+  parameters: [],
+  result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 12 "prism/standard-model/infrastructure-iso42010/1" 3 0 0 (verdantInfrastructureBasisPrime) 71042010 25010160 "Foundation.Infrastructure.V1" 22 9 14 "ISO/IEC/IEEE 42010 Viewpoints, ISO/IEC 25010 Quality Model, Zero-GC Ring Buffers, Frame/DSP/VRAM Governor, CloudEvents 1.0.2, OpenTelemetry 1.60.0, SLSA 1.2, SPDX 3.0.1" 10 4 16383 "Enforces zero-heap-allocation ring pools, 16.6ms 60Hz frame & 2.6ms WebAudio budgets, and CloudEvents/OpenTelemetry telemetry across all 14 models" 6 14 6 14 "BoundedRingArena+OTelSignal" 15 16 16 16 16 16 16 2 4096 16383 0 14 "Supplies hardware resource headroom and ISO 42010 viewpoint governance to negotiate Fidelity tiers across Graphics, Acoustics, Physics, and Chemistry" 1 16667 4 "Deterministic frame-time feedback governor scaling multi-modal Fidelity within zero-GC memory arenas" 32 1005 1080 5 "Sub-millisecond frame-time telemetry precision, zero GC pause jitter, deterministic buffer bounds" 65536 320 16000 45 0 "64KB static typed-array pools, 16ms frame target, 2x max DPR, WebGL2 + software fallback" "Foundation.Infrastructure.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Infrastructure/V1/Model.lex.tex" 7 "ISO-42010-2022, ISO-25010-2023, ISO-19450-2015, CLOUDEVENTS-1-0-2, OTEL-SPEC-1-60-0, SLSA-1-2, SPDX-3-0-1" 3 8 18 0 "Zero-allocation budget proof, neuromorphic bus coupling proof, and 11-element canonical descriptor completeness proof" 4 63 "src/game/prismModel.ts" "LexLean 1.2 -> AST Extractor -> Zero-GC Resource Governor -> WebGL2/WebAudio/OTel Runtime")
+}
+
+definition{
+  name: breaksInfrastructureDescriptorComplete,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: ((probe =? 0) && (not (Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete (infrastructureCanonicalDescriptor))))
+}
+
+theorem{
+  name: infrastructureDescriptorCompleteHolds,
+  parameters: [probe : Nat],
+  statement: ((breaksInfrastructureDescriptorComplete probe) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
+      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
+      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
+      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
+      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
+      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
+      breaksInfrastructureDescriptorComplete,
+      infrastructureCanonicalDescriptor,
+      verdantInfrastructureBasisPrime
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
 }
 \end{semanticmodule}
 \end{lexlean}

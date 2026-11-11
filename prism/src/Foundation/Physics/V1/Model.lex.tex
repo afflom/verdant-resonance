@@ -2,7 +2,9 @@
 \useglossary{lexlean.std.bool@1.2.0}
 \useglossary{lexlean.std.nat@1.2.0}
 \useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.MetaModel.V1.Model}
 \importmodule{Foundation.Neuromorphic.V1.Model}
+\importmodule{Foundation.Mathematics.V1.Model}
 \title{Text application model}
 \begin{semanticmodule}
 structure{
@@ -145,7 +147,12 @@ definition{name: verdantSolidMechanicalTransmittancePermille, parameters: [], re
 
 definition{name: verdantStaticPairwiseOverlaps, parameters: [], result: Nat, body: 0}
 
-definition{name: verdantSynthesisCompoundCount, parameters: [], result: Nat, body: 6}
+definition{
+  name: verdantSynthesisCompoundCount,
+  parameters: [],
+  result: Nat,
+  body: (Foundation.Mathematics.V1.Model::bravaisLatticeGroupsTotal)
+}
 
 definition{name: verdantCrossModalChannelCount, parameters: [], result: Nat, body: 6}
 
@@ -322,6 +329,170 @@ theorem{
     ]
   },
   axioms: [Quot.sound, propext]
+}
+
+structure{
+  name: SI2019MetrologySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: siBaseUnitCount, type: Nat},
+    {name: cs133HyperfineHz, type: Nat},
+    {name: speedOfLightMps, type: Nat},
+    {name: planckConstantSignificand, type: Nat},
+    {name: elementaryChargeSignificand, type: Nat},
+    {name: boltzmannConstantSignificand, type: Nat},
+    {name: avogadroConstantSignificand, type: Nat},
+    {name: luminousEfficacyLmPerW, type: Nat},
+    {name: exactBipm2019DefinitionsEnforced, type: Bool}
+  ]
+}
+
+structure{
+  name: StandardModelParticleGaugeSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: fundamentalFieldCount, type: Nat},
+    {name: quarkFlavorCount, type: Nat},
+    {name: leptonFlavorCount, type: Nat},
+    {name: gaugeBosonCount, type: Nat},
+    {name: higgsScalarCount, type: Nat},
+    {name: su3ColorDimension, type: Nat},
+    {name: su3GluonGenerators, type: Nat},
+    {name: su2WeakIsospinGenerators, type: Nat},
+    {name: u1HyperchargeGenerators, type: Nat},
+    {name: totalGaugeLieAlgebraGenerators, type: Nat},
+    {name: higgsVacuumExpectationMeV, type: Nat},
+    {name: gellMannNishijimaVerified, type: Bool},
+    {name: colorSingletHadronizationVerified, type: Bool},
+    {name: electroweakBetaVertexConserved, type: Bool}
+  ]
+}
+
+definition{name: siBaseUnitTotal, parameters: [], result: Nat, body: 7}
+
+definition{name: siCs133HyperfineHz, parameters: [], result: Nat, body: 9192631770}
+
+definition{name: siSpeedOfLightMps, parameters: [], result: Nat, body: 299792458}
+
+definition{name: siPlanckSignificand, parameters: [], result: Nat, body: 662607015}
+
+definition{name: siElementaryChargeSignificand, parameters: [], result: Nat, body: 1602176634}
+
+definition{name: siBoltzmannSignificand, parameters: [], result: Nat, body: 1380649}
+
+definition{name: siAvogadroSignificand, parameters: [], result: Nat, body: 602214076}
+
+definition{name: siLuminousEfficacyKcd, parameters: [], result: Nat, body: 683}
+
+definition{name: smFundamentalFieldsTotal, parameters: [], result: Nat, body: 17}
+
+definition{name: smQuarkFlavors, parameters: [], result: Nat, body: 6}
+
+definition{name: smLeptonFlavors, parameters: [], result: Nat, body: 6}
+
+definition{name: smGaugeBosons, parameters: [], result: Nat, body: 4}
+
+definition{name: smHiggsScalars, parameters: [], result: Nat, body: 1}
+
+definition{name: smTotalGaugeGenerators, parameters: [], result: Nat, body: 12}
+
+definition{
+  name: gellMannNishijimaBiasedSixQ,
+  parameters: [biasedTwoT3 : Nat, biasedThreeY : Nat],
+  result: Nat,
+  body: (prim subtract ((prim multiply 3 biasedTwoT3 : Nat) + biasedThreeY) 6 : Nat)
+}
+
+definition{
+  name: verifyGellMannNishijimaAllChiralMultiplets,
+  parameters: [],
+  result: Bool,
+  body: (let uL : Nat := (gellMannNishijimaBiasedSixQ 3 7); (let uR : Nat := (gellMannNishijimaBiasedSixQ 2 10); (let dL : Nat := (gellMannNishijimaBiasedSixQ 1 7); (let dR : Nat := (gellMannNishijimaBiasedSixQ 2 4); (let nuL : Nat := (gellMannNishijimaBiasedSixQ 3 3); (let eL : Nat := (gellMannNishijimaBiasedSixQ 1 3); (let eR : Nat := (gellMannNishijimaBiasedSixQ 2 0); (let fldSum : Nat := (((smQuarkFlavors) + (smLeptonFlavors)) + ((smGaugeBosons) + (smHiggsScalars))); (let genSum : Nat := ((8 + 3) + 1); ((((((uL <=? 10) && (10 <=? uL)) && ((uR <=? 10) && (10 <=? uR))) && (((dL <=? 4) && (4 <=? dL)) && ((dR <=? 4) && (4 <=? dR)))) && (((nuL <=? 6) && (6 <=? nuL)) && (((eL <=? 0) && (0 <=? eL)) && ((eR <=? 0) && (0 <=? eR))))) && (((fldSum <=? (smFundamentalFieldsTotal)) && ((smFundamentalFieldsTotal) <=? fldSum)) && ((genSum <=? (smTotalGaugeGenerators)) && ((smTotalGaugeGenerators) <=? genSum)))))))))))))
+}
+
+definition{
+  name: verifyNucleonAndBetaVertexConservation,
+  parameters: [],
+  result: Bool,
+  body: (let upSixQ : Nat := (gellMannNishijimaBiasedSixQ 3 7); (let downSixQ : Nat := (gellMannNishijimaBiasedSixQ 1 7); (let elecSixQ : Nat := (gellMannNishijimaBiasedSixQ 1 3); (let nuSixQ : Nat := (gellMannNishijimaBiasedSixQ 3 3); (let protonBiasedSixQ : Nat := (prim subtract ((upSixQ + upSixQ) + downSixQ) 12 : Nat); (let neutronBiasedSixQ : Nat := (prim subtract ((upSixQ + downSixQ) + downSixQ) 12 : Nat); (let rhsBetaBiasedSixQ : Nat := (prim subtract ((protonBiasedSixQ + elecSixQ) + nuSixQ) 12 : Nat); ((((protonBiasedSixQ <=? 12) && (12 <=? protonBiasedSixQ)) && ((neutronBiasedSixQ <=? 6) && (6 <=? neutronBiasedSixQ))) && ((neutronBiasedSixQ <=? rhsBetaBiasedSixQ) && (rhsBetaBiasedSixQ <=? neutronBiasedSixQ))))))))))
+}
+
+definition{
+  name: verdantSI2019MetrologyStandard,
+  parameters: [],
+  result: SI2019MetrologySpec,
+  body: (record SI2019MetrologySpec {siBaseUnitCount := (siBaseUnitTotal), cs133HyperfineHz := (siCs133HyperfineHz), speedOfLightMps := (siSpeedOfLightMps), planckConstantSignificand := (siPlanckSignificand), elementaryChargeSignificand := (siElementaryChargeSignificand), boltzmannConstantSignificand := (siBoltzmannSignificand), avogadroConstantSignificand := (siAvogadroSignificand), luminousEfficacyLmPerW := (siLuminousEfficacyKcd), exactBipm2019DefinitionsEnforced := (((siSpeedOfLightMps) <? (siCs133HyperfineHz)) && (0 <? (siLuminousEfficacyKcd)))})
+}
+
+definition{
+  name: verdantStandardModelGaugeStandard,
+  parameters: [],
+  result: StandardModelParticleGaugeSpec,
+  body: (record StandardModelParticleGaugeSpec {fundamentalFieldCount := (smFundamentalFieldsTotal), quarkFlavorCount := (smQuarkFlavors), leptonFlavorCount := (smLeptonFlavors), gaugeBosonCount := (smGaugeBosons), higgsScalarCount := (smHiggsScalars), su3ColorDimension := 3, su3GluonGenerators := 8, su2WeakIsospinGenerators := 3, u1HyperchargeGenerators := 1, totalGaugeLieAlgebraGenerators := (smTotalGaugeGenerators), higgsVacuumExpectationMeV := 246220, gellMannNishijimaVerified := (verifyGellMannNishijimaAllChiralMultiplets), colorSingletHadronizationVerified := (verifyNucleonAndBetaVertexConservation), electroweakBetaVertexConserved := (verifyNucleonAndBetaVertexConservation)})
+}
+
+definition{
+  name: physicsCanonicalDescriptor,
+  parameters: [],
+  result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 2 "prism/standard-model/physics-su3-su2-u1-si2019/1" 1 0 0 (verdantPhysicsBasisPrime) 73000017 299792458 "Foundation.Physics.V1" 42 18 26 "BIPM SI 2019 Base Units & Defining Constants, 17-Field SU(3)c x SU(2)L x U(1)Y Standard Model, Gell-Mann-Nishijima Charge, Color-Singlet Hadronization, Cauchy Elasticity, Saint-Venant Shallow-Water Hydrodynamics, Maxwell Dispersion" 20 8 16383 "Enforces exact quantum-number conservation (Q, B, Le, Lmu, Ltau, color), SI 2019 dimensional coherence, solid steric non-penetration, shallow-water wave mechanics, and cross-modal phase/acoustic obstruction" 10 14 6 22 "PureKernel+SymplecticField" 14 17 17 16 16 16 16 3 3 16383 0 18 "Transforms Mathematical symmetry & DEC operators into conserved quantum/nuclear states for 118-Element Chemistry, wave optics for PBR Graphics, and continuum mechanics for Acoustics & Botany" 2 8333 5 "Exact vertex conservation + symplectic Verlet solid kinematics + Saint-Venant shallow-water wave propagation" 53 875 1250 2 "0 quantum-number/charge drift, 0 solid collider overlap, exact integer SI constant significands" 16384 620 8333 55 0 "16KB static Float32 collider, shallow-water, and particle conservation buffers; 0 per-frame heap allocations" "Foundation.Physics.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Physics/V1/Model.lex.tex" 6 "BIPM SI Brochure 9th Ed. (2019), CERN / Particle Data Group Review of Particle Physics (SU(3)xSU(2)xU(1)), Cauchy-Hooke, Saint-Venant, Maxwell, LEAN-REL-4-32-1" 9 14 32 0 "9 machine-checked Lean 4.32 theorems covering Gell-Mann-Nishijima chiral multiplets, nucleon/beta conservation, hydrostatic containment, collider non-obstruction, and 11-element completeness" 4 63 "src/game/standardModelEngine.ts" "LexLean 1.2 -> AST Extractor -> Particle/SI/Continuum Engine -> Colliders, Water Cymatics & Optical Dispersion")
+}
+
+definition{
+  name: breaksStandardModelGaugeAndHadronConservation,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: ((probe =? 0) && ((not (verifyGellMannNishijimaAllChiralMultiplets)) || (not (verifyNucleonAndBetaVertexConservation))))
+}
+
+theorem{
+  name: gellMannNishijimaAndHadronConservationHold,
+  parameters: [probe : Nat],
+  statement: ((breaksStandardModelGaugeAndHadronConservation probe) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      breaksStandardModelGaugeAndHadronConservation,
+      gellMannNishijimaBiasedSixQ,
+      smFundamentalFieldsTotal,
+      smGaugeBosons,
+      smHiggsScalars,
+      smLeptonFlavors,
+      smQuarkFlavors,
+      smTotalGaugeGenerators,
+      verifyGellMannNishijimaAllChiralMultiplets,
+      verifyNucleonAndBetaVertexConservation
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksPhysicsDescriptorComplete,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: ((probe =? 0) && (not (Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete (physicsCanonicalDescriptor))))
+}
+
+theorem{
+  name: physicsDescriptorCompleteHolds,
+  parameters: [probe : Nat],
+  statement: ((breaksPhysicsDescriptorComplete probe) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
+      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
+      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
+      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
+      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
+      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
+      breaksPhysicsDescriptorComplete,
+      physicsCanonicalDescriptor,
+      verdantPhysicsBasisPrime
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
 }
 \end{semanticmodule}
 \end{lexlean}

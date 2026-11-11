@@ -41,6 +41,10 @@ import {
   synthesizeParametricBiomeConfigs,
   synthesizeParametricBiomeMonuments,
   synthesizeParametricSoundOutcomeProfiles,
+  IUPAC_118_ELEMENTS,
+  STANDARD_MODEL_17_FUNDAMENTAL_FIELDS,
+  wavelengthNmToDisplayColor,
+  type CanonicalStandardModelKey,
 } from '../game/prismModel';
 import { BotanicalSoundscapeEngine } from '../game/soundscapeEngine';
 import { LiveTelemetryState } from './GardenCanvas';
@@ -80,8 +84,11 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
   onExtrapolateHighestResolution,
 }) => {
   const [activeTab, setActiveTab] = useState<
-    'herbarium' | 'biomes' | 'harmonies' | 'soundboard' | 'observer' | 'ethos'
+    'herbarium' | 'biomes' | 'harmonies' | 'soundboard' | 'observer' | 'standard-models' | 'ethos'
   >('herbarium');
+  const [selectedStandardModelId, setSelectedStandardModelId] =
+    useState<CanonicalStandardModelKey>('mathematics');
+  const [selectedAtomicNumber, setSelectedAtomicNumber] = useState<number>(14); // Silicon (SiO2 quartz)
 
   // Harmonic Soundboard interactive 7-dimension state
   const [sbBiome, setSbBiome] = useState<BiomeId>(telemetry.biome);
@@ -324,6 +331,18 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                 className="w-3.5 h-3.5 shrink-0"
               />
               <span>Observer &amp; Why (11)</span>
+            </button>
+            <button
+              type="button"
+              data-testid="tab-standard-models"
+              onClick={() => setActiveTab('standard-models')}
+              className={`px-2 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                activeTab === 'standard-models'
+                  ? 'bg-emerald-500/25 text-amber-100 border border-emerald-400/30'
+                  : 'text-emerald-300/70 hover:text-emerald-100'
+              }`}
+            >
+              Standard Models (14×11)
             </button>
             <button
               type="button"
@@ -1709,6 +1728,310 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
               })()}
             </div>
           )}
+
+          {activeTab === 'standard-models' && (() => {
+            const smCtx = telemetry.neuromorphic.observer.canonicalStandardModelsContext;
+            const audit = smCtx.zeroCherryPickingAudit;
+            const fidelity = smCtx.multiModalFidelity;
+            const activeModel =
+              smCtx.modelsByKey[selectedStandardModelId] ?? smCtx.models[0];
+            const desc = activeModel.descriptor;
+            const selectedElement =
+              IUPAC_118_ELEMENTS[Math.max(0, Math.min(117, selectedAtomicNumber - 1))] ??
+              IUPAC_118_ELEMENTS[13];
+            const isMadelungAnomaly = [
+              24, 29, 41, 42, 44, 45, 46, 47, 57, 58, 64, 78, 79, 89, 90, 91, 92, 93, 96, 103,
+            ].includes(selectedElement.atomicNumber);
+            const elementSpectralSwatch = wavelengthNmToDisplayColor(
+              selectedElement.characteristicSpectralLineNm,
+            );
+
+            return (
+              <div className="space-y-3" data-testid="standard-models-inspector-panel">
+                {/* 1. Zero-Cherry-Picking Canonical Audit Banner */}
+                <div className="rounded-xl border border-amber-300/35 bg-[#0a1c15] p-3 space-y-2">
+                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                    <div>
+                      <div className="text-[10px] font-mono text-amber-300 uppercase tracking-wider">
+                        CANONICAL STANDARD MODELS ALL THE WAY DOWN · ZERO CHERRY-PICKING AUDIT ({smCtx.profile})
+                      </div>
+                      <p className="text-xs text-emerald-100/90 mt-0.5">
+                        Every model across Mathematics, Physics, Chemistry, Botany, Ecology, Acoustics, Articulation, Soundtrack, Graphics, Brand, Humane, Infrastructure, Neuromorphic, and Holistic Observer enforces all 11 formal Meta-Model elements and transfers features across the 14×14 Neuromorphic Functor Bus.
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="px-2.5 py-1 rounded-md bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 font-mono text-[11px] font-semibold">
+                        {audit.verified ? 'VERIFIED' : 'PENDING'} · {audit.totalVerifiedContextCells}/154 CELLS
+                      </span>
+                      {onRefineCosmos && (
+                        <button
+                          type="button"
+                          onClick={() => onRefineCosmos(1)}
+                          className="px-2.5 py-1 rounded-md bg-amber-400 hover:bg-amber-300 text-slate-950 font-semibold text-[11px] transition-colors cursor-pointer"
+                        >
+                          Step Functor Bus (+1 Cycle)
+                        </button>
+                      )}
+                      {onExtrapolateHighestResolution && (
+                        <button
+                          type="button"
+                          onClick={onExtrapolateHighestResolution}
+                          className="px-2.5 py-1 rounded-md bg-teal-300 hover:bg-teal-200 text-slate-950 font-semibold text-[11px] transition-colors cursor-pointer"
+                        >
+                          Apex Fidelity (w=16)
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-1.5 text-[10px] font-mono tabular-nums">
+                    <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
+                      <div className="text-emerald-300/70">MODELS × ELEMENTS</div>
+                      <div className="text-amber-200 font-semibold">{audit.totalStandardModels} × {audit.elementsPerModel} = {audit.totalVerifiedContextCells}</div>
+                    </div>
+                    <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
+                      <div className="text-emerald-300/70">FUNCTOR MATRIX</div>
+                      <div className="text-amber-200 font-semibold">14×14 ({audit.directedFunctorCells} Paths)</div>
+                    </div>
+                    <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
+                      <div className="text-emerald-300/70">BIPM SI 2019</div>
+                      <div className="text-emerald-200 font-semibold">{audit.siBaseUnitsCount}/7 Base Units</div>
+                    </div>
+                    <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
+                      <div className="text-emerald-300/70">SU(3)×SU(2)×U(1)</div>
+                      <div className="text-teal-200 font-semibold">{audit.standardModelFundamentalFieldsCount}/17 Fields (Q=T₃+Y/2)</div>
+                    </div>
+                    <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
+                      <div className="text-emerald-300/70">IUPAC TABLE</div>
+                      <div className="text-amber-200 font-semibold">{audit.iupacPeriodicElementsCount}/118 Elements</div>
+                    </div>
+                    <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
+                      <div className="text-emerald-300/70">CRYSTALLOGRAPHY</div>
+                      <div className="text-emerald-200 font-semibold">{audit.bravaisLatticesCount} Bravais · {audit.crystallographicPointGroupsCount} PtGrp</div>
+                    </div>
+                    <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
+                      <div className="text-emerald-300/70">ISO 226 / ZWICKER</div>
+                      <div className="text-teal-200 font-semibold">{audit.zwickerBarkBandsCount} Bark · {fidelity.barkMaskingHeadroomDb}dB</div>
+                    </div>
+                    <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
+                      <div className="text-emerald-300/70">CIE 1931 / OKLCH</div>
+                      <div className="text-amber-200 font-semibold">{fidelity.spectralBandCount} Bands · AAA {fidelity.w3cPrimaryWcagContrast}:1</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. 14 Canonical Standard Model Selector Pills */}
+                <div className="rounded-xl border border-emerald-400/20 bg-[#0b1b15] p-3 space-y-2.5">
+                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                    <div className="text-[10px] font-mono text-emerald-300 uppercase tracking-wider">
+                      SELECT CANONICAL MODEL TO INSPECT COMPLETE 11-ELEMENT FORMAL CONTRACT (PRIMES 71..137)
+                    </div>
+                    <div className="text-[10px] font-mono text-amber-200 tabular-nums">
+                      Active: #{activeModel.modelIndex} {activeModel.sourceModule} · p={activeModel.basisPrime} · w={activeModel.synapticWeight}/16 · SHA-256 {activeModel.sourceSha256.slice(0, 12)}…
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-1.5">
+                    {smCtx.models.map((m) => {
+                      const isSel = m.modelKey === activeModel.modelKey;
+                      return (
+                        <button
+                          key={m.modelKey}
+                          type="button"
+                          onClick={() => setSelectedStandardModelId(m.modelKey)}
+                          className={`text-left rounded-lg border px-2 py-1.5 transition-colors cursor-pointer ${
+                            isSel
+                              ? 'bg-emerald-500/25 border-amber-300/60 text-amber-100'
+                              : 'bg-[#07130e] border-emerald-400/15 text-emerald-200/80 hover:border-emerald-400/40'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between text-[10px] font-mono">
+                            <span className="text-amber-300">p={m.basisPrime}</span>
+                            <span>w={m.synapticWeight}</span>
+                          </div>
+                          <div className="text-[11px] font-semibold truncate mt-0.5">
+                            {m.modelIndex}. {m.modelKey}
+                          </div>
+                          <div className="text-[9px] font-mono text-teal-300/80 tabular-nums">
+                            Res: {m.liveResolutionUnits} ({m.resolutionRealizationPct}%)
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* 11-Element Canonical Contract Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 pt-1 text-[11px]">
+                    <div className="rounded-lg border border-emerald-400/20 bg-[#07140f] p-2.5 space-y-0.5">
+                      <div className="flex justify-between font-mono text-[10px] text-amber-300">
+                        <span>1. IDENTITY</span>
+                        <span>v{desc.identity.semverMajor}.{desc.identity.semverMinor}.{desc.identity.semverPatch} · p={desc.identity.uorPrimeSignature}</span>
+                      </div>
+                      <div className="font-mono text-emerald-100 truncate">{desc.identity.canonicalModelId}</div>
+                      <div className="font-mono text-[10px] text-emerald-300/75 truncate">SHA-256: {activeModel.sourceSha256.slice(0, 24)}…</div>
+                    </div>
+
+                    <div className="rounded-lg border border-emerald-400/20 bg-[#07140f] p-2.5 space-y-0.5">
+                      <div className="flex justify-between font-mono text-[10px] text-amber-300">
+                        <span>2. VOCABULARY</span>
+                        <span>{desc.vocabulary.canonicalConceptCount} Concepts · {desc.vocabulary.crossDomainSynonymCount} Bridges</span>
+                      </div>
+                      <div className="text-emerald-100/90 line-clamp-2">{desc.vocabulary.keyConceptsSummary}</div>
+                    </div>
+
+                    <div className="rounded-lg border border-emerald-400/20 bg-[#07140f] p-2.5 space-y-0.5">
+                      <div className="flex justify-between font-mono text-[10px] text-amber-300">
+                        <span>3. CAPABILITY</span>
+                        <span>{desc.capability.capabilityFunctionCount} Fns · {desc.capability.conservationLawCount} Laws</span>
+                      </div>
+                      <div className="text-emerald-100/90 line-clamp-2">{desc.capability.promisedBehaviorSummary}</div>
+                    </div>
+
+                    <div className="rounded-lg border border-emerald-400/20 bg-[#07140f] p-2.5 space-y-0.5">
+                      <div className="flex justify-between font-mono text-[10px] text-amber-300">
+                        <span>4. INTERFACE (SI 2019)</span>
+                        <span>{desc.interfaceSpec.typedInputPortCount} In → {desc.interfaceSpec.typedOutputPortCount} Out</span>
+                      </div>
+                      <div className="font-mono text-teal-200">
+                        SI Port: [{activeModel.siFormula}] · {desc.interfaceSpec.effectKind}
+                      </div>
+                      <div className="text-[10px] text-emerald-300/75">
+                        {desc.interfaceSpec.stateFieldCount} state fields · {desc.interfaceSpec.cloudEventTypeCount} CloudEvents
+                      </div>
+                    </div>
+
+                    <div className="rounded-lg border border-emerald-400/20 bg-[#07140f] p-2.5 space-y-0.5">
+                      <div className="flex justify-between font-mono text-[10px] text-amber-300">
+                        <span>5. COMPOSITION</span>
+                        <span>DAG Rank {desc.composition.dagLayerRank} · Conflicts: {desc.composition.conflictModelMask}</span>
+                      </div>
+                      <div className="text-emerald-100/90 line-clamp-2">{desc.composition.compositionSummary}</div>
+                    </div>
+
+                    <div className="rounded-lg border border-emerald-400/20 bg-[#07140f] p-2.5 space-y-0.5">
+                      <div className="flex justify-between font-mono text-[10px] text-amber-300">
+                        <span>6. DYNAMICS</span>
+                        <span>Order {desc.dynamics.integratorOrder} · Δt={desc.dynamics.characteristicStepMicros}µs</span>
+                      </div>
+                      <div className="text-emerald-100/90 line-clamp-2">{desc.dynamics.temporalLawSummary}</div>
+                    </div>
+
+                    <div className="rounded-lg border border-emerald-400/20 bg-[#07140f] p-2.5 space-y-0.5">
+                      <div className="flex justify-between font-mono text-[10px] text-amber-300">
+                        <span>7. FIDELITY (LIVE RESOLUTION)</span>
+                        <span>{activeModel.liveResolutionUnits} / {desc.fidelity.apexResolutionUnits}</span>
+                      </div>
+                      <div className="text-emerald-100/90 line-clamp-2">{desc.fidelity.fidelityCriteriaSummary}</div>
+                    </div>
+
+                    <div className="rounded-lg border border-emerald-400/20 bg-[#07140f] p-2.5 space-y-0.5">
+                      <div className="flex justify-between font-mono text-[10px] text-amber-300">
+                        <span>8. RESOURCES</span>
+                        <span>{desc.resources.staticArenaBytes}B · {desc.resources.perTickHeapAllocations} GC/tick</span>
+                      </div>
+                      <div className="text-emerald-100/90 line-clamp-2">{desc.resources.deviceConstraintSummary}</div>
+                    </div>
+
+                    <div className="rounded-lg border border-emerald-400/20 bg-[#07140f] p-2.5 space-y-0.5">
+                      <div className="flex justify-between font-mono text-[10px] text-amber-300">
+                        <span>9. AUTHORITY</span>
+                        <span>{desc.authority.pinnedLockReferenceCount} Pinned Refs</span>
+                      </div>
+                      <div className="text-emerald-100/90 line-clamp-2">{desc.authority.adoptedStandardsSummary}</div>
+                    </div>
+
+                    <div className="rounded-lg border border-emerald-400/20 bg-[#07140f] p-2.5 space-y-0.5">
+                      <div className="flex justify-between font-mono text-[10px] text-amber-300">
+                        <span>10. EVIDENCE</span>
+                        <span>{desc.evidence.leanTheoremCount} Lean Thms · {desc.evidence.runtimePropertyOracleCount} Oracles</span>
+                      </div>
+                      <div className="text-emerald-100/90 line-clamp-2">{desc.evidence.acceptanceOracleSummary}</div>
+                    </div>
+
+                    <div className="rounded-lg border border-emerald-400/20 bg-[#07140f] p-2.5 space-y-0.5 md:col-span-2">
+                      <div className="flex justify-between font-mono text-[10px] text-amber-300">
+                        <span>11. PROJECTION (ZERO-DRIFT PIPELINE)</span>
+                        <span>{desc.projection.runtimeModulePath}</span>
+                      </div>
+                      <div className="text-emerald-100/90">{desc.projection.renderAndPublishSummary}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Multi-Modal Fidelity Resolution & Top Cross-Model Functorial Feature Transfers */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                  <div className="rounded-xl border border-emerald-400/20 bg-[#0b1b15] p-3 space-y-2">
+                    <div className="text-[10px] font-mono text-emerald-300 uppercase tracking-wider">
+                      14×14 NEUROMORPHIC FUNCTORIAL FEATURE-TRANSFER BUS (LIVE TOP PATHWAYS)
+                    </div>
+                    <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                      {smCtx.topFunctorPathways.slice(0, 6).map((pw) => (
+                        <div
+                          key={`${pw.sourceModel}->${pw.targetModel}`}
+                          className="rounded border border-emerald-400/15 bg-[#07130e] px-2.5 py-1.5 text-[10px]"
+                        >
+                          <div className="flex items-center justify-between font-mono text-amber-200">
+                            <span>{pw.sourceModel.toUpperCase()} ⟶ {pw.targetModel.toUpperCase()}</span>
+                            <span>Gain ×{pw.functorGain.toFixed(3)}</span>
+                          </div>
+                          <div className="text-emerald-100/85 mt-0.5">{pw.transferredFeatureSummary}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 4. 17-Field Standard Model & 118-Element IUPAC Periodic Table Explorer */}
+                  <div className="rounded-xl border border-emerald-400/20 bg-[#0b1b15] p-3 space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="text-[10px] font-mono text-emerald-300 uppercase tracking-wider">
+                        118-ELEMENT IUPAC PERIODIC TABLE &amp; 17-FIELD SM GAUGE EXPLORER
+                      </div>
+                      <span className="text-[10px] font-mono text-teal-200">
+                        SM Fields: {STANDARD_MODEL_17_FUNDAMENTAL_FIELDS.length}/17 · Anomaly ΣY³ = 0
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <label htmlFor="iupac-z-slider" className="text-[10px] font-mono text-emerald-200 shrink-0">
+                        Atomic Z (1..118):
+                      </label>
+                      <input
+                        id="iupac-z-slider"
+                        type="range"
+                        min={1}
+                        max={118}
+                        value={selectedElement.atomicNumber}
+                        onChange={(e) => setSelectedAtomicNumber(Number(e.target.value))}
+                        className="w-full accent-amber-300 cursor-pointer"
+                      />
+                      <span className="text-xs font-mono font-semibold text-amber-200 w-16 text-right tabular-nums">
+                        Z={selectedElement.atomicNumber} {selectedElement.symbol}
+                      </span>
+                    </div>
+
+                    <div className="rounded-lg border border-emerald-400/20 bg-[#07140f] p-2.5 flex items-center justify-between gap-3 text-[11px]">
+                      <div className="space-y-0.5 min-w-0">
+                        <div className="font-semibold text-amber-100">
+                          {selectedElement.atomicNumber}. {selectedElement.name} ({selectedElement.symbol}) · {selectedElement.block.toUpperCase()}-block · Period {selectedElement.period}, Group {selectedElement.group ?? 'f'}
+                        </div>
+                        <div className="font-mono text-[10px] text-teal-200 truncate">
+                          Shells: {selectedElement.electronConfiguration} {isMadelungAnomaly ? '· [Madelung d/f Exchange Override]' : ''}
+                        </div>
+                        <div className="font-mono text-[10px] text-emerald-300/80 tabular-nums">
+                          Mass: {selectedElement.standardAtomicWeight} Da · IE₁: {selectedElement.firstIonizationEv} eV · Spectral Line: {selectedElement.characteristicSpectralLineNm} nm
+                        </div>
+                      </div>
+                      <div
+                        className="w-10 h-10 rounded-lg border border-white/25 shrink-0 shadow-inner"
+                        style={{ backgroundColor: elementSpectralSwatch.hex }}
+                        title={`CIE 1931 Spectral Line ${selectedElement.characteristicSpectralLineNm}nm (${elementSpectralSwatch.hex})`}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
     </div>

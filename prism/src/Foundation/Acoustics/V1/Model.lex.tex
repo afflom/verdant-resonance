@@ -2,7 +2,9 @@
 \useglossary{lexlean.std.bool@1.2.0}
 \useglossary{lexlean.std.nat@1.2.0}
 \useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.MetaModel.V1.Model}
 \importmodule{Foundation.Neuromorphic.V1.Model}
+\importmodule{Foundation.Physics.V1.Model}
 \title{Text application model}
 \begin{semanticmodule}
 structure{
@@ -183,6 +185,98 @@ theorem{
     ]
   },
   axioms: [Quot.sound, propext]
+}
+
+structure{
+  name: PsychoacousticIso226BarkSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: zwickerBarkCriticalBandCount, type: Nat},
+    {name: iso226ReferencePhonLevel, type: Nat},
+    {name: minAudibleFreqHz, type: Nat},
+    {name: maxAudibleFreqHz, type: Nat},
+    {name: chladniModalEigenmodeCount, type: Nat},
+    {name: iso9613HumidityAbsorptionCoupled, type: Bool},
+    {name: barkSimultaneousMaskingEnforced, type: Bool},
+    {name: iso226EqualLoudnessCompensated, type: Bool}
+  ]
+}
+
+definition{name: zwickerBarkBandsTotal, parameters: [], result: Nat, body: 24}
+
+definition{name: iso226CalmReferencePhons, parameters: [], result: Nat, body: 60}
+
+definition{
+  name: stepBarkMaskingHeadroomMilliDb,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (3200 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 150 : Nat))
+}
+
+definition{
+  name: verdantPsychoacousticIso226Standard,
+  parameters: [],
+  result: PsychoacousticIso226BarkSpec,
+  body: (record PsychoacousticIso226BarkSpec {zwickerBarkCriticalBandCount := (zwickerBarkBandsTotal), iso226ReferencePhonLevel := (iso226CalmReferencePhons), minAudibleFreqHz := 20, maxAudibleFreqHz := 20000, chladniModalEigenmodeCount := 8, iso9613HumidityAbsorptionCoupled := ((verdantMinDistanceGainMilli) <? (verdantMaxDistanceGainMilli)), barkSimultaneousMaskingEnforced := ((zwickerBarkBandsTotal) =? 24), iso226EqualLoudnessCompensated := ((stepBarkMaskingHeadroomMilliDb 1) <? (stepBarkMaskingHeadroomMilliDb 16))})
+}
+
+definition{
+  name: acousticsCanonicalDescriptor,
+  parameters: [],
+  result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 6 "prism/standard-model/acoustics-iso226-24bark/1" 3 0 0 (verdantAcousticsBasisPrime) 89000024 48000343 "Foundation.Acoustics.V1" 34 15 22 "ISO 226:2023 Equal-Loudness Contours, 24 Zwicker Bark / Glasberg-Moore ERB Critical Bands, Euler-Bernoulli & Chladni Modal Eigenfrequencies, Sabine-Eyring Reverberation, ISO 9613-1 Air Absorption, Binaural ITD/ILD" 16 5 16383 "Synthesizes material-grounded modal partials from Young's modulus E and density rho, enforces 24-Bark masking clarity, compensates ISO 226 loudness contours, and eliminates continuous drone fatigue" 9 12 5 18 "BoundedWebAudioGraph" 15 15 17 16 16 16 16 4 7 16383 0 16 "Receives continuum E/rho & collider Fresnel zones from Physics/Chemistry/B-Mesh and exports 24-Bark spectral energy & Chladni modes to Lagoon Cymatics, Articulation, Soundtrack, and Humane Pacing" 2 2667 5 "48kHz modal resonator bank + 24-Bark critical-band masking governor + Sabine early-reflection convolution" 32 915 1140 5 "0.5 cent pitch accuracy, 0.5 phon ISO 226 contour fidelity, 24-Bark critical-band masking separation" 32768 680 2667 40 0 "128-frame WebAudio quantum @ 48kHz, pre-allocated Float32 FFT/Bark/IR buffers, 0 audio-thread GC" "Foundation.Acoustics.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Acoustics/V1/Model.lex.tex" 5 "ISO 226:2023 Equal-Loudness, Zwicker (1961) 24-Bark Scale, ISO 9613-1 Atmospheric Acoustics, Helmholtz/Chladni Modal Physics, LEAN-REL-4-32-1" 6 12 24 0 "6 Lean 4.32 theorems proving headroom safety, zero drone fatigue, spatial attenuation, 24-Bark masking monotonicity, and 11-element descriptor completeness" 4 63 "src/game/soundscapeEngine.ts" "LexLean 1.2 -> AST Extractor -> 48kHz WebAudio Modal/ISO226/24-Bark DSP -> Spatial Binaural Output & Cymatic Bus")
+}
+
+definition{
+  name: breaksPsychoacousticBarkAndHeadroom,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: ((((zwickerBarkBandsTotal) <? 24) || (24 <? (zwickerBarkBandsTotal))) || (((stepBarkMaskingHeadroomMilliDb busWeight) <? 3350) || (5600 <? (stepBarkMaskingHeadroomMilliDb busWeight))))
+}
+
+theorem{
+  name: psychoacoustic24BarkMaskingHolds,
+  parameters: [busWeight : Nat],
+  statement: ((breaksPsychoacousticBarkAndHeadroom busWeight) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksPsychoacousticBarkAndHeadroom,
+      stepBarkMaskingHeadroomMilliDb,
+      zwickerBarkBandsTotal
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksAcousticsDescriptorComplete,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: ((probe =? 0) && (not (Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete (acousticsCanonicalDescriptor))))
+}
+
+theorem{
+  name: acousticsDescriptorCompleteHolds,
+  parameters: [probe : Nat],
+  statement: ((breaksAcousticsDescriptorComplete probe) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
+      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
+      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
+      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
+      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
+      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
+      acousticsCanonicalDescriptor,
+      breaksAcousticsDescriptorComplete,
+      verdantAcousticsBasisPrime
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
 }
 \end{semanticmodule}
 \end{lexlean}

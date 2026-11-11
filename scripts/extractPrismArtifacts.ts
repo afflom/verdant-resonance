@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -5,7 +6,7 @@ import path from 'node:path';
  * Deterministic Prism `.lex.tex` AST Extractor & TypeScript Artifact Compiler
  * (`scripts/extractPrismArtifacts.ts`).
  *
- * Parses all 15 `.lex.tex` source modules under `prism/src/` and `prism/spec.json`,
+ * Parses all 19 `.lex.tex` source modules under `prism/src/` and `prism/spec.json`,
  * verifies that zero unproved `:= true` flags exist in any Foundation module,
  * evaluates pure definitions and record constructors directly from the `.lex.tex` AST
  * (including executable bus verification predicates such as `verifySingleCallPropagatesAllTenDomains`,
@@ -791,6 +792,71 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
       'Foundation.Cosmogenesis.V1.Model',
       modules,
     ),
+    mathematics: evaluateLexExpr(
+      'verdantMathematicsStandard',
+      'Foundation.Mathematics.V1.Model',
+      modules,
+    ),
+    chemistry: evaluateLexExpr(
+      'verdantChemistryStandard',
+      'Foundation.Chemistry.V1.Model',
+      modules,
+    ),
+    graphics: evaluateLexExpr(
+      'verdantGraphicsStandard',
+      'Foundation.Graphics.V1.Model',
+      modules,
+    ),
+    holisticObserverRegistry: evaluateLexExpr(
+      'verdantHolisticObserverRegistry',
+      'Foundation.Cosmogenesis.V1.Model',
+      modules,
+    ),
+    si2019Metrology: evaluateLexExpr(
+      'verdantSI2019MetrologyStandard',
+      'Foundation.Physics.V1.Model',
+      modules,
+    ),
+    standardModelGauge: evaluateLexExpr(
+      'verdantStandardModelGaugeStandard',
+      'Foundation.Physics.V1.Model',
+      modules,
+    ),
+    functorTransferMatrix: evaluateLexExpr(
+      'verdantFunctorTransferMatrixStandard',
+      'Foundation.Neuromorphic.V1.Model',
+      modules,
+    ),
+    psychoacousticIso226: evaluateLexExpr(
+      'verdantPsychoacousticIso226Standard',
+      'Foundation.Acoustics.V1.Model',
+      modules,
+    ),
+    fvcbBiochemistry: evaluateLexExpr(
+      'verdantFvcbBiochemistryStandard',
+      'Foundation.Botany.V1.Model',
+      modules,
+    ),
+    primeLimitTonnetz: evaluateLexExpr(
+      'verdantPrimeLimitTonnetzStandard',
+      'Foundation.Soundtrack.V1.Model',
+      modules,
+    ),
+    w3cDesignTokens: evaluateLexExpr(
+      'verdantW3CDesignTokensStandard',
+      'Foundation.Brand.V1.Model',
+      modules,
+    ),
+    iso9241Ergonomics: evaluateLexExpr(
+      'verdantIso9241ErgonomicsStandard',
+      'Foundation.Humane.V1.Model',
+      modules,
+    ),
+    isoArchitecture: evaluateLexExpr(
+      'verdantIsoArchitectureStandard',
+      'Foundation.Infrastructure.V1.Model',
+      modules,
+    ),
   };
 
   const domainBasisPrimes = {
@@ -825,6 +891,169 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
       evaluateLexExpr('neuromorphicBasisPrime', 'Foundation.Neuromorphic.V1.Model', modules),
     ),
   };
+
+  const canonicalModelBasisPrimes = {
+    ...domainBasisPrimes,
+    cosmogenesis: Number(
+      evaluateLexExpr('cosmogenesisBasisPrime', 'Foundation.Cosmogenesis.V1.Model', modules),
+    ),
+    mathematics: Number(
+      evaluateLexExpr('verdantMathematicsBasisPrime', 'Foundation.Mathematics.V1.Model', modules),
+    ),
+    chemistry: Number(
+      evaluateLexExpr('verdantChemistryBasisPrime', 'Foundation.Chemistry.V1.Model', modules),
+    ),
+    graphics: Number(
+      evaluateLexExpr('verdantGraphicsBasisPrime', 'Foundation.Graphics.V1.Model', modules),
+    ),
+  };
+
+  const expectedConsecutivePrimes = [71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137];
+  const actualSortedPrimes = Object.values(canonicalModelBasisPrimes).slice().sort((a, b) => a - b);
+  if (
+    actualSortedPrimes.length !== expectedConsecutivePrimes.length ||
+    actualSortedPrimes.some((p, idx) => p !== expectedConsecutivePrimes[idx])
+  ) {
+    throw new Error(
+      `Canonical 14-model UOR prime basis mismatch: expected consecutive primes [71..137], got [${actualSortedPrimes.join(', ')}]`,
+    );
+  }
+
+  const siZeroBias = Number(
+    evaluateLexExpr('siDimensionZeroBias', 'Foundation.MetaModel.V1.Model', modules),
+  );
+  const canonicalAllTheWayDownVerified = Boolean(
+    evaluateLexExpr('verifyCanonicalStandardModelsAllTheWayDown', 'VerdantResonance', modules),
+  );
+  if (
+    !canonicalAllTheWayDownVerified ||
+    !standards.holisticObserverRegistry.allFourteenModelsAndElevenElementsVerified ||
+    !standards.holisticObserverRegistry.zeroCherryPickedModelsVerified ||
+    !standards.holisticObserverRegistry.observerSelfKnowledgeComplete
+  ) {
+    throw new Error(
+      'Canonical 14x11 Standard Model completeness verification failed during AST extraction!',
+    );
+  }
+
+  const canonicalRegistryManifest = [
+    {
+      registryField: 'm01Mathematics',
+      modelKey: 'mathematics',
+      displayName: 'Mathematics (Peano/ZFC, UOR Primes, Clifford Cl(0,6), Riemannian DEC)',
+      sourceModule: 'Foundation.Mathematics.V1.Model',
+    },
+    {
+      registryField: 'm02Physics',
+      modelKey: 'physics',
+      displayName: 'Physics (BIPM SI 2019 + SU(3)xSU(2)xU(1) 17-Field SM + Continuum)',
+      sourceModule: 'Foundation.Physics.V1.Model',
+    },
+    {
+      registryField: 'm03Chemistry',
+      modelKey: 'chemistry',
+      displayName: 'Chemistry (118-Element IUPAC Periodic Table + 14 Bravais Lattices)',
+      sourceModule: 'Foundation.Chemistry.V1.Model',
+    },
+    {
+      registryField: 'm04Botany',
+      modelKey: 'botany',
+      displayName: 'Botany (Farquhar-von Caemmerer-Berry C3 + Lockhart Turgor + Phyllotaxis)',
+      sourceModule: 'Foundation.Botany.V1.Model',
+    },
+    {
+      registryField: 'm05Ecology',
+      modelKey: 'ecology',
+      displayName: 'Ecology (Closed-Loop C-H-O-N-P-S-Si-Ca-Mg-Fe Biogeochemical Conservation)',
+      sourceModule: 'Foundation.Ecology.V1.Model',
+    },
+    {
+      registryField: 'm06Acoustics',
+      modelKey: 'acoustics',
+      displayName: 'Acoustics (ISO 226:2023 Loudness + 24-Bark Masking + Chladni Eigenmodes)',
+      sourceModule: 'Foundation.Acoustics.V1.Model',
+    },
+    {
+      registryField: 'm07Articulation',
+      modelKey: 'articulation',
+      displayName: 'Articulation (Euler-Lagrange 3-Joint Botanical Kinematics + ADSR)',
+      sourceModule: 'Foundation.Articulation.V1.Model',
+    },
+    {
+      registryField: 'm08Soundtrack',
+      modelKey: 'soundtrack',
+      displayName: 'Soundtrack (11-Limit Just Intonation Tonnetz + Voice-Leading Parsimony)',
+      sourceModule: 'Foundation.Soundtrack.V1.Model',
+    },
+    {
+      registryField: 'm09Graphics',
+      modelKey: 'graphics',
+      displayName: 'Graphics (380-780nm CIE 1931 -> OKLCH + glTF 2.0 GGX/Airy PBR + 2-Manifold B-Mesh)',
+      sourceModule: 'Foundation.Graphics.V1.Model',
+    },
+    {
+      registryField: 'm10BrandDesign',
+      modelKey: 'brand',
+      displayName: 'Brand & Design (W3C Design Tokens + OKLCH Gamut + WCAG 2.2 AAA + APCA)',
+      sourceModule: 'Foundation.Brand.V1.Model',
+    },
+    {
+      registryField: 'm11HumaneErgonomics',
+      modelKey: 'humane',
+      displayName: 'Humane Ergonomics (ISO 9241-110/210 + Fitts/Hick-Hyman + Zero Dark Patterns)',
+      sourceModule: 'Foundation.Humane.V1.Model',
+    },
+    {
+      registryField: 'm12Infrastructure',
+      modelKey: 'infrastructure',
+      displayName: 'Infrastructure (ISO/IEC/IEEE 42010 + ISO 25010 + Zero-GC Real-Time Arenas)',
+      sourceModule: 'Foundation.Infrastructure.V1.Model',
+    },
+    {
+      registryField: 'm13NeuromorphicBus',
+      modelKey: 'neuromorphic',
+      displayName: 'Neuromorphic Bus (14x14 Functorial Feature-Transfer Matrix + STDP + Active Inference)',
+      sourceModule: 'Foundation.Neuromorphic.V1.Model',
+    },
+    {
+      registryField: 'm14ObserverCosmogenesis',
+      modelKey: 'cosmogenesis',
+      displayName: 'Holistic Observer & Cosmogenesis (Complete 14x11 Context = 154 Cells + Alpha-Omega)',
+      sourceModule: 'Foundation.Cosmogenesis.V1.Model',
+    },
+  ] as const;
+
+  const repoRootForRel = path.resolve(prismRootDir, '..', '..');
+  const canonicalStandardModels = canonicalRegistryManifest.map((entry) => {
+    const mod = modules.get(entry.sourceModule);
+    if (!mod) {
+      throw new Error(`Missing canonical source module ${entry.sourceModule}`);
+    }
+    const sha256Hex = crypto.createHash('sha256').update(mod.rawText, 'utf8').digest('hex');
+    const desc = standards.holisticObserverRegistry[entry.registryField];
+    if (!desc || !desc.completeAndEnforced) {
+      throw new Error(`Canonical descriptor ${entry.registryField} is incomplete or unenforced!`);
+    }
+    const iface = desc.interfaceSpec;
+    return {
+      modelKey: entry.modelKey,
+      registryField: entry.registryField,
+      displayName: entry.displayName,
+      sourceModule: entry.sourceModule,
+      sourceFileRelative: path.relative(repoRootForRel, mod.filePath).replace(/\\/g, '/'),
+      sourceSha256: sha256Hex,
+      unbiasedSiExponents: {
+        s: Number(iface.siBiasedTimeExp) - siZeroBias,
+        m: Number(iface.siBiasedLengthExp) - siZeroBias,
+        kg: Number(iface.siBiasedMassExp) - siZeroBias,
+        A: Number(iface.siBiasedCurrentExp) - siZeroBias,
+        K: Number(iface.siBiasedTempExp) - siZeroBias,
+        mol: Number(iface.siBiasedAmountExp) - siZeroBias,
+        cd: Number(iface.siBiasedLuminousExp) - siZeroBias,
+      },
+      descriptor: desc,
+    };
+  });
 
   const contextPrimeNames = [
     'meadowPrime',
@@ -917,6 +1146,78 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     brand: weightDomain.map((w) =>
       Number(
         evaluateLexExpr(`stepBrandBusModulation ${w}`, 'Foundation.Brand.V1.Model', modules),
+      ),
+    ),
+    mathematics: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepMathematicsBusModulation ${w}`,
+          'Foundation.Mathematics.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    chemistry: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepChemistryBusModulation ${w}`,
+          'Foundation.Chemistry.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    graphics: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepGraphicsBusModulation ${w}`,
+          'Foundation.Graphics.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    spectralBandResolution: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepSpectralBandResolution ${w}`,
+          'Foundation.Graphics.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    adaptiveTerrainSegments: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepAdaptiveTerrainSegments 1 ${w}`,
+          'Foundation.Graphics.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    barkMaskingHeadroomMilliDb: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepBarkMaskingHeadroomMilliDb ${w}`,
+          'Foundation.Acoustics.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    functorFeatureTransferGainPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepFunctorFeatureTransferGainPermille ${w} ${w}`,
+          'Foundation.Neuromorphic.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    variationalFreeEnergySurprisalPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepVariationalFreeEnergySurprisalPermille ${w}`,
+          'Foundation.Neuromorphic.V1.Model',
+          modules,
+        ),
       ),
     ),
     wisdomPhenomenon: weightDomain.map((w) =>
@@ -1853,6 +2154,8 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     foundationPurity,
     standards,
     domainBasisPrimes,
+    canonicalModelBasisPrimes,
+    canonicalStandardModels,
     contextPrimes,
     busModulationLut,
     plasticityLut,
@@ -1880,6 +2183,18 @@ export const GENERATED_PRISM_FOUNDATION_PURITY = ${JSON.stringify(
 
 export const GENERATED_PRISM_DOMAIN_BASIS_PRIMES = ${JSON.stringify(
     extracted.domainBasisPrimes,
+    null,
+    2,
+  )} as const;
+
+export const GENERATED_CANONICAL_MODEL_BASIS_PRIMES = ${JSON.stringify(
+    extracted.canonicalModelBasisPrimes,
+    null,
+    2,
+  )} as const;
+
+export const GENERATED_CANONICAL_STANDARD_MODELS = ${JSON.stringify(
+    extracted.canonicalStandardModels,
     null,
     2,
   )} as const;

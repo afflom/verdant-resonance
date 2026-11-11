@@ -1,5 +1,9 @@
 import * as THREE from 'three';
 import type { SynthesizedObserverModelSpec } from './prismModel';
+import {
+  FOURTEEN_BRAVAIS_LATTICES,
+  verifyExteriorDerivativeNilpotencyOnMesh,
+} from './standardModelEngine';
 
 /**
  * High-Definition Procedural 3D B-Mesh, Lofted Spline, Shape-Key (Morph Target)
@@ -2078,7 +2082,7 @@ export function buildImmanentObserverWitnessGroup(options?: {
     armBranch.add(armTube);
 
     const nodeCrystal = new THREE.Mesh(
-      trackGeo(new THREE.OctahedronGeometry(0.058, 0)),
+      trackGeo(createBravaisCrystalHabitGeometry({ habit: 'cP-pyrite', radius: 0.058 })),
       specularGoldMat,
     );
     nodeCrystal.position.set(0.38, 0.14, 0); // centered directly on arm end!
@@ -2095,11 +2099,16 @@ export function buildImmanentObserverWitnessGroup(options?: {
   );
   finialStem.position.set(0, 1.94, 0); // spans 1.82 .. 2.06 (embeds into y=1.84 crown hub!)
   const apicalStarFinialMesh = new THREE.Mesh(
-    trackGeo(new THREE.OctahedronGeometry(0.105, 0)),
+    trackGeo(
+      createBravaisCrystalHabitGeometry({
+        habit: 'hP-quartz',
+        radius: 0.105,
+        height: 0.284,
+      }),
+    ),
     specularGoldMat,
   );
-  apicalStarFinialMesh.position.set(0, 2.11, 0); // overlaps finialStem top at 2.06m by 5.5cm!
-  apicalStarFinialMesh.scale.set(1.0, 1.35, 1.0);
+  apicalStarFinialMesh.position.set(0, 2.11, 0); // spans 1.968 .. 2.252 (overlaps finialStem top at 2.06m by 9.2cm!)
   finialStemAndStar.add(finialStem);
   finialStemAndStar.add(apicalStarFinialMesh);
   group.add(finialStemAndStar);
@@ -2123,4 +2132,392 @@ export function buildImmanentObserverWitnessGroup(options?: {
       for (const m of materialsToDispose) m.dispose();
     },
   };
+}
+
+// ============================================================================
+// CANONICAL GRAPHICS & CRYSTALLOGRAPHIC TOPOLOGY AUDIT (`Foundation.Graphics.V1.Model`)
+// ============================================================================
+
+export interface ManifoldBMeshTopologyAudit {
+  readonly topologicalVertexCount: number;
+  readonly topologicalEdgeCount: number;
+  readonly topologicalFaceCount: number;
+  readonly eulerPoincareCharacteristic: number;
+  readonly boundaryEdgeCount: number;
+  readonly interiorManifoldEdgeCount: number;
+  readonly nonManifoldEdgeCount: number;
+  readonly degenerateFaceCount: number;
+  readonly exteriorDerivativeNilpotent: boolean;
+  readonly maxBoundaryOperatorError: number;
+  readonly isClosedWatertightManifold: boolean;
+}
+
+/**
+ * Audits any `THREE.BufferGeometry` against combinatorial 2-manifold B-Mesh topology
+ * and Discrete Exterior Calculus (`d₁ ∘ d₀ = 0`) invariants:
+ * - Welds UV-seam coincident vertices within `weldTolerance` into unique topological 0-simplices `V`
+ * - Audits undirected 1-simplices `E` for boundary (valence 1), manifold interior (valence 2),
+ *   and non-manifold (valence > 2) incidence
+ * - Computes Euler–Poincaré characteristic `χ = V - E + F` (`χ = 2` for genus-0 closed solids)
+ * - Verifies `d₁ ∘ d₀ = 0` via `verifyExteriorDerivativeNilpotencyOnMesh`
+ */
+export function verifyManifoldBMeshTopology(
+  geometry: THREE.BufferGeometry,
+  weldTolerance = 1e-4,
+): ManifoldBMeshTopologyAudit {
+  const posAttr = geometry.getAttribute('position');
+  if (!posAttr || posAttr.count < 3) {
+    return {
+      topologicalVertexCount: 0,
+      topologicalEdgeCount: 0,
+      topologicalFaceCount: 0,
+      eulerPoincareCharacteristic: 0,
+      boundaryEdgeCount: 0,
+      interiorManifoldEdgeCount: 0,
+      nonManifoldEdgeCount: 0,
+      degenerateFaceCount: 0,
+      exteriorDerivativeNilpotent: true,
+      maxBoundaryOperatorError: 0,
+      isClosedWatertightManifold: false,
+    };
+  }
+
+  const invTol = 1 / Math.max(1e-7, weldTolerance);
+  const vertexWeldMap = new Map<string, number>();
+  const rawToWelded = new Int32Array(posAttr.count);
+  const weldedCoords: Array<[number, number, number]> = [];
+
+  for (let i = 0; i < posAttr.count; i++) {
+    const x = posAttr.getX(i);
+    const y = posAttr.getY(i);
+    const z = posAttr.getZ(i);
+    const qx = Math.round(x * invTol);
+    const qy = Math.round(y * invTol);
+    const qz = Math.round(z * invTol);
+    const key = `${qx},${qy},${qz}`;
+    let weldedIdx = vertexWeldMap.get(key);
+    if (weldedIdx === undefined) {
+      weldedIdx = weldedCoords.length;
+      vertexWeldMap.set(key, weldedIdx);
+      weldedCoords.push([x, y, z]);
+    }
+    rawToWelded[i] = weldedIdx;
+  }
+
+  const indexAttr = geometry.getIndex();
+  const rawTriCount = indexAttr ? Math.floor(indexAttr.count / 3) : Math.floor(posAttr.count / 3);
+  const weldedTriangles: Array<readonly [number, number, number]> = [];
+  const seenFaces = new Set<string>();
+  let degenerateFaceCount = 0;
+
+  for (let f = 0; f < rawTriCount; f++) {
+    const ia = indexAttr ? indexAttr.getX(f * 3) : f * 3;
+    const ib = indexAttr ? indexAttr.getX(f * 3 + 1) : f * 3 + 1;
+    const ic = indexAttr ? indexAttr.getX(f * 3 + 2) : f * 3 + 2;
+    const wa = rawToWelded[ia];
+    const wb = rawToWelded[ib];
+    const wc = rawToWelded[ic];
+
+    if (wa === wb || wb === wc || wc === wa) {
+      degenerateFaceCount++;
+      continue;
+    }
+
+    const pa = weldedCoords[wa];
+    const pb = weldedCoords[wb];
+    const pc = weldedCoords[wc];
+    const abx = pb[0] - pa[0];
+    const aby = pb[1] - pa[1];
+    const abz = pb[2] - pa[2];
+    const acx = pc[0] - pa[0];
+    const acy = pc[1] - pa[1];
+    const acz = pc[2] - pa[2];
+    const cx = aby * acz - abz * acy;
+    const cy = abz * acx - abx * acz;
+    const cz = abx * acy - aby * acx;
+    const doubleAreaSq = cx * cx + cy * cy + cz * cz;
+    if (doubleAreaSq < 1e-18) {
+      degenerateFaceCount++;
+      continue;
+    }
+
+    const sortedFace = [wa, wb, wc].sort((u, v) => u - v).join(':');
+    if (seenFaces.has(sortedFace)) {
+      degenerateFaceCount++;
+      continue;
+    }
+    seenFaces.add(sortedFace);
+    weldedTriangles.push([wa, wb, wc]);
+  }
+
+  const edgeValence = new Map<string, number>();
+  const bumpEdge = (u: number, v: number) => {
+    const lo = u < v ? u : v;
+    const hi = u < v ? v : u;
+    const key = `${lo}:${hi}`;
+    edgeValence.set(key, (edgeValence.get(key) ?? 0) + 1);
+  };
+
+  for (const [a, b, c] of weldedTriangles) {
+    bumpEdge(a, b);
+    bumpEdge(b, c);
+    bumpEdge(c, a);
+  }
+
+  let boundaryEdgeCount = 0;
+  let interiorManifoldEdgeCount = 0;
+  let nonManifoldEdgeCount = 0;
+  for (const valence of edgeValence.values()) {
+    if (valence === 1) boundaryEdgeCount++;
+    else if (valence === 2) interiorManifoldEdgeCount++;
+    else if (valence > 2) nonManifoldEdgeCount++;
+  }
+
+  const V = weldedCoords.length;
+  const E = edgeValence.size;
+  const F = weldedTriangles.length;
+  const eulerPoincareCharacteristic = V - E + F;
+
+  const flatWeldedTriangles = new Int32Array(F * 3);
+  for (let t = 0; t < F; t++) {
+    flatWeldedTriangles[t * 3] = weldedTriangles[t][0];
+    flatWeldedTriangles[t * 3 + 1] = weldedTriangles[t][1];
+    flatWeldedTriangles[t * 3 + 2] = weldedTriangles[t][2];
+  }
+  const decAudit = verifyExteriorDerivativeNilpotencyOnMesh(V, flatWeldedTriangles);
+  const isClosedWatertightManifold =
+    F >= 4 &&
+    boundaryEdgeCount === 0 &&
+    nonManifoldEdgeCount === 0 &&
+    degenerateFaceCount === 0 &&
+    decAudit.nilpotentVerified;
+
+  return {
+    topologicalVertexCount: V,
+    topologicalEdgeCount: E,
+    topologicalFaceCount: F,
+    eulerPoincareCharacteristic,
+    boundaryEdgeCount,
+    interiorManifoldEdgeCount,
+    nonManifoldEdgeCount,
+    degenerateFaceCount,
+    exteriorDerivativeNilpotent: decAudit.nilpotentVerified,
+    maxBoundaryOperatorError: decAudit.maxResidual,
+    isClosedWatertightManifold,
+  };
+}
+
+export type BravaisCrystalHabitId = 'hP-quartz' | 'cP-pyrite' | 'hR-calcite';
+
+/**
+ * Generates closed, watertight genus-0 (`χ = V - E + F = 2`, `0` boundary edges, `0` non-manifold edges)
+ * crystallographic polyhedra directly from the canonical Bravais lattice constants (`FOURTEEN_BRAVAIS_LATTICES`):
+ * - `hP-quartz`: α-Quartz (`SiO₂`, Bravais `hP`, `c/a = 1.100`) hexagonal prism + double rhombohedral bipyramid (`V = 14, E = 36, F = 24, χ = 2`)
+ * - `cP-pyrite`: Pyrite (`FeS₂`, Bravais `cP`, `a = b = c`) `{100}+{111}` cuboctahedral crystal habit (`V = 12, E = 30, F = 20, χ = 2`)
+ * - `hR-calcite`: Iceland Spar Calcite (`CaCO₃`, Bravais `hR`, `α = 76.5°` rhombohedral axes) cleavage rhombohedron (`V = 8, E = 18, F = 12, χ = 2`)
+ */
+export function createBravaisCrystalHabitGeometry(options: {
+  habit: BravaisCrystalHabitId;
+  radius?: number;
+  height?: number;
+}): THREE.BufferGeometry {
+  const { habit, radius = 0.24, height = 0.56 } = options;
+  const pearsonCode = habit === 'hP-quartz' ? 'hP' : habit === 'cP-pyrite' ? 'cP' : 'hR';
+  const bravaisSpec =
+    FOURTEEN_BRAVAIS_LATTICES.find((l) => l.pearsonSymbol === pearsonCode) ??
+    FOURTEEN_BRAVAIS_LATTICES[0];
+
+  const vertices: Array<[number, number, number]> = [];
+  const rawTriangles: Array<[number, number, number]> = [];
+
+  if (habit === 'hP-quartz') {
+    const cOverA = bravaisSpec.crystalSystem === 'hexagonal' ? 1.1001 : 1.0;
+    const halfH = Math.max(height * 0.5, radius * cOverA * 0.65);
+    const girdleHalfH = halfH * 0.52;
+    // 0: top apex, 1..6: upper crown ring, 7..12: lower crown ring, 13: bottom apex
+    vertices.push([0, halfH, 0]);
+    for (let i = 0; i < 6; i++) {
+      const theta = (i * Math.PI) / 3;
+      const rMod = i % 2 === 0 ? 1.0 : 0.965; // subtle trigonal α-quartz 32 symmetry
+      vertices.push([
+        Math.cos(theta) * radius * rMod,
+        girdleHalfH,
+        Math.sin(theta) * radius * rMod,
+      ]);
+    }
+    for (let i = 0; i < 6; i++) {
+      const theta = (i * Math.PI) / 3;
+      const rMod = i % 2 === 0 ? 1.0 : 0.965;
+      vertices.push([
+        Math.cos(theta) * radius * rMod,
+        -girdleHalfH,
+        Math.sin(theta) * radius * rMod,
+      ]);
+    }
+    vertices.push([0, -halfH, 0]);
+
+    for (let i = 0; i < 6; i++) {
+      const next = (i + 1) % 6;
+      const u0 = 1 + i;
+      const u1 = 1 + next;
+      const l0 = 7 + i;
+      const l1 = 7 + next;
+      rawTriangles.push([0, u1, u0]);
+      rawTriangles.push([u0, u1, l1]);
+      rawTriangles.push([u0, l1, l0]);
+      rawTriangles.push([13, l0, l1]);
+    }
+  } else if (habit === 'cP-pyrite') {
+    // 12 cuboctahedron vertices scaled to `radius`
+    const s = radius / Math.SQRT2;
+    const coordKeyMap = new Map<string, number>();
+    const getVert = (x: number, y: number, z: number): number => {
+      const key = `${x},${y},${z}`;
+      const existing = coordKeyMap.get(key);
+      if (existing !== undefined) return existing;
+      const idx = vertices.length;
+      vertices.push([x * s, y * s, z * s]);
+      coordKeyMap.set(key, idx);
+      return idx;
+    };
+
+    // 6 `{100}` square facets (each split into 2 manifold triangles)
+    for (const sign of [-1, 1]) {
+      const x0 = getVert(sign, 1, 0);
+      const x1 = getVert(sign, 0, 1);
+      const x2 = getVert(sign, -1, 0);
+      const x3 = getVert(sign, 0, -1);
+      rawTriangles.push([x0, x1, x2], [x0, x2, x3]);
+
+      const y0 = getVert(1, sign, 0);
+      const y1 = getVert(0, sign, 1);
+      const y2 = getVert(-1, sign, 0);
+      const y3 = getVert(0, sign, -1);
+      rawTriangles.push([y0, y1, y2], [y0, y2, y3]);
+
+      const z0 = getVert(1, 0, sign);
+      const z1 = getVert(0, 1, sign);
+      const z2 = getVert(-1, 0, sign);
+      const z3 = getVert(0, -1, sign);
+      rawTriangles.push([z0, z1, z2], [z0, z2, z3]);
+    }
+
+    // 8 `{111}` octahedral facets closing every corner
+    for (const sx of [-1, 1]) {
+      for (const sy of [-1, 1]) {
+        for (const sz of [-1, 1]) {
+          const vxy = getVert(sx, sy, 0);
+          const vyz = getVert(0, sy, sz);
+          const vzx = getVert(sx, 0, sz);
+          rawTriangles.push([vxy, vyz, vzx]);
+        }
+      }
+    }
+  } else {
+    // `hR-calcite`: trigonal rhombohedron spanned by 3 equal-length vectors around c-axis (`α = 76.5°` rhombohedral cleavage)
+    const alphaDeg = bravaisSpec.centering === 'R' ? 76.5 : 90.0;
+    const alphaRad = (alphaDeg * Math.PI) / 180;
+    // Cos(alpha) = cos^2(theta) - 0.5 sin^2(theta) = 1.5 cos^2(theta) - 0.5 => cos^2(theta) = (cos(alpha) + 0.5) / 1.5
+    const cosThetaSq = Math.min(0.88, Math.max(0.18, (Math.cos(alphaRad) + 0.5) / 1.5));
+    const cosTheta = Math.sqrt(cosThetaSq);
+    const sinTheta = Math.sqrt(1 - cosThetaSq);
+    const edgeLen = radius * 1.35;
+
+    const basis: Array<[number, number, number]> = [0, 1, 2].map((k) => {
+      const phi = (k * 2 * Math.PI) / 3;
+      return [
+        edgeLen * sinTheta * Math.cos(phi),
+        edgeLen * cosTheta,
+        edgeLen * sinTheta * Math.sin(phi),
+      ];
+    });
+
+    const center: [number, number, number] = [
+      0.5 * (basis[0][0] + basis[1][0] + basis[2][0]),
+      0.5 * (basis[0][1] + basis[1][1] + basis[2][1]),
+      0.5 * (basis[0][2] + basis[1][2] + basis[2][2]),
+    ];
+
+    // 8 parallelotope vertices indexed by bitmask `b0 + 2*b1 + 4*b2`
+    for (let mask = 0; mask < 8; mask++) {
+      const b0 = mask & 1;
+      const b1 = (mask >> 1) & 1;
+      const b2 = (mask >> 2) & 1;
+      vertices.push([
+        b0 * basis[0][0] + b1 * basis[1][0] + b2 * basis[2][0] - center[0],
+        b0 * basis[0][1] + b1 * basis[1][1] + b2 * basis[2][1] - center[1],
+        b0 * basis[0][2] + b1 * basis[1][2] + b2 * basis[2][2] - center[2],
+      ]);
+    }
+
+    // 6 rhombic faces (2 per fixed bit axis), split consistently into 12 manifold triangles
+    const quads: Array<[number, number, number, number]> = [
+      [0, 2, 6, 4], // b0 = 0
+      [1, 3, 7, 5], // b0 = 1
+      [0, 1, 5, 4], // b1 = 0
+      [2, 3, 7, 6], // b1 = 1
+      [0, 1, 3, 2], // b2 = 0
+      [4, 5, 7, 6], // b2 = 1
+    ];
+    for (const [q0, q1, q2, q3] of quads) {
+      rawTriangles.push([q0, q1, q2], [q0, q2, q3]);
+    }
+  }
+
+  // Enforce outward right-handed winding (`(vb - va) × (vc - va) · faceCentroid > 0`) on all faces
+  const positions = new Float32Array(vertices.length * 3);
+  const uvs = new Float32Array(vertices.length * 2);
+  const colors = new Float32Array(vertices.length * 3);
+  const baseColor =
+    habit === 'hP-quartz'
+      ? new THREE.Color(0xcffafe)
+      : habit === 'cP-pyrite'
+        ? new THREE.Color(0xfde68a)
+        : new THREE.Color(0xe0e7ff);
+
+  for (let i = 0; i < vertices.length; i++) {
+    const [vx, vy, vz] = vertices[i];
+    positions[i * 3] = vx;
+    positions[i * 3 + 1] = vy;
+    positions[i * 3 + 2] = vz;
+    const len = Math.max(1e-6, Math.hypot(vx, vy, vz));
+    uvs[i * 2] = Math.atan2(vz, vx) / (2 * Math.PI) + 0.5;
+    uvs[i * 2 + 1] = vy / (2 * len) + 0.5;
+    const apexHighlight = 0.86 + 0.14 * (vy / len + 1) * 0.5;
+    colors[i * 3] = Math.min(1, baseColor.r * apexHighlight);
+    colors[i * 3 + 1] = Math.min(1, baseColor.g * apexHighlight);
+    colors[i * 3 + 2] = Math.min(1, baseColor.b * apexHighlight);
+  }
+
+  const indices: number[] = [];
+  for (const [a, b, c] of rawTriangles) {
+    const va = vertices[a];
+    const vb = vertices[b];
+    const vc = vertices[c];
+    const abx = vb[0] - va[0];
+    const aby = vb[1] - va[1];
+    const abz = vb[2] - va[2];
+    const acx = vc[0] - va[0];
+    const acy = vc[1] - va[1];
+    const acz = vc[2] - va[2];
+    const nx = aby * acz - abz * acy;
+    const ny = abz * acx - abx * acz;
+    const nz = abx * acy - aby * acx;
+    const mx = (va[0] + vb[0] + vc[0]) / 3;
+    const my = (va[1] + vb[1] + vc[1]) / 3;
+    const mz = (va[2] + vb[2] + vc[2]) / 3;
+    if (nx * mx + ny * my + nz * mz >= 0) {
+      indices.push(a, b, c);
+    } else {
+      indices.push(a, c, b);
+    }
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  geometry.setIndex(indices);
+  geometry.computeVertexNormals();
+  return geometry;
 }

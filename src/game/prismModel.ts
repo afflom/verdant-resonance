@@ -6,6 +6,8 @@
 
 import {
   GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS,
+  GENERATED_CANONICAL_MODEL_BASIS_PRIMES,
+  GENERATED_CANONICAL_STANDARD_MODELS,
   GENERATED_COMPILE_TIME_OBSERVER_MODELS,
   GENERATED_OBSERVER_RULE30_FACETS,
   GENERATED_PRISM_BUS_MODULATION_LUT,
@@ -19,9 +21,28 @@ import {
   GENERATED_VERDANT_JUDGE_ARTIFACT,
   GENERATED_VERDANT_RESONANCE_SPEC,
 } from './generatedPrismConstants';
+import {
+  evaluateHolisticObserverStandardModelContext,
+  type HolisticObserverStandardModelContext,
+} from './neuromorphicFunctorBus';
+import { wavelengthNmToDisplayColor } from './spectralColorEngine';
+import {
+  FOURTEEN_BRAVAIS_LATTICES,
+  IUPAC_118_ELEMENTS,
+  verifyStoichiometricBalance,
+  type BravaisLatticeSpec,
+  type ChemicalReactionSpec,
+  type IupacElementSymbol,
+} from './standardModelEngine';
+
+export * from './standardModelEngine';
+export * from './spectralColorEngine';
+export * from './neuromorphicFunctorBus';
 
 export {
   GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS,
+  GENERATED_CANONICAL_MODEL_BASIS_PRIMES,
+  GENERATED_CANONICAL_STANDARD_MODELS,
   GENERATED_COMPILE_TIME_OBSERVER_MODELS,
   GENERATED_OBSERVER_RULE30_FACETS,
   GENERATED_PRISM_BUS_MODULATION_LUT,
@@ -6267,7 +6288,7 @@ export const VERDANT_ECOLOGY_STANDARD: EcologicalConstellationStandardModel = {
 // Tier 4: Organic & Inorganic Matter/Compounds -> Tier 5: Environmental & Multi-Modal Synthesis
 // ---------------------------------------------------------------------------
 
-export type AtomicElementId = 'H' | 'C' | 'N' | 'O' | 'Mg' | 'Si' | 'P' | 'Ca';
+export type AtomicElementId = IupacElementSymbol;
 
 export interface AtomicElementSpec {
   id: AtomicElementId;
@@ -6280,88 +6301,65 @@ export interface AtomicElementSpec {
   basisPrime: number;
 }
 
-export const ATOMIC_ELEMENTS: Record<AtomicElementId, AtomicElementSpec> = {
-  H: {
-    id: 'H',
-    name: 'Hydrogen',
-    atomicNumber: 1,
-    atomicMassDaltons: 1.008,
-    valenceElectrons: 1,
-    electronegativityPauling: 2.2,
-    covalentRadiusPm: 31,
-    basisPrime: 2,
-  },
-  C: {
-    id: 'C',
-    name: 'Carbon',
-    atomicNumber: 6,
-    atomicMassDaltons: 12.011,
-    valenceElectrons: 4,
-    electronegativityPauling: 2.55,
-    covalentRadiusPm: 76,
-    basisPrime: 3,
-  },
-  N: {
-    id: 'N',
-    name: 'Nitrogen',
-    atomicNumber: 7,
-    atomicMassDaltons: 14.007,
-    valenceElectrons: 5,
-    electronegativityPauling: 3.04,
-    covalentRadiusPm: 71,
-    basisPrime: 5,
-  },
-  O: {
-    id: 'O',
-    name: 'Oxygen',
-    atomicNumber: 8,
-    atomicMassDaltons: 15.999,
-    valenceElectrons: 6,
-    electronegativityPauling: 3.44,
-    covalentRadiusPm: 66,
-    basisPrime: 7,
-  },
-  Mg: {
-    id: 'Mg',
-    name: 'Magnesium',
-    atomicNumber: 12,
-    atomicMassDaltons: 24.305,
-    valenceElectrons: 2,
-    electronegativityPauling: 1.31,
-    covalentRadiusPm: 141,
-    basisPrime: 11,
-  },
-  Si: {
-    id: 'Si',
-    name: 'Silicon',
-    atomicNumber: 14,
-    atomicMassDaltons: 28.085,
-    valenceElectrons: 4,
-    electronegativityPauling: 1.9,
-    covalentRadiusPm: 111,
-    basisPrime: 13,
-  },
-  P: {
-    id: 'P',
-    name: 'Phosphorus',
-    atomicNumber: 15,
-    atomicMassDaltons: 30.974,
-    valenceElectrons: 5,
-    electronegativityPauling: 2.19,
-    covalentRadiusPm: 107,
-    basisPrime: 17,
-  },
-  Ca: {
-    id: 'Ca',
-    name: 'Calcium',
-    atomicNumber: 20,
-    atomicMassDaltons: 40.078,
-    valenceElectrons: 2,
-    electronegativityPauling: 1.0,
-    covalentRadiusPm: 176,
-    basisPrime: 19,
-  },
-};
+function generateFirstNPrimes(count: number): readonly number[] {
+  const primes: number[] = [];
+  let candidate = 2;
+  while (primes.length < count) {
+    let isPrime = true;
+    for (let i = 0; i < primes.length; i++) {
+      const p = primes[i];
+      if (p * p > candidate) break;
+      if (candidate % p === 0) {
+        isPrime = false;
+        break;
+      }
+    }
+    if (isPrime) primes.push(candidate);
+    candidate += candidate === 2 ? 1 : 2;
+  }
+  return primes;
+}
+
+const FIRST_118_PRIMES = generateFirstNPrimes(IUPAC_118_ELEMENTS.length);
+const CORE_BIOGENIC_PRIME_ORDER: readonly IupacElementSymbol[] = [
+  'H',
+  'C',
+  'N',
+  'O',
+  'Mg',
+  'Si',
+  'P',
+  'Ca',
+];
+const ELEMENT_BASIS_PRIME_MAP: ReadonlyMap<IupacElementSymbol, number> = (() => {
+  const map = new Map<IupacElementSymbol, number>();
+  CORE_BIOGENIC_PRIME_ORDER.forEach((sym, i) => {
+    map.set(sym, FIRST_118_PRIMES[i]);
+  });
+  let nextIdx = CORE_BIOGENIC_PRIME_ORDER.length;
+  for (const el of IUPAC_118_ELEMENTS) {
+    if (!map.has(el.symbol)) {
+      map.set(el.symbol, FIRST_118_PRIMES[nextIdx++]);
+    }
+  }
+  return map;
+})();
+
+export const ATOMIC_ELEMENTS: Record<AtomicElementId, AtomicElementSpec> = Object.fromEntries(
+  IUPAC_118_ELEMENTS.map((el) => [
+    el.symbol,
+    {
+      id: el.symbol,
+      name: el.name,
+      atomicNumber: el.atomicNumber,
+      atomicMassDaltons: el.standardAtomicWeight,
+      valenceElectrons: el.valenceElectrons,
+      electronegativityPauling: el.paulingElectronegativity ?? 0,
+      covalentRadiusPm: el.covalentRadiusPm,
+      basisPrime: ELEMENT_BASIS_PRIME_MAP.get(el.symbol)!,
+    } satisfies AtomicElementSpec,
+  ]),
+) as Record<AtomicElementId, AtomicElementSpec>;
 
 export type MolecularSpeciesId =
   | 'H2O'
@@ -6371,7 +6369,23 @@ export type MolecularSpeciesId =
   | 'ATP'
   | 'alpha-pinene'
   | 'd-luciferin'
-  | 'orthosilicic-acid';
+  | 'orthosilicic-acid'
+  | 'O2'
+  | 'N2'
+  | 'NH3'
+  | 'HNO3'
+  | 'H3PO4'
+  | 'H2SO4'
+  | 'H2CO3'
+  | 'ADP'
+  | 'FeS2'
+  | 'MgSiO3'
+  | 'CaSiO3'
+  | 'KAlSi3O8'
+  | 'CaSO4'
+  | 'CaF2'
+  | 'TiO2'
+  | 'C6H12O6';
 
 export interface MolecularSpeciesSpec {
   id: MolecularSpeciesId;
@@ -6441,6 +6455,34 @@ export const MOLECULAR_SPECIES: Record<MolecularSpeciesId, MolecularSpeciesSpec>
     { H: 4, Si: 1, O: 4 },
     0.74,
   ),
+  O2: buildMolecularSpecies('O2', 'Dioxygen', 'O2', { O: 2 }, 0.05),
+  N2: buildMolecularSpecies('N2', 'Dinitrogen', 'N2', { N: 2 }, 0.04),
+  NH3: buildMolecularSpecies('NH3', 'Ammonia', 'NH3', { N: 1, H: 3 }, 0.72),
+  HNO3: buildMolecularSpecies('HNO3', 'Nitric Acid', 'HNO3', { H: 1, N: 1, O: 3 }, 0.81),
+  H3PO4: buildMolecularSpecies('H3PO4', 'Orthophosphoric Acid', 'H3PO4', { H: 3, P: 1, O: 4 }, 0.84),
+  H2SO4: buildMolecularSpecies('H2SO4', 'Sulfuric Acid', 'H2SO4', { H: 2, S: 1, O: 4 }, 0.86),
+  H2CO3: buildMolecularSpecies('H2CO3', 'Carbonic Acid', 'H2CO3', { H: 2, C: 1, O: 3 }, 0.79),
+  ADP: buildMolecularSpecies(
+    'ADP',
+    'Adenosine Diphosphate',
+    'C10H15N5O10P2',
+    { C: 10, H: 15, N: 5, O: 10, P: 2 },
+    0.8,
+  ),
+  FeS2: buildMolecularSpecies('FeS2', 'Iron Disulfide (Pyrite Monomer)', 'FeS2', { Fe: 1, S: 2 }, 0.48),
+  MgSiO3: buildMolecularSpecies('MgSiO3', 'Enstatite Magnesium Silicate', 'MgSiO3', { Mg: 1, Si: 1, O: 3 }, 0.71),
+  CaSiO3: buildMolecularSpecies('CaSiO3', 'Wollastonite Calcium Silicate', 'CaSiO3', { Ca: 1, Si: 1, O: 3 }, 0.75),
+  KAlSi3O8: buildMolecularSpecies(
+    'KAlSi3O8',
+    'Microcline Potassium Aluminosilicate',
+    'KAlSi3O8',
+    { K: 1, Al: 1, Si: 3, O: 8 },
+    0.76,
+  ),
+  CaSO4: buildMolecularSpecies('CaSO4', 'Calcium Sulfate (Gypsum Anhydrite)', 'CaSO4', { Ca: 1, S: 1, O: 4 }, 0.82),
+  CaF2: buildMolecularSpecies('CaF2', 'Calcium Difluoride (Fluorite Monomer)', 'CaF2', { Ca: 1, F: 2 }, 0.89),
+  TiO2: buildMolecularSpecies('TiO2', 'Titanium Dioxide (Rutile Monomer)', 'TiO2', { Ti: 1, O: 2 }, 0.73),
+  C6H12O6: buildMolecularSpecies('C6H12O6', 'D-Glucose Hexose Monosaccharide', 'C6H12O6', { C: 6, H: 12, O: 6 }, 0.77),
 };
 
 export type MacromoleculeId =
@@ -6448,8 +6490,14 @@ export type MacromoleculeId =
   | 'chlorophyll-porphyrin-antenna'
   | 'luciferase-holoenzyme-complex'
   | 'chitin-glucan-hyphal-network'
+  | 'rubisco-carboxysome-holoenzyme'
+  | 'pectin-hemicellulose-hydrogel'
   | 'tectosilicate-quartz-lattice'
-  | 'calcite-aragonite-spar-lattice';
+  | 'calcite-aragonite-spar-lattice'
+  | 'pyrite-disulfide-cubic-lattice'
+  | 'feldspar-aluminosilicate-framework'
+  | 'phyllosilicate-mica-clay-sheet'
+  | 'fluorite-rutile-halide-oxide-lattice';
 
 export interface MacromoleculeSpec {
   id: MacromoleculeId;
@@ -6528,6 +6576,24 @@ export const MACROMOLECULAR_POLYMERS: Record<MacromoleculeId, MacromoleculeSpec>
     140,
     14.8,
   ),
+  'rubisco-carboxysome-holoenzyme': buildMacromolecule(
+    'rubisco-carboxysome-holoenzyme',
+    'RuBisCO L8S8 Carboxysome Carbon-Fixing Holoenzyme',
+    'organic-biopolymer',
+    { C6H12O6: 4, ATP: 4, NH3: 12, H2O: 16 },
+    32,
+    11.6,
+    'Mg',
+  ),
+  'pectin-hemicellulose-hydrogel': buildMacromolecule(
+    'pectin-hemicellulose-hydrogel',
+    'Calcium-Crosslinked Pectin-Hemicellulose Lamellar Hydrogel',
+    'organic-biopolymer',
+    { C6H12O6: 6, H2O: 18, H2CO3: 2 },
+    96,
+    4.8,
+    'Ca',
+  ),
   'tectosilicate-quartz-lattice': buildMacromolecule(
     'tectosilicate-quartz-lattice',
     'Tectosilicate Alpha-Quartz Tetrahedral Framework',
@@ -6546,20 +6612,65 @@ export const MACROMOLECULAR_POLYMERS: Record<MacromoleculeId, MacromoleculeSpec>
     72.8,
     'Ca',
   ),
+  'pyrite-disulfide-cubic-lattice': buildMacromolecule(
+    'pyrite-disulfide-cubic-lattice',
+    'Pyrite Iron-Disulfide Pa-3 Cubic Crystal Lattice',
+    'inorganic-crystal-lattice',
+    { FeS2: 12, H2SO4: 1 },
+    280,
+    142.0,
+    'Fe',
+  ),
+  'feldspar-aluminosilicate-framework': buildMacromolecule(
+    'feldspar-aluminosilicate-framework',
+    'Microcline Feldspar Triclinic Aluminosilicate Framework',
+    'inorganic-crystal-lattice',
+    { KAlSi3O8: 8, SiO2: 4 },
+    240,
+    84.6,
+    'Al',
+  ),
+  'phyllosilicate-mica-clay-sheet': buildMacromolecule(
+    'phyllosilicate-mica-clay-sheet',
+    'Phyllosilicate Muscovite-Selenite Layered Sheet Lattice',
+    'inorganic-crystal-lattice',
+    { MgSiO3: 8, CaSO4: 2, H2O: 4 },
+    190,
+    58.4,
+    'Mg',
+  ),
+  'fluorite-rutile-halide-oxide-lattice': buildMacromolecule(
+    'fluorite-rutile-halide-oxide-lattice',
+    'Fluorite-Rutile High-Dispersion Halide-Oxide Lattice',
+    'inorganic-crystal-lattice',
+    { CaF2: 8, TiO2: 6 },
+    220,
+    114.2,
+    'Ti',
+  ),
 };
 
 export type MatterCompoundId =
   | 'travertine-limestone-spar'
   | 'piezoelectric-quartz-geode'
   | 'structured-hydro-mineral-electrolyte'
+  | 'pyrite-solar-bronze-crystal'
+  | 'microcline-feldspar-granite'
+  | 'muscovite-gypsum-phyllosilicate'
+  | 'fluorite-rutile-optical-spar'
   | 'lignocellulosic-vascular-tissue'
   | 'bioluminescent-mycelial-humus'
-  | 'terpene-volatile-aerosol-colloid';
+  | 'terpene-volatile-aerosol-colloid'
+  | 'rubisco-stroma-chloroplast-gel'
+  | 'pectin-mucilage-rhizosphere-film'
+  | 'suberin-cuticular-wax-lamella'
+  | 'sporopollenin-nectar-exine';
 
 export interface MatterCompoundSpec {
   id: MatterCompoundId;
   name: string;
   matterCategory: 'inorganic' | 'organic';
+  bravaisPearsonSymbol: BravaisLatticeSpec['pearsonSymbol'];
   macromolecularComposition: Partial<Record<MacromoleculeId, number>>;
   molecularCoFactors: Partial<Record<MolecularSpeciesId, number>>;
   compoundDensityGPerCm3: number;
@@ -6572,6 +6683,7 @@ function buildMatterCompound(
   id: MatterCompoundId,
   name: string,
   matterCategory: 'inorganic' | 'organic',
+  bravaisPearsonSymbol: BravaisLatticeSpec['pearsonSymbol'],
   macromolecularComposition: Partial<Record<MacromoleculeId, number>>,
   molecularCoFactors: Partial<Record<MolecularSpeciesId, number>>,
   compoundDensityGPerCm3: number,
@@ -6597,6 +6709,7 @@ function buildMatterCompound(
     id,
     name,
     matterCategory,
+    bravaisPearsonSymbol,
     macromolecularComposition,
     molecularCoFactors,
     compoundDensityGPerCm3,
@@ -6611,6 +6724,7 @@ export const MATTER_COMPOUNDS: Record<MatterCompoundId, MatterCompoundSpec> = {
     'travertine-limestone-spar',
     'Travertine Limestone & Calcite Spar Masonry',
     'inorganic',
+    'hR',
     { 'calcite-aragonite-spar-lattice': 0.82, 'tectosilicate-quartz-lattice': 0.18 },
     { CaCO3: 6, SiO2: 2 },
     2.71,
@@ -6620,6 +6734,7 @@ export const MATTER_COMPOUNDS: Record<MatterCompoundId, MatterCompoundSpec> = {
     'piezoelectric-quartz-geode',
     'Piezoelectric Silicate Quartz Monolith',
     'inorganic',
+    'hP',
     { 'tectosilicate-quartz-lattice': 0.92, 'calcite-aragonite-spar-lattice': 0.08 },
     { SiO2: 10, 'orthosilicic-acid': 2 },
     2.65,
@@ -6629,15 +6744,57 @@ export const MATTER_COMPOUNDS: Record<MatterCompoundId, MatterCompoundSpec> = {
     'structured-hydro-mineral-electrolyte',
     'Structured Lagoon Hydro-Mineral Electrolyte',
     'inorganic',
+    'oS',
     { 'calcite-aragonite-spar-lattice': 0.04, 'tectosilicate-quartz-lattice': 0.04 },
     { H2O: 55, 'orthosilicic-acid': 2, CaCO3: 1 },
     1.024,
     1.338,
   ),
+  'pyrite-solar-bronze-crystal': buildMatterCompound(
+    'pyrite-solar-bronze-crystal',
+    'Pyrite Solar-Bronze Diploidal Crystal',
+    'inorganic',
+    'cP',
+    { 'pyrite-disulfide-cubic-lattice': 0.88, 'tectosilicate-quartz-lattice': 0.12 },
+    { FeS2: 8, SiO2: 2 },
+    5.01,
+    1.81,
+  ),
+  'microcline-feldspar-granite': buildMatterCompound(
+    'microcline-feldspar-granite',
+    'Microcline Feldspar & Quartz Granitic Plinth',
+    'inorganic',
+    'aP',
+    { 'feldspar-aluminosilicate-framework': 0.76, 'tectosilicate-quartz-lattice': 0.24 },
+    { KAlSi3O8: 6, SiO2: 4 },
+    2.56,
+    1.522,
+  ),
+  'muscovite-gypsum-phyllosilicate': buildMatterCompound(
+    'muscovite-gypsum-phyllosilicate',
+    'Muscovite Mica & Selenite Phyllosilicate Lamina',
+    'inorganic',
+    'mS',
+    { 'phyllosilicate-mica-clay-sheet': 0.8, 'calcite-aragonite-spar-lattice': 0.2 },
+    { MgSiO3: 4, CaSO4: 4, H2O: 6 },
+    2.32,
+    1.562,
+  ),
+  'fluorite-rutile-optical-spar': buildMatterCompound(
+    'fluorite-rutile-optical-spar',
+    'Fluorite-Rutile High-Dispersion Optical Spar',
+    'inorganic',
+    'cF',
+    { 'fluorite-rutile-halide-oxide-lattice': 0.85, 'tectosilicate-quartz-lattice': 0.15 },
+    { CaF2: 6, TiO2: 4 },
+    3.18,
+    1.642,
+  ),
   'lignocellulosic-vascular-tissue': buildMatterCompound(
     'lignocellulosic-vascular-tissue',
     'Lignocellulosic Botanical Stem & Corolla Tissue',
     'organic',
+    'oP',
     { 'cellulose-lignin-microfibril': 0.74, 'chlorophyll-porphyrin-antenna': 0.26 },
     { H2O: 18, CO2: 6, ATP: 2 },
     1.18,
@@ -6647,6 +6804,7 @@ export const MATTER_COMPOUNDS: Record<MatterCompoundId, MatterCompoundSpec> = {
     'bioluminescent-mycelial-humus',
     'Bioluminescent Mycorrhizal Humus & Bryophyte Loam',
     'organic',
+    'mP',
     { 'chitin-glucan-hyphal-network': 0.68, 'luciferase-holoenzyme-complex': 0.32 },
     { 'd-luciferin': 4, ATP: 4, H2O: 14 },
     1.32,
@@ -6656,10 +6814,51 @@ export const MATTER_COMPOUNDS: Record<MatterCompoundId, MatterCompoundSpec> = {
     'terpene-volatile-aerosol-colloid',
     'Volatile Monoterpene & Dewdrop Aerosol Colloid',
     'organic',
+    'oF',
     { 'chlorophyll-porphyrin-antenna': 0.45, 'luciferase-holoenzyme-complex': 0.55 },
     { 'alpha-pinene': 8, H2O: 24, CO2: 2 },
     0.86,
     1.412,
+  ),
+  'rubisco-stroma-chloroplast-gel': buildMatterCompound(
+    'rubisco-stroma-chloroplast-gel',
+    'RuBisCO Thylakoid-Stroma Photosynthetic Gel',
+    'organic',
+    'tP',
+    { 'rubisco-carboxysome-holoenzyme': 0.64, 'chlorophyll-porphyrin-antenna': 0.36 },
+    { C6H12O6: 4, ATP: 4, CO2: 6 },
+    1.14,
+    1.445,
+  ),
+  'pectin-mucilage-rhizosphere-film': buildMatterCompound(
+    'pectin-mucilage-rhizosphere-film',
+    'Pectin-Mucilage Rhizosphere Biofilm Hydrogel',
+    'organic',
+    'oI',
+    { 'pectin-hemicellulose-hydrogel': 0.72, 'chitin-glucan-hyphal-network': 0.28 },
+    { H2O: 28, C6H12O6: 4, H3PO4: 2 },
+    1.08,
+    1.384,
+  ),
+  'suberin-cuticular-wax-lamella': buildMatterCompound(
+    'suberin-cuticular-wax-lamella',
+    'Suberin-Cutin Epicuticular Petal Wax Lamella',
+    'organic',
+    'tI',
+    { 'cellulose-lignin-microfibril': 0.62, 'pectin-hemicellulose-hydrogel': 0.38 },
+    { 'alpha-pinene': 6, C6H12O6: 3, H2O: 6 },
+    0.97,
+    1.482,
+  ),
+  'sporopollenin-nectar-exine': buildMatterCompound(
+    'sporopollenin-nectar-exine',
+    'Sporopollenin Spore Exine & Nectar Matrix',
+    'organic',
+    'cI',
+    { 'chitin-glucan-hyphal-network': 0.54, 'rubisco-carboxysome-holoenzyme': 0.46 },
+    { C6H12O6: 8, ATP: 3, NH3: 4 },
+    1.24,
+    1.516,
   ),
 };
 
@@ -6667,12 +6866,17 @@ export type ReactionPathwayId =
   | 'photosynthetic-carbon-fixation'
   | 'bioluminescent-oxyluciferin-catalysis'
   | 'piezoelectric-silicate-mineralization'
-  | 'mycorrhizal-chitin-remineralization';
+  | 'mycorrhizal-chitin-remineralization'
+  | 'travertine-bicarbonate-calcification'
+  | 'urey-silicate-carbonate-weathering'
+  | 'aerobic-mycorrhizal-respiration'
+  | 'rhizosphere-nitrogen-phosphorus-assimilation';
 
 export interface ReactionPathwaySpec {
   id: ReactionPathwayId;
   name: string;
   chemicalEquation: string;
+  stoichiometricReaction: ChemicalReactionSpec;
   reactantMolecules: Partial<Record<MolecularSpeciesId, number>>;
   catalyticMacromolecule: MacromoleculeId;
   productCompound: MatterCompoundId;
@@ -6684,42 +6888,189 @@ export const REACTION_PATHWAYS: Record<ReactionPathwayId, ReactionPathwaySpec> =
   'photosynthetic-carbon-fixation': {
     id: 'photosynthetic-carbon-fixation',
     name: 'Photosynthetic Carbon Fixation & Cellulose Polymerization',
-    chemicalEquation: '6 CO2 + 6 H2O + hν (Mg-Chlorophyll-a) ⇌ (C6H10O5)n + 6 O2',
+    chemicalEquation: '6 CO2 + 6 H2O + hν (Mg-Chlorophyll-a) ⇌ C6H12O6 + 6 O2',
+    stoichiometricReaction: {
+      id: 'photosynthetic-carbon-fixation',
+      name: 'Photosynthetic Carbon Fixation & Cellulose Polymerization',
+      reactants: [
+        { formula: 'CO2', coefficient: 6, atomCounts: { C: 1, O: 2 } },
+        { formula: 'H2O', coefficient: 6, atomCounts: { H: 2, O: 1 } },
+      ],
+      products: [
+        { formula: 'C6H12O6', coefficient: 1, atomCounts: { C: 6, H: 12, O: 6 } },
+        { formula: 'O2', coefficient: 6, atomCounts: { O: 2 } },
+      ],
+    },
     reactantMolecules: { CO2: 6, H2O: 6, ATP: 3 },
     catalyticMacromolecule: 'chlorophyll-porphyrin-antenna',
     productCompound: 'lignocellulosic-vascular-tissue',
-    remineralizedAtoms: { C: 6, H: 12, O: 6, Mg: 1 },
+    remineralizedAtoms: { C: 6, H: 12, O: 18, Mg: 1 },
     quantumOrThermalYield: 0.92,
   },
   'bioluminescent-oxyluciferin-catalysis': {
     id: 'bioluminescent-oxyluciferin-catalysis',
     name: 'Bioluminescent Oxyluciferin Photon Emission & Terpene Volatilization',
-    chemicalEquation: 'D-Luciferin + ATP + O2 (Mg2+-Luciferase) → Oxyluciferin + AMP + CO2 + hν',
-    reactantMolecules: { 'd-luciferin': 2, ATP: 2, 'alpha-pinene': 2 },
+    chemicalEquation: 'C11H8N2O5 + O2 (Mg2+-Luciferase) → C10H8N2O5 + CO2 + hν',
+    stoichiometricReaction: {
+      id: 'bioluminescent-oxyluciferin-catalysis',
+      name: 'Bioluminescent Oxyluciferin Photon Emission',
+      reactants: [
+        { formula: 'C11H8N2O5', coefficient: 1, atomCounts: { C: 11, H: 8, N: 2, O: 5 } },
+        { formula: 'O2', coefficient: 1, atomCounts: { O: 2 } },
+      ],
+      products: [
+        { formula: 'C10H8N2O5', coefficient: 1, atomCounts: { C: 10, H: 8, N: 2, O: 5 } },
+        { formula: 'CO2', coefficient: 1, atomCounts: { C: 1, O: 2 } },
+      ],
+    },
+    reactantMolecules: { 'd-luciferin': 2, ATP: 2, O2: 2, 'alpha-pinene': 2 },
     catalyticMacromolecule: 'luciferase-holoenzyme-complex',
     productCompound: 'terpene-volatile-aerosol-colloid',
-    remineralizedAtoms: { C: 11, H: 8, N: 2, O: 5, P: 2 },
+    remineralizedAtoms: { C: 11, H: 8, N: 2, O: 7, P: 2 },
     quantumOrThermalYield: 0.88,
   },
   'piezoelectric-silicate-mineralization': {
     id: 'piezoelectric-silicate-mineralization',
     name: 'Silicate-Carbonate Hydrothermal Lattice Mineralization',
-    chemicalEquation: 'H4SiO4 + CaCO3 ⇌ SiO2·CaCO3 (Quartz-Calcite Spar) + 2 H2O',
+    chemicalEquation: 'H4SiO4 + CaCO3 ⇌ SiO2 + CaCO3 + 2 H2O',
+    stoichiometricReaction: {
+      id: 'piezoelectric-silicate-mineralization',
+      name: 'Silicate-Carbonate Hydrothermal Lattice Mineralization',
+      reactants: [
+        { formula: 'H4SiO4', coefficient: 1, atomCounts: { H: 4, Si: 1, O: 4 } },
+        { formula: 'CaCO3', coefficient: 1, atomCounts: { Ca: 1, C: 1, O: 3 } },
+      ],
+      products: [
+        { formula: 'SiO2', coefficient: 1, atomCounts: { Si: 1, O: 2 } },
+        { formula: 'CaCO3', coefficient: 1, atomCounts: { Ca: 1, C: 1, O: 3 } },
+        { formula: 'H2O', coefficient: 2, atomCounts: { H: 2, O: 1 } },
+      ],
+    },
     reactantMolecules: { 'orthosilicic-acid': 2, SiO2: 4, CaCO3: 4 },
     catalyticMacromolecule: 'tectosilicate-quartz-lattice',
     productCompound: 'piezoelectric-quartz-geode',
-    remineralizedAtoms: { Si: 5, Ca: 4, C: 4, O: 16, H: 4 },
+    remineralizedAtoms: { Si: 1, Ca: 1, C: 1, O: 7, H: 4 },
     quantumOrThermalYield: 0.95,
   },
   'mycorrhizal-chitin-remineralization': {
     id: 'mycorrhizal-chitin-remineralization',
     name: 'Mycorrhizal Chitin-Humus Decomposition & Atomic Remineralization',
-    chemicalEquation: '(C8H13O5N)n + H2O + ATP ⇌ C-N-P-Ca Ionic Pool + CO2 + H4SiO4',
-    reactantMolecules: { H2O: 6, ATP: 2, CO2: 4 },
+    chemicalEquation: 'C8H13NO5 + 8 O2 ⇌ 8 CO2 + 5 H2O + NH3',
+    stoichiometricReaction: {
+      id: 'mycorrhizal-chitin-remineralization',
+      name: 'Mycorrhizal Chitin-Humus Decomposition & Atomic Remineralization',
+      reactants: [
+        { formula: 'C8H13NO5', coefficient: 1, atomCounts: { C: 8, H: 13, N: 1, O: 5 } },
+        { formula: 'O2', coefficient: 8, atomCounts: { O: 2 } },
+      ],
+      products: [
+        { formula: 'CO2', coefficient: 8, atomCounts: { C: 1, O: 2 } },
+        { formula: 'H2O', coefficient: 5, atomCounts: { H: 2, O: 1 } },
+        { formula: 'NH3', coefficient: 1, atomCounts: { N: 1, H: 3 } },
+      ],
+    },
+    reactantMolecules: { H2O: 6, ATP: 2, CO2: 4, O2: 8 },
     catalyticMacromolecule: 'chitin-glucan-hyphal-network',
     productCompound: 'bioluminescent-mycelial-humus',
-    remineralizedAtoms: { C: 8, H: 13, N: 2, O: 5, P: 2, Ca: 1 },
+    remineralizedAtoms: { C: 8, H: 13, N: 1, O: 21, P: 2, Ca: 1 },
     quantumOrThermalYield: 0.94,
+  },
+  'travertine-bicarbonate-calcification': {
+    id: 'travertine-bicarbonate-calcification',
+    name: 'Sanctuary Travertine Bicarbonate Spar Precipitation',
+    chemicalEquation: 'Ca²⁺ + 2 HCO3⁻ ⇌ CaCO3 + CO2 + H2O',
+    stoichiometricReaction: {
+      id: 'travertine-bicarbonate-calcification',
+      name: 'Sanctuary Travertine Bicarbonate Spar Precipitation',
+      reactants: [
+        { formula: 'Ca^2+', coefficient: 1, charge: 2, atomCounts: { Ca: 1 } },
+        { formula: 'HCO3^-', coefficient: 2, charge: -1, atomCounts: { H: 1, C: 1, O: 3 } },
+      ],
+      products: [
+        { formula: 'CaCO3', coefficient: 1, charge: 0, atomCounts: { Ca: 1, C: 1, O: 3 } },
+        { formula: 'CO2', coefficient: 1, charge: 0, atomCounts: { C: 1, O: 2 } },
+        { formula: 'H2O', coefficient: 1, charge: 0, atomCounts: { H: 2, O: 1 } },
+      ],
+    },
+    reactantMolecules: { CaCO3: 2, H2CO3: 2, H2O: 4 },
+    catalyticMacromolecule: 'calcite-aragonite-spar-lattice',
+    productCompound: 'travertine-limestone-spar',
+    remineralizedAtoms: { Ca: 1, C: 2, H: 2, O: 6 },
+    quantumOrThermalYield: 0.93,
+  },
+  'urey-silicate-carbonate-weathering': {
+    id: 'urey-silicate-carbonate-weathering',
+    name: 'Urey Calcium-Silicate Weathering & Buffering Equilibrium',
+    chemicalEquation: 'CaSiO3 + CO2 ⇌ CaCO3 + SiO2',
+    stoichiometricReaction: {
+      id: 'urey-silicate-carbonate-weathering',
+      name: 'Urey Calcium-Silicate Weathering & Buffering Equilibrium',
+      reactants: [
+        { formula: 'CaSiO3', coefficient: 1, atomCounts: { Ca: 1, Si: 1, O: 3 } },
+        { formula: 'CO2', coefficient: 1, atomCounts: { C: 1, O: 2 } },
+      ],
+      products: [
+        { formula: 'CaCO3', coefficient: 1, atomCounts: { Ca: 1, C: 1, O: 3 } },
+        { formula: 'SiO2', coefficient: 1, atomCounts: { Si: 1, O: 2 } },
+      ],
+    },
+    reactantMolecules: { CaSiO3: 2, CO2: 2, SiO2: 2 },
+    catalyticMacromolecule: 'feldspar-aluminosilicate-framework',
+    productCompound: 'microcline-feldspar-granite',
+    remineralizedAtoms: { Ca: 1, Si: 1, C: 1, O: 5 },
+    quantumOrThermalYield: 0.91,
+  },
+  'aerobic-mycorrhizal-respiration': {
+    id: 'aerobic-mycorrhizal-respiration',
+    name: 'Closed-Loop Aerobic Mycorrhizal Hexose Remineralization',
+    chemicalEquation: 'C6H12O6 + 6 O2 → 6 CO2 + 6 H2O',
+    stoichiometricReaction: {
+      id: 'aerobic-mycorrhizal-respiration',
+      name: 'Closed-Loop Aerobic Mycorrhizal Hexose Remineralization',
+      reactants: [
+        { formula: 'C6H12O6', coefficient: 1, atomCounts: { C: 6, H: 12, O: 6 } },
+        { formula: 'O2', coefficient: 6, atomCounts: { O: 2 } },
+      ],
+      products: [
+        { formula: 'CO2', coefficient: 6, atomCounts: { C: 1, O: 2 } },
+        { formula: 'H2O', coefficient: 6, atomCounts: { H: 2, O: 1 } },
+      ],
+    },
+    reactantMolecules: { C6H12O6: 2, O2: 6, H2O: 6 },
+    catalyticMacromolecule: 'rubisco-carboxysome-holoenzyme',
+    productCompound: 'rubisco-stroma-chloroplast-gel',
+    remineralizedAtoms: { C: 6, H: 12, O: 18 },
+    quantumOrThermalYield: 0.94,
+  },
+  'rhizosphere-nitrogen-phosphorus-assimilation': {
+    id: 'rhizosphere-nitrogen-phosphorus-assimilation',
+    name: 'Rhizosphere Phosphorylation & Nucleotide Energy Cycling',
+    chemicalEquation: 'C10H15N5O10P2 (ADP) + H3PO4 ⇌ C10H16N5O13P3 (ATP) + H2O',
+    stoichiometricReaction: {
+      id: 'rhizosphere-nitrogen-phosphorus-assimilation',
+      name: 'Rhizosphere Phosphorylation & Nucleotide Energy Cycling',
+      reactants: [
+        {
+          formula: 'C10H15N5O10P2',
+          coefficient: 1,
+          atomCounts: { C: 10, H: 15, N: 5, O: 10, P: 2 },
+        },
+        { formula: 'H3PO4', coefficient: 1, atomCounts: { H: 3, P: 1, O: 4 } },
+      ],
+      products: [
+        {
+          formula: 'C10H16N5O13P3',
+          coefficient: 1,
+          atomCounts: { C: 10, H: 16, N: 5, O: 13, P: 3 },
+        },
+        { formula: 'H2O', coefficient: 1, atomCounts: { H: 2, O: 1 } },
+      ],
+    },
+    reactantMolecules: { ADP: 2, H3PO4: 2, NH3: 2, ATP: 2 },
+    catalyticMacromolecule: 'pectin-hemicellulose-hydrogel',
+    productCompound: 'pectin-mucilage-rhizosphere-film',
+    remineralizedAtoms: { C: 10, H: 18, N: 5, O: 14, P: 3 },
+    quantumOrThermalYield: 0.9,
   },
 };
 
@@ -6862,7 +7213,7 @@ export function evaluateGranularMatterSynthesis(params: {
   const isHumusRich =
     biome === 'grove' || biome === 'meadow' || substrate === 'terrestrial-loam';
 
-  const atomicActivities: Record<AtomicElementId, number> = {
+  const coreAtomicActivities: Partial<Record<AtomicElementId, number>> = {
     H: Number(Math.min(1, 0.68 + (isHydroRich ? 0.24 : 0.1) + neuroNorm * 0.08).toFixed(3)),
     C: Number(Math.min(1, 0.64 + (isHumusRich ? 0.22 : 0.12) + harmonyNorm * 0.12).toFixed(3)),
     N: Number(Math.min(1, 0.54 + (attuned ? 0.22 : 0.08) + neuroNorm * 0.14).toFixed(3)),
@@ -6871,7 +7222,29 @@ export function evaluateGranularMatterSynthesis(params: {
     Si: Number(Math.min(1, (isSilicaRich ? 0.88 : 0.44) + neuroNorm * 0.12).toFixed(3)),
     P: Number(Math.min(1, 0.56 + (attuned ? 0.24 : 0.08) + harmonyNorm * 0.14).toFixed(3)),
     Ca: Number(Math.min(1, (isCarbonateRich ? 0.86 : 0.48) + neuroNorm * 0.12).toFixed(3)),
+    Fe: Number(Math.min(1, (isSilicaRich ? 0.68 : 0.52) + neuroNorm * 0.12).toFixed(3)),
+    S: Number(Math.min(1, 0.58 + (isHumusRich ? 0.16 : 0.08) + neuroNorm * 0.1).toFixed(3)),
+    K: Number(Math.min(1, 0.55 + (attuned ? 0.18 : 0.06) + harmonyNorm * 0.1).toFixed(3)),
+    Al: Number(Math.min(1, (isSilicaRich ? 0.72 : 0.46) + neuroNorm * 0.1).toFixed(3)),
+    F: Number(Math.min(1, (isSilicaRich ? 0.66 : 0.42) + neuroNorm * 0.1).toFixed(3)),
+    Ti: Number(Math.min(1, (isSilicaRich ? 0.64 : 0.4) + sunPhotonFlux * 0.14).toFixed(3)),
   };
+  const atomicActivities = {} as Record<AtomicElementId, number>;
+  for (const el of IUPAC_118_ELEMENTS) {
+    const overridden = coreAtomicActivities[el.symbol];
+    if (overridden !== undefined) {
+      atomicActivities[el.symbol] = overridden;
+    } else {
+      const valenceRatio = Math.min(1, el.valenceElectrons / 8);
+      const electroNorm = (el.paulingElectronegativity ?? 1.2) / 4.0;
+      atomicActivities[el.symbol] = Number(
+        Math.min(
+          1,
+          0.32 + valenceRatio * 0.24 + electroNorm * 0.18 + neuroNorm * 0.14,
+        ).toFixed(3),
+      );
+    }
+  }
 
   // Tier 2: Construct Molecular Concentrations from Tier 1 Atomic Activities & Stoichiometry
   const computeMolConcentration = (molId: MolecularSpeciesId, boost = 0): number => {
@@ -6891,19 +7264,31 @@ export function evaluateGranularMatterSynthesis(params: {
     );
   };
 
-  const molecularConcentrations: Record<MolecularSpeciesId, number> = {
-    H2O: computeMolConcentration('H2O', isHydroRich ? 0.16 : 0.04),
-    CO2: computeMolConcentration('CO2', sunPhotonFlux * 0.1),
-    SiO2: computeMolConcentration('SiO2', isSilicaRich ? 0.22 : 0),
-    CaCO3: computeMolConcentration('CaCO3', isCarbonateRich ? 0.2 : 0),
-    ATP: computeMolConcentration('ATP', attuned ? 0.18 : 0.04),
-    'alpha-pinene': computeMolConcentration('alpha-pinene', volatileTerpeneImpulse * 0.28),
-    'd-luciferin': computeMolConcentration('d-luciferin', nocturnalBioBoost * 0.18),
-    'orthosilicic-acid': computeMolConcentration(
-      'orthosilicic-acid',
-      isSilicaRich || isHydroRich ? 0.15 : 0.03,
-    ),
+  const molecularBoosts: Partial<Record<MolecularSpeciesId, number>> = {
+    H2O: isHydroRich ? 0.16 : 0.04,
+    CO2: sunPhotonFlux * 0.1,
+    SiO2: isSilicaRich ? 0.22 : 0,
+    CaCO3: isCarbonateRich ? 0.2 : 0,
+    ATP: attuned ? 0.18 : 0.04,
+    ADP: attuned ? 0.14 : 0.06,
+    'alpha-pinene': volatileTerpeneImpulse * 0.28,
+    'd-luciferin': nocturnalBioBoost * 0.18,
+    'orthosilicic-acid': isSilicaRich || isHydroRich ? 0.15 : 0.03,
+    O2: sunPhotonFlux * 0.14,
+    N2: 0.08,
+    NH3: isHumusRich ? 0.12 : 0.04,
+    H3PO4: attuned ? 0.14 : 0.05,
+    H2CO3: isCarbonateRich || isHydroRich ? 0.14 : 0.04,
+    CaSiO3: isCarbonateRich || isSilicaRich ? 0.14 : 0.04,
+    C6H12O6: sunPhotonFlux * 0.12 + (attuned ? 0.08 : 0),
   };
+  const molecularConcentrations = {} as Record<MolecularSpeciesId, number>;
+  for (const molId of Object.keys(MOLECULAR_SPECIES) as MolecularSpeciesId[]) {
+    molecularConcentrations[molId] = computeMolConcentration(
+      molId,
+      molecularBoosts[molId] ?? 0.04,
+    );
+  }
 
   // Tier 3: Polymerize Macromolecules from Tier 2 Molecular Concentrations
   const computeMacroYield = (macId: MacromoleculeId): number => {
@@ -6923,14 +7308,10 @@ export function evaluateGranularMatterSynthesis(params: {
     );
   };
 
-  const macromolecularYields: Record<MacromoleculeId, number> = {
-    'cellulose-lignin-microfibril': computeMacroYield('cellulose-lignin-microfibril'),
-    'chlorophyll-porphyrin-antenna': computeMacroYield('chlorophyll-porphyrin-antenna'),
-    'luciferase-holoenzyme-complex': computeMacroYield('luciferase-holoenzyme-complex'),
-    'chitin-glucan-hyphal-network': computeMacroYield('chitin-glucan-hyphal-network'),
-    'tectosilicate-quartz-lattice': computeMacroYield('tectosilicate-quartz-lattice'),
-    'calcite-aragonite-spar-lattice': computeMacroYield('calcite-aragonite-spar-lattice'),
-  };
+  const macromolecularYields = {} as Record<MacromoleculeId, number>;
+  for (const macId of Object.keys(MACROMOLECULAR_POLYMERS) as MacromoleculeId[]) {
+    macromolecularYields[macId] = computeMacroYield(macId);
+  }
 
   // Tier 4: Manifest Organic & Inorganic Matter/Compounds from Tier 3 Macromolecules & Tier 2 Co-Factors
   const computeCompoundManifestation = (compId: MatterCompoundId, affinityBoost = 0): number => {
@@ -7128,22 +7509,54 @@ export function evaluateGranularMatterSynthesis(params: {
           REACTION_PATHWAYS['mycorrhizal-chitin-remineralization'].quantumOrThermalYield,
       ).toFixed(3),
     ),
+    'travertine-bicarbonate-calcification': Number(
+      Math.min(
+        1,
+        (travertineLimestoneSpar * 0.4 +
+          molecularConcentrations.CaCO3 * 0.35 +
+          macromolecularYields['calcite-aragonite-spar-lattice'] * 0.25) *
+          REACTION_PATHWAYS['travertine-bicarbonate-calcification'].quantumOrThermalYield,
+      ).toFixed(3),
+    ),
+    'urey-silicate-carbonate-weathering': Number(
+      Math.min(
+        1,
+        (molecularConcentrations.CaSiO3 * 0.38 +
+          molecularConcentrations.CO2 * 0.32 +
+          macromolecularYields['feldspar-aluminosilicate-framework'] * 0.3) *
+          REACTION_PATHWAYS['urey-silicate-carbonate-weathering'].quantumOrThermalYield,
+      ).toFixed(3),
+    ),
+    'aerobic-mycorrhizal-respiration': Number(
+      Math.min(
+        1,
+        (molecularConcentrations.C6H12O6 * 0.4 +
+          molecularConcentrations.O2 * 0.35 +
+          macromolecularYields['rubisco-carboxysome-holoenzyme'] * 0.25) *
+          REACTION_PATHWAYS['aerobic-mycorrhizal-respiration'].quantumOrThermalYield,
+      ).toFixed(3),
+    ),
+    'rhizosphere-nitrogen-phosphorus-assimilation': Number(
+      Math.min(
+        1,
+        (molecularConcentrations.ADP * 0.35 +
+          molecularConcentrations.H3PO4 * 0.35 +
+          macromolecularYields['pectin-hemicellulose-hydrogel'] * 0.3) *
+          REACTION_PATHWAYS['rhizosphere-nitrogen-phosphorus-assimilation'].quantumOrThermalYield,
+      ).toFixed(3),
+    ),
   };
 
-  // Closed-loop conservation: Tier 6 Remineralized Atomic Pool equals exact mass-balanced return
+  // Closed-loop conservation: Tier 6 Remineralized Atomic Pool equals exact mass-balanced return across all 118 elements
   const remineralizationRatio =
     tier6AtomicRemineralizationIndex /
     Math.max(1, tier5EnvironmentalModalIndex + tier1AtomicValenceIndex);
-  const remineralizedAtomicPool: Record<AtomicElementId, number> = {
-    H: Number((atomicActivities.H * remineralizationRatio).toFixed(3)),
-    C: Number((atomicActivities.C * remineralizationRatio).toFixed(3)),
-    N: Number((atomicActivities.N * remineralizationRatio).toFixed(3)),
-    O: Number((atomicActivities.O * remineralizationRatio).toFixed(3)),
-    Mg: Number((atomicActivities.Mg * remineralizationRatio).toFixed(3)),
-    Si: Number((atomicActivities.Si * remineralizationRatio).toFixed(3)),
-    P: Number((atomicActivities.P * remineralizationRatio).toFixed(3)),
-    Ca: Number((atomicActivities.Ca * remineralizationRatio).toFixed(3)),
-  };
+  const remineralizedAtomicPool = {} as Record<AtomicElementId, number>;
+  for (const el of IUPAC_118_ELEMENTS) {
+    remineralizedAtomicPool[el.symbol] = Number(
+      (atomicActivities[el.symbol] * remineralizationRatio).toFixed(3),
+    );
+  }
 
   return {
     tier1AtomicValenceIndex,
@@ -7211,41 +7624,11 @@ export function evaluateGranularMatterSynthesis(params: {
 }
 
 /**
- * Converts a bioluminescent chromophore emission wavelength (`475..595 nm`) into an sRGB hex color
- * (`#rrggbb`), mapping alkaline cyan-blue quartz emission (`~490 nm`) through emerald-teal (`~520 nm`)
- * to acidic warm amber-gold (`~575 nm`).
+ * Converts a bioluminescent chromophore emission wavelength (`380..780 nm`) into an sRGB hex color
+ * (`#rrggbb`) via CIE 1931 2-deg Standard Colorimetric Observer integration (`wavelengthNmToDisplayColor`).
  */
 export function wavelengthNmToHex(wavelengthNm: number): string {
-  const wl = Math.max(470, Math.min(600, wavelengthNm));
-  let r = 0;
-  let g = 0;
-  let b = 0;
-  if (wl < 490) {
-    const t = (wl - 470) / 20;
-    r = 0.12 * (1 - t);
-    g = 0.55 + 0.45 * t;
-    b = 1.0;
-  } else if (wl < 510) {
-    const t = (wl - 490) / 20;
-    r = 0.08 * t;
-    g = 1.0;
-    b = 1.0 - 0.72 * t;
-  } else if (wl < 555) {
-    const t = (wl - 510) / 45;
-    r = 0.08 + 0.78 * t;
-    g = 1.0;
-    b = 0.28 * (1 - t);
-  } else {
-    const t = (wl - 555) / 45;
-    r = 0.86 + 0.14 * t;
-    g = 1.0 - 0.24 * t;
-    b = 0.12 * (1 - t);
-  }
-  const toHex = (v: number) =>
-    Math.max(0, Math.min(255, Math.round(v * 255)))
-      .toString(16)
-      .padStart(2, '0');
-  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+  return wavelengthNmToDisplayColor(wavelengthNm, 0.74).hex;
 }
 
 export interface CompoundSurfaceProfile {
@@ -8609,16 +8992,22 @@ export function evaluateMaterialSynthesisCrossModalObstruction(params?: {
 
   for (const compoundId of Object.keys(MATTER_COMPOUNDS) as MatterCompoundId[]) {
     const spec = MATTER_COMPOUNDS[compoundId];
+    const isRigidCrystalMineral =
+      spec.matterCategory === 'inorganic' &&
+      compoundId !== 'structured-hydro-mineral-electrolyte';
     const isRigidMineralOrStem =
-      compoundId === 'travertine-limestone-spar' ||
-      compoundId === 'piezoelectric-quartz-geode' ||
-      compoundId === 'lignocellulosic-vascular-tissue';
+      isRigidCrystalMineral ||
+      compoundId === 'lignocellulosic-vascular-tissue' ||
+      compoundId === 'suberin-cuticular-wax-lamella' ||
+      compoundId === 'sporopollenin-nectar-exine';
 
     const mechanicalTransmittancePermille = isRigidMineralOrStem
       ? VERDANT_PHYSICS_STANDARD.materialObstruction.solidMechanicalTransmittancePermille
       : compoundId === 'structured-hydro-mineral-electrolyte'
         ? 1000 - VERDANT_PHYSICS_STANDARD.materialObstruction.lagoonHydroMomentumObstructionPermille
-        : compoundId === 'bioluminescent-mycelial-humus'
+        : compoundId === 'bioluminescent-mycelial-humus' ||
+            compoundId === 'pectin-mucilage-rhizosphere-film' ||
+            compoundId === 'rubisco-stroma-chloroplast-gel'
           ? 920
           : 1000;
 
@@ -8641,7 +9030,9 @@ export function evaluateMaterialSynthesisCrossModalObstruction(params?: {
       ? 1000
       : compoundId === 'structured-hydro-mineral-electrolyte'
         ? VERDANT_PHYSICS_STANDARD.materialObstruction.lagoonHydroMomentumObstructionPermille
-        : compoundId === 'bioluminescent-mycelial-humus'
+        : compoundId === 'bioluminescent-mycelial-humus' ||
+            compoundId === 'pectin-mucilage-rhizosphere-film' ||
+            compoundId === 'rubisco-stroma-chloroplast-gel'
           ? 120
           : 0;
 
@@ -8649,18 +9040,21 @@ export function evaluateMaterialSynthesisCrossModalObstruction(params?: {
       ? 1000
       : compoundId === 'structured-hydro-mineral-electrolyte'
         ? 880
-        : compoundId === 'bioluminescent-mycelial-humus'
+        : compoundId === 'bioluminescent-mycelial-humus' ||
+            compoundId === 'pectin-mucilage-rhizosphere-film' ||
+            compoundId === 'rubisco-stroma-chloroplast-gel'
           ? 340
           : 45;
 
-    const biogeochemicalRootObstructionPermille =
-      compoundId === 'travertine-limestone-spar' || compoundId === 'piezoelectric-quartz-geode'
-        ? 1000
-        : compoundId === 'lignocellulosic-vascular-tissue'
-          ? 850
-          : compoundId === 'structured-hydro-mineral-electrolyte'
-            ? 320
-            : 0;
+    const biogeochemicalRootObstructionPermille = isRigidCrystalMineral
+      ? 1000
+      : compoundId === 'lignocellulosic-vascular-tissue' ||
+          compoundId === 'suberin-cuticular-wax-lamella' ||
+          compoundId === 'sporopollenin-nectar-exine'
+        ? 850
+        : compoundId === 'structured-hydro-mineral-electrolyte'
+          ? 320
+          : 0;
 
     compounds[compoundId] = {
       compoundId,
@@ -10595,6 +10989,7 @@ export interface HolisticObserverState {
   differentiationAndExtrapolation: ObserverDifferentiationAndExtrapolationState;
   immanentPresence: ImmanentObserverPresenceState;
   affectAndPreferences: ObserverAffectAndPreferencesState;
+  canonicalStandardModelsContext: HolisticObserverStandardModelContext;
   connectedBusModules: readonly string[];
 }
 
@@ -11383,6 +11778,23 @@ export function evaluateHolisticObserverState(params: {
     plants: params.plants,
   });
 
+  const canonicalStandardModelsContext = evaluateHolisticObserverStandardModelContext({
+    domainWeights10: {
+      infrastructure: manifold.domains.infrastructure.synapticWeight,
+      physics: manifold.domains.physics.synapticWeight,
+      botany: manifold.domains.botany.synapticWeight,
+      ecology: manifold.domains.ecology.synapticWeight,
+      acoustics: manifold.domains.acoustics.synapticWeight,
+      articulation: manifold.domains.articulation.synapticWeight,
+      soundtrack: manifold.domains.soundtrack.synapticWeight,
+      humane: manifold.domains.humane.synapticWeight,
+      brand: manifold.domains.brand.synapticWeight,
+      neuromorphic: manifold.domains.neuromorphic.synapticWeight,
+    },
+    alphaSeed,
+    atmosphere,
+  });
+
   return {
     parts,
     inferredPlayerIntent: tomInference.intent,
@@ -11428,6 +11840,7 @@ export function evaluateHolisticObserverState(params: {
     differentiationAndExtrapolation,
     immanentPresence,
     affectAndPreferences,
+    canonicalStandardModelsContext,
     connectedBusModules: CONNECTED_NEUROMORPHIC_BUS_MODULES,
   };
 }
@@ -13441,13 +13854,26 @@ export function verifyHolisticSystemCoupling(params?: {
   // 13. 6-Stage Closed-Loop Granular Atomic-to-Environmental Procedural Synthesis (`Foundation.Ecology.V1.Model::GranularMatterSynthesisSpec`, `granularAtomicToEnvironmentalSynthesisHolds` & `closedLoopAtomicRemineralizationHolds`):
   // Verifies that Atoms -> Molecules -> Macromolecules -> Organic & Inorganic Compounds -> Environmental & Multi-Modal Synthesis -> Closed-Loop Atomic Remineralization hold across all 6 modalities.
   const granularSample = beckonStep.granularSynthesis;
+  const distinctCompoundBravaisSymbols = new Set(
+    Object.values(MATTER_COMPOUNDS).map((c) => c.bravaisPearsonSymbol),
+  );
   const granularAtomicToEnvironmentalSynthesisVerified =
-    VERDANT_ECOLOGY_STANDARD.granularSynthesis.atomicElementCount === 8 &&
-    VERDANT_ECOLOGY_STANDARD.granularSynthesis.molecularSpeciesCount === 8 &&
-    VERDANT_ECOLOGY_STANDARD.granularSynthesis.macromoleculeCount === 6 &&
-    VERDANT_ECOLOGY_STANDARD.granularSynthesis.matterCompoundCount === 6 &&
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.atomicElementCount ===
+      Object.keys(ATOMIC_ELEMENTS).length &&
+    Object.keys(ATOMIC_ELEMENTS).length === IUPAC_118_ELEMENTS.length &&
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.molecularSpeciesCount ===
+      Object.keys(MOLECULAR_SPECIES).length &&
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.macromoleculeCount ===
+      Object.keys(MACROMOLECULAR_POLYMERS).length &&
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.matterCompoundCount ===
+      Object.keys(MATTER_COMPOUNDS).length &&
+    distinctCompoundBravaisSymbols.size === FOURTEEN_BRAVAIS_LATTICES.length &&
     VERDANT_ECOLOGY_STANDARD.granularSynthesis.synthesizedModalityCount === 6 &&
-    VERDANT_ECOLOGY_STANDARD.granularSynthesis.closedLoopReactionPathwayCount === 4 &&
+    VERDANT_ECOLOGY_STANDARD.granularSynthesis.closedLoopReactionPathwayCount ===
+      Object.keys(REACTION_PATHWAYS).length &&
+    Object.values(REACTION_PATHWAYS).every(
+      (pw) => verifyStoichiometricBalance(pw.stoichiometricReaction).balanced,
+    ) &&
     VERDANT_ECOLOGY_STANDARD.granularSynthesis.atomicToEnvironmentalChainVerified &&
     VERDANT_ECOLOGY_STANDARD.granularSynthesis.atomicRemineralizationComplete &&
     VERDANT_ECOLOGY_STANDARD.granularSynthesis.prismSynthesisClosureVerified &&
@@ -13744,7 +14170,9 @@ function verifyObserverRuntimeInvariants(obs: HolisticObserverState): boolean {
     obs.differentiationAndExtrapolation.diversification.homogenizationPrevented &&
     obs.immanentPresence.fourfoldIdentity.allFourFacetsUnified &&
     obs.affectAndPreferences.affect.permeatesAllElevenParts &&
-    Object.keys(obs.affectAndPreferences.preferences).length === 6
+    Object.keys(obs.affectAndPreferences.preferences).length === 6 &&
+    obs.canonicalStandardModelsContext.zeroCherryPickingAudit.verified &&
+    obs.canonicalStandardModelsContext.zeroCherryPickingAudit.totalVerifiedContextCells === 154
   );
 }
 

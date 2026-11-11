@@ -9,6 +9,9 @@
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "extract:prism": "tsx scripts/extractPrismArtifacts.ts",
+    "prism:doctor": "cd prism && ../node_modules/.bin/prism-doctor",
+    "prism:check": "cd prism && ../node_modules/.bin/prism-code build --check --local",
+    "prism:verify": "cd prism && ../node_modules/.bin/prism-code verify --lean --local --all",
     "lint": "tsc --noEmit",
     "test": "tsx --test src/game/prismModel.test.ts"
   },

@@ -216,11 +216,51 @@ import {
   stepCrossModalPhaseObstructionPermille,
   stepCrossModalAcousticShadowPermille,
   verifyMaterialSynthesisCrossModalObstruction,
+  GENERATED_CANONICAL_MODEL_BASIS_PRIMES,
+  GENERATED_CANONICAL_STANDARD_MODELS,
+  BIPM_SI_2019_DEFINING_CONSTANTS,
+  SI_BASE_UNITS,
+  multiplySiDimensions,
+  divideSiDimensions,
+  powerSiDimensions,
+  verifySiDimensionalHomogeneity,
+  formatSiDimensionFormula,
+  CRYSTALLOGRAPHIC_32_POINT_GROUPS,
+  CLIFFORD_CL06_GRADE_DIMENSIONS,
+  computeCliffordCl06Product,
+  verifyExteriorDerivativeNilpotencyOnMesh,
+  factorizeUorPositiveInt,
+  computeNormalizedShannonEntropy,
+  STANDARD_MODEL_17_FUNDAMENTAL_FIELDS,
+  verifyStandardModelGaugeClosure,
+  COMPOSITE_COLOR_SINGLET_HADRONS,
+  verifyQuantumVertexConservation,
+  IUPAC_118_ELEMENTS,
+  FOURTEEN_BRAVAIS_LATTICES,
+  CANONICAL_GARDEN_REACTIONS,
+  verifyStoichiometricBalance,
+  verifyCompletePeriodicTable118Invariants,
+  CIE_D65_WHITEPOINT,
+  integrateSpectralReflectanceToXyzD65,
+  evaluateChlorophyllFoliageReflectance,
+  cieXyzD65ToOklch,
+  oklchToCieXyzD65,
+  oklchToGamutMappedSrgb,
+  srgbHexToOklch,
+  computeDeltaEOk,
+  wavelengthNmToDisplayColor,
+  evaluateCookTorranceGgxBrdf,
+  synthesizeSpectralDiurnalPalette,
+  synthesizeVerdantW3CDesignTokens,
+  CANONICAL_14_MODEL_KEYS,
+  META_MODEL_11_ELEMENTS,
+  evaluateHolisticObserverStandardModelContext,
   BiomeId,
   AtmosphereId,
 } from './prismModel';
 import {
   buildImmanentObserverWitnessGroup,
+  createBravaisCrystalHabitGeometry,
   createCordateLotusPadGeometry,
   createFlutedBellCorollaGeometry,
   createFlutedEntasisPillarGeometry,
@@ -235,7 +275,16 @@ import {
   createSegmentedBambooStalkGeometry,
   createStratifiedBoulderGeometry,
   inspectGeometryMetadata,
+  verifyManifoldBMeshTopology,
 } from './proceduralMeshEngine';
+import {
+  ZWICKER_24_BARK_EDGES_HZ,
+  computeIso226EqualLoudnessWeight,
+  computeMaterialChladniModalRatios,
+  computeZwickerBarkBandIndex,
+  computeZwickerBarkRate,
+  evaluate24BarkMaskingGovernor,
+} from './soundscapeEngine';
 import path from 'node:path';
 import { extractAllPrismArtifacts } from '../../scripts/extractPrismArtifacts';
 
@@ -1598,7 +1647,7 @@ test('Root Judge calls the 10-Domain Universal Neuromorphic Bus, constructive bo
   const liveExtracted = extractAllPrismArtifacts(prismSrcDir);
   assert.deepEqual(liveExtracted.foundationPurity, GENERATED_PRISM_FOUNDATION_PURITY);
   assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.verified, true);
-  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 12);
+  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 16);
   assert.deepEqual(liveExtracted.domainBasisPrimes, GENERATED_PRISM_DOMAIN_BASIS_PRIMES);
   assert.deepEqual(liveExtracted.domainBasisPrimes, PRISM_DOMAIN_BASIS_PRIMES);
   assert.deepEqual(liveExtracted.contextPrimes, GENERATED_PRISM_CONTEXT_PRIMES);
@@ -1917,10 +1966,10 @@ test('Emergent Stakeholder Entity synthesizes Intelligence, Memory, Observation,
 test('5-Tier Granular Atomic-to-Environmental Procedural Synthesis constructs Molecules from Atoms, Macromolecules from Molecules, Organic & Inorganic Compounds from Macromolecules, and synthesizes into all 6 Game Modalities', () => {
   // 1. Verify `.lex.tex` specification and Lean 4 theorem (`granularAtomicToEnvironmentalSynthesisHolds`)
   const gs = VERDANT_ECOLOGY_STANDARD.granularSynthesis;
-  assert.equal(gs.atomicElementCount, 8);
-  assert.equal(gs.molecularSpeciesCount, 8);
-  assert.equal(gs.macromoleculeCount, 6);
-  assert.equal(gs.matterCompoundCount, 6);
+  assert.equal(gs.atomicElementCount, 118);
+  assert.equal(gs.molecularSpeciesCount, 24);
+  assert.equal(gs.macromoleculeCount, 12);
+  assert.equal(gs.matterCompoundCount, 14);
   assert.equal(gs.synthesizedModalityCount, 6);
   assert.equal(gs.atomicToEnvironmentalChainVerified, true);
 
@@ -1951,9 +2000,9 @@ test('5-Tier Granular Atomic-to-Environmental Procedural Synthesis constructs Mo
     }
   }
 
-  // 3. Verify Tier 1 (8 Atomic Elements) -> Tier 2 (8 Molecular Species) bottom-up stoichiometric construction
-  assert.equal(Object.keys(ATOMIC_ELEMENTS).length, 8);
-  assert.equal(Object.keys(MOLECULAR_SPECIES).length, 8);
+  // 3. Verify Tier 1 (118 Atomic Elements) -> Tier 2 (24 Molecular Species) bottom-up stoichiometric construction
+  assert.equal(Object.keys(ATOMIC_ELEMENTS).length, 118);
+  assert.equal(Object.keys(MOLECULAR_SPECIES).length, 24);
   for (const mol of Object.values(MOLECULAR_SPECIES)) {
     let recomputedMass = 0;
     let recomputedValence = 0;
@@ -1974,12 +2023,26 @@ test('5-Tier Granular Atomic-to-Environmental Procedural Synthesis constructs Mo
     );
   }
 
-  // 4. Verify Tier 3 (6 Macromolecular Polymers) & Tier 4 (3 Organic + 3 Inorganic Compounds)
-  assert.equal(Object.keys(MACROMOLECULAR_POLYMERS).length, 6);
+  // 4. Verify Tier 3 (12 Macromolecular Polymers: 6 organic + 6 inorganic) & Tier 4 (14 Bravais-coupled Compounds: 7 organic + 7 inorganic)
+  const macromolecules = Object.values(MACROMOLECULAR_POLYMERS);
+  assert.equal(macromolecules.length, 12);
+  assert.equal(
+    macromolecules.filter((m) => m.domainClass === 'organic-biopolymer').length,
+    6,
+  );
+  assert.equal(
+    macromolecules.filter((m) => m.domainClass === 'inorganic-crystal-lattice').length,
+    6,
+  );
   const compounds = Object.values(MATTER_COMPOUNDS);
-  assert.equal(compounds.length, 6);
-  assert.equal(compounds.filter((c) => c.matterCategory === 'organic').length, 3);
-  assert.equal(compounds.filter((c) => c.matterCategory === 'inorganic').length, 3);
+  assert.equal(compounds.length, 14);
+  assert.equal(compounds.filter((c) => c.matterCategory === 'organic').length, 7);
+  assert.equal(compounds.filter((c) => c.matterCategory === 'inorganic').length, 7);
+  assert.equal(
+    new Set(compounds.map((c) => c.bravaisPearsonSymbol)).size,
+    FOURTEEN_BRAVAIS_LATTICES.length,
+    '14 Matter Compounds must bijectively span all 14 IUCr Bravais lattices',
+  );
 
   // 5. Verify Tier 5 (`evaluateGranularMatterSynthesis`) synthesizes across all 6 modalities and differentiates inorganic vs organic biomes
   const crystalGranular = evaluateGranularMatterSynthesis({
@@ -2036,7 +2099,7 @@ test('5-Tier Granular Atomic-to-Environmental Procedural Synthesis constructs Mo
 test('Complete Prism Model Closure & Tier 6 Closed-Loop Atomic Remineralization unite the 10-Domain Neuromorphic Bus, 4-Facet Emergent Stakeholder Entity, and 6-Stage Closed-Loop Granular Synthesis', () => {
   // 1. Verify `.lex.tex` specification and Lean 4 theorems (`closedLoopAtomicRemineralizationHolds` & `completePrismModelClosureHolds`)
   const gs = VERDANT_ECOLOGY_STANDARD.granularSynthesis;
-  assert.equal(gs.closedLoopReactionPathwayCount, 4);
+  assert.equal(gs.closedLoopReactionPathwayCount, 8);
   assert.equal(gs.atomicRemineralizationComplete, true);
   assert.equal(gs.prismSynthesisClosureVerified, true);
   assert.equal(GENERATED_VERDANT_JUDGE_ARTIFACT.rootJudgeVerifiesCompleteClosure, true);
@@ -2067,8 +2130,16 @@ test('Complete Prism Model Closure & Tier 6 Closed-Loop Atomic Remineralization 
     assert.equal(verifyCompleteGranularSynthesisClosure(w), true);
   }
 
-  // 3. Verify the 4 Closed-Loop Biogeochemical & Photochemical Reaction Pathways
-  assert.equal(Object.keys(REACTION_PATHWAYS).length, 4);
+  // 3. Verify all 8 Closed-Loop Biogeochemical & Photochemical Reaction Pathways and exact stoichiometry (`N * nu = 0`)
+  assert.equal(Object.keys(REACTION_PATHWAYS).length, 8);
+  for (const pw of Object.values(REACTION_PATHWAYS)) {
+    const balance = verifyStoichiometricBalance(pw.stoichiometricReaction);
+    assert.equal(
+      balance.balanced,
+      true,
+      `Pathway ${pw.id} must satisfy exact atomic, mass, and ionic-charge conservation`,
+    );
+  }
   const sampleSynthesis = evaluateGranularMatterSynthesis({
     biome: 'sanctuary',
     species: 'star-orchid',
@@ -2808,7 +2879,7 @@ test('31. Live Neuromorphic Bus Refinement Advances Observer Cosmogenesis & Modu
 
 test('32. Pure Parametric Canonical Seed, Concert Pitch & World Topology derive deterministically from UOR Primes & Rule-30 Dyadics', () => {
   assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.verified, true);
-  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 12);
+  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 16);
 
   // Exact UOR prime & Rule-30 dyadic identities at Base Directive w = 8
   assert.equal(synthesizeParametricCanonicalSeed(1, 8), 42026);
@@ -3526,7 +3597,7 @@ test('42. Material-Synthesis Cross-Modal Obstruction (6 Compounds × 6 Channels)
     colliders,
   });
   assert.equal(report.allChannelsConsistent, true);
-  assert.equal(report.synthesisCompoundCount, 6);
+  assert.equal(report.synthesisCompoundCount, 14);
   assert.equal(report.crossModalChannelCount, 6);
   assert.equal(report.quartzPhaseVelocityRetardationPermille, 352);
   assert.equal(report.stoneAcousticImpedanceReflectionPermille, 999);
@@ -3613,6 +3684,363 @@ test('42. Material-Synthesis Cross-Modal Obstruction (6 Compounds × 6 Channels)
   assert.equal(holistic.completePrismModelClosureVerified, true);
   assert.equal(holistic.allConstrained, true);
 });
+
+test('43. Canonical Standard Models All the Way Down: 14 Models × 11 Meta-Model Elements = 154 Verified Cells, Consecutive Primes 71..137 & SHA-256 Content Addressing', () => {
+  assert.equal(CANONICAL_14_MODEL_KEYS.length, 14);
+  assert.equal(META_MODEL_11_ELEMENTS.length, 11);
+  assert.equal(GENERATED_CANONICAL_STANDARD_MODELS.length, 14);
+
+  // Verify consecutive UOR basis primes p_20..p_33 = [71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137]
+  const primeValues = Object.values(GENERATED_CANONICAL_MODEL_BASIS_PRIMES).sort((a, b) => a - b);
+  assert.deepEqual(primeValues, [71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137]);
+
+  let verifiedCellCount = 0;
+  for (let idx = 0; idx < GENERATED_CANONICAL_STANDARD_MODELS.length; idx++) {
+    const entry = GENERATED_CANONICAL_STANDARD_MODELS[idx];
+    const d = entry.descriptor;
+    assert.equal(d.requiredElementCount, 11);
+    assert.equal(d.completeAndEnforced, true, `Model ${entry.modelKey} must be completeAndEnforced`);
+    assert.equal(d.identity.modelIndex, idx + 1);
+    assert.equal(d.identity.stableContentAddressed, true);
+    assert.equal(entry.sourceSha256.length, 64, `SHA-256 hex digest required for ${entry.modelKey}`);
+    assert.ok(fs.existsSync(path.join(process.cwd(), entry.sourceFileRelative)));
+
+    assert.equal(d.vocabulary.vocabularyComplete, true);
+    assert.equal(d.capability.capabilityDeterministicAndTotal, true);
+    assert.equal(d.interfaceSpec.interfaceDimensionallyHomogeneous, true);
+    assert.equal(d.composition.compositionConflictFreeAndAssociative, true);
+    assert.equal(d.composition.conflictModelMask, 0);
+    assert.equal(d.dynamics.dynamicsForwardInvariant, true);
+    assert.equal(d.fidelity.fidelityMonotonicallyScales, true);
+    assert.ok(d.fidelity.apexResolutionUnits > d.fidelity.baseResolutionUnits);
+    assert.equal(d.resources.resourceBoundedZeroGc, true);
+    assert.equal(d.resources.perTickHeapAllocations, 0);
+    assert.equal(d.authority.authorityNormativelyPinned, true);
+    assert.equal(d.evidence.evidenceMachineChecked, true);
+    assert.equal(d.evidence.unprovedAdHocFlagCount, 0);
+    assert.equal(d.projection.projectionZeroDrift, true);
+    verifiedCellCount += 11;
+  }
+  assert.equal(verifiedCellCount, 154);
+
+  const initialNeuro = createInitialNeuromorphicState();
+  const smCtx = initialNeuro.observer.canonicalStandardModelsContext;
+  assert.equal(smCtx.zeroCherryPickingAudit.verified, true);
+  assert.equal(smCtx.zeroCherryPickingAudit.totalVerifiedContextCells, 154);
+  assert.equal(smCtx.zeroCherryPickingAudit.directedFunctorCells, 196);
+  assert.equal(smCtx.zeroCherryPickingAudit.crossModelFunctorPathways, 182);
+});
+
+test('44. BIPM SI 2019 Defining Constants, Dimensional Homogeneity Algebra & Complete 17-Field SU(3)_C × SU(2)_L × U(1)_Y Standard Model', () => {
+  // 1. All 7 exact BIPM SI 2019 defining constants & base units
+  assert.equal(BIPM_SI_2019_DEFINING_CONSTANTS.length, 7);
+  assert.equal(SI_BASE_UNITS.length, 7);
+  const cSpec = BIPM_SI_2019_DEFINING_CONSTANTS.find((c) => c.symbol === 'c');
+  assert.equal(cSpec?.exactValue, 299792458);
+
+  // Verify F = m * a -> kg * m * s^-2 and E = F * d -> kg * m^2 * s^-2 dimensional algebra
+  const massDim = { s: 0, m: 0, kg: 1, A: 0, K: 0, mol: 0, cd: 0 };
+  const lengthDim = { s: 0, m: 1, kg: 0, A: 0, K: 0, mol: 0, cd: 0 };
+  const timeDim = { s: 1, m: 0, kg: 0, A: 0, K: 0, mol: 0, cd: 0 };
+  const accelDim = divideSiDimensions(lengthDim, powerSiDimensions(timeDim, 2));
+  const forceDim = multiplySiDimensions(massDim, accelDim);
+  const energyFromForce = multiplySiDimensions(forceDim, lengthDim);
+  const kineticEnergyDim = multiplySiDimensions(
+    massDim,
+    powerSiDimensions(divideSiDimensions(lengthDim, timeDim), 2),
+  );
+  assert.equal(verifySiDimensionalHomogeneity(energyFromForce, kineticEnergyDim), true);
+  assert.equal(verifySiDimensionalHomogeneity(forceDim, kineticEnergyDim), false);
+  assert.ok(formatSiDimensionFormula(energyFromForce).includes('kg'));
+
+  // 2. Complete 17-Field SU(3)_C x SU(2)_L x U(1)_Y Standard Model without cherry-picking
+  assert.equal(STANDARD_MODEL_17_FUNDAMENTAL_FIELDS.length, 17);
+  const quarks = STANDARD_MODEL_17_FUNDAMENTAL_FIELDS.filter((f) => f.sector === 'quark');
+  const leptons = STANDARD_MODEL_17_FUNDAMENTAL_FIELDS.filter((f) => f.sector === 'lepton');
+  const gaugeBosons = STANDARD_MODEL_17_FUNDAMENTAL_FIELDS.filter((f) => f.sector === 'gauge-boson');
+  const scalars = STANDARD_MODEL_17_FUNDAMENTAL_FIELDS.filter((f) => f.sector === 'scalar-higgs');
+  assert.equal(quarks.length, 6);
+  assert.equal(leptons.length, 6);
+  assert.equal(gaugeBosons.length, 4);
+  assert.equal(scalars.length, 1);
+
+  const smAudit = verifyStandardModelGaugeClosure();
+  assert.equal(smAudit.verified, true);
+  assert.equal(smAudit.totalFundamentalFields, 17);
+  assert.equal(smAudit.totalGaugeGenerators, 12); // 8 gluons + 3 W_i + 1 B
+  assert.equal(smAudit.gellMannNishijimaVerified, true);
+  assert.equal(smAudit.chiralAnomalySumSixthCubed, 0);
+
+  // 3. Color-singlet composite hadrons & neutron beta-decay n^0 -> p^+ + e^- + anti-nu_e conservation
+  assert.equal(COMPOSITE_COLOR_SINGLET_HADRONS.length, 4);
+  for (const h of COMPOSITE_COLOR_SINGLET_HADRONS) {
+    assert.equal(h.colorSingletVerified, true);
+  }
+  const betaDecay = verifyQuantumVertexConservation(
+    [{ electricChargeSixth: 0, baryonNumberThird: 3, leptonFamily: [0, 0, 0], count: 1 }], // n^0
+    [
+      { electricChargeSixth: 6, baryonNumberThird: 3, leptonFamily: [0, 0, 0], count: 1 }, // p^+
+      { electricChargeSixth: -6, baryonNumberThird: 0, leptonFamily: [1, 0, 0], count: 1 }, // e^-
+      { electricChargeSixth: 0, baryonNumberThird: 0, leptonFamily: [-1, 0, 0], count: 1 }, // bar(nu_e)
+    ],
+  );
+  assert.equal(betaDecay.conserved, true);
+});
+
+test('45. Complete 118-Element IUPAC Periodic Table (Z=1..118), Pauli Subshells, 20 Madelung Anomalies, 14 Bravais Lattices & Stoichiometry', () => {
+  assert.equal(IUPAC_118_ELEMENTS.length, 118);
+  assert.equal(IUPAC_118_ELEMENTS[0].symbol, 'H');
+  assert.equal(IUPAC_118_ELEMENTS[13].symbol, 'Si');
+  assert.equal(IUPAC_118_ELEMENTS[78].symbol, 'Au');
+  assert.equal(IUPAC_118_ELEMENTS[117].symbol, 'Og');
+
+  const chemAudit = verifyCompletePeriodicTable118Invariants();
+  assert.equal(chemAudit.verified, true);
+  assert.equal(chemAudit.elementCount, 118);
+  assert.equal(chemAudit.allElectronSumsMatchZ, true);
+  assert.equal(chemAudit.allPauliCapacitiesRespected, true);
+
+  // Verify experimental d/f-block Madelung exchange anomalies (Cr [Ar]3d5 4s1, Cu [Ar]3d10 4s1, Pd [Kr]4d10, Au [Xe]4f14 5d10 6s1)
+  const cr = IUPAC_118_ELEMENTS[23];
+  const cu = IUPAC_118_ELEMENTS[28];
+  const pd = IUPAC_118_ELEMENTS[45];
+  const au = IUPAC_118_ELEMENTS[78];
+  assert.ok(cr.electronConfiguration.includes('3d5') && cr.electronConfiguration.includes('4s1'));
+  assert.ok(cu.electronConfiguration.includes('3d10') && cu.electronConfiguration.includes('4s1'));
+  assert.ok(pd.electronConfiguration.includes('4d10') && !pd.electronConfiguration.includes('5s'));
+  assert.ok(au.electronConfiguration.includes('5d10') && au.electronConfiguration.includes('6s1'));
+
+  // Verify all 7 crystal systems, 14 Bravais lattices, and 32 crystallographic point groups
+  assert.equal(FOURTEEN_BRAVAIS_LATTICES.length, 14);
+  const distinctSystems = new Set(FOURTEEN_BRAVAIS_LATTICES.map((b) => b.crystalSystem));
+  assert.equal(distinctSystems.size, 7);
+  assert.equal(CRYSTALLOGRAPHIC_32_POINT_GROUPS.length, 32);
+
+  // Verify exact stoichiometric mass & ionic-charge conservation across all canonical garden reactions
+  assert.equal(CANONICAL_GARDEN_REACTIONS.length, 4);
+  for (const rxn of CANONICAL_GARDEN_REACTIONS) {
+    const audit = verifyStoichiometricBalance(rxn);
+    assert.equal(audit.balanced, true, `Reaction ${rxn.id} must conserve atoms and charge`);
+    assert.equal(audit.netChargeDelta, 0);
+    assert.ok(Math.abs(audit.reactantMolarMassGPerMol - audit.productMolarMassGPerMol) < 1e-6);
+  }
+});
+
+test('46. Mathematics Standard Model: Clifford Cl(0,6) 64-Blade Algebra, UOR Prime Factorization, Shannon Entropy & DEC d^2 = 0', () => {
+  // 1. Cl(0,6) grade dimensions sum to 2^6 = 64; generators e_i anti-commute and square to -1
+  const totalBlades = CLIFFORD_CL06_GRADE_DIMENSIONS.reduce((acc, n) => acc + n, 0);
+  assert.equal(totalBlades, 64);
+  for (let i = 0; i < 6; i++) {
+    const ei = 1 << i;
+    const sq = computeCliffordCl06Product(ei, ei);
+    assert.equal(sq.bladeMask, 0);
+    assert.equal(sq.sign, -1);
+    for (let j = i + 1; j < 6; j++) {
+      const ej = 1 << j;
+      const p1 = computeCliffordCl06Product(ei, ej);
+      const p2 = computeCliffordCl06Product(ej, ei);
+      assert.equal(p1.bladeMask, p2.bladeMask);
+      assert.equal(p1.sign, -p2.sign);
+    }
+  }
+
+  // 2. Fundamental Theorem of Arithmetic UOR prime factorization
+  const factors = factorizeUorPositiveInt(2 * 2 * 3 * 71 * 127);
+  assert.deepEqual(factors, [
+    [2, 2],
+    [3, 1],
+    [71, 1],
+    [127, 1],
+  ]);
+
+  // 3. Normalized Shannon entropy H in [0, 1] (0 on delta distribution, 1 on uniform distribution)
+  assert.equal(computeNormalizedShannonEntropy([1, 0, 0, 0]), 0);
+  assert.ok(Math.abs(computeNormalizedShannonEntropy([1, 1, 1, 1]) - 1.0) < 1e-9);
+
+  // 4. Discrete Exterior Calculus exact cochain nilpotency d_1 o d_0 = 0 on octahedron
+  const octTris = new Int32Array([
+    0, 2, 4, 0, 4, 3, 0, 3, 5, 0, 5, 2,
+    1, 4, 2, 1, 3, 4, 1, 5, 3, 1, 2, 5,
+  ]);
+  const dec = verifyExteriorDerivativeNilpotencyOnMesh(6, octTris);
+  assert.equal(dec.nilpotentVerified, true);
+  assert.equal(dec.maxResidual, 0);
+});
+
+test('47. CIE 1931 380–780nm Spectral Integration, OKLCH Round-Trip, glTF 2.0 GGX PBR Energy Conservation & W3C WCAG AAA / APCA Tokens', () => {
+  // 1. Perfect white diffuser R(lambda)=1 integrates identically to CIE D65 whitepoint
+  const whiteXyz = integrateSpectralReflectanceToXyzD65(() => 1.0, 41);
+  assert.ok(Math.abs(whiteXyz.X - CIE_D65_WHITEPOINT.X) < 1e-4);
+  assert.ok(Math.abs(whiteXyz.Y - CIE_D65_WHITEPOINT.Y) < 1e-4);
+  assert.ok(Math.abs(whiteXyz.Z - CIE_D65_WHITEPOINT.Z) < 1e-4);
+
+  // 2. Chlorophyll red-edge reflectance jumps steeply above 700 nm compared to 662 nm Chl-a absorption trough
+  const r662 = evaluateChlorophyllFoliageReflectance(662, 1.0);
+  const r740 = evaluateChlorophyllFoliageReflectance(740, 1.0);
+  assert.ok(r740 > r662 * 4, `Chlorophyll red-edge at 740nm (${r740}) must exceed 662nm trough (${r662}) by >4x`);
+
+  // 3. OKLCH <-> CIE XYZ(D65) & sRGB round-trip perceptual accuracy (DeltaE_OK < 0.004)
+  const sampleLch = { L: 0.74, C: 0.12, h: 152 };
+  const roundTripLch = cieXyzD65ToOklch(oklchToCieXyzD65(sampleLch));
+  assert.ok(computeDeltaEOk(sampleLch, roundTripLch) < 1e-5);
+  const mappedSrgb = oklchToGamutMappedSrgb(sampleLch);
+  const hexRoundTrip = srgbHexToOklch(mappedSrgb.hex);
+  assert.ok(computeDeltaEOk(mappedSrgb.oklch, hexRoundTrip) < 0.004);
+
+  const naLineColor = wavelengthNmToDisplayColor(589.0);
+  assert.ok(naLineColor.hex.startsWith('#') && naLineColor.hex.length === 7);
+
+  // 4. Khronos glTF 2.0 Cook-Torrance GGX PBR energy conservation across viewing angles & roughnesses
+  for (const roughness of [0.08, 0.35, 0.85]) {
+    for (const cosTheta of [0.1, 0.5, 0.95]) {
+      const brdf = evaluateCookTorranceGgxBrdf({
+        nDotV: cosTheta,
+        nDotL: cosTheta,
+        nDotH: 0.98,
+        vDotH: cosTheta,
+        perceptualRoughness: roughness,
+        f0Reflectance: 0.04,
+        diffuseAlbedo: 0.85,
+        transmissionFactor: 0.25,
+      });
+      assert.equal(brdf.energyConservingVerified, true);
+      assert.ok(brdf.directionalHemisphericalSum <= 1.000001);
+    }
+  }
+
+  // 5. Diurnal spectral palettes & W3C Design Tokens meet WCAG 2.2 AAA (>= 7:1) and APCA (|Lc| >= 75)
+  for (const atm of ['dawn', 'golden', 'twilight', 'starlight'] as const) {
+    const pal = synthesizeSpectralDiurnalPalette(atm, 41, 480);
+    assert.ok(pal.foliageCanopy.hex.startsWith('#'));
+    const tokens = synthesizeVerdantW3CDesignTokens(atm, 0.85);
+    assert.equal(tokens.wcagAaaVerified, true);
+    assert.equal(tokens.apcaLegibilityVerified, true);
+    assert.ok(tokens.primaryWcagContrast >= 7.0);
+    assert.ok(tokens.primaryApcaLcMagnitude >= 75);
+  }
+});
+
+test('48. Watertight 2-Manifold B-Mesh Topology (χ = V - E + F = 2) on Bravais Crystal Habits & ISO 226 / 24-Bark Psychoacoustics', () => {
+  // 1. All 3 Bravais crystallographic habits (hP-quartz, cP-pyrite, hR-calcite) are closed genus-0 watertight 2-manifolds
+  const expectedVertexCounts: Record<'hP-quartz' | 'cP-pyrite' | 'hR-calcite', number> = {
+    'hP-quartz': 14,
+    'cP-pyrite': 12,
+    'hR-calcite': 8,
+  };
+  for (const habit of ['hP-quartz', 'cP-pyrite', 'hR-calcite'] as const) {
+    const geo = createBravaisCrystalHabitGeometry({ habit, radius: 0.3, height: 0.72 });
+    const audit = verifyManifoldBMeshTopology(geo);
+    assert.equal(audit.topologicalVertexCount, expectedVertexCounts[habit]);
+    assert.equal(audit.eulerPoincareCharacteristic, 2, `${habit} must satisfy Euler-Poincare chi = 2`);
+    assert.equal(audit.boundaryEdgeCount, 0, `${habit} must have 0 boundary edges`);
+    assert.equal(audit.nonManifoldEdgeCount, 0, `${habit} must have 0 non-manifold edges`);
+    assert.equal(audit.degenerateFaceCount, 0, `${habit} must have 0 degenerate triangles`);
+    assert.equal(audit.exteriorDerivativeNilpotent, true, `${habit} must satisfy DEC d^2 = 0`);
+    assert.equal(audit.isClosedWatertightManifold, true);
+    geo.dispose();
+  }
+
+  // Verify the Immanent Co-Observer Witness rig's apical crystal finial uses a closed watertight Bravais manifold
+  const witnessRig = buildImmanentObserverWitnessGroup();
+  const finialAudit = verifyManifoldBMeshTopology(witnessRig.apicalStarFinialMesh.geometry);
+  assert.equal(finialAudit.eulerPoincareCharacteristic, 2);
+  assert.equal(finialAudit.isClosedWatertightManifold, true);
+  witnessRig.dispose();
+
+  // 2. ISO 226:2023 Equal-Loudness Contour & 24-Band Zwicker Bark Simultaneous Masking Governor
+  assert.equal(ZWICKER_24_BARK_EDGES_HZ.length, 25);
+  assert.equal(computeZwickerBarkBandIndex(60), 0);
+  assert.equal(computeZwickerBarkBandIndex(1000), 8);
+  assert.equal(computeZwickerBarkBandIndex(14000), 23);
+  assert.ok(computeZwickerBarkRate(1000) > 8 && computeZwickerBarkRate(1000) < 9.5);
+
+  const w1kHz = computeIso226EqualLoudnessWeight(1000, 60);
+  const w120Hz = computeIso226EqualLoudnessWeight(120, 60);
+  const w3300Hz = computeIso226EqualLoudnessWeight(3300, 60);
+  assert.ok(Math.abs(w1kHz - 1.0) < 1e-5, 'ISO 226 weight must normalize to 1.0 at 1 kHz');
+  assert.ok(w120Hz > 1.0, 'ISO 226 must support warm low-frequency sensitivity below 200 Hz');
+  assert.ok(w3300Hz < 1.0, 'ISO 226 must gently attenuate harsh 3.3 kHz ear-canal peak');
+
+  // Congested partials in the same Bark band (1010 Hz & 1040 Hz both in band 8) get governed for >= 4.5 dB headroom
+  const barkGov = evaluate24BarkMaskingGovernor(
+    [
+      { freqHz: 1010, gain: 0.8 },
+      { freqHz: 1040, gain: 0.75 },
+      { freqHz: 2020, gain: 0.4 },
+    ],
+    4.5,
+  );
+  assert.equal(barkGov.congestedBandCount, 1);
+  assert.equal(barkGov.guaranteedHeadroomDb, 4.5);
+  assert.ok(barkGov.attenuatedGains[1] < barkGov.attenuatedGains[0]);
+
+  const quartzModes = computeMaterialChladniModalRatios(95, 2.65, 6);
+  const woodModes = computeMaterialChladniModalRatios(12, 0.7, 6);
+  assert.equal(quartzModes.length, 6);
+  assert.ok(quartzModes[2] > woodModes[2], 'Higher √(E/ρ) mineral stiffness must disperse Chladni modes upward');
+});
+
+test('49. 14×14 Neuromorphic Functorial Feature-Transfer Matrix Enhances Multi-Modal Fidelity Monotonically Across All Modalities', () => {
+  const baseWeights = {
+    infrastructure: 8,
+    physics: 8,
+    botany: 8,
+    ecology: 8,
+    acoustics: 8,
+    articulation: 8,
+    soundtrack: 8,
+    humane: 8,
+    brand: 8,
+    neuromorphic: 8,
+  };
+  const apexWeights = {
+    infrastructure: 16,
+    physics: 16,
+    botany: 16,
+    ecology: 16,
+    acoustics: 16,
+    articulation: 16,
+    soundtrack: 16,
+    humane: 16,
+    brand: 16,
+    neuromorphic: 16,
+  };
+
+  const baseCtx = evaluateHolisticObserverStandardModelContext({
+    domainWeights10: baseWeights,
+    alphaSeed: 1,
+    atmosphere: 'golden',
+  });
+  const apexCtx = evaluateHolisticObserverStandardModelContext({
+    domainWeights10: apexWeights,
+    alphaSeed: 1,
+    atmosphere: 'golden',
+  });
+
+  assert.equal(baseCtx.functorMatrix14x14.length, 14);
+  for (let i = 0; i < 14; i++) {
+    assert.equal(baseCtx.functorMatrix14x14[i].length, 14);
+    for (let j = 0; j < 14; j++) {
+      assert.ok(apexCtx.functorMatrix14x14[i][j] > baseCtx.functorMatrix14x14[i][j]);
+    }
+    assert.ok(apexCtx.models[i].liveResolutionUnits > baseCtx.models[i].liveResolutionUnits);
+  }
+
+  // Verify every modality's resolution (`Fidelity`) increases strictly from Base (w=8) to Apex (w=16)
+  assert.ok(apexCtx.multiModalFidelity.spectralBandCount > baseCtx.multiModalFidelity.spectralBandCount);
+  assert.ok(apexCtx.multiModalFidelity.adaptiveTerrainSegments > baseCtx.multiModalFidelity.adaptiveTerrainSegments);
+  assert.ok(apexCtx.multiModalFidelity.bMeshRadialSubdivisions > baseCtx.multiModalFidelity.bMeshRadialSubdivisions);
+  assert.ok(apexCtx.multiModalFidelity.airyThinFilmSpanNm > baseCtx.multiModalFidelity.airyThinFilmSpanNm);
+  assert.ok(apexCtx.multiModalFidelity.barkMaskingHeadroomDb > baseCtx.multiModalFidelity.barkMaskingHeadroomDb);
+  assert.ok(apexCtx.multiModalFidelity.chladniModalPartialsPerVoice > baseCtx.multiModalFidelity.chladniModalPartialsPerVoice);
+  assert.ok(apexCtx.multiModalFidelity.primeLimitHarmonicCeiling > baseCtx.multiModalFidelity.primeLimitHarmonicCeiling);
+  assert.ok(
+    apexCtx.multiModalFidelity.fvcbRubiscoAssimilationMultiplier >
+      baseCtx.multiModalFidelity.fvcbRubiscoAssimilationMultiplier,
+  );
+  assert.equal(apexCtx.multiModalFidelity.perFrameHeapAllocations, 0);
+});
+
 
 
 

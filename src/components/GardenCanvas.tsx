@@ -85,14 +85,18 @@ import {
   synthesizeObserverInorganicMonuments,
   synthesizeParametricBiomeConfigs,
   synthesizeParametricPlantSpeciesConfigs,
+  synthesizeParametricWorldTopology,
+  UniversalNeuromorphicManifold,
   evaluateHighDefinitionVisualSynthesis,
   evaluateImmanentObserverPresence,
   evaluateKinematicRigPose,
   extrapolatePrismToHighestResolution,
 } from '../game/prismModel';
+import { synthesizeSpectralDiurnalPalette } from '../game/spectralColorEngine';
 import {
   BotanicalShaderUniforms,
   buildImmanentObserverWitnessGroup,
+  createBravaisCrystalHabitGeometry,
   createCordateLotusPadGeometry,
   createFlutedBellCorollaGeometry,
   createFlutedEntasisPillarGeometry,
@@ -811,7 +815,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       armRod.position.x = 0.18;
       sunOrbPivot.add(armRod);
 
-      const sunOrb = new THREE.Mesh(new THREE.OctahedronGeometry(0.28, 0), sharedCrystalMat);
+      const sunOrb = new THREE.Mesh(
+        createBravaisCrystalHabitGeometry({ habit: 'cP-pyrite', radius: 0.28 }),
+        sharedCrystalMat,
+      );
       sunOrb.position.set(0.35, 0, 0);
       sunOrbPivot.add(sunOrb);
       group.add(sunOrbPivot);
@@ -1178,7 +1185,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         lanternUnit.add(orbSpindle);
 
         const orb = new THREE.Mesh(
-          new THREE.OctahedronGeometry(wetlandSpec.orbRadius, 1),
+          createBravaisCrystalHabitGeometry({
+            habit: 'hR-calcite',
+            radius: wetlandSpec.orbRadius,
+          }),
           lanternMat,
         );
         orb.position.y = wetlandSpec.orbCenterY;
@@ -2562,7 +2572,11 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     const FILAMENT_COUNT = 6;
     const PARABOLIC_SEGMENTS = 9;
     const filamentGeo = new THREE.CylinderGeometry(0.028, 0.028, 1.0, 6);
-    const wavefrontOrbGeo = new THREE.OctahedronGeometry(0.095, 1);
+    const wavefrontOrbGeo = createBravaisCrystalHabitGeometry({
+      habit: 'hP-quartz',
+      radius: 0.095,
+      height: 0.21,
+    });
 
     interface PooledParabolicFilament {
       group: THREE.Group;
@@ -3379,12 +3393,185 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       }
     };
 
+    const reprojectWorldGeometry = (
+      targetAlphaSeed: number,
+      targetManifold: UniversalNeuromorphicManifold,
+    ) => {
+      const cosmoParams = { alphaSeed: targetAlphaSeed, manifold: targetManifold };
+      const nextTopo = synthesizeParametricWorldTopology(cosmoParams);
+      const nextMonuments = synthesizeObserverInorganicMonuments(cosmoParams);
+
+      for (let i = 0; i < posAttr.count; i++) {
+        const vx = posAttr.getX(i);
+        const vz = posAttr.getZ(i);
+        posAttr.setY(i, groundHeightAt(vx, vz, nextTopo));
+      }
+      posAttr.needsUpdate = true;
+      terrainGeo.computeVertexNormals();
+
+      const [nextSanctX, nextSanctZ] = nextMonuments.monuments.sanctuary.sanctuary!.centerXZ;
+      const [nextMeadowX, nextMeadowZ] = nextMonuments.monuments.meadow.meadow!.centerXZ;
+      const [nextGroveX, nextGroveZ] = nextMonuments.monuments.grove.grove!.centerXZ;
+      const [nextCrystalX, nextCrystalZ] = nextMonuments.monuments.crystal.crystal!.centerXZ;
+
+      sanctuaryMonument.group.position.set(
+        nextSanctX,
+        groundHeightAt(nextSanctX, nextSanctZ, nextTopo),
+        nextSanctZ,
+      );
+      meadowMonument.group.position.set(
+        nextMeadowX,
+        groundHeightAt(nextMeadowX, nextMeadowZ, nextTopo),
+        nextMeadowZ,
+      );
+      groveMonument.group.position.set(
+        nextGroveX,
+        groundHeightAt(nextGroveX, nextGroveZ, nextTopo),
+        nextGroveZ,
+      );
+      crystalMonument.group.position.set(
+        nextCrystalX,
+        groundHeightAt(nextCrystalX, nextCrystalZ, nextTopo),
+        nextCrystalZ,
+      );
+
+      labyrinthGroup.position.set(
+        nextSanctX,
+        groundHeightAt(nextSanctX, nextSanctZ, nextTopo) + 0.03,
+        nextSanctZ,
+      );
+      meadowTerraceGroup.position.set(
+        nextMeadowX,
+        groundHeightAt(nextMeadowX, nextMeadowZ, nextTopo) + 0.025,
+        nextMeadowZ,
+      );
+      groveTerraceGroup.position.set(
+        nextGroveX,
+        groundHeightAt(nextGroveX, nextGroveZ, nextTopo) + 0.028,
+        nextGroveZ,
+      );
+      crystalBasinGroup.position.set(
+        nextCrystalX,
+        groundHeightAt(nextCrystalX, nextCrystalZ, nextTopo) + 0.03,
+        nextCrystalZ,
+      );
+
+      const nextStones = generateConservatorySteppingStones(cosmoParams);
+      const activeStoneLen = Math.min(stoneCount, nextStones.length);
+      for (let i = 0; i < activeStoneLen; i++) {
+        const st = nextStones[i];
+        _dummyPos.set(st.x, st.centerY, st.z);
+        _dummyEuler.set(0, st.rotY, 0);
+        _dummyQuat.setFromEuler(_dummyEuler);
+        _dummyScale.set(st.scaleX, st.scaleY, st.scaleZ);
+        _dummyMatrix.compose(_dummyPos, _dummyQuat, _dummyScale);
+        stepStonesMesh.setMatrixAt(i, _dummyMatrix);
+      }
+      stepStonesMesh.instanceMatrix.needsUpdate = true;
+
+      const nextRocks = generateConservatoryRocks(cosmoParams);
+      const activeRockLen = Math.min(rockCount, nextRocks.length);
+      for (let i = 0; i < activeRockLen; i++) {
+        const rk = nextRocks[i];
+        _dummyPos.set(rk.x, rk.centerY, rk.z);
+        _dummyEuler.set(rk.rotX, rk.rotY, rk.rotZ);
+        _dummyQuat.setFromEuler(_dummyEuler);
+        _dummyScale.set(rk.scaleX, rk.scaleY, rk.scaleZ);
+        _dummyMatrix.compose(_dummyPos, _dummyQuat, _dummyScale);
+        rocksInstanced.setMatrixAt(i, _dummyMatrix);
+      }
+      rocksInstanced.instanceMatrix.needsUpdate = true;
+
+      const nextTrees = generateConservatoryTrees(cosmoParams);
+      const activeStalkLen = Math.min(stalkCount, nextTrees.length);
+      for (let i = 0; i < activeStalkLen; i++) {
+        const tr = nextTrees[i];
+        _dummyPos.set(tr.x, tr.baseY, tr.z);
+        _dummyEuler.set(tr.tiltX, 0, tr.tiltZ);
+        _dummyQuat.setFromEuler(_dummyEuler);
+        _dummyScale.set(tr.scaleXZ, tr.scaleY, tr.scaleXZ);
+        _dummyMatrix.compose(_dummyPos, _dummyQuat, _dummyScale);
+        stalksInstanced.setMatrixAt(i, _dummyMatrix);
+      }
+      stalksInstanced.instanceMatrix.needsUpdate = true;
+
+      for (let i = 0; i < canopyCount; i++) {
+        const stalkIdx = i % activeStalkLen;
+        const tier = Math.floor(i / stalkCount) as 0 | 1;
+        const tr = nextTrees[stalkIdx];
+        if (!tr) continue;
+        const tierSpec = tr.canopyTiers[tier];
+        canopyX[i] = tierSpec.x;
+        canopyY[i] = tierSpec.y;
+        canopyZ[i] = tierSpec.z;
+        canopyScale[i] = tierSpec.scale;
+        canopyBaseTiltX[i] = tr.tiltX;
+        canopyBaseTiltZ[i] = tr.tiltZ;
+        _dummyPos.set(tierSpec.x, tierSpec.y, tierSpec.z);
+        _dummyEuler.set(tr.tiltX, i * 1.1, tr.tiltZ);
+        _dummyQuat.setFromEuler(_dummyEuler);
+        _dummyScale.set(tierSpec.scale, 0.75, tierSpec.scale);
+        _dummyMatrix.compose(_dummyPos, _dummyQuat, _dummyScale);
+        canopyInstanced.setMatrixAt(i, _dummyMatrix);
+      }
+      canopyInstanced.instanceMatrix.needsUpdate = true;
+
+      const nextGrass = generateConservatoryGrassBlades(cosmoParams);
+      const activeGrassLen = Math.min(GRASS_COUNT, nextGrass.length);
+      for (let i = 0; i < activeGrassLen; i++) {
+        const gb = nextGrass[i];
+        grassX[i] = gb.x;
+        grassY[i] = gb.y;
+        grassZ[i] = gb.z;
+        grassHScale[i] = gb.hScale;
+        grassYaw[i] = gb.yaw;
+        grassValid[i] = gb.valid ? 1 : 0;
+        _dummyPos.set(gb.x, gb.y, gb.z);
+        _dummyEuler.set((i % 5) * 0.05 - 0.1, gb.yaw, ((i + 2) % 5) * 0.05 - 0.1);
+        _dummyQuat.setFromEuler(_dummyEuler);
+        _dummyScale.set(1, gb.hScale, 1);
+        _dummyMatrix.compose(_dummyPos, _dummyQuat, _dummyScale);
+        grassInstanced.setMatrixAt(i, _dummyMatrix);
+      }
+      grassInstanced.instanceMatrix.needsUpdate = true;
+
+      const fidelity =
+        neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity;
+      const spectralPalette = synthesizeSpectralDiurnalPalette(
+        atmosphereRef.current,
+        fidelity.spectralBandCount,
+        fidelity.airyThinFilmSpanNm,
+      );
+      cachedSpectralAtm = atmosphereRef.current;
+      cachedSpectralBands = fidelity.spectralBandCount;
+      cachedSpectralDiurnal = spectralPalette;
+      sharedCrystalMat.iridescenceThicknessMaximum = 220 + fidelity.airyThinFilmSpanNm;
+      crystalMonument.quartzMat.iridescenceThicknessMaximum = 240 + fidelity.airyThinFilmSpanNm;
+      _tempColor.set(spectralPalette.crystalThinFilm.hex);
+      crystalMonument.quartzMat.color.lerp(_tempColor, 0.35);
+    };
+
+    let cachedSpectralAtm: AtmosphereId = atmosphereRef.current;
+    let cachedSpectralBands =
+      neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity
+        .spectralBandCount;
+    let cachedSpectralDiurnal = synthesizeSpectralDiurnalPalette(
+      cachedSpectralAtm,
+      cachedSpectralBands,
+      neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity
+        .airyThinFilmSpanNm,
+    );
+
     const refineParametricCosmos = (cycles = 1) => {
       const refined = refinePrismModel(neuromorphicState, {
         cycles: Math.max(1, Math.min(8, cycles)),
         leadDomain: 'neuromorphic',
       });
       neuromorphicState = refined.nextState;
+      reprojectWorldGeometry(
+        neuromorphicState.observer.cosmogenesis.alphaSeed,
+        neuromorphicState.universalManifold,
+      );
       soundEngine.syncWithNeuromorphicBus(neuromorphicState);
       soundEngine.setPaused(false);
       soundEngine.playSynthesizedObserverModelAudition(
@@ -3439,6 +3626,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           alphaSeed: clampedSeed,
         }),
       };
+      reprojectWorldGeometry(clampedSeed, neuromorphicState.universalManifold);
 
       soundEngine.syncWithNeuromorphicBus(neuromorphicState);
       soundEngine.setPaused(false);
@@ -3462,6 +3650,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         playerYaw: player.yaw,
       });
       neuromorphicState = extrapolated.nextState;
+      reprojectWorldGeometry(
+        neuromorphicState.observer.cosmogenesis.alphaSeed,
+        neuromorphicState.universalManifold,
+      );
       soundEngine.syncWithNeuromorphicBus(neuromorphicState);
       soundEngine.setPaused(false);
       soundEngine.playSynthesizedObserverModelAudition(
@@ -3855,6 +4047,11 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       crystalMonument.corePrism.rotation.y = -elapsed * 0.55 * spinMult;
       crystalMonument.corePrism.rotation.x = Math.sin(elapsed * 0.8) * 0.15;
       crystalMonument.quartzMat.emissiveIntensity = 0.5 + inorgGlow * 0.38;
+      const liveFidelity =
+        neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity;
+      sharedCrystalMat.iridescenceThicknessMaximum = 220 + liveFidelity.airyThinFilmSpanNm;
+      crystalMonument.quartzMat.iridescenceThicknessMaximum =
+        240 + liveFidelity.airyThinFilmSpanNm;
 
       const activeRule30Byte =
         neuromorphicState.rule30History[neuromorphicState.rule30History.length - 1] ?? 30;
@@ -4814,8 +5011,28 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           currentBiome,
           player.harmony,
         );
-        _targetSkyColor.set(biomeCfg.skyColor).lerp(_tempColor.set(atmosCfg.skyColor), 0.55);
-        _targetFogColor.set(biomeCfg.fogColor).lerp(_tempColor.set(atmosCfg.fogColor), 0.55);
+        const liveFidelity =
+          neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity;
+        if (
+          cachedSpectralAtm !== atmosphereRef.current ||
+          cachedSpectralBands !== liveFidelity.spectralBandCount
+        ) {
+          cachedSpectralAtm = atmosphereRef.current;
+          cachedSpectralBands = liveFidelity.spectralBandCount;
+          cachedSpectralDiurnal = synthesizeSpectralDiurnalPalette(
+            cachedSpectralAtm,
+            cachedSpectralBands,
+            liveFidelity.airyThinFilmSpanNm,
+          );
+        }
+        _targetSkyColor
+          .set(biomeCfg.skyColor)
+          .lerp(_tempColor.set(atmosCfg.skyColor), 0.52)
+          .lerp(_tempColor.set(cachedSpectralDiurnal.skyZenith.hex), 0.14);
+        _targetFogColor
+          .set(biomeCfg.fogColor)
+          .lerp(_tempColor.set(atmosCfg.fogColor), 0.52)
+          .lerp(_tempColor.set(cachedSpectralDiurnal.fogAtmosphere.hex), 0.14);
         (scene.background as THREE.Color).lerp(_targetSkyColor, 1 - Math.exp(-2.5 * dt));
         (scene.fog as THREE.FogExp2).color.lerp(_targetFogColor, 1 - Math.exp(-2.5 * dt));
         (scene.fog as THREE.FogExp2).density = THREE.MathUtils.damp(
@@ -4935,6 +5152,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       hdOrchidTepalGeo.dispose();
       terrainGeo.dispose();
       terrainMat.dispose();
+      filamentGeo.dispose();
+      wavefrontOrbGeo.dispose();
       guidanceNodeGeo.dispose();
       guidanceNodeMat.dispose();
       sanctuaryMonument.observerCrown.geometry.dispose();

@@ -1,0 +1,293 @@
+\begin{lexlean}{Foundation.MetaModel.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: ModelIdentitySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: modelIndex, type: Nat},
+    {name: canonicalModelId, type: String},
+    {name: semverMajor, type: Nat},
+    {name: semverMinor, type: Nat},
+    {name: semverPatch, type: Nat},
+    {name: uorPrimeSignature, type: Nat},
+    {name: blake3DigestHead64, type: Nat},
+    {name: blake3DigestTail64, type: Nat},
+    {name: stableContentAddressed, type: Bool}
+  ]
+}
+
+structure{
+  name: ModelVocabularySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: primaryNamespace, type: String},
+    {name: canonicalConceptCount, type: Nat},
+    {name: crossDomainSynonymCount, type: Nat},
+    {name: taxonomicRelationCount, type: Nat},
+    {name: keyConceptsSummary, type: String},
+    {name: vocabularyComplete, type: Bool}
+  ]
+}
+
+structure{
+  name: ModelCapabilitySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: capabilityFunctionCount, type: Nat},
+    {name: conservationLawCount, type: Nat},
+    {name: exportedFeatureChannelMask, type: Nat},
+    {name: promisedBehaviorSummary, type: String},
+    {name: capabilityDeterministicAndTotal, type: Bool}
+  ]
+}
+
+structure{
+  name: ModelInterfaceSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: typedInputPortCount, type: Nat},
+    {name: typedOutputPortCount, type: Nat},
+    {name: cloudEventTypeCount, type: Nat},
+    {name: stateFieldCount, type: Nat},
+    {name: effectKind, type: String},
+    {name: siBiasedTimeExp, type: Nat},
+    {name: siBiasedLengthExp, type: Nat},
+    {name: siBiasedMassExp, type: Nat},
+    {name: siBiasedCurrentExp, type: Nat},
+    {name: siBiasedTempExp, type: Nat},
+    {name: siBiasedAmountExp, type: Nat},
+    {name: siBiasedLuminousExp, type: Nat},
+    {name: interfaceDimensionallyHomogeneous, type: Bool}
+  ]
+}
+
+structure{
+  name: ModelCompositionSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: dagLayerRank, type: Nat},
+    {name: dependencyModelMask, type: Nat},
+    {name: compatiblePartnerMask, type: Nat},
+    {name: conflictModelMask, type: Nat},
+    {name: functorTransformationCount, type: Nat},
+    {name: compositionSummary, type: String},
+    {name: compositionConflictFreeAndAssociative, type: Bool}
+  ]
+}
+
+structure{
+  name: ModelDynamicsSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: integratorOrder, type: Nat},
+    {name: characteristicStepMicros, type: Nat},
+    {name: adaptationRuleCount, type: Nat},
+    {name: temporalLawSummary, type: String},
+    {name: dynamicsForwardInvariant, type: Bool}
+  ]
+}
+
+structure{
+  name: ModelFidelitySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: fixedPointPrecisionBits, type: Nat},
+    {name: baseResolutionUnits, type: Nat},
+    {name: apexResolutionUnits, type: Nat},
+    {name: perceptualJndPermille, type: Nat},
+    {name: fidelityCriteriaSummary, type: String},
+    {name: fidelityMonotonicallyScales, type: Bool}
+  ]
+}
+
+structure{
+  name: ModelResourcesSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: staticArenaBytes, type: Nat},
+    {name: maxComputeMicrosPerFrame, type: Nat},
+    {name: maxLatencyMicros, type: Nat},
+    {name: energyBudgetMilliwatts, type: Nat},
+    {name: perTickHeapAllocations, type: Nat},
+    {name: deviceConstraintSummary, type: String},
+    {name: resourceBoundedZeroGc, type: Bool}
+  ]
+}
+
+structure{
+  name: ModelAuthoritySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: modelOwner, type: String},
+    {name: provenanceUri, type: String},
+    {name: pinnedLockReferenceCount, type: Nat},
+    {name: adoptedStandardsSummary, type: String},
+    {name: authorityNormativelyPinned, type: Bool}
+  ]
+}
+
+structure{
+  name: ModelEvidenceSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: leanTheoremCount, type: Nat},
+    {name: runtimePropertyOracleCount, type: Nat},
+    {name: acceptanceVectorCount, type: Nat},
+    {name: unprovedAdHocFlagCount, type: Nat},
+    {name: acceptanceOracleSummary, type: String},
+    {name: evidenceMachineChecked, type: Bool}
+  ]
+}
+
+structure{
+  name: ModelProjectionSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: compilationStageCount, type: Nat},
+    {name: targetModalityMask, type: Nat},
+    {name: runtimeModulePath, type: String},
+    {name: renderAndPublishSummary, type: String},
+    {name: projectionZeroDrift, type: Bool}
+  ]
+}
+
+structure{
+  name: CanonicalStandardModelDescriptor,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: requiredElementCount, type: Nat},
+    {name: identity, type: ModelIdentitySpec},
+    {name: vocabulary, type: ModelVocabularySpec},
+    {name: capability, type: ModelCapabilitySpec},
+    {name: interfaceSpec, type: ModelInterfaceSpec},
+    {name: composition, type: ModelCompositionSpec},
+    {name: dynamics, type: ModelDynamicsSpec},
+    {name: fidelity, type: ModelFidelitySpec},
+    {name: resources, type: ModelResourcesSpec},
+    {name: authority, type: ModelAuthoritySpec},
+    {name: evidence, type: ModelEvidenceSpec},
+    {name: projection, type: ModelProjectionSpec},
+    {name: completeAndEnforced, type: Bool}
+  ]
+}
+
+definition{name: canonicalMetaModelElementCount, parameters: [], result: Nat, body: 11}
+
+definition{name: canonicalStandardModelTotalCount, parameters: [], result: Nat, body: 14}
+
+definition{name: canonicalTotalObserverMatrixCells, parameters: [], result: Nat, body: 154}
+
+definition{name: siDimensionZeroBias, parameters: [], result: Nat, body: 16}
+
+definition{name: maxSingleModelFrameComputeMicros, parameters: [], result: Nat, body: 2500}
+
+definition{name: fullPartnerMaskFourteenModels, parameters: [], result: Nat, body: 16383}
+
+definition{
+  name: verifyElementQuantitativeGates,
+  parameters: [modelIndex : Nat, basisPrime : Nat, conceptCount : Nat, capabilityCount : Nat, inPorts : Nat, outPorts : Nat, conflictMask : Nat, baseRes : Nat, apexRes : Nat, computeMicros : Nat, heapAllocs : Nat, lockRefs : Nat, theoremCount : Nat, adHocFlags : Nat, compileStages : Nat],
+  result: Bool,
+  body: (((((((((((((((1 <=? modelIndex) && (modelIndex <=? (canonicalStandardModelTotalCount))) && (71 <=? basisPrime)) && (8 <=? conceptCount)) && (3 <=? capabilityCount)) && (1 <=? inPorts)) && (1 <=? outPorts)) && (conflictMask =? 0)) && (baseRes <? apexRes)) && (computeMicros <=? (maxSingleModelFrameComputeMicros))) && (heapAllocs =? 0)) && (2 <=? lockRefs)) && (2 <=? theoremCount)) && (adHocFlags =? 0)) && (4 <=? compileStages))
+}
+
+definition{
+  name: verifyCanonicalModelDescriptorComplete,
+  parameters: [desc : CanonicalStandardModelDescriptor],
+  result: Bool,
+  body: ((((project desc requiredElementCount) =? (canonicalMetaModelElementCount)) && (project desc completeAndEnforced)) && (((((project (project desc identity) stableContentAddressed) && (project (project desc vocabulary) vocabularyComplete)) && ((project (project desc capability) capabilityDeterministicAndTotal) && (project (project desc interfaceSpec) interfaceDimensionallyHomogeneous))) && (((project (project desc composition) compositionConflictFreeAndAssociative) && (project (project desc dynamics) dynamicsForwardInvariant)) && ((project (project desc fidelity) fidelityMonotonicallyScales) && (project (project desc resources) resourceBoundedZeroGc)))) && (((project (project desc authority) authorityNormativelyPinned) && (project (project desc evidence) evidenceMachineChecked)) && (project (project desc projection) projectionZeroDrift))))
+}
+
+definition{
+  name: composeFunctorGainPermille,
+  parameters: [gainAB : Nat, gainBC : Nat],
+  result: Nat,
+  body: (gainAB + gainBC)
+}
+
+definition{
+  name: stepFidelityResolutionFromBusGain,
+  parameters: [baseRes : Nat, gainPermille : Nat],
+  result: Nat,
+  body: (baseRes + gainPermille)
+}
+
+definition{
+  name: synthesizeCanonicalDescriptor,
+  parameters: [modelIndex : Nat, canonicalModelId : String, semverMajor : Nat, semverMinor : Nat, semverPatch : Nat, basisPrime : Nat, digestHead : Nat, digestTail : Nat, primaryNamespace : String, conceptCount : Nat, synonymCount : Nat, relationCount : Nat, keyConceptsSummary : String, capabilityCount : Nat, conservationCount : Nat, exportedFeatureMask : Nat, promisedBehaviorSummary : String, inPorts : Nat, outPorts : Nat, eventCount : Nat, stateFields : Nat, effectKind : String, siT : Nat, siL : Nat, siM : Nat, siI : Nat, siTheta : Nat, siN : Nat, siJ : Nat, dagRank : Nat, depMask : Nat, partnerMask : Nat, conflictMask : Nat, functorCount : Nat, compositionSummary : String, integratorOrder : Nat, stepMicros : Nat, adaptRules : Nat, temporalLawSummary : String, precisionBits : Nat, baseRes : Nat, apexRes : Nat, jndPermille : Nat, fidelityCriteriaSummary : String, arenaBytes : Nat, computeMicros : Nat, latencyMicros : Nat, energyMw : Nat, heapAllocs : Nat, deviceConstraintSummary : String, modelOwner : String, provenanceUri : String, lockRefs : Nat, adoptedStandardsSummary : String, theoremCount : Nat, oracleCount : Nat, vectorCount : Nat, adHocFlags : Nat, acceptanceOracleSummary : String, compileStages : Nat, modalityMask : Nat, runtimeModulePath : String, renderAndPublishSummary : String],
+  result: CanonicalStandardModelDescriptor,
+  body: (let gateOk : Bool := (verifyElementQuantitativeGates modelIndex basisPrime conceptCount capabilityCount inPorts outPorts conflictMask baseRes apexRes computeMicros heapAllocs lockRefs theoremCount adHocFlags compileStages); (record CanonicalStandardModelDescriptor {requiredElementCount := (canonicalMetaModelElementCount), identity := (record ModelIdentitySpec {modelIndex := modelIndex, canonicalModelId := canonicalModelId, semverMajor := semverMajor, semverMinor := semverMinor, semverPatch := semverPatch, uorPrimeSignature := basisPrime, blake3DigestHead64 := digestHead, blake3DigestTail64 := digestTail, stableContentAddressed := ((1 <=? modelIndex) && ((modelIndex <=? (canonicalStandardModelTotalCount)) && ((71 <=? basisPrime) && (0 <? digestHead))))}), vocabulary := (record ModelVocabularySpec {primaryNamespace := primaryNamespace, canonicalConceptCount := conceptCount, crossDomainSynonymCount := synonymCount, taxonomicRelationCount := relationCount, keyConceptsSummary := keyConceptsSummary, vocabularyComplete := ((8 <=? conceptCount) && ((2 <=? synonymCount) && (2 <=? relationCount)))}), capability := (record ModelCapabilitySpec {capabilityFunctionCount := capabilityCount, conservationLawCount := conservationCount, exportedFeatureChannelMask := exportedFeatureMask, promisedBehaviorSummary := promisedBehaviorSummary, capabilityDeterministicAndTotal := ((3 <=? capabilityCount) && ((1 <=? conservationCount) && (0 <? exportedFeatureMask)))}), interfaceSpec := (record ModelInterfaceSpec {typedInputPortCount := inPorts, typedOutputPortCount := outPorts, cloudEventTypeCount := eventCount, stateFieldCount := stateFields, effectKind := effectKind, siBiasedTimeExp := siT, siBiasedLengthExp := siL, siBiasedMassExp := siM, siBiasedCurrentExp := siI, siBiasedTempExp := siTheta, siBiasedAmountExp := siN, siBiasedLuminousExp := siJ, interfaceDimensionallyHomogeneous := ((1 <=? inPorts) && ((1 <=? outPorts) && ((1 <=? stateFields) && (siT <=? 32))))}), composition := (record ModelCompositionSpec {dagLayerRank := dagRank, dependencyModelMask := depMask, compatiblePartnerMask := partnerMask, conflictModelMask := conflictMask, functorTransformationCount := functorCount, compositionSummary := compositionSummary, compositionConflictFreeAndAssociative := ((conflictMask =? 0) && ((1 <=? functorCount) && (0 <? partnerMask)))}), dynamics := (record ModelDynamicsSpec {integratorOrder := integratorOrder, characteristicStepMicros := stepMicros, adaptationRuleCount := adaptRules, temporalLawSummary := temporalLawSummary, dynamicsForwardInvariant := ((1 <=? integratorOrder) && ((1 <=? stepMicros) && (1 <=? adaptRules)))}), fidelity := (record ModelFidelitySpec {fixedPointPrecisionBits := precisionBits, baseResolutionUnits := baseRes, apexResolutionUnits := apexRes, perceptualJndPermille := jndPermille, fidelityCriteriaSummary := fidelityCriteriaSummary, fidelityMonotonicallyScales := ((16 <=? precisionBits) && ((baseRes <? apexRes) && (1 <=? jndPermille)))}), resources := (record ModelResourcesSpec {staticArenaBytes := arenaBytes, maxComputeMicrosPerFrame := computeMicros, maxLatencyMicros := latencyMicros, energyBudgetMilliwatts := energyMw, perTickHeapAllocations := heapAllocs, deviceConstraintSummary := deviceConstraintSummary, resourceBoundedZeroGc := ((heapAllocs =? 0) && ((computeMicros <=? (maxSingleModelFrameComputeMicros)) && (0 <? arenaBytes)))}), authority := (record ModelAuthoritySpec {modelOwner := modelOwner, provenanceUri := provenanceUri, pinnedLockReferenceCount := lockRefs, adoptedStandardsSummary := adoptedStandardsSummary, authorityNormativelyPinned := (2 <=? lockRefs)}), evidence := (record ModelEvidenceSpec {leanTheoremCount := theoremCount, runtimePropertyOracleCount := oracleCount, acceptanceVectorCount := vectorCount, unprovedAdHocFlagCount := adHocFlags, acceptanceOracleSummary := acceptanceOracleSummary, evidenceMachineChecked := ((2 <=? theoremCount) && ((2 <=? oracleCount) && (adHocFlags =? 0)))}), projection := (record ModelProjectionSpec {compilationStageCount := compileStages, targetModalityMask := modalityMask, runtimeModulePath := runtimeModulePath, renderAndPublishSummary := renderAndPublishSummary, projectionZeroDrift := ((4 <=? compileStages) && (0 <? modalityMask))}), completeAndEnforced := gateOk}))
+}
+
+definition{
+  name: breaksMetaModelCellAccounting,
+  parameters: [totalCells : Nat],
+  result: Bool,
+  body: ((totalCells =? (prim multiply (canonicalStandardModelTotalCount) (canonicalMetaModelElementCount) : Nat)) && (not (totalCells =? (canonicalTotalObserverMatrixCells))))
+}
+
+theorem{
+  name: canonicalMetaModelCellAccountingHolds,
+  parameters: [totalCells : Nat],
+  statement: ((breaksMetaModelCellAccounting totalCells) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      breaksMetaModelCellAccounting,
+      canonicalMetaModelElementCount,
+      canonicalStandardModelTotalCount,
+      canonicalTotalObserverMatrixCells
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksFunctorCompositionAssociativity,
+  parameters: [g1 : Nat, g2 : Nat, g3 : Nat],
+  result: Bool,
+  body: ((0 <=? g1) && ((((composeFunctorGainPermille (composeFunctorGainPermille g1 g2) g3) <? (composeFunctorGainPermille g1 (composeFunctorGainPermille g2 g3))) || ((composeFunctorGainPermille g1 (composeFunctorGainPermille g2 g3)) <? (composeFunctorGainPermille (composeFunctorGainPermille g1 g2) g3))) || (((composeFunctorGainPermille g1 0) <? g1) || (g1 <? (composeFunctorGainPermille g1 0)))))
+}
+
+theorem{
+  name: functorCompositionIdentityAndAssociativityHolds,
+  parameters: [g1 : Nat, g2 : Nat, g3 : Nat],
+  statement: ((breaksFunctorCompositionAssociativity g1 g2 g3) = false),
+  proof: linear_arithmetic{
+    definitions: [breaksFunctorCompositionAssociativity, composeFunctorGainPermille]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksFidelityResolutionMonotonicity,
+  parameters: [baseRes : Nat, gLow : Nat, gHigh : Nat],
+  result: Bool,
+  body: ((gLow <=? gHigh) && ((stepFidelityResolutionFromBusGain baseRes gHigh) <? (stepFidelityResolutionFromBusGain baseRes gLow)))
+}
+
+theorem{
+  name: fidelityResolutionMonotonicityHolds,
+  parameters: [baseRes : Nat, gLow : Nat, gHigh : Nat],
+  statement: ((breaksFidelityResolutionMonotonicity baseRes gLow gHigh) = false),
+  proof: linear_arithmetic{
+    definitions: [breaksFidelityResolutionMonotonicity, stepFidelityResolutionFromBusGain]
+  },
+  axioms: [Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

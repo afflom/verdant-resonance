@@ -3,7 +3,7 @@
 
 export const GENERATED_PRISM_FOUNDATION_PURITY = {
   "verified": true,
-  "checkedModules": 12
+  "checkedModules": 16
 } as const;
 
 export const GENERATED_PRISM_DOMAIN_BASIS_PRIMES = {
@@ -18,6 +18,1664 @@ export const GENERATED_PRISM_DOMAIN_BASIS_PRIMES = {
   "brand": 107,
   "neuromorphic": 109
 } as const;
+
+export const GENERATED_CANONICAL_MODEL_BASIS_PRIMES = {
+  "infrastructure": 71,
+  "physics": 73,
+  "botany": 79,
+  "ecology": 83,
+  "acoustics": 89,
+  "articulation": 97,
+  "soundtrack": 101,
+  "humane": 103,
+  "brand": 107,
+  "neuromorphic": 109,
+  "cosmogenesis": 113,
+  "mathematics": 127,
+  "chemistry": 131,
+  "graphics": 137
+} as const;
+
+export const GENERATED_CANONICAL_STANDARD_MODELS = [
+  {
+    "modelKey": "mathematics",
+    "registryField": "m01Mathematics",
+    "displayName": "Mathematics (Peano/ZFC, UOR Primes, Clifford Cl(0,6), Riemannian DEC)",
+    "sourceModule": "Foundation.Mathematics.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Mathematics/V1/Model.lex.tex",
+    "sourceSha256": "81057adf0a71478b36719794629ac126346a2740e9182356ba6eb95e21d3bc55",
+    "unbiasedSiExponents": {
+      "s": 0,
+      "m": 0,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 1,
+        "canonicalModelId": "prism/standard-model/mathematics/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 127,
+        "blake3DigestHead64": 12700064,
+        "blake3DigestTail64": 32001618,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Mathematics.V1",
+        "canonicalConceptCount": 36,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 24,
+        "keyConceptsSummary": "Peano/ZFC Arithmetic, UOR Prime Factorization, Clifford Cl(0,6), Icosians Z[phi], 32 Crystallographic Point Groups, Riemannian DEC Laplace-Beltrami, Euler-Poincare Topology, Category Functors, Shannon Entropy",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Provides exact prime-factorized UOR rings, Clifford spinor grades, 2-manifold Euler-Poincare topology, Riemannian curvature operators, and associative category functors to all 14 models",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 8,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 4,
+        "stateFieldCount": 12,
+        "effectKind": "PureKernel",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 1,
+        "dependencyModelMask": 0,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 14,
+        "compositionSummary": "Root formal foundation feeding Physics, Chemistry, Graphics, Acoustics, Soundtrack, and Neuromorphic Functor Bus with zero conflicts",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 4,
+        "characteristicStepMicros": 500,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Exact symbolic arithmetic, discrete exterior calculus d^2=0, and Rule-30 bijective cellular evolution",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 53,
+        "baseResolutionUnits": 1024,
+        "apexResolutionUnits": 1536,
+        "perceptualJndPermille": 1,
+        "fidelityCriteriaSummary": "53-bit IEEE-754 / exact Nat integer precision, 0 exterior derivative residual, exact Euler-Poincare topological invariants",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 4096,
+        "maxComputeMicrosPerFrame": 180,
+        "maxLatencyMicros": 500,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Pre-allocated UOR prime-exponent LUTs and DEC cotangent workspaces; 0 heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Mathematics.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Mathematics/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "ZFC / Bourbaki Elements of Mathematics, Euclid/Gauss FTA, Clifford Cl(0,6), Cartan/Desbrun Discrete Exterior Calculus, Shannon (1948), LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 10,
+        "acceptanceVectorCount": 24,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "Machine-checked Euler-Poincare icosahedron/torus invariants, d^2=0 nilpotency, neuromorphic monotonicity, and 11-element descriptor completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/standardModelEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> UOR/Clifford/Riemannian Runtime -> B-Mesh Topology & Tonnetz Lattice",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "physics",
+    "registryField": "m02Physics",
+    "displayName": "Physics (BIPM SI 2019 + SU(3)xSU(2)xU(1) 17-Field SM + Continuum)",
+    "sourceModule": "Foundation.Physics.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Physics/V1/Model.lex.tex",
+    "sourceSha256": "2d0fadcea0e00e9db03b597cdd4e34c10819bca9da280809c1fa4bc0da9fe3dc",
+    "unbiasedSiExponents": {
+      "s": -2,
+      "m": 1,
+      "kg": 1,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 2,
+        "canonicalModelId": "prism/standard-model/physics-su3-su2-u1-si2019/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 73,
+        "blake3DigestHead64": 73000017,
+        "blake3DigestTail64": 299792458,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Physics.V1",
+        "canonicalConceptCount": 42,
+        "crossDomainSynonymCount": 18,
+        "taxonomicRelationCount": 26,
+        "keyConceptsSummary": "BIPM SI 2019 Base Units & Defining Constants, 17-Field SU(3)c x SU(2)L x U(1)Y Standard Model, Gell-Mann-Nishijima Charge, Color-Singlet Hadronization, Cauchy Elasticity, Saint-Venant Shallow-Water Hydrodynamics, Maxwell Dispersion",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 20,
+        "conservationLawCount": 8,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Enforces exact quantum-number conservation (Q, B, Le, Lmu, Ltau, color), SI 2019 dimensional coherence, solid steric non-penetration, shallow-water wave mechanics, and cross-modal phase/acoustic obstruction",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 10,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 22,
+        "effectKind": "PureKernel+SymplecticField",
+        "siBiasedTimeExp": 14,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 3,
+        "dependencyModelMask": 3,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 18,
+        "compositionSummary": "Transforms Mathematical symmetry & DEC operators into conserved quantum/nuclear states for 118-Element Chemistry, wave optics for PBR Graphics, and continuum mechanics for Acoustics & Botany",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 8333,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Exact vertex conservation + symplectic Verlet solid kinematics + Saint-Venant shallow-water wave propagation",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 53,
+        "baseResolutionUnits": 875,
+        "apexResolutionUnits": 1250,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 quantum-number/charge drift, 0 solid collider overlap, exact integer SI constant significands",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 16384,
+        "maxComputeMicrosPerFrame": 620,
+        "maxLatencyMicros": 8333,
+        "energyBudgetMilliwatts": 55,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "16KB static Float32 collider, shallow-water, and particle conservation buffers; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Physics.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Physics/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "BIPM SI Brochure 9th Ed. (2019), CERN / Particle Data Group Review of Particle Physics (SU(3)xSU(2)xU(1)), Cauchy-Hooke, Saint-Venant, Maxwell, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 9,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 32,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "9 machine-checked Lean 4.32 theorems covering Gell-Mann-Nishijima chiral multiplets, nucleon/beta conservation, hydrostatic containment, collider non-obstruction, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/standardModelEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Particle/SI/Continuum Engine -> Colliders, Water Cymatics & Optical Dispersion",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "chemistry",
+    "registryField": "m03Chemistry",
+    "displayName": "Chemistry (118-Element IUPAC Periodic Table + 14 Bravais Lattices)",
+    "sourceModule": "Foundation.Chemistry.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Chemistry/V1/Model.lex.tex",
+    "sourceSha256": "1f5b03c2fc8aede2ef7e501aa40b30020d666bdc872f22ad70cb62c9192a99c8",
+    "unbiasedSiExponents": {
+      "s": 0,
+      "m": 0,
+      "kg": 1,
+      "A": 0,
+      "K": 0,
+      "mol": 1,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 3,
+        "canonicalModelId": "prism/standard-model/chemistry-iupac-118-iucr/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 131,
+        "blake3DigestHead64": 13100118,
+        "blake3DigestTail64": 70141918,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Chemistry.V1",
+        "canonicalConceptCount": 48,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 32,
+        "keyConceptsSummary": "All 118 IUPAC Chemical Elements (Z=1..118), Pauli/Madelung (n,l,ml,ms) 1s..7p Subshells, 20 d/f Exchange Anomalies, Pauling Electronegativity, Covalent Radii, VSEPR, 7 Crystal Systems, 14 Bravais Lattices, Balanced Stoichiometry",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 22,
+        "conservationLawCount": 7,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Constructively synthesizes ground-state electron shells for Z=1..118, enforces nuclear-electronic charge neutrality, parameterizes 7 crystal habits & mineral refractive indices, and proves zero-drift stoichiometric reactions",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 12,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 24,
+        "effectKind": "PureKernel",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 17,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 4,
+        "dependencyModelMask": 7,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 18,
+        "compositionSummary": "Bridges SU(3)xSU(2)xU(1) nucleons into 118 IUPAC elements, crystal Bravais habits for B-Mesh Graphics, ligand/chromophore absorption bands for CIE Colorimetry, elastic moduli for Acoustics, and 17 bio-elements for Botany & Ecology",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 10000,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Reversible mass-action chemical kinetics + exact stoichiometric atom conservation A*nu = 0",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 53,
+        "baseResolutionUnits": 962,
+        "apexResolutionUnits": 1292,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "Exact integer electron/atom counts across all Z=1..118, 1pm covalent radius precision, 1meV ionization precision",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 24576,
+        "maxComputeMicrosPerFrame": 380,
+        "maxLatencyMicros": 10000,
+        "energyBudgetMilliwatts": 30,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "24KB static TypedArray periodic shell, electronegativity, spectral line, and Bravais lattice tables; 0 heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Chemistry.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Chemistry/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "IUPAC Periodic Table of the Elements (2021, Z=1..118), Pauli/Madelung Quantum Shell Theory, IUCr International Tables for Crystallography, BIPM Mole (SI 2019), LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 16,
+        "acceptanceVectorCount": 118,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Pauli 118-element period closure, Z=1..118 period bounds, 14 Bravais lattices, stoichiometric conservation, and 11-element descriptor completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/standardModelEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> 118-Element Shell & Bravais Engine -> Crystal Meshes, Thin-Film PBR & Biogeochemistry",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "botany",
+    "registryField": "m04Botany",
+    "displayName": "Botany (Farquhar-von Caemmerer-Berry C3 + Lockhart Turgor + Phyllotaxis)",
+    "sourceModule": "Foundation.Botany.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Botany/V1/Model.lex.tex",
+    "sourceSha256": "623ef7b4feb6935a7b8560cbe9a77cd9c31cc5cef7d083f4786b1a9ed42f9d14",
+    "unbiasedSiExponents": {
+      "s": -1,
+      "m": 1,
+      "kg": 0,
+      "A": 0,
+      "K": 1,
+      "mol": 1,
+      "cd": 1
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 4,
+        "canonicalModelId": "prism/standard-model/botany-fvcb-vogel-lsystem/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 79,
+        "blake3DigestHead64": 79001375,
+        "blake3DigestTail64": 430662700,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Botany.V1",
+        "canonicalConceptCount": 38,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 24,
+        "keyConceptsSummary": "Vogel Golden-Angle Phyllotaxis (137.50776 deg), Lindenmayer Parametric L-Systems, Murray r^3 Vascular Law, Farquhar-von Caemmerer-Berry C3 Photosynthesis, Michaelis-Menten Bioluminescence, Kuramoto Phase Entrainment",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Synthesizes vascular multi-organ botanical geometry, chlorophyll/anthocyanin/luciferin spectral curves, stomatal turgor kinematics, and Kuramoto choir phase-locking strictly on fertile substrates",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 10,
+        "typedOutputPortCount": 12,
+        "cloudEventTypeCount": 5,
+        "stateFieldCount": 20,
+        "effectKind": "PureKernel+MorphTargetState",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 17,
+        "siBiasedAmountExp": 17,
+        "siBiasedLuminousExp": 17,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 5,
+        "dependencyModelMask": 15,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 16,
+        "compositionSummary": "Consumes 17 essential IUPAC bio-elements from Chemistry and PAR irradiance from Physics/Graphics; exports organ moduli E/rho to Acoustics, pigment spectra & L-system topology to Graphics, and biomass fluxes to Ecology",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Circadian stomatal turgor ODE + FvCB RuBisCO/electron-transport kinetics + Kuramoto coupled oscillator synchronization",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 272,
+        "apexResolutionUnits": 512,
+        "perceptualJndPermille": 3,
+        "fidelityCriteriaSummary": "0.1 deg Vogel spiral precision, 1nm pigment peak fidelity, 0 hard-surface/rock root violations",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 20480,
+        "maxComputeMicrosPerFrame": 440,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 28,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Pre-allocated instance matrices, 3-joint morph weights, and Kuramoto phase arrays; 0 heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Botany.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Botany/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Vogel (1979) Phyllotaxis, Prusinkiewicz & Lindenmayer (1990) L-Systems, Farquhar-von Caemmerer-Berry (1980), Murray (1926), Kuramoto (1975), LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 7,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 28,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "7 Lean 4.32 theorems proving substrate exclusion, turgor bounds, roughness contrast, B-Mesh density scaling, neuromorphic coupling, and 11-element descriptor completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/proceduralMeshEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Botanical Morphogenesis & Pigment Engine -> WebGL2 Flora Meshes & Sympathetic Choir",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "ecology",
+    "registryField": "m05Ecology",
+    "displayName": "Ecology (Closed-Loop C-H-O-N-P-S-Si-Ca-Mg-Fe Biogeochemical Conservation)",
+    "sourceModule": "Foundation.Ecology.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Ecology/V1/Model.lex.tex",
+    "sourceSha256": "52c3234ef2509dcde9b53767ee1c51db93c800d492afab1629d8c0e71bfcec14",
+    "unbiasedSiExponents": {
+      "s": -1,
+      "m": 1,
+      "kg": 1,
+      "A": 0,
+      "K": 1,
+      "mol": 1,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 5,
+        "canonicalModelId": "prism/standard-model/ecology-biogeochemical-stoichiometry/1",
+        "semverMajor": 3,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 83,
+        "blake3DigestHead64": 83000118,
+        "blake3DigestTail64": 17560810,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Ecology.V1",
+        "canonicalConceptCount": 34,
+        "crossDomainSynonymCount": 14,
+        "taxonomicRelationCount": 22,
+        "keyConceptsSummary": "118-Element IUPAC Biogeochemical Cycling, 17 Essential Bio-Elements, Redfield C:N:P Stoichiometry, Penman-Monteith Evapotranspiration, Mycorrhizal Exchange, Lotka-Volterra Mutualistic Guilds",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 14,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Closes mass-balanced elemental cycles across soil, water, atmosphere, minerals, and symbiotic flora guilds with zero matter creation or loss",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 10,
+        "typedOutputPortCount": 12,
+        "cloudEventTypeCount": 5,
+        "stateFieldCount": 20,
+        "effectKind": "PureKernel+MassBalancePool",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 17,
+        "siBiasedAmountExp": 17,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 23,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 16,
+        "compositionSummary": "Couples 118-element Chemistry and FvCB Botany into microclimate humidity/temperature for ISO 9613-1 Acoustics, Rayleigh haze for CIE Graphics, and biome guild resonance",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 33333,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Closed mass-balance differential pools + Penman-Monteith moisture equilibrium + mutualistic guild facilitation",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 825,
+        "apexResolutionUnits": 1200,
+        "perceptualJndPermille": 3,
+        "fidelityCriteriaSummary": "0.01 pH precision (5.60-8.10), exact stoichiometric remineralization closure across all 118 IUPAC elements",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 16384,
+        "maxComputeMicrosPerFrame": 310,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 22,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Pre-allocated elemental pool vectors and microclimate grids; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Ecology.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Ecology/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Redfield (1958) / Sterner & Elser Ecological Stoichiometry, Penman-Monteith FAO-56, IUPAC Biogeochemistry, Lotka-Volterra Mutualism, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 6,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 24,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving constellation bounds, pH stability, granular atomic-to-environmental synthesis, closed-loop remineralization, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/prismModel.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Mass-Balanced Biogeochemical & Microclimate Runtime -> Biome Atmosphere, Soil & Guilds",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "acoustics",
+    "registryField": "m06Acoustics",
+    "displayName": "Acoustics (ISO 226:2023 Loudness + 24-Bark Masking + Chladni Eigenmodes)",
+    "sourceModule": "Foundation.Acoustics.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Acoustics/V1/Model.lex.tex",
+    "sourceSha256": "5d29710c40b75a7fb0adc12131a62b64a91a73a13a5ec25813965cbca74d0a8f",
+    "unbiasedSiExponents": {
+      "s": -1,
+      "m": -1,
+      "kg": 1,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 6,
+        "canonicalModelId": "prism/standard-model/acoustics-iso226-24bark/1",
+        "semverMajor": 3,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 89,
+        "blake3DigestHead64": 89000024,
+        "blake3DigestTail64": 48000343,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Acoustics.V1",
+        "canonicalConceptCount": 34,
+        "crossDomainSynonymCount": 15,
+        "taxonomicRelationCount": 22,
+        "keyConceptsSummary": "ISO 226:2023 Equal-Loudness Contours, 24 Zwicker Bark / Glasberg-Moore ERB Critical Bands, Euler-Bernoulli & Chladni Modal Eigenfrequencies, Sabine-Eyring Reverberation, ISO 9613-1 Air Absorption, Binaural ITD/ILD",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Synthesizes material-grounded modal partials from Young's modulus E and density rho, enforces 24-Bark masking clarity, compensates ISO 226 loudness contours, and eliminates continuous drone fatigue",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 9,
+        "typedOutputPortCount": 12,
+        "cloudEventTypeCount": 5,
+        "stateFieldCount": 18,
+        "effectKind": "BoundedWebAudioGraph",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 15,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 4,
+        "dependencyModelMask": 7,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 16,
+        "compositionSummary": "Receives continuum E/rho & collider Fresnel zones from Physics/Chemistry/B-Mesh and exports 24-Bark spectral energy & Chladni modes to Lagoon Cymatics, Articulation, Soundtrack, and Humane Pacing",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 2667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "48kHz modal resonator bank + 24-Bark critical-band masking governor + Sabine early-reflection convolution",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 915,
+        "apexResolutionUnits": 1140,
+        "perceptualJndPermille": 5,
+        "fidelityCriteriaSummary": "0.5 cent pitch accuracy, 0.5 phon ISO 226 contour fidelity, 24-Bark critical-band masking separation",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 32768,
+        "maxComputeMicrosPerFrame": 680,
+        "maxLatencyMicros": 2667,
+        "energyBudgetMilliwatts": 40,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "128-frame WebAudio quantum @ 48kHz, pre-allocated Float32 FFT/Bark/IR buffers, 0 audio-thread GC",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Acoustics.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Acoustics/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "ISO 226:2023 Equal-Loudness, Zwicker (1961) 24-Bark Scale, ISO 9613-1 Atmospheric Acoustics, Helmholtz/Chladni Modal Physics, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 6,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 24,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving headroom safety, zero drone fatigue, spatial attenuation, 24-Bark masking monotonicity, and 11-element descriptor completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/soundscapeEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> 48kHz WebAudio Modal/ISO226/24-Bark DSP -> Spatial Binaural Output & Cymatic Bus",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "articulation",
+    "registryField": "m07Articulation",
+    "displayName": "Articulation (Euler-Lagrange 3-Joint Botanical Kinematics + ADSR)",
+    "sourceModule": "Foundation.Articulation.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Articulation/V1/Model.lex.tex",
+    "sourceSha256": "fb9f1f4a7d01474d4ee31cdad36581043f118d4af54bd7ef6dc7303cfc50770d",
+    "unbiasedSiExponents": {
+      "s": -1,
+      "m": 1,
+      "kg": 1,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 7,
+        "canonicalModelId": "prism/standard-model/articulation-physical-excitation-rig/1",
+        "semverMajor": 2,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 97,
+        "blake3DigestHead64": 97000005,
+        "blake3DigestTail64": 32200650,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Articulation.V1",
+        "canonicalConceptCount": 26,
+        "crossDomainSynonymCount": 11,
+        "taxonomicRelationCount": 18,
+        "keyConceptsSummary": "Physical Pluck/Strike/Bow Excitation Envelopes, Euler-Lagrange 3-Joint Botanical Kinematics, Parabolic Sympathetic Arcs, 5-Species Modal Partial Ratios",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 12,
+        "conservationLawCount": 3,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Couples tactile/attune/stillness excitation envelopes with 3-joint basal-mid-apical kinematic hierarchies and staggered binaural cross-pollination arcs",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 8,
+        "typedOutputPortCount": 10,
+        "cloudEventTypeCount": 4,
+        "stateFieldCount": 16,
+        "effectKind": "BoundedEnvelopeAndRig",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 5,
+        "dependencyModelMask": 39,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 14,
+        "compositionSummary": "Transforms Acoustics modal partials and Botany turgor stiffness into real-time audio-visual gesture envelopes and 3-joint flower/culm motion",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 8333,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Exponential ADSR energy-dissipative excitation + phase-lagged 3-joint harmonic oscillator kinematics",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 920,
+        "apexResolutionUnits": 1220,
+        "perceptualJndPermille": 4,
+        "fidelityCriteriaSummary": "1ms transient attack precision, 550mrad inter-joint phase coherence, 6-voice constellation separation",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 12288,
+        "maxComputeMicrosPerFrame": 260,
+        "maxLatencyMicros": 8333,
+        "energyBudgetMilliwatts": 18,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Static voice-envelope and 3-joint quaternion/euler rig buffers; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Articulation.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Articulation/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 4,
+        "adoptedStandardsSummary": "Chaigne & Kergomard Acoustics of Musical Instruments, Featherstone Rigid-Body/Joint Kinematics, ISO-42010-2022, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 10,
+        "acceptanceVectorCount": 20,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving constellation voice minimums, gesture attack contrast, 3-joint torque-flexure-gimbal hierarchy, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/soundscapeEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Modal Gesture & 3-Joint Rig Runtime -> WebAudio Envelopes & WebGL2 Skeletal Flexure",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "soundtrack",
+    "registryField": "m08Soundtrack",
+    "displayName": "Soundtrack (11-Limit Just Intonation Tonnetz + Voice-Leading Parsimony)",
+    "sourceModule": "Foundation.Soundtrack.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Soundtrack/V1/Model.lex.tex",
+    "sourceSha256": "1c25ecef57015deb741d75c145caad1497552877c9633506e894c26a940ace9a",
+    "unbiasedSiExponents": {
+      "s": -1,
+      "m": 0,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 8,
+        "canonicalModelId": "prism/standard-model/soundtrack-prime-limit-tonnetz/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 101,
+        "blake3DigestHead64": 10100011,
+        "blake3DigestTail64": 50160076,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Soundtrack.V1",
+        "canonicalConceptCount": 28,
+        "crossDomainSynonymCount": 12,
+        "taxonomicRelationCount": 18,
+        "keyConceptsSummary": "11-Limit Just Intonation Tonnetz Lattice, Tenney Harmonic Distance, Euler Gradus Suavitatis, Fux Species Counterpoint, 5-Stage Botanical Lifecycle Score, Breathing Rest Conservation",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 12,
+        "conservationLawCount": 4,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Generates prime-ratio harmonic progressions, voice-led chamber counterpoint, and breathing silence bars isomorphic to UOR prime addresses and Rule-30 voice-leading",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 8,
+        "typedOutputPortCount": 10,
+        "cloudEventTypeCount": 4,
+        "stateFieldCount": 14,
+        "effectKind": "BoundedChamberSequencer",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 5,
+        "dependencyModelMask": 35,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 14,
+        "compositionSummary": "Maps Mathematics UOR prime exponents and Acoustics 24-Bark masking into 11-limit Tonnetz counterpoint while exporting harmonic ratios to Brand typographic scales and Lagoon cymatics",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 125000,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Monotonic 5-stage botanical lifecycle progression + 16-step breathing bar scheduler (>=6 rest steps/bar)",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 53,
+        "apexResolutionUnits": 98,
+        "perceptualJndPermille": 3,
+        "fidelityCriteriaSummary": "Exact rational p/q Just Intonation ratios (0.0 cent temper drift), >=37.5pct rest-bar quietude",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 190,
+        "maxLatencyMicros": 10000,
+        "energyBudgetMilliwatts": 15,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Static 16-step x 4-stem score lattice and rational ratio tables; 0 heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Soundtrack.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Soundtrack/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 4,
+        "adoptedStandardsSummary": "Euler Tentamen Novum (1739), Partch 11-Limit Tonnetz, Tenney (1984) Harmonic Space, Fux Gradus ad Parnassum, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 10,
+        "acceptanceVectorCount": 20,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving lifecycle monotonicity, breathing silence rest guarantee, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/soundscapeEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> 11-Limit Tonnetz & Chamber Counterpoint Engine -> WebAudio Score & UI Harmonic Ratios",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "graphics",
+    "registryField": "m09Graphics",
+    "displayName": "Graphics (380-780nm CIE 1931 -> OKLCH + glTF 2.0 GGX/Airy PBR + 2-Manifold B-Mesh)",
+    "sourceModule": "Foundation.Graphics.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Graphics/V1/Model.lex.tex",
+    "sourceSha256": "e08904f5c5c1691b34c31baec18d9533a8a2c3f17d2829024fa1091da4890e57",
+    "unbiasedSiExponents": {
+      "s": -3,
+      "m": -2,
+      "kg": 1,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 1
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 9,
+        "canonicalModelId": "prism/standard-model/graphics-cie1931-oklch-gltf2-bmesh/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 137,
+        "blake3DigestHead64": 13700380,
+        "blake3DigestTail64": 78006504,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Graphics.V1",
+        "canonicalConceptCount": 44,
+        "crossDomainSynonymCount": 19,
+        "taxonomicRelationCount": 28,
+        "keyConceptsSummary": "CIE 1931 2-deg XYZ Spectral Integration (380-780nm), Ottosson OKLab/OKLCH Perceptual Colorimetry, IEC 61966-2-1 sRGB, Khronos glTF 2.0 Cook-Torrance GGX/Smith PBR, Airy Thin-Film Interference, 2-Manifold Euler-Poincare B-Mesh, Live Scene Re-Projection",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 18,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Integrates physical Planckian/Rayleigh illuminants and IUPAC/botanical pigment spectra into CIE XYZ -> OKLCH -> energy-conserving glTF 2.0 PBR shaders and dynamically re-projects watertight 2-manifold B-Meshes as Fidelity rises",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 11,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 24,
+        "effectKind": "BoundedWebGL2Pipeline",
+        "siBiasedTimeExp": 13,
+        "siBiasedLengthExp": 14,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 17,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 5,
+        "dependencyModelMask": 15,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 18,
+        "compositionSummary": "Consumes Chemistry Bravais lattices & chromophores, Physics wave dispersion, Botany phyllotaxis, and Acoustics Chladni modes while exporting OKLCH diurnal palettes to W3C Brand Tokens and Fresnel geometry to Acoustics",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "60Hz spectral sky/material integration + Chladni vertex cymatics + adaptive B-Mesh tessellation on seed/Fidelity change",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1030,
+        "apexResolutionUnits": 1480,
+        "perceptualJndPermille": 4,
+        "fidelityCriteriaSummary": "DeltaE_OK <= 0.004 perceptual color accuracy, R+T <= 1.0 PBR energy conservation, 0 non-manifold edges, 13..73+ spectral bands",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 49152,
+        "maxComputeMicrosPerFrame": 1450,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 85,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Reuse-in-place Float32 BufferAttributes and procedural DataTextures; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Graphics.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Graphics/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "CIE 015:2018 (XYZ 1931), CSS Color 4 / Ottosson OKLab-OKLCH, IEC 61966-2-1 sRGB, Khronos glTF 2.0 PBR + Iridescence + Transmission, Euler-Poincare 2-Manifold Topology, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 32,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving PBR radiative conservation, spectral/geometric resolution monotonicity, watertight manifold topology, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/spectralColorEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> CIE/OKLCH + Adaptive B-Mesh Engine -> WebGL2 PBR Shaders & Live Scene Re-Projection",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "brand",
+    "registryField": "m10BrandDesign",
+    "displayName": "Brand & Design (W3C Design Tokens + OKLCH Gamut + WCAG 2.2 AAA + APCA)",
+    "sourceModule": "Foundation.Brand.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Brand/V1/Model.lex.tex",
+    "sourceSha256": "343b013eb38e0d70f0782d8303ff0f363c566198637d9cc18b71f70d6d087a3e",
+    "unbiasedSiExponents": {
+      "s": 0,
+      "m": 1,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 1
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 10,
+        "canonicalModelId": "prism/standard-model/design-w3c-dtcg-wcag22-apca/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 107,
+        "blake3DigestHead64": 10700036,
+        "blake3DigestTail64": 70082128,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Brand.V1",
+        "canonicalConceptCount": 30,
+        "crossDomainSynonymCount": 13,
+        "taxonomicRelationCount": 20,
+        "keyConceptsSummary": "W3C Design Tokens (DTCG), CIE OKLCH Perceptual UI Tokens, WCAG 2.2 AA/AAA Luminance Contrast, APCA Lc Perceptual Readability, Just-Intonation Modular Typography, Concentric Nested Radius Geometry, CVD Safe Separation",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 12,
+        "conservationLawCount": 4,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Projects live CIE/OKLCH diurnal spectra and Soundtrack harmonic ratios into W3C Design Tokens that provably satisfy WCAG 2.2 AAA (>=7.0:1) and APCA (Lc>=65) legibility across all atmospheres",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 8,
+        "typedOutputPortCount": 10,
+        "cloudEventTypeCount": 4,
+        "stateFieldCount": 16,
+        "effectKind": "BoundedCssTokenProjection",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 17,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 257,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 14,
+        "compositionSummary": "Transforms Graphics OKLCH diurnal palettes and Soundtrack harmonic ratios into accessible UI surfaces, borders, badges, and wayfinder compass tokens",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 1,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Continuous diurnal OKLCH lightness/chroma adaptation clamped by WCAG 2.2 & APCA contrast floors",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 85,
+        "apexResolutionUnits": 102,
+        "perceptualJndPermille": 4,
+        "fidelityCriteriaSummary": "0.1:1 WCAG contrast precision, 1 Lc APCA perceptual contrast precision, 1px concentric radius exactness",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 6144,
+        "maxComputeMicrosPerFrame": 120,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 10,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Batched root CSS custom property updates (--vr-*); 0 layout thrashing or per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Brand.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Brand/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "W3C Design Tokens Format (DTCG), W3C WCAG 2.2 (ISO/IEC 40500), APCA Perceptual Contrast, CSS Color Module Level 4 (OKLCH), LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 24,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving WCAG AAA contrast, concentric nested radius law, neuromorphic display closure, and 11-element descriptor completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/spectralColorEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> W3C OKLCH Token & APCA Solver -> Live DOM CSS Custom Properties & HUD",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "humane",
+    "registryField": "m11HumaneErgonomics",
+    "displayName": "Humane Ergonomics (ISO 9241-110/210 + Fitts/Hick-Hyman + Zero Dark Patterns)",
+    "sourceModule": "Foundation.Humane.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Humane/V1/Model.lex.tex",
+    "sourceSha256": "29134a543f42e7e1179d0940eca0889649fe9df025a792a2ac99368d68aa1815",
+    "unbiasedSiExponents": {
+      "s": -1,
+      "m": 1,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 11,
+        "canonicalModelId": "prism/standard-model/humane-iso9241-fitts-hick/1",
+        "semverMajor": 3,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 103,
+        "blake3DigestHead64": 10309241,
+        "blake3DigestTail64": 44004200,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Humane.V1",
+        "canonicalConceptCount": 32,
+        "crossDomainSynonymCount": 13,
+        "taxonomicRelationCount": 20,
+        "keyConceptsSummary": "ISO 9241-210 Human-Centered Design, Fitts's Law Target Ergonomics (>=44px), Hick-Hyman Cognitive Load Ceiling, 0.1Hz Mayer-Wave HRV Breath Pacing, Critically Damped Camera Springs, Zero Dark Patterns",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 14,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Guarantees >=85pct unobstructed viewport calm, zero violence/timers/teleports, forward-hemisphere focal gaze selection, Fitts/Hick ergonomic bounds, and reciprocal co-agency",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 9,
+        "typedOutputPortCount": 10,
+        "cloudEventTypeCount": 4,
+        "stateFieldCount": 18,
+        "effectKind": "PureKernel+DampedSpringPolicy",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 545,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 14,
+        "compositionSummary": "Couples Acoustics 24-Bark density and Brand W3C tokens with player velocity/stillness to regulate cognitive load and unlock peak multi-modal Fidelity during calm contemplation",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 8333,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Critically damped SE(3) camera springs + refractory input debouncing + 4.2s restorative breath pacing",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 130,
+        "apexResolutionUnits": 280,
+        "perceptualJndPermille": 5,
+        "fidelityCriteriaSummary": "0 camera-snap millirad discontinuity, >=44px Fitts hit targets, <=5 concurrent Hick affordances",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 140,
+        "maxLatencyMicros": 8333,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Pre-allocated gaze-cone raycast and spring state scalars; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Humane.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Humane/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "ISO 9241-210:2019 Ergonomics of Human-System Interaction, WCAG 2.2 Target Size (2.5.8), Fitts (1954), Hick (1952), Weiser Calm Technology, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 6,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 24,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving >=85pct viewport calm, zero camera teleport, focal gaze cone exclusion, gentle zephyr bounds, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/prismModel.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Humane Pacing, Gaze & Ergonomic Governor -> Camera Rig & Calm HUD",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "infrastructure",
+    "registryField": "m12Infrastructure",
+    "displayName": "Infrastructure (ISO/IEC/IEEE 42010 + ISO 25010 + Zero-GC Real-Time Arenas)",
+    "sourceModule": "Foundation.Infrastructure.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Infrastructure/V1/Model.lex.tex",
+    "sourceSha256": "948310050b5a26c6f5438db96420f95969d175fce4b1f532b9b4ac5b4c15074e",
+    "unbiasedSiExponents": {
+      "s": -1,
+      "m": 0,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 12,
+        "canonicalModelId": "prism/standard-model/infrastructure-iso42010/1",
+        "semverMajor": 3,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 71,
+        "blake3DigestHead64": 71042010,
+        "blake3DigestTail64": 25010160,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Infrastructure.V1",
+        "canonicalConceptCount": 22,
+        "crossDomainSynonymCount": 9,
+        "taxonomicRelationCount": 14,
+        "keyConceptsSummary": "ISO/IEC/IEEE 42010 Viewpoints, ISO/IEC 25010 Quality Model, Zero-GC Ring Buffers, Frame/DSP/VRAM Governor, CloudEvents 1.0.2, OpenTelemetry 1.60.0, SLSA 1.2, SPDX 3.0.1",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 10,
+        "conservationLawCount": 4,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Enforces zero-heap-allocation ring pools, 16.6ms 60Hz frame & 2.6ms WebAudio budgets, and CloudEvents/OpenTelemetry telemetry across all 14 models",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 6,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 14,
+        "effectKind": "BoundedRingArena+OTelSignal",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 2,
+        "dependencyModelMask": 4096,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 14,
+        "compositionSummary": "Supplies hardware resource headroom and ISO 42010 viewpoint governance to negotiate Fidelity tiers across Graphics, Acoustics, Physics, and Chemistry",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 1,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Deterministic frame-time feedback governor scaling multi-modal Fidelity within zero-GC memory arenas",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1005,
+        "apexResolutionUnits": 1080,
+        "perceptualJndPermille": 5,
+        "fidelityCriteriaSummary": "Sub-millisecond frame-time telemetry precision, zero GC pause jitter, deterministic buffer bounds",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 65536,
+        "maxComputeMicrosPerFrame": 320,
+        "maxLatencyMicros": 16000,
+        "energyBudgetMilliwatts": 45,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "64KB static typed-array pools, 16ms frame target, 2x max DPR, WebGL2 + software fallback",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Infrastructure.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Infrastructure/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 7,
+        "adoptedStandardsSummary": "ISO-42010-2022, ISO-25010-2023, ISO-19450-2015, CLOUDEVENTS-1-0-2, OTEL-SPEC-1-60-0, SLSA-1-2, SPDX-3-0-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 3,
+        "runtimePropertyOracleCount": 8,
+        "acceptanceVectorCount": 18,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "Zero-allocation budget proof, neuromorphic bus coupling proof, and 11-element canonical descriptor completeness proof",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/prismModel.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Zero-GC Resource Governor -> WebGL2/WebAudio/OTel Runtime",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "neuromorphic",
+    "registryField": "m13NeuromorphicBus",
+    "displayName": "Neuromorphic Bus (14x14 Functorial Feature-Transfer Matrix + STDP + Active Inference)",
+    "sourceModule": "Foundation.Neuromorphic.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Neuromorphic/V1/Model.lex.tex",
+    "sourceSha256": "2af2d4eba46cfcb94de6764389198772e4643d94b4f5e8fe1c0732f5cb34a405",
+    "unbiasedSiExponents": {
+      "s": -1,
+      "m": 0,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 13,
+        "canonicalModelId": "prism/standard-model/neuromorphic-functor-bus/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 109,
+        "blake3DigestHead64": 10900196,
+        "blake3DigestTail64": 18200154,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Neuromorphic.V1",
+        "canonicalConceptCount": 28,
+        "crossDomainSynonymCount": 14,
+        "taxonomicRelationCount": 19,
+        "keyConceptsSummary": "Hebbian STDP Plasticity, 14x14 Functorial Feature-Transfer Matrix, Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Theory-of-Mind Teleology",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 18,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Transfers SI-typed mathematical, physical, chemical, botanical, acoustic, spectral-PBR, and ergonomic feature tensors across all 14x14 model pairs to monotonically raise multi-modal Fidelity",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 14,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 18,
+        "effectKind": "PureKernel+BoundedRingSynapse",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 1,
+        "dependencyModelMask": 1,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 196,
+        "compositionSummary": "Universal 14x14 functorial bus connecting all canonical standard models with zero conflict and associative gain composition",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 1000,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Discrete STDP weight potentiation/depression + Active Inference variational free-energy minimization + Rule 30 orbit evolution",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 840,
+        "apexResolutionUnits": 1212,
+        "perceptualJndPermille": 5,
+        "fidelityCriteriaSummary": "0.5pct synaptic coherence JND, 64-bit Rule-30 orbit exactness, 28-bit PointKey cycle-free resonance",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 420,
+        "maxLatencyMicros": 1000,
+        "energyBudgetMilliwatts": 35,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Pre-allocated 14x14 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Neuromorphic.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Neuromorphic/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "Hebb (1949) / Bi & Poo STDP, Friston Active Inference Variational Free Energy, Wolfram Elementary CA Rule 30, UOR Cl(0,6), LEAN-REL-4-32-1, ISO-42010-2022",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 14,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 36,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "14 machine-checked Lean 4.32 theorems proving boundedness, 14x14 functor monotonicity, free-energy reduction, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/neuromorphicFunctorBus.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 14x14 Functor Runtime -> Live WebGL2/WebAudio/W3C-Token/Observer Fidelity Amplification",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "cosmogenesis",
+    "registryField": "m14ObserverCosmogenesis",
+    "displayName": "Holistic Observer & Cosmogenesis (Complete 14x11 Context = 154 Cells + Alpha-Omega)",
+    "sourceModule": "Foundation.Cosmogenesis.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Cosmogenesis/V1/Model.lex.tex",
+    "sourceSha256": "ca5d1cf8266b81583f875d4a6f051923ec16f16ab26e822df883b0ad5d3cb131",
+    "unbiasedSiExponents": {
+      "s": 0,
+      "m": 0,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 14,
+        "canonicalModelId": "prism/standard-model/observer-cosmogenesis-holistic-context/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 113,
+        "blake3DigestHead64": 11300154,
+        "blake3DigestTail64": 14011196,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Cosmogenesis.V1",
+        "canonicalConceptCount": 46,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 32,
+        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 14x11 Meta-Model Registry (154 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Foundational Affective Calculus, Multi-Modal Resolution Extrapolation",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 24,
+        "conservationLawCount": 8,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 14 canonical standard models and itself, orchestrating 14x14 Neuromorphic functor transfers to maximize multi-modal Fidelity across the game",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 14,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 28,
+        "effectKind": "PureKernel+HolisticObserverView",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 7,
+        "dependencyModelMask": 8191,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 196,
+        "compositionSummary": "Apex universal observer functor indexing and cross-verifying Mathematics, Physics, Chemistry, Botany, Ecology, Acoustics, Articulation, Soundtrack, Graphics, Brand, Humane, Infrastructure, Neuromorphic, and Self",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 8,
+        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + multi-modal Fidelity extrapolation",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 53,
+        "baseResolutionUnits": 960,
+        "apexResolutionUnits": 1320,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "154/154 verified Meta-Model context cells, 118/118 IUPAC elements, 17/17 SM fields, 24/24 Bark bands, 380-780nm CIE/OKLCH",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 16384,
+        "maxComputeMicrosPerFrame": 240,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 20,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Immutable content-addressed descriptor registry + zero-GC live telemetry snapshot; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Cosmogenesis.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Cosmogenesis/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 8,
+        "adoptedStandardsSummary": "ISO-42010-2022, ISO-25010-2023, SPDX-3-0-1, SLSA-1-2, BLAKE3-VECTORS-1-5-5, OTEL-SPEC-1-60-0, CLOUDEVENTS-1-0-2, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 18,
+        "acceptanceVectorCount": 52,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 14x11 Registry completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/components/PrismInspectorModal.tsx",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext -> Interactive 14x11 Standard-Model & Fidelity Explorer",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  }
+] as const;
 
 export const GENERATED_PRISM_CONTEXT_PRIMES = {
   "meadowPrime": 2,
@@ -250,6 +1908,190 @@ export const GENERATED_PRISM_BUS_MODULATION_LUT = {
     100,
     100,
     100
+  ],
+  "mathematics": [
+    1056,
+    1056,
+    1088,
+    1120,
+    1152,
+    1184,
+    1216,
+    1248,
+    1280,
+    1312,
+    1344,
+    1376,
+    1408,
+    1440,
+    1472,
+    1504,
+    1536,
+    1536,
+    1536,
+    1536,
+    1536
+  ],
+  "chemistry": [
+    962,
+    962,
+    984,
+    1006,
+    1028,
+    1050,
+    1072,
+    1094,
+    1116,
+    1138,
+    1160,
+    1182,
+    1204,
+    1226,
+    1248,
+    1270,
+    1292,
+    1292,
+    1292,
+    1292,
+    1292
+  ],
+  "graphics": [
+    1030,
+    1030,
+    1060,
+    1090,
+    1120,
+    1150,
+    1180,
+    1210,
+    1240,
+    1270,
+    1300,
+    1330,
+    1360,
+    1390,
+    1420,
+    1450,
+    1480,
+    1480,
+    1480,
+    1480,
+    1480
+  ],
+  "spectralBandResolution": [
+    13,
+    13,
+    17,
+    21,
+    25,
+    29,
+    33,
+    37,
+    41,
+    45,
+    49,
+    53,
+    57,
+    61,
+    65,
+    69,
+    73,
+    73,
+    73,
+    73,
+    73
+  ],
+  "adaptiveTerrainSegments": [
+    102,
+    102,
+    106,
+    110,
+    114,
+    118,
+    122,
+    126,
+    130,
+    134,
+    138,
+    142,
+    146,
+    150,
+    154,
+    158,
+    162,
+    162,
+    162,
+    162,
+    162
+  ],
+  "barkMaskingHeadroomMilliDb": [
+    3350,
+    3350,
+    3500,
+    3650,
+    3800,
+    3950,
+    4100,
+    4250,
+    4400,
+    4550,
+    4700,
+    4850,
+    5000,
+    5150,
+    5300,
+    5450,
+    5600,
+    5600,
+    5600,
+    5600,
+    5600
+  ],
+  "functorFeatureTransferGainPermille": [
+    125,
+    125,
+    150,
+    175,
+    200,
+    225,
+    250,
+    275,
+    300,
+    325,
+    350,
+    375,
+    400,
+    425,
+    450,
+    475,
+    500,
+    500,
+    500,
+    500,
+    500
+  ],
+  "variationalFreeEnergySurprisalPermille": [
+    610,
+    610,
+    580,
+    550,
+    520,
+    490,
+    460,
+    430,
+    400,
+    370,
+    340,
+    310,
+    280,
+    250,
+    220,
+    190,
+    160,
+    160,
+    160,
+    160,
+    160
   ],
   "wisdomPhenomenon": [
     85,
@@ -2768,7 +4610,7 @@ export const GENERATED_PRISM_STANDARDS = {
       "hardSurfaceOrRockFloraGrowthCount": 0
     },
     "materialObstruction": {
-      "synthesisCompoundCount": 6,
+      "synthesisCompoundCount": 14,
       "crossModalChannelCount": 6,
       "solidMechanicalTransmittancePermille": 0,
       "quartzPhaseVelocityRetardationPermille": 352,
@@ -2881,12 +4723,12 @@ export const GENERATED_PRISM_STANDARDS = {
       "maxSimultaneousConstellationBeams": 5
     },
     "granularSynthesis": {
-      "atomicElementCount": 8,
-      "molecularSpeciesCount": 8,
-      "macromoleculeCount": 6,
-      "matterCompoundCount": 6,
+      "atomicElementCount": 118,
+      "molecularSpeciesCount": 24,
+      "macromoleculeCount": 12,
+      "matterCompoundCount": 14,
       "synthesizedModalityCount": 6,
-      "closedLoopReactionPathwayCount": 4,
+      "closedLoopReactionPathwayCount": 8,
       "atomicToEnvironmentalChainVerified": true,
       "atomicRemineralizationComplete": true,
       "prismSynthesisClosureVerified": true
@@ -3232,6 +5074,1901 @@ export const GENERATED_PRISM_STANDARDS = {
       "crossDomainTransferEnabled": true,
       "autopoieticSelfRefinementEnabled": true
     }
+  },
+  "mathematics": {
+    "profile": "prism/mathematics-standard/1",
+    "algebraAndNumberTheory": {
+      "peanoZfcAxiomCount": 9,
+      "uorPrimeBasisDimension": 33,
+      "cliffordCl06Dimension": 64,
+      "hamiltonIcosianRootCount": 17,
+      "icosahedralGroupOrder": 120,
+      "crystallographicPointGroupCount": 32,
+      "goldenRatioPermille": 1618,
+      "uniquePrimeFactorizationEnabled": true
+    },
+    "riemannianTopology": {
+      "manifoldDimension": 2,
+      "sphereEulerCharacteristic": 2,
+      "torusEulerCharacteristic": 0,
+      "exteriorDerivativeNilpotentResidual": 0,
+      "cotangentLaplaceBeltramiPositiveSemidefinite": true,
+      "gaussBonnetIntegralCoupled": true
+    },
+    "categoryAndInformation": {
+      "categoryFunctorIdentityCoherent": true,
+      "shannonEntropyFixedPointBits": 32,
+      "rule30AutomatonNumber": 30,
+      "bijectiveLeftDiagonalVerified": true
+    },
+    "canonicalDescriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 1,
+        "canonicalModelId": "prism/standard-model/mathematics/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 127,
+        "blake3DigestHead64": 12700064,
+        "blake3DigestTail64": 32001618,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Mathematics.V1",
+        "canonicalConceptCount": 36,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 24,
+        "keyConceptsSummary": "Peano/ZFC Arithmetic, UOR Prime Factorization, Clifford Cl(0,6), Icosians Z[phi], 32 Crystallographic Point Groups, Riemannian DEC Laplace-Beltrami, Euler-Poincare Topology, Category Functors, Shannon Entropy",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Provides exact prime-factorized UOR rings, Clifford spinor grades, 2-manifold Euler-Poincare topology, Riemannian curvature operators, and associative category functors to all 14 models",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 8,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 4,
+        "stateFieldCount": 12,
+        "effectKind": "PureKernel",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 1,
+        "dependencyModelMask": 0,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 14,
+        "compositionSummary": "Root formal foundation feeding Physics, Chemistry, Graphics, Acoustics, Soundtrack, and Neuromorphic Functor Bus with zero conflicts",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 4,
+        "characteristicStepMicros": 500,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Exact symbolic arithmetic, discrete exterior calculus d^2=0, and Rule-30 bijective cellular evolution",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 53,
+        "baseResolutionUnits": 1024,
+        "apexResolutionUnits": 1536,
+        "perceptualJndPermille": 1,
+        "fidelityCriteriaSummary": "53-bit IEEE-754 / exact Nat integer precision, 0 exterior derivative residual, exact Euler-Poincare topological invariants",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 4096,
+        "maxComputeMicrosPerFrame": 180,
+        "maxLatencyMicros": 500,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Pre-allocated UOR prime-exponent LUTs and DEC cotangent workspaces; 0 heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Mathematics.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Mathematics/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "ZFC / Bourbaki Elements of Mathematics, Euclid/Gauss FTA, Clifford Cl(0,6), Cartan/Desbrun Discrete Exterior Calculus, Shannon (1948), LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 10,
+        "acceptanceVectorCount": 24,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "Machine-checked Euler-Poincare icosahedron/torus invariants, d^2=0 nilpotency, neuromorphic monotonicity, and 11-element descriptor completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/standardModelEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> UOR/Clifford/Riemannian Runtime -> B-Mesh Topology & Tonnetz Lattice",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  "chemistry": {
+    "profile": "prism/chemistry-standard/1",
+    "periodicShells": {
+      "totalElementCount": 118,
+      "periodCount": 7,
+      "iupacGroupCount": 18,
+      "orbitalBlockCount": 4,
+      "madelungSubshellCount": 19,
+      "sBlockCapacity": 2,
+      "pBlockCapacity": 6,
+      "dBlockCapacity": 10,
+      "fBlockCapacity": 14,
+      "exchangeAnomalyElementCount": 20,
+      "pauliAndMadelungClosureVerified": true,
+      "electricalNeutralityAll118Verified": true
+    },
+    "crystallography": {
+      "crystalSystemCount": 7,
+      "bravaisLatticeCount": 14,
+      "vseprCoordinationClassCount": 6,
+      "triclinicBravaisCount": 1,
+      "monoclinicBravaisCount": 2,
+      "orthorhombicBravaisCount": 4,
+      "tetragonalBravaisCount": 2,
+      "trigonalBravaisCount": 1,
+      "hexagonalBravaisCount": 1,
+      "cubicBravaisCount": 3,
+      "bravaisFourteenClosureVerified": true
+    },
+    "stoichiometry": {
+      "essentialBioElementCount": 17,
+      "mineralPhaseCount": 12,
+      "pigmentChromophoreCount": 8,
+      "photosynthesisAtomResidual": 0,
+      "silicateHydrationAtomResidual": 0,
+      "exactStoichiometricMassBalanceVerified": true
+    },
+    "canonicalDescriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 3,
+        "canonicalModelId": "prism/standard-model/chemistry-iupac-118-iucr/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 131,
+        "blake3DigestHead64": 13100118,
+        "blake3DigestTail64": 70141918,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Chemistry.V1",
+        "canonicalConceptCount": 48,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 32,
+        "keyConceptsSummary": "All 118 IUPAC Chemical Elements (Z=1..118), Pauli/Madelung (n,l,ml,ms) 1s..7p Subshells, 20 d/f Exchange Anomalies, Pauling Electronegativity, Covalent Radii, VSEPR, 7 Crystal Systems, 14 Bravais Lattices, Balanced Stoichiometry",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 22,
+        "conservationLawCount": 7,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Constructively synthesizes ground-state electron shells for Z=1..118, enforces nuclear-electronic charge neutrality, parameterizes 7 crystal habits & mineral refractive indices, and proves zero-drift stoichiometric reactions",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 12,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 24,
+        "effectKind": "PureKernel",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 17,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 4,
+        "dependencyModelMask": 7,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 18,
+        "compositionSummary": "Bridges SU(3)xSU(2)xU(1) nucleons into 118 IUPAC elements, crystal Bravais habits for B-Mesh Graphics, ligand/chromophore absorption bands for CIE Colorimetry, elastic moduli for Acoustics, and 17 bio-elements for Botany & Ecology",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 10000,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Reversible mass-action chemical kinetics + exact stoichiometric atom conservation A*nu = 0",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 53,
+        "baseResolutionUnits": 962,
+        "apexResolutionUnits": 1292,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "Exact integer electron/atom counts across all Z=1..118, 1pm covalent radius precision, 1meV ionization precision",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 24576,
+        "maxComputeMicrosPerFrame": 380,
+        "maxLatencyMicros": 10000,
+        "energyBudgetMilliwatts": 30,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "24KB static TypedArray periodic shell, electronegativity, spectral line, and Bravais lattice tables; 0 heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Chemistry.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Chemistry/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "IUPAC Periodic Table of the Elements (2021, Z=1..118), Pauli/Madelung Quantum Shell Theory, IUCr International Tables for Crystallography, BIPM Mole (SI 2019), LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 16,
+        "acceptanceVectorCount": 118,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Pauli 118-element period closure, Z=1..118 period bounds, 14 Bravais lattices, stoichiometric conservation, and 11-element descriptor completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/standardModelEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> 118-Element Shell & Bravais Engine -> Crystal Meshes, Thin-Film PBR & Biogeochemistry",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  "graphics": {
+    "profile": "prism/graphics-standard/1",
+    "colorimetry": {
+      "minVisibleWavelengthNm": 380,
+      "maxVisibleWavelengthNm": 780,
+      "baseSpectralBandCount": 13,
+      "apexSpectralBandCount": 73,
+      "cieStandardObserverDeg": 2,
+      "d65WhitepointKelvin": 6504,
+      "maxDeltaEOkPermille": 4,
+      "planckianRayleighSkyCoupled": true,
+      "oklchPerceptualUniformityEnabled": true,
+      "srgbIec61966TransferVerified": true
+    },
+    "gltfPbr": {
+      "microfacetDistributionLaw": "Trowbridge-Reitz GGX Isotropic/Anisotropic NDF",
+      "geometricShadowingLaw": "Height-Correlated Smith GGX Masking-Shadowing",
+      "fresnelInterferenceLaw": "Schlick + Airy Multi-Beam Thin-Film Spectral Interference",
+      "maxPassiveAlbedoSumPermille": 1000,
+      "airyThinFilmMinNm": 180,
+      "airyThinFilmMaxNm": 680,
+      "chlorophyllRedEdgeNm": 700,
+      "radiativeEnergyConservationVerified": true,
+      "crystalBravaisHabitCoupled": true
+    },
+    "manifoldBMesh": {
+      "interiorEdgeFaceValence": 2,
+      "nonManifoldEdgeCount": 0,
+      "degenerateZeroAreaFaceCount": 0,
+      "baseTerrainGridSegments": 102,
+      "apexTerrainGridSegments": 192,
+      "liveDynamicWorldReprojectionEnabled": true,
+      "eulerPoincareTopologyVerified": true
+    },
+    "canonicalDescriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 9,
+        "canonicalModelId": "prism/standard-model/graphics-cie1931-oklch-gltf2-bmesh/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 137,
+        "blake3DigestHead64": 13700380,
+        "blake3DigestTail64": 78006504,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Graphics.V1",
+        "canonicalConceptCount": 44,
+        "crossDomainSynonymCount": 19,
+        "taxonomicRelationCount": 28,
+        "keyConceptsSummary": "CIE 1931 2-deg XYZ Spectral Integration (380-780nm), Ottosson OKLab/OKLCH Perceptual Colorimetry, IEC 61966-2-1 sRGB, Khronos glTF 2.0 Cook-Torrance GGX/Smith PBR, Airy Thin-Film Interference, 2-Manifold Euler-Poincare B-Mesh, Live Scene Re-Projection",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 18,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Integrates physical Planckian/Rayleigh illuminants and IUPAC/botanical pigment spectra into CIE XYZ -> OKLCH -> energy-conserving glTF 2.0 PBR shaders and dynamically re-projects watertight 2-manifold B-Meshes as Fidelity rises",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 11,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 24,
+        "effectKind": "BoundedWebGL2Pipeline",
+        "siBiasedTimeExp": 13,
+        "siBiasedLengthExp": 14,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 17,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 5,
+        "dependencyModelMask": 15,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 18,
+        "compositionSummary": "Consumes Chemistry Bravais lattices & chromophores, Physics wave dispersion, Botany phyllotaxis, and Acoustics Chladni modes while exporting OKLCH diurnal palettes to W3C Brand Tokens and Fresnel geometry to Acoustics",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "60Hz spectral sky/material integration + Chladni vertex cymatics + adaptive B-Mesh tessellation on seed/Fidelity change",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1030,
+        "apexResolutionUnits": 1480,
+        "perceptualJndPermille": 4,
+        "fidelityCriteriaSummary": "DeltaE_OK <= 0.004 perceptual color accuracy, R+T <= 1.0 PBR energy conservation, 0 non-manifold edges, 13..73+ spectral bands",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 49152,
+        "maxComputeMicrosPerFrame": 1450,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 85,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Reuse-in-place Float32 BufferAttributes and procedural DataTextures; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Graphics.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Graphics/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "CIE 015:2018 (XYZ 1931), CSS Color 4 / Ottosson OKLab-OKLCH, IEC 61966-2-1 sRGB, Khronos glTF 2.0 PBR + Iridescence + Transmission, Euler-Poincare 2-Manifold Topology, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 32,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving PBR radiative conservation, spectral/geometric resolution monotonicity, watertight manifold topology, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/spectralColorEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> CIE/OKLCH + Adaptive B-Mesh Engine -> WebGL2 PBR Shaders & Live Scene Re-Projection",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  "holisticObserverRegistry": {
+    "profile": "prism/holistic-observer-standard-model-registry/1",
+    "totalStandardModels": 14,
+    "elementsPerModel": 11,
+    "totalVerifiedContextCells": 154,
+    "m01Mathematics": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 1,
+        "canonicalModelId": "prism/standard-model/mathematics/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 127,
+        "blake3DigestHead64": 12700064,
+        "blake3DigestTail64": 32001618,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Mathematics.V1",
+        "canonicalConceptCount": 36,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 24,
+        "keyConceptsSummary": "Peano/ZFC Arithmetic, UOR Prime Factorization, Clifford Cl(0,6), Icosians Z[phi], 32 Crystallographic Point Groups, Riemannian DEC Laplace-Beltrami, Euler-Poincare Topology, Category Functors, Shannon Entropy",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Provides exact prime-factorized UOR rings, Clifford spinor grades, 2-manifold Euler-Poincare topology, Riemannian curvature operators, and associative category functors to all 14 models",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 8,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 4,
+        "stateFieldCount": 12,
+        "effectKind": "PureKernel",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 1,
+        "dependencyModelMask": 0,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 14,
+        "compositionSummary": "Root formal foundation feeding Physics, Chemistry, Graphics, Acoustics, Soundtrack, and Neuromorphic Functor Bus with zero conflicts",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 4,
+        "characteristicStepMicros": 500,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Exact symbolic arithmetic, discrete exterior calculus d^2=0, and Rule-30 bijective cellular evolution",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 53,
+        "baseResolutionUnits": 1024,
+        "apexResolutionUnits": 1536,
+        "perceptualJndPermille": 1,
+        "fidelityCriteriaSummary": "53-bit IEEE-754 / exact Nat integer precision, 0 exterior derivative residual, exact Euler-Poincare topological invariants",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 4096,
+        "maxComputeMicrosPerFrame": 180,
+        "maxLatencyMicros": 500,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Pre-allocated UOR prime-exponent LUTs and DEC cotangent workspaces; 0 heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Mathematics.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Mathematics/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "ZFC / Bourbaki Elements of Mathematics, Euclid/Gauss FTA, Clifford Cl(0,6), Cartan/Desbrun Discrete Exterior Calculus, Shannon (1948), LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 10,
+        "acceptanceVectorCount": 24,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "Machine-checked Euler-Poincare icosahedron/torus invariants, d^2=0 nilpotency, neuromorphic monotonicity, and 11-element descriptor completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/standardModelEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> UOR/Clifford/Riemannian Runtime -> B-Mesh Topology & Tonnetz Lattice",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m02Physics": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 2,
+        "canonicalModelId": "prism/standard-model/physics-su3-su2-u1-si2019/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 73,
+        "blake3DigestHead64": 73000017,
+        "blake3DigestTail64": 299792458,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Physics.V1",
+        "canonicalConceptCount": 42,
+        "crossDomainSynonymCount": 18,
+        "taxonomicRelationCount": 26,
+        "keyConceptsSummary": "BIPM SI 2019 Base Units & Defining Constants, 17-Field SU(3)c x SU(2)L x U(1)Y Standard Model, Gell-Mann-Nishijima Charge, Color-Singlet Hadronization, Cauchy Elasticity, Saint-Venant Shallow-Water Hydrodynamics, Maxwell Dispersion",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 20,
+        "conservationLawCount": 8,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Enforces exact quantum-number conservation (Q, B, Le, Lmu, Ltau, color), SI 2019 dimensional coherence, solid steric non-penetration, shallow-water wave mechanics, and cross-modal phase/acoustic obstruction",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 10,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 22,
+        "effectKind": "PureKernel+SymplecticField",
+        "siBiasedTimeExp": 14,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 3,
+        "dependencyModelMask": 3,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 18,
+        "compositionSummary": "Transforms Mathematical symmetry & DEC operators into conserved quantum/nuclear states for 118-Element Chemistry, wave optics for PBR Graphics, and continuum mechanics for Acoustics & Botany",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 8333,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Exact vertex conservation + symplectic Verlet solid kinematics + Saint-Venant shallow-water wave propagation",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 53,
+        "baseResolutionUnits": 875,
+        "apexResolutionUnits": 1250,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 quantum-number/charge drift, 0 solid collider overlap, exact integer SI constant significands",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 16384,
+        "maxComputeMicrosPerFrame": 620,
+        "maxLatencyMicros": 8333,
+        "energyBudgetMilliwatts": 55,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "16KB static Float32 collider, shallow-water, and particle conservation buffers; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Physics.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Physics/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "BIPM SI Brochure 9th Ed. (2019), CERN / Particle Data Group Review of Particle Physics (SU(3)xSU(2)xU(1)), Cauchy-Hooke, Saint-Venant, Maxwell, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 9,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 32,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "9 machine-checked Lean 4.32 theorems covering Gell-Mann-Nishijima chiral multiplets, nucleon/beta conservation, hydrostatic containment, collider non-obstruction, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/standardModelEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Particle/SI/Continuum Engine -> Colliders, Water Cymatics & Optical Dispersion",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m03Chemistry": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 3,
+        "canonicalModelId": "prism/standard-model/chemistry-iupac-118-iucr/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 131,
+        "blake3DigestHead64": 13100118,
+        "blake3DigestTail64": 70141918,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Chemistry.V1",
+        "canonicalConceptCount": 48,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 32,
+        "keyConceptsSummary": "All 118 IUPAC Chemical Elements (Z=1..118), Pauli/Madelung (n,l,ml,ms) 1s..7p Subshells, 20 d/f Exchange Anomalies, Pauling Electronegativity, Covalent Radii, VSEPR, 7 Crystal Systems, 14 Bravais Lattices, Balanced Stoichiometry",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 22,
+        "conservationLawCount": 7,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Constructively synthesizes ground-state electron shells for Z=1..118, enforces nuclear-electronic charge neutrality, parameterizes 7 crystal habits & mineral refractive indices, and proves zero-drift stoichiometric reactions",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 12,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 24,
+        "effectKind": "PureKernel",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 17,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 4,
+        "dependencyModelMask": 7,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 18,
+        "compositionSummary": "Bridges SU(3)xSU(2)xU(1) nucleons into 118 IUPAC elements, crystal Bravais habits for B-Mesh Graphics, ligand/chromophore absorption bands for CIE Colorimetry, elastic moduli for Acoustics, and 17 bio-elements for Botany & Ecology",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 10000,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Reversible mass-action chemical kinetics + exact stoichiometric atom conservation A*nu = 0",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 53,
+        "baseResolutionUnits": 962,
+        "apexResolutionUnits": 1292,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "Exact integer electron/atom counts across all Z=1..118, 1pm covalent radius precision, 1meV ionization precision",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 24576,
+        "maxComputeMicrosPerFrame": 380,
+        "maxLatencyMicros": 10000,
+        "energyBudgetMilliwatts": 30,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "24KB static TypedArray periodic shell, electronegativity, spectral line, and Bravais lattice tables; 0 heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Chemistry.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Chemistry/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "IUPAC Periodic Table of the Elements (2021, Z=1..118), Pauli/Madelung Quantum Shell Theory, IUCr International Tables for Crystallography, BIPM Mole (SI 2019), LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 16,
+        "acceptanceVectorCount": 118,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Pauli 118-element period closure, Z=1..118 period bounds, 14 Bravais lattices, stoichiometric conservation, and 11-element descriptor completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/standardModelEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> 118-Element Shell & Bravais Engine -> Crystal Meshes, Thin-Film PBR & Biogeochemistry",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m04Botany": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 4,
+        "canonicalModelId": "prism/standard-model/botany-fvcb-vogel-lsystem/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 79,
+        "blake3DigestHead64": 79001375,
+        "blake3DigestTail64": 430662700,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Botany.V1",
+        "canonicalConceptCount": 38,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 24,
+        "keyConceptsSummary": "Vogel Golden-Angle Phyllotaxis (137.50776 deg), Lindenmayer Parametric L-Systems, Murray r^3 Vascular Law, Farquhar-von Caemmerer-Berry C3 Photosynthesis, Michaelis-Menten Bioluminescence, Kuramoto Phase Entrainment",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Synthesizes vascular multi-organ botanical geometry, chlorophyll/anthocyanin/luciferin spectral curves, stomatal turgor kinematics, and Kuramoto choir phase-locking strictly on fertile substrates",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 10,
+        "typedOutputPortCount": 12,
+        "cloudEventTypeCount": 5,
+        "stateFieldCount": 20,
+        "effectKind": "PureKernel+MorphTargetState",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 17,
+        "siBiasedAmountExp": 17,
+        "siBiasedLuminousExp": 17,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 5,
+        "dependencyModelMask": 15,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 16,
+        "compositionSummary": "Consumes 17 essential IUPAC bio-elements from Chemistry and PAR irradiance from Physics/Graphics; exports organ moduli E/rho to Acoustics, pigment spectra & L-system topology to Graphics, and biomass fluxes to Ecology",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Circadian stomatal turgor ODE + FvCB RuBisCO/electron-transport kinetics + Kuramoto coupled oscillator synchronization",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 272,
+        "apexResolutionUnits": 512,
+        "perceptualJndPermille": 3,
+        "fidelityCriteriaSummary": "0.1 deg Vogel spiral precision, 1nm pigment peak fidelity, 0 hard-surface/rock root violations",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 20480,
+        "maxComputeMicrosPerFrame": 440,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 28,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Pre-allocated instance matrices, 3-joint morph weights, and Kuramoto phase arrays; 0 heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Botany.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Botany/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Vogel (1979) Phyllotaxis, Prusinkiewicz & Lindenmayer (1990) L-Systems, Farquhar-von Caemmerer-Berry (1980), Murray (1926), Kuramoto (1975), LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 7,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 28,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "7 Lean 4.32 theorems proving substrate exclusion, turgor bounds, roughness contrast, B-Mesh density scaling, neuromorphic coupling, and 11-element descriptor completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/proceduralMeshEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Botanical Morphogenesis & Pigment Engine -> WebGL2 Flora Meshes & Sympathetic Choir",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m05Ecology": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 5,
+        "canonicalModelId": "prism/standard-model/ecology-biogeochemical-stoichiometry/1",
+        "semverMajor": 3,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 83,
+        "blake3DigestHead64": 83000118,
+        "blake3DigestTail64": 17560810,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Ecology.V1",
+        "canonicalConceptCount": 34,
+        "crossDomainSynonymCount": 14,
+        "taxonomicRelationCount": 22,
+        "keyConceptsSummary": "118-Element IUPAC Biogeochemical Cycling, 17 Essential Bio-Elements, Redfield C:N:P Stoichiometry, Penman-Monteith Evapotranspiration, Mycorrhizal Exchange, Lotka-Volterra Mutualistic Guilds",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 14,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Closes mass-balanced elemental cycles across soil, water, atmosphere, minerals, and symbiotic flora guilds with zero matter creation or loss",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 10,
+        "typedOutputPortCount": 12,
+        "cloudEventTypeCount": 5,
+        "stateFieldCount": 20,
+        "effectKind": "PureKernel+MassBalancePool",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 17,
+        "siBiasedAmountExp": 17,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 23,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 16,
+        "compositionSummary": "Couples 118-element Chemistry and FvCB Botany into microclimate humidity/temperature for ISO 9613-1 Acoustics, Rayleigh haze for CIE Graphics, and biome guild resonance",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 33333,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Closed mass-balance differential pools + Penman-Monteith moisture equilibrium + mutualistic guild facilitation",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 825,
+        "apexResolutionUnits": 1200,
+        "perceptualJndPermille": 3,
+        "fidelityCriteriaSummary": "0.01 pH precision (5.60-8.10), exact stoichiometric remineralization closure across all 118 IUPAC elements",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 16384,
+        "maxComputeMicrosPerFrame": 310,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 22,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Pre-allocated elemental pool vectors and microclimate grids; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Ecology.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Ecology/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Redfield (1958) / Sterner & Elser Ecological Stoichiometry, Penman-Monteith FAO-56, IUPAC Biogeochemistry, Lotka-Volterra Mutualism, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 6,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 24,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving constellation bounds, pH stability, granular atomic-to-environmental synthesis, closed-loop remineralization, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/prismModel.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Mass-Balanced Biogeochemical & Microclimate Runtime -> Biome Atmosphere, Soil & Guilds",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m06Acoustics": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 6,
+        "canonicalModelId": "prism/standard-model/acoustics-iso226-24bark/1",
+        "semverMajor": 3,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 89,
+        "blake3DigestHead64": 89000024,
+        "blake3DigestTail64": 48000343,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Acoustics.V1",
+        "canonicalConceptCount": 34,
+        "crossDomainSynonymCount": 15,
+        "taxonomicRelationCount": 22,
+        "keyConceptsSummary": "ISO 226:2023 Equal-Loudness Contours, 24 Zwicker Bark / Glasberg-Moore ERB Critical Bands, Euler-Bernoulli & Chladni Modal Eigenfrequencies, Sabine-Eyring Reverberation, ISO 9613-1 Air Absorption, Binaural ITD/ILD",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Synthesizes material-grounded modal partials from Young's modulus E and density rho, enforces 24-Bark masking clarity, compensates ISO 226 loudness contours, and eliminates continuous drone fatigue",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 9,
+        "typedOutputPortCount": 12,
+        "cloudEventTypeCount": 5,
+        "stateFieldCount": 18,
+        "effectKind": "BoundedWebAudioGraph",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 15,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 4,
+        "dependencyModelMask": 7,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 16,
+        "compositionSummary": "Receives continuum E/rho & collider Fresnel zones from Physics/Chemistry/B-Mesh and exports 24-Bark spectral energy & Chladni modes to Lagoon Cymatics, Articulation, Soundtrack, and Humane Pacing",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 2667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "48kHz modal resonator bank + 24-Bark critical-band masking governor + Sabine early-reflection convolution",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 915,
+        "apexResolutionUnits": 1140,
+        "perceptualJndPermille": 5,
+        "fidelityCriteriaSummary": "0.5 cent pitch accuracy, 0.5 phon ISO 226 contour fidelity, 24-Bark critical-band masking separation",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 32768,
+        "maxComputeMicrosPerFrame": 680,
+        "maxLatencyMicros": 2667,
+        "energyBudgetMilliwatts": 40,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "128-frame WebAudio quantum @ 48kHz, pre-allocated Float32 FFT/Bark/IR buffers, 0 audio-thread GC",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Acoustics.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Acoustics/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "ISO 226:2023 Equal-Loudness, Zwicker (1961) 24-Bark Scale, ISO 9613-1 Atmospheric Acoustics, Helmholtz/Chladni Modal Physics, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 6,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 24,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving headroom safety, zero drone fatigue, spatial attenuation, 24-Bark masking monotonicity, and 11-element descriptor completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/soundscapeEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> 48kHz WebAudio Modal/ISO226/24-Bark DSP -> Spatial Binaural Output & Cymatic Bus",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m07Articulation": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 7,
+        "canonicalModelId": "prism/standard-model/articulation-physical-excitation-rig/1",
+        "semverMajor": 2,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 97,
+        "blake3DigestHead64": 97000005,
+        "blake3DigestTail64": 32200650,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Articulation.V1",
+        "canonicalConceptCount": 26,
+        "crossDomainSynonymCount": 11,
+        "taxonomicRelationCount": 18,
+        "keyConceptsSummary": "Physical Pluck/Strike/Bow Excitation Envelopes, Euler-Lagrange 3-Joint Botanical Kinematics, Parabolic Sympathetic Arcs, 5-Species Modal Partial Ratios",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 12,
+        "conservationLawCount": 3,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Couples tactile/attune/stillness excitation envelopes with 3-joint basal-mid-apical kinematic hierarchies and staggered binaural cross-pollination arcs",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 8,
+        "typedOutputPortCount": 10,
+        "cloudEventTypeCount": 4,
+        "stateFieldCount": 16,
+        "effectKind": "BoundedEnvelopeAndRig",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 5,
+        "dependencyModelMask": 39,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 14,
+        "compositionSummary": "Transforms Acoustics modal partials and Botany turgor stiffness into real-time audio-visual gesture envelopes and 3-joint flower/culm motion",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 8333,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Exponential ADSR energy-dissipative excitation + phase-lagged 3-joint harmonic oscillator kinematics",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 920,
+        "apexResolutionUnits": 1220,
+        "perceptualJndPermille": 4,
+        "fidelityCriteriaSummary": "1ms transient attack precision, 550mrad inter-joint phase coherence, 6-voice constellation separation",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 12288,
+        "maxComputeMicrosPerFrame": 260,
+        "maxLatencyMicros": 8333,
+        "energyBudgetMilliwatts": 18,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Static voice-envelope and 3-joint quaternion/euler rig buffers; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Articulation.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Articulation/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 4,
+        "adoptedStandardsSummary": "Chaigne & Kergomard Acoustics of Musical Instruments, Featherstone Rigid-Body/Joint Kinematics, ISO-42010-2022, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 10,
+        "acceptanceVectorCount": 20,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving constellation voice minimums, gesture attack contrast, 3-joint torque-flexure-gimbal hierarchy, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/soundscapeEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Modal Gesture & 3-Joint Rig Runtime -> WebAudio Envelopes & WebGL2 Skeletal Flexure",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m08Soundtrack": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 8,
+        "canonicalModelId": "prism/standard-model/soundtrack-prime-limit-tonnetz/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 101,
+        "blake3DigestHead64": 10100011,
+        "blake3DigestTail64": 50160076,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Soundtrack.V1",
+        "canonicalConceptCount": 28,
+        "crossDomainSynonymCount": 12,
+        "taxonomicRelationCount": 18,
+        "keyConceptsSummary": "11-Limit Just Intonation Tonnetz Lattice, Tenney Harmonic Distance, Euler Gradus Suavitatis, Fux Species Counterpoint, 5-Stage Botanical Lifecycle Score, Breathing Rest Conservation",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 12,
+        "conservationLawCount": 4,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Generates prime-ratio harmonic progressions, voice-led chamber counterpoint, and breathing silence bars isomorphic to UOR prime addresses and Rule-30 voice-leading",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 8,
+        "typedOutputPortCount": 10,
+        "cloudEventTypeCount": 4,
+        "stateFieldCount": 14,
+        "effectKind": "BoundedChamberSequencer",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 5,
+        "dependencyModelMask": 35,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 14,
+        "compositionSummary": "Maps Mathematics UOR prime exponents and Acoustics 24-Bark masking into 11-limit Tonnetz counterpoint while exporting harmonic ratios to Brand typographic scales and Lagoon cymatics",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 125000,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Monotonic 5-stage botanical lifecycle progression + 16-step breathing bar scheduler (>=6 rest steps/bar)",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 53,
+        "apexResolutionUnits": 98,
+        "perceptualJndPermille": 3,
+        "fidelityCriteriaSummary": "Exact rational p/q Just Intonation ratios (0.0 cent temper drift), >=37.5pct rest-bar quietude",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 190,
+        "maxLatencyMicros": 10000,
+        "energyBudgetMilliwatts": 15,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Static 16-step x 4-stem score lattice and rational ratio tables; 0 heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Soundtrack.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Soundtrack/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 4,
+        "adoptedStandardsSummary": "Euler Tentamen Novum (1739), Partch 11-Limit Tonnetz, Tenney (1984) Harmonic Space, Fux Gradus ad Parnassum, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 10,
+        "acceptanceVectorCount": 20,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving lifecycle monotonicity, breathing silence rest guarantee, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/soundscapeEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> 11-Limit Tonnetz & Chamber Counterpoint Engine -> WebAudio Score & UI Harmonic Ratios",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m09Graphics": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 9,
+        "canonicalModelId": "prism/standard-model/graphics-cie1931-oklch-gltf2-bmesh/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 137,
+        "blake3DigestHead64": 13700380,
+        "blake3DigestTail64": 78006504,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Graphics.V1",
+        "canonicalConceptCount": 44,
+        "crossDomainSynonymCount": 19,
+        "taxonomicRelationCount": 28,
+        "keyConceptsSummary": "CIE 1931 2-deg XYZ Spectral Integration (380-780nm), Ottosson OKLab/OKLCH Perceptual Colorimetry, IEC 61966-2-1 sRGB, Khronos glTF 2.0 Cook-Torrance GGX/Smith PBR, Airy Thin-Film Interference, 2-Manifold Euler-Poincare B-Mesh, Live Scene Re-Projection",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 18,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Integrates physical Planckian/Rayleigh illuminants and IUPAC/botanical pigment spectra into CIE XYZ -> OKLCH -> energy-conserving glTF 2.0 PBR shaders and dynamically re-projects watertight 2-manifold B-Meshes as Fidelity rises",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 11,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 24,
+        "effectKind": "BoundedWebGL2Pipeline",
+        "siBiasedTimeExp": 13,
+        "siBiasedLengthExp": 14,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 17,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 5,
+        "dependencyModelMask": 15,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 18,
+        "compositionSummary": "Consumes Chemistry Bravais lattices & chromophores, Physics wave dispersion, Botany phyllotaxis, and Acoustics Chladni modes while exporting OKLCH diurnal palettes to W3C Brand Tokens and Fresnel geometry to Acoustics",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "60Hz spectral sky/material integration + Chladni vertex cymatics + adaptive B-Mesh tessellation on seed/Fidelity change",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1030,
+        "apexResolutionUnits": 1480,
+        "perceptualJndPermille": 4,
+        "fidelityCriteriaSummary": "DeltaE_OK <= 0.004 perceptual color accuracy, R+T <= 1.0 PBR energy conservation, 0 non-manifold edges, 13..73+ spectral bands",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 49152,
+        "maxComputeMicrosPerFrame": 1450,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 85,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Reuse-in-place Float32 BufferAttributes and procedural DataTextures; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Graphics.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Graphics/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "CIE 015:2018 (XYZ 1931), CSS Color 4 / Ottosson OKLab-OKLCH, IEC 61966-2-1 sRGB, Khronos glTF 2.0 PBR + Iridescence + Transmission, Euler-Poincare 2-Manifold Topology, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 32,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving PBR radiative conservation, spectral/geometric resolution monotonicity, watertight manifold topology, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/spectralColorEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> CIE/OKLCH + Adaptive B-Mesh Engine -> WebGL2 PBR Shaders & Live Scene Re-Projection",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m10BrandDesign": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 10,
+        "canonicalModelId": "prism/standard-model/design-w3c-dtcg-wcag22-apca/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 107,
+        "blake3DigestHead64": 10700036,
+        "blake3DigestTail64": 70082128,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Brand.V1",
+        "canonicalConceptCount": 30,
+        "crossDomainSynonymCount": 13,
+        "taxonomicRelationCount": 20,
+        "keyConceptsSummary": "W3C Design Tokens (DTCG), CIE OKLCH Perceptual UI Tokens, WCAG 2.2 AA/AAA Luminance Contrast, APCA Lc Perceptual Readability, Just-Intonation Modular Typography, Concentric Nested Radius Geometry, CVD Safe Separation",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 12,
+        "conservationLawCount": 4,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Projects live CIE/OKLCH diurnal spectra and Soundtrack harmonic ratios into W3C Design Tokens that provably satisfy WCAG 2.2 AAA (>=7.0:1) and APCA (Lc>=65) legibility across all atmospheres",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 8,
+        "typedOutputPortCount": 10,
+        "cloudEventTypeCount": 4,
+        "stateFieldCount": 16,
+        "effectKind": "BoundedCssTokenProjection",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 17,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 257,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 14,
+        "compositionSummary": "Transforms Graphics OKLCH diurnal palettes and Soundtrack harmonic ratios into accessible UI surfaces, borders, badges, and wayfinder compass tokens",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 1,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Continuous diurnal OKLCH lightness/chroma adaptation clamped by WCAG 2.2 & APCA contrast floors",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 85,
+        "apexResolutionUnits": 102,
+        "perceptualJndPermille": 4,
+        "fidelityCriteriaSummary": "0.1:1 WCAG contrast precision, 1 Lc APCA perceptual contrast precision, 1px concentric radius exactness",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 6144,
+        "maxComputeMicrosPerFrame": 120,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 10,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Batched root CSS custom property updates (--vr-*); 0 layout thrashing or per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Brand.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Brand/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "W3C Design Tokens Format (DTCG), W3C WCAG 2.2 (ISO/IEC 40500), APCA Perceptual Contrast, CSS Color Module Level 4 (OKLCH), LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 24,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving WCAG AAA contrast, concentric nested radius law, neuromorphic display closure, and 11-element descriptor completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/spectralColorEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> W3C OKLCH Token & APCA Solver -> Live DOM CSS Custom Properties & HUD",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m11HumaneErgonomics": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 11,
+        "canonicalModelId": "prism/standard-model/humane-iso9241-fitts-hick/1",
+        "semverMajor": 3,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 103,
+        "blake3DigestHead64": 10309241,
+        "blake3DigestTail64": 44004200,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Humane.V1",
+        "canonicalConceptCount": 32,
+        "crossDomainSynonymCount": 13,
+        "taxonomicRelationCount": 20,
+        "keyConceptsSummary": "ISO 9241-210 Human-Centered Design, Fitts's Law Target Ergonomics (>=44px), Hick-Hyman Cognitive Load Ceiling, 0.1Hz Mayer-Wave HRV Breath Pacing, Critically Damped Camera Springs, Zero Dark Patterns",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 14,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Guarantees >=85pct unobstructed viewport calm, zero violence/timers/teleports, forward-hemisphere focal gaze selection, Fitts/Hick ergonomic bounds, and reciprocal co-agency",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 9,
+        "typedOutputPortCount": 10,
+        "cloudEventTypeCount": 4,
+        "stateFieldCount": 18,
+        "effectKind": "PureKernel+DampedSpringPolicy",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 545,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 14,
+        "compositionSummary": "Couples Acoustics 24-Bark density and Brand W3C tokens with player velocity/stillness to regulate cognitive load and unlock peak multi-modal Fidelity during calm contemplation",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 8333,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Critically damped SE(3) camera springs + refractory input debouncing + 4.2s restorative breath pacing",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 130,
+        "apexResolutionUnits": 280,
+        "perceptualJndPermille": 5,
+        "fidelityCriteriaSummary": "0 camera-snap millirad discontinuity, >=44px Fitts hit targets, <=5 concurrent Hick affordances",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 140,
+        "maxLatencyMicros": 8333,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Pre-allocated gaze-cone raycast and spring state scalars; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Humane.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Humane/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "ISO 9241-210:2019 Ergonomics of Human-System Interaction, WCAG 2.2 Target Size (2.5.8), Fitts (1954), Hick (1952), Weiser Calm Technology, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 6,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 24,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving >=85pct viewport calm, zero camera teleport, focal gaze cone exclusion, gentle zephyr bounds, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/prismModel.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Humane Pacing, Gaze & Ergonomic Governor -> Camera Rig & Calm HUD",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m12Infrastructure": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 12,
+        "canonicalModelId": "prism/standard-model/infrastructure-iso42010/1",
+        "semverMajor": 3,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 71,
+        "blake3DigestHead64": 71042010,
+        "blake3DigestTail64": 25010160,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Infrastructure.V1",
+        "canonicalConceptCount": 22,
+        "crossDomainSynonymCount": 9,
+        "taxonomicRelationCount": 14,
+        "keyConceptsSummary": "ISO/IEC/IEEE 42010 Viewpoints, ISO/IEC 25010 Quality Model, Zero-GC Ring Buffers, Frame/DSP/VRAM Governor, CloudEvents 1.0.2, OpenTelemetry 1.60.0, SLSA 1.2, SPDX 3.0.1",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 10,
+        "conservationLawCount": 4,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Enforces zero-heap-allocation ring pools, 16.6ms 60Hz frame & 2.6ms WebAudio budgets, and CloudEvents/OpenTelemetry telemetry across all 14 models",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 6,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 14,
+        "effectKind": "BoundedRingArena+OTelSignal",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 2,
+        "dependencyModelMask": 4096,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 14,
+        "compositionSummary": "Supplies hardware resource headroom and ISO 42010 viewpoint governance to negotiate Fidelity tiers across Graphics, Acoustics, Physics, and Chemistry",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 1,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Deterministic frame-time feedback governor scaling multi-modal Fidelity within zero-GC memory arenas",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1005,
+        "apexResolutionUnits": 1080,
+        "perceptualJndPermille": 5,
+        "fidelityCriteriaSummary": "Sub-millisecond frame-time telemetry precision, zero GC pause jitter, deterministic buffer bounds",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 65536,
+        "maxComputeMicrosPerFrame": 320,
+        "maxLatencyMicros": 16000,
+        "energyBudgetMilliwatts": 45,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "64KB static typed-array pools, 16ms frame target, 2x max DPR, WebGL2 + software fallback",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Infrastructure.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Infrastructure/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 7,
+        "adoptedStandardsSummary": "ISO-42010-2022, ISO-25010-2023, ISO-19450-2015, CLOUDEVENTS-1-0-2, OTEL-SPEC-1-60-0, SLSA-1-2, SPDX-3-0-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 3,
+        "runtimePropertyOracleCount": 8,
+        "acceptanceVectorCount": 18,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "Zero-allocation budget proof, neuromorphic bus coupling proof, and 11-element canonical descriptor completeness proof",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/prismModel.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Zero-GC Resource Governor -> WebGL2/WebAudio/OTel Runtime",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m13NeuromorphicBus": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 13,
+        "canonicalModelId": "prism/standard-model/neuromorphic-functor-bus/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 109,
+        "blake3DigestHead64": 10900196,
+        "blake3DigestTail64": 18200154,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Neuromorphic.V1",
+        "canonicalConceptCount": 28,
+        "crossDomainSynonymCount": 14,
+        "taxonomicRelationCount": 19,
+        "keyConceptsSummary": "Hebbian STDP Plasticity, 14x14 Functorial Feature-Transfer Matrix, Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Theory-of-Mind Teleology",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 18,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Transfers SI-typed mathematical, physical, chemical, botanical, acoustic, spectral-PBR, and ergonomic feature tensors across all 14x14 model pairs to monotonically raise multi-modal Fidelity",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 14,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 18,
+        "effectKind": "PureKernel+BoundedRingSynapse",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 1,
+        "dependencyModelMask": 1,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 196,
+        "compositionSummary": "Universal 14x14 functorial bus connecting all canonical standard models with zero conflict and associative gain composition",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 1000,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Discrete STDP weight potentiation/depression + Active Inference variational free-energy minimization + Rule 30 orbit evolution",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 840,
+        "apexResolutionUnits": 1212,
+        "perceptualJndPermille": 5,
+        "fidelityCriteriaSummary": "0.5pct synaptic coherence JND, 64-bit Rule-30 orbit exactness, 28-bit PointKey cycle-free resonance",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 420,
+        "maxLatencyMicros": 1000,
+        "energyBudgetMilliwatts": 35,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Pre-allocated 14x14 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Neuromorphic.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Neuromorphic/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "Hebb (1949) / Bi & Poo STDP, Friston Active Inference Variational Free Energy, Wolfram Elementary CA Rule 30, UOR Cl(0,6), LEAN-REL-4-32-1, ISO-42010-2022",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 14,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 36,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "14 machine-checked Lean 4.32 theorems proving boundedness, 14x14 functor monotonicity, free-energy reduction, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/neuromorphicFunctorBus.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 14x14 Functor Runtime -> Live WebGL2/WebAudio/W3C-Token/Observer Fidelity Amplification",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m14ObserverCosmogenesis": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 14,
+        "canonicalModelId": "prism/standard-model/observer-cosmogenesis-holistic-context/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 113,
+        "blake3DigestHead64": 11300154,
+        "blake3DigestTail64": 14011196,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Cosmogenesis.V1",
+        "canonicalConceptCount": 46,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 32,
+        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 14x11 Meta-Model Registry (154 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Foundational Affective Calculus, Multi-Modal Resolution Extrapolation",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 24,
+        "conservationLawCount": 8,
+        "exportedFeatureChannelMask": 16383,
+        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 14 canonical standard models and itself, orchestrating 14x14 Neuromorphic functor transfers to maximize multi-modal Fidelity across the game",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 14,
+        "typedOutputPortCount": 14,
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 28,
+        "effectKind": "PureKernel+HolisticObserverView",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 7,
+        "dependencyModelMask": 8191,
+        "compatiblePartnerMask": 16383,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 196,
+        "compositionSummary": "Apex universal observer functor indexing and cross-verifying Mathematics, Physics, Chemistry, Botany, Ecology, Acoustics, Articulation, Soundtrack, Graphics, Brand, Humane, Infrastructure, Neuromorphic, and Self",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 8,
+        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + multi-modal Fidelity extrapolation",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 53,
+        "baseResolutionUnits": 960,
+        "apexResolutionUnits": 1320,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "154/154 verified Meta-Model context cells, 118/118 IUPAC elements, 17/17 SM fields, 24/24 Bark bands, 380-780nm CIE/OKLCH",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 16384,
+        "maxComputeMicrosPerFrame": 240,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 20,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Immutable content-addressed descriptor registry + zero-GC live telemetry snapshot; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Cosmogenesis.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Cosmogenesis/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 8,
+        "adoptedStandardsSummary": "ISO-42010-2022, ISO-25010-2023, SPDX-3-0-1, SLSA-1-2, BLAKE3-VECTORS-1-5-5, OTEL-SPEC-1-60-0, CLOUDEVENTS-1-0-2, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 18,
+        "acceptanceVectorCount": 52,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 14x11 Registry completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/components/PrismInspectorModal.tsx",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext -> Interactive 14x11 Standard-Model & Fidelity Explorer",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "zeroCherryPickedModelsVerified": true,
+    "allFourteenModelsAndElevenElementsVerified": true,
+    "observerSelfKnowledgeComplete": true
+  },
+  "si2019Metrology": {
+    "siBaseUnitCount": 7,
+    "cs133HyperfineHz": 9192631770,
+    "speedOfLightMps": 299792458,
+    "planckConstantSignificand": 662607015,
+    "elementaryChargeSignificand": 1602176634,
+    "boltzmannConstantSignificand": 1380649,
+    "avogadroConstantSignificand": 602214076,
+    "luminousEfficacyLmPerW": 683,
+    "exactBipm2019DefinitionsEnforced": true
+  },
+  "standardModelGauge": {
+    "fundamentalFieldCount": 17,
+    "quarkFlavorCount": 6,
+    "leptonFlavorCount": 6,
+    "gaugeBosonCount": 4,
+    "higgsScalarCount": 1,
+    "su3ColorDimension": 3,
+    "su3GluonGenerators": 8,
+    "su2WeakIsospinGenerators": 3,
+    "u1HyperchargeGenerators": 1,
+    "totalGaugeLieAlgebraGenerators": 12,
+    "higgsVacuumExpectationMeV": 246220,
+    "gellMannNishijimaVerified": true,
+    "colorSingletHadronizationVerified": true,
+    "electroweakBetaVertexConserved": true
+  },
+  "functorTransferMatrix": {
+    "registeredModelCount": 14,
+    "directedFunctorCellCount": 196,
+    "crossModelPathwayCount": 182,
+    "siDimensionalPortMatchingEnabled": true,
+    "stdpSynapticPlasticityEnabled": true,
+    "activeInferenceFreeEnergyEnabled": true,
+    "allModelsEnhanceAllModelsVerified": true
+  },
+  "psychoacousticIso226": {
+    "zwickerBarkCriticalBandCount": 24,
+    "iso226ReferencePhonLevel": 60,
+    "minAudibleFreqHz": 20,
+    "maxAudibleFreqHz": 20000,
+    "chladniModalEigenmodeCount": 8,
+    "iso9613HumidityAbsorptionCoupled": true,
+    "barkSimultaneousMaskingEnforced": true,
+    "iso226EqualLoudnessCompensated": true
+  },
+  "fvcbBiochemistry": {
+    "chlorophyllASoretPeakNm": 430,
+    "chlorophyllAQBandPeakNm": 662,
+    "redEdgeReflectanceTransitionNm": 700,
+    "luciferinEmissionPeakNm": 518,
+    "murrayVascularExponent": 3,
+    "rubiscoCarboxylationCoupled": true,
+    "michaelisMentenBioluminescenceCoupled": true
+  },
+  "primeLimitTonnetz": {
+    "maxPrimeHarmonicLimit": 11,
+    "tonnetzLatticeDimension": 5,
+    "eulerGradusConsonanceBound": 12,
+    "speciesCounterpointRulesEnforced": true,
+    "tenneyHarmonicDistanceCoupled": true
+  },
+  "w3cDesignTokens": {
+    "w3cDtcgTokenCount": 36,
+    "apcaMinBodyLc": 65,
+    "apcaMinHeadlineLc": 78,
+    "minCvdHueSeparationDeg": 32,
+    "oklchDiurnalTokenSyncEnabled": true,
+    "apcaAndWcagContrastGuaranteed": true
+  },
+  "iso9241Ergonomics": {
+    "minFittsTargetSizePx": 48,
+    "maxHickConcurrentAffordances": 5,
+    "mayerWaveCoherenceMilliHz": 100,
+    "prefersReducedMotionCompliant": true,
+    "fittsAndHickErgonomicsVerified": true
+  },
+  "isoArchitecture": {
+    "iso42010ViewpointCount": 6,
+    "iso25010QualityCharacteristicCount": 8,
+    "cloudEventsEnvelopeSpecMajor": 1,
+    "openTelemetrySignalCount": 3,
+    "slsaProvenanceLevel": 3,
+    "spdx3DocumentCoupled": true,
+    "adaptiveFidelityFrameGovernorEnabled": true
   }
 } as const;
 
@@ -3240,13 +6977,16 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "acousticHeadroomStandardHolds",
     "zeroContinuousDroneFatigueHolds",
     "spatialAttenuationBoundedHolds",
-    "acousticsNeuromorphicCouplingHolds"
+    "acousticsNeuromorphicCouplingHolds",
+    "psychoacoustic24BarkMaskingHolds",
+    "acousticsDescriptorCompleteHolds"
   ],
   "Foundation.Articulation.V1.Model": [
     "articulationVoicesMinimumHolds",
     "gestureAttackContrastHolds",
     "articulationNeuromorphicCouplingHolds",
-    "threeJointKinematicHierarchyHolds"
+    "threeJointKinematicHierarchyHolds",
+    "articulationDescriptorCompleteHolds"
   ],
   "Foundation.Botany.V1.Model": [
     "botanicalRoughnessContrastHolds",
@@ -3254,36 +6994,67 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "circadianTurgorBoundsHold",
     "zeroHardSurfaceOrRockGrowthHolds",
     "botanyNeuromorphicCouplingHolds",
-    "highDefinitionBMeshSynthesisHolds"
+    "highDefinitionBMeshSynthesisHolds",
+    "botanyDescriptorCompleteHolds"
   ],
   "Foundation.Brand.V1.Model": [
     "brandContrastStandardHolds",
     "brandNeuromorphicCouplingHolds",
-    "parametricDisplayDesignClosureHolds"
+    "parametricDisplayDesignClosureHolds",
+    "brandDescriptorCompleteHolds"
   ],
   "Foundation.Bytes": [],
+  "Foundation.Chemistry.V1.Model": [
+    "pauliSubshell118AndBravaisClosureHolds",
+    "neutralAtomChargeBalanceAll118Holds",
+    "stoichiometricAtomConservationHolds",
+    "chemistryNeuromorphicCouplingHolds",
+    "chemistryDescriptorCompleteHolds"
+  ],
   "Foundation.Cosmogenesis.V1.Model": [
     "alphaOmegaParametricMonotonicHolds",
     "observerExtrapolationDifferentiationAndImmanenceHolds",
-    "observerAffectAndPreferencesClosureHolds"
+    "observerAffectAndPreferencesClosureHolds",
+    "observerDescriptorCompleteHolds",
+    "observerCompleteFourteenModelRegistryHolds"
   ],
   "Foundation.Ecology.V1.Model": [
     "ecologyConstellationMinimumHolds",
     "biogeochemicalPhBoundsHold",
     "ecologyNeuromorphicCouplingHolds",
     "granularAtomicToEnvironmentalSynthesisHolds",
-    "closedLoopAtomicRemineralizationHolds"
+    "closedLoopAtomicRemineralizationHolds",
+    "ecologyDescriptorCompleteHolds"
+  ],
+  "Foundation.Graphics.V1.Model": [
+    "pbrRadiativeEnergyAndManifoldInvariantsHold",
+    "spectralAndMeshFidelityMonotonicScalingHolds",
+    "graphicsNeuromorphicCouplingHolds",
+    "graphicsDescriptorCompleteHolds"
   ],
   "Foundation.Humane.V1.Model": [
     "humaneViewportStandardHolds",
     "humaneInputAndCameraGuaranteeHolds",
     "humaneNeuromorphicCouplingHolds",
     "symbioticEnvironmentalAgencyBoundedAndPreservesAutonomyHolds",
-    "focalGazeExcludesBehindPlayerHolds"
+    "focalGazeExcludesBehindPlayerHolds",
+    "humaneDescriptorCompleteHolds"
   ],
   "Foundation.Infrastructure.V1.Model": [
     "zeroAllocationStandardHolds",
-    "infrastructureNeuromorphicCouplingHolds"
+    "infrastructureNeuromorphicCouplingHolds",
+    "infrastructureDescriptorCompleteHolds"
+  ],
+  "Foundation.Mathematics.V1.Model": [
+    "eulerPoincareSphereAndTorusHold",
+    "exteriorDerivativeNilpotencyHolds",
+    "mathematicsNeuromorphicCouplingHolds",
+    "mathematicsDescriptorCompleteHolds"
+  ],
+  "Foundation.MetaModel.V1.Model": [
+    "canonicalMetaModelCellAccountingHolds",
+    "functorCompositionIdentityAndAssociativityHolds",
+    "fidelityResolutionMonotonicityHolds"
   ],
   "Foundation.Neuromorphic.V1.Model": [
     "hebbianUpperBoundHolds",
@@ -3299,7 +7070,9 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "emergentEntityWisdomPhenomenaMonotonicHolds",
     "observerTheoryOfMindMonotonicHolds",
     "supraDirectiveExceedsBaseDirectiveHolds",
-    "rule30DoublingLawAndWithdrawnDualityHolds"
+    "rule30DoublingLawAndWithdrawnDualityHolds",
+    "functorAllToAllEnhancementHolds",
+    "neuromorphicDescriptorCompleteHolds"
   ],
   "Foundation.Physics.V1.Model": [
     "permeableMediaNeverObstructHolds",
@@ -3307,12 +7080,15 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "holisticCouplingStandardHolds",
     "spatialGroundingCoherenceHolds",
     "physicsNeuromorphicCouplingHolds",
-    "materialSynthesisCrossModalObstructionClosureHolds"
+    "materialSynthesisCrossModalObstructionClosureHolds",
+    "gellMannNishijimaAndHadronConservationHold",
+    "physicsDescriptorCompleteHolds"
   ],
   "Foundation.Soundtrack.V1.Model": [
     "lifecycleProgressionMonotonicHolds",
     "soundtrackBreathingSilenceGuaranteeHolds",
-    "soundtrackNeuromorphicCouplingHolds"
+    "soundtrackNeuromorphicCouplingHolds",
+    "soundtrackDescriptorCompleteHolds"
   ],
   "Foundation.View.Text.V1.Model": [],
   "VerdantResonance": [],
@@ -3333,7 +7109,8 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "inv012Holds",
     "inv013Holds",
     "inv014Holds",
-    "inv015Holds"
+    "inv015Holds",
+    "canonicalStandardModelsAllTheWayDownHolds"
   ]
 } as const;
 

@@ -130,8 +130,10 @@ export default function App() {
     soundEngine.setPaused(gameState !== 'playing');
   }, [gameState, soundEngine]);
 
-  // Synchronize live Prism Parametric Display, Design & Mathematical Affect CSS custom properties onto `:root`
+  // Synchronize live Prism Parametric Display, W3C OKLCH Design Tokens & Mathematical Affect CSS custom properties onto `:root`
   const parametricDisplay = telemetry.neuromorphic.observer.parametricDisplayDesign;
+  const w3cDesignTokens =
+    telemetry.neuromorphic.observer.canonicalStandardModelsContext.w3cDesignTokens;
   const liveAffectAuraHex =
     telemetry.neuromorphic.observer.affectAndPreferences.affect.coreAuraHex;
   useEffect(() => {
@@ -139,8 +141,11 @@ export default function App() {
     for (const [varName, varVal] of Object.entries(parametricDisplay.cssVariables)) {
       rootStyle.setProperty(varName, varVal);
     }
+    for (const [varName, varVal] of Object.entries(w3cDesignTokens.cssVariables)) {
+      rootStyle.setProperty(varName, varVal);
+    }
     rootStyle.setProperty('--prism-affect-aura', liveAffectAuraHex);
-  }, [parametricDisplay.cssVariables, liveAffectAuraHex]);
+  }, [parametricDisplay.cssVariables, w3cDesignTokens.cssVariables, liveAffectAuraHex]);
 
   // Animate 16-band SVG acoustic spectrum bars directly via DOM refs without React re-renders
   useEffect(() => {

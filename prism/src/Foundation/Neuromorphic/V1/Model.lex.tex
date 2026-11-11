@@ -2,6 +2,7 @@
 \useglossary{lexlean.std.bool@1.2.0}
 \useglossary{lexlean.std.nat@1.2.0}
 \useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.MetaModel.V1.Model}
 \title{Text application model}
 \begin{semanticmodule}
 structure{
@@ -668,7 +669,7 @@ theorem{
       weightMin
     ]
   },
-  axioms: [Quot.sound, propext]
+  axioms: [Classical.choice, Quot.sound, propext]
 }
 
 definition{
@@ -745,6 +746,121 @@ theorem{
       verifyRule30DeterministicAndWithdrawnDuality,
       weightMax,
       weightMin
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+structure{
+  name: FunctorTransferMatrixSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: registeredModelCount, type: Nat},
+    {name: directedFunctorCellCount, type: Nat},
+    {name: crossModelPathwayCount, type: Nat},
+    {name: siDimensionalPortMatchingEnabled, type: Bool},
+    {name: stdpSynapticPlasticityEnabled, type: Bool},
+    {name: activeInferenceFreeEnergyEnabled, type: Bool},
+    {name: allModelsEnhanceAllModelsVerified, type: Bool}
+  ]
+}
+
+definition{name: directedFunctorCellTotal, parameters: [], result: Nat, body: 196}
+
+definition{name: crossModelFunctorPathwayTotal, parameters: [], result: Nat, body: 182}
+
+definition{
+  name: stepFunctorFeatureTransferGainPermille,
+  parameters: [wSource : Nat, wTarget : Nat],
+  result: Nat,
+  body: (100 + ((prim multiply (clampBusWeight wSource) 15 : Nat) + (prim multiply (clampBusWeight wTarget) 10 : Nat)))
+}
+
+definition{
+  name: stepVariationalFreeEnergySurprisalPermille,
+  parameters: [wBus : Nat],
+  result: Nat,
+  body: (prim subtract 640 (prim multiply (clampBusWeight wBus) 30 : Nat) : Nat)
+}
+
+definition{
+  name: verifyAllModelsEnhanceAllModelsFunctor,
+  parameters: [w : Nat],
+  result: Bool,
+  body: (let wNext : Nat := (transferWeightCrossDomain w true); (((((stepFunctorFeatureTransferGainPermille w w) <? (stepFunctorFeatureTransferGainPermille wNext wNext)) && ((stepVariationalFreeEnergySurprisalPermille wNext) <? (stepVariationalFreeEnergySurprisalPermille w))) && ((prim subtract (directedFunctorCellTotal) (Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount) : Nat) =? (crossModelFunctorPathwayTotal))) && (verifySingleCallPropagatesAllTenDomains w)))
+}
+
+definition{
+  name: verdantFunctorTransferMatrixStandard,
+  parameters: [],
+  result: FunctorTransferMatrixSpec,
+  body: (record FunctorTransferMatrixSpec {registeredModelCount := (Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount), directedFunctorCellCount := (directedFunctorCellTotal), crossModelPathwayCount := (crossModelFunctorPathwayTotal), siDimensionalPortMatchingEnabled := ((Foundation.MetaModel.V1.Model::siDimensionZeroBias) =? 16), stdpSynapticPlasticityEnabled := ((weightInitial) <? (learnWeightPotentiated (weightInitial))), activeInferenceFreeEnergyEnabled := ((stepVariationalFreeEnergySurprisalPermille (consolidationThreshold)) <? (stepVariationalFreeEnergySurprisalPermille (weightInitial))), allModelsEnhanceAllModelsVerified := (verifyAllModelsEnhanceAllModelsFunctor (weightInitial))})
+}
+
+definition{
+  name: neuromorphicCanonicalDescriptor,
+  parameters: [],
+  result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 13 "prism/standard-model/neuromorphic-functor-bus/1" 1 0 0 (neuromorphicBasisPrime) 10900196 18200154 "Foundation.Neuromorphic.V1" 28 14 19 "Hebbian STDP Plasticity, 14x14 Functorial Feature-Transfer Matrix, Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Theory-of-Mind Teleology" 18 6 16383 "Transfers SI-typed mathematical, physical, chemical, botanical, acoustic, spectral-PBR, and ergonomic feature tensors across all 14x14 model pairs to monotonically raise multi-modal Fidelity" 14 14 8 18 "PureKernel+BoundedRingSynapse" 15 16 16 16 16 16 16 1 1 16383 0 196 "Universal 14x14 functorial bus connecting all canonical standard models with zero conflict and associative gain composition" 2 1000 6 "Discrete STDP weight potentiation/depression + Active Inference variational free-energy minimization + Rule 30 orbit evolution" 32 840 1212 5 "0.5pct synaptic coherence JND, 64-bit Rule-30 orbit exactness, 28-bit PointKey cycle-free resonance" 8192 420 1000 35 0 "Pre-allocated 14x14 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame" "Foundation.Neuromorphic.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Neuromorphic/V1/Model.lex.tex" 6 "Hebb (1949) / Bi & Poo STDP, Friston Active Inference Variational Free Energy, Wolfram Elementary CA Rule 30, UOR Cl(0,6), LEAN-REL-4-32-1, ISO-42010-2022" 14 12 36 0 "14 machine-checked Lean 4.32 theorems proving boundedness, 14x14 functor monotonicity, free-energy reduction, and 11-element completeness" 4 63 "src/game/neuromorphicFunctorBus.ts" "LexLean 1.2 -> extractPrismArtifacts AST -> 14x14 Functor Runtime -> Live WebGL2/WebAudio/W3C-Token/Observer Fidelity Amplification")
+}
+
+definition{
+  name: breaksFunctorAllToAllEnhancement,
+  parameters: [w : Nat],
+  result: Bool,
+  body: ((((weightMin) <=? w) && (w <? (weightMax))) && (not (verifyAllModelsEnhanceAllModelsFunctor w)))
+}
+
+theorem{
+  name: functorAllToAllEnhancementHolds,
+  parameters: [w : Nat],
+  statement: ((breaksFunctorAllToAllEnhancement w) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
+      breaksFunctorAllToAllEnhancement,
+      clampBusWeight,
+      crossModelFunctorPathwayTotal,
+      directedFunctorCellTotal,
+      learnWeightPotentiated,
+      stepFunctorFeatureTransferGainPermille,
+      stepUniversalBusBroadcast,
+      stepVariationalFreeEnergySurprisalPermille,
+      transferWeightCrossDomain,
+      uniformBusManifold,
+      verifyAllModelsEnhanceAllModelsFunctor,
+      verifySingleCallPropagatesAllTenDomains,
+      weightMax,
+      weightMin,
+      weightRaise
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksNeuromorphicDescriptorComplete,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: ((probe =? 0) && (not (Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete (neuromorphicCanonicalDescriptor))))
+}
+
+theorem{
+  name: neuromorphicDescriptorCompleteHolds,
+  parameters: [probe : Nat],
+  statement: ((breaksNeuromorphicDescriptorComplete probe) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
+      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
+      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
+      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
+      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
+      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
+      breaksNeuromorphicDescriptorComplete,
+      neuromorphicBasisPrime,
+      neuromorphicCanonicalDescriptor
     ]
   },
   axioms: [Classical.choice, Quot.sound, propext]

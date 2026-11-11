@@ -2,14 +2,18 @@
 \useglossary{lexlean.std.bool@1.2.0}
 \useglossary{lexlean.std.nat@1.2.0}
 \useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.MetaModel.V1.Model}
 \importmodule{Foundation.Neuromorphic.V1.Model}
+\importmodule{Foundation.Mathematics.V1.Model}
 \importmodule{Foundation.Infrastructure.V1.Model}
 \importmodule{Foundation.Physics.V1.Model}
+\importmodule{Foundation.Chemistry.V1.Model}
 \importmodule{Foundation.Botany.V1.Model}
 \importmodule{Foundation.Ecology.V1.Model}
 \importmodule{Foundation.Acoustics.V1.Model}
 \importmodule{Foundation.Articulation.V1.Model}
 \importmodule{Foundation.Soundtrack.V1.Model}
+\importmodule{Foundation.Graphics.V1.Model}
 \importmodule{Foundation.Humane.V1.Model}
 \importmodule{Foundation.Brand.V1.Model}
 \importmodule{Foundation.Cosmogenesis.V1.Model}
@@ -1366,6 +1370,97 @@ theorem{
       VerdantResonance::verifyBusModulationsFromState,
       VerdantResonance::verifyJudgeCrossDomainBusGate,
       breaksInv015
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksCanonicalStandardModelsAllTheWayDown,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: ((probe =? 0) && (not (VerdantResonance::verifyCanonicalStandardModelsAllTheWayDown)))
+}
+
+theorem{
+  name: canonicalStandardModelsAllTheWayDownHolds,
+  parameters: [probe : Nat],
+  statement: ((breaksCanonicalStandardModelsAllTheWayDown probe) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Acoustics.V1.Model::acousticsCanonicalDescriptor,
+      Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime,
+      Foundation.Acoustics.V1.Model::zwickerBarkBandsTotal,
+      Foundation.Articulation.V1.Model::articulationCanonicalDescriptor,
+      Foundation.Articulation.V1.Model::verdantArticulationBasisPrime,
+      Foundation.Botany.V1.Model::botanyCanonicalDescriptor,
+      Foundation.Botany.V1.Model::verdantBotanyBasisPrime,
+      Foundation.Brand.V1.Model::brandCanonicalDescriptor,
+      Foundation.Brand.V1.Model::verdantBrandBasisPrime,
+      Foundation.Chemistry.V1.Model::bravaisLatticeTotal,
+      Foundation.Chemistry.V1.Model::chemistryCanonicalDescriptor,
+      Foundation.Chemistry.V1.Model::iupacTotalElementCount,
+      Foundation.Chemistry.V1.Model::pauliSubshellCapacity,
+      Foundation.Chemistry.V1.Model::verdantChemistryBasisPrime,
+      Foundation.Chemistry.V1.Model::verifyPauli118PeriodicClosure,
+      Foundation.Cosmogenesis.V1.Model::cosmogenesisBasisPrime,
+      Foundation.Cosmogenesis.V1.Model::observerCosmogenesisCanonicalDescriptor,
+      Foundation.Cosmogenesis.V1.Model::verifyModelsGroupFoundational,
+      Foundation.Cosmogenesis.V1.Model::verifyModelsGroupGovernanceAndObserver,
+      Foundation.Cosmogenesis.V1.Model::verifyModelsGroupSensoryAndDesign,
+      Foundation.Cosmogenesis.V1.Model::verifyObserverCompleteFourteenModelRegistry,
+      Foundation.Cosmogenesis.V1.Model::verifyZeroCherryPickedStandardModels,
+      Foundation.Ecology.V1.Model::ecologyCanonicalDescriptor,
+      Foundation.Ecology.V1.Model::verdantEcologyBasisPrime,
+      Foundation.Graphics.V1.Model::graphicsCanonicalDescriptor,
+      Foundation.Graphics.V1.Model::verdantGraphicsBasisPrime,
+      Foundation.Graphics.V1.Model::visibleSpectrumMaxNm,
+      Foundation.Humane.V1.Model::humaneCanonicalDescriptor,
+      Foundation.Humane.V1.Model::verdantHumaneBasisPrime,
+      Foundation.Infrastructure.V1.Model::infrastructureCanonicalDescriptor,
+      Foundation.Infrastructure.V1.Model::verdantInfrastructureBasisPrime,
+      Foundation.Mathematics.V1.Model::mathematicsCanonicalDescriptor,
+      Foundation.Mathematics.V1.Model::verdantMathematicsBasisPrime,
+      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
+      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
+      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
+      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
+      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
+      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::crossModelFunctorPathwayTotal,
+      Foundation.Neuromorphic.V1.Model::directedFunctorCellTotal,
+      Foundation.Neuromorphic.V1.Model::learnWeightPotentiated,
+      Foundation.Neuromorphic.V1.Model::meadowPrime,
+      Foundation.Neuromorphic.V1.Model::neuromorphicBasisPrime,
+      Foundation.Neuromorphic.V1.Model::neuromorphicCanonicalDescriptor,
+      Foundation.Neuromorphic.V1.Model::stepFunctorFeatureTransferGainPermille,
+      Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod,
+      Foundation.Neuromorphic.V1.Model::stepUniversalBusBroadcast,
+      Foundation.Neuromorphic.V1.Model::stepVariationalFreeEnergySurprisalPermille,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::uniformBusManifold,
+      Foundation.Neuromorphic.V1.Model::verifyAllModelsEnhanceAllModelsFunctor,
+      Foundation.Neuromorphic.V1.Model::verifySingleCallPropagatesAllTenDomains,
+      Foundation.Neuromorphic.V1.Model::weightInitial,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      Foundation.Neuromorphic.V1.Model::weightRaise,
+      Foundation.Physics.V1.Model::gellMannNishijimaBiasedSixQ,
+      Foundation.Physics.V1.Model::physicsCanonicalDescriptor,
+      Foundation.Physics.V1.Model::siBaseUnitTotal,
+      Foundation.Physics.V1.Model::smFundamentalFieldsTotal,
+      Foundation.Physics.V1.Model::smGaugeBosons,
+      Foundation.Physics.V1.Model::smHiggsScalars,
+      Foundation.Physics.V1.Model::smLeptonFlavors,
+      Foundation.Physics.V1.Model::smQuarkFlavors,
+      Foundation.Physics.V1.Model::smTotalGaugeGenerators,
+      Foundation.Physics.V1.Model::verdantPhysicsBasisPrime,
+      Foundation.Physics.V1.Model::verifyGellMannNishijimaAllChiralMultiplets,
+      Foundation.Soundtrack.V1.Model::soundtrackCanonicalDescriptor,
+      Foundation.Soundtrack.V1.Model::verdantSoundtrackBasisPrime,
+      VerdantResonance::verifyCanonicalStandardModelsAllTheWayDown,
+      breaksCanonicalStandardModelsAllTheWayDown
     ]
   },
   axioms: [Classical.choice, Quot.sound, propext]

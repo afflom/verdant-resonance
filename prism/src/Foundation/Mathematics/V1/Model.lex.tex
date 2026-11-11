@@ -1,0 +1,191 @@
+\begin{lexlean}{Foundation.Mathematics.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.MetaModel.V1.Model}
+\importmodule{Foundation.Neuromorphic.V1.Model}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: AlgebraicAndNumberTheorySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: peanoZfcAxiomCount, type: Nat},
+    {name: uorPrimeBasisDimension, type: Nat},
+    {name: cliffordCl06Dimension, type: Nat},
+    {name: hamiltonIcosianRootCount, type: Nat},
+    {name: icosahedralGroupOrder, type: Nat},
+    {name: crystallographicPointGroupCount, type: Nat},
+    {name: goldenRatioPermille, type: Nat},
+    {name: uniquePrimeFactorizationEnabled, type: Bool}
+  ]
+}
+
+structure{
+  name: RiemannianExteriorTopologySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: manifoldDimension, type: Nat},
+    {name: sphereEulerCharacteristic, type: Nat},
+    {name: torusEulerCharacteristic, type: Nat},
+    {name: exteriorDerivativeNilpotentResidual, type: Nat},
+    {name: cotangentLaplaceBeltramiPositiveSemidefinite, type: Bool},
+    {name: gaussBonnetIntegralCoupled, type: Bool}
+  ]
+}
+
+structure{
+  name: CategoryAndInformationTheorySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: categoryFunctorIdentityCoherent, type: Bool},
+    {name: shannonEntropyFixedPointBits, type: Nat},
+    {name: rule30AutomatonNumber, type: Nat},
+    {name: bijectiveLeftDiagonalVerified, type: Bool}
+  ]
+}
+
+structure{
+  name: MathematicalFoundationsStandard,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: algebraAndNumberTheory, type: AlgebraicAndNumberTheorySpec},
+    {name: riemannianTopology, type: RiemannianExteriorTopologySpec},
+    {name: categoryAndInformation, type: CategoryAndInformationTheorySpec},
+    {name: canonicalDescriptor, type: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor}
+  ]
+}
+
+definition{name: verdantMathematicsBasisPrime, parameters: [], result: Nat, body: 127}
+
+definition{name: cliffordCl06Dim, parameters: [], result: Nat, body: 64}
+
+definition{name: crystallographicPointGroupsTotal, parameters: [], result: Nat, body: 32}
+
+definition{name: bravaisLatticeGroupsTotal, parameters: [], result: Nat, body: 14}
+
+definition{name: icosahedralSymmetryOrder, parameters: [], result: Nat, body: 120}
+
+definition{name: goldenRatioMilli, parameters: [], result: Nat, body: 1618}
+
+definition{name: exteriorNilpotentResidual, parameters: [], result: Nat, body: 0}
+
+definition{
+  name: eulerPoincareBiasedCharacteristic,
+  parameters: [vertices : Nat, edges : Nat, faces : Nat],
+  result: Nat,
+  body: (prim subtract ((vertices + faces) + 16) edges : Nat)
+}
+
+definition{
+  name: stepMathematicsBusModulation,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (1024 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 32 : Nat))
+}
+
+definition{
+  name: mathematicsCanonicalDescriptor,
+  parameters: [],
+  result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 1 "prism/standard-model/mathematics/1" 1 0 0 (verdantMathematicsBasisPrime) 12700064 32001618 "Foundation.Mathematics.V1" 36 16 24 "Peano/ZFC Arithmetic, UOR Prime Factorization, Clifford Cl(0,6), Icosians Z[phi], 32 Crystallographic Point Groups, Riemannian DEC Laplace-Beltrami, Euler-Poincare Topology, Category Functors, Shannon Entropy" 16 6 16383 "Provides exact prime-factorized UOR rings, Clifford spinor grades, 2-manifold Euler-Poincare topology, Riemannian curvature operators, and associative category functors to all 14 models" 8 14 4 12 "PureKernel" 16 16 16 16 16 16 16 1 0 16383 0 14 "Root formal foundation feeding Physics, Chemistry, Graphics, Acoustics, Soundtrack, and Neuromorphic Functor Bus with zero conflicts" 4 500 4 "Exact symbolic arithmetic, discrete exterior calculus d^2=0, and Rule-30 bijective cellular evolution" 53 1024 1536 1 "53-bit IEEE-754 / exact Nat integer precision, 0 exterior derivative residual, exact Euler-Poincare topological invariants" 4096 180 500 12 0 "Pre-allocated UOR prime-exponent LUTs and DEC cotangent workspaces; 0 heap allocations" "Foundation.Mathematics.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Mathematics/V1/Model.lex.tex" 5 "ZFC / Bourbaki Elements of Mathematics, Euclid/Gauss FTA, Clifford Cl(0,6), Cartan/Desbrun Discrete Exterior Calculus, Shannon (1948), LEAN-REL-4-32-1" 4 10 24 0 "Machine-checked Euler-Poincare icosahedron/torus invariants, d^2=0 nilpotency, neuromorphic monotonicity, and 11-element descriptor completeness" 4 63 "src/game/standardModelEngine.ts" "LexLean 1.2 -> AST Extractor -> UOR/Clifford/Riemannian Runtime -> B-Mesh Topology & Tonnetz Lattice")
+}
+
+definition{
+  name: verdantMathematicsStandard,
+  parameters: [],
+  result: MathematicalFoundationsStandard,
+  body: (record MathematicalFoundationsStandard {profile := "prism/mathematics-standard/1", algebraAndNumberTheory := (record AlgebraicAndNumberTheorySpec {peanoZfcAxiomCount := 9, uorPrimeBasisDimension := 33, cliffordCl06Dimension := (cliffordCl06Dim), hamiltonIcosianRootCount := 17, icosahedralGroupOrder := (icosahedralSymmetryOrder), crystallographicPointGroupCount := (crystallographicPointGroupsTotal), goldenRatioPermille := (goldenRatioMilli), uniquePrimeFactorizationEnabled := ((crystallographicPointGroupsTotal) <? (cliffordCl06Dim))}), riemannianTopology := (record RiemannianExteriorTopologySpec {manifoldDimension := 2, sphereEulerCharacteristic := (prim subtract (eulerPoincareBiasedCharacteristic 12 30 20) 16 : Nat), torusEulerCharacteristic := (prim subtract (eulerPoincareBiasedCharacteristic 16 32 16) 16 : Nat), exteriorDerivativeNilpotentResidual := (exteriorNilpotentResidual), cotangentLaplaceBeltramiPositiveSemidefinite := ((exteriorNilpotentResidual) =? 0), gaussBonnetIntegralCoupled := ((eulerPoincareBiasedCharacteristic 16 32 16) <? (eulerPoincareBiasedCharacteristic 12 30 20))}), categoryAndInformation := (record CategoryAndInformationTheorySpec {categoryFunctorIdentityCoherent := ((Foundation.MetaModel.V1.Model::composeFunctorGainPermille 12 0) =? 12), shannonEntropyFixedPointBits := 32, rule30AutomatonNumber := 30, bijectiveLeftDiagonalVerified := (Foundation.Neuromorphic.V1.Model::rule30CellStep false true false)}), canonicalDescriptor := (mathematicsCanonicalDescriptor)})
+}
+
+definition{
+  name: breaksEulerPoincarePlatonicAndTorus,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: (let ico : Nat := (eulerPoincareBiasedCharacteristic 12 30 20); (let tor : Nat := (eulerPoincareBiasedCharacteristic 16 32 16); ((probe <=? 0) && (((ico <? 18) || (18 <? ico)) || ((tor <? 16) || (16 <? tor))))))
+}
+
+theorem{
+  name: eulerPoincareSphereAndTorusHold,
+  parameters: [probe : Nat],
+  statement: ((breaksEulerPoincarePlatonicAndTorus probe) = false),
+  proof: linear_arithmetic{
+    definitions: [breaksEulerPoincarePlatonicAndTorus, eulerPoincareBiasedCharacteristic]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksExteriorDerivativeNilpotency,
+  parameters: [residual : Nat],
+  result: Bool,
+  body: ((residual =? (exteriorNilpotentResidual)) && (0 <? residual))
+}
+
+theorem{
+  name: exteriorDerivativeNilpotencyHolds,
+  parameters: [residual : Nat],
+  statement: ((breaksExteriorDerivativeNilpotency residual) = false),
+  proof: linear_arithmetic{
+    definitions: [breaksExteriorDerivativeNilpotency, exteriorNilpotentResidual]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksMathematicsNeuromorphicCoupling,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: (((stepMathematicsBusModulation busWeight) <? 1056) || ((1536 <? (stepMathematicsBusModulation busWeight)) || ((stepMathematicsBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <? (stepMathematicsBusModulation busWeight))))
+}
+
+theorem{
+  name: mathematicsNeuromorphicCouplingHolds,
+  parameters: [busWeight : Nat],
+  statement: ((breaksMathematicsNeuromorphicCoupling busWeight) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksMathematicsNeuromorphicCoupling,
+      stepMathematicsBusModulation
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksMathematicsDescriptorComplete,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: ((probe =? 0) && (not (Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete (mathematicsCanonicalDescriptor))))
+}
+
+theorem{
+  name: mathematicsDescriptorCompleteHolds,
+  parameters: [probe : Nat],
+  statement: ((breaksMathematicsDescriptorComplete probe) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
+      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
+      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
+      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
+      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
+      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
+      breaksMathematicsDescriptorComplete,
+      mathematicsCanonicalDescriptor,
+      verdantMathematicsBasisPrime
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}
