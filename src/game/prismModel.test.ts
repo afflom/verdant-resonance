@@ -253,8 +253,15 @@ import {
   synthesizeSpectralDiurnalPalette,
   synthesizeVerdantW3CDesignTokens,
   CANONICAL_14_MODEL_KEYS,
+  CANONICAL_18_MODEL_KEYS,
   META_MODEL_11_ELEMENTS,
   evaluateHolisticObserverStandardModelContext,
+  evaluateVerdantRealizabilityAudit,
+  serializeAnamnesisSnapshot,
+  deserializeAndVerifyAnamnesisSnapshot,
+  hydratePlantsFromAnamnesis,
+  restoreNeuromorphicStateFromAnamnesis,
+  verifyColdLoadModularChunkBudget,
   BiomeId,
   AtmosphereId,
 } from './prismModel';
@@ -277,12 +284,16 @@ import {
   createSegmentedBambooStalkGeometry,
   createStratifiedBoulderGeometry,
   inspectGeometryMetadata,
+  synthesizeLSystemBotanicalMorphogenesis,
   verifyManifoldBMeshTopology,
 } from './proceduralMeshEngine';
 import {
   ZWICKER_24_BARK_EDGES_HZ,
   computeIso226EqualLoudnessWeight,
+  computeIso3382BiomeRoomAcoustics,
   computeMaterialChladniModalRatios,
+  computeWoodworth3DBinauralSpatializer,
+  synthesizeIso3382ImpulseChannels,
   computeZwickerBarkBandIndex,
   computeZwickerBarkRate,
   evaluate24BarkMaskingGovernor,
@@ -1649,7 +1660,7 @@ test('Root Judge calls the 10-Domain Universal Neuromorphic Bus, constructive bo
   const liveExtracted = extractAllPrismArtifacts(prismSrcDir);
   assert.deepEqual(liveExtracted.foundationPurity, GENERATED_PRISM_FOUNDATION_PURITY);
   assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.verified, true);
-  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 16);
+  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 20);
   assert.deepEqual(liveExtracted.domainBasisPrimes, GENERATED_PRISM_DOMAIN_BASIS_PRIMES);
   assert.deepEqual(liveExtracted.domainBasisPrimes, PRISM_DOMAIN_BASIS_PRIMES);
   assert.deepEqual(liveExtracted.contextPrimes, GENERATED_PRISM_CONTEXT_PRIMES);
@@ -2881,7 +2892,7 @@ test('31. Live Neuromorphic Bus Refinement Advances Observer Cosmogenesis & Modu
 
 test('32. Pure Parametric Canonical Seed, Concert Pitch & World Topology derive deterministically from UOR Primes & Rule-30 Dyadics', () => {
   assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.verified, true);
-  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 16);
+  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 20);
 
   // Exact UOR prime & Rule-30 dyadic identities at Base Directive w = 8
   assert.equal(synthesizeParametricCanonicalSeed(1, 8), 42026);
@@ -3687,14 +3698,17 @@ test('42. Material-Synthesis Cross-Modal Obstruction (6 Compounds × 6 Channels)
   assert.equal(holistic.allConstrained, true);
 });
 
-test('43. Canonical Standard Models All the Way Down: 14 Models × 11 Meta-Model Elements = 154 Verified Cells, Consecutive Primes 71..137 & SHA-256 Content Addressing', () => {
-  assert.equal(CANONICAL_14_MODEL_KEYS.length, 14);
+test('43. Canonical Standard Models All the Way Down: 18 Models × 11 Meta-Model Elements = 198 Verified Cells, Consecutive Primes 71..157 & SHA-256 Content Addressing', () => {
+  assert.equal(CANONICAL_18_MODEL_KEYS.length, 18);
+  assert.equal(CANONICAL_14_MODEL_KEYS.length, 18);
   assert.equal(META_MODEL_11_ELEMENTS.length, 11);
-  assert.equal(GENERATED_CANONICAL_STANDARD_MODELS.length, 14);
+  assert.equal(GENERATED_CANONICAL_STANDARD_MODELS.length, 18);
 
-  // Verify consecutive UOR basis primes p_20..p_33 = [71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137]
+  // Verify consecutive UOR basis primes p_20..p_37 = [71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157]
   const primeValues = Object.values(GENERATED_CANONICAL_MODEL_BASIS_PRIMES).sort((a, b) => a - b);
-  assert.deepEqual(primeValues, [71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137]);
+  assert.deepEqual(primeValues, [
+    71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157,
+  ]);
 
   let verifiedCellCount = 0;
   for (let idx = 0; idx < GENERATED_CANONICAL_STANDARD_MODELS.length; idx++) {
@@ -3723,14 +3737,14 @@ test('43. Canonical Standard Models All the Way Down: 14 Models × 11 Meta-Model
     assert.equal(d.projection.projectionZeroDrift, true);
     verifiedCellCount += 11;
   }
-  assert.equal(verifiedCellCount, 154);
+  assert.equal(verifiedCellCount, 198);
 
   const initialNeuro = createInitialNeuromorphicState();
   const smCtx = initialNeuro.observer.canonicalStandardModelsContext;
   assert.equal(smCtx.zeroCherryPickingAudit.verified, true);
-  assert.equal(smCtx.zeroCherryPickingAudit.totalVerifiedContextCells, 154);
-  assert.equal(smCtx.zeroCherryPickingAudit.directedFunctorCells, 196);
-  assert.equal(smCtx.zeroCherryPickingAudit.crossModelFunctorPathways, 182);
+  assert.equal(smCtx.zeroCherryPickingAudit.totalVerifiedContextCells, 198);
+  assert.equal(smCtx.zeroCherryPickingAudit.directedFunctorCells, 324);
+  assert.equal(smCtx.zeroCherryPickingAudit.crossModelFunctorPathways, 306);
 });
 
 test('44. BIPM SI 2019 Defining Constants, Dimensional Homogeneity Algebra & Complete 17-Field SU(3)_C × SU(2)_L × U(1)_Y Standard Model', () => {
@@ -3982,7 +3996,7 @@ test('48. Watertight 2-Manifold B-Mesh Topology (χ = V - E + F = 2) on Bravais 
   assert.ok(quartzModes[2] > woodModes[2], 'Higher √(E/ρ) mineral stiffness must disperse Chladni modes upward');
 });
 
-test('49. 14×14 Neuromorphic Functorial Feature-Transfer Matrix Enhances Multi-Modal Fidelity Monotonically Across All Modalities', () => {
+test('49. 18×18 Neuromorphic Functorial Feature-Transfer Matrix Enhances Multi-Modal Fidelity Monotonically Across All Modalities', () => {
   const baseWeights = {
     infrastructure: 8,
     physics: 8,
@@ -4019,11 +4033,11 @@ test('49. 14×14 Neuromorphic Functorial Feature-Transfer Matrix Enhances Multi-
     atmosphere: 'golden',
   });
 
-  assert.equal(baseCtx.functorMatrix14x14.length, 14);
-  for (let i = 0; i < 14; i++) {
-    assert.equal(baseCtx.functorMatrix14x14[i].length, 14);
-    for (let j = 0; j < 14; j++) {
-      assert.ok(apexCtx.functorMatrix14x14[i][j] > baseCtx.functorMatrix14x14[i][j]);
+  assert.equal(baseCtx.functorMatrix18x18.length, 18);
+  for (let i = 0; i < 18; i++) {
+    assert.equal(baseCtx.functorMatrix18x18[i].length, 18);
+    for (let j = 0; j < 18; j++) {
+      assert.ok(apexCtx.functorMatrix18x18[i][j] > baseCtx.functorMatrix18x18[i][j]);
     }
     assert.ok(apexCtx.models[i].liveResolutionUnits > baseCtx.models[i].liveResolutionUnits);
   }
@@ -4032,14 +4046,19 @@ test('49. 14×14 Neuromorphic Functorial Feature-Transfer Matrix Enhances Multi-
   assert.ok(apexCtx.multiModalFidelity.spectralBandCount > baseCtx.multiModalFidelity.spectralBandCount);
   assert.ok(apexCtx.multiModalFidelity.adaptiveTerrainSegments > baseCtx.multiModalFidelity.adaptiveTerrainSegments);
   assert.ok(apexCtx.multiModalFidelity.bMeshRadialSubdivisions > baseCtx.multiModalFidelity.bMeshRadialSubdivisions);
+  assert.ok(apexCtx.multiModalFidelity.lSystemDerivationDepth > baseCtx.multiModalFidelity.lSystemDerivationDepth);
   assert.ok(apexCtx.multiModalFidelity.airyThinFilmSpanNm > baseCtx.multiModalFidelity.airyThinFilmSpanNm);
   assert.ok(apexCtx.multiModalFidelity.barkMaskingHeadroomDb > baseCtx.multiModalFidelity.barkMaskingHeadroomDb);
   assert.ok(apexCtx.multiModalFidelity.chladniModalPartialsPerVoice > baseCtx.multiModalFidelity.chladniModalPartialsPerVoice);
+  assert.ok(apexCtx.multiModalFidelity.earlyReflectionTapCount > baseCtx.multiModalFidelity.earlyReflectionTapCount);
   assert.ok(apexCtx.multiModalFidelity.primeLimitHarmonicCeiling > baseCtx.multiModalFidelity.primeLimitHarmonicCeiling);
+  assert.ok(apexCtx.multiModalFidelity.consolidatedMemoryHorizon > baseCtx.multiModalFidelity.consolidatedMemoryHorizon);
+  assert.ok(apexCtx.multiModalFidelity.realizabilitySensitivityPermille > baseCtx.multiModalFidelity.realizabilitySensitivityPermille);
   assert.ok(
     apexCtx.multiModalFidelity.fvcbRubiscoAssimilationMultiplier >
       baseCtx.multiModalFidelity.fvcbRubiscoAssimilationMultiplier,
   );
+  assert.equal(apexCtx.multiModalFidelity.realizationGapPermille, 0);
   assert.equal(apexCtx.multiModalFidelity.perFrameHeapAllocations, 0);
 });
 
@@ -4173,6 +4192,176 @@ test('50. End-to-End Multi-Modal Projection: All 14 IUCr Bravais Crystal Manifol
     assert.equal(tokens.wcagAaaVerified, true, `WCAG 2.2 AAA (>= 7:1) must hold for ${atm}`);
     assert.equal(tokens.apcaLegibilityVerified, true, `APCA legibility must hold for ${atm}`);
   }
+});
+
+test('51. 18-Model Gap Elimination: Realizability Anti-Gap Oracle, L-System + Murray r³ Morphogenesis, ISO 3382 + Woodworth 3D HRTF & Merkle Anamnesis Round-Trip', () => {
+  // 1. Realizability Anti-Gap Oracle (Model #15, Prime 139): 18/18 models exhibit strictly positive differential sensitivity & 0‰ gap
+  const realizability = evaluateVerdantRealizabilityAudit({ alphaSeed: 2, atmosphere: 'golden' });
+  assert.equal(realizability.verified, true);
+  assert.equal(realizability.basisPrime, 139);
+  assert.equal(realizability.auditedStandardModelCount, 18);
+  assert.equal(realizability.sensitiveModelCount, 18);
+  assert.equal(realizability.danglingUnprojectedPortCount, 0);
+  assert.equal(realizability.staticStubViolationCount, 0);
+  assert.equal(realizability.realizationGapPermille, 0);
+  assert.equal(realizability.observerRuntimeCounitClosed, true);
+  for (const rec of realizability.modelSensitivities) {
+    assert.ok(
+      rec.differentialDelta > 0,
+      `Model ${rec.modelKey} must exhibit strictly positive differential sensitivity (got delta=${rec.differentialDelta})`,
+    );
+    assert.equal(rec.domainInvariantVerified, true);
+  }
+
+  // 2. Morphogenesis (Model #16, Prime 149): D0L L-System derivation + Murray's cubic vascular law r0^3 = sum r_i^3 across all 5 species
+  const speciesList = [
+    'chime-lily',
+    'pulse-fern',
+    'echo-lotus',
+    'drone-moss',
+    'star-orchid',
+  ] as const;
+  for (const species of speciesList) {
+    const dormant = synthesizeLSystemBotanicalMorphogenesis({
+      species,
+      lifecycleStage: 'dormant-seed',
+      busWeight: 6,
+    });
+    const blooming = synthesizeLSystemBotanicalMorphogenesis({
+      species,
+      lifecycleStage: 'resonant-bloom',
+      busWeight: 10,
+    });
+    const elderApex = synthesizeLSystemBotanicalMorphogenesis({
+      species,
+      lifecycleStage: 'mycelial-memory',
+      busWeight: 16,
+    });
+
+    assert.ok(blooming.derivationDepth > dormant.derivationDepth);
+    assert.ok(elderApex.derivationDepth > blooming.derivationDepth);
+    assert.ok(elderApex.derivedSymbolCount > dormant.derivedSymbolCount);
+    assert.ok(elderApex.primaryBranchCount > dormant.primaryBranchCount);
+    assert.ok(elderApex.secondaryWhorlCount > dormant.secondaryWhorlCount);
+    assert.ok(elderApex.fruitingPearlCount > dormant.fruitingPearlCount);
+
+    for (const m of [dormant, blooming, elderApex]) {
+      assert.equal(m.murrayLawConserved, true, `Murray r^3 law must hold for ${species}`);
+      assert.ok(m.murrayCubicResidualM3 < 1e-6);
+      assert.equal(m.primordia.length, m.primaryBranchCount);
+    }
+  }
+
+  // 3. SpatialAcoustics (Model #17, Prime 151): 5 distinct biome ISO 3382 impulses + Woodworth 3D spherical-head HRTF
+  const biomes: BiomeId[] = ['meadow', 'grove', 'crystal', 'wetland', 'sanctuary'];
+  const t60Values = new Map<BiomeId, number>();
+  for (const b of biomes) {
+    const baseRoom = computeIso3382BiomeRoomAcoustics(b, 22);
+    const apexRoom = computeIso3382BiomeRoomAcoustics(b, 38);
+    assert.equal(baseRoom.earlyReflectionTapCount, 22);
+    assert.equal(apexRoom.earlyReflectionTapCount, 38);
+    assert.ok(baseRoom.specificAcousticImpedanceMRayl > 4.0);
+    t60Values.set(b, baseRoom.sabineReverbT60Seconds);
+  }
+  assert.equal(new Set(t60Values.values()).size, 5, 'All 5 biomes must have distinct ISO 3382 T60 decay times');
+  assert.ok(
+    t60Values.get('crystal')! > t60Values.get('meadow')!,
+    'SiO2 Crystal Spire Gallery must reverberate longer than open Meadow',
+  );
+
+  const synthIr = synthesizeIso3382ImpulseChannels('sanctuary', 22050, 30);
+  assert.equal(synthIr.profile.earlyReflectionTapCount, 30);
+  assert.ok(synthIr.left.length > 22050);
+  assert.equal(synthIr.left.length, synthIr.right.length);
+
+  const hrtfLeftBelow = computeWoodworth3DBinauralSpatializer({
+    listenerX: 0,
+    listenerY: 1.65,
+    listenerZ: 0,
+    listenerYaw: 0,
+    listenerPitch: 0,
+    sourceX: -4.0,
+    sourceY: 0.2,
+    sourceZ: -2.0,
+  });
+  const hrtfRightAbove = computeWoodworth3DBinauralSpatializer({
+    listenerX: 0,
+    listenerY: 1.65,
+    listenerZ: 0,
+    listenerYaw: 0,
+    listenerPitch: 0,
+    sourceX: 4.0,
+    sourceY: 4.8,
+    sourceZ: -2.0,
+  });
+  assert.ok(hrtfLeftBelow.interauralTimeDiffMicros < -200 && hrtfLeftBelow.interauralTimeDiffMicros >= -660);
+  assert.ok(hrtfRightAbove.interauralTimeDiffMicros > 200 && hrtfRightAbove.interauralTimeDiffMicros <= 660);
+  assert.ok(hrtfLeftBelow.rightDelaySeconds > 0 && hrtfLeftBelow.leftDelaySeconds === 0);
+  assert.ok(hrtfRightAbove.leftDelaySeconds > 0 && hrtfRightAbove.rightDelaySeconds === 0);
+  assert.ok(
+    hrtfRightAbove.pinnaElevationNotchHz > hrtfLeftBelow.pinnaElevationNotchHz,
+    'Pinna concha spectral notch must shift upward for overhead 3D botanical sources',
+  );
+
+  // 4. Anamnesis (Model #18, Prime 157): Content-addressed Merkle persistence, tamper rejection, hydration & chunk budget
+  const baseNeuro = extrapolatePrismToHighestResolution(createInitialNeuromorphicState(3), {
+    alphaSeed: 3,
+    biome: 'crystal',
+    species: 'star-orchid',
+    atmosphere: 'twilight',
+    harmonyPct: 76,
+    playerX: 4,
+    playerZ: -6,
+    playerYaw: 0.4,
+  }).nextState;
+  const basePlants = generateGardenPlants({ alphaSeed: 3 });
+  basePlants[0] = {
+    ...basePlants[0],
+    attuned: true,
+    lifecycleStage: 'harmonic-fruiting',
+    volatileTerpeneCharge: 0.85,
+  };
+
+  const envelope = serializeAnamnesisSnapshot({
+    alphaSeed: 3,
+    atmosphere: 'twilight',
+    isMuted: true,
+    exploredBiomes: ['meadow', 'crystal', 'sanctuary'],
+    manifold: baseNeuro.universalManifold,
+    plants: basePlants,
+  });
+  assert.equal(envelope.merkleDigestHex.length, 32);
+
+  const verifiedRestore = deserializeAndVerifyAnamnesisSnapshot(JSON.stringify(envelope));
+  assert.equal(verifiedRestore.verified, true);
+  assert.equal(verifiedRestore.roundTripDriftCount, 0);
+  assert.ok(verifiedRestore.envelope !== null);
+
+  const hydratedPlants = hydratePlantsFromAnamnesis(
+    generateGardenPlants({ alphaSeed: 3 }),
+    verifiedRestore.envelope!.payload,
+  );
+  assert.equal(hydratedPlants[0].attuned, true);
+  assert.equal(hydratedPlants[0].lifecycleStage, 'harmonic-fruiting');
+  assert.equal(hydratedPlants[0].volatileTerpeneCharge, 0.85);
+
+  const hydratedNeuro = restoreNeuromorphicStateFromAnamnesis(verifiedRestore.envelope!.payload);
+  assert.equal(hydratedNeuro.universalManifold.domains.botany.synapticWeight, 16);
+  assert.equal(hydratedNeuro.observer.cosmogenesis.alphaSeed, 3);
+
+  // Tamper check: mutating payload invalidates Merkle digest
+  const tamperedRaw = JSON.stringify({
+    ...envelope,
+    payload: { ...envelope.payload, alphaSeed: 7 },
+  });
+  const tamperedCheck = deserializeAndVerifyAnamnesisSnapshot(tamperedRaw);
+  assert.equal(tamperedCheck.verified, false);
+  assert.equal(tamperedCheck.digestMatches, false);
+
+  const chunkAuditOk = verifyColdLoadModularChunkBudget(420, 3);
+  assert.equal(chunkAuditOk.verified, true);
+  const chunkAuditFail = verifyColdLoadModularChunkBudget(780, 1);
+  assert.equal(chunkAuditFail.verified, false);
 });
 
 

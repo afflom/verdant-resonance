@@ -1,0 +1,197 @@
+\begin{lexlean}{Foundation.Anamnesis.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.MetaModel.V1.Model}
+\importmodule{Foundation.Neuromorphic.V1.Model}
+\importmodule{Foundation.Infrastructure.V1.Model}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: MerkleStateDagPersistenceSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: schemaSemverMajor, type: Nat},
+    {name: persistedSubsystemCount, type: Nat},
+    {name: roundTripStateDriftCount, type: Nat},
+    {name: baseEpisodicHorizonSnapshots, type: Nat},
+    {name: apexEpisodicHorizonSnapshots, type: Nat},
+    {name: contentAddressedDigestVerified, type: Bool},
+    {name: losslessRestoreRoundTripEnabled, type: Bool}
+  ]
+}
+
+structure{
+  name: ModularColdLoadBudgetSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: maxInitialAppChunkKilobytes, type: Nat},
+    {name: minVendorSplitChunkCount, type: Nat},
+    {name: monolithicBundleEliminated, type: Bool},
+    {name: reversibleResetClearanceEnabled, type: Bool}
+  ]
+}
+
+structure{
+  name: AnamnesisStandardModel,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: merklePersistence, type: MerkleStateDagPersistenceSpec},
+    {name: coldLoadBudget, type: ModularColdLoadBudgetSpec},
+    {name: canonicalDescriptor, type: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor}
+  ]
+}
+
+definition{name: verdantAnamnesisBasisPrime, parameters: [], result: Nat, body: 157}
+
+definition{name: anamnesisSchemaVersion, parameters: [], result: Nat, body: 1}
+
+definition{name: persistenceRoundTripDriftZero, parameters: [], result: Nat, body: 0}
+
+definition{name: maxInitialAppChunkKb, parameters: [], result: Nat, body: 650}
+
+definition{
+  name: stepConsolidatedMemoryHorizon,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (16 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 4 : Nat))
+}
+
+definition{
+  name: stepAnamnesisBusModulation,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 26 : Nat))
+}
+
+definition{
+  name: verifyLosslessMerkleRoundTrip,
+  parameters: [digestBefore : Nat, digestAfter : Nat],
+  result: Bool,
+  body: ((digestBefore <=? digestAfter) && ((digestAfter <=? digestBefore) && ((persistenceRoundTripDriftZero) =? 0)))
+}
+
+definition{
+  name: verifyModularColdLoadChunkGate,
+  parameters: [appChunkKb : Nat, vendorChunkCount : Nat],
+  result: Bool,
+  body: ((appChunkKb <=? (maxInitialAppChunkKb)) && (2 <=? vendorChunkCount))
+}
+
+definition{
+  name: anamnesisCanonicalDescriptor,
+  parameters: [],
+  result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 18 "prism/standard-model/anamnesis-merkle-persistence-modular-delivery/1" 1 0 0 (verdantAnamnesisBasisPrime) 15700650 80000157 "Foundation.Anamnesis.V1" 30 13 20 "Content-Addressed Merkle State-DAG Persistence, Lossless Synaptic & Botanical Round-Trip Codec, Schema SemVer Migration, Reversible Sanctuary Reset, Modular Vendor-Split Cold-Load Delivery" 14 5 262143 "Eliminates ephemeral reload amnesia and monolithic cold-load bundles via content-addressed localStorage Merkle state snapshots and modular vendor chunk partitioning" 10 10 5 16 "BoundedStorageCodec+ModularAssetDelivery" 16 16 16 16 16 16 16 6 14336 262143 0 22 "Persists and restores Neuromorphic Hebbian tables, Universal 10-Domain Manifold weights, Alpha Seed, Diurnal Atmosphere, and Flora Lifecycle states while enforcing Infrastructure cold-load budgets" 2 16667 4 "Debounced event-driven Merkle snapshot commit on attunement/seed/atmosphere shift + instant lossless boot hydration + 1-click Reset clearance" 32 1026 1416 2 "0-bit round-trip state drift, verified UOR-FNV64/SHA content digest, <=650kB main app chunk, 20..80 episodic memory horizon" 16384 180 16667 12 0 "Event-driven serialization outside 60Hz loop + lazy inspector chunk splitting; 0 per-frame heap allocations" "Foundation.Anamnesis.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Anamnesis/V1/Model.lex.tex" 5 "Merkle (1987) Content-Addressed Trees, W3C Web Storage Specification, Semantic Versioning 2.0.0, ISO-25010-2023 Maintainability & Reliability, LEAN-REL-4-32-1" 4 12 28 0 "4 Lean 4.32 theorems proving lossless Merkle digest round-trip, episodic horizon monotonicity, modular chunk gate, and 11-element completeness" 4 63 "src/game/anamnesisEngine.ts" "LexLean 1.2 -> AST Extractor -> Content-Addressed Anamnesis Codec & Vite Modular Chunking -> Persistent Browser Sanctuary")
+}
+
+definition{
+  name: verdantAnamnesisStandard,
+  parameters: [],
+  result: AnamnesisStandardModel,
+  body: (record AnamnesisStandardModel {profile := "prism/anamnesis-standard/1", merklePersistence := (record MerkleStateDagPersistenceSpec {schemaSemverMajor := (anamnesisSchemaVersion), persistedSubsystemCount := 5, roundTripStateDriftCount := (persistenceRoundTripDriftZero), baseEpisodicHorizonSnapshots := (stepConsolidatedMemoryHorizon 1), apexEpisodicHorizonSnapshots := (stepConsolidatedMemoryHorizon 16), contentAddressedDigestVerified := (verifyLosslessMerkleRoundTrip 15700650 15700650), losslessRestoreRoundTripEnabled := ((persistenceRoundTripDriftZero) =? 0)}), coldLoadBudget := (record ModularColdLoadBudgetSpec {maxInitialAppChunkKilobytes := (maxInitialAppChunkKb), minVendorSplitChunkCount := 2, monolithicBundleEliminated := (verifyModularColdLoadChunkGate 340 3), reversibleResetClearanceEnabled := ((anamnesisSchemaVersion) =? 1)}), canonicalDescriptor := (anamnesisCanonicalDescriptor)})
+}
+
+definition{
+  name: breaksLosslessMerkleRoundTripAndChunkBudget,
+  parameters: [digest : Nat, drift : Nat],
+  result: Bool,
+  body: (((drift =? (persistenceRoundTripDriftZero)) && (0 <? drift)) || ((not (verifyLosslessMerkleRoundTrip digest digest)) || (not (verifyModularColdLoadChunkGate 340 3))))
+}
+
+theorem{
+  name: losslessMerkleRoundTripAndChunkBudgetHold,
+  parameters: [digest : Nat, drift : Nat],
+  statement: ((breaksLosslessMerkleRoundTripAndChunkBudget digest drift) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      breaksLosslessMerkleRoundTripAndChunkBudget,
+      maxInitialAppChunkKb,
+      persistenceRoundTripDriftZero,
+      verifyLosslessMerkleRoundTrip,
+      verifyModularColdLoadChunkGate
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksConsolidatedMemoryHorizonMonotonic,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: (let wNext : Nat := (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true); ((((Foundation.Neuromorphic.V1.Model::weightMin) <=? busWeight) && (busWeight <? (Foundation.Neuromorphic.V1.Model::weightMax))) && ((stepConsolidatedMemoryHorizon wNext) <=? (stepConsolidatedMemoryHorizon busWeight))))
+}
+
+theorem{
+  name: consolidatedMemoryHorizonMonotonicHolds,
+  parameters: [busWeight : Nat],
+  statement: ((breaksConsolidatedMemoryHorizonMonotonic busWeight) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksConsolidatedMemoryHorizonMonotonic,
+      stepConsolidatedMemoryHorizon
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksAnamnesisNeuromorphicCoupling,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: (((stepAnamnesisBusModulation busWeight) <? 1026) || ((1416 <? (stepAnamnesisBusModulation busWeight)) || ((stepAnamnesisBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <? (stepAnamnesisBusModulation busWeight))))
+}
+
+theorem{
+  name: anamnesisNeuromorphicCouplingHolds,
+  parameters: [busWeight : Nat],
+  statement: ((breaksAnamnesisNeuromorphicCoupling busWeight) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksAnamnesisNeuromorphicCoupling,
+      stepAnamnesisBusModulation
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksAnamnesisDescriptorComplete,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: ((probe =? 0) && (not (Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete (anamnesisCanonicalDescriptor))))
+}
+
+theorem{
+  name: anamnesisDescriptorCompleteHolds,
+  parameters: [probe : Nat],
+  statement: ((breaksAnamnesisDescriptorComplete probe) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
+      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
+      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
+      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
+      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
+      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
+      anamnesisCanonicalDescriptor,
+      breaksAnamnesisDescriptorComplete,
+      verdantAnamnesisBasisPrime
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

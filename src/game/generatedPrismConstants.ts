@@ -3,7 +3,7 @@
 
 export const GENERATED_PRISM_FOUNDATION_PURITY = {
   "verified": true,
-  "checkedModules": 16
+  "checkedModules": 20
 } as const;
 
 export const GENERATED_PRISM_DOMAIN_BASIS_PRIMES = {
@@ -33,7 +33,11 @@ export const GENERATED_CANONICAL_MODEL_BASIS_PRIMES = {
   "cosmogenesis": 113,
   "mathematics": 127,
   "chemistry": 131,
-  "graphics": 137
+  "graphics": 137,
+  "realizability": 139,
+  "morphogenesis": 149,
+  "spatialAcoustics": 151,
+  "anamnesis": 157
 } as const;
 
 export const GENERATED_CANONICAL_STANDARD_MODELS = [
@@ -1444,10 +1448,10 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
   {
     "modelKey": "neuromorphic",
     "registryField": "m13NeuromorphicBus",
-    "displayName": "Neuromorphic Bus (14x14 Functorial Feature-Transfer Matrix + STDP + Active Inference)",
+    "displayName": "Neuromorphic Bus (18x18 Functorial Feature-Transfer Matrix + STDP + Active Inference)",
     "sourceModule": "Foundation.Neuromorphic.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Neuromorphic/V1/Model.lex.tex",
-    "sourceSha256": "2af2d4eba46cfcb94de6764389198772e4643d94b4f5e8fe1c0732f5cb34a405",
+    "sourceSha256": "cd7bc3ddfebe36d64378dbebb50b0e69bcfde35b9efaddc5b9f8cb1d124c1058",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 0,
@@ -1466,8 +1470,8 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "semverMinor": 0,
         "semverPatch": 0,
         "uorPrimeSignature": 109,
-        "blake3DigestHead64": 10900196,
-        "blake3DigestTail64": 18200154,
+        "blake3DigestHead64": 10900324,
+        "blake3DigestTail64": 30600198,
         "stableContentAddressed": true
       },
       "vocabulary": {
@@ -1475,19 +1479,19 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "canonicalConceptCount": 28,
         "crossDomainSynonymCount": 14,
         "taxonomicRelationCount": 19,
-        "keyConceptsSummary": "Hebbian STDP Plasticity, 14x14 Functorial Feature-Transfer Matrix, Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Theory-of-Mind Teleology",
+        "keyConceptsSummary": "Hebbian STDP Plasticity, 18x18 Functorial Feature-Transfer Matrix (324 Cells), Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Theory-of-Mind Teleology",
         "vocabularyComplete": true
       },
       "capability": {
         "capabilityFunctionCount": 18,
         "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 16383,
-        "promisedBehaviorSummary": "Transfers SI-typed mathematical, physical, chemical, botanical, acoustic, spectral-PBR, and ergonomic feature tensors across all 14x14 model pairs to monotonically raise multi-modal Fidelity",
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Transfers SI-typed mathematical, physical, chemical, botanical, morphogenetic, spatial-acoustic, spectral-PBR, realizability, and anamnesis feature tensors across all 18x18 model pairs to monotonically raise multi-modal Fidelity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 14,
-        "typedOutputPortCount": 14,
+        "typedInputPortCount": 18,
+        "typedOutputPortCount": 18,
         "cloudEventTypeCount": 8,
         "stateFieldCount": 18,
         "effectKind": "PureKernel+BoundedRingSynapse",
@@ -1503,10 +1507,10 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       "composition": {
         "dagLayerRank": 1,
         "dependencyModelMask": 1,
-        "compatiblePartnerMask": 16383,
+        "compatiblePartnerMask": 262143,
         "conflictModelMask": 0,
-        "functorTransformationCount": 196,
-        "compositionSummary": "Universal 14x14 functorial bus connecting all canonical standard models with zero conflict and associative gain composition",
+        "functorTransformationCount": 324,
+        "compositionSummary": "Universal 18x18 functorial bus connecting all canonical standard models with zero conflict and associative gain composition",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -1530,7 +1534,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "maxLatencyMicros": 1000,
         "energyBudgetMilliwatts": 35,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Pre-allocated 14x14 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame",
+        "deviceConstraintSummary": "Pre-allocated 18x18 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame",
         "resourceBoundedZeroGc": true
       },
       "authority": {
@@ -1545,14 +1549,14 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "runtimePropertyOracleCount": 12,
         "acceptanceVectorCount": 36,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "14 machine-checked Lean 4.32 theorems proving boundedness, 14x14 functor monotonicity, free-energy reduction, and 11-element completeness",
+        "acceptanceOracleSummary": "14 machine-checked Lean 4.32 theorems proving boundedness, 18x18 functor monotonicity, free-energy reduction, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/neuromorphicFunctorBus.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 14x14 Functor Runtime -> Live WebGL2/WebAudio/W3C-Token/Observer Fidelity Amplification",
+        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 18x18 Functor Runtime -> Live WebGL2/WebAudio/W3C-Token/Anamnesis/Observer Fidelity Amplification",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -1561,10 +1565,10 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
   {
     "modelKey": "cosmogenesis",
     "registryField": "m14ObserverCosmogenesis",
-    "displayName": "Holistic Observer & Cosmogenesis (Complete 14x11 Context = 154 Cells + Alpha-Omega)",
+    "displayName": "Holistic Observer & Cosmogenesis (Complete 18x11 Context = 198 Cells + Alpha-Omega)",
     "sourceModule": "Foundation.Cosmogenesis.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Cosmogenesis/V1/Model.lex.tex",
-    "sourceSha256": "ca5d1cf8266b81583f875d4a6f051923ec16f16ab26e822df883b0ad5d3cb131",
+    "sourceSha256": "a5c018a34a93f4f4bc27dd3f27fa0987a689f17ce9dfda303bd7b71a883f3447",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -1583,30 +1587,30 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "semverMinor": 0,
         "semverPatch": 0,
         "uorPrimeSignature": 113,
-        "blake3DigestHead64": 11300154,
-        "blake3DigestTail64": 14011196,
+        "blake3DigestHead64": 11300198,
+        "blake3DigestTail64": 18011324,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Cosmogenesis.V1",
-        "canonicalConceptCount": 46,
-        "crossDomainSynonymCount": 20,
-        "taxonomicRelationCount": 32,
-        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 14x11 Meta-Model Registry (154 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Foundational Affective Calculus, Multi-Modal Resolution Extrapolation",
+        "canonicalConceptCount": 48,
+        "crossDomainSynonymCount": 22,
+        "taxonomicRelationCount": 36,
+        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 18x11 Meta-Model Registry (198 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Foundational Affective Calculus, Gap-Free Realizability Closure",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 24,
+        "capabilityFunctionCount": 26,
         "conservationLawCount": 8,
-        "exportedFeatureChannelMask": 16383,
-        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 14 canonical standard models and itself, orchestrating 14x14 Neuromorphic functor transfers to maximize multi-modal Fidelity across the game",
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 18 canonical standard models and itself, orchestrating 18x18 Neuromorphic functor transfers to eliminate realization gaps and maximize multi-modal Fidelity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 14,
-        "typedOutputPortCount": 14,
+        "typedInputPortCount": 18,
+        "typedOutputPortCount": 18,
         "cloudEventTypeCount": 8,
-        "stateFieldCount": 28,
+        "stateFieldCount": 30,
         "effectKind": "PureKernel+HolisticObserverView",
         "siBiasedTimeExp": 16,
         "siBiasedLengthExp": 16,
@@ -1619,18 +1623,18 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       },
       "composition": {
         "dagLayerRank": 7,
-        "dependencyModelMask": 8191,
-        "compatiblePartnerMask": 16383,
+        "dependencyModelMask": 262143,
+        "compatiblePartnerMask": 262143,
         "conflictModelMask": 0,
-        "functorTransformationCount": 196,
-        "compositionSummary": "Apex universal observer functor indexing and cross-verifying Mathematics, Physics, Chemistry, Botany, Ecology, Acoustics, Articulation, Soundtrack, Graphics, Brand, Humane, Infrastructure, Neuromorphic, and Self",
+        "functorTransformationCount": 324,
+        "compositionSummary": "Apex universal observer functor indexing and cross-verifying all 18 Canonical Standard Models (Mathematics through Anamnesis) across 198 Meta-Model cells and 324 directed pathways",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 16667,
         "adaptationRuleCount": 8,
-        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + multi-modal Fidelity extrapolation",
+        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + Realizability counit gap elimination",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
@@ -1638,7 +1642,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "baseResolutionUnits": 960,
         "apexResolutionUnits": 1320,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "154/154 verified Meta-Model context cells, 118/118 IUPAC elements, 17/17 SM fields, 24/24 Bark bands, 380-780nm CIE/OKLCH",
+        "fidelityCriteriaSummary": "198/198 verified Meta-Model context cells, 0 realization gap, 118/118 IUPAC elements, 17/17 SM fields, 24/24 Bark bands, 380-780nm CIE/OKLCH",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -1662,14 +1666,482 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "runtimePropertyOracleCount": 18,
         "acceptanceVectorCount": 52,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 14x11 Registry completeness",
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 18x11 Registry completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/components/PrismInspectorModal.tsx",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext -> Interactive 14x11 Standard-Model & Fidelity Explorer",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext -> Interactive 18x11 Standard-Model & Zero-Gap Fidelity Explorer",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "realizability",
+    "registryField": "m15Realizability",
+    "displayName": "Realizability (Spec-to-Runtime Galois Adjunction + Non-Zero Sensitivity + Zero-Stub Oracle)",
+    "sourceModule": "Foundation.Realizability.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Realizability/V1/Model.lex.tex",
+    "sourceSha256": "a1a098efd3bebc8392212fc706a61e4c47373aed40a2f86206b9816c39660862",
+    "unbiasedSiExponents": {
+      "s": 0,
+      "m": 0,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 15,
+        "canonicalModelId": "prism/standard-model/realizability-spec-runtime-adjunction/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 139,
+        "blake3DigestHead64": 13900198,
+        "blake3DigestTail64": 32400139,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Realizability.V1",
+        "canonicalConceptCount": 32,
+        "crossDomainSynonymCount": 14,
+        "taxonomicRelationCount": 22,
+        "keyConceptsSummary": "Kleene-Lawvere Realizability, Galois Spec-to-Runtime Adjunction, Non-Zero Differential Sensitivity dObs/dPort > 0, Zero Static-Stub AST Oracle, Observer-Runtime Counit Closure",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Forces every formal Standard Model port to project end-to-end into live WebGL2, WebAudio, W3C CSS, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 18,
+        "typedOutputPortCount": 18,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 20,
+        "effectKind": "PureAntiGapOracle+LiveCounitReadback",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 16383,
+        "compatiblePartnerMask": 262143,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 36,
+        "compositionSummary": "Audits all 18 canonical models and their 324 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Continuous counit residual verification + differential perturbation sensitivity sweep across Base w=8 -> Apex w=16",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 285,
+        "apexResolutionUnits": 960,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 18/18 models",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 220,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 15,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC differential probe over pre-allocated model arenas; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Realizability.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Realizability/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Kleene (1945) Realizability, Cousot & Cousot (1977) Galois Abstract Interpretation, Lawvere Adjointness, ISO-25010-2023, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 18,
+        "acceptanceVectorCount": 36,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero realization gap, monotonic differential sensitivity, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/realizabilityEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Realizability Anti-Gap Oracle -> Live Prism Inspector 18x11 Verification Badge",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "morphogenesis",
+    "registryField": "m16Morphogenesis",
+    "displayName": "Morphogenesis (Parametric L-System Ontogeny + Murray r^3 Vascular Law + Turing Phyllotaxis)",
+    "sourceModule": "Foundation.Morphogenesis.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Morphogenesis/V1/Model.lex.tex",
+    "sourceSha256": "842d0c902848617c3a84e46533d9dcf90b568982e0442d65d76ac99bab0f80f5",
+    "unbiasedSiExponents": {
+      "s": -1,
+      "m": 1,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 1,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 16,
+        "canonicalModelId": "prism/standard-model/morphogenesis-lsystem-murray-turing/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 149,
+        "blake3DigestHead64": 14900137,
+        "blake3DigestTail64": 50800149,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Morphogenesis.V1",
+        "canonicalConceptCount": 36,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 24,
+        "keyConceptsSummary": "Lindenmayer Parametric 0L/D0L Grammars, Murray Cubic Vascular Pipe Law (r0^3 = sum ri^3), Turing Reaction-Diffusion Phyllotaxis, Auxin Apical Dominance, Topological Organ Ontogeny",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Replaces fixed botanical organ loops with parametric L-system meristematic derivation and Murray cubic vascular radius conservation across lifecycle stages and Neuromorphic Fidelity",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 10,
+        "typedOutputPortCount": 12,
+        "cloudEventTypeCount": 5,
+        "stateFieldCount": 18,
+        "effectKind": "PureDevelopmentalGrammar+LiveMeshTopology",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 17,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 4,
+        "dependencyModelMask": 27,
+        "compatiblePartnerMask": 262143,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 24,
+        "compositionSummary": "Consumes Botany FvCB carbon assimilate, Chemistry mineral cofactors, and Mathematics golden-angle topology while exporting developmental organ graphs to Graphics B-Mesh and Articulation kinematics",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Stage-indexed L-system production rewriting + Murray r^3 vascular branching + Turing phyllotactic primordia spacing",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1028,
+        "apexResolutionUnits": 1448,
+        "perceptualJndPermille": 5,
+        "fidelityCriteriaSummary": "Exact r0^3 = sum ri^3 Murray xylem conservation, 137.508-deg Vogel divergence, monotonic organ topology across 5 lifecycle stages",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 32768,
+        "maxComputeMicrosPerFrame": 680,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 45,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Deterministic stackless L-system organ synthesizer reusing geometry pools on stage/Fidelity transition; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Morphogenesis.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Morphogenesis/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Lindenmayer (1968) & Prusinkiewicz ABOP, Murray (1926) Vascular Law, Turing (1952) Morphogenesis, Vogel (1979) Phyllotaxis, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 28,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving Murray vascular conservation, topological L-system monotonicity, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/proceduralMeshEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Parametric L-System & Murray Vascular Synthesizer -> Live 3D Botanical Organ Growth",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "spatialAcoustics",
+    "registryField": "m17SpatialAcoustics",
+    "displayName": "Spatial Acoustics (ISO 3382 Image-Source Impulse + Z=rho*c Absorption + 3D Woodworth HRTF)",
+    "sourceModule": "Foundation.SpatialAcoustics.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/SpatialAcoustics/V1/Model.lex.tex",
+    "sourceSha256": "673352e1ab9864c9ce62f38df6013ef1e46a14e831e2f3515a9c1a01a7ed9d1e",
+    "unbiasedSiExponents": {
+      "s": -1,
+      "m": 1,
+      "kg": 1,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 17,
+        "canonicalModelId": "prism/standard-model/spatial-acoustics-iso3382-woodworth-hrtf/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 151,
+        "blake3DigestHead64": 15103382,
+        "blake3DigestTail64": 66000151,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.SpatialAcoustics.V1",
+        "canonicalConceptCount": 34,
+        "crossDomainSynonymCount": 15,
+        "taxonomicRelationCount": 22,
+        "keyConceptsSummary": "ISO 3382-1 Sabine/Eyring Reverberation T60, Allen-Berkley Image-Source Early Reflections, Acoustic Impedance Z=rho*c, Woodworth-Schlosberg Spherical-Head ITD, Head-Shadow High-Shelf ILD, Pinna Elevation Spectral Notch",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Replaces static reverb and 1D stereo panning with biome-material ISO 3382 image-source impulse synthesis and full 3D Woodworth-Schlosberg binaural ITD/ILD/elevation spatialization",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 12,
+        "typedOutputPortCount": 12,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 20,
+        "effectKind": "BoundedWebAudioConvolverAndBinauralGraph",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 5,
+        "dependencyModelMask": 39,
+        "compatiblePartnerMask": 262143,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 24,
+        "compositionSummary": "Consumes Physics wave speed & monument colliders, Chemistry Bravais/IUPAC mineral acoustic impedance Z=rho*c, and Acoustics ISO 226/Bark curves to spatialize all flora and environmental voices in 3D",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Biome-transition ISO 3382 impulse re-synthesis + 60Hz 3D Woodworth ITD, head-shadow ILD, and pinna elevation notch tracking",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1034,
+        "apexResolutionUnits": 1544,
+        "perceptualJndPermille": 4,
+        "fidelityCriteriaSummary": "0..660us physical Woodworth ITD, 5 distinct biome Z=rho*c impulse responses, 8..38 discrete early-reflection taps",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 65536,
+        "maxComputeMicrosPerFrame": 520,
+        "maxLatencyMicros": 10000,
+        "energyBudgetMilliwatts": 50,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Cached per-biome Float32 impulse buffers + zero-GC AudioParam exponential/linear ramps; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.SpatialAcoustics.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/SpatialAcoustics/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "ISO 3382-1:2009 Room Acoustics, Sabine/Eyring Reverberation Law, Allen & Berkley (1979) Image-Source Method, Woodworth & Schlosberg (1954) Spherical-Head ITD/ILD, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 30,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving Woodworth ITD physical bounds, Sabine inverse-absorption decay, early-reflection monotonicity, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/soundscapeEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> ISO 3382 Impulse & Woodworth 3D Binaural Engine -> Web Audio Live Convolver & HRTF",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "anamnesis",
+    "registryField": "m18Anamnesis",
+    "displayName": "Anamnesis (Content-Addressed Merkle State-DAG Persistence + Modular Cold-Load Delivery)",
+    "sourceModule": "Foundation.Anamnesis.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Anamnesis/V1/Model.lex.tex",
+    "sourceSha256": "3e5b4bf9dd648ab7086e52008c7ea20e48ec67fea1027df3c3d9f8817ad3cf46",
+    "unbiasedSiExponents": {
+      "s": 0,
+      "m": 0,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 18,
+        "canonicalModelId": "prism/standard-model/anamnesis-merkle-persistence-modular-delivery/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 157,
+        "blake3DigestHead64": 15700650,
+        "blake3DigestTail64": 80000157,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Anamnesis.V1",
+        "canonicalConceptCount": 30,
+        "crossDomainSynonymCount": 13,
+        "taxonomicRelationCount": 20,
+        "keyConceptsSummary": "Content-Addressed Merkle State-DAG Persistence, Lossless Synaptic & Botanical Round-Trip Codec, Schema SemVer Migration, Reversible Sanctuary Reset, Modular Vendor-Split Cold-Load Delivery",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 14,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Eliminates ephemeral reload amnesia and monolithic cold-load bundles via content-addressed localStorage Merkle state snapshots and modular vendor chunk partitioning",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 10,
+        "typedOutputPortCount": 10,
+        "cloudEventTypeCount": 5,
+        "stateFieldCount": 16,
+        "effectKind": "BoundedStorageCodec+ModularAssetDelivery",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 14336,
+        "compatiblePartnerMask": 262143,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 22,
+        "compositionSummary": "Persists and restores Neuromorphic Hebbian tables, Universal 10-Domain Manifold weights, Alpha Seed, Diurnal Atmosphere, and Flora Lifecycle states while enforcing Infrastructure cold-load budgets",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Debounced event-driven Merkle snapshot commit on attunement/seed/atmosphere shift + instant lossless boot hydration + 1-click Reset clearance",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1026,
+        "apexResolutionUnits": 1416,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0-bit round-trip state drift, verified UOR-FNV64/SHA content digest, <=650kB main app chunk, 20..80 episodic memory horizon",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 16384,
+        "maxComputeMicrosPerFrame": 180,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Event-driven serialization outside 60Hz loop + lazy inspector chunk splitting; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Anamnesis.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Anamnesis/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Merkle (1987) Content-Addressed Trees, W3C Web Storage Specification, Semantic Versioning 2.0.0, ISO-25010-2023 Maintainability & Reliability, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 28,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving lossless Merkle digest round-trip, episodic horizon monotonicity, modular chunk gate, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/anamnesisEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Content-Addressed Anamnesis Codec & Vite Modular Chunking -> Persistent Browser Sanctuary",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -1977,6 +2449,284 @@ export const GENERATED_PRISM_BUS_MODULATION_LUT = {
     1480,
     1480,
     1480
+  ],
+  "realizability": [
+    1032,
+    1032,
+    1064,
+    1096,
+    1128,
+    1160,
+    1192,
+    1224,
+    1256,
+    1288,
+    1320,
+    1352,
+    1384,
+    1416,
+    1448,
+    1480,
+    1512,
+    1512,
+    1512,
+    1512,
+    1512
+  ],
+  "morphogenesis": [
+    1028,
+    1028,
+    1056,
+    1084,
+    1112,
+    1140,
+    1168,
+    1196,
+    1224,
+    1252,
+    1280,
+    1308,
+    1336,
+    1364,
+    1392,
+    1420,
+    1448,
+    1448,
+    1448,
+    1448,
+    1448
+  ],
+  "spatialAcoustics": [
+    1034,
+    1034,
+    1068,
+    1102,
+    1136,
+    1170,
+    1204,
+    1238,
+    1272,
+    1306,
+    1340,
+    1374,
+    1408,
+    1442,
+    1476,
+    1510,
+    1544,
+    1544,
+    1544,
+    1544,
+    1544
+  ],
+  "anamnesis": [
+    1026,
+    1026,
+    1052,
+    1078,
+    1104,
+    1130,
+    1156,
+    1182,
+    1208,
+    1234,
+    1260,
+    1286,
+    1312,
+    1338,
+    1364,
+    1390,
+    1416,
+    1416,
+    1416,
+    1416,
+    1416
+  ],
+  "realizabilitySensitivityPermille": [
+    285,
+    285,
+    330,
+    375,
+    420,
+    465,
+    510,
+    555,
+    600,
+    645,
+    690,
+    735,
+    780,
+    825,
+    870,
+    915,
+    960,
+    960,
+    960,
+    960,
+    960
+  ],
+  "lSystemDerivationDepthByStage": [
+    [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      3,
+      3,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4
+    ],
+    [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      4,
+      4,
+      4,
+      4,
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5
+    ],
+    [
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      5,
+      5,
+      5,
+      5,
+      5,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6
+    ],
+    [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      6,
+      6,
+      6,
+      6,
+      6,
+      7,
+      7,
+      7,
+      7,
+      7,
+      7,
+      7,
+      7,
+      7
+    ],
+    [
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6,
+      7,
+      7,
+      7,
+      7,
+      7,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+    ]
+  ],
+  "earlyReflectionTapCount": [
+    8,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    20,
+    22,
+    24,
+    26,
+    28,
+    30,
+    32,
+    34,
+    36,
+    38,
+    38,
+    38,
+    38,
+    38
+  ],
+  "consolidatedMemoryHorizon": [
+    20,
+    20,
+    24,
+    28,
+    32,
+    36,
+    40,
+    44,
+    48,
+    52,
+    56,
+    60,
+    64,
+    68,
+    72,
+    76,
+    80,
+    80,
+    80,
+    80,
+    80
   ],
   "spectralBandResolution": [
     13,
@@ -5475,11 +6225,485 @@ export const GENERATED_PRISM_STANDARDS = {
       "completeAndEnforced": true
     }
   },
+  "realizability": {
+    "profile": "prism/realizability-standard/1",
+    "adjunction": {
+      "registeredObservablePortCount": 18,
+      "danglingUnprojectedPortCount": 0,
+      "realizationGapPermille": 0,
+      "minDifferentialSensitivityPermille": 285,
+      "apexDifferentialSensitivityPermille": 960,
+      "specToRuntimeFunctorTotal": true,
+      "observerRuntimeCounitClosed": true
+    },
+    "antiStubAudit": {
+      "auditedRuntimeSubsystemCount": 6,
+      "staticStubViolationCount": 0,
+      "deadConstantBranchCount": 0,
+      "astAndRuntimeLiveAuditEnabled": true,
+      "allEighteenModelsProjectedEndToEnd": true
+    },
+    "canonicalDescriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 15,
+        "canonicalModelId": "prism/standard-model/realizability-spec-runtime-adjunction/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 139,
+        "blake3DigestHead64": 13900198,
+        "blake3DigestTail64": 32400139,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Realizability.V1",
+        "canonicalConceptCount": 32,
+        "crossDomainSynonymCount": 14,
+        "taxonomicRelationCount": 22,
+        "keyConceptsSummary": "Kleene-Lawvere Realizability, Galois Spec-to-Runtime Adjunction, Non-Zero Differential Sensitivity dObs/dPort > 0, Zero Static-Stub AST Oracle, Observer-Runtime Counit Closure",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Forces every formal Standard Model port to project end-to-end into live WebGL2, WebAudio, W3C CSS, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 18,
+        "typedOutputPortCount": 18,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 20,
+        "effectKind": "PureAntiGapOracle+LiveCounitReadback",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 16383,
+        "compatiblePartnerMask": 262143,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 36,
+        "compositionSummary": "Audits all 18 canonical models and their 324 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Continuous counit residual verification + differential perturbation sensitivity sweep across Base w=8 -> Apex w=16",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 285,
+        "apexResolutionUnits": 960,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 18/18 models",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 220,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 15,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC differential probe over pre-allocated model arenas; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Realizability.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Realizability/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Kleene (1945) Realizability, Cousot & Cousot (1977) Galois Abstract Interpretation, Lawvere Adjointness, ISO-25010-2023, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 18,
+        "acceptanceVectorCount": 36,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero realization gap, monotonic differential sensitivity, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/realizabilityEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Realizability Anti-Gap Oracle -> Live Prism Inspector 18x11 Verification Badge",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  "morphogenesis": {
+    "profile": "prism/morphogenesis-standard/1",
+    "lSystemGrammar": {
+      "speciesAxiomCount": 5,
+      "minDerivationDepth": 2,
+      "maxDerivationDepth": 8,
+      "goldenDivergenceAngleMilliDeg": 137508,
+      "fixedOrganLoopEliminated": true,
+      "lifecycleTopologicalGrowthEnabled": true
+    },
+    "murrayVascular": {
+      "vascularCubicExponent": 3,
+      "turingActivatorInhibitorSpeciesCount": 2,
+      "meristemApicalDominancePermille": 618,
+      "murrayAreaVolumeFlowConserved": true,
+      "watertightInternodeGraftingVerified": true
+    },
+    "canonicalDescriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 16,
+        "canonicalModelId": "prism/standard-model/morphogenesis-lsystem-murray-turing/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 149,
+        "blake3DigestHead64": 14900137,
+        "blake3DigestTail64": 50800149,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Morphogenesis.V1",
+        "canonicalConceptCount": 36,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 24,
+        "keyConceptsSummary": "Lindenmayer Parametric 0L/D0L Grammars, Murray Cubic Vascular Pipe Law (r0^3 = sum ri^3), Turing Reaction-Diffusion Phyllotaxis, Auxin Apical Dominance, Topological Organ Ontogeny",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Replaces fixed botanical organ loops with parametric L-system meristematic derivation and Murray cubic vascular radius conservation across lifecycle stages and Neuromorphic Fidelity",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 10,
+        "typedOutputPortCount": 12,
+        "cloudEventTypeCount": 5,
+        "stateFieldCount": 18,
+        "effectKind": "PureDevelopmentalGrammar+LiveMeshTopology",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 17,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 4,
+        "dependencyModelMask": 27,
+        "compatiblePartnerMask": 262143,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 24,
+        "compositionSummary": "Consumes Botany FvCB carbon assimilate, Chemistry mineral cofactors, and Mathematics golden-angle topology while exporting developmental organ graphs to Graphics B-Mesh and Articulation kinematics",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Stage-indexed L-system production rewriting + Murray r^3 vascular branching + Turing phyllotactic primordia spacing",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1028,
+        "apexResolutionUnits": 1448,
+        "perceptualJndPermille": 5,
+        "fidelityCriteriaSummary": "Exact r0^3 = sum ri^3 Murray xylem conservation, 137.508-deg Vogel divergence, monotonic organ topology across 5 lifecycle stages",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 32768,
+        "maxComputeMicrosPerFrame": 680,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 45,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Deterministic stackless L-system organ synthesizer reusing geometry pools on stage/Fidelity transition; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Morphogenesis.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Morphogenesis/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Lindenmayer (1968) & Prusinkiewicz ABOP, Murray (1926) Vascular Law, Turing (1952) Morphogenesis, Vogel (1979) Phyllotaxis, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 28,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving Murray vascular conservation, topological L-system monotonicity, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/proceduralMeshEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Parametric L-System & Murray Vascular Synthesizer -> Live 3D Botanical Organ Growth",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  "spatialAcoustics": {
+    "profile": "prism/spatial-acoustics-standard/1",
+    "roomImpulse": {
+      "biomeDistinctImpulseCount": 5,
+      "baseEarlyReflectionTapCount": 8,
+      "apexEarlyReflectionTapCount": 38,
+      "sabineConstantMillisPerMeter": 161,
+      "staticStartupImpulseEliminated": true,
+      "materialImpedanceAbsorptionCoupled": true
+    },
+    "binauralHrtf": {
+      "humanHeadRadiusMillimeters": 88,
+      "maxInterauralTimeDiffMicros": 660,
+      "pinnaElevationNotchMinHz": 5800,
+      "pinnaElevationNotchMaxHz": 10800,
+      "threeDimensionalAzimuthElevationEnabled": true,
+      "interauralShadowIldCoupled": true
+    },
+    "canonicalDescriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 17,
+        "canonicalModelId": "prism/standard-model/spatial-acoustics-iso3382-woodworth-hrtf/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 151,
+        "blake3DigestHead64": 15103382,
+        "blake3DigestTail64": 66000151,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.SpatialAcoustics.V1",
+        "canonicalConceptCount": 34,
+        "crossDomainSynonymCount": 15,
+        "taxonomicRelationCount": 22,
+        "keyConceptsSummary": "ISO 3382-1 Sabine/Eyring Reverberation T60, Allen-Berkley Image-Source Early Reflections, Acoustic Impedance Z=rho*c, Woodworth-Schlosberg Spherical-Head ITD, Head-Shadow High-Shelf ILD, Pinna Elevation Spectral Notch",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Replaces static reverb and 1D stereo panning with biome-material ISO 3382 image-source impulse synthesis and full 3D Woodworth-Schlosberg binaural ITD/ILD/elevation spatialization",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 12,
+        "typedOutputPortCount": 12,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 20,
+        "effectKind": "BoundedWebAudioConvolverAndBinauralGraph",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 5,
+        "dependencyModelMask": 39,
+        "compatiblePartnerMask": 262143,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 24,
+        "compositionSummary": "Consumes Physics wave speed & monument colliders, Chemistry Bravais/IUPAC mineral acoustic impedance Z=rho*c, and Acoustics ISO 226/Bark curves to spatialize all flora and environmental voices in 3D",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Biome-transition ISO 3382 impulse re-synthesis + 60Hz 3D Woodworth ITD, head-shadow ILD, and pinna elevation notch tracking",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1034,
+        "apexResolutionUnits": 1544,
+        "perceptualJndPermille": 4,
+        "fidelityCriteriaSummary": "0..660us physical Woodworth ITD, 5 distinct biome Z=rho*c impulse responses, 8..38 discrete early-reflection taps",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 65536,
+        "maxComputeMicrosPerFrame": 520,
+        "maxLatencyMicros": 10000,
+        "energyBudgetMilliwatts": 50,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Cached per-biome Float32 impulse buffers + zero-GC AudioParam exponential/linear ramps; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.SpatialAcoustics.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/SpatialAcoustics/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "ISO 3382-1:2009 Room Acoustics, Sabine/Eyring Reverberation Law, Allen & Berkley (1979) Image-Source Method, Woodworth & Schlosberg (1954) Spherical-Head ITD/ILD, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 30,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving Woodworth ITD physical bounds, Sabine inverse-absorption decay, early-reflection monotonicity, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/soundscapeEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> ISO 3382 Impulse & Woodworth 3D Binaural Engine -> Web Audio Live Convolver & HRTF",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  "anamnesis": {
+    "profile": "prism/anamnesis-standard/1",
+    "merklePersistence": {
+      "schemaSemverMajor": 1,
+      "persistedSubsystemCount": 5,
+      "roundTripStateDriftCount": 0,
+      "baseEpisodicHorizonSnapshots": 20,
+      "apexEpisodicHorizonSnapshots": 80,
+      "contentAddressedDigestVerified": true,
+      "losslessRestoreRoundTripEnabled": true
+    },
+    "coldLoadBudget": {
+      "maxInitialAppChunkKilobytes": 650,
+      "minVendorSplitChunkCount": 2,
+      "monolithicBundleEliminated": true,
+      "reversibleResetClearanceEnabled": true
+    },
+    "canonicalDescriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 18,
+        "canonicalModelId": "prism/standard-model/anamnesis-merkle-persistence-modular-delivery/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 157,
+        "blake3DigestHead64": 15700650,
+        "blake3DigestTail64": 80000157,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Anamnesis.V1",
+        "canonicalConceptCount": 30,
+        "crossDomainSynonymCount": 13,
+        "taxonomicRelationCount": 20,
+        "keyConceptsSummary": "Content-Addressed Merkle State-DAG Persistence, Lossless Synaptic & Botanical Round-Trip Codec, Schema SemVer Migration, Reversible Sanctuary Reset, Modular Vendor-Split Cold-Load Delivery",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 14,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Eliminates ephemeral reload amnesia and monolithic cold-load bundles via content-addressed localStorage Merkle state snapshots and modular vendor chunk partitioning",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 10,
+        "typedOutputPortCount": 10,
+        "cloudEventTypeCount": 5,
+        "stateFieldCount": 16,
+        "effectKind": "BoundedStorageCodec+ModularAssetDelivery",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 14336,
+        "compatiblePartnerMask": 262143,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 22,
+        "compositionSummary": "Persists and restores Neuromorphic Hebbian tables, Universal 10-Domain Manifold weights, Alpha Seed, Diurnal Atmosphere, and Flora Lifecycle states while enforcing Infrastructure cold-load budgets",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Debounced event-driven Merkle snapshot commit on attunement/seed/atmosphere shift + instant lossless boot hydration + 1-click Reset clearance",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1026,
+        "apexResolutionUnits": 1416,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0-bit round-trip state drift, verified UOR-FNV64/SHA content digest, <=650kB main app chunk, 20..80 episodic memory horizon",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 16384,
+        "maxComputeMicrosPerFrame": 180,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Event-driven serialization outside 60Hz loop + lazy inspector chunk splitting; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Anamnesis.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Anamnesis/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Merkle (1987) Content-Addressed Trees, W3C Web Storage Specification, Semantic Versioning 2.0.0, ISO-25010-2023 Maintainability & Reliability, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 28,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving lossless Merkle digest round-trip, episodic horizon monotonicity, modular chunk gate, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/anamnesisEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Content-Addressed Anamnesis Codec & Vite Modular Chunking -> Persistent Browser Sanctuary",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
   "holisticObserverRegistry": {
     "profile": "prism/holistic-observer-standard-model-registry/1",
-    "totalStandardModels": 14,
+    "totalStandardModels": 18,
     "elementsPerModel": 11,
-    "totalVerifiedContextCells": 154,
+    "totalVerifiedContextCells": 198,
     "m01Mathematics": {
       "requiredElementCount": 11,
       "identity": {
@@ -6689,8 +7913,8 @@ export const GENERATED_PRISM_STANDARDS = {
         "semverMinor": 0,
         "semverPatch": 0,
         "uorPrimeSignature": 109,
-        "blake3DigestHead64": 10900196,
-        "blake3DigestTail64": 18200154,
+        "blake3DigestHead64": 10900324,
+        "blake3DigestTail64": 30600198,
         "stableContentAddressed": true
       },
       "vocabulary": {
@@ -6698,19 +7922,19 @@ export const GENERATED_PRISM_STANDARDS = {
         "canonicalConceptCount": 28,
         "crossDomainSynonymCount": 14,
         "taxonomicRelationCount": 19,
-        "keyConceptsSummary": "Hebbian STDP Plasticity, 14x14 Functorial Feature-Transfer Matrix, Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Theory-of-Mind Teleology",
+        "keyConceptsSummary": "Hebbian STDP Plasticity, 18x18 Functorial Feature-Transfer Matrix (324 Cells), Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Theory-of-Mind Teleology",
         "vocabularyComplete": true
       },
       "capability": {
         "capabilityFunctionCount": 18,
         "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 16383,
-        "promisedBehaviorSummary": "Transfers SI-typed mathematical, physical, chemical, botanical, acoustic, spectral-PBR, and ergonomic feature tensors across all 14x14 model pairs to monotonically raise multi-modal Fidelity",
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Transfers SI-typed mathematical, physical, chemical, botanical, morphogenetic, spatial-acoustic, spectral-PBR, realizability, and anamnesis feature tensors across all 18x18 model pairs to monotonically raise multi-modal Fidelity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 14,
-        "typedOutputPortCount": 14,
+        "typedInputPortCount": 18,
+        "typedOutputPortCount": 18,
         "cloudEventTypeCount": 8,
         "stateFieldCount": 18,
         "effectKind": "PureKernel+BoundedRingSynapse",
@@ -6726,10 +7950,10 @@ export const GENERATED_PRISM_STANDARDS = {
       "composition": {
         "dagLayerRank": 1,
         "dependencyModelMask": 1,
-        "compatiblePartnerMask": 16383,
+        "compatiblePartnerMask": 262143,
         "conflictModelMask": 0,
-        "functorTransformationCount": 196,
-        "compositionSummary": "Universal 14x14 functorial bus connecting all canonical standard models with zero conflict and associative gain composition",
+        "functorTransformationCount": 324,
+        "compositionSummary": "Universal 18x18 functorial bus connecting all canonical standard models with zero conflict and associative gain composition",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -6753,7 +7977,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "maxLatencyMicros": 1000,
         "energyBudgetMilliwatts": 35,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Pre-allocated 14x14 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame",
+        "deviceConstraintSummary": "Pre-allocated 18x18 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame",
         "resourceBoundedZeroGc": true
       },
       "authority": {
@@ -6768,14 +7992,14 @@ export const GENERATED_PRISM_STANDARDS = {
         "runtimePropertyOracleCount": 12,
         "acceptanceVectorCount": 36,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "14 machine-checked Lean 4.32 theorems proving boundedness, 14x14 functor monotonicity, free-energy reduction, and 11-element completeness",
+        "acceptanceOracleSummary": "14 machine-checked Lean 4.32 theorems proving boundedness, 18x18 functor monotonicity, free-energy reduction, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/neuromorphicFunctorBus.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 14x14 Functor Runtime -> Live WebGL2/WebAudio/W3C-Token/Observer Fidelity Amplification",
+        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 18x18 Functor Runtime -> Live WebGL2/WebAudio/W3C-Token/Anamnesis/Observer Fidelity Amplification",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -6789,30 +8013,30 @@ export const GENERATED_PRISM_STANDARDS = {
         "semverMinor": 0,
         "semverPatch": 0,
         "uorPrimeSignature": 113,
-        "blake3DigestHead64": 11300154,
-        "blake3DigestTail64": 14011196,
+        "blake3DigestHead64": 11300198,
+        "blake3DigestTail64": 18011324,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Cosmogenesis.V1",
-        "canonicalConceptCount": 46,
-        "crossDomainSynonymCount": 20,
-        "taxonomicRelationCount": 32,
-        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 14x11 Meta-Model Registry (154 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Foundational Affective Calculus, Multi-Modal Resolution Extrapolation",
+        "canonicalConceptCount": 48,
+        "crossDomainSynonymCount": 22,
+        "taxonomicRelationCount": 36,
+        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 18x11 Meta-Model Registry (198 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Foundational Affective Calculus, Gap-Free Realizability Closure",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 24,
+        "capabilityFunctionCount": 26,
         "conservationLawCount": 8,
-        "exportedFeatureChannelMask": 16383,
-        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 14 canonical standard models and itself, orchestrating 14x14 Neuromorphic functor transfers to maximize multi-modal Fidelity across the game",
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 18 canonical standard models and itself, orchestrating 18x18 Neuromorphic functor transfers to eliminate realization gaps and maximize multi-modal Fidelity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 14,
-        "typedOutputPortCount": 14,
+        "typedInputPortCount": 18,
+        "typedOutputPortCount": 18,
         "cloudEventTypeCount": 8,
-        "stateFieldCount": 28,
+        "stateFieldCount": 30,
         "effectKind": "PureKernel+HolisticObserverView",
         "siBiasedTimeExp": 16,
         "siBiasedLengthExp": 16,
@@ -6825,18 +8049,18 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "composition": {
         "dagLayerRank": 7,
-        "dependencyModelMask": 8191,
-        "compatiblePartnerMask": 16383,
+        "dependencyModelMask": 262143,
+        "compatiblePartnerMask": 262143,
         "conflictModelMask": 0,
-        "functorTransformationCount": 196,
-        "compositionSummary": "Apex universal observer functor indexing and cross-verifying Mathematics, Physics, Chemistry, Botany, Ecology, Acoustics, Articulation, Soundtrack, Graphics, Brand, Humane, Infrastructure, Neuromorphic, and Self",
+        "functorTransformationCount": 324,
+        "compositionSummary": "Apex universal observer functor indexing and cross-verifying all 18 Canonical Standard Models (Mathematics through Anamnesis) across 198 Meta-Model cells and 324 directed pathways",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 16667,
         "adaptationRuleCount": 8,
-        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + multi-modal Fidelity extrapolation",
+        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + Realizability counit gap elimination",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
@@ -6844,7 +8068,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "baseResolutionUnits": 960,
         "apexResolutionUnits": 1320,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "154/154 verified Meta-Model context cells, 118/118 IUPAC elements, 17/17 SM fields, 24/24 Bark bands, 380-780nm CIE/OKLCH",
+        "fidelityCriteriaSummary": "198/198 verified Meta-Model context cells, 0 realization gap, 118/118 IUPAC elements, 17/17 SM fields, 24/24 Bark bands, 380-780nm CIE/OKLCH",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -6868,20 +8092,421 @@ export const GENERATED_PRISM_STANDARDS = {
         "runtimePropertyOracleCount": 18,
         "acceptanceVectorCount": 52,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 14x11 Registry completeness",
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 18x11 Registry completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/components/PrismInspectorModal.tsx",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext -> Interactive 14x11 Standard-Model & Fidelity Explorer",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext -> Interactive 18x11 Standard-Model & Zero-Gap Fidelity Explorer",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m15Realizability": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 15,
+        "canonicalModelId": "prism/standard-model/realizability-spec-runtime-adjunction/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 139,
+        "blake3DigestHead64": 13900198,
+        "blake3DigestTail64": 32400139,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Realizability.V1",
+        "canonicalConceptCount": 32,
+        "crossDomainSynonymCount": 14,
+        "taxonomicRelationCount": 22,
+        "keyConceptsSummary": "Kleene-Lawvere Realizability, Galois Spec-to-Runtime Adjunction, Non-Zero Differential Sensitivity dObs/dPort > 0, Zero Static-Stub AST Oracle, Observer-Runtime Counit Closure",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Forces every formal Standard Model port to project end-to-end into live WebGL2, WebAudio, W3C CSS, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 18,
+        "typedOutputPortCount": 18,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 20,
+        "effectKind": "PureAntiGapOracle+LiveCounitReadback",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 16383,
+        "compatiblePartnerMask": 262143,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 36,
+        "compositionSummary": "Audits all 18 canonical models and their 324 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Continuous counit residual verification + differential perturbation sensitivity sweep across Base w=8 -> Apex w=16",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 285,
+        "apexResolutionUnits": 960,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 18/18 models",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 220,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 15,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC differential probe over pre-allocated model arenas; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Realizability.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Realizability/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Kleene (1945) Realizability, Cousot & Cousot (1977) Galois Abstract Interpretation, Lawvere Adjointness, ISO-25010-2023, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 18,
+        "acceptanceVectorCount": 36,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero realization gap, monotonic differential sensitivity, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/realizabilityEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Realizability Anti-Gap Oracle -> Live Prism Inspector 18x11 Verification Badge",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m16Morphogenesis": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 16,
+        "canonicalModelId": "prism/standard-model/morphogenesis-lsystem-murray-turing/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 149,
+        "blake3DigestHead64": 14900137,
+        "blake3DigestTail64": 50800149,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Morphogenesis.V1",
+        "canonicalConceptCount": 36,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 24,
+        "keyConceptsSummary": "Lindenmayer Parametric 0L/D0L Grammars, Murray Cubic Vascular Pipe Law (r0^3 = sum ri^3), Turing Reaction-Diffusion Phyllotaxis, Auxin Apical Dominance, Topological Organ Ontogeny",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Replaces fixed botanical organ loops with parametric L-system meristematic derivation and Murray cubic vascular radius conservation across lifecycle stages and Neuromorphic Fidelity",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 10,
+        "typedOutputPortCount": 12,
+        "cloudEventTypeCount": 5,
+        "stateFieldCount": 18,
+        "effectKind": "PureDevelopmentalGrammar+LiveMeshTopology",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 17,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 4,
+        "dependencyModelMask": 27,
+        "compatiblePartnerMask": 262143,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 24,
+        "compositionSummary": "Consumes Botany FvCB carbon assimilate, Chemistry mineral cofactors, and Mathematics golden-angle topology while exporting developmental organ graphs to Graphics B-Mesh and Articulation kinematics",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Stage-indexed L-system production rewriting + Murray r^3 vascular branching + Turing phyllotactic primordia spacing",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1028,
+        "apexResolutionUnits": 1448,
+        "perceptualJndPermille": 5,
+        "fidelityCriteriaSummary": "Exact r0^3 = sum ri^3 Murray xylem conservation, 137.508-deg Vogel divergence, monotonic organ topology across 5 lifecycle stages",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 32768,
+        "maxComputeMicrosPerFrame": 680,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 45,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Deterministic stackless L-system organ synthesizer reusing geometry pools on stage/Fidelity transition; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Morphogenesis.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Morphogenesis/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Lindenmayer (1968) & Prusinkiewicz ABOP, Murray (1926) Vascular Law, Turing (1952) Morphogenesis, Vogel (1979) Phyllotaxis, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 28,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving Murray vascular conservation, topological L-system monotonicity, neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/proceduralMeshEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Parametric L-System & Murray Vascular Synthesizer -> Live 3D Botanical Organ Growth",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m17SpatialAcoustics": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 17,
+        "canonicalModelId": "prism/standard-model/spatial-acoustics-iso3382-woodworth-hrtf/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 151,
+        "blake3DigestHead64": 15103382,
+        "blake3DigestTail64": 66000151,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.SpatialAcoustics.V1",
+        "canonicalConceptCount": 34,
+        "crossDomainSynonymCount": 15,
+        "taxonomicRelationCount": 22,
+        "keyConceptsSummary": "ISO 3382-1 Sabine/Eyring Reverberation T60, Allen-Berkley Image-Source Early Reflections, Acoustic Impedance Z=rho*c, Woodworth-Schlosberg Spherical-Head ITD, Head-Shadow High-Shelf ILD, Pinna Elevation Spectral Notch",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 16,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Replaces static reverb and 1D stereo panning with biome-material ISO 3382 image-source impulse synthesis and full 3D Woodworth-Schlosberg binaural ITD/ILD/elevation spatialization",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 12,
+        "typedOutputPortCount": 12,
+        "cloudEventTypeCount": 6,
+        "stateFieldCount": 20,
+        "effectKind": "BoundedWebAudioConvolverAndBinauralGraph",
+        "siBiasedTimeExp": 15,
+        "siBiasedLengthExp": 17,
+        "siBiasedMassExp": 17,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 5,
+        "dependencyModelMask": 39,
+        "compatiblePartnerMask": 262143,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 24,
+        "compositionSummary": "Consumes Physics wave speed & monument colliders, Chemistry Bravais/IUPAC mineral acoustic impedance Z=rho*c, and Acoustics ISO 226/Bark curves to spatialize all flora and environmental voices in 3D",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 5,
+        "temporalLawSummary": "Biome-transition ISO 3382 impulse re-synthesis + 60Hz 3D Woodworth ITD, head-shadow ILD, and pinna elevation notch tracking",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1034,
+        "apexResolutionUnits": 1544,
+        "perceptualJndPermille": 4,
+        "fidelityCriteriaSummary": "0..660us physical Woodworth ITD, 5 distinct biome Z=rho*c impulse responses, 8..38 discrete early-reflection taps",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 65536,
+        "maxComputeMicrosPerFrame": 520,
+        "maxLatencyMicros": 10000,
+        "energyBudgetMilliwatts": 50,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Cached per-biome Float32 impulse buffers + zero-GC AudioParam exponential/linear ramps; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.SpatialAcoustics.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/SpatialAcoustics/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "ISO 3382-1:2009 Room Acoustics, Sabine/Eyring Reverberation Law, Allen & Berkley (1979) Image-Source Method, Woodworth & Schlosberg (1954) Spherical-Head ITD/ILD, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 30,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving Woodworth ITD physical bounds, Sabine inverse-absorption decay, early-reflection monotonicity, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/soundscapeEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> ISO 3382 Impulse & Woodworth 3D Binaural Engine -> Web Audio Live Convolver & HRTF",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m18Anamnesis": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 18,
+        "canonicalModelId": "prism/standard-model/anamnesis-merkle-persistence-modular-delivery/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 157,
+        "blake3DigestHead64": 15700650,
+        "blake3DigestTail64": 80000157,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Anamnesis.V1",
+        "canonicalConceptCount": 30,
+        "crossDomainSynonymCount": 13,
+        "taxonomicRelationCount": 20,
+        "keyConceptsSummary": "Content-Addressed Merkle State-DAG Persistence, Lossless Synaptic & Botanical Round-Trip Codec, Schema SemVer Migration, Reversible Sanctuary Reset, Modular Vendor-Split Cold-Load Delivery",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 14,
+        "conservationLawCount": 5,
+        "exportedFeatureChannelMask": 262143,
+        "promisedBehaviorSummary": "Eliminates ephemeral reload amnesia and monolithic cold-load bundles via content-addressed localStorage Merkle state snapshots and modular vendor chunk partitioning",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 10,
+        "typedOutputPortCount": 10,
+        "cloudEventTypeCount": 5,
+        "stateFieldCount": 16,
+        "effectKind": "BoundedStorageCodec+ModularAssetDelivery",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 6,
+        "dependencyModelMask": 14336,
+        "compatiblePartnerMask": 262143,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 22,
+        "compositionSummary": "Persists and restores Neuromorphic Hebbian tables, Universal 10-Domain Manifold weights, Alpha Seed, Diurnal Atmosphere, and Flora Lifecycle states while enforcing Infrastructure cold-load budgets",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 4,
+        "temporalLawSummary": "Debounced event-driven Merkle snapshot commit on attunement/seed/atmosphere shift + instant lossless boot hydration + 1-click Reset clearance",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 32,
+        "baseResolutionUnits": 1026,
+        "apexResolutionUnits": 1416,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0-bit round-trip state drift, verified UOR-FNV64/SHA content digest, <=650kB main app chunk, 20..80 episodic memory horizon",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 16384,
+        "maxComputeMicrosPerFrame": 180,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Event-driven serialization outside 60Hz loop + lazy inspector chunk splitting; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Anamnesis.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Anamnesis/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 5,
+        "adoptedStandardsSummary": "Merkle (1987) Content-Addressed Trees, W3C Web Storage Specification, Semantic Versioning 2.0.0, ISO-25010-2023 Maintainability & Reliability, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 4,
+        "runtimePropertyOracleCount": 12,
+        "acceptanceVectorCount": 28,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "4 Lean 4.32 theorems proving lossless Merkle digest round-trip, episodic horizon monotonicity, modular chunk gate, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/anamnesisEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Content-Addressed Anamnesis Codec & Vite Modular Chunking -> Persistent Browser Sanctuary",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
     },
     "zeroCherryPickedModelsVerified": true,
     "allFourteenModelsAndElevenElementsVerified": true,
+    "allEighteenModelsAndElevenElementsVerified": true,
     "observerSelfKnowledgeComplete": true
   },
   "si2019Metrology": {
@@ -6912,9 +8537,9 @@ export const GENERATED_PRISM_STANDARDS = {
     "electroweakBetaVertexConserved": true
   },
   "functorTransferMatrix": {
-    "registeredModelCount": 14,
-    "directedFunctorCellCount": 196,
-    "crossModelPathwayCount": 182,
+    "registeredModelCount": 18,
+    "directedFunctorCellCount": 324,
+    "crossModelPathwayCount": 306,
     "siDimensionalPortMatchingEnabled": true,
     "stdpSynapticPlasticityEnabled": true,
     "activeInferenceFreeEnergyEnabled": true,
@@ -6980,6 +8605,12 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "acousticsNeuromorphicCouplingHolds",
     "psychoacoustic24BarkMaskingHolds",
     "acousticsDescriptorCompleteHolds"
+  ],
+  "Foundation.Anamnesis.V1.Model": [
+    "losslessMerkleRoundTripAndChunkBudgetHold",
+    "consolidatedMemoryHorizonMonotonicHolds",
+    "anamnesisNeuromorphicCouplingHolds",
+    "anamnesisDescriptorCompleteHolds"
   ],
   "Foundation.Articulation.V1.Model": [
     "articulationVoicesMinimumHolds",
@@ -7056,6 +8687,12 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "functorCompositionIdentityAndAssociativityHolds",
     "fidelityResolutionMonotonicityHolds"
   ],
+  "Foundation.Morphogenesis.V1.Model": [
+    "murrayCubicVascularConservationHolds",
+    "lSystemTopologicalGrowthMonotonicHolds",
+    "morphogenesisNeuromorphicCouplingHolds",
+    "morphogenesisDescriptorCompleteHolds"
+  ],
   "Foundation.Neuromorphic.V1.Model": [
     "hebbianUpperBoundHolds",
     "hebbianBidirectionalBoundsHold",
@@ -7084,11 +8721,23 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "gellMannNishijimaAndHadronConservationHold",
     "physicsDescriptorCompleteHolds"
   ],
+  "Foundation.Realizability.V1.Model": [
+    "zeroRealizationGapAndCounitClosureHolds",
+    "realizabilityDifferentialSensitivityMonotonicHolds",
+    "realizabilityNeuromorphicCouplingHolds",
+    "realizabilityDescriptorCompleteHolds"
+  ],
   "Foundation.Soundtrack.V1.Model": [
     "lifecycleProgressionMonotonicHolds",
     "soundtrackBreathingSilenceGuaranteeHolds",
     "soundtrackNeuromorphicCouplingHolds",
     "soundtrackDescriptorCompleteHolds"
+  ],
+  "Foundation.SpatialAcoustics.V1.Model": [
+    "woodworthItdPhysicalBoundsAndSabineAbsorptionHold",
+    "earlyReflectionTapFidelityMonotonicHolds",
+    "spatialAcousticsNeuromorphicCouplingHolds",
+    "spatialAcousticsDescriptorCompleteHolds"
   ],
   "Foundation.View.Text.V1.Model": [],
   "VerdantResonance": [],

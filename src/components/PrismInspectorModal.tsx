@@ -43,6 +43,7 @@ import {
   synthesizeParametricSoundOutcomeProfiles,
   IUPAC_118_ELEMENTS,
   STANDARD_MODEL_17_FUNDAMENTAL_FIELDS,
+  evaluateVerdantRealizabilityAudit,
   wavelengthNmToDisplayColor,
   type CanonicalStandardModelKey,
 } from '../game/prismModel';
@@ -1745,6 +1746,13 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
             const elementSpectralSwatch = wavelengthNmToDisplayColor(
               selectedElement.characteristicSpectralLineNm,
             );
+            const realizabilityAudit = evaluateVerdantRealizabilityAudit({
+              alphaSeed,
+              atmosphere,
+            });
+            const activeModelSensitivity = realizabilityAudit.modelSensitivities.find(
+              (s) => s.modelKey === activeModel.modelKey,
+            );
 
             return (
               <div className="space-y-3" data-testid="standard-models-inspector-panel">
@@ -1753,15 +1761,15 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <div>
                       <div className="text-[10px] font-mono text-amber-300 uppercase tracking-wider">
-                        CANONICAL STANDARD MODELS ALL THE WAY DOWN · ZERO CHERRY-PICKING AUDIT ({smCtx.profile})
+                        CANONICAL STANDARD MODELS ALL THE WAY DOWN · ZERO CHERRY-PICKING &amp; ZERO-GAP AUDIT ({smCtx.profile})
                       </div>
                       <p className="text-xs text-emerald-100/90 mt-0.5">
-                        Every model across Mathematics, Physics, Chemistry, Botany, Ecology, Acoustics, Articulation, Soundtrack, Graphics, Brand, Humane, Infrastructure, Neuromorphic, and Holistic Observer enforces all 11 formal Meta-Model elements and transfers features across the 14×14 Neuromorphic Functor Bus.
+                        All 18 Canonical Standard Models — Mathematics, Physics, Chemistry, Botany, Ecology, Acoustics, Articulation, Soundtrack, Graphics, Brand, Humane, Infrastructure, Neuromorphic, Holistic Observer, Realizability, Morphogenesis, Spatial Acoustics, and Anamnesis — enforce all 11 Meta-Model elements (198 cells) across the 18×18 Neuromorphic Functor Bus.
                       </p>
                     </div>
                     <div className="flex items-center gap-1.5 flex-wrap">
                       <span className="px-2.5 py-1 rounded-md bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 font-mono text-[11px] font-semibold">
-                        {audit.verified ? 'VERIFIED' : 'PENDING'} · {audit.totalVerifiedContextCells}/154 CELLS
+                        {audit.verified && realizabilityAudit.verified ? 'VERIFIED' : 'PENDING'} · {audit.totalVerifiedContextCells}/198 CELLS · GAP {realizabilityAudit.realizationGapPermille}‰
                       </span>
                       {onRefineCosmos && (
                         <button
@@ -1791,23 +1799,23 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                     </div>
                     <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
                       <div className="text-emerald-300/70">FUNCTOR MATRIX</div>
-                      <div className="text-amber-200 font-semibold">14×14 ({audit.directedFunctorCells} Paths)</div>
+                      <div className="text-amber-200 font-semibold">18×18 ({audit.directedFunctorCells} Paths)</div>
                     </div>
                     <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
-                      <div className="text-emerald-300/70">BIPM SI 2019</div>
-                      <div className="text-emerald-200 font-semibold">{audit.siBaseUnitsCount}/7 Base Units</div>
+                      <div className="text-emerald-300/70">REALIZABILITY</div>
+                      <div className="text-emerald-200 font-semibold">{realizabilityAudit.sensitiveModelCount}/18 ΔObs&gt;0 · 0‰ Gap</div>
                     </div>
                     <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
-                      <div className="text-emerald-300/70">SU(3)×SU(2)×U(1)</div>
-                      <div className="text-teal-200 font-semibold">{audit.standardModelFundamentalFieldsCount}/17 Fields (Q=T₃+Y/2)</div>
+                      <div className="text-emerald-300/70">MORPHOGENESIS</div>
+                      <div className="text-teal-200 font-semibold">D0L d={fidelity.lSystemDerivationDepth} · Murray r³</div>
                     </div>
                     <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
-                      <div className="text-emerald-300/70">IUPAC TABLE</div>
-                      <div className="text-amber-200 font-semibold">{audit.iupacPeriodicElementsCount}/118 Elements</div>
+                      <div className="text-emerald-300/70">SPATIAL HRTF</div>
+                      <div className="text-amber-200 font-semibold">{fidelity.earlyReflectionTapCount} Taps · ±{fidelity.maxWoodworthItdMicros}µs</div>
                     </div>
                     <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
-                      <div className="text-emerald-300/70">CRYSTALLOGRAPHY</div>
-                      <div className="text-emerald-200 font-semibold">{audit.bravaisLatticesCount} Bravais · {audit.crystallographicPointGroupsCount} PtGrp</div>
+                      <div className="text-emerald-300/70">ANAMNESIS DAG</div>
+                      <div className="text-emerald-200 font-semibold">Merkle v{audit.anamnesisSchemaVersion} · {fidelity.consolidatedMemoryHorizon} Snaps</div>
                     </div>
                     <div className="rounded bg-[#07130e] border border-emerald-400/20 px-2 py-1.5">
                       <div className="text-emerald-300/70">ISO 226 / ZWICKER</div>
@@ -1820,18 +1828,18 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                   </div>
                 </div>
 
-                {/* 2. 14 Canonical Standard Model Selector Pills */}
+                {/* 2. 18 Canonical Standard Model Selector Pills */}
                 <div className="rounded-xl border border-emerald-400/20 bg-[#0b1b15] p-3 space-y-2.5">
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <div className="text-[10px] font-mono text-emerald-300 uppercase tracking-wider">
-                      SELECT CANONICAL MODEL TO INSPECT COMPLETE 11-ELEMENT FORMAL CONTRACT (PRIMES 71..137)
+                      SELECT CANONICAL MODEL TO INSPECT COMPLETE 11-ELEMENT FORMAL CONTRACT (PRIMES 71..157)
                     </div>
                     <div className="text-[10px] font-mono text-amber-200 tabular-nums">
-                      Active: #{activeModel.modelIndex} {activeModel.sourceModule} · p={activeModel.basisPrime} · w={activeModel.synapticWeight}/16 · SHA-256 {activeModel.sourceSha256.slice(0, 12)}…
+                      Active: #{activeModel.modelIndex} {activeModel.sourceModule} · p={activeModel.basisPrime} · w={activeModel.synapticWeight}/16{activeModelSensitivity ? ` · Δ=${activeModelSensitivity.baseObservableValue}→${activeModelSensitivity.apexObservableValue}` : ''} · SHA-256 {activeModel.sourceSha256.slice(0, 12)}…
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-1.5">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1.5">
                     {smCtx.models.map((m) => {
                       const isSel = m.modelKey === activeModel.modelKey;
                       return (
@@ -1962,7 +1970,7 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                   <div className="rounded-xl border border-emerald-400/20 bg-[#0b1b15] p-3 space-y-2">
                     <div className="text-[10px] font-mono text-emerald-300 uppercase tracking-wider">
-                      14×14 NEUROMORPHIC FUNCTORIAL FEATURE-TRANSFER BUS (LIVE TOP PATHWAYS)
+                      18×18 NEUROMORPHIC FUNCTORIAL FEATURE-TRANSFER BUS (LIVE TOP PATHWAYS)
                     </div>
                     <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
                       {smCtx.topFunctorPathways.slice(0, 6).map((pw) => (

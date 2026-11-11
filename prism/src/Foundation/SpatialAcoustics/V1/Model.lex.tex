@@ -1,0 +1,202 @@
+\begin{lexlean}{Foundation.SpatialAcoustics.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.MetaModel.V1.Model}
+\importmodule{Foundation.Neuromorphic.V1.Model}
+\importmodule{Foundation.Acoustics.V1.Model}
+\importmodule{Foundation.Physics.V1.Model}
+\importmodule{Foundation.Chemistry.V1.Model}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: Iso3382RoomImpulseSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: biomeDistinctImpulseCount, type: Nat},
+    {name: baseEarlyReflectionTapCount, type: Nat},
+    {name: apexEarlyReflectionTapCount, type: Nat},
+    {name: sabineConstantMillisPerMeter, type: Nat},
+    {name: staticStartupImpulseEliminated, type: Bool},
+    {name: materialImpedanceAbsorptionCoupled, type: Bool}
+  ]
+}
+
+structure{
+  name: WoodworthSphericalHeadHrtfSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: humanHeadRadiusMillimeters, type: Nat},
+    {name: maxInterauralTimeDiffMicros, type: Nat},
+    {name: pinnaElevationNotchMinHz, type: Nat},
+    {name: pinnaElevationNotchMaxHz, type: Nat},
+    {name: threeDimensionalAzimuthElevationEnabled, type: Bool},
+    {name: interauralShadowIldCoupled, type: Bool}
+  ]
+}
+
+structure{
+  name: SpatialAcousticsStandardModel,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: roomImpulse, type: Iso3382RoomImpulseSpec},
+    {name: binauralHrtf, type: WoodworthSphericalHeadHrtfSpec},
+    {name: canonicalDescriptor, type: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor}
+  ]
+}
+
+definition{name: verdantSpatialAcousticsBasisPrime, parameters: [], result: Nat, body: 151}
+
+definition{name: biomeDistinctImpulseTotal, parameters: [], result: Nat, body: 5}
+
+definition{name: humanHeadRadiusMm, parameters: [], result: Nat, body: 88}
+
+definition{name: maxWoodworthItdMicros, parameters: [], result: Nat, body: 660}
+
+definition{
+  name: stepEarlyReflectionTapCount,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (6 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 2 : Nat))
+}
+
+definition{
+  name: stepSabineDecayMillis,
+  parameters: [enclosureVolumeClass : Nat, absorptionClass : Nat, busWeight : Nat],
+  result: Nat,
+  body: (900 + (((prim multiply (if (5 <=? enclosureVolumeClass) then 5 else enclosureVolumeClass) 380 : Nat) + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 35 : Nat)) + (prim subtract 600 (prim multiply (if (5 <=? absorptionClass) then 5 else absorptionClass) 110 : Nat) : Nat)))
+}
+
+definition{
+  name: stepWoodworthItdMicros,
+  parameters: [azimuthDegClamped90 : Nat],
+  result: Nat,
+  body: (let az : Nat := (if (90 <=? azimuthDegClamped90) then 90 else azimuthDegClamped90); (prim multiply az 7 : Nat))
+}
+
+definition{
+  name: stepSpatialAcousticsBusModulation,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 34 : Nat))
+}
+
+definition{
+  name: spatialAcousticsCanonicalDescriptor,
+  parameters: [],
+  result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 17 "prism/standard-model/spatial-acoustics-iso3382-woodworth-hrtf/1" 1 0 0 (verdantSpatialAcousticsBasisPrime) 15103382 66000151 "Foundation.SpatialAcoustics.V1" 34 15 22 "ISO 3382-1 Sabine/Eyring Reverberation T60, Allen-Berkley Image-Source Early Reflections, Acoustic Impedance Z=rho*c, Woodworth-Schlosberg Spherical-Head ITD, Head-Shadow High-Shelf ILD, Pinna Elevation Spectral Notch" 16 5 262143 "Replaces static reverb and 1D stereo panning with biome-material ISO 3382 image-source impulse synthesis and full 3D Woodworth-Schlosberg binaural ITD/ILD/elevation spatialization" 12 12 6 20 "BoundedWebAudioConvolverAndBinauralGraph" 15 17 17 16 16 16 16 5 39 262143 0 24 "Consumes Physics wave speed & monument colliders, Chemistry Bravais/IUPAC mineral acoustic impedance Z=rho*c, and Acoustics ISO 226/Bark curves to spatialize all flora and environmental voices in 3D" 2 16667 5 "Biome-transition ISO 3382 impulse re-synthesis + 60Hz 3D Woodworth ITD, head-shadow ILD, and pinna elevation notch tracking" 32 1034 1544 4 "0..660us physical Woodworth ITD, 5 distinct biome Z=rho*c impulse responses, 8..38 discrete early-reflection taps" 65536 520 10000 50 0 "Cached per-biome Float32 impulse buffers + zero-GC AudioParam exponential/linear ramps; 0 per-frame heap allocations" "Foundation.SpatialAcoustics.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/SpatialAcoustics/V1/Model.lex.tex" 5 "ISO 3382-1:2009 Room Acoustics, Sabine/Eyring Reverberation Law, Allen & Berkley (1979) Image-Source Method, Woodworth & Schlosberg (1954) Spherical-Head ITD/ILD, LEAN-REL-4-32-1" 4 14 30 0 "4 Lean 4.32 theorems proving Woodworth ITD physical bounds, Sabine inverse-absorption decay, early-reflection monotonicity, and 11-element completeness" 4 63 "src/game/soundscapeEngine.ts" "LexLean 1.2 -> AST Extractor -> ISO 3382 Impulse & Woodworth 3D Binaural Engine -> Web Audio Live Convolver & HRTF")
+}
+
+definition{
+  name: verdantSpatialAcousticsStandard,
+  parameters: [],
+  result: SpatialAcousticsStandardModel,
+  body: (record SpatialAcousticsStandardModel {profile := "prism/spatial-acoustics-standard/1", roomImpulse := (record Iso3382RoomImpulseSpec {biomeDistinctImpulseCount := (biomeDistinctImpulseTotal), baseEarlyReflectionTapCount := (stepEarlyReflectionTapCount 1), apexEarlyReflectionTapCount := (stepEarlyReflectionTapCount 16), sabineConstantMillisPerMeter := 161, staticStartupImpulseEliminated := ((stepSabineDecayMillis 1 4 8) <? (stepSabineDecayMillis 5 1 8)), materialImpedanceAbsorptionCoupled := ((stepSabineDecayMillis 3 4 8) <? (stepSabineDecayMillis 3 1 8))}), binauralHrtf := (record WoodworthSphericalHeadHrtfSpec {humanHeadRadiusMillimeters := (humanHeadRadiusMm), maxInterauralTimeDiffMicros := (maxWoodworthItdMicros), pinnaElevationNotchMinHz := 5800, pinnaElevationNotchMaxHz := 10800, threeDimensionalAzimuthElevationEnabled := ((stepWoodworthItdMicros 45) <=? (maxWoodworthItdMicros)), interauralShadowIldCoupled := ((stepWoodworthItdMicros 0) <? (stepWoodworthItdMicros 60))}), canonicalDescriptor := (spatialAcousticsCanonicalDescriptor)})
+}
+
+definition{
+  name: breaksWoodworthItdAndSabineAbsorption,
+  parameters: [azimuthDeg : Nat, volClass : Nat, busWeight : Nat],
+  result: Bool,
+  body: (((maxWoodworthItdMicros) <? (stepWoodworthItdMicros azimuthDeg)) || ((stepSabineDecayMillis volClass 1 busWeight) <=? (stepSabineDecayMillis volClass 4 busWeight)))
+}
+
+theorem{
+  name: woodworthItdPhysicalBoundsAndSabineAbsorptionHold,
+  parameters: [azimuthDeg : Nat, volClass : Nat, busWeight : Nat],
+  statement: ((breaksWoodworthItdAndSabineAbsorption azimuthDeg volClass busWeight) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksWoodworthItdAndSabineAbsorption,
+      maxWoodworthItdMicros,
+      stepSabineDecayMillis,
+      stepWoodworthItdMicros
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksEarlyReflectionTapFidelityMonotonic,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: (let wNext : Nat := (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true); ((((Foundation.Neuromorphic.V1.Model::weightMin) <=? busWeight) && (busWeight <? (Foundation.Neuromorphic.V1.Model::weightMax))) && ((stepEarlyReflectionTapCount wNext) <=? (stepEarlyReflectionTapCount busWeight))))
+}
+
+theorem{
+  name: earlyReflectionTapFidelityMonotonicHolds,
+  parameters: [busWeight : Nat],
+  statement: ((breaksEarlyReflectionTapFidelityMonotonic busWeight) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksEarlyReflectionTapFidelityMonotonic,
+      stepEarlyReflectionTapCount
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksSpatialAcousticsNeuromorphicCoupling,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: (((stepSpatialAcousticsBusModulation busWeight) <? 1034) || ((1544 <? (stepSpatialAcousticsBusModulation busWeight)) || ((stepSpatialAcousticsBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <? (stepSpatialAcousticsBusModulation busWeight))))
+}
+
+theorem{
+  name: spatialAcousticsNeuromorphicCouplingHolds,
+  parameters: [busWeight : Nat],
+  statement: ((breaksSpatialAcousticsNeuromorphicCoupling busWeight) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksSpatialAcousticsNeuromorphicCoupling,
+      stepSpatialAcousticsBusModulation
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksSpatialAcousticsDescriptorComplete,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: ((probe =? 0) && (not (Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete (spatialAcousticsCanonicalDescriptor))))
+}
+
+theorem{
+  name: spatialAcousticsDescriptorCompleteHolds,
+  parameters: [probe : Nat],
+  statement: ((breaksSpatialAcousticsDescriptorComplete probe) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
+      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
+      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
+      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
+      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
+      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
+      breaksSpatialAcousticsDescriptorComplete,
+      spatialAcousticsCanonicalDescriptor,
+      verdantSpatialAcousticsBasisPrime
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

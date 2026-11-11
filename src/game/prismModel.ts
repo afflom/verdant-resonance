@@ -25,6 +25,7 @@ import {
   evaluateHolisticObserverStandardModelContext,
   type HolisticObserverStandardModelContext,
 } from './neuromorphicFunctorBus';
+import type { VerdantAnamnesisPayload } from './anamnesisEngine';
 import { wavelengthNmToDisplayColor } from './spectralColorEngine';
 import {
   FOURTEEN_BRAVAIS_LATTICES,
@@ -38,6 +39,8 @@ import {
 export * from './standardModelEngine';
 export * from './spectralColorEngine';
 export * from './neuromorphicFunctorBus';
+export * from './anamnesisEngine';
+export * from './realizabilityEngine';
 
 export {
   GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS,
@@ -12498,6 +12501,68 @@ export function createInitialNeuromorphicState(alphaSeed = 1): NeuromorphicEngin
 }
 
 /**
+ * Hydrates a complete `NeuromorphicEngineState` from a verified `VerdantAnamnesisPayload`
+ * (`Foundation.Anamnesis.V1.Model`, Prime `157`) with exact 10-domain synaptic weights,
+ * cross-domain refinement directives, and 18x11 Holistic Observer context.
+ */
+export function restoreNeuromorphicStateFromAnamnesis(
+  payload: VerdantAnamnesisPayload,
+): NeuromorphicEngineState {
+  const base = createInitialNeuromorphicState(payload.alphaSeed);
+  const nextDomains = { ...base.universalManifold.domains };
+  let fidelitySum = 0;
+  let weightSum = 0;
+  let consolidatedDomainCount = 0;
+
+  for (const domainId of PRISM_DOMAIN_ORDER) {
+    const prevNode = nextDomains[domainId];
+    const savedWeight = Math.max(
+      1,
+      Math.min(16, Math.round(payload.domainWeights10[domainId] ?? prevNode.synapticWeight)),
+    );
+    const fidelityMultiplier = computeDomainFidelityMultiplier(savedWeight);
+    const consolidated =
+      savedWeight >= VERDANT_NEUROMORPHIC_STANDARD.plasticity.consolidationThreshold;
+    if (consolidated) consolidatedDomainCount++;
+    fidelitySum += fidelityMultiplier;
+    weightSum += savedWeight;
+    nextDomains[domainId] = {
+      ...prevNode,
+      synapticWeight: savedWeight,
+      fidelityMultiplier,
+      consolidated,
+    };
+  }
+
+  const universalManifold: UniversalNeuromorphicManifold = {
+    ...base.universalManifold,
+    domains: nextDomains,
+    globalFidelityIndex: Number((fidelitySum / PRISM_DOMAIN_ORDER.length).toFixed(4)),
+    consolidatedDomainCount,
+  };
+  const refinementDirectives = computeCrossDomainRefinementDirectives(universalManifold);
+  const observer = evaluateHolisticObserverState({
+    manifold: universalManifold,
+    tickCount: payload.episodicHorizon.length,
+    rule30History: base.rule30History,
+    alphaSeed: clampAlphaSeed(payload.alphaSeed),
+    atmosphere: payload.atmosphere,
+  });
+
+  return {
+    ...base,
+    tickCount: payload.episodicHorizon.length,
+    lastActiveSynapticWeight: Math.max(
+      1,
+      Math.min(16, Math.round(weightSum / PRISM_DOMAIN_ORDER.length)),
+    ),
+    universalManifold,
+    refinementDirectives,
+    observer,
+  };
+}
+
+/**
  * Executes a full 7-Stage Neuromorphic Synthesis Tick (`afflom/rule30` + `casey-allard/lexlean-r4` + Universal Cross-Domain Bus)
  * live as the user plays:
  * 1. Induction: Encodes the player's spatial & botanical gesture into `/5` Basin, `/6` Icosian Root, and `/7` PrimeAddress.
@@ -14189,7 +14254,7 @@ function verifyObserverRuntimeInvariants(obs: HolisticObserverState): boolean {
     obs.affectAndPreferences.affect.permeatesAllElevenParts &&
     Object.keys(obs.affectAndPreferences.preferences).length === 6 &&
     obs.canonicalStandardModelsContext.zeroCherryPickingAudit.verified &&
-    obs.canonicalStandardModelsContext.zeroCherryPickingAudit.totalVerifiedContextCells === 154
+    obs.canonicalStandardModelsContext.zeroCherryPickingAudit.totalVerifiedContextCells === 198
   );
 }
 

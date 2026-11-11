@@ -807,6 +807,26 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
       'Foundation.Graphics.V1.Model',
       modules,
     ),
+    realizability: evaluateLexExpr(
+      'verdantRealizabilityStandard',
+      'Foundation.Realizability.V1.Model',
+      modules,
+    ),
+    morphogenesis: evaluateLexExpr(
+      'verdantMorphogenesisStandard',
+      'Foundation.Morphogenesis.V1.Model',
+      modules,
+    ),
+    spatialAcoustics: evaluateLexExpr(
+      'verdantSpatialAcousticsStandard',
+      'Foundation.SpatialAcoustics.V1.Model',
+      modules,
+    ),
+    anamnesis: evaluateLexExpr(
+      'verdantAnamnesisStandard',
+      'Foundation.Anamnesis.V1.Model',
+      modules,
+    ),
     holisticObserverRegistry: evaluateLexExpr(
       'verdantHolisticObserverRegistry',
       'Foundation.Cosmogenesis.V1.Model',
@@ -906,16 +926,34 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     graphics: Number(
       evaluateLexExpr('verdantGraphicsBasisPrime', 'Foundation.Graphics.V1.Model', modules),
     ),
+    realizability: Number(
+      evaluateLexExpr('verdantRealizabilityBasisPrime', 'Foundation.Realizability.V1.Model', modules),
+    ),
+    morphogenesis: Number(
+      evaluateLexExpr('verdantMorphogenesisBasisPrime', 'Foundation.Morphogenesis.V1.Model', modules),
+    ),
+    spatialAcoustics: Number(
+      evaluateLexExpr(
+        'verdantSpatialAcousticsBasisPrime',
+        'Foundation.SpatialAcoustics.V1.Model',
+        modules,
+      ),
+    ),
+    anamnesis: Number(
+      evaluateLexExpr('verdantAnamnesisBasisPrime', 'Foundation.Anamnesis.V1.Model', modules),
+    ),
   };
 
-  const expectedConsecutivePrimes = [71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137];
+  const expectedConsecutivePrimes = [
+    71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157,
+  ];
   const actualSortedPrimes = Object.values(canonicalModelBasisPrimes).slice().sort((a, b) => a - b);
   if (
     actualSortedPrimes.length !== expectedConsecutivePrimes.length ||
     actualSortedPrimes.some((p, idx) => p !== expectedConsecutivePrimes[idx])
   ) {
     throw new Error(
-      `Canonical 14-model UOR prime basis mismatch: expected consecutive primes [71..137], got [${actualSortedPrimes.join(', ')}]`,
+      `Canonical 18-model UOR prime basis mismatch: expected consecutive primes [71..157], got [${actualSortedPrimes.join(', ')}]`,
     );
   }
 
@@ -927,12 +965,12 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
   );
   if (
     !canonicalAllTheWayDownVerified ||
-    !standards.holisticObserverRegistry.allFourteenModelsAndElevenElementsVerified ||
+    !standards.holisticObserverRegistry.allEighteenModelsAndElevenElementsVerified ||
     !standards.holisticObserverRegistry.zeroCherryPickedModelsVerified ||
     !standards.holisticObserverRegistry.observerSelfKnowledgeComplete
   ) {
     throw new Error(
-      'Canonical 14x11 Standard Model completeness verification failed during AST extraction!',
+      'Canonical 18x11 Standard Model completeness verification failed during AST extraction!',
     );
   }
 
@@ -1012,14 +1050,38 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     {
       registryField: 'm13NeuromorphicBus',
       modelKey: 'neuromorphic',
-      displayName: 'Neuromorphic Bus (14x14 Functorial Feature-Transfer Matrix + STDP + Active Inference)',
+      displayName: 'Neuromorphic Bus (18x18 Functorial Feature-Transfer Matrix + STDP + Active Inference)',
       sourceModule: 'Foundation.Neuromorphic.V1.Model',
     },
     {
       registryField: 'm14ObserverCosmogenesis',
       modelKey: 'cosmogenesis',
-      displayName: 'Holistic Observer & Cosmogenesis (Complete 14x11 Context = 154 Cells + Alpha-Omega)',
+      displayName: 'Holistic Observer & Cosmogenesis (Complete 18x11 Context = 198 Cells + Alpha-Omega)',
       sourceModule: 'Foundation.Cosmogenesis.V1.Model',
+    },
+    {
+      registryField: 'm15Realizability',
+      modelKey: 'realizability',
+      displayName: 'Realizability (Spec-to-Runtime Galois Adjunction + Non-Zero Sensitivity + Zero-Stub Oracle)',
+      sourceModule: 'Foundation.Realizability.V1.Model',
+    },
+    {
+      registryField: 'm16Morphogenesis',
+      modelKey: 'morphogenesis',
+      displayName: 'Morphogenesis (Parametric L-System Ontogeny + Murray r^3 Vascular Law + Turing Phyllotaxis)',
+      sourceModule: 'Foundation.Morphogenesis.V1.Model',
+    },
+    {
+      registryField: 'm17SpatialAcoustics',
+      modelKey: 'spatialAcoustics',
+      displayName: 'Spatial Acoustics (ISO 3382 Image-Source Impulse + Z=rho*c Absorption + 3D Woodworth HRTF)',
+      sourceModule: 'Foundation.SpatialAcoustics.V1.Model',
+    },
+    {
+      registryField: 'm18Anamnesis',
+      modelKey: 'anamnesis',
+      displayName: 'Anamnesis (Content-Addressed Merkle State-DAG Persistence + Modular Cold-Load Delivery)',
+      sourceModule: 'Foundation.Anamnesis.V1.Model',
     },
   ] as const;
 
@@ -1171,6 +1233,80 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         evaluateLexExpr(
           `stepGraphicsBusModulation ${w}`,
           'Foundation.Graphics.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    realizability: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepRealizabilityBusModulation ${w}`,
+          'Foundation.Realizability.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    morphogenesis: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepMorphogenesisBusModulation ${w}`,
+          'Foundation.Morphogenesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    spatialAcoustics: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepSpatialAcousticsBusModulation ${w}`,
+          'Foundation.SpatialAcoustics.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    anamnesis: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepAnamnesisBusModulation ${w}`,
+          'Foundation.Anamnesis.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    realizabilitySensitivityPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepRealizabilitySensitivityPermille ${w}`,
+          'Foundation.Realizability.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    lSystemDerivationDepthByStage: [0, 1, 2, 3, 4].map((stageIdx) =>
+      weightDomain.map((w) =>
+        Number(
+          evaluateLexExpr(
+            `stepLSystemDerivationDepth ${stageIdx} ${w}`,
+            'Foundation.Morphogenesis.V1.Model',
+            modules,
+          ),
+        ),
+      ),
+    ),
+    earlyReflectionTapCount: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepEarlyReflectionTapCount ${w}`,
+          'Foundation.SpatialAcoustics.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    consolidatedMemoryHorizon: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepConsolidatedMemoryHorizon ${w}`,
+          'Foundation.Anamnesis.V1.Model',
           modules,
         ),
       ),

@@ -218,6 +218,303 @@ export function computeMaterialChladniModalRatios(
   return out;
 }
 
+// ============================================================================
+// CANONICAL 3D SPATIAL ACOUSTICS: ISO 3382 ROOM IMPULSE & WOODWORTH HRTF
+// (`Foundation.SpatialAcoustics.V1.Model`, Model #17, Basis Prime `151`)
+// ============================================================================
+
+export interface EarlyReflectionTapSpec {
+  readonly tapIndex: number;
+  readonly delaySeconds: number;
+  readonly gainLeft: number;
+  readonly gainRight: number;
+  readonly reflectionOrder: 1 | 2 | 3;
+}
+
+export interface Iso3382BiomeRoomAcousticsProfile {
+  readonly biome: BiomeId;
+  readonly enclosureVolumeM3: number;
+  readonly boundarySurfaceAreaM2: number;
+  readonly mineralDensityKgPerM3: number;
+  readonly longitudinalWaveSpeedMPerS: number;
+  readonly specificAcousticImpedanceMRayl: number;
+  readonly sabineMeanAbsorptionAlpha: number;
+  readonly sabineReverbT60Seconds: number;
+  readonly eyringReverbT60Seconds: number;
+  readonly earlyReflectionTapCount: number;
+  readonly earlyReflections: readonly EarlyReflectionTapSpec[];
+}
+
+const BIOME_ACOUSTIC_ENCLOSURE_TABLE: Readonly<
+  Record<
+    BiomeId,
+    {
+      readonly volumeM3: number;
+      readonly surfaceAreaM2: number;
+      readonly densityKgM3: number;
+      readonly waveSpeedMS: number;
+      readonly canopySkyOpennessAlpha: number;
+      readonly firstWallDistMeters: number;
+    }
+  >
+> = {
+  meadow: {
+    volumeM3: 2400,
+    surfaceAreaM2: 1180,
+    densityKgM3: 2510, // CaCO3 travertine plinth
+    waveSpeedMS: 4950,
+    canopySkyOpennessAlpha: 0.31,
+    firstWallDistMeters: 4.8,
+  },
+  grove: {
+    volumeM3: 3200,
+    surfaceAreaM2: 1420,
+    densityKgM3: 1180, // Silicified bamboo lignocellulose
+    waveSpeedMS: 4320,
+    canopySkyOpennessAlpha: 0.23,
+    firstWallDistMeters: 3.6,
+  },
+  crystal: {
+    volumeM3: 5400,
+    surfaceAreaM2: 1560,
+    densityKgM3: 2650, // SiO2 alpha-quartz geode spires
+    waveSpeedMS: 5987,
+    canopySkyOpennessAlpha: 0.178,
+    firstWallDistMeters: 4.2,
+  },
+  wetland: {
+    volumeM3: 3900,
+    surfaceAreaM2: 1480,
+    densityKgM3: 1980, // Water meniscus + CaCO3 tufa piers
+    waveSpeedMS: 3680,
+    canopySkyOpennessAlpha: 0.205,
+    firstWallDistMeters: 5.4,
+  },
+  sanctuary: {
+    volumeM3: 4800,
+    surfaceAreaM2: 1620,
+    densityKgM3: 2720, // Travertine + CuSnAu harmonic bronze colonnade
+    waveSpeedMS: 5420,
+    canopySkyOpennessAlpha: 0.185,
+    firstWallDistMeters: 5.1,
+  },
+};
+
+/**
+ * Evaluates ISO 3382-1 Sabine (`T_60 = 0.161 V / (S * alpha)`) & Eyring reverberation
+ * plus Allen–Berkley discrete image-source early reflections coupled to IUPAC/Bravais
+ * material acoustic impedance `Z = rho * c` across all 5 distinct biomes.
+ */
+export function computeIso3382BiomeRoomAcoustics(
+  biome: BiomeId,
+  earlyReflectionTapCount = 22,
+): Iso3382BiomeRoomAcousticsProfile {
+  const spec = BIOME_ACOUSTIC_ENCLOSURE_TABLE[biome] ?? BIOME_ACOUSTIC_ENCLOSURE_TABLE.sanctuary;
+  const tapCount = Math.max(8, Math.min(38, Math.round(earlyReflectionTapCount)));
+  const cAir = 343.2;
+  const zAirMRayl = 0.000413; // 1.204 kg/m³ * 343.2 m/s = 413 Rayl = 0.000413 MRayl
+  const zMineralMRayl = (spec.densityKgM3 * spec.waveSpeedMS) / 1e6;
+
+  // Material impedance specular reflection modified by open-air canopy/sky absorption
+  const impedanceReflectance = (zMineralMRayl - zAirMRayl) / (zMineralMRayl + zAirMRayl);
+  const alpha = Math.max(
+    0.11,
+    Math.min(0.45, spec.canopySkyOpennessAlpha + (1 - impedanceReflectance * impedanceReflectance)),
+  );
+  const sabineT60 = Math.max(
+    0.95,
+    Math.min(3.35, (0.161 * spec.volumeM3) / (spec.surfaceAreaM2 * alpha)),
+  );
+  const eyringDenom = -spec.surfaceAreaM2 * Math.log(Math.max(0.05, 1 - alpha));
+  const eyringT60 = Math.max(0.88, Math.min(3.25, (0.161 * spec.volumeM3) / Math.max(1, eyringDenom)));
+
+  const wallReflectGain = Math.sqrt(Math.max(0.1, 1 - alpha));
+  const earlyReflections: EarlyReflectionTapSpec[] = [];
+  const goldenRatio = 1.61803398875;
+
+  for (let k = 0; k < tapCount; k++) {
+    const order: 1 | 2 | 3 = k < tapCount * 0.35 ? 1 : k < tapCount * 0.72 ? 2 : 3;
+    const pathMeters =
+      spec.firstWallDistMeters * (1 + k * 0.42 + ((k * 7) % 5) * 0.19) * (0.85 + order * 0.22);
+    const delaySeconds = Number((pathMeters / cAir).toFixed(5));
+    const sphericalSpread = 1 / (1 + pathMeters * 0.085);
+    const orderReflectance = Math.pow(wallReflectGain, order);
+    const baseAmp = 0.42 * sphericalSpread * orderReflectance;
+    const stereoAngle = (k * goldenRatio * Math.PI * 2) % (Math.PI * 2);
+    const panBias = Math.sin(stereoAngle);
+    earlyReflections.push({
+      tapIndex: k,
+      delaySeconds,
+      gainLeft: Number((baseAmp * Math.sqrt(0.5 * (1 - panBias * 0.78))).toFixed(5)),
+      gainRight: Number((baseAmp * Math.sqrt(0.5 * (1 + panBias * 0.78))).toFixed(5)),
+      reflectionOrder: order,
+    });
+  }
+
+  return {
+    biome,
+    enclosureVolumeM3: spec.volumeM3,
+    boundarySurfaceAreaM2: spec.surfaceAreaM2,
+    mineralDensityKgPerM3: spec.densityKgM3,
+    longitudinalWaveSpeedMPerS: spec.waveSpeedMS,
+    specificAcousticImpedanceMRayl: Number(zMineralMRayl.toFixed(3)),
+    sabineMeanAbsorptionAlpha: Number(alpha.toFixed(4)),
+    sabineReverbT60Seconds: Number(sabineT60.toFixed(3)),
+    eyringReverbT60Seconds: Number(eyringT60.toFixed(3)),
+    earlyReflectionTapCount: tapCount,
+    earlyReflections,
+  };
+}
+
+/**
+ * Pure stereo impulse-response synthesizer combining discrete Allen–Berkley image-source
+ * early reflections (`0..180 ms`) with an ISO 3382 Sabine `-60 dB` (`exp(-6.9078 * t / T60)`)
+ * late diffuse reverberation tail.
+ */
+export function synthesizeIso3382ImpulseChannels(
+  biome: BiomeId,
+  sampleRate = 44100,
+  earlyReflectionTapCount = 22,
+): {
+  readonly profile: Iso3382BiomeRoomAcousticsProfile;
+  readonly left: Float32Array;
+  readonly right: Float32Array;
+} {
+  const profile = computeIso3382BiomeRoomAcoustics(biome, earlyReflectionTapCount);
+  const durationSec = Math.max(1.1, Math.min(3.2, profile.sabineReverbT60Seconds * 0.92));
+  const length = Math.max(1024, Math.floor(sampleRate * durationSec));
+  const left = new Float32Array(length);
+  const right = new Float32Array(length);
+
+  // 1. Stamp discrete Allen-Berkley image-source early reflection spikes
+  for (let tIdx = 0; tIdx < profile.earlyReflections.length; tIdx++) {
+    const tap = profile.earlyReflections[tIdx];
+    const sampleIdx = Math.min(length - 1, Math.max(1, Math.round(tap.delaySeconds * sampleRate)));
+    const polarity = tIdx % 2 === 0 ? 1 : -1;
+    left[sampleIdx] += tap.gainLeft * polarity;
+    right[sampleIdx] += tap.gainRight * polarity;
+  }
+
+  // 2. Layer exponentially decaying ISO 3382 Sabine diffuse tail (`-60 dB` at `t = T60`)
+  const decayRate = 6.907755 / Math.max(0.5, profile.sabineReverbT60Seconds);
+  const biomeSeedOffset =
+    biome === 'meadow'
+      ? 101
+      : biome === 'grove'
+        ? 211
+        : biome === 'crystal'
+          ? 307
+          : biome === 'wetland'
+            ? 401
+            : 503;
+
+  for (let ch = 0; ch < 2; ch++) {
+    const out = ch === 0 ? left : right;
+    let seed = (ch === 0 ? 13579 : 24680) ^ (biomeSeedOffset * 7919);
+    for (let i = 0; i < length; i++) {
+      seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+      const white = (seed / 4294967296) * 2 - 1;
+      const tSec = i / sampleRate;
+      const buildUp = 1 - Math.exp(-tSec / 0.022);
+      const sabineDecay = Math.exp(-decayRate * tSec);
+      out[i] += white * buildUp * sabineDecay * 0.28;
+    }
+  }
+
+  return { profile, left, right };
+}
+
+export interface Woodworth3DBinauralCue {
+  readonly azimuthRad: number;
+  readonly elevationRad: number;
+  readonly distance3DMeters: number;
+  readonly interauralTimeDiffMicros: number; // [-660, +660] µs (positive = source on right, delay left ear)
+  readonly leftDelaySeconds: number;
+  readonly rightDelaySeconds: number;
+  readonly interauralLevelDiffDb: number; // High-frequency head-shadow ILD
+  readonly leftHighShelfDb: number;
+  readonly rightHighShelfDb: number;
+  readonly pinnaElevationNotchHz: number; // 5800..10800 Hz Shaw/Blauert concha elevation cue
+  readonly stereoPan: number; // [-1, +1] compatible stereo pan
+}
+
+/**
+ * Woodworth & Schlosberg (1954) 3D Spherical-Head Binaural Spatializer:
+ * - Computes 3D azimuth `θ` and 3D elevation `φ` relative to player 3D head pose `(x, y, z, yaw, pitch)`
+ * - Computes physical interaural time difference `ITD = (r_head / c) * (|θ|_eff + sin|θ|_eff)` in `[-660, +660] µs`
+ * - Computes Rayleigh/Woodworth high-frequency head-shadow ILD (`dB`)
+ * - Computes Shaw/Blauert pinna concha spectral notch (`5800..10800 Hz`) encoding vertical elevation!
+ */
+export function computeWoodworth3DBinauralSpatializer(params: {
+  readonly listenerX: number;
+  readonly listenerY: number;
+  readonly listenerZ: number;
+  readonly listenerYaw: number;
+  readonly listenerPitch?: number;
+  readonly sourceX: number;
+  readonly sourceY: number;
+  readonly sourceZ: number;
+  readonly headRadiusMeters?: number;
+}): Woodworth3DBinauralCue {
+  const dx = params.sourceX - params.listenerX;
+  const dy = params.sourceY - params.listenerY;
+  const dz = params.sourceZ - params.listenerZ;
+  const horizDist = Math.hypot(dx, dz);
+  const dist3D = Math.max(0.05, Math.hypot(dx, dy, dz));
+
+  // Forward unit vector in Three.js camera convention: `(-sin(yaw), 0, -cos(yaw))`, Right: `(cos(yaw), 0, -sin(yaw))`
+  const cosYaw = Math.cos(params.listenerYaw);
+  const sinYaw = Math.sin(params.listenerYaw);
+  const localRight = dx * cosYaw - dz * sinYaw;
+  const localForward = -dx * sinYaw - dz * cosYaw;
+
+  const azimuthRad = horizDist < 1e-5 ? 0 : Math.atan2(localRight, localForward);
+  const worldElevRad = Math.atan2(dy, Math.max(0.05, horizDist));
+  const elevationRad = Math.max(
+    -Math.PI / 2,
+    Math.min(Math.PI / 2, worldElevRad - (params.listenerPitch ?? 0)),
+  );
+
+  // Lateral angle `alpha` from median sagittal plane: `sin(alpha) = localRight / dist3D`
+  const sinLateral = Math.max(-1, Math.min(1, localRight / dist3D));
+  const absLateral = Math.asin(Math.abs(sinLateral));
+  const rHead = Math.max(0.075, Math.min(0.105, params.headRadiusMeters ?? 0.088)); // 88mm canonical head radius
+  const cAir = 343.2;
+
+  // Woodworth formula: `ITD = (r / c) * (alpha + sin(alpha))`, clamped physically to `[-660, +660] µs`
+  const rawItdMicros = ((rHead / cAir) * (absLateral + Math.sin(absLateral)) * 1e6);
+  const signedItdMicros = Math.max(
+    -660,
+    Math.min(660, (sinLateral >= 0 ? 1 : -1) * rawItdMicros),
+  );
+  const absDelaySec = Math.abs(signedItdMicros) * 1e-6;
+  const leftDelaySeconds = signedItdMicros > 0 ? absDelaySec : 0;
+  const rightDelaySeconds = signedItdMicros < 0 ? absDelaySec : 0;
+
+  // High-frequency acoustic head-shadow ILD (`~8.5 dB` max across 2.5kHz+ shelf)
+  const ildDb = Number((sinLateral * 8.5 * Math.cos(elevationRad * 0.5)).toFixed(3));
+  const leftHighShelfDb = Number((-ildDb * 0.5).toFixed(3));
+  const rightHighShelfDb = Number((ildDb * 0.5).toFixed(3));
+
+  // Pinna concha elevation spectral notch (`5800 Hz` below horizon -> `8300 Hz` eye level -> `10800 Hz` overhead)
+  const elevNorm01 = Math.max(0, Math.min(1, (elevationRad + Math.PI / 3) / ((2 * Math.PI) / 3)));
+  const pinnaElevationNotchHz = Math.round(5800 + elevNorm01 * 5000);
+
+  return {
+    azimuthRad: Number(azimuthRad.toFixed(5)),
+    elevationRad: Number(elevationRad.toFixed(5)),
+    distance3DMeters: Number(dist3D.toFixed(4)),
+    interauralTimeDiffMicros: Number(signedItdMicros.toFixed(2)),
+    leftDelaySeconds: Number(leftDelaySeconds.toFixed(6)),
+    rightDelaySeconds: Number(rightDelaySeconds.toFixed(6)),
+    interauralLevelDiffDb: ildDb,
+    leftHighShelfDb,
+    rightHighShelfDb,
+    pinnaElevationNotchHz,
+    stereoPan: Number(Math.max(-0.92, Math.min(0.92, sinLateral * 0.92)).toFixed(4)),
+  };
+}
+
 export class BotanicalSoundscapeEngine {
   private ctx: AudioContext | null = null;
   private masterGain: GainNode | null = null;
@@ -226,6 +523,12 @@ export class BotanicalSoundscapeEngine {
   private reverbReturnGain: GainNode | null = null;
   private delaySendBus: GainNode | null = null;
   private stereoPanner: StereoPannerNode | null = null;
+  private pinnaNotchFilter: BiquadFilterNode | null = null;
+  private itdDelayL: DelayNode | null = null;
+  private itdDelayR: DelayNode | null = null;
+  private headShadowShelfL: BiquadFilterNode | null = null;
+  private headShadowShelfR: BiquadFilterNode | null = null;
+  private readonly biomeImpulseCache = new Map<string, AudioBuffer>();
 
   private windGain: GainNode | null = null;
   private windFilter: BiquadFilterNode | null = null;
@@ -234,6 +537,7 @@ export class BotanicalSoundscapeEngine {
   private isPaused = false;
   private currentBiome: BiomeId = 'meadow';
   private currentPan = 0;
+  private lastBinauralCue: Woodworth3DBinauralCue | null = null;
   private lastNearestDistanceMeters = 2.0;
   private lastAcousticOcclusion = 0;
   private lastFootstepDist = 0;
@@ -256,6 +560,7 @@ export class BotanicalSoundscapeEngine {
   private readonly barkScratchBuffer = new Float32Array(24);
   private liveBarkHeadroomDb = 3.5;
   private liveModalPartialsPerVoice = 5;
+  private liveEarlyReflectionTapCount = 22;
   private livePrimeLimitCeiling: 5 | 7 | 11 = 5;
 
   // 16-band energy array for zero-allocation HUD acoustic visualization
@@ -290,18 +595,59 @@ export class BotanicalSoundscapeEngine {
       this.masterGain.connect(this.compressor);
       this.compressor.connect(this.ctx.destination);
 
-      // Binaural Stereo Panner for spatial flora localization
+      // 3D Woodworth-Schlosberg Binaural Spatializer (`Foundation.SpatialAcoustics.V1.Model`):
+      // stereoPanner -> pinnaNotchFilter -> [ITD Delay L/R + Head-Shadow Shelf L/R] -> masterGain
       if (typeof this.ctx.createStereoPanner === 'function') {
         this.stereoPanner = this.ctx.createStereoPanner();
         this.stereoPanner.pan.value = 0;
-        this.stereoPanner.connect(this.masterGain);
+
+        this.pinnaNotchFilter = this.ctx.createBiquadFilter();
+        this.pinnaNotchFilter.type = 'peaking';
+        this.pinnaNotchFilter.frequency.value = 8200;
+        this.pinnaNotchFilter.Q.value = 3.6;
+        this.pinnaNotchFilter.gain.value = -4.2;
+
+        if (
+          typeof this.ctx.createChannelSplitter === 'function' &&
+          typeof this.ctx.createChannelMerger === 'function'
+        ) {
+          const splitter = this.ctx.createChannelSplitter(2);
+          const merger = this.ctx.createChannelMerger(2);
+          this.itdDelayL = this.ctx.createDelay(0.01);
+          this.itdDelayR = this.ctx.createDelay(0.01);
+          this.itdDelayL.delayTime.value = 0;
+          this.itdDelayR.delayTime.value = 0;
+
+          this.headShadowShelfL = this.ctx.createBiquadFilter();
+          this.headShadowShelfR = this.ctx.createBiquadFilter();
+          this.headShadowShelfL.type = 'highshelf';
+          this.headShadowShelfR.type = 'highshelf';
+          this.headShadowShelfL.frequency.value = 2400;
+          this.headShadowShelfR.frequency.value = 2400;
+          this.headShadowShelfL.gain.value = 0;
+          this.headShadowShelfR.gain.value = 0;
+
+          this.stereoPanner.connect(this.pinnaNotchFilter);
+          this.pinnaNotchFilter.connect(splitter);
+          splitter.connect(this.itdDelayL, 0);
+          splitter.connect(this.itdDelayR, 1);
+          this.itdDelayL.connect(this.headShadowShelfL);
+          this.itdDelayR.connect(this.headShadowShelfR);
+          this.headShadowShelfL.connect(merger, 0, 0);
+          this.headShadowShelfR.connect(merger, 0, 1);
+          merger.connect(this.masterGain);
+        } else {
+          this.stereoPanner.connect(this.pinnaNotchFilter);
+          this.pinnaNotchFilter.connect(this.masterGain);
+        }
       }
 
-      // Parametric Stereo Sanctuary Convolution Reverb (`VERDANT_INFRASTRUCTURE_STANDARD.stereoReverbDecaySec`)
+      // Dynamic Per-Biome ISO 3382 Sabine & Image-Source Convolution Reverb
       this.convolver = this.ctx.createConvolver();
-      this.convolver.buffer = this.createSanctuaryImpulseBuffer(
+      this.convolver.buffer = this.getOrCreateBiomeIso3382ImpulseBuffer(
         this.ctx,
-        VERDANT_INFRASTRUCTURE_STANDARD.stereoReverbDecaySec,
+        this.currentBiome,
+        this.liveEarlyReflectionTapCount,
       );
       this.reverbReturnGain = this.ctx.createGain();
       this.reverbReturnGain.gain.value = 0.44;
@@ -388,36 +734,28 @@ export class BotanicalSoundscapeEngine {
   }
 
   /**
-   * Generates a 2.2s stereo diffused acoustic sanctuary impulse response buffer
-   * synthesized from the inorganic travertine-spar / quartz-geode early reflections
-   * and organic terpene-aerosol air absorption (`MATTER_COMPOUNDS`).
+   * Synthesizes & caches per-biome ISO 3382 Sabine + Allen–Berkley image-source impulse buffers
+   * coupled to IUPAC/Bravais mineral acoustic impedance `Z = rho * c` (`Foundation.SpatialAcoustics.V1.Model`).
    */
-  private createSanctuaryImpulseBuffer(ctx: AudioContext, durationSec: number): AudioBuffer {
-    const length = Math.floor(ctx.sampleRate * durationSec);
-    const impulse = ctx.createBuffer(2, length, ctx.sampleRate);
-    const travertine = MATTER_COMPOUNDS['travertine-limestone-spar'];
-    const quartz = MATTER_COMPOUNDS['piezoelectric-quartz-geode'];
-    const aerosol = MATTER_COMPOUNDS['terpene-volatile-aerosol-colloid'];
-    const mineralReflectivity =
-      (travertine.opticalRefractiveIndex + quartz.opticalRefractiveIndex) / 3.13;
-    const airDampingExponent = 2.6 + (1 - aerosol.compoundDensityGPerCm3) * 1.4;
-    for (let ch = 0; ch < 2; ch++) {
-      const data = impulse.getChannelData(ch);
-      let seed = ch === 0 ? 13579 : 24680;
-      const nextRand = () => {
-        seed = (seed * 1664525 + 1013904223) >>> 0;
-        return (seed / 4294967296) * 2 - 1;
-      };
-      for (let i = 0; i < length; i++) {
-        const t = i / length;
-        const env =
-          Math.pow(1 - t, airDampingExponent) * (1 - Math.exp(-i / (ctx.sampleRate * 0.018)));
-        const shimmer =
-          (Math.sin(i * 0.015 + ch * 1.1) * 0.15 + 0.85) * mineralReflectivity;
-        data[i] = nextRand() * env * shimmer * 0.38;
-      }
-    }
+  private getOrCreateBiomeIso3382ImpulseBuffer(
+    ctx: AudioContext,
+    biome: BiomeId,
+    tapCount: number,
+  ): AudioBuffer {
+    const cacheKey = `${biome}:${tapCount}:${ctx.sampleRate}`;
+    const existing = this.biomeImpulseCache.get(cacheKey);
+    if (existing) return existing;
+
+    const synthesized = synthesizeIso3382ImpulseChannels(biome, ctx.sampleRate, tapCount);
+    const impulse = ctx.createBuffer(2, synthesized.left.length, ctx.sampleRate);
+    impulse.getChannelData(0).set(synthesized.left);
+    impulse.getChannelData(1).set(synthesized.right);
+    this.biomeImpulseCache.set(cacheKey, impulse);
     return impulse;
+  }
+
+  public getLastBinauralCue(): Woodworth3DBinauralCue | null {
+    return this.lastBinauralCue;
   }
 
   public setMuted(muted: boolean): void {
@@ -458,9 +796,12 @@ export class BotanicalSoundscapeEngine {
     outcome: SoundscapeOutcome;
     elapsedSeconds: number;
     playerX?: number;
+    playerY?: number;
     playerZ?: number;
     playerYaw?: number;
+    playerPitch?: number;
     nearestPlantX?: number;
+    nearestPlantY?: number;
     nearestPlantZ?: number;
     surfaceMaterial?: SurfaceMaterialId;
     acousticOcclusion?: number;
@@ -477,9 +818,12 @@ export class BotanicalSoundscapeEngine {
       outcome,
       elapsedSeconds,
       playerX = 0,
+      playerY = 1.68,
       playerZ = 0,
       playerYaw = 0,
+      playerPitch = 0,
       nearestPlantX = 0,
+      nearestPlantY = 1.2,
       nearestPlantZ = -5.5,
       surfaceMaterial = classifySurfaceMaterial(playerX, playerZ),
       acousticOcclusion = 0,
@@ -487,8 +831,19 @@ export class BotanicalSoundscapeEngine {
       modalFilterQMultiplier = 1.0,
     } = params;
 
+    const cue3D = computeWoodworth3DBinauralSpatializer({
+      listenerX: playerX,
+      listenerY: playerY,
+      listenerZ: playerZ,
+      listenerYaw: playerYaw,
+      listenerPitch: playerPitch,
+      sourceX: nearestPlantX,
+      sourceY: nearestPlantY,
+      sourceZ: nearestPlantZ,
+    });
+    this.lastBinauralCue = cue3D;
     this.currentPan = computeBinauralPan(playerX, playerZ, playerYaw, nearestPlantX, nearestPlantZ);
-    this.lastNearestDistanceMeters = Math.hypot(nearestPlantX - playerX, nearestPlantZ - playerZ);
+    this.lastNearestDistanceMeters = cue3D.distance3DMeters;
     this.lastAcousticOcclusion = acousticOcclusion;
 
     // Update 16-band spectrum array for HUD visualizer (works even in headless Chromium)
@@ -537,7 +892,18 @@ export class BotanicalSoundscapeEngine {
     const diurnalEval = evaluateDiurnalProfile(atmosphere, biome, harmony);
 
     if (this.stereoPanner) {
-      this.stereoPanner.pan.setTargetAtTime(this.currentPan, now, 0.12);
+      this.stereoPanner.pan.setTargetAtTime(cue3D.stereoPan, now, 0.1);
+    }
+    if (this.pinnaNotchFilter) {
+      this.pinnaNotchFilter.frequency.setTargetAtTime(cue3D.pinnaElevationNotchHz, now, 0.12);
+    }
+    if (this.itdDelayL && this.itdDelayR) {
+      this.itdDelayL.delayTime.setTargetAtTime(cue3D.leftDelaySeconds, now, 0.04);
+      this.itdDelayR.delayTime.setTargetAtTime(cue3D.rightDelaySeconds, now, 0.04);
+    }
+    if (this.headShadowShelfL && this.headShadowShelfR) {
+      this.headShadowShelfL.gain.setTargetAtTime(cue3D.leftHighShelfDb, now, 0.1);
+      this.headShadowShelfR.gain.setTargetAtTime(cue3D.rightHighShelfDb, now, 0.1);
     }
 
     if (this.reverbReturnGain) {
@@ -547,6 +913,13 @@ export class BotanicalSoundscapeEngine {
 
     if (biome !== this.currentBiome) {
       this.currentBiome = biome;
+      if (this.convolver) {
+        this.convolver.buffer = this.getOrCreateBiomeIso3382ImpulseBuffer(
+          this.ctx,
+          biome,
+          this.liveEarlyReflectionTapCount,
+        );
+      }
     }
 
     if (this.windFilter && this.windGain) {
@@ -2228,6 +2601,16 @@ export class BotanicalSoundscapeEngine {
     this.liveBarkHeadroomDb = multiModalFidelity.barkMaskingHeadroomDb;
     this.liveModalPartialsPerVoice = multiModalFidelity.chladniModalPartialsPerVoice;
     this.livePrimeLimitCeiling = multiModalFidelity.primeLimitHarmonicCeiling;
+    if (this.liveEarlyReflectionTapCount !== multiModalFidelity.earlyReflectionTapCount) {
+      this.liveEarlyReflectionTapCount = multiModalFidelity.earlyReflectionTapCount;
+      if (this.ctx && this.convolver) {
+        this.convolver.buffer = this.getOrCreateBiomeIso3382ImpulseBuffer(
+          this.ctx,
+          this.currentBiome,
+          this.liveEarlyReflectionTapCount,
+        );
+      }
+    }
     this.busActiveModel = supra.activeModel;
   }
 

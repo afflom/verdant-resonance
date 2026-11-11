@@ -16,6 +16,28 @@ export default defineConfig(({command}) => {
         '@': projectRoot,
       },
     },
+    build: {
+      chunkSizeWarningLimit: 650,
+      rollupOptions: {
+        output: {
+          manualChunks(id: string) {
+            if (id.includes('node_modules/three')) {
+              return 'vendor-three';
+            }
+            if (
+              id.includes('node_modules/react') ||
+              id.includes('node_modules/scheduler')
+            ) {
+              return 'vendor-react';
+            }
+            if (id.includes('generatedPrismConstants')) {
+              return 'prism-constants';
+            }
+            return undefined;
+          },
+        },
+      },
+    },
     server: {
       allowedHosts: true,
       // HMR is disabled in AI Studio via DISABLE_HMR env var.

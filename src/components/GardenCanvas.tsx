@@ -91,6 +91,9 @@ import {
   evaluateImmanentObserverPresence,
   evaluateKinematicRigPose,
   extrapolatePrismToHighestResolution,
+  restoreNeuromorphicStateFromAnamnesis,
+  type BotanicalLifecycleStageId,
+  type VerdantAnamnesisPayload,
 } from '../game/prismModel';
 import {
   synthesizeSpectralDiurnalPalette,
@@ -116,6 +119,7 @@ import {
   createSegmentedBambooStalkGeometry,
   createStratifiedBoulderGeometry,
   enhanceMaterialWithBotanicalShader,
+  synthesizeLSystemBotanicalMorphogenesis,
 } from '../game/proceduralMeshEngine';
 import { BotanicalSoundscapeEngine } from '../game/soundscapeEngine';
 
@@ -172,6 +176,7 @@ interface GardenCanvasProps {
   gameState: GameState;
   atmosphere: AtmosphereId;
   plants: GardenPlantInstance[];
+  initialAnamnesisPayload?: VerdantAnamnesisPayload | null;
   soundEngine: BotanicalSoundscapeEngine;
   onTelemetryUpdate: (telemetry: LiveTelemetryState) => void;
   onPlantAttuned: (plantId: string, biome: BiomeId, outcome: SoundscapeOutcome) => void;
@@ -202,6 +207,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
   gameState,
   atmosphere,
   plants,
+  initialAnamnesisPayload,
   soundEngine,
   onTelemetryUpdate,
   onPlantAttuned,
@@ -211,6 +217,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
   const gameStateRef = useRef<GameState>(gameState);
   const atmosphereRef = useRef<AtmosphereId>(atmosphere);
   const plantsRef = useRef<GardenPlantInstance[]>(plants);
+  const initialAnamnesisRef = useRef<VerdantAnamnesisPayload | null | undefined>(
+    initialAnamnesisPayload,
+  );
   const onTelemetryRef = useRef(onTelemetryUpdate);
   const onPlantAttunedRef = useRef(onPlantAttuned);
 
@@ -363,7 +372,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     //  (c) Calcite-Aragonite & Tectosilicate Quartz Micro-Facets (`calcite-aragonite-spar-lattice` + `tectosilicate-quartz-lattice`)
     // Live Neuromorphic Synthesis Engine initialized up-front so every 3D geometry, PBR map,
     // Bravais crystal habit, and spectral palette projects at live Multi-Modal Fidelity from frame 0
-    let neuromorphicState = createInitialNeuromorphicState();
+    let neuromorphicState = initialAnamnesisRef.current
+      ? restoreNeuromorphicStateFromAnamnesis(initialAnamnesisRef.current)
+      : createInitialNeuromorphicState();
     soundEngine.syncWithNeuromorphicBus(neuromorphicState);
     const initialFidelity =
       neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity;
@@ -1956,6 +1967,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       starHead: THREE.Group | null;
       baseY: number;
       stemApexY: number;
+      morphogenesisStage: BotanicalLifecycleStageId;
+      morphogenesisDepth: number;
       pulsePhase: number;
       tactileShiverImpulse: number;
     }
@@ -2195,10 +2208,15 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       let starHeadRef: THREE.Group | null = null;
       let stemApexY = 1.85;
       let localApicalCrownY = 0.08;
+      const morph = synthesizeLSystemBotanicalMorphogenesis({
+        species: plant.species,
+        lifecycleStage: initStage,
+        busWeight: Math.round(curFidelity.meanSynapticWeight),
+      });
 
       if (plant.species === 'chime-lily') {
-        // Fibonacci 5-leaf sculpted B-Mesh basal rosette anchored inside the 0.12m stem collar + segmented stem + 3 pedicel branches with hinged bell + internal stamen pendulums
-        for (let i = 0; i < 5; i++) {
+        // Parametric D0L L-System + Murray r^3 vascular radii + Vogel 137.508 deg phyllotaxis (`Foundation.Morphogenesis.V1.Model`)
+        for (let i = 0; i < morph.basalFoliageCount; i++) {
           const a = i * GOLDEN_ANGLE_RAD;
           const leafSocket = new THREE.Group();
           leafSocket.position.y = 0.06;
@@ -2209,15 +2227,34 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           leafSocket.add(leaf);
           basalJoint.add(leafSocket);
         }
-        const lowerStem = new THREE.Mesh(new THREE.CylinderGeometry(0.082, 0.125, 1.16, 14), stemMat);
+        const lowerStem = new THREE.Mesh(
+          new THREE.CylinderGeometry(
+            morph.medialStemRadiusMeters,
+            morph.basalStemRadiusMeters,
+            1.16,
+            14,
+          ),
+          stemMat,
+        );
         lowerStem.position.y = 0.56;
         basalJoint.add(lowerStem);
 
         medialJoint.position.y = 1.12;
-        const medialNode = new THREE.Mesh(new THREE.SphereGeometry(0.088, 12, 10), stemMat);
+        const medialNode = new THREE.Mesh(
+          new THREE.SphereGeometry(morph.medialStemRadiusMeters * 1.08, 12, 10),
+          stemMat,
+        );
         medialJoint.add(medialNode);
 
-        const upperStem = new THREE.Mesh(new THREE.CylinderGeometry(0.056, 0.082, 1.18, 14), stemMat);
+        const upperStem = new THREE.Mesh(
+          new THREE.CylinderGeometry(
+            morph.medialStemRadiusMeters * 0.72,
+            morph.medialStemRadiusMeters,
+            1.18,
+            14,
+          ),
+          stemMat,
+        );
         upperStem.position.y = 0.58;
         medialJoint.add(upperStem);
 
@@ -2228,9 +2265,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         const tipX = pedicelLen * Math.sin(pedicelTilt);
         const tipY = pedicelLen * Math.cos(pedicelTilt);
 
-        for (let b = 0; b < 3; b++) {
-          const branchAngle = (b / 3) * Math.PI * 2 + 0.3;
-          const attachY = 0.24 + b * 0.30;
+        for (let b = 0; b < morph.primaryBranchCount; b++) {
+          const branchAngle = (b / morph.primaryBranchCount) * Math.PI * 2 + 0.3;
+          const attachY =
+            0.20 + (b / Math.max(1, morph.primaryBranchCount - 1)) * 0.72;
 
           const branchGroup = new THREE.Group();
           branchGroup.position.set(0, attachY, 0);
@@ -2240,9 +2278,14 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           const nodeBract = new THREE.Mesh(new THREE.SphereGeometry(0.068, 10, 8), stemMat);
           branchGroup.add(nodeBract);
 
-          // Pedicel cylinder spanning from (0,0,0) on main stem to exact tip (tipX, tipY, 0)
+          // Pedicel cylinder governed by Murray's cubic vascular pipe law (r_child^3)
           const pedicel = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.024, 0.038, pedicelLen, 10),
+            new THREE.CylinderGeometry(
+              morph.childBranchRadiusMeters * 0.68,
+              morph.childBranchRadiusMeters,
+              pedicelLen,
+              10,
+            ),
             stemMat,
           );
           pedicel.position.set(tipX * 0.5, tipY * 0.5, 0);
@@ -2288,7 +2331,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         stemApexY = 2.28;
         localApicalCrownY = 0.06;
       } else if (plant.species === 'pulse-fern') {
-        // Organic caudex mound + central vascular rachis + 8 Compound Pinnate Fronds anchored inside the rachis + 2 bottom-pivoted Croziers + 3 connected Sporangiophores
+        // Organic caudex mound + Murray vascular rachis + L-system pinnate fronds + Croziers + Sporangiophores
         const mound = new THREE.Mesh(new THREE.SphereGeometry(0.46, 16, 12), stemMat);
         mound.scale.set(1, 0.55, 1);
         mound.position.y = 0.15;
@@ -2296,16 +2339,21 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
         medialJoint.position.y = 0.22;
         const centralRachis = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.048, 0.095, 1.36, 12),
+          new THREE.CylinderGeometry(
+            morph.medialStemRadiusMeters * 0.78,
+            morph.basalStemRadiusMeters,
+            1.36,
+            12,
+          ),
           stemMat,
         );
         centralRachis.position.y = 0.66;
         medialJoint.add(centralRachis);
 
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < morph.primaryBranchCount; i++) {
           const a = i * GOLDEN_ANGLE_RAD;
           const frondSocket = new THREE.Group();
-          frondSocket.position.set(0, 0.08 + (i % 4) * 0.07, 0);
+          frondSocket.position.set(0, 0.08 + (i % 5) * 0.065, 0);
           frondSocket.rotation.y = -a + Math.PI / 2;
 
           const frond = createOrganMesh('pinnateFrond', i % 2 === 0 ? bloomMat : stemMat);
@@ -2338,14 +2386,19 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         const spTipX = sporangioLen * Math.sin(sporangioTilt);
         const spTipY = sporangioLen * Math.cos(sporangioTilt);
 
-        for (let s = 0; s < 3; s++) {
-          const sa = (s / 3) * Math.PI * 2;
+        for (let s = 0; s < morph.secondaryWhorlCount; s++) {
+          const sa = (s / morph.secondaryWhorlCount) * Math.PI * 2;
           const sporeBranch = new THREE.Group();
           sporeBranch.position.set(0, 0.02, 0);
           sporeBranch.rotation.y = -sa;
 
           const sporangiophore = new THREE.Mesh(
-            new THREE.CylinderGeometry(0.016, 0.026, sporangioLen, 8),
+            new THREE.CylinderGeometry(
+              morph.childBranchRadiusMeters * 0.52,
+              morph.childBranchRadiusMeters * 0.82,
+              sporangioLen,
+              8,
+            ),
             stemMat,
           );
           sporangiophore.position.set(spTipX * 0.5, spTipY * 0.5, 0);
@@ -2360,14 +2413,19 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         stemApexY = 1.54;
         localApicalCrownY = 0.04;
       } else if (plant.species === 'echo-lotus') {
-        // Cordate heart-notched floating lily pad + receptacle cup + outer & inner petals embedded directly inside the receptacle collar
+        // Cordate heart-notched floating lily pad + Murray receptacle stalk + L-system outer & inner petal whorls
         const pad = createOrganMesh('lotusPad', stemMat, false);
         pad.position.y = 0.015;
         basalJoint.add(pad);
 
         medialJoint.position.y = 0.02;
         const receptacleStalk = new THREE.Mesh(
-          new THREE.CylinderGeometry(0.11, 0.14, 0.24, 14),
+          new THREE.CylinderGeometry(
+            morph.medialStemRadiusMeters * 1.15,
+            morph.basalStemRadiusMeters,
+            0.24,
+            14,
+          ),
           stemMat,
         );
         receptacleStalk.position.y = 0.11;
@@ -2388,8 +2446,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         receptacleCollar.position.y = 0.02;
         apicalJoint.add(receptacleCollar);
 
-        for (let i = 0; i < 8; i++) {
-          const a = (i / 8) * Math.PI * 2;
+        for (let i = 0; i < morph.primaryBranchCount; i++) {
+          const a = (i / morph.primaryBranchCount) * Math.PI * 2;
           const petalSocket = new THREE.Group();
           petalSocket.position.y = 0.02;
           petalSocket.rotation.y = -a + Math.PI / 2;
@@ -2403,8 +2461,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           outerPetals.push(petal);
         }
 
-        for (let i = 0; i < 5; i++) {
-          const a = (i / 5) * Math.PI * 2 + 0.3;
+        for (let i = 0; i < morph.secondaryWhorlCount; i++) {
+          const a = (i / morph.secondaryWhorlCount) * Math.PI * 2 + 0.3;
           const innerSocket = new THREE.Group();
           innerSocket.position.y = 0.05;
           innerSocket.rotation.y = -a + Math.PI / 2;
@@ -2422,7 +2480,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         stemApexY = 0.46;
         localApicalCrownY = 0.26;
       } else if (plant.species === 'drone-moss') {
-        // Unified basal bryophyte colony mat + 4 moss cushions + 4 seta stalks with operculum capsules parented to the stalk tips
+        // Unified basal bryophyte colony mat + L-system moss cushions + Murray seta stalks & operculum capsules
         const basalColonyMat = new THREE.Mesh(new THREE.SphereGeometry(0.58, 18, 12), stemMat);
         basalColonyMat.scale.set(1.12, 0.26, 1.12);
         basalColonyMat.position.y = 0.06;
@@ -2431,12 +2489,17 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         medialJoint.position.y = 0.12;
         apicalJoint.position.y = 0.56;
 
-        const setaGeo = new THREE.CylinderGeometry(0.022, 0.036, 0.56, 10);
+        const setaGeo = new THREE.CylinderGeometry(
+          morph.childBranchRadiusMeters * 0.68,
+          morph.childBranchRadiusMeters,
+          0.56,
+          10,
+        );
         setaGeo.translate(0, 0.28, 0);
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < morph.primaryBranchCount; i++) {
           const a = i * GOLDEN_ANGLE_RAD;
-          const rad = i === 0 ? 0.04 : 0.30;
-          const cushionY = 0.11 + i * 0.035;
+          const rad = i === 0 ? 0.04 : 0.27 + (i % 2) * 0.05;
+          const cushionY = 0.11 + (i % 4) * 0.032;
           const cx = Math.cos(a) * rad;
           const cz = Math.sin(a) * rad;
 
@@ -2470,9 +2533,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         stemApexY = 0.86;
         localApicalCrownY = 0.14;
       } else {
-        // star-orchid: 3 sculpted B-Mesh basal leaves + segmented stem + ovary receptacle collar + 5 sepals + 3 tepals + forward-flaring labellum + central gynostemium column
-        for (let i = 0; i < 3; i++) {
-          const a = (i / 3) * Math.PI * 2;
+        // star-orchid: L-system basal leaves + Murray segmented stem + ovary receptacle collar + sepals + tepals + labellum + gynostemium
+        for (let i = 0; i < morph.basalFoliageCount; i++) {
+          const a = (i / morph.basalFoliageCount) * Math.PI * 2;
           const leafSocket = new THREE.Group();
           leafSocket.position.y = 0.06;
           leafSocket.rotation.y = -a + Math.PI / 2;
@@ -2484,15 +2547,34 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           basalJoint.add(leafSocket);
         }
 
-        const lowerStem = new THREE.Mesh(new THREE.CylinderGeometry(0.082, 0.125, 0.94, 14), stemMat);
+        const lowerStem = new THREE.Mesh(
+          new THREE.CylinderGeometry(
+            morph.medialStemRadiusMeters,
+            morph.basalStemRadiusMeters,
+            0.94,
+            14,
+          ),
+          stemMat,
+        );
         lowerStem.position.y = 0.46;
         basalJoint.add(lowerStem);
 
         medialJoint.position.y = 0.90;
-        const medialNode = new THREE.Mesh(new THREE.SphereGeometry(0.086, 12, 10), stemMat);
+        const medialNode = new THREE.Mesh(
+          new THREE.SphereGeometry(morph.medialStemRadiusMeters * 1.08, 12, 10),
+          stemMat,
+        );
         medialJoint.add(medialNode);
 
-        const upperStem = new THREE.Mesh(new THREE.CylinderGeometry(0.062, 0.082, 0.94, 14), stemMat);
+        const upperStem = new THREE.Mesh(
+          new THREE.CylinderGeometry(
+            morph.medialStemRadiusMeters * 0.75,
+            morph.medialStemRadiusMeters,
+            0.94,
+            14,
+          ),
+          stemMat,
+        );
         upperStem.position.y = 0.46;
         medialJoint.add(upperStem);
 
@@ -2508,16 +2590,16 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         receptacleHub.position.set(0, 0, 0.02);
         starHead.add(receptacleHub);
 
-        for (let i = 0; i < 5; i++) {
-          const a = (i / 5) * Math.PI * 2;
+        for (let i = 0; i < morph.primaryBranchCount; i++) {
+          const a = (i / morph.primaryBranchCount) * Math.PI * 2;
           const petal = createOrganMesh('orchidSepal', bloomMat);
-          // Zero radial offset so all 5 sepal claws grow directly out of receptacleHub at (0, 0, 0.01)
+          // Zero radial offset so all sepal claws grow directly out of receptacleHub at (0, 0, 0.01)
           petal.position.set(0, 0, 0.01);
           petal.rotation.z = a - Math.PI / 2;
           starHead.add(petal);
         }
-        for (let i = 0; i < 3; i++) {
-          const a = (i / 3) * Math.PI * 2 + Math.PI / 6;
+        for (let i = 0; i < morph.secondaryWhorlCount; i++) {
+          const a = (i / morph.secondaryWhorlCount) * Math.PI * 2 + Math.PI / 6;
           const tepal = createOrganMesh('orchidTepal', accentMat);
           tepal.position.set(0, 0, 0.03);
           tepal.rotation.z = a - Math.PI / 2;
@@ -2582,8 +2664,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       const cTipX = cPedLen * Math.sin(cPedTilt);
       const cTipY = cPedLen * Math.cos(cPedTilt);
 
-      for (let cp = 0; cp < 3; cp++) {
-        const cAngle = (cp / 3) * Math.PI * 2;
+      for (let cp = 0; cp < morph.fruitingPearlCount; cp++) {
+        const cAngle = (cp / morph.fruitingPearlCount) * Math.PI * 2;
         const cBranch = new THREE.Group();
         cBranch.rotation.y = -cAngle;
 
@@ -2644,6 +2726,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         starHead: starHeadRef,
         baseY: plant.y,
         stemApexY: localApicalCrownY,
+        morphogenesisStage: initStage,
+        morphogenesisDepth: morph.derivationDepth,
         pulsePhase: Math.random() * Math.PI * 2,
         tactileShiverImpulse: 0,
       };
@@ -3049,6 +3133,15 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
     // 10. Player First-Person Controller State (Spawns on open stone road facing Sanctuary Vista)
     const initialGroundY = groundHeightAt(0, 0);
+    const initialExploredBiomes = new Set<BiomeId>(
+      initialAnamnesisRef.current?.exploredBiomes?.length
+        ? initialAnamnesisRef.current.exploredBiomes
+        : ['meadow'],
+    );
+    const initialHarmonyPct = computeGardenHarmonyPct({
+      plants: plantsRef.current,
+      exploredBiomesCount: initialExploredBiomes.size,
+    });
     const player = {
       x: 0,
       y: initialGroundY,
@@ -3061,9 +3154,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       walkDist: 0,
       action: 'observe' as PlayerActionId,
       actionHoldTimer: 0,
-      harmony: 15,
+      harmony: initialHarmonyPct,
       sympatheticCount: 0,
-      exploredBiomes: new Set<BiomeId>(['meadow']),
+      exploredBiomes: initialExploredBiomes,
       lastOutcome: 'ambient-drone' as SoundscapeOutcome,
       lastRule: 'REQ-028' as string | null,
       lastRuleDesc: 'A slow, unhurried walk through the garden sustains a warm botanical pad foundation.',
@@ -3229,8 +3322,29 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       lagoonMat.color.copy(_tempColor);
 
       _foliageCanopyCol.set(specPalette.foliageCanopy.hex);
+      const busWeightRounded = Math.round(fidelity.meanSynapticWeight);
       for (let i = 0; i < plantMeshes.length; i++) {
-        const pm = plantMeshes[i];
+        let pm = plantMeshes[i];
+        const targetStage = getPlantLifecycleStage(pm.instance);
+        const targetMorph = synthesizeLSystemBotanicalMorphogenesis({
+          species: pm.instance.species,
+          lifecycleStage: targetStage,
+          busWeight: busWeightRounded,
+        });
+        if (
+          pm.morphogenesisStage !== targetStage ||
+          pm.morphogenesisDepth !== targetMorph.derivationDepth
+        ) {
+          const prevShiver = pm.tactileShiverImpulse;
+          const prevPhase = pm.pulsePhase;
+          plantsRoot.remove(pm.group);
+          disposePlantGroup(pm.group);
+          const rebuilt = buildPlantGroup(pm.instance);
+          rebuilt.tactileShiverImpulse = prevShiver;
+          rebuilt.pulsePhase = prevPhase;
+          plantMeshes[i] = rebuilt;
+          pm = rebuilt;
+        }
         pm.bloomMat.iridescenceThicknessMaximum = 180 + fidelity.airyThinFilmSpanNm * 0.72;
         pm.accentMat.iridescenceThicknessMaximum = 160 + fidelity.airyThinFilmSpanNm * 0.65;
         _tempColor.set('#22543d').lerp(_foliageCanopyCol, 0.52);
@@ -5226,9 +5340,12 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           outcome: player.lastOutcome,
           elapsedSeconds: elapsed,
           playerX: player.x,
+          playerY: player.y + initialPlayerModel.eyeStatureMeters,
           playerZ: player.z,
           playerYaw: player.yaw,
+          playerPitch: player.pitch,
           nearestPlantX: nearest.plant.x,
+          nearestPlantY: nearest.plant.y + 0.95,
           nearestPlantZ: nearest.plant.z,
           surfaceMaterial: player.surfaceMaterial,
           acousticOcclusion,

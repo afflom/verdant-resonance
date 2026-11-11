@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ATMOSPHERE_CONFIGS,
   AtmosphereId,
@@ -16,9 +16,11 @@ import {
   SoundscapeOutcome,
   VERDANT_BRAND_STANDARD,
   VERDANT_HUMANE_STANDARD,
+  clearAnamnesisStorage,
   composeLiveSoundtrackScore,
   computeBinauralPan,
   computeCardinalWayfinder,
+  computeGardenHarmonyPct,
   createInitialGestureHoldState,
   createInitialNeuromorphicState,
   evaluateBiomeMasteryAndGuilds,
@@ -26,6 +28,11 @@ import {
   evaluateHumaneErgonomics,
   generateGardenPlants,
   getPlantLifecycleStage,
+  hydratePlantsFromAnamnesis,
+  loadAnamnesisEnvelopeFromStorage,
+  persistAnamnesisEnvelopeToStorage,
+  restoreNeuromorphicStateFromAnamnesis,
+  serializeAnamnesisSnapshot,
   synthesizeParametricAtmosphereConfigs,
   synthesizeParametricBiomeConfigs,
   synthesizeParametricBiomeMonuments,
@@ -48,7 +55,11 @@ import {
   SoundWaveIcon,
   VerdantResonanceEmblem,
 } from './components/BotanicalIcons';
-import { PrismInspectorModal } from './components/PrismInspectorModal';
+const LazyPrismInspectorModal = React.lazy(() =>
+  import('./components/PrismInspectorModal').then((m) => ({
+    default: m.PrismInspectorModal,
+  })),
+);
 
 const ATMOSPHERE_ORDER: AtmosphereId[] = ['dawn', 'golden', 'twilight', 'starlight'];
 
@@ -59,29 +70,55 @@ export default function App() {
     return params.get('autostart') === '1';
   }, []);
 
+  // Hydrate Content-Addressed Merkle Anamnesis Snapshot (`Foundation.Anamnesis.V1.Model`, Prime `157`)
+  const initialAnamnesis = useMemo(() => loadAnamnesisEnvelopeFromStorage(), []);
+  const initialAnamnesisPayload = initialAnamnesis.verified
+    ? (initialAnamnesis.envelope?.payload ?? null)
+    : null;
+
   const [gameState, setGameState] = useState<GameState>(initialAutostart ? 'playing' : 'title');
-  const [atmosphere, setAtmosphere] = useState<AtmosphereId>('dawn');
-  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [atmosphere, setAtmosphere] = useState<AtmosphereId>(
+    initialAnamnesisPayload?.atmosphere ?? 'dawn',
+  );
+  const [isMuted, setIsMuted] = useState<boolean>(initialAnamnesisPayload?.isMuted ?? false);
   const [dockCollapsed, setDockCollapsed] = useState<boolean>(false);
   const [recentBanner, setRecentBanner] = useState<string | null>(null);
 
-  const [alphaSeed, setAlphaSeed] = useState<number>(1);
-  const [plants, setPlants] = useState(() => generateGardenPlants({ alphaSeed: 1 }));
+  const [alphaSeed, setAlphaSeed] = useState<number>(initialAnamnesisPayload?.alphaSeed ?? 1);
+  const [plants, setPlants] = useState(() => {
+    const basePlants = generateGardenPlants({
+      alphaSeed: initialAnamnesisPayload?.alphaSeed ?? 1,
+    });
+    return initialAnamnesisPayload
+      ? hydratePlantsFromAnamnesis(basePlants, initialAnamnesisPayload)
+      : basePlants;
+  });
   const soundEngine = useMemo(() => new BotanicalSoundscapeEngine(), []);
   const gardenHandleRef = useRef<GardenImperativeHandle | null>(null);
   const spectrumBarsRef = useRef<(SVGRectElement | null)[]>([]);
 
   const [telemetry, setTelemetry] = useState<LiveTelemetryState>(() => {
-    const initialNeuro = createInitialNeuromorphicState();
-    const initialEnvLifecycle = evaluateEnvironmentalLifecycle({
-      harmonyPct: 15,
+    const initAtm = initialAnamnesisPayload?.atmosphere ?? 'dawn';
+    const initExplored: BiomeId[] = initialAnamnesisPayload?.exploredBiomes?.length
+      ? [...initialAnamnesisPayload.exploredBiomes]
+      : ['meadow'];
+    const initHarmony = computeGardenHarmonyPct({
       plants,
-      atmosphere: 'dawn',
+      exploredBiomesCount: initExplored.length,
+    });
+    const initAttuned = plants.filter((p) => p.attuned).length;
+    const initialNeuro = initialAnamnesisPayload
+      ? restoreNeuromorphicStateFromAnamnesis(initialAnamnesisPayload)
+      : createInitialNeuromorphicState();
+    const initialEnvLifecycle = evaluateEnvironmentalLifecycle({
+      harmonyPct: initHarmony,
+      plants,
+      atmosphere: initAtm,
     });
     const initialScore = composeLiveSoundtrackScore({
       biome: 'meadow',
-      atmosphere: 'dawn',
-      harmonyPct: 15,
+      atmosphere: initAtm,
+      harmonyPct: initHarmony,
       plants,
       neuromorphic: initialNeuro,
     });
@@ -90,24 +127,24 @@ export default function App() {
       playerZ: 0,
       playerYaw: 0,
       biome: 'meadow',
-      atmosphere: 'dawn',
-      chorus: 'dormant',
+      atmosphere: initAtm,
+      chorus: initAttuned > 0 ? 'awakened' : 'dormant',
       affinityTier: 'sanctuary-peak',
       nearestPlant: plants[0],
       distanceMeters: 5.9,
       proximityDm: 20,
       velocityDm: 0,
       action: 'observe',
-      prismRequest: 'meadow chime-lily observe dawn dormant 20 0',
+      prismRequest: `meadow chime-lily observe ${initAtm} dormant 20 0`,
       prismOutcome: 'dawn-arpeggio',
       prismRule: 'REQ-010',
       prismRuleDesc:
         'Morning mist around a Chime Lily at Dawn awakens sparkling dewdrop glass-marimba arpeggios.',
-      harmony: 15,
-      attunedCount: 0,
+      harmony: initHarmony,
+      attunedCount: initAttuned,
       sympatheticCount: 0,
       totalPlants: plants.length,
-      exploredBiomes: ['meadow'],
+      exploredBiomes: initExplored,
       guidedStroll: false,
       surfaceMaterial: 'travertine-stone',
       inWater: false,
@@ -122,6 +159,45 @@ export default function App() {
       gestureHold: createInitialGestureHoldState(),
     };
   });
+
+  useEffect(() => {
+    soundEngine.setMuted(isMuted);
+  }, [isMuted, soundEngine]);
+
+  // Debounced Content-Addressed Merkle Anamnesis Persistence (`verdant-resonance.anamnesis.v1`)
+  useEffect(() => {
+    const isDefaultGenesis =
+      alphaSeed === 1 &&
+      atmosphere === 'dawn' &&
+      !isMuted &&
+      telemetry.attunedCount === 0 &&
+      telemetry.neuromorphic.tickCount === 0 &&
+      telemetry.neuromorphic.universalManifold.globalFidelityIndex <= 1.001 &&
+      telemetry.exploredBiomes.length <= 1;
+    if (isDefaultGenesis) return;
+
+    const saveTimer = window.setTimeout(() => {
+      const envelope = serializeAnamnesisSnapshot({
+        alphaSeed,
+        atmosphere,
+        isMuted,
+        exploredBiomes: telemetry.exploredBiomes,
+        manifold: telemetry.neuromorphic.universalManifold,
+        plants,
+      });
+      persistAnamnesisEnvelopeToStorage(envelope);
+    }, 420);
+    return () => clearTimeout(saveTimer);
+  }, [
+    alphaSeed,
+    atmosphere,
+    isMuted,
+    plants,
+    telemetry.attunedCount,
+    telemetry.exploredBiomes,
+    telemetry.neuromorphic.tickCount,
+    telemetry.neuromorphic.universalManifold,
+  ]);
 
   useEffect(() => {
     document.body.dataset.state = gameState;
@@ -225,6 +301,7 @@ export default function App() {
   }, [soundEngine]);
 
   const handleRestart = useCallback(() => {
+    clearAnamnesisStorage();
     const resetPlants = generateGardenPlants({ alphaSeed });
     setPlants(resetPlants);
     gardenHandleRef.current?.setAlphaSeed(alphaSeed, resetPlants);
@@ -277,12 +354,12 @@ export default function App() {
       if (liveMultiModalFidelity.normalizedFidelity01 >= 0.99) {
         gardenHandleRef.current?.refineParametricCosmos(2);
         setRecentBanner(
-          `14×14 Functor Bus Consolidated · 73λ CIE · 56-Seg B-Mesh · 11-Limit JI · 8 Modes`,
+          `18×18 Functor Bus Consolidated · 198 Cells · 73λ CIE · Murray r³ · ISO 3382`,
         );
       } else {
         gardenHandleRef.current?.extrapolateToHighestResolution();
         setRecentBanner(
-          `Apex Multi-Modal Fidelity · 73λ Spectral · 56-Seg B-Mesh · 14 Bravais · 11-Limit JI`,
+          `Apex 18-Model Fidelity · 73λ Spectral · L-System + Murray r³ · 3D HRTF · 11-Limit JI`,
         );
       }
     },
@@ -443,6 +520,7 @@ export default function App() {
         gameState={gameState}
         atmosphere={atmosphere}
         plants={plants}
+        initialAnamnesisPayload={initialAnamnesisPayload}
         soundEngine={soundEngine}
         onTelemetryUpdate={setTelemetry}
         onPlantAttuned={handlePlantAttuned}
@@ -1094,24 +1172,26 @@ export default function App() {
           (`document.body.dataset.state = 'paused' | 'gameover'`)
          ===================================================================== */}
       {(gameState === 'paused' || gameState === 'gameover') && (
-        <PrismInspectorModal
-          mode={gameState}
-          atmosphere={atmosphere}
-          telemetry={telemetry}
-          plants={plants}
-          soundEngine={soundEngine}
-          onResume={() => setGameState('playing')}
-          onRestart={handleRestart}
-          onReturnTitle={() => setGameState('title')}
-          onTeleportBiome={(biomeId) => gardenHandleRef.current?.teleportToBiome(biomeId)}
-          onSelectAtmosphere={setAtmosphere}
-          alphaSeed={telemetry.neuromorphic.observer.cosmogenesis.alphaSeed ?? alphaSeed}
-          onSelectAlphaSeed={handleSelectAlphaSeed}
-          onRefineCosmos={(cycles) => gardenHandleRef.current?.refineParametricCosmos(cycles ?? 1)}
-          onExtrapolateHighestResolution={() =>
-            gardenHandleRef.current?.extrapolateToHighestResolution()
-          }
-        />
+        <Suspense fallback={null}>
+          <LazyPrismInspectorModal
+            mode={gameState}
+            atmosphere={atmosphere}
+            telemetry={telemetry}
+            plants={plants}
+            soundEngine={soundEngine}
+            onResume={() => setGameState('playing')}
+            onRestart={handleRestart}
+            onReturnTitle={() => setGameState('title')}
+            onTeleportBiome={(biomeId) => gardenHandleRef.current?.teleportToBiome(biomeId)}
+            onSelectAtmosphere={setAtmosphere}
+            alphaSeed={telemetry.neuromorphic.observer.cosmogenesis.alphaSeed ?? alphaSeed}
+            onSelectAlphaSeed={handleSelectAlphaSeed}
+            onRefineCosmos={(cycles) => gardenHandleRef.current?.refineParametricCosmos(cycles ?? 1)}
+            onExtrapolateHighestResolution={() =>
+              gardenHandleRef.current?.extrapolateToHighestResolution()
+            }
+          />
+        </Suspense>
       )}
     </main>
   );

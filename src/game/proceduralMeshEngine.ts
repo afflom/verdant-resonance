@@ -2803,3 +2803,225 @@ export function createBravaisCrystalHabitGeometry(options: {
   geometry.computeVertexNormals();
   return geometry;
 }
+
+// ============================================================================
+// PARAMETRIC L-SYSTEM & MURRAY VASCULAR MORPHOGENESIS (`Foundation.Morphogenesis.V1.Model`)
+// ============================================================================
+
+export type MorphogenesisLifecycleStageId =
+  | 'dormant-seed'
+  | 'sprouting-bud'
+  | 'resonant-bloom'
+  | 'harmonic-fruiting'
+  | 'mycelial-memory';
+
+export interface BotanicalLSystemOrganPrimordium {
+  readonly index: number;
+  readonly azimuthRad: number;
+  readonly vogelRadiusNormalized: number;
+  readonly elevationNormalized: number;
+  readonly childVascularRadiusMeters: number;
+}
+
+export interface BotanicalMorphogenesisSynthesis {
+  readonly species:
+    | 'chime-lily'
+    | 'pulse-fern'
+    | 'echo-lotus'
+    | 'drone-moss'
+    | 'star-orchid';
+  readonly lifecycleStage: MorphogenesisLifecycleStageId;
+  readonly stageIndex: number;
+  readonly busWeight: number;
+  readonly derivationDepth: number;
+  readonly axiom: string;
+  readonly derivedWord: string;
+  readonly derivedSymbolCount: number;
+  // Topological organ counts replacing fixed loop constants
+  readonly basalFoliageCount: number;
+  readonly primaryBranchCount: number;
+  readonly secondaryWhorlCount: number;
+  readonly fruitingPearlCount: number;
+  // Murray's Cubic Vascular Law (r_parent^3 = sum r_child^3)
+  readonly basalStemRadiusMeters: number;
+  readonly medialStemRadiusMeters: number;
+  readonly childBranchRadiusMeters: number;
+  readonly parentRadiusCubedM3: number;
+  readonly childrenRadiusCubedSumM3: number;
+  readonly murrayCubicResidualM3: number;
+  readonly murrayLawConserved: boolean;
+  // Turing-Vogel 137.508° Phyllotaxis Primordia
+  readonly goldenDivergenceRad: number;
+  readonly primordia: readonly BotanicalLSystemOrganPrimordium[];
+}
+
+const LIFECYCLE_STAGE_TO_INDEX: Readonly<Record<MorphogenesisLifecycleStageId, number>> = {
+  'dormant-seed': 0,
+  'sprouting-bud': 1,
+  'resonant-bloom': 2,
+  'harmonic-fruiting': 3,
+  'mycelial-memory': 4,
+};
+
+const GOLDEN_DIVERGENCE_RAD = (137.50776405003785 * Math.PI) / 180;
+
+/**
+ * Evaluates a deterministic parametric `D0L` Lindenmayer grammar + Murray's cubic pipe law
+ * (`r_0^3 = sum_{i=1}^k r_i^3`) + Vogel `137.508°` phyllotaxis for any botanical species,
+ * lifecycle stage, and Neuromorphic Fidelity bus weight (`Foundation.Morphogenesis.V1.Model`, Prime `149`).
+ */
+export function synthesizeLSystemBotanicalMorphogenesis(params: {
+  readonly species:
+    | 'chime-lily'
+    | 'pulse-fern'
+    | 'echo-lotus'
+    | 'drone-moss'
+    | 'star-orchid';
+  readonly lifecycleStage: MorphogenesisLifecycleStageId;
+  readonly busWeight: number;
+}): BotanicalMorphogenesisSynthesis {
+  const stageIndex = LIFECYCLE_STAGE_TO_INDEX[params.lifecycleStage] ?? 0;
+  const w = Math.max(1, Math.min(16, Math.round(params.busWeight)));
+  const fidelityTier = w >= 12 ? 2 : w >= 7 ? 1 : 0;
+  // Matches `Foundation.Morphogenesis.V1.Model::stepLSystemDerivationDepth`
+  const derivationDepth = 2 + stageIndex + fidelityTier;
+
+  // Species-specific D0L axioms & meristematic production rules
+  let axiom = 'I[L]A';
+  let rules: Record<string, string> = {};
+  let baseBasal = 4;
+  let basePrimary = 3;
+  let baseSecondary = 3;
+  let basalStemRadiusMeters = 0.115;
+
+  switch (params.species) {
+    case 'chime-lily':
+      axiom = 'R[L][L]I[B]A';
+      rules = {
+        R: 'R[L]',
+        A: 'I[B]A',
+      };
+      baseBasal = 4;
+      basePrimary = 2;
+      baseSecondary = 2;
+      basalStemRadiusMeters = 0.122;
+      break;
+    case 'pulse-fern':
+      axiom = 'C[F][F][F]M';
+      rules = {
+        C: 'C[F]',
+        M: 'I[F][S]M',
+      };
+      baseBasal = 6;
+      basePrimary = 6;
+      baseSecondary = 2;
+      basalStemRadiusMeters = 0.096;
+      break;
+    case 'echo-lotus':
+      axiom = 'P[O][O][N]K';
+      rules = {
+        P: 'P[O]',
+        K: '[O][N]K',
+      };
+      baseBasal = 1;
+      basePrimary = 6;
+      baseSecondary = 4;
+      basalStemRadiusMeters = 0.138;
+      break;
+    case 'drone-moss':
+      axiom = 'B[S][S]U';
+      rules = {
+        B: 'B[C]',
+        U: '[S]U',
+      };
+      baseBasal = 3;
+      basePrimary = 3;
+      baseSecondary = 3;
+      basalStemRadiusMeters = 0.074;
+      break;
+    case 'star-orchid':
+      axiom = 'L[B]I[S][T]G';
+      rules = {
+        L: 'L[B]',
+        G: '[S][T]G',
+      };
+      baseBasal = 3;
+      basePrimary = 4;
+      baseSecondary = 3;
+      basalStemRadiusMeters = 0.118;
+      break;
+  }
+
+  // Execute deterministic D0L parallel rewriting for `derivationDepth` plastochrons
+  let word = axiom;
+  for (let step = 0; step < derivationDepth; step++) {
+    let next = '';
+    for (let i = 0; i < word.length; i++) {
+      const ch = word[i];
+      next += rules[ch] ?? ch;
+    }
+    word = next;
+  }
+
+  // Derive bounded, strictly stage- and fidelity-monotonic organ counts from L-system depth
+  const stageBoost = Math.floor((stageIndex + 1) / 2); // 0, 1, 1, 2, 2
+  const fidelityOrganBoost = fidelityTier; // 0, 1, 2
+  const basalFoliageCount =
+    params.species === 'echo-lotus'
+      ? 1 + (stageIndex >= 3 && fidelityTier >= 2 ? 1 : 0)
+      : baseBasal + stageBoost + fidelityOrganBoost;
+  const primaryBranchCount = basePrimary + stageIndex + fidelityOrganBoost;
+  const secondaryWhorlCount = baseSecondary + stageBoost + fidelityOrganBoost;
+  const fruitingPearlCount = 3 + stageBoost + fidelityOrganBoost;
+
+  // Murray's Cubic Pipe Law: r_parent^3 = r_apicalContinuation^3 + sum_{i=1}^k r_branch_i^3
+  // Apical dominance allocates `alpha = 0.382` (`1 - 1/phi`) of cubic vascular conductance to the apical continuation,
+  // and `0.618` (`1/phi`) across the `k = primaryBranchCount` lateral meristem branches!
+  const parentRadiusCubedM3 = Math.pow(basalStemRadiusMeters, 3);
+  const apicalConductanceShare = 0.382;
+  const lateralConductanceShare = 1 - apicalConductanceShare;
+  const medialStemRadiusMeters = Math.cbrt(parentRadiusCubedM3 * apicalConductanceShare);
+  const perChildCubed = (parentRadiusCubedM3 * lateralConductanceShare) / Math.max(1, primaryBranchCount);
+  const childBranchRadiusMeters = Math.cbrt(perChildCubed);
+
+  const childrenRadiusCubedSumM3 =
+    Math.pow(medialStemRadiusMeters, 3) +
+    primaryBranchCount * Math.pow(childBranchRadiusMeters, 3);
+  const murrayCubicResidualM3 = Math.abs(parentRadiusCubedM3 - childrenRadiusCubedSumM3);
+
+  const primordia: BotanicalLSystemOrganPrimordium[] = [];
+  for (let i = 0; i < primaryBranchCount; i++) {
+    const normIdx = (i + 0.5) / Math.max(1, primaryBranchCount);
+    primordia.push({
+      index: i,
+      azimuthRad: i * GOLDEN_DIVERGENCE_RAD,
+      vogelRadiusNormalized: Number(Math.sqrt(normIdx).toFixed(5)),
+      elevationNormalized: Number((0.18 + normIdx * 0.74).toFixed(5)),
+      childVascularRadiusMeters: Number(childBranchRadiusMeters.toFixed(6)),
+    });
+  }
+
+  return {
+    species: params.species,
+    lifecycleStage: params.lifecycleStage,
+    stageIndex,
+    busWeight: w,
+    derivationDepth,
+    axiom,
+    derivedWord: word,
+    derivedSymbolCount: word.length,
+    basalFoliageCount,
+    primaryBranchCount,
+    secondaryWhorlCount,
+    fruitingPearlCount,
+    basalStemRadiusMeters: Number(basalStemRadiusMeters.toFixed(5)),
+    medialStemRadiusMeters: Number(medialStemRadiusMeters.toFixed(5)),
+    childBranchRadiusMeters: Number(childBranchRadiusMeters.toFixed(5)),
+    parentRadiusCubedM3: Number(parentRadiusCubedM3.toFixed(9)),
+    childrenRadiusCubedSumM3: Number(childrenRadiusCubedSumM3.toFixed(9)),
+    murrayCubicResidualM3,
+    murrayLawConserved: murrayCubicResidualM3 < 1e-6,
+    goldenDivergenceRad: GOLDEN_DIVERGENCE_RAD,
+    primordia,
+  };
+}
