@@ -1125,12 +1125,39 @@ export class BotanicalSoundscapeEngine {
       const constellation = this.liveBiomeConstellations[biome];
       const spProfile = this.liveArticulationProfiles[biomeCfg.signatureSpecies];
 
-      constellation.chordRatios.forEach((ratio, voiceIdx) => {
+      const biomeCompound =
+        biome === 'crystal'
+          ? MATTER_COMPOUNDS['piezoelectric-quartz-geode']
+          : biome === 'sanctuary'
+            ? MATTER_COMPOUNDS['travertine-limestone-spar']
+            : MATTER_COMPOUNDS['lignocellulosic-vascular-tissue'];
+      const chladniRatios = computeMaterialChladniModalRatios(
+        biomeCompound.bulkElasticModulusGPa,
+        biomeCompound.compoundDensityGPerCm3,
+        this.liveModalPartialsPerVoice,
+      );
+      const chordRatios =
+        this.livePrimeLimitCeiling === 11
+          ? [...constellation.chordRatios, 11 / 8, 7 / 4]
+          : this.livePrimeLimitCeiling === 7
+            ? [...constellation.chordRatios, 7 / 4]
+            : constellation.chordRatios;
+
+      const chordBarkAudit = evaluate24BarkMaskingGovernor(
+        chordRatios.map((r) => ({
+          freqHz: biomeCfg.baseNoteHz * r,
+          gain: 0.068 * computeIso226EqualLoudnessWeight(biomeCfg.baseNoteHz * r, 60),
+        })),
+        this.liveBarkHeadroomDb,
+        this.barkScratchBuffer,
+      );
+
+      chordRatios.forEach((ratio, voiceIdx) => {
         if (!this.ctx || !this.masterGain) return;
         const startTime = now + voiceIdx * 0.085;
         const duration = atmosphere === 'starlight' ? 1.85 : 1.45;
         const freq = biomeCfg.baseNoteHz * ratio;
-        const panPos = -0.55 + (voiceIdx / Math.max(1, constellation.chordRatios.length - 1)) * 1.1;
+        const panPos = -0.55 + (voiceIdx / Math.max(1, chordRatios.length - 1)) * 1.1;
 
         const osc = this.ctx.createOscillator();
         const overtone = this.ctx.createOscillator();
@@ -1140,17 +1167,38 @@ export class BotanicalSoundscapeEngine {
         osc.frequency.setValueAtTime(freq, startTime);
 
         overtone.type = 'triangle';
-        overtone.frequency.setValueAtTime(freq * spProfile.modalPartialRatios[1], startTime);
+        overtone.frequency.setValueAtTime(
+          freq * spProfile.modalPartialRatios[1] * ((chladniRatios[1] ?? 1.58) / 1.58),
+          startTime,
+        );
         const ovGain = this.ctx.createGain();
         ovGain.gain.value = 0.28;
 
+        const peakVoiceAmp = chordBarkAudit.attenuatedGains[voiceIdx] ?? 0.068;
         voiceGain.gain.setValueAtTime(0.0006, startTime);
-        voiceGain.gain.linearRampToValueAtTime(0.068, startTime + 0.035);
+        voiceGain.gain.linearRampToValueAtTime(peakVoiceAmp, startTime + 0.035);
         voiceGain.gain.exponentialRampToValueAtTime(0.0005, startTime + duration);
 
         osc.connect(voiceGain);
         overtone.connect(ovGain);
         ovGain.connect(voiceGain);
+
+        // Additional Chladni crystalline modal partials unlocked as `liveModalPartialsPerVoice` scales (`5..8`)
+        const extraModes = Math.max(0, Math.min(3, this.liveModalPartialsPerVoice - 5));
+        for (let m = 0; m < extraModes; m++) {
+          const modeRatio = chladniRatios[2 + m] ?? 2.756 + m * 0.85;
+          const modeFreq = Math.min(3800, freq * modeRatio);
+          const modeOsc = this.ctx.createOscillator();
+          const modeGain = this.ctx.createGain();
+          modeOsc.type = 'sine';
+          modeOsc.frequency.setValueAtTime(modeFreq, startTime);
+          modeGain.gain.setValueAtTime(0.08 / (m + 1.4), startTime);
+          modeGain.gain.exponentialRampToValueAtTime(0.001, startTime + duration * 0.65);
+          modeOsc.connect(modeGain);
+          modeGain.connect(voiceGain);
+          modeOsc.start(startTime);
+          modeOsc.stop(startTime + duration * 0.68);
+        }
 
         if (typeof this.ctx.createStereoPanner === 'function') {
           const panner = this.ctx.createStereoPanner();
@@ -1771,7 +1819,15 @@ export class BotanicalSoundscapeEngine {
 
     try {
       const baseNow = this.ctx.currentTime;
-      step.voices.forEach((voice) => {
+      const stepBarkAudit = evaluate24BarkMaskingGovernor(
+        step.voices.map((v) => ({
+          freqHz: v.frequencyHz,
+          gain: v.amplitude * computeIso226EqualLoudnessWeight(v.frequencyHz, 60),
+        })),
+        this.liveBarkHeadroomDb,
+        this.barkScratchBuffer,
+      );
+      step.voices.forEach((voice, voiceIdx) => {
         if (!this.ctx || !this.masterGain) return;
         const spProfile = this.liveArticulationProfiles[voice.species];
         const spatial = evaluateSpatialWaveAcoustics({
@@ -1812,15 +1868,47 @@ export class BotanicalSoundscapeEngine {
         const granularAcoustic = biochem.granularSynthesis?.modalSyntheses.acousticModality;
         const partialStiffness = granularAcoustic?.modalBellPartialStiffnessRatio ?? 1.0;
         const silicaQMult = granularAcoustic?.piezoelectricSilicaQMultiplier ?? 1.0;
+        const stemCompound =
+          voice.substrate === 'crystalline-epiphyte' || voice.biome === 'crystal'
+            ? MATTER_COMPOUNDS['piezoelectric-quartz-geode']
+            : MATTER_COMPOUNDS['lignocellulosic-vascular-tissue'];
+        const stemChladni = computeMaterialChladniModalRatios(
+          stemCompound.bulkElasticModulusGPa,
+          stemCompound.compoundDensityGPerCm3,
+          this.liveModalPartialsPerVoice,
+        );
 
         overtone.type = 'sine';
         overtone.frequency.setValueAtTime(
           voice.frequencyHz *
-            (isBass ? 1.5 : (spProfile.modalPartialRatios[1] ?? 2.0) * partialStiffness),
+            (isBass
+              ? 1.5
+              : (spProfile.modalPartialRatios[1] ?? 2.0) *
+                partialStiffness *
+                ((stemChladni[1] ?? 1.58) / 1.58)),
           now,
         );
         ovGain.gain.value =
           (isBass ? 0.28 : isOstinato ? 0.18 : 0.22) * (0.85 + circadian.stomatalConductance * 0.2);
+
+        // Voice upper Chladni bell/plate partials unlocked by `this.liveModalPartialsPerVoice` (`5..8`)
+        if (!isBass && this.liveModalPartialsPerVoice > 5) {
+          const upperModes = Math.min(2, this.liveModalPartialsPerVoice - 5);
+          for (let m = 0; m < upperModes; m++) {
+            const cRatio = stemChladni[2 + m] ?? 2.756 + m;
+            const cFreq = Math.min(3600, voice.frequencyHz * cRatio);
+            const cOsc = this.ctx.createOscillator();
+            const cGain = this.ctx.createGain();
+            cOsc.type = 'sine';
+            cOsc.frequency.setValueAtTime(cFreq, now);
+            cGain.gain.setValueAtTime(0.09 / (m + 1.3), now);
+            cGain.gain.exponentialRampToValueAtTime(0.0008, now + Math.max(0.14, voice.durationSec * 0.55));
+            cOsc.connect(cGain);
+            cGain.connect(filter);
+            cOsc.start(now);
+            cOsc.stop(now + Math.max(0.16, voice.durationSec * 0.58));
+          }
+        }
 
         filter.type = 'lowpass';
         const rawCutoff = isBass ? 360 : isOstinato ? 1650 : 1280;
@@ -1828,7 +1916,7 @@ export class BotanicalSoundscapeEngine {
           Math.min(
             spatial.effectiveLowpassHz,
             Math.max(
-              rawCutoff,
+              rawCutoff + (this.liveModalPartialsPerVoice - 5) * 240,
               (granularAcoustic?.lignocellulosicWarmthCutoffHz ?? biochem.harmonicWarmthFilterHz) *
                 0.65,
             ),
@@ -1842,7 +1930,8 @@ export class BotanicalSoundscapeEngine {
           Math.max(0.18, voice.durationSec) *
           biochem.acousticSustainMultiplier *
           (0.94 + circadian.hydraulicTurgorPressure * 0.06);
-        const peakAmp = voice.amplitude * (0.45 + spatial.distanceGainMultiplier * 0.55);
+        const governedAmp = stepBarkAudit.attenuatedGains[voiceIdx] ?? voice.amplitude;
+        const peakAmp = governedAmp * (0.45 + spatial.distanceGainMultiplier * 0.55);
 
         gain.gain.setValueAtTime(0.0004, now);
         gain.gain.linearRampToValueAtTime(peakAmp, now + attackSec);

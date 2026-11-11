@@ -32,6 +32,7 @@ import {
   synthesizeParametricBotanicalLifecycleStages,
   synthesizeParametricPlantSpeciesConfigs,
   synthesizeParametricSoundOutcomeProfiles,
+  synthesizeVerdantW3CDesignTokens,
 } from './game/prismModel';
 import { BotanicalSoundscapeEngine } from './game/soundscapeEngine';
 import {
@@ -132,8 +133,16 @@ export default function App() {
 
   // Synchronize live Prism Parametric Display, W3C OKLCH Design Tokens & Mathematical Affect CSS custom properties onto `:root`
   const parametricDisplay = telemetry.neuromorphic.observer.parametricDisplayDesign;
-  const w3cDesignTokens =
-    telemetry.neuromorphic.observer.canonicalStandardModelsContext.w3cDesignTokens;
+  const liveMultiModalFidelity =
+    telemetry.neuromorphic.observer.canonicalStandardModelsContext.multiModalFidelity;
+  const w3cDesignTokens = useMemo(
+    () =>
+      synthesizeVerdantW3CDesignTokens(
+        atmosphere,
+        liveMultiModalFidelity.normalizedFidelity01,
+      ),
+    [atmosphere, liveMultiModalFidelity.normalizedFidelity01],
+  );
   const liveAffectAuraHex =
     telemetry.neuromorphic.observer.affectAndPreferences.affect.coreAuraHex;
   useEffect(() => {
@@ -144,8 +153,47 @@ export default function App() {
     for (const [varName, varVal] of Object.entries(w3cDesignTokens.cssVariables)) {
       rootStyle.setProperty(varName, varVal);
     }
+    // Bridge W3C OKLCH perceptual tokens & Just-Intonation modular typography directly into live HUD surfaces
+    const surfAbyss = w3cDesignTokens.cssVariables['--vr-surface-abyss'] ?? '#08120e';
+    const surfElev = w3cDesignTokens.cssVariables['--vr-surface-elevated'] ?? '#0f1e18';
+    const accVerdant = w3cDesignTokens.cssVariables['--vr-accent-verdant'] ?? '#47df9c';
+    const accSolar = w3cDesignTokens.cssVariables['--vr-accent-solar'] ?? '#f5ca5c';
+    const accCrystal = w3cDesignTokens.cssVariables['--vr-accent-crystal'] ?? '#5cc8f2';
+    rootStyle.setProperty('--prism-bg-canvas', surfAbyss);
+    rootStyle.setProperty(
+      '--prism-surface-bg',
+      `color-mix(in oklch, ${surfAbyss} 86%, transparent)`,
+    );
+    rootStyle.setProperty(
+      '--prism-surface-elevated',
+      `color-mix(in oklch, ${surfElev} 91%, transparent)`,
+    );
+    rootStyle.setProperty(
+      '--prism-border-hairline',
+      `color-mix(in oklch, ${accVerdant} 30%, transparent)`,
+    );
+    rootStyle.setProperty('--prism-accent-primary', accSolar);
+    rootStyle.setProperty('--prism-accent-secondary', accVerdant);
+    rootStyle.setProperty('--prism-accent-tertiary', accCrystal);
+    rootStyle.setProperty(
+      '--prism-text-primary',
+      w3cDesignTokens.cssVariables['--vr-ink-primary'] ?? '#eff7f1',
+    );
+    rootStyle.setProperty(
+      '--prism-text-muted',
+      w3cDesignTokens.cssVariables['--vr-ink-secondary'] ?? '#bfd8c9',
+    );
+    const scaleRatio = parametricDisplay.typographyAndSpatial.typeScaleRatio || 1.25;
+    rootStyle.setProperty('--vr-type-lg', `${scaleRatio.toFixed(4)}rem`);
+    rootStyle.setProperty('--vr-type-xl', `${(scaleRatio * scaleRatio).toFixed(4)}rem`);
+    rootStyle.setProperty('--vr-type-2xl', `${Math.pow(scaleRatio, 3).toFixed(4)}rem`);
     rootStyle.setProperty('--prism-affect-aura', liveAffectAuraHex);
-  }, [parametricDisplay.cssVariables, w3cDesignTokens.cssVariables, liveAffectAuraHex]);
+  }, [
+    parametricDisplay.cssVariables,
+    parametricDisplay.typographyAndSpatial.typeScaleRatio,
+    w3cDesignTokens.cssVariables,
+    liveAffectAuraHex,
+  ]);
 
   // Animate 16-band SVG acoustic spectrum bars directly via DOM refs without React re-renders
   useEffect(() => {
@@ -220,6 +268,26 @@ export default function App() {
       return ATMOSPHERE_ORDER[(idx + 1) % ATMOSPHERE_ORDER.length];
     });
   }, []);
+
+  const handleProjectApexFidelity = useCallback(
+    (e?: React.MouseEvent<HTMLButtonElement>) => {
+      e?.currentTarget.blur();
+      soundEngine.init();
+      soundEngine.setPaused(false);
+      if (liveMultiModalFidelity.normalizedFidelity01 >= 0.99) {
+        gardenHandleRef.current?.refineParametricCosmos(2);
+        setRecentBanner(
+          `14×14 Functor Bus Consolidated · 73λ CIE · 56-Seg B-Mesh · 11-Limit JI · 8 Modes`,
+        );
+      } else {
+        gardenHandleRef.current?.extrapolateToHighestResolution();
+        setRecentBanner(
+          `Apex Multi-Modal Fidelity · 73λ Spectral · 56-Seg B-Mesh · 14 Bravais · 11-Limit JI`,
+        );
+      }
+    },
+    [liveMultiModalFidelity.normalizedFidelity01, soundEngine],
+  );
 
   const liveCosmoParams = useMemo(
     () => ({
@@ -308,6 +376,9 @@ export default function App() {
       } else if (e.code === 'KeyL' && gameState === 'playing') {
         e.preventDefault();
         cycleAtmosphere();
+      } else if (e.code === 'KeyX' && gameState === 'playing') {
+        e.preventDefault();
+        handleProjectApexFidelity();
       } else if (e.code === 'KeyH' && gameState === 'playing') {
         e.preventDefault();
         setDockCollapsed((prev) => !prev);
@@ -316,7 +387,7 @@ export default function App() {
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [gameState, startGame, handleToggleMute, handleRestart, cycleAtmosphere]);
+  }, [gameState, startGame, handleToggleMute, handleRestart, cycleAtmosphere, handleProjectApexFidelity]);
 
   // Mindful exploration never force-terminates gameplay at 100% Harmony.
   // Only extreme unmindful agitation (sustained rapid key mashing during refractory cooldowns >= 100%)
@@ -395,7 +466,7 @@ export default function App() {
               {VERDANT_BRAND_STANDARD.editionTitle}
             </div>
             <div className="text-xs font-mono text-emerald-300/85 tracking-wide hud-text-shadow hidden sm:block">
-              PARAMETRIC PRISM DISPLAY · {parametricDisplay.typographyAndSpatial.justIntonationIntervalLabel.toUpperCase()} · ZERO CONFLICT
+              14 STANDARD MODELS · {liveMultiModalFidelity.spectralBandCount}λ CIE 1931 · 14 BRAVAIS LATTICES · W3C OKLCH ({w3cDesignTokens.primaryWcagContrast}:1 AAA)
             </div>
           </div>
 
@@ -436,13 +507,13 @@ export default function App() {
 
             {/* Unboxed Sensory & Humane Design Pillars */}
             <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-emerald-300/90">
-              <span>Pure Just Intonation (0.0¢)</span>
+              <span>{liveMultiModalFidelity.primeLimitHarmonicCeiling}-Limit Just Intonation (0.0¢)</span>
               <span aria-hidden="true">·</span>
-              <span>5-Partial Modal + Stereo Delay</span>
+              <span>{liveMultiModalFidelity.chladniModalPartialsPerVoice}-Mode Chladni + 24-Bark</span>
               <span aria-hidden="true">·</span>
-              <span>5 Biome Pavilions</span>
+              <span>14 IUCr Bravais Crystals</span>
               <span aria-hidden="true">·</span>
-              <span>Sympathetic Pollination</span>
+              <span>CIE 1931 Spectral + OKLCH</span>
             </div>
 
             {/* Primary CTA + Secondary Herbarium Button (<= 2 focal actions) */}
@@ -459,7 +530,11 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setGameState('paused')}
-                className="px-5 py-3.5 rounded-lg border border-emerald-300/35 bg-[#091913]/85 hover:bg-emerald-950 text-emerald-100 font-medium text-sm transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                className="px-5 py-3.5 rounded-lg border text-emerald-100 font-medium text-sm hover:bg-emerald-950/90 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                style={{
+                  backgroundColor: 'var(--prism-surface-bg)',
+                  borderColor: 'var(--prism-border-hairline)',
+                }}
               >
                 Botanical Field Guide & Atlas
               </button>
@@ -468,7 +543,7 @@ export default function App() {
 
           {/* Single Flat Borderless Control Hint Line in Bottom Safe Margin */}
           <div className="text-xs font-mono text-emerald-200/80 hud-text-shadow">
-            WASD / Arrows Move · Mouse Drag / Q-E Look · Space Attune Flora · T Touch · C Stillness · G Guided Stroll · L Sky · 1-5 Biomes · P Field Guide
+            WASD / Arrows Move · Mouse Drag / Q-E Look · Space Attune Flora · T Touch · C Stillness · X Apex Fidelity · G Stroll · L Sky · 1-5 Biomes · P Guide
           </div>
         </div>
       )}
@@ -637,6 +712,33 @@ export default function App() {
                   )}
                   %
                 </div>
+                <div
+                  className="mt-1 flex items-center gap-2 text-[10px] font-mono text-emerald-200/90 tabular-nums"
+                  data-testid="hud-multimodal-fidelity"
+                >
+                  <span>
+                    {liveMultiModalFidelity.spectralBandCount}λ CIE ·{' '}
+                    {liveMultiModalFidelity.bMeshRadialSubdivisions}-seg B-Mesh ·{' '}
+                    {liveMultiModalFidelity.primeLimitHarmonicCeiling}-Lim JI ·{' '}
+                    {liveMultiModalFidelity.chladniModalPartialsPerVoice} Modes
+                  </span>
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    onClick={handleProjectApexFidelity}
+                    title="Project 14×14 Neuromorphic Functor Bus to Apex Multi-Modal Fidelity [X]"
+                    className="px-1.5 py-0.5 rounded border text-[9px] font-mono font-semibold uppercase tracking-wide transition-colors cursor-pointer shrink-0 hover:brightness-110"
+                    style={{
+                      backgroundColor: 'color-mix(in oklch, var(--vr-accent-solar) 18%, transparent)',
+                      borderColor: 'color-mix(in oklch, var(--vr-accent-solar) 48%, transparent)',
+                      color: 'var(--vr-accent-solar)',
+                    }}
+                  >
+                    {liveMultiModalFidelity.normalizedFidelity01 >= 0.99
+                      ? '✦ Apex [X]'
+                      : '↑ Apex [X]'}
+                  </button>
+                </div>
               </div>
 
               {/* 16-Band Zero-Allocation Parametric SVG Spectrum Visualizer */}
@@ -723,7 +825,11 @@ export default function App() {
                 tabIndex={-1}
                 aria-label={isMuted ? 'Unmute Audio [M]' : 'Mute Audio [M]'}
                 onClick={handleToggleMute}
-                className="w-10 h-10 rounded-lg border border-emerald-400/25 bg-[#071510]/90 hover:bg-emerald-900/70 text-emerald-100 flex items-center justify-center shadow-lg transition-colors cursor-pointer"
+                className="w-10 h-10 rounded-lg border hover:bg-emerald-900/70 text-emerald-100 flex items-center justify-center shadow-lg transition-colors cursor-pointer"
+                style={{
+                  backgroundColor: 'var(--prism-surface-bg)',
+                  borderColor: 'var(--prism-border-hairline)',
+                }}
               >
                 <SoundWaveIcon muted={isMuted} className="w-4 h-4" />
               </button>
@@ -736,7 +842,11 @@ export default function App() {
                   e.currentTarget.blur();
                   setGameState('paused');
                 }}
-                className="w-10 h-10 rounded-lg border border-emerald-400/25 bg-[#071510]/90 hover:bg-emerald-900/70 text-emerald-100 flex items-center justify-center shadow-lg transition-colors cursor-pointer"
+                className="w-10 h-10 rounded-lg border hover:bg-emerald-900/70 text-emerald-100 flex items-center justify-center shadow-lg transition-colors cursor-pointer"
+                style={{
+                  backgroundColor: 'var(--prism-surface-bg)',
+                  borderColor: 'var(--prism-border-hairline)',
+                }}
               >
                 <PauseGlyphIcon className="w-4 h-4" />
               </button>
@@ -749,7 +859,11 @@ export default function App() {
                   e.currentTarget.blur();
                   handleRestart();
                 }}
-                className="w-10 h-10 rounded-lg border border-emerald-400/25 bg-[#071510]/90 hover:bg-emerald-900/70 text-emerald-100 flex items-center justify-center shadow-lg transition-colors cursor-pointer"
+                className="w-10 h-10 rounded-lg border hover:bg-emerald-900/70 text-emerald-100 flex items-center justify-center shadow-lg transition-colors cursor-pointer"
+                style={{
+                  backgroundColor: 'var(--prism-surface-bg)',
+                  borderColor: 'var(--prism-border-hairline)',
+                }}
               >
                 <ResetGlyphIcon className="w-4 h-4" />
               </button>
@@ -759,7 +873,7 @@ export default function App() {
           {/* Unified Collapsible Bottom Control Dock (Zero Side-Panel Clutter) */}
           <div
             className="fixed left-1/2 -translate-x-1/2 bottom-4 z-20 flex flex-col items-center pointer-events-auto transition-transform duration-200"
-            style={{ maxWidth: 'min(940px, 95vw)' }}
+            style={{ maxWidth: 'min(960px, 95vw)' }}
           >
             {/* Collapse / Expand Zen Mode Toggle */}
             <button
@@ -769,7 +883,11 @@ export default function App() {
                 e.currentTarget.blur();
                 setDockCollapsed((prev) => !prev);
               }}
-              className="px-3 py-1 rounded-t-lg border border-b-0 border-emerald-400/25 bg-[#071510]/90 text-[11px] font-mono text-emerald-200 hover:text-amber-200 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              className="px-3 py-1 rounded-t-lg border border-b-0 text-[11px] font-mono text-emerald-200 hover:text-amber-200 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              style={{
+                backgroundColor: 'var(--prism-surface-bg)',
+                borderColor: 'var(--prism-border-hairline)',
+              }}
             >
               {dockCollapsed ? '▴ Show Sanctuary Controls [H]' : '▾ Hide Sanctuary Controls [H]'}
             </button>

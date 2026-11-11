@@ -13268,7 +13268,17 @@ export function composeLiveSoundtrackScore(params: {
   // Rests on steps 3, 7, 11, 13, 14, 15 create natural phrasing and exhale space
   const guaranteedRestSet = new Set<number>([3, 7, 11, 13, 14, 15]);
   const r30Byte = neuromorphic.rule30History[neuromorphic.rule30History.length - 1] ?? 142;
-  const scaleRatios = biomeCfg.scaleRatios;
+  const primeLimit =
+    neuromorphic.observer.canonicalStandardModelsContext.multiModalFidelity
+      .primeLimitHarmonicCeiling;
+  const baseScaleRatios = biomeCfg.scaleRatios;
+  // Unlock higher-limit Just Intonation intervals (`7/6, 9/7, 7/4` for 7-limit; `11/8, 11/6` for 11-limit)
+  const scaleRatios =
+    primeLimit === 11
+      ? [...baseScaleRatios, 7 / 6, 11 / 8, 7 / 4, 11 / 6]
+      : primeLimit === 7
+        ? [...baseScaleRatios, 7 / 6, 9 / 7, 7 / 4]
+        : baseScaleRatios;
 
   const steps: SoundtrackStepSpec[] = [];
   let activeStepCount = 0;
@@ -13355,18 +13365,25 @@ export function composeLiveSoundtrackScore(params: {
       });
     }
 
-    // Stem 4: Canonic Counterpoint Echo (steps 2, 6, 10, 12 using Icosian Z[φ] / PrimeAddress kinship)
+    // Stem 4: Canonic Counterpoint Echo (steps 2, 6, 10, 12 using Icosian Z[φ] / PrimeAddress kinship + 7/11-limit JI)
     if (canonPool.length > 0 && (s === 2 || s === 6 || s === 10 || s === 12)) {
       const specimen = canonPool[(s >> 1) % canonPool.length];
-      const cRatio = neuromorphic.synthesizedCounterpointRatios[(s >> 1) % 3] ?? 1.5;
+      const baseCRatio = neuromorphic.synthesizedCounterpointRatios[(s >> 1) % 3] ?? 1.5;
+      const limitColoring =
+        primeLimit === 11 && s === 10
+          ? 11 / 8
+          : primeLimit >= 7 && s === 6
+            ? 7 / 6
+            : 1.5;
+      const effectiveCanonRatio = Number((baseCRatio * limitColoring).toFixed(4));
       const spSpatial = bindSpecimenSpatialAcoustics(specimen, s % 4 === 2 ? 0.64 : -0.64);
       voices.push({
         stem: 'canonic-counterpoint-echo',
         species: specimen.species,
         biome: spSpatial.biome,
         substrate: spSpatial.substrate,
-        frequencyHz: Number((biomeCfg.baseNoteHz * cRatio * 1.5).toFixed(2)),
-        ratio: Number((cRatio * 1.5).toFixed(3)),
+        frequencyHz: Number((biomeCfg.baseNoteHz * effectiveCanonRatio).toFixed(2)),
+        ratio: Number(effectiveCanonRatio.toFixed(3)),
         durationSec: Number((stepDurationSec * 1.8).toFixed(3)),
         amplitude: 0.034,
         stereoPan: spSpatial.stereoPan,

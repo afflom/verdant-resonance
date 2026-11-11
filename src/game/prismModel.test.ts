@@ -259,6 +259,8 @@ import {
   AtmosphereId,
 } from './prismModel';
 import {
+  ALL_14_BRAVAIS_CRYSTAL_HABITS,
+  bravaisPearsonToCrystalHabitId,
   buildImmanentObserverWitnessGroup,
   createBravaisCrystalHabitGeometry,
   createCordateLotusPadGeometry,
@@ -4040,6 +4042,139 @@ test('49. 14×14 Neuromorphic Functorial Feature-Transfer Matrix Enhances Multi-
   );
   assert.equal(apexCtx.multiModalFidelity.perFrameHeapAllocations, 0);
 });
+
+test('50. End-to-End Multi-Modal Projection: All 14 IUCr Bravais Crystal Manifolds, 7/11-Limit Soundtrack Projection, 8-Mode Chladni & Diurnal W3C OKLCH Tokens', () => {
+  // 1. All 14 IUCr Bravais Crystal Lattices construct closed genus-0 watertight polyhedra (χ = V - E + F = 2, d∘d = 0)
+  assert.equal(ALL_14_BRAVAIS_CRYSTAL_HABITS.length, 14);
+  const mappedHabits = new Set(
+    FOURTEEN_BRAVAIS_LATTICES.map((lat) => bravaisPearsonToCrystalHabitId(lat.pearsonSymbol)),
+  );
+  assert.equal(
+    mappedHabits.size,
+    14,
+    'Every IUCr Pearson symbol (aP..cF) must map bijectively to a distinct 3D crystal habit',
+  );
+
+  for (const habit of ALL_14_BRAVAIS_CRYSTAL_HABITS) {
+    const crystalGeo = createBravaisCrystalHabitGeometry({
+      habit,
+      radius: 0.48,
+      height: 1.4,
+    });
+    const topo = verifyManifoldBMeshTopology(crystalGeo);
+    assert.equal(
+      topo.isClosedWatertightManifold,
+      true,
+      `Bravais habit ${habit} must be a closed watertight manifold (got boundary=${topo.boundaryEdgeCount}, nonManifold=${topo.nonManifoldEdgeCount}, χ=${topo.eulerPoincareCharacteristic})`,
+    );
+    assert.equal(
+      topo.eulerPoincareCharacteristic,
+      2,
+      `Bravais habit ${habit} must be genus-0 (χ = 2, got ${topo.eulerPoincareCharacteristic})`,
+    );
+    assert.equal(topo.exteriorDerivativeNilpotent, true);
+    assert.ok(
+      crystalGeo.getAttribute('color') !== undefined,
+      `Bravais habit ${habit} must carry crystallographic vertex color attributes`,
+    );
+    crystalGeo.dispose();
+  }
+
+  // 2. Live 4-Stem Soundtrack & 8-Mode Chladni Projection under Neuromorphic Apex Extrapolation
+  const baseNeuro = createInitialNeuromorphicState(1);
+  const basePlants = generateGardenPlants({ alphaSeed: 1 });
+  const silentScore = composeLiveSoundtrackScore({
+    biome: 'sanctuary',
+    atmosphere: 'golden',
+    harmonyPct: 15,
+    plants: basePlants,
+    neuromorphic: baseNeuro,
+  });
+  assert.equal(
+    silentScore.activeStems.length,
+    0,
+    'Unawakened garden must preserve silent rest before player attunement',
+  );
+
+  const stages = [
+    'sprouting-bud',
+    'resonant-bloom',
+    'harmonic-fruiting',
+    'mycelial-memory',
+  ] as const;
+  const awakenedPlants = basePlants.map((p, idx) =>
+    idx < 12
+      ? {
+          ...p,
+          attuned: true,
+          lifecycleStage: stages[idx % stages.length],
+        }
+      : p,
+  );
+  const apexExtrapolated = extrapolatePrismToHighestResolution(baseNeuro, {
+    alphaSeed: 1,
+    biome: 'sanctuary',
+    species: 'star-orchid',
+    atmosphere: 'golden',
+    harmonyPct: 88,
+  });
+  const apexFidelity =
+    apexExtrapolated.nextState.observer.canonicalStandardModelsContext.multiModalFidelity;
+  assert.equal(apexFidelity.primeLimitHarmonicCeiling, 11);
+  assert.equal(apexFidelity.chladniModalPartialsPerVoice, 8);
+
+  const apexModes = computeMaterialChladniModalRatios(
+    95,
+    2.65,
+    apexFidelity.chladniModalPartialsPerVoice,
+  );
+  assert.equal(apexModes.length, 8);
+
+  const apexScore = composeLiveSoundtrackScore({
+    biome: 'sanctuary',
+    atmosphere: 'golden',
+    harmonyPct: 88,
+    plants: awakenedPlants,
+    neuromorphic: apexExtrapolated.nextState,
+  });
+  assert.equal(apexScore.activeStems.length, 4);
+  assert.ok(apexScore.restStepCount >= 6, 'Sparse breathing-rest law (>= 6 rests) must hold at 11-limit');
+  const hasExtendedHarmonicIntervals = apexScore.steps.some(
+    (s) =>
+      !s.isRest &&
+      s.voices.some(
+        (v) =>
+          Math.abs(v.ratio - 7 / 6) < 1e-2 ||
+          Math.abs(v.ratio - 9 / 7) < 1e-2 ||
+          Math.abs(v.ratio - 11 / 8) < 1e-2 ||
+          Math.abs(v.ratio - 7 / 4) < 1e-2 ||
+          Math.abs(v.ratio - 11 / 6) < 1e-2,
+      ),
+  );
+  assert.equal(
+    hasExtendedHarmonicIntervals,
+    true,
+    '11-limit multi-modal projection must unlock septimal/undecimal Just-Intonation intervals in live score',
+  );
+
+  // 3. Diurnal CIE 1931 Spectral Palettes & W3C OKLCH Design Tokens across all 4 atmospheres
+  const atmospheres: AtmosphereId[] = ['dawn', 'golden', 'twilight', 'starlight'];
+  for (const atm of atmospheres) {
+    const specPal = synthesizeSpectralDiurnalPalette(
+      atm,
+      apexFidelity.spectralBandCount,
+      apexFidelity.airyThinFilmSpanNm,
+    );
+    assert.equal(specPal.spectralBandCount, apexFidelity.spectralBandCount);
+    assert.match(specPal.foliageCanopy.hex, /^#[0-9a-f]{6}$/i);
+    assert.match(specPal.sunDirectional.hex, /^#[0-9a-f]{6}$/i);
+
+    const tokens = synthesizeVerdantW3CDesignTokens(atm, apexFidelity.normalizedFidelity01);
+    assert.equal(tokens.wcagAaaVerified, true, `WCAG 2.2 AAA (>= 7:1) must hold for ${atm}`);
+    assert.equal(tokens.apcaLegibilityVerified, true, `APCA legibility must hold for ${atm}`);
+  }
+});
+
 
 
 

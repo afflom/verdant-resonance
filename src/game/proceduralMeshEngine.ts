@@ -1106,6 +1106,7 @@ export function createStratifiedBoulderGeometry(options?: {
 }
 
 export interface HighDefinitionPbrTextureSuite {
+  texelResolution: number;
   mossColorTex: THREE.CanvasTexture;
   mossNormalTex: THREE.CanvasTexture;
   mossRoughnessTex: THREE.CanvasTexture;
@@ -1118,13 +1119,17 @@ export interface HighDefinitionPbrTextureSuite {
 /**
  * 12. High-Definition Procedural PBR Texture & Sobel Tangent-Space Normal Map Generator
  * - Synthesizes Albedo (`SRGBColorSpace`), Tangent-Space Normal Maps (`RGB = [Nx, Ny, Nz]`),
- *   and Roughness Maps directly from our 3 macromolecular/compound structural layers.
+ *   and Roughness Maps directly from our macromolecular/compound structural layers, scaled
+ *   monotonically by `multiModalFidelity.proceduralTexelResolution`.
  */
 export function createHighDefinitionPbrTextureSuite(
   maxAnisotropy: number,
   isSoftwareGl: boolean,
+  requestedResolution = 512,
 ): HighDefinitionPbrTextureSuite {
-  const size = isSoftwareGl ? 256 : 512;
+  const clampedReq = Math.max(256, Math.min(768, Math.round(requestedResolution)));
+  const size = isSoftwareGl ? 256 : Math.max(384, clampedReq);
+  const densityScale = size / 384;
 
   // Helper: convert a grayscale heightfield canvas into a true tangent-space normal map canvas
   const heightCanvasToNormalCanvas = (
@@ -1209,7 +1214,8 @@ export function createHighDefinitionPbrTextureSuite(
   mrCtx.fillStyle = '#d8d8d8';
   mrCtx.fillRect(0, 0, size, size);
 
-  for (let i = 0; i < 640; i++) {
+  const mossTuftCount = Math.round(640 * densityScale);
+  for (let i = 0; i < mossTuftCount; i++) {
     const x = nextRand() * size;
     const y = nextRand() * size;
     const r = (4 + nextRand() * 20) * (size / 512);
@@ -1245,7 +1251,8 @@ export function createHighDefinitionPbrTextureSuite(
   mhCtx.lineWidth = 1.3;
   mrCtx.strokeStyle = 'rgba(110, 110, 110, 0.35)';
   mrCtx.lineWidth = 1.4;
-  for (let h = 0; h < 120; h++) {
+  const hyphaCount = Math.round(140 * densityScale);
+  for (let h = 0; h < hyphaCount; h++) {
     const hx = nextRand() * size;
     const hy = nextRand() * size;
     const angle = nextRand() * Math.PI * 2;
@@ -1325,8 +1332,9 @@ export function createHighDefinitionPbrTextureSuite(
 
   phCtx.strokeStyle = 'rgba(220, 220, 220, 0.55)';
   phCtx.lineWidth = 2.4 * (size / 512);
-  for (let v = 1; v <= 12; v++) {
-    const vy = (v / 13) * size;
+  const veinPairCount = Math.max(12, Math.round(14 * densityScale));
+  for (let v = 1; v <= veinPairCount; v++) {
+    const vy = (v / (veinPairCount + 1)) * size;
     for (const dir of [-1, 1] as const) {
       phCtx.beginPath();
       phCtx.moveTo(size * 0.5, vy);
@@ -1364,6 +1372,7 @@ export function createHighDefinitionPbrTextureSuite(
   const petalVeinNormalTex = makeRepeatTex(petalNormalCanvas, false, 1, 1);
 
   return {
+    texelResolution: size,
     mossColorTex,
     mossNormalTex,
     mossRoughnessTex,
@@ -2307,14 +2316,91 @@ export function verifyManifoldBMeshTopology(
   };
 }
 
-export type BravaisCrystalHabitId = 'hP-quartz' | 'cP-pyrite' | 'hR-calcite';
+export type BravaisCrystalHabitId =
+  | 'aP-triclinic'
+  | 'mP-monoclinic'
+  | 'mS-gypsum'
+  | 'oP-orthorhombic'
+  | 'oS-aragonite'
+  | 'oI-body-orthorhombic'
+  | 'oF-face-orthorhombic'
+  | 'tP-rutile'
+  | 'tI-zircon'
+  | 'hR-calcite'
+  | 'hP-quartz'
+  | 'cP-pyrite'
+  | 'cI-garnet'
+  | 'cF-fluorite';
+
+export const ALL_14_BRAVAIS_CRYSTAL_HABITS: readonly BravaisCrystalHabitId[] = Object.freeze([
+  'aP-triclinic',
+  'mP-monoclinic',
+  'mS-gypsum',
+  'oP-orthorhombic',
+  'oS-aragonite',
+  'oI-body-orthorhombic',
+  'oF-face-orthorhombic',
+  'tP-rutile',
+  'tI-zircon',
+  'hR-calcite',
+  'hP-quartz',
+  'cP-pyrite',
+  'cI-garnet',
+  'cF-fluorite',
+]);
+
+export function bravaisPearsonToCrystalHabitId(pearsonSymbol: string): BravaisCrystalHabitId {
+  switch (pearsonSymbol) {
+    case 'aP':
+      return 'aP-triclinic';
+    case 'mP':
+      return 'mP-monoclinic';
+    case 'mS':
+      return 'mS-gypsum';
+    case 'oP':
+      return 'oP-orthorhombic';
+    case 'oS':
+      return 'oS-aragonite';
+    case 'oI':
+      return 'oI-body-orthorhombic';
+    case 'oF':
+      return 'oF-face-orthorhombic';
+    case 'tP':
+      return 'tP-rutile';
+    case 'tI':
+      return 'tI-zircon';
+    case 'hR':
+      return 'hR-calcite';
+    case 'hP':
+      return 'hP-quartz';
+    case 'cP':
+      return 'cP-pyrite';
+    case 'cI':
+      return 'cI-garnet';
+    case 'cF':
+      return 'cF-fluorite';
+    default:
+      return 'hP-quartz';
+  }
+}
 
 /**
  * Generates closed, watertight genus-0 (`χ = V - E + F = 2`, `0` boundary edges, `0` non-manifold edges)
- * crystallographic polyhedra directly from the canonical Bravais lattice constants (`FOURTEEN_BRAVAIS_LATTICES`):
- * - `hP-quartz`: α-Quartz (`SiO₂`, Bravais `hP`, `c/a = 1.100`) hexagonal prism + double rhombohedral bipyramid (`V = 14, E = 36, F = 24, χ = 2`)
- * - `cP-pyrite`: Pyrite (`FeS₂`, Bravais `cP`, `a = b = c`) `{100}+{111}` cuboctahedral crystal habit (`V = 12, E = 30, F = 20, χ = 2`)
- * - `hR-calcite`: Iceland Spar Calcite (`CaCO₃`, Bravais `hR`, `α = 76.5°` rhombohedral axes) cleavage rhombohedron (`V = 8, E = 18, F = 12, χ = 2`)
+ * crystallographic polyhedra bijectively spanning all 14 canonical IUCr Bravais lattices (`FOURTEEN_BRAVAIS_LATTICES`):
+ * - `aP-triclinic`: Oblique triclinic pinacoid (`a ≠ b ≠ c, α ≠ β ≠ γ ≠ 90°`, `V = 8, E = 18, F = 12, χ = 2`)
+ * - `mP-monoclinic`: Sheared monoclinic clinoprism + clinodome (`β = 106°`, `V = 10, E = 24, F = 16, χ = 2`)
+ * - `mS-gypsum`: Base-centered monoclinic selenite tabular prism (`β = 114°`, `V = 14, E = 36, F = 24, χ = 2`)
+ * - `oP-orthorhombic`: Topaz `{110}+{120}` 8-faceted orthorhombic prism + bipyramid (`V = 18, E = 48, F = 32, χ = 2`)
+ * - `oS-aragonite`: Base-centered orthorhombic pseudo-hexagonal prism + chisel dome (`V = 14, E = 36, F = 24, χ = 2`)
+ * - `oI-body-orthorhombic`: Body-centered orthorhombic anisotropic `{110}+{101}+{011}` dodecahedron (`V = 14, E = 36, F = 24, χ = 2`)
+ * - `oF-face-orthorhombic`: Face-centered orthorhombic Sulfur `{111}+{001}` truncated bipyramid (`V = 12, E = 30, F = 20, χ = 2`)
+ * - `tP-rutile`: Primitive tetragonal `{100}+{110}` ditetragonal prism + pyramid (`V = 18, E = 48, F = 32, χ = 2`)
+ * - `tI-zircon`: Body-centered tetragonal Zircon `{100}+{101}` steep bipyramid (`V = 10, E = 24, F = 16, χ = 2`)
+ * - `hR-calcite`: Rhombohedral Iceland Spar Calcite (`α = 76.5°` cleavage, `V = 8, E = 18, F = 12, χ = 2`)
+ * - `hP-quartz`: Hexagonal α-Quartz (`c/a = 1.100`) prism + double rhombohedral bipyramid (`V = 14, E = 36, F = 24, χ = 2`)
+ * - `cP-pyrite`: Primitive cubic `{100}+{111}` cuboctahedral crystal habit (`V = 12, E = 30, F = 20, χ = 2`)
+ * - `cI-garnet`: Body-centered cubic `{110}` Garnet rhombic dodecahedron (`V = 14, E = 36, F = 24, χ = 2`)
+ * - `cF-fluorite`: Face-centered cubic `{111}` Fluorite regular octahedron (`V = 6, E = 12, F = 8, χ = 2`)
  */
 export function createBravaisCrystalHabitGeometry(options: {
   habit: BravaisCrystalHabitId;
@@ -2322,7 +2408,7 @@ export function createBravaisCrystalHabitGeometry(options: {
   height?: number;
 }): THREE.BufferGeometry {
   const { habit, radius = 0.24, height = 0.56 } = options;
-  const pearsonCode = habit === 'hP-quartz' ? 'hP' : habit === 'cP-pyrite' ? 'cP' : 'hR';
+  const pearsonCode = habit.split('-')[0];
   const bravaisSpec =
     FOURTEEN_BRAVAIS_LATTICES.find((l) => l.pearsonSymbol === pearsonCode) ??
     FOURTEEN_BRAVAIS_LATTICES[0];
@@ -2330,43 +2416,248 @@ export function createBravaisCrystalHabitGeometry(options: {
   const vertices: Array<[number, number, number]> = [];
   const rawTriangles: Array<[number, number, number]> = [];
 
-  if (habit === 'hP-quartz') {
-    const cOverA = bravaisSpec.crystalSystem === 'hexagonal' ? 1.1001 : 1.0;
-    const halfH = Math.max(height * 0.5, radius * cOverA * 0.65);
-    const girdleHalfH = halfH * 0.52;
-    // 0: top apex, 1..6: upper crown ring, 7..12: lower crown ring, 13: bottom apex
-    vertices.push([0, halfH, 0]);
-    for (let i = 0; i < 6; i++) {
-      const theta = (i * Math.PI) / 3;
-      const rMod = i % 2 === 0 ? 1.0 : 0.965; // subtle trigonal α-quartz 32 symmetry
+  const emitParallelotope = (
+    b0Vec: [number, number, number],
+    b1Vec: [number, number, number],
+    b2Vec: [number, number, number],
+  ) => {
+    const cx = 0.5 * (b0Vec[0] + b1Vec[0] + b2Vec[0]);
+    const cy = 0.5 * (b0Vec[1] + b1Vec[1] + b2Vec[1]);
+    const cz = 0.5 * (b0Vec[2] + b1Vec[2] + b2Vec[2]);
+    for (let mask = 0; mask < 8; mask++) {
+      const m0 = mask & 1;
+      const m1 = (mask >> 1) & 1;
+      const m2 = (mask >> 2) & 1;
       vertices.push([
-        Math.cos(theta) * radius * rMod,
-        girdleHalfH,
-        Math.sin(theta) * radius * rMod,
+        m0 * b0Vec[0] + m1 * b1Vec[0] + m2 * b2Vec[0] - cx,
+        m0 * b0Vec[1] + m1 * b1Vec[1] + m2 * b2Vec[1] - cy,
+        m0 * b0Vec[2] + m1 * b1Vec[2] + m2 * b2Vec[2] - cz,
       ]);
     }
-    for (let i = 0; i < 6; i++) {
-      const theta = (i * Math.PI) / 3;
-      const rMod = i % 2 === 0 ? 1.0 : 0.965;
-      vertices.push([
-        Math.cos(theta) * radius * rMod,
-        -girdleHalfH,
-        Math.sin(theta) * radius * rMod,
-      ]);
+    const quads: Array<[number, number, number, number]> = [
+      [0, 2, 6, 4],
+      [1, 3, 7, 5],
+      [0, 1, 5, 4],
+      [2, 3, 7, 6],
+      [0, 1, 3, 2],
+      [4, 5, 7, 6],
+    ];
+    for (const [q0, q1, q2, q3] of quads) {
+      rawTriangles.push([q0, q1, q2], [q0, q2, q3]);
     }
-    vertices.push([0, -halfH, 0]);
+  };
 
-    for (let i = 0; i < 6; i++) {
-      const next = (i + 1) % 6;
+  const emitBipyramidalPrism = (
+    ringCount: number,
+    ringXZFn: (i: number) => [number, number],
+    girdleHalfH: number,
+    apexHalfH: number,
+    shearX = 0,
+    shearZ = 0,
+  ) => {
+    vertices.push([shearX, apexHalfH, shearZ]);
+    const girdleShearFrac = girdleHalfH / Math.max(1e-5, apexHalfH);
+    for (let i = 0; i < ringCount; i++) {
+      const [rx, rz] = ringXZFn(i);
+      vertices.push([
+        rx + shearX * girdleShearFrac,
+        girdleHalfH,
+        rz + shearZ * girdleShearFrac,
+      ]);
+    }
+    for (let i = 0; i < ringCount; i++) {
+      const [rx, rz] = ringXZFn(i);
+      vertices.push([
+        rx - shearX * girdleShearFrac,
+        -girdleHalfH,
+        rz - shearZ * girdleShearFrac,
+      ]);
+    }
+    const bottomIdx = 2 * ringCount + 1;
+    vertices.push([-shearX, -apexHalfH, -shearZ]);
+
+    for (let i = 0; i < ringCount; i++) {
+      const next = (i + 1) % ringCount;
       const u0 = 1 + i;
       const u1 = 1 + next;
-      const l0 = 7 + i;
-      const l1 = 7 + next;
+      const l0 = 1 + ringCount + i;
+      const l1 = 1 + ringCount + next;
       rawTriangles.push([0, u1, u0]);
       rawTriangles.push([u0, u1, l1]);
       rawTriangles.push([u0, l1, l0]);
-      rawTriangles.push([13, l0, l1]);
+      rawTriangles.push([bottomIdx, l0, l1]);
     }
+  };
+
+  const emitRhombicDodecahedron = (sxScale: number, syScale: number, szScale: number) => {
+    const cIdx = (sx: number, sy: number, sz: number) =>
+      (sx > 0 ? 1 : 0) | (sy > 0 ? 2 : 0) | (sz > 0 ? 4 : 0);
+    for (let mask = 0; mask < 8; mask++) {
+      const sx = mask & 1 ? 1 : -1;
+      const sy = mask & 2 ? 1 : -1;
+      const sz = mask & 4 ? 1 : -1;
+      vertices.push([sx * sxScale, sy * syScale, sz * szScale]);
+    }
+    vertices.push(
+      [2 * sxScale, 0, 0], // 8: +X
+      [-2 * sxScale, 0, 0], // 9: -X
+      [0, 2 * syScale, 0], // 10: +Y
+      [0, -2 * syScale, 0], // 11: -Y
+      [0, 0, 2 * szScale], // 12: +Z
+      [0, 0, -2 * szScale], // 13: -Z
+    );
+    for (const sx of [-1, 1]) {
+      for (const sy of [-1, 1]) {
+        const ax = sx > 0 ? 8 : 9;
+        const ay = sy > 0 ? 10 : 11;
+        const cp = cIdx(sx, sy, 1);
+        const cn = cIdx(sx, sy, -1);
+        rawTriangles.push([ax, cp, cn], [ay, cn, cp]);
+      }
+    }
+    for (const sy of [-1, 1]) {
+      for (const sz of [-1, 1]) {
+        const ay = sy > 0 ? 10 : 11;
+        const az = sz > 0 ? 12 : 13;
+        const cp = cIdx(1, sy, sz);
+        const cn = cIdx(-1, sy, sz);
+        rawTriangles.push([ay, cp, cn], [az, cn, cp]);
+      }
+    }
+    for (const sz of [-1, 1]) {
+      for (const sx of [-1, 1]) {
+        const az = sz > 0 ? 12 : 13;
+        const ax = sx > 0 ? 8 : 9;
+        const cp = cIdx(sx, 1, sz);
+        const cn = cIdx(sx, -1, sz);
+        rawTriangles.push([az, cp, cn], [ax, cn, cp]);
+      }
+    }
+  };
+
+  const halfH = Math.max(height * 0.5, radius * 0.82);
+
+  if (habit === 'aP-triclinic') {
+    const aLen = radius * 1.16;
+    const bLen = radius * 1.38;
+    const cLen = Math.max(halfH * 1.35, radius * 1.55);
+    emitParallelotope(
+      [aLen, 0.08 * cLen, 0.04 * aLen],
+      [0.26 * bLen, 0.14 * cLen, 0.96 * bLen],
+      [0.19 * cLen, 0.95 * cLen, 0.22 * cLen],
+    );
+  } else if (habit === 'mP-monoclinic') {
+    emitBipyramidalPrism(
+      4,
+      (i) => {
+        const th = (i * Math.PI) / 2 + Math.PI / 4;
+        return [Math.cos(th) * radius * 0.84, Math.sin(th) * radius * 1.12];
+      },
+      halfH * 0.54,
+      halfH * 1.05,
+      radius * 0.24,
+      0,
+    );
+  } else if (habit === 'mS-gypsum') {
+    emitBipyramidalPrism(
+      6,
+      (i) => {
+        const th = (i * Math.PI) / 3;
+        return [Math.cos(th) * radius * 0.72, Math.sin(th) * radius * 1.18];
+      },
+      halfH * 0.62,
+      halfH * 1.08,
+      radius * 0.3,
+      radius * 0.06,
+    );
+  } else if (habit === 'oP-orthorhombic') {
+    emitBipyramidalPrism(
+      8,
+      (i) => {
+        const th = (i * Math.PI) / 4;
+        const mod = i % 2 === 0 ? 1.0 : 0.92;
+        return [Math.cos(th) * radius * 0.78 * mod, Math.sin(th) * radius * 1.12 * mod];
+      },
+      halfH * 0.56,
+      halfH * 1.12,
+    );
+  } else if (habit === 'oS-aragonite') {
+    emitBipyramidalPrism(
+      6,
+      (i) => {
+        const th = (i * Math.PI) / 3;
+        return [Math.cos(th) * radius * 0.76, Math.sin(th) * radius * 1.14];
+      },
+      halfH * 0.68,
+      halfH * 1.04,
+    );
+  } else if (habit === 'oI-body-orthorhombic') {
+    emitRhombicDodecahedron(radius * 0.42, halfH * 0.58, radius * 0.56);
+  } else if (habit === 'oF-face-orthorhombic') {
+    const aR = radius * 0.84;
+    const bR = radius * 1.14;
+    const cR = halfH * 0.96;
+    const tFrac = 0.42;
+    const topRing: Array<[number, number, number]> = [
+      [aR * tFrac, cR * 0.78, 0],
+      [0, cR * 0.78, bR * tFrac],
+      [-aR * tFrac, cR * 0.78, 0],
+      [0, cR * 0.78, -bR * tFrac],
+    ];
+    const midRing: Array<[number, number, number]> = [
+      [aR, 0, 0],
+      [0, 0, bR],
+      [-aR, 0, 0],
+      [0, 0, -bR],
+    ];
+    const botRing: Array<[number, number, number]> = [
+      [aR * tFrac, -cR * 0.78, 0],
+      [0, -cR * 0.78, bR * tFrac],
+      [-aR * tFrac, -cR * 0.78, 0],
+      [0, -cR * 0.78, -bR * tFrac],
+    ];
+    vertices.push(...topRing, ...midRing, ...botRing);
+    rawTriangles.push([0, 1, 2], [0, 2, 3]);
+    rawTriangles.push([8, 10, 9], [8, 11, 10]);
+    for (let i = 0; i < 4; i++) {
+      const next = (i + 1) % 4;
+      rawTriangles.push([i, next, 4 + next], [i, 4 + next, 4 + i]);
+      rawTriangles.push([4 + i, 4 + next, 8 + next], [4 + i, 8 + next, 8 + i]);
+    }
+  } else if (habit === 'tP-rutile') {
+    emitBipyramidalPrism(
+      8,
+      (i) => {
+        const th = (i * Math.PI) / 4;
+        const mod = i % 2 === 0 ? 1.0 : 0.94;
+        return [Math.cos(th) * radius * mod, Math.sin(th) * radius * mod];
+      },
+      halfH * 0.64,
+      halfH * 1.15,
+    );
+  } else if (habit === 'tI-zircon') {
+    emitBipyramidalPrism(
+      4,
+      (i) => {
+        const th = (i * Math.PI) / 2 + Math.PI / 4;
+        return [Math.cos(th) * radius * 0.96, Math.sin(th) * radius * 0.96];
+      },
+      halfH * 0.30,
+      halfH * 1.18,
+    );
+  } else if (habit === 'hP-quartz') {
+    const cOverA = bravaisSpec.crystalSystem === 'hexagonal' ? 1.1001 : 1.0;
+    const qHalfH = Math.max(height * 0.5, radius * cOverA * 0.65);
+    emitBipyramidalPrism(
+      6,
+      (i) => {
+        const theta = (i * Math.PI) / 3;
+        const rMod = i % 2 === 0 ? 1.0 : 0.965; // trigonal α-quartz 32 symmetry
+        return [Math.cos(theta) * radius * rMod, Math.sin(theta) * radius * rMod];
+      },
+      qHalfH * 0.52,
+      qHalfH,
+    );
   } else if (habit === 'cP-pyrite') {
     // 12 cuboctahedron vertices scaled to `radius`
     const s = radius / Math.SQRT2;
@@ -2381,7 +2672,6 @@ export function createBravaisCrystalHabitGeometry(options: {
       return idx;
     };
 
-    // 6 `{100}` square facets (each split into 2 manifold triangles)
     for (const sign of [-1, 1]) {
       const x0 = getVert(sign, 1, 0);
       const x1 = getVert(sign, 0, 1);
@@ -2402,7 +2692,6 @@ export function createBravaisCrystalHabitGeometry(options: {
       rawTriangles.push([z0, z1, z2], [z0, z2, z3]);
     }
 
-    // 8 `{111}` octahedral facets closing every corner
     for (const sx of [-1, 1]) {
       for (const sy of [-1, 1]) {
         for (const sz of [-1, 1]) {
@@ -2413,11 +2702,30 @@ export function createBravaisCrystalHabitGeometry(options: {
         }
       }
     }
+  } else if (habit === 'cI-garnet') {
+    const iso = radius * 0.52;
+    emitRhombicDodecahedron(iso, iso, iso);
+  } else if (habit === 'cF-fluorite') {
+    const octR = radius * 1.12;
+    vertices.push(
+      [octR, 0, 0], // 0
+      [-octR, 0, 0], // 1
+      [0, octR, 0], // 2
+      [0, -octR, 0], // 3
+      [0, 0, octR], // 4
+      [0, 0, -octR], // 5
+    );
+    for (const ix of [0, 1]) {
+      for (const iy of [2, 3]) {
+        for (const iz of [4, 5]) {
+          rawTriangles.push([ix, iy, iz]);
+        }
+      }
+    }
   } else {
     // `hR-calcite`: trigonal rhombohedron spanned by 3 equal-length vectors around c-axis (`α = 76.5°` rhombohedral cleavage)
     const alphaDeg = bravaisSpec.centering === 'R' ? 76.5 : 90.0;
     const alphaRad = (alphaDeg * Math.PI) / 180;
-    // Cos(alpha) = cos^2(theta) - 0.5 sin^2(theta) = 1.5 cos^2(theta) - 0.5 => cos^2(theta) = (cos(alpha) + 0.5) / 1.5
     const cosThetaSq = Math.min(0.88, Math.max(0.18, (Math.cos(alphaRad) + 0.5) / 1.5));
     const cosTheta = Math.sqrt(cosThetaSq);
     const sinTheta = Math.sqrt(1 - cosThetaSq);
@@ -2431,49 +2739,23 @@ export function createBravaisCrystalHabitGeometry(options: {
         edgeLen * sinTheta * Math.sin(phi),
       ];
     });
-
-    const center: [number, number, number] = [
-      0.5 * (basis[0][0] + basis[1][0] + basis[2][0]),
-      0.5 * (basis[0][1] + basis[1][1] + basis[2][1]),
-      0.5 * (basis[0][2] + basis[1][2] + basis[2][2]),
-    ];
-
-    // 8 parallelotope vertices indexed by bitmask `b0 + 2*b1 + 4*b2`
-    for (let mask = 0; mask < 8; mask++) {
-      const b0 = mask & 1;
-      const b1 = (mask >> 1) & 1;
-      const b2 = (mask >> 2) & 1;
-      vertices.push([
-        b0 * basis[0][0] + b1 * basis[1][0] + b2 * basis[2][0] - center[0],
-        b0 * basis[0][1] + b1 * basis[1][1] + b2 * basis[2][1] - center[1],
-        b0 * basis[0][2] + b1 * basis[1][2] + b2 * basis[2][2] - center[2],
-      ]);
-    }
-
-    // 6 rhombic faces (2 per fixed bit axis), split consistently into 12 manifold triangles
-    const quads: Array<[number, number, number, number]> = [
-      [0, 2, 6, 4], // b0 = 0
-      [1, 3, 7, 5], // b0 = 1
-      [0, 1, 5, 4], // b1 = 0
-      [2, 3, 7, 6], // b1 = 1
-      [0, 1, 3, 2], // b2 = 0
-      [4, 5, 7, 6], // b2 = 1
-    ];
-    for (const [q0, q1, q2, q3] of quads) {
-      rawTriangles.push([q0, q1, q2], [q0, q2, q3]);
-    }
+    emitParallelotope(basis[0], basis[1], basis[2]);
   }
 
   // Enforce outward right-handed winding (`(vb - va) × (vc - va) · faceCentroid > 0`) on all faces
   const positions = new Float32Array(vertices.length * 3);
   const uvs = new Float32Array(vertices.length * 2);
   const colors = new Float32Array(vertices.length * 3);
-  const baseColor =
-    habit === 'hP-quartz'
-      ? new THREE.Color(0xcffafe)
-      : habit === 'cP-pyrite'
-        ? new THREE.Color(0xfde68a)
-        : new THREE.Color(0xe0e7ff);
+  const systemPalette: Record<string, number> = {
+    triclinic: 0x67e8f9,
+    monoclinic: 0x6ee7b7,
+    orthorhombic: 0xfde68a,
+    tetragonal: 0xfda4af,
+    trigonal: 0xe0e7ff,
+    hexagonal: 0xcffafe,
+    cubic: 0xfef08a,
+  };
+  const baseColor = new THREE.Color(systemPalette[bravaisSpec.crystalSystem] ?? 0xcffafe);
 
   for (let i = 0; i < vertices.length; i++) {
     const [vx, vy, vz] = vertices[i];

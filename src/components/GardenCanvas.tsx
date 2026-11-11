@@ -92,8 +92,12 @@ import {
   evaluateKinematicRigPose,
   extrapolatePrismToHighestResolution,
 } from '../game/prismModel';
-import { synthesizeSpectralDiurnalPalette } from '../game/spectralColorEngine';
 import {
+  synthesizeSpectralDiurnalPalette,
+  type SpectralDiurnalPalette,
+} from '../game/spectralColorEngine';
+import {
+  ALL_14_BRAVAIS_CRYSTAL_HABITS,
   BotanicalShaderUniforms,
   buildImmanentObserverWitnessGroup,
   createBravaisCrystalHabitGeometry,
@@ -357,25 +361,44 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     //  (a) Organic Bryophyte Cushions (`bioluminescent-mycelial-humus`)
     //  (b) Chitin-Glucan Mycorrhizal Hyphal Mesh (`chitin-glucan-hyphal-network`)
     //  (c) Calcite-Aragonite & Tectosilicate Quartz Micro-Facets (`calcite-aragonite-spar-lattice` + `tectosilicate-quartz-lattice`)
+    // Live Neuromorphic Synthesis Engine initialized up-front so every 3D geometry, PBR map,
+    // Bravais crystal habit, and spectral palette projects at live Multi-Modal Fidelity from frame 0
+    let neuromorphicState = createInitialNeuromorphicState();
+    soundEngine.syncWithNeuromorphicBus(neuromorphicState);
+    const initialFidelity =
+      neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity;
+    let cachedSpectralAtm: AtmosphereId = atmosphereRef.current;
+    let cachedSpectralBands = initialFidelity.spectralBandCount;
+    let cachedSpectralDiurnal: SpectralDiurnalPalette = synthesizeSpectralDiurnalPalette(
+      cachedSpectralAtm,
+      cachedSpectralBands,
+      initialFidelity.airyThinFilmSpanNm,
+    );
+
     const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
     const turfCompoundProfile = synthesizeCompoundSurfaceProfile('meadow-turf');
     const stoneCompoundProfile = synthesizeCompoundSurfaceProfile('travertine-stone');
     const quartzCompoundProfile = synthesizeCompoundSurfaceProfile('quartz-crystalline');
 
-    const createMossAndBumpTextures = () => {
+    const createMossAndBumpTextures = (requestedTexelRes: number) => {
+      const texDim = isSoftwareGl
+        ? 384
+        : Math.max(512, Math.min(1024, Math.round(requestedTexelRes * 1.5)));
+      const scaleFactor = texDim / 512;
+
       const cColor = document.createElement('canvas');
-      cColor.width = 512;
-      cColor.height = 512;
+      cColor.width = texDim;
+      cColor.height = texDim;
       const ctx = cColor.getContext('2d')!;
       ctx.fillStyle = '#1d3b2b';
-      ctx.fillRect(0, 0, 512, 512);
+      ctx.fillRect(0, 0, texDim, texDim);
 
       const cBump = document.createElement('canvas');
-      cBump.width = 512;
-      cBump.height = 512;
+      cBump.width = texDim;
+      cBump.height = texDim;
       const bCtx = cBump.getContext('2d')!;
       bCtx.fillStyle = '#808080';
-      bCtx.fillRect(0, 0, 512, 512);
+      bCtx.fillRect(0, 0, texDim, texDim);
 
       let seed = 90210;
       const nextRand = () => {
@@ -384,10 +407,11 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       };
 
       // Layer A: Organic Bryophyte Cushions & Humus Colloids
-      for (let i = 0; i < 680; i++) {
-        const x = nextRand() * 512;
-        const y = nextRand() * 512;
-        const r = 5 + nextRand() * 22;
+      const cushionCount = Math.round(680 * scaleFactor);
+      for (let i = 0; i < cushionCount; i++) {
+        const x = nextRand() * texDim;
+        const y = nextRand() * texDim;
+        const r = (5 + nextRand() * 22) * scaleFactor;
         const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
         const shade =
           i % 4 === 0
@@ -396,7 +420,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
               ? 'rgba(22, 48, 35, 0.36)'
               : i % 4 === 2
                 ? 'rgba(62, 118, 84, 0.28)'
-                : 'rgba(110, 231, 183, 0.10)';
+                : 'rgba(110, 231, 183, 0.12)';
         grad.addColorStop(0, shade);
         grad.addColorStop(1, 'rgba(29, 59, 43, 0)');
         ctx.fillStyle = grad;
@@ -405,7 +429,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         ctx.fill();
 
         const bGrad = bCtx.createRadialGradient(x, y, 0, x, y, r * 0.8);
-        bGrad.addColorStop(0, i % 2 === 0 ? 'rgba(220,220,220,0.35)' : 'rgba(60,60,60,0.35)');
+        bGrad.addColorStop(0, i % 2 === 0 ? 'rgba(225,225,225,0.38)' : 'rgba(56,56,56,0.38)');
         bGrad.addColorStop(1, 'rgba(128,128,128,0)');
         bCtx.fillStyle = bGrad;
         bCtx.beginPath();
@@ -414,15 +438,16 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       }
 
       // Layer B: Chitin-Beta-Glucan Mycorrhizal Hyphal Micro-Filaments (`chitin-glucan-hyphal-network`)
-      ctx.strokeStyle = 'rgba(52, 211, 153, 0.08)';
-      ctx.lineWidth = 1.1;
-      bCtx.strokeStyle = 'rgba(195, 195, 195, 0.22)';
-      bCtx.lineWidth = 1.2;
-      for (let h = 0; h < 110; h++) {
-        const hx = nextRand() * 512;
-        const hy = nextRand() * 512;
+      ctx.strokeStyle = 'rgba(52, 211, 153, 0.10)';
+      ctx.lineWidth = 1.1 * scaleFactor;
+      bCtx.strokeStyle = 'rgba(198, 198, 198, 0.25)';
+      bCtx.lineWidth = 1.2 * scaleFactor;
+      const hyphaCount = Math.round(130 * scaleFactor);
+      for (let h = 0; h < hyphaCount; h++) {
+        const hx = nextRand() * texDim;
+        const hy = nextRand() * texDim;
         const angle = nextRand() * Math.PI * 2;
-        const len = 14 + nextRand() * 28;
+        const len = (14 + nextRand() * 28) * scaleFactor;
         const mx = hx + Math.cos(angle + 0.35) * (len * 0.5);
         const my = hy + Math.sin(angle + 0.35) * (len * 0.5);
         const ex = hx + Math.cos(angle) * len;
@@ -438,16 +463,18 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         bCtx.stroke();
       }
 
-      // Layer C: Trigonal Spar & Silicate Quartz Micro-Facets (`calcite-aragonite-spar-lattice` + `tectosilicate-quartz-lattice`)
-      for (let f = 0; f < 96; f++) {
-        const fx = nextRand() * 512;
-        const fy = nextRand() * 512;
-        const fr = 2.2 + nextRand() * 4.5;
+      // Layer C: 14-Bravais Mineral Crystal Micro-Facets (`calcite-aragonite-spar` + `tectosilicate-quartz`)
+      const facetCount = Math.round(120 * scaleFactor);
+      for (let f = 0; f < facetCount; f++) {
+        const fx = nextRand() * texDim;
+        const fy = nextRand() * texDim;
+        const fr = (2.2 + nextRand() * 4.5) * scaleFactor;
         const rot = nextRand() * Math.PI * 2;
-        bCtx.fillStyle = f % 2 === 0 ? 'rgba(242, 242, 242, 0.28)' : 'rgba(82, 82, 82, 0.28)';
+        const polySides = 3 + (f % 6); // 3..8-fold crystallographic symmetry facets
+        bCtx.fillStyle = f % 2 === 0 ? 'rgba(244, 244, 244, 0.30)' : 'rgba(78, 78, 78, 0.30)';
         bCtx.beginPath();
-        for (let v = 0; v < 6; v++) {
-          const a = rot + (v / 6) * Math.PI * 2;
+        for (let v = 0; v < polySides; v++) {
+          const a = rot + (v / polySides) * Math.PI * 2;
           const vx = fx + Math.cos(a) * fr;
           const vy = fy + Math.sin(a) * fr;
           if (v === 0) bCtx.moveTo(vx, vy);
@@ -470,23 +497,100 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       bumpTex.repeat.set(18, 18);
       bumpTex.anisotropy = maxAnisotropy;
 
-      return { colorTex, bumpTex };
+      return { colorTex, bumpTex, texDim };
     };
 
-    const { colorTex: groundTex, bumpTex: groundBumpTex } = createMossAndBumpTextures();
-    const pbrSuite = createHighDefinitionPbrTextureSuite(maxAnisotropy, isSoftwareGl);
-    const terrainGeo = new THREE.PlaneGeometry(180, 180, 128, 128);
-    terrainGeo.rotateX(-Math.PI / 2);
-    const posAttr = terrainGeo.attributes.position;
-    for (let i = 0; i < posAttr.count; i++) {
-      const vx = posAttr.getX(i);
-      const vz = posAttr.getZ(i);
-      posAttr.setY(i, groundHeightAt(vx, vz));
-    }
-    terrainGeo.computeVertexNormals();
+    let activeTexelResolution = initialFidelity.proceduralTexelResolution;
+    let { colorTex: groundTex, bumpTex: groundBumpTex } = createMossAndBumpTextures(
+      activeTexelResolution,
+    );
+    let pbrSuite = createHighDefinitionPbrTextureSuite(
+      maxAnisotropy,
+      isSoftwareGl,
+      activeTexelResolution,
+    );
+
+    const _terrainVertColor = new THREE.Color();
+    const _foliageCanopyCol = new THREE.Color();
+    const _foliageRedEdgeCol = new THREE.Color();
+    const _lagoonAbsCol = new THREE.Color();
+    const _crystalThinCol = new THREE.Color();
+    const _travertineWarmCol = new THREE.Color('#d6d0c4');
+
+    const populateTerrainHeightsAndSpectralColors = (
+      geo: THREE.PlaneGeometry,
+      topo: ParametricWorldTopologyModel,
+      specPalette: SpectralDiurnalPalette,
+    ) => {
+      const pAttr = geo.attributes.position;
+      let cAttr = geo.getAttribute('color') as THREE.BufferAttribute | undefined;
+      if (!cAttr || cAttr.count !== pAttr.count) {
+        cAttr = new THREE.BufferAttribute(new Float32Array(pAttr.count * 3), 3);
+        geo.setAttribute('color', cAttr);
+      }
+      _foliageCanopyCol.set(specPalette.foliageCanopy.hex);
+      _foliageRedEdgeCol.set(specPalette.foliageRedEdgeSheen.hex);
+      _lagoonAbsCol.set(specPalette.lagoonWaterAbsorption.hex);
+      _crystalThinCol.set(specPalette.crystalThinFilm.hex);
+
+      const [sanctCx, sanctCz] = topo.biomeCenters.sanctuary;
+      const [crysCx, crysCz] = topo.biomeCenters.crystal;
+      const [lagCx, lagCz] = topo.lagoonCenterXZ;
+
+      for (let i = 0; i < pAttr.count; i++) {
+        const vx = pAttr.getX(i);
+        const vz = pAttr.getZ(i);
+        const vy = groundHeightAt(vx, vz, topo);
+        pAttr.setY(i, vy);
+
+        // Blend CIE 1931 PROSPECT chlorophyll, Beer-Lambert lagoon sediment, Bravais crystal basin, & travertine spar
+        _terrainVertColor.setRGB(0.88, 0.94, 0.90).lerp(_foliageCanopyCol, 0.22);
+        const dLag = Math.hypot(vx - lagCx, vz - lagCz);
+        if (dLag < 22) {
+          _terrainVertColor.lerp(_lagoonAbsCol, Math.max(0, (1 - dLag / 22) * 0.42));
+        }
+        const dCrys = Math.hypot(vx - crysCx, vz - crysCz);
+        if (dCrys < 24) {
+          _terrainVertColor.lerp(_crystalThinCol, Math.max(0, (1 - dCrys / 24) * 0.34));
+        }
+        const dSanct = Math.hypot(vx - sanctCx, vz - sanctCz);
+        if (dSanct < 18) {
+          _terrainVertColor.lerp(_travertineWarmCol, Math.max(0, (1 - dSanct / 18) * 0.28));
+        }
+        if (vy > 1.2) {
+          _terrainVertColor.lerp(_foliageRedEdgeCol, Math.min(0.18, (vy - 1.2) * 0.06));
+        }
+        cAttr.setXYZ(i, _terrainVertColor.r, _terrainVertColor.g, _terrainVertColor.b);
+      }
+      pAttr.needsUpdate = true;
+      cAttr.needsUpdate = true;
+      geo.computeVertexNormals();
+    };
+
+    const buildAdaptiveSpectralTerrainGeometry = (
+      segments: number,
+      topo: ParametricWorldTopologyModel,
+      specPalette: SpectralDiurnalPalette,
+    ): THREE.PlaneGeometry => {
+      const clampedSegs = isSoftwareGl
+        ? Math.min(112, segments)
+        : Math.max(96, Math.min(192, Math.round(segments)));
+      const geo = new THREE.PlaneGeometry(180, 180, clampedSegs, clampedSegs);
+      geo.rotateX(-Math.PI / 2);
+      populateTerrainHeightsAndSpectralColors(geo, topo, specPalette);
+      return geo;
+    };
+
+    let activeTerrainSegments = initialFidelity.adaptiveTerrainSegments;
+    let terrainGeo = buildAdaptiveSpectralTerrainGeometry(
+      activeTerrainSegments,
+      DEFAULT_PARAMETRIC_WORLD_TOPOLOGY,
+      cachedSpectralDiurnal,
+    );
 
     const terrainMat = new THREE.MeshStandardMaterial({
       color: 0xffffff,
+      vertexColors: true,
       map: groundTex,
       normalMap: pbrSuite.mossNormalTex,
       normalScale: new THREE.Vector2(0.55, 0.55),
@@ -977,33 +1081,36 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       group.position.set(cx, cy, cz);
 
       const quartzMat = new THREE.MeshPhysicalMaterial({
-        color: 0x7dd3fc,
+        color: 0xbae6fd,
+        vertexColors: true,
         emissive: 0x0284c7,
         emissiveIntensity: 0.62,
         roughness: 0.12,
         metalness: 0.2,
         clearcoat: 1.0,
-        iridescence: 0.78,
+        iridescence: 0.82,
         iridescenceIOR: 1.544,
         iridescenceThicknessMinimum: 240,
-        iridescenceThicknessMaximum: 240 + crystalSpec.keystoneIridescenceSpanNm,
+        iridescenceThicknessMaximum: 240 + initialFidelity.airyThinFilmSpanNm,
       });
 
       const geodeBaseRing = new THREE.Mesh(
-        new THREE.TorusGeometry(crystalSpec.baseRingRadius, 0.36, 10, 24),
+        new THREE.TorusGeometry(crystalSpec.baseRingRadius, 0.36, 12, 32),
         sharedStoneMat,
       );
       geodeBaseRing.rotation.x = Math.PI / 2;
       geodeBaseRing.position.y = 0.14;
       group.add(geodeBaseRing);
 
-      const spireGeo = createHexagonalQuartzCrystalGeometry({
-        radius: 0.64,
-        height: crystalSpec.spireHeight,
-        doubleTerminated: false,
-      });
+      // Project distinct canonical IUCr Bravais crystal habits (`ALL_14_BRAVAIS_CRYSTAL_HABITS`) around the archway
       for (let i = 0; i < crystalSpec.spireCount; i++) {
         const a = (i / crystalSpec.spireCount) * Math.PI * 2;
+        const habitId = ALL_14_BRAVAIS_CRYSTAL_HABITS[i % ALL_14_BRAVAIS_CRYSTAL_HABITS.length];
+        const spireHabitGeo = createBravaisCrystalHabitGeometry({
+          habit: habitId,
+          radius: 0.62,
+          height: crystalSpec.spireHeight,
+        });
         const spireSocket = new THREE.Group();
         spireSocket.position.set(
           Math.cos(a) * crystalSpec.baseRingRadius,
@@ -1011,7 +1118,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           Math.sin(a) * crystalSpec.baseRingRadius,
         );
         spireSocket.rotation.y = -a;
-        const spire = new THREE.Mesh(spireGeo, quartzMat);
+        const spire = new THREE.Mesh(spireHabitGeo, quartzMat);
         spire.position.set(
           -Math.sin(crystalSpec.spireLeanRad) * (crystalSpec.spireHeight * 0.42),
           crystalSpec.spireHeight * 0.45,
@@ -1024,7 +1131,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       }
 
       const keystoneRing = new THREE.Mesh(
-        new THREE.TorusGeometry(crystalSpec.keystoneRingRadius, 0.20, 8, crystalSpec.spireCount),
+        new THREE.TorusGeometry(crystalSpec.keystoneRingRadius, 0.20, 10, crystalSpec.spireCount * 2),
         quartzMat,
       );
       keystoneRing.rotation.x = Math.PI / 2;
@@ -1032,27 +1139,27 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       group.add(keystoneRing);
 
       const basalCluster = new THREE.Mesh(
-        createHexagonalQuartzCrystalGeometry({
-          radius: 0.58,
+        createBravaisCrystalHabitGeometry({
+          habit: 'cI-garnet',
+          radius: 0.72,
           height: 2.35,
-          doubleTerminated: false,
         }),
         sharedStoneMat,
       );
-      basalCluster.position.y = 1.05;
+      basalCluster.position.y = 0.95;
       group.add(basalCluster);
 
       const crystalSpindle = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.065, 0.085, crystalSpec.spindleHeight, 6),
+        new THREE.CylinderGeometry(0.065, 0.085, crystalSpec.spindleHeight, 8),
         quartzMat,
       );
       crystalSpindle.position.y = crystalSpec.corePrismElevationY - 0.1;
       group.add(crystalSpindle);
 
-      const corePrismGeo = createHexagonalQuartzCrystalGeometry({
-        radius: 0.72,
-        height: 2.0,
-        doubleTerminated: true,
+      const corePrismGeo = createBravaisCrystalHabitGeometry({
+        habit: 'hP-quartz',
+        radius: 0.74,
+        height: 2.05,
       });
       const corePrism = new THREE.Mesh(corePrismGeo, quartzMat);
       corePrism.position.y = crystalSpec.corePrismElevationY;
@@ -1064,21 +1171,24 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     scene.add(crystalMonument.group);
 
     // Monument 5 (Bioluminescent Wetland): Hydrostatic Mirror Lagoon & Grounded Lantern Piers
-    const lagoonGeo = new THREE.CircleGeometry(15.2, 64);
+    const lagoonGeo = new THREE.CircleGeometry(15.2, 72);
     lagoonGeo.rotateX(-Math.PI / 2);
     const lagoonMat = new THREE.MeshPhysicalMaterial({
-      color: 0x14b8a6,
+      color: new THREE.Color(cachedSpectralDiurnal.lagoonWaterAbsorption.hex).lerp(
+        new THREE.Color(0x14b8a6),
+        0.45,
+      ),
       emissive: 0x0f766e,
-      emissiveIntensity: 0.25,
-      roughness: 0.08,
+      emissiveIntensity: 0.28,
+      roughness: 0.07,
       metalness: 0.22,
-      clearcoat: 0.95,
-      iridescence: 0.45,
-      iridescenceIOR: 1.33,
+      clearcoat: 0.96,
+      iridescence: 0.52,
+      iridescenceIOR: 1.333,
       iridescenceThicknessMinimum: 180,
-      iridescenceThicknessMaximum: 420,
+      iridescenceThicknessMaximum: 180 + initialFidelity.airyThinFilmSpanNm * 0.65,
       transparent: true,
-      opacity: 0.84,
+      opacity: 0.85,
     });
     const lagoonMesh = new THREE.Mesh(lagoonGeo, lagoonMat);
     lagoonMesh.position.set(
@@ -1091,8 +1201,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     const shorelineBankGroup = new THREE.Group();
     const shorelineStoneGeo = createStratifiedBoulderGeometry({
       radius: 0.62,
-      detailRings: 12,
-      radialSegments: 16,
+      detailRings: 14,
+      radialSegments: 20,
       seed: 404,
     });
     const shorelineMossStoneMat = new THREE.MeshStandardMaterial({
@@ -1105,6 +1215,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       roughness: 0.84,
       metalness: 0.08,
     });
+    const shorelineCrystalGeos = ALL_14_BRAVAIS_CRYSTAL_HABITS.map((habit) =>
+      createBravaisCrystalHabitGeometry({ habit, radius: 0.22, height: 0.52 }),
+    );
     const shorelineBoulders = generateConservatoryShorelineBoulders();
     for (let i = 0; i < shorelineBoulders.length; i++) {
       const sb = shorelineBoulders[i];
@@ -1113,6 +1226,17 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       boulder.scale.set(sb.scaleX, sb.scaleY, sb.scaleZ);
       boulder.rotation.y = sb.rotY;
       shorelineBankGroup.add(boulder);
+
+      // Every third shoreline outcrop hosts a gleaming IUCr Bravais mineral druse crystal
+      if (i % 3 === 0) {
+        const druse = new THREE.Mesh(
+          shorelineCrystalGeos[(i / 3) % shorelineCrystalGeos.length],
+          crystalMonument.quartzMat,
+        );
+        druse.position.set(sb.x, sb.centerY + 0.34 * sb.scaleY, sb.z);
+        druse.rotation.set(0.18, sb.rotY + 0.6, -0.14);
+        shorelineBankGroup.add(druse);
+      }
     }
     scene.add(shorelineBankGroup);
 
@@ -1435,10 +1559,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     // 7. Natural Perimeter Rock Outcrops (`generateConservatoryRocks`, Stratified B-Mesh) & Segmented Nodal Bamboo/Crystal Stalks (`generateConservatoryTrees`, bottom-pivoted)
     const conservatoryRocks = generateConservatoryRocks();
     const rockCount = conservatoryRocks.length;
-    const rockGeo = createStratifiedBoulderGeometry({
+    let rockGeo = createStratifiedBoulderGeometry({
       radius: 2.6,
-      detailRings: 14,
-      radialSegments: 18,
+      detailRings: Math.max(14, Math.round(initialFidelity.bMeshRadialSubdivisions * 0.42)),
+      radialSegments: Math.max(18, Math.round(initialFidelity.bMeshRadialSubdivisions * 0.56)),
       seed: 707,
     });
     const rockMat = new THREE.MeshStandardMaterial({
@@ -1501,10 +1625,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
     // 7a-2. Bamboo & Crystal Canopy Foliage Crowns (128 sculpted multi-lobe botanical crowns with underside collar attached to 3D tilted trunk axes)
     const canopyCount = stalkCount * 2;
-    const canopyGeo = createSculptedCanopyCrownGeometry({
+    let canopyGeo = createSculptedCanopyCrownGeometry({
       radius: 1.05,
       height: 1.45,
-      lobeCount: 9,
+      lobeCount: Math.max(9, Math.round(initialFidelity.bMeshRadialSubdivisions * 0.26)),
     });
     const canopyMat = new THREE.MeshStandardMaterial({
       color: 0xffffff,
@@ -1618,123 +1742,193 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     });
 
     // Shared High-Definition Parametric B-Mesh & Morph-Target Botanical Geometries
-    const hdRosetteLeafGeo = createSculptedPetalGeometry({
-      length: 0.92,
-      maxWidth: 0.30,
-      curvature: 0.32,
-      tipRecurve: -0.14,
-      midribDepth: 0.025,
-      ruffleAmplitude: 0.012,
-      baseColorHex: '#15803d',
-      tipColorHex: '#4ade80',
-      radialSegments: 10,
-      longitudinalSegments: 14,
-    });
-    const hdBellCorollaGeo = createFlutedBellCorollaGeometry({
-      radiusTop: 0.44,
-      height: 0.60,
-      lobeCount: 8,
-      radialSegments: 24,
-      heightSegments: 14,
-    });
-    const hdPinnateFrondGeo = createPinnateFrondGeometry({
-      length: 1.56,
-      maxWidth: 0.46,
-      pinnaePairs: 9,
-    });
-    const hdCrozierGeoA = createLogarithmicCrozierGeometry({
-      scaleRadius: 0.30,
-      tubeRadius: 0.048,
-      turns: 1.85,
-      tubularSegments: 28,
-      radialSegments: 10,
-    });
-    const hdCrozierGeoB = createLogarithmicCrozierGeometry({
-      scaleRadius: 0.21,
-      tubeRadius: 0.036,
-      turns: 1.65,
-      tubularSegments: 24,
-      radialSegments: 8,
-    });
-    const hdLotusPadGeo = createCordateLotusPadGeometry({
-      radius: 0.98,
-      rimHeight: 0.052,
-      sinusDepth: 0.58,
-      veinCount: 14,
-      radialSegments: 32,
-      ringSegments: 12,
-    });
-    const hdLotusOuterPetalGeo = createSculptedPetalGeometry({
-      length: 0.74,
-      maxWidth: 0.28,
-      curvature: 0.38,
-      tipRecurve: 0.08,
-      midribDepth: 0.022,
-      ruffleAmplitude: 0.014,
-      baseColorHex: '#2dd4bf',
-      tipColorHex: '#99f6e4',
-      radialSegments: 12,
-      longitudinalSegments: 16,
-    });
-    const hdLotusInnerPetalGeo = createSculptedPetalGeometry({
-      length: 0.56,
-      maxWidth: 0.22,
-      curvature: 0.44,
-      tipRecurve: 0.12,
-      midribDepth: 0.018,
-      ruffleAmplitude: 0.010,
-      baseColorHex: '#fef08a',
-      tipColorHex: '#ffffff',
-      radialSegments: 10,
-      longitudinalSegments: 14,
-    });
-    const hdOrchidSepalGeo = createSculptedPetalGeometry({
-      length: 0.78,
-      maxWidth: 0.24,
-      curvature: 0.28,
-      tipRecurve: -0.10,
-      midribDepth: 0.020,
-      ruffleAmplitude: 0.018,
-      baseColorHex: '#38bdf8',
-      tipColorHex: '#e0f2fe',
-      radialSegments: 12,
-      longitudinalSegments: 16,
-    });
-    const hdOrchidTepalGeo = createSculptedPetalGeometry({
-      length: 0.54,
-      maxWidth: 0.19,
-      curvature: 0.34,
-      tipRecurve: 0.14,
-      midribDepth: 0.016,
-      ruffleAmplitude: 0.022,
-      baseColorHex: '#fef08a',
-      tipColorHex: '#ffffff',
-      radialSegments: 10,
-      longitudinalSegments: 14,
-    });
-
+    // Scaled dynamically by `multiModalFidelity.bMeshRadialSubdivisions` (`28..56`) and CIE 1931 PROSPECT chlorophyll spectra
     const lotusCupPoints = [
       new THREE.Vector2(0.04, 0.0),
       new THREE.Vector2(0.32, 0.08),
       new THREE.Vector2(0.52, 0.26),
       new THREE.Vector2(0.58, 0.48),
     ];
-    const lotusCupLatheGeo = new THREE.LatheGeometry(lotusCupPoints, 20);
+
+    interface BotanicalBMeshSuite {
+      subdivisions: number;
+      rosetteLeaf: THREE.BufferGeometry;
+      bellCorolla: THREE.BufferGeometry;
+      pinnateFrond: THREE.BufferGeometry;
+      crozierA: THREE.BufferGeometry;
+      crozierB: THREE.BufferGeometry;
+      lotusPad: THREE.BufferGeometry;
+      lotusOuterPetal: THREE.BufferGeometry;
+      lotusInnerPetal: THREE.BufferGeometry;
+      orchidSepal: THREE.BufferGeometry;
+      orchidTepal: THREE.BufferGeometry;
+      lotusCupLathe: THREE.BufferGeometry;
+    }
+    type BotanicalOrganSlot = Exclude<keyof BotanicalBMeshSuite, 'subdivisions'>;
+
+    const buildBotanicalBMeshSuite = (
+      bMeshSubdiv: number,
+      specPalette: SpectralDiurnalPalette,
+    ): BotanicalBMeshSuite => {
+      const subdiv = isSoftwareGl ? 24 : Math.max(28, Math.min(64, Math.round(bMeshSubdiv)));
+      const radPetal = Math.max(10, Math.round(subdiv * 0.36));
+      const longPetal = Math.max(14, Math.round(subdiv * 0.52));
+      return {
+        subdivisions: subdiv,
+        rosetteLeaf: createSculptedPetalGeometry({
+          length: 0.92,
+          maxWidth: 0.30,
+          curvature: 0.32,
+          tipRecurve: -0.14,
+          midribDepth: 0.025,
+          ruffleAmplitude: 0.012,
+          baseColorHex: specPalette.foliageCanopy.hex,
+          tipColorHex: specPalette.foliageRedEdgeSheen.hex,
+          radialSegments: radPetal,
+          longitudinalSegments: longPetal,
+        }),
+        bellCorolla: createFlutedBellCorollaGeometry({
+          radiusTop: 0.44,
+          height: 0.60,
+          lobeCount: 8,
+          radialSegments: subdiv,
+          heightSegments: Math.max(14, Math.round(subdiv * 0.5)),
+        }),
+        pinnateFrond: createPinnateFrondGeometry({
+          length: 1.56,
+          maxWidth: 0.46,
+          pinnaePairs: Math.max(9, Math.round(subdiv * 0.28)),
+        }),
+        crozierA: createLogarithmicCrozierGeometry({
+          scaleRadius: 0.30,
+          tubeRadius: 0.048,
+          turns: 1.85,
+          tubularSegments: subdiv,
+          radialSegments: Math.max(10, Math.round(subdiv * 0.32)),
+        }),
+        crozierB: createLogarithmicCrozierGeometry({
+          scaleRadius: 0.21,
+          tubeRadius: 0.036,
+          turns: 1.65,
+          tubularSegments: Math.max(24, Math.round(subdiv * 0.85)),
+          radialSegments: Math.max(8, Math.round(subdiv * 0.26)),
+        }),
+        lotusPad: createCordateLotusPadGeometry({
+          radius: 0.98,
+          rimHeight: 0.052,
+          sinusDepth: 0.58,
+          veinCount: Math.max(14, Math.round(subdiv * 0.45)),
+          radialSegments: Math.max(32, Math.round(subdiv * 1.15)),
+          ringSegments: Math.max(12, Math.round(subdiv * 0.4)),
+        }),
+        lotusOuterPetal: createSculptedPetalGeometry({
+          length: 0.74,
+          maxWidth: 0.28,
+          curvature: 0.38,
+          tipRecurve: 0.08,
+          midribDepth: 0.022,
+          ruffleAmplitude: 0.014,
+          baseColorHex: '#2dd4bf',
+          tipColorHex: '#99f6e4',
+          radialSegments: Math.max(12, Math.round(subdiv * 0.4)),
+          longitudinalSegments: Math.max(16, Math.round(subdiv * 0.56)),
+        }),
+        lotusInnerPetal: createSculptedPetalGeometry({
+          length: 0.56,
+          maxWidth: 0.22,
+          curvature: 0.44,
+          tipRecurve: 0.12,
+          midribDepth: 0.018,
+          ruffleAmplitude: 0.010,
+          baseColorHex: '#fef08a',
+          tipColorHex: '#ffffff',
+          radialSegments: radPetal,
+          longitudinalSegments: longPetal,
+        }),
+        orchidSepal: createSculptedPetalGeometry({
+          length: 0.78,
+          maxWidth: 0.24,
+          curvature: 0.28,
+          tipRecurve: -0.10,
+          midribDepth: 0.020,
+          ruffleAmplitude: 0.018,
+          baseColorHex: '#38bdf8',
+          tipColorHex: '#e0f2fe',
+          radialSegments: Math.max(12, Math.round(subdiv * 0.4)),
+          longitudinalSegments: Math.max(16, Math.round(subdiv * 0.56)),
+        }),
+        orchidTepal: createSculptedPetalGeometry({
+          length: 0.54,
+          maxWidth: 0.19,
+          curvature: 0.34,
+          tipRecurve: 0.14,
+          midribDepth: 0.016,
+          ruffleAmplitude: 0.022,
+          baseColorHex: '#fef08a',
+          tipColorHex: '#ffffff',
+          radialSegments: radPetal,
+          longitudinalSegments: longPetal,
+        }),
+        lotusCupLathe: new THREE.LatheGeometry(lotusCupPoints, Math.max(20, subdiv)),
+      };
+    };
+
+    const registerSuiteGeometries = (
+      suite: BotanicalBMeshSuite,
+      set: Set<THREE.BufferGeometry>,
+    ) => {
+      set.add(suite.rosetteLeaf);
+      set.add(suite.bellCorolla);
+      set.add(suite.pinnateFrond);
+      set.add(suite.crozierA);
+      set.add(suite.crozierB);
+      set.add(suite.lotusPad);
+      set.add(suite.lotusOuterPetal);
+      set.add(suite.lotusInnerPetal);
+      set.add(suite.orchidSepal);
+      set.add(suite.orchidTepal);
+      set.add(suite.lotusCupLathe);
+    };
+
+    const disposeSuiteGeometries = (
+      suite: BotanicalBMeshSuite,
+      set: Set<THREE.BufferGeometry>,
+    ) => {
+      const all: THREE.BufferGeometry[] = [
+        suite.rosetteLeaf,
+        suite.bellCorolla,
+        suite.pinnateFrond,
+        suite.crozierA,
+        suite.crozierB,
+        suite.lotusPad,
+        suite.lotusOuterPetal,
+        suite.lotusInnerPetal,
+        suite.orchidSepal,
+        suite.orchidTepal,
+        suite.lotusCupLathe,
+      ];
+      for (const g of all) {
+        set.delete(g);
+        g.dispose();
+      }
+    };
+
+    let activeBMeshSuite = buildBotanicalBMeshSuite(
+      initialFidelity.bMeshRadialSubdivisions,
+      cachedSpectralDiurnal,
+    );
+    const holdfastCrystalGeos = ALL_14_BRAVAIS_CRYSTAL_HABITS.map((habit) =>
+      createBravaisCrystalHabitGeometry({ habit, radius: 0.085, height: 0.24 }),
+    );
     const sharedPlantGeometries = new Set<THREE.BufferGeometry>([
       shadowDiscGeo,
-      hdRosetteLeafGeo,
-      hdBellCorollaGeo,
-      hdPinnateFrondGeo,
-      hdCrozierGeoA,
-      hdCrozierGeoB,
-      hdLotusPadGeo,
-      hdLotusOuterPetalGeo,
-      hdLotusInnerPetalGeo,
-      hdOrchidSepalGeo,
-      hdOrchidTepalGeo,
-      lotusCupLatheGeo,
+      ...holdfastCrystalGeos,
     ]);
-    const sharedPlantMaterials = new Set<THREE.Material>([shadowDiscMat]);
+    registerSuiteGeometries(activeBMeshSuite, sharedPlantGeometries);
+    const sharedPlantMaterials = new Set<THREE.Material>([
+      shadowDiscMat,
+      crystalMonument.quartzMat,
+    ]);
 
     interface AnimatedPlantRecord {
       instance: GardenPlantInstance;
@@ -1743,6 +1937,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       medialJoint: THREE.Group;
       apicalJoint: THREE.Group;
       morphMeshes: THREE.Mesh[];
+      organBindings: Array<{ mesh: THREE.Mesh; slot: BotanicalOrganSlot }>;
+      stemMat: THREE.MeshStandardMaterial;
+      bloomMat: THREE.MeshPhysicalMaterial;
+      accentMat: THREE.MeshPhysicalMaterial;
       shaderUniforms: BotanicalShaderUniforms | null;
       emissiveMaterials: THREE.MeshStandardMaterial[];
       haloRing: THREE.Mesh;
@@ -1824,6 +2022,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         atmosphere: atmosphereRef.current,
         attuned: plant.attuned,
       });
+      const curFidelity =
+        neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity;
       const hdSynthesis = evaluateHighDefinitionVisualSynthesis({
         biome: plant.biome,
         species: plant.species,
@@ -1831,19 +2031,27 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         atmosphere: atmosphereRef.current,
         attuned: plant.attuned,
         lifecycleStage: initStage,
+        neuromorphicWeight: neuromorphicState.lastActiveSynapticWeight,
       });
 
-      // Matte lignocellulosic stem material with tangent-space vascular normal map
+      // Matte lignocellulosic stem material tinted by CIE 1931 PROSPECT chlorophyll reflectance (`foliageCanopy`)
+      const stemColor = new THREE.Color(0x15803d).lerp(
+        new THREE.Color(cachedSpectralDiurnal.foliageCanopy.hex),
+        0.52,
+      );
       const stemMat = new THREE.MeshStandardMaterial({
-        color: 0x15803d,
+        color: stemColor,
         normalMap: pbrSuite.petalVeinNormalTex,
-        normalScale: new THREE.Vector2(hdSynthesis.normalMapScale * 0.65, hdSynthesis.normalMapScale * 0.65),
+        normalScale: new THREE.Vector2(
+          hdSynthesis.normalMapScale * 0.65,
+          hdSynthesis.normalMapScale * 0.65,
+        ),
         roughness: organogenesis.stemMatteRoughness,
         metalness: 0.08,
         side: THREE.DoubleSide,
       });
 
-      // Glossy cuticular clearcoat & thin-film iridescent petal material
+      // Glossy cuticular clearcoat & Airy thin-film iridescent petal material (`airyThinFilmSpanNm`)
       const bloomMat = new THREE.MeshPhysicalMaterial({
         color: cfg.primaryHue,
         emissive: cfg.emissiveHue,
@@ -1857,9 +2065,15 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         iridescence: hdSynthesis.iridescenceStrength,
         iridescenceIOR: hdSynthesis.iridescenceIor,
         iridescenceThicknessMinimum: hdSynthesis.iridescenceThinFilmMinNm,
-        iridescenceThicknessMaximum: hdSynthesis.iridescenceThinFilmMaxNm,
+        iridescenceThicknessMaximum: Math.max(
+          hdSynthesis.iridescenceThinFilmMaxNm,
+          hdSynthesis.iridescenceThinFilmMinNm + curFidelity.airyThinFilmSpanNm * 0.65,
+        ),
         sheen: hdSynthesis.cuticularSheenStrength,
-        sheenColor: new THREE.Color(cfg.emissiveHue),
+        sheenColor: new THREE.Color(cfg.emissiveHue).lerp(
+          new THREE.Color(cachedSpectralDiurnal.foliageRedEdgeSheen.hex),
+          0.25,
+        ),
         sheenRoughness: hdSynthesis.cuticularSheenRoughness,
         side: THREE.DoubleSide,
       });
@@ -1872,7 +2086,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           })
         : null;
 
-      // Part 3b: Organic Biological Soil & Pelagic Root Holdfast Architecture (`Foundation.Botany.V1.Model` — zero rocks/masonry)
+      // Part 3b: Organic Biological Soil, Pelagic Rhizome, & Lithophytic Bravais Mineral Holdfast Architecture
       const holdfastGroup = new THREE.Group();
       holdfastGroup.rotation.set(plant.surfaceTiltX ?? 0, 0, plant.surfaceTiltZ ?? 0);
       holdfastGroup.scale.setScalar(plant.rootHoldfastScale ?? 1.0);
@@ -1903,11 +2117,22 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           const tendrilSocket = new THREE.Group();
           tendrilSocket.rotation.y = -ra;
           const tendril = new THREE.Mesh(rootTendrilGeo, stemMat);
-          // Anchored inside the central stem collar (r = 0.04, y = 0.10) sloping down into the humus mound
           tendril.position.set(0.18, 0.02, 0);
           tendril.rotation.z = 1.15;
           tendrilSocket.add(tendril);
           holdfastGroup.add(tendrilSocket);
+        }
+
+        if (substrate === 'crystalline-epiphyte' || plant.biome === 'crystal') {
+          const seedHash = Math.abs(Math.round(plant.x * 7 + plant.z * 13));
+          for (let cIdx = 0; cIdx < 3; cIdx++) {
+            const ca = (cIdx / 3) * Math.PI * 2 + 0.72;
+            const cGeo = holdfastCrystalGeos[(seedHash + cIdx * 3) % holdfastCrystalGeos.length];
+            const cMesh = new THREE.Mesh(cGeo, crystalMonument.quartzMat);
+            cMesh.position.set(Math.cos(ca) * 0.24, 0.08, Math.sin(ca) * 0.24);
+            cMesh.rotation.set(0.28, -ca, -0.22);
+            holdfastGroup.add(cMesh);
+          }
         }
       }
       group.add(holdfastGroup);
@@ -1917,14 +2142,20 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         emissive: cfg.emissiveHue,
         emissiveIntensity: plant.attuned ? 1.28 : 0.6,
         normalMap: pbrSuite.petalVeinNormalTex,
-        normalScale: new THREE.Vector2(hdSynthesis.normalMapScale * 0.8, hdSynthesis.normalMapScale * 0.8),
+        normalScale: new THREE.Vector2(
+          hdSynthesis.normalMapScale * 0.8,
+          hdSynthesis.normalMapScale * 0.8,
+        ),
         roughness: 0.14,
         metalness: 0.42,
         clearcoat: 0.9,
         iridescence: hdSynthesis.iridescenceStrength * 0.85,
         iridescenceIOR: hdSynthesis.iridescenceIor,
         iridescenceThicknessMinimum: hdSynthesis.iridescenceThinFilmMinNm,
-        iridescenceThicknessMaximum: hdSynthesis.iridescenceThinFilmMaxNm,
+        iridescenceThicknessMaximum: Math.max(
+          hdSynthesis.iridescenceThinFilmMaxNm,
+          hdSynthesis.iridescenceThinFilmMinNm + curFidelity.airyThinFilmSpanNm * 0.65,
+        ),
         side: THREE.DoubleSide,
       });
 
@@ -1937,12 +2168,20 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       medialJoint.add(apicalJoint);
 
       const morphMeshes: THREE.Mesh[] = [];
-      const registerMorphMesh = (mesh: THREE.Mesh) => {
-        if (mesh.morphTargetInfluences && mesh.morphTargetInfluences.length >= 2) {
+      const organBindings: Array<{ mesh: THREE.Mesh; slot: BotanicalOrganSlot }> = [];
+      const createOrganMesh = (
+        slot: BotanicalOrganSlot,
+        mat: THREE.Material,
+        withMorph = true,
+      ): THREE.Mesh => {
+        const mesh = new THREE.Mesh(activeBMeshSuite[slot], mat);
+        organBindings.push({ mesh, slot });
+        if (withMorph && mesh.morphTargetInfluences && mesh.morphTargetInfluences.length >= 2) {
           mesh.morphTargetInfluences[0] = hdSynthesis.morphBloomBaseline;
           mesh.morphTargetInfluences[1] = 0;
           morphMeshes.push(mesh);
         }
+        return mesh;
       };
 
       const emissiveMaterials = [bloomMat, accentMat];
@@ -1964,8 +2203,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           const leafSocket = new THREE.Group();
           leafSocket.position.y = 0.06;
           leafSocket.rotation.y = -a + Math.PI / 2;
-          const leaf = new THREE.Mesh(hdRosetteLeafGeo, stemMat);
-          registerMorphMesh(leaf);
+          const leaf = createOrganMesh('rosetteLeaf', stemMat);
           leaf.position.set(0, 0, 0.04);
           leaf.rotation.x = 0.44;
           leafSocket.add(leaf);
@@ -2022,8 +2260,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           calyxCup.position.y = -0.02;
           bellPendulum.add(calyxCup);
 
-          const bell = new THREE.Mesh(hdBellCorollaGeo, bloomMat);
-          registerMorphMesh(bell);
+          const bell = createOrganMesh('bellCorolla', bloomMat);
           bell.rotation.x = Math.PI;
           bell.position.set(0, 0, 0);
           bellPendulum.add(bell);
@@ -2071,8 +2308,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           frondSocket.position.set(0, 0.08 + (i % 4) * 0.07, 0);
           frondSocket.rotation.y = -a + Math.PI / 2;
 
-          const frond = new THREE.Mesh(hdPinnateFrondGeo, i % 2 === 0 ? bloomMat : stemMat);
-          registerMorphMesh(frond);
+          const frond = createOrganMesh('pinnateFrond', i % 2 === 0 ? bloomMat : stemMat);
           // Anchored directly inside the central rachis (z = 0.03m) so zero fronds float outside the stem
           frond.position.set(0, 0, 0.03);
           frond.rotation.x = 0.36 + (i % 3) * 0.08;
@@ -2086,14 +2322,12 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         apicalJoint.add(apicalNode);
 
         // Both crozier spirals have their basal stipe (t = 0) at (0, 0, 0) inside apicalJoint!
-        const crozierA = new THREE.Mesh(hdCrozierGeoA, accentMat);
-        registerMorphMesh(crozierA);
+        const crozierA = createOrganMesh('crozierA', accentMat);
         crozierA.position.set(0, 0, 0);
         apicalJoint.add(crozierA);
         croziers.push(crozierA);
 
-        const crozierB = new THREE.Mesh(hdCrozierGeoB, bloomMat);
-        registerMorphMesh(crozierB);
+        const crozierB = createOrganMesh('crozierB', bloomMat);
         crozierB.rotation.y = Math.PI * 0.5;
         crozierB.position.set(0, 0.02, 0);
         apicalJoint.add(crozierB);
@@ -2127,7 +2361,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         localApicalCrownY = 0.04;
       } else if (plant.species === 'echo-lotus') {
         // Cordate heart-notched floating lily pad + receptacle cup + outer & inner petals embedded directly inside the receptacle collar
-        const pad = new THREE.Mesh(hdLotusPadGeo, stemMat);
+        const pad = createOrganMesh('lotusPad', stemMat, false);
         pad.position.y = 0.015;
         basalJoint.add(pad);
 
@@ -2139,7 +2373,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         receptacleStalk.position.y = 0.11;
         medialJoint.add(receptacleStalk);
 
-        const lotusCup = new THREE.Mesh(lotusCupLatheGeo, bloomMat);
+        const lotusCup = createOrganMesh('lotusCupLathe', bloomMat, false);
         lotusCup.position.y = 0.02;
         medialJoint.add(lotusCup);
 
@@ -2160,8 +2394,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           petalSocket.position.y = 0.02;
           petalSocket.rotation.y = -a + Math.PI / 2;
 
-          const petal = new THREE.Mesh(hdLotusOuterPetalGeo, bloomMat);
-          registerMorphMesh(petal);
+          const petal = createOrganMesh('lotusOuterPetal', bloomMat);
           // Anchored inside the 0.11m receptacle collar (z = 0.08m) so zero petals float detached
           petal.position.set(0, 0, 0.08);
           petal.rotation.x = 0.52;
@@ -2176,8 +2409,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           innerSocket.position.y = 0.05;
           innerSocket.rotation.y = -a + Math.PI / 2;
 
-          const innerPetal = new THREE.Mesh(hdLotusInnerPetalGeo, accentMat);
-          registerMorphMesh(innerPetal);
+          const innerPetal = createOrganMesh('lotusInnerPetal', accentMat);
           innerPetal.position.set(0, 0, 0.06);
           innerPetal.rotation.x = 0.32;
           innerSocket.add(innerPetal);
@@ -2222,8 +2454,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           stalks.push(stalk);
 
           // Operculum spore capsule + calyptra cap parented inside medialJoint at the exact top of the stalk
-          const capsule = new THREE.Mesh(hdBellCorollaGeo, accentMat);
-          registerMorphMesh(capsule);
+          const capsule = createOrganMesh('bellCorolla', accentMat);
           capsule.scale.setScalar(0.28);
           capsule.position.set(cx, stalkLocalY + 0.54, cz);
           // Conical operculum cap closing the top of the moss sporangium capsule
@@ -2245,8 +2476,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           const leafSocket = new THREE.Group();
           leafSocket.position.y = 0.06;
           leafSocket.rotation.y = -a + Math.PI / 2;
-          const leaf = new THREE.Mesh(hdRosetteLeafGeo, stemMat);
-          registerMorphMesh(leaf);
+          const leaf = createOrganMesh('rosetteLeaf', stemMat);
           leaf.scale.setScalar(0.84);
           leaf.position.set(0, 0, 0.04);
           leaf.rotation.x = 0.46;
@@ -2280,8 +2510,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
         for (let i = 0; i < 5; i++) {
           const a = (i / 5) * Math.PI * 2;
-          const petal = new THREE.Mesh(hdOrchidSepalGeo, bloomMat);
-          registerMorphMesh(petal);
+          const petal = createOrganMesh('orchidSepal', bloomMat);
           // Zero radial offset so all 5 sepal claws grow directly out of receptacleHub at (0, 0, 0.01)
           petal.position.set(0, 0, 0.01);
           petal.rotation.z = a - Math.PI / 2;
@@ -2289,16 +2518,14 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         }
         for (let i = 0; i < 3; i++) {
           const a = (i / 3) * Math.PI * 2 + Math.PI / 6;
-          const tepal = new THREE.Mesh(hdOrchidTepalGeo, accentMat);
-          registerMorphMesh(tepal);
+          const tepal = createOrganMesh('orchidTepal', accentMat);
           tepal.position.set(0, 0, 0.03);
           tepal.rotation.z = a - Math.PI / 2;
           starHead.add(tepal);
         }
 
         // Forward-flaring labellum trumpet (+Math.PI / 2 rotates +Y bell axis forward along +Z!)
-        const labellum = new THREE.Mesh(hdBellCorollaGeo, accentMat);
-        registerMorphMesh(labellum);
+        const labellum = createOrganMesh('bellCorolla', accentMat);
         labellum.scale.setScalar(0.52);
         labellum.rotation.x = Math.PI / 2;
         labellum.position.set(0, 0, 0.02);
@@ -2398,6 +2625,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         medialJoint,
         apicalJoint,
         morphMeshes,
+        organBindings,
+        stemMat,
+        bloomMat,
+        accentMat,
         shaderUniforms,
         emissiveMaterials,
         haloRing,
@@ -2736,8 +2967,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     // Build deterministic solid collider registry (`Foundation.Physics.V1.Model`)
     const gardenColliders = buildGardenColliders(plantsRef.current);
 
-    // Live Neuromorphic Synthesis Engine & Symbiotic Environmental Agency State
-    let neuromorphicState = createInitialNeuromorphicState();
+    // Sync Immanent Environmental Witness Collider & Player Embodiment Locus with Neuromorphic State
     syncImmanentWitnessCollider(gardenColliders, neuromorphicState.observer.immanentPresence);
     let prevWitnessX = neuromorphicState.observer.immanentPresence.x;
     let prevWitnessZ = neuromorphicState.observer.immanentPresence.z;
@@ -2861,6 +3091,152 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     let isPointerDragging = false;
     let lastMouseX = 0;
     let lastMouseY = 0;
+
+    const syncMultiModalFidelityVisuals = (nextTopo?: ParametricWorldTopologyModel) => {
+      const fidelity =
+        neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity;
+      const specPalette = synthesizeSpectralDiurnalPalette(
+        atmosphereRef.current,
+        fidelity.spectralBandCount,
+        fidelity.airyThinFilmSpanNm,
+      );
+      const spectralChanged =
+        cachedSpectralAtm !== atmosphereRef.current ||
+        cachedSpectralBands !== fidelity.spectralBandCount;
+      cachedSpectralAtm = atmosphereRef.current;
+      cachedSpectralBands = fidelity.spectralBandCount;
+      cachedSpectralDiurnal = specPalette;
+
+      const activeTopo = nextTopo ?? neuromorphicState.observer.cosmogenesis.worldTopology;
+      if (!isSoftwareGl && fidelity.adaptiveTerrainSegments !== activeTerrainSegments) {
+        activeTerrainSegments = fidelity.adaptiveTerrainSegments;
+        const prevTerrainGeo = terrainGeo;
+        terrainGeo = buildAdaptiveSpectralTerrainGeometry(
+          activeTerrainSegments,
+          activeTopo,
+          specPalette,
+        );
+        terrainMesh.geometry = terrainGeo;
+        prevTerrainGeo.dispose();
+      } else if (nextTopo || spectralChanged) {
+        populateTerrainHeightsAndSpectralColors(terrainGeo, activeTopo, specPalette);
+      }
+
+      if (!isSoftwareGl && fidelity.proceduralTexelResolution !== activeTexelResolution) {
+        activeTexelResolution = fidelity.proceduralTexelResolution;
+        const prevGroundTex = groundTex;
+        const prevGroundBumpTex = groundBumpTex;
+        const prevPbr = pbrSuite;
+
+        const nextMoss = createMossAndBumpTextures(activeTexelResolution);
+        groundTex = nextMoss.colorTex;
+        groundBumpTex = nextMoss.bumpTex;
+        pbrSuite = createHighDefinitionPbrTextureSuite(
+          maxAnisotropy,
+          isSoftwareGl,
+          activeTexelResolution,
+        );
+
+        terrainMat.map = groundTex;
+        terrainMat.normalMap = pbrSuite.mossNormalTex;
+        terrainMat.roughnessMap = pbrSuite.mossRoughnessTex;
+        terrainMat.bumpMap = groundBumpTex;
+
+        sharedStoneMat.map = pbrSuite.stoneColorTex;
+        sharedStoneMat.normalMap = pbrSuite.stoneNormalTex;
+
+        shorelineMossStoneMat.map = pbrSuite.stoneColorTex;
+        shorelineMossStoneMat.normalMap = pbrSuite.stoneNormalTex;
+        shorelineMossStoneMat.bumpMap = groundBumpTex;
+
+        stepStoneMat.map = pbrSuite.stoneColorTex;
+        stepStoneMat.normalMap = pbrSuite.stoneNormalTex;
+        stepStoneMat.bumpMap = groundBumpTex;
+
+        rockMat.normalMap = pbrSuite.stoneNormalTex;
+        stalkMat.normalMap = pbrSuite.petalVeinNormalTex;
+        canopyMat.normalMap = pbrSuite.petalVeinNormalTex;
+
+        for (let i = 0; i < plantMeshes.length; i++) {
+          const pm = plantMeshes[i];
+          pm.stemMat.normalMap = pbrSuite.petalVeinNormalTex;
+          pm.bloomMat.normalMap = pbrSuite.petalVeinNormalTex;
+          pm.accentMat.normalMap = pbrSuite.petalVeinNormalTex;
+        }
+
+        prevGroundTex.dispose();
+        prevGroundBumpTex.dispose();
+        prevPbr.mossColorTex.dispose();
+        prevPbr.mossNormalTex.dispose();
+        prevPbr.mossRoughnessTex.dispose();
+        prevPbr.stoneColorTex.dispose();
+        prevPbr.stoneNormalTex.dispose();
+        prevPbr.petalVeinNormalTex.dispose();
+      }
+
+      const targetSubdiv = isSoftwareGl
+        ? 24
+        : Math.max(28, Math.min(64, Math.round(fidelity.bMeshRadialSubdivisions)));
+      if (!isSoftwareGl && targetSubdiv !== activeBMeshSuite.subdivisions) {
+        const prevSuite = activeBMeshSuite;
+        const nextSuite = buildBotanicalBMeshSuite(targetSubdiv, specPalette);
+        registerSuiteGeometries(nextSuite, sharedPlantGeometries);
+        for (let i = 0; i < plantMeshes.length; i++) {
+          const bindings = plantMeshes[i].organBindings;
+          for (let b = 0; b < bindings.length; b++) {
+            const { mesh, slot } = bindings[b];
+            const inf0 = mesh.morphTargetInfluences?.[0] ?? 0;
+            const inf1 = mesh.morphTargetInfluences?.[1] ?? 0;
+            mesh.geometry = nextSuite[slot];
+            mesh.updateMorphTargets();
+            if (mesh.morphTargetInfluences && mesh.morphTargetInfluences.length >= 2) {
+              mesh.morphTargetInfluences[0] = inf0;
+              mesh.morphTargetInfluences[1] = inf1;
+            }
+          }
+        }
+        activeBMeshSuite = nextSuite;
+        disposeSuiteGeometries(prevSuite, sharedPlantGeometries);
+
+        const prevRockGeo = rockGeo;
+        rockGeo = createStratifiedBoulderGeometry({
+          radius: 2.6,
+          detailRings: Math.max(14, Math.round(targetSubdiv * 0.42)),
+          radialSegments: Math.max(18, Math.round(targetSubdiv * 0.56)),
+          seed: 707,
+        });
+        rocksInstanced.geometry = rockGeo;
+        prevRockGeo.dispose();
+
+        const prevCanopyGeo = canopyGeo;
+        canopyGeo = createSculptedCanopyCrownGeometry({
+          radius: 1.05,
+          height: 1.45,
+          lobeCount: Math.max(9, Math.round(targetSubdiv * 0.26)),
+        });
+        canopyInstanced.geometry = canopyGeo;
+        prevCanopyGeo.dispose();
+      }
+
+      sharedCrystalMat.iridescenceThicknessMaximum = 220 + fidelity.airyThinFilmSpanNm;
+      crystalMonument.quartzMat.iridescenceThicknessMaximum = 240 + fidelity.airyThinFilmSpanNm;
+      _tempColor.set(specPalette.crystalThinFilm.hex);
+      crystalMonument.quartzMat.color.lerp(_tempColor, 0.35);
+      lagoonMat.iridescenceThicknessMaximum = 220 + fidelity.airyThinFilmSpanNm * 0.65;
+      _tempColor
+        .set('#0f766e')
+        .lerp(_lagoonAbsCol.set(specPalette.lagoonWaterAbsorption.hex), 0.42);
+      lagoonMat.color.copy(_tempColor);
+
+      _foliageCanopyCol.set(specPalette.foliageCanopy.hex);
+      for (let i = 0; i < plantMeshes.length; i++) {
+        const pm = plantMeshes[i];
+        pm.bloomMat.iridescenceThicknessMaximum = 180 + fidelity.airyThinFilmSpanNm * 0.72;
+        pm.accentMat.iridescenceThicknessMaximum = 160 + fidelity.airyThinFilmSpanNm * 0.65;
+        _tempColor.set('#22543d').lerp(_foliageCanopyCol, 0.52);
+        pm.stemMat.color.copy(_tempColor);
+      }
+    };
 
     const performAction = (act: PlayerActionId, isSustainedHoldPulse = false) => {
       soundEngine.init();
@@ -3210,6 +3586,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         );
       }
 
+      soundEngine.syncWithNeuromorphicBus(neuromorphicState);
+      syncMultiModalFidelityVisuals();
+
       soundEngine.playNeuromorphicCounterpoint({
         biome: currentBiome,
         kinshipSpecies: neuroTick.kinshipSpecies,
@@ -3367,6 +3746,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       }
       const activeAlpha = neuromorphicState.observer.cosmogenesis.alphaSeed;
       neuromorphicState = createInitialNeuromorphicState(activeAlpha);
+      soundEngine.syncWithNeuromorphicBus(neuromorphicState);
+      syncMultiModalFidelityVisuals();
       activeCrownModelId = '';
       currentSoundtrackStep = 0;
       soundtrackStepTimer = 0;
@@ -3401,13 +3782,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       const nextTopo = synthesizeParametricWorldTopology(cosmoParams);
       const nextMonuments = synthesizeObserverInorganicMonuments(cosmoParams);
 
-      for (let i = 0; i < posAttr.count; i++) {
-        const vx = posAttr.getX(i);
-        const vz = posAttr.getZ(i);
-        posAttr.setY(i, groundHeightAt(vx, vz, nextTopo));
-      }
-      posAttr.needsUpdate = true;
-      terrainGeo.computeVertexNormals();
+      syncMultiModalFidelityVisuals(nextTopo);
 
       const [nextSanctX, nextSanctZ] = nextMonuments.monuments.sanctuary.sanctuary!.centerXZ;
       const [nextMeadowX, nextMeadowZ] = nextMonuments.monuments.meadow.meadow!.centerXZ;
@@ -3534,33 +3909,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         grassInstanced.setMatrixAt(i, _dummyMatrix);
       }
       grassInstanced.instanceMatrix.needsUpdate = true;
-
-      const fidelity =
-        neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity;
-      const spectralPalette = synthesizeSpectralDiurnalPalette(
-        atmosphereRef.current,
-        fidelity.spectralBandCount,
-        fidelity.airyThinFilmSpanNm,
-      );
-      cachedSpectralAtm = atmosphereRef.current;
-      cachedSpectralBands = fidelity.spectralBandCount;
-      cachedSpectralDiurnal = spectralPalette;
-      sharedCrystalMat.iridescenceThicknessMaximum = 220 + fidelity.airyThinFilmSpanNm;
-      crystalMonument.quartzMat.iridescenceThicknessMaximum = 240 + fidelity.airyThinFilmSpanNm;
-      _tempColor.set(spectralPalette.crystalThinFilm.hex);
-      crystalMonument.quartzMat.color.lerp(_tempColor, 0.35);
     };
-
-    let cachedSpectralAtm: AtmosphereId = atmosphereRef.current;
-    let cachedSpectralBands =
-      neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity
-        .spectralBandCount;
-    let cachedSpectralDiurnal = synthesizeSpectralDiurnalPalette(
-      cachedSpectralAtm,
-      cachedSpectralBands,
-      neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity
-        .airyThinFilmSpanNm,
-    );
 
     const refineParametricCosmos = (cycles = 1) => {
       const refined = refinePrismModel(neuromorphicState, {
@@ -4109,10 +4458,17 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           icosianRootIndex: activeIcosianRoot,
           synapticWeight: activeSynapticWeight,
         });
+        const barkBandEnergy = soundEngine.spectrumBands[(mIdx * 3) % 16] ?? 0.16;
         mr.mesh.position.y =
-          liveCosmo.worldTopology.lagoonWaterSurfaceY + 0.012 + ringCymatics.waveDisplacementY;
-        mr.mesh.scale.setScalar(1 + ringCymatics.waveDisplacementY * 1.4);
-        mr.mat.opacity = 0.22 + ringCymatics.meniscusPulseFactor * 0.22;
+          liveCosmo.worldTopology.lagoonWaterSurfaceY +
+          0.012 +
+          ringCymatics.waveDisplacementY +
+          barkBandEnergy * 0.014;
+        mr.mesh.scale.setScalar(1 + ringCymatics.waveDisplacementY * 1.4 + barkBandEnergy * 0.08);
+        mr.mat.opacity = Math.min(
+          0.68,
+          0.22 + ringCymatics.meniscusPulseFactor * 0.22 + barkBandEnergy * 0.18,
+        );
       }
 
       for (let l = 0; l < wetlandMonument.lanternOrbs.length; l++) {
@@ -4366,10 +4722,13 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         const lifecycleSpec = BOTANICAL_LIFECYCLE_STAGES[plantStage];
         const liveOrganicMult =
           1 + Math.max(-0.08, (liveCosmo.organicRealm.organogenesisScaleMultiplier - 1) * 0.45);
+        const fvcbVigorMult =
+          0.96 + (liveFidelity.fvcbRubiscoAssimilationMultiplier - 1.0) * 0.22;
         pm.group.scale.setScalar(
           morph.scaleFactor *
             (0.85 + lifecycleSpec.morphologicalScaleMultiplier * 0.15) *
-            liveOrganicMult,
+            liveOrganicMult *
+            fvcbVigorMult,
         );
         const isFocalObservedSpecimen =
           nearestForSpores.inForwardGazeCone && pm.instance.id === nearestForSpores.plant.id;
@@ -5017,24 +5376,20 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           cachedSpectralAtm !== atmosphereRef.current ||
           cachedSpectralBands !== liveFidelity.spectralBandCount
         ) {
-          cachedSpectralAtm = atmosphereRef.current;
-          cachedSpectralBands = liveFidelity.spectralBandCount;
-          cachedSpectralDiurnal = synthesizeSpectralDiurnalPalette(
-            cachedSpectralAtm,
-            cachedSpectralBands,
-            liveFidelity.airyThinFilmSpanNm,
-          );
+          syncMultiModalFidelityVisuals();
         }
         _targetSkyColor
           .set(biomeCfg.skyColor)
-          .lerp(_tempColor.set(atmosCfg.skyColor), 0.52)
-          .lerp(_tempColor.set(cachedSpectralDiurnal.skyZenith.hex), 0.14);
+          .lerp(_tempColor.set(atmosCfg.skyColor), 0.46)
+          .lerp(_tempColor.set(cachedSpectralDiurnal.skyZenith.hex), 0.36);
         _targetFogColor
           .set(biomeCfg.fogColor)
-          .lerp(_tempColor.set(atmosCfg.fogColor), 0.52)
-          .lerp(_tempColor.set(cachedSpectralDiurnal.fogAtmosphere.hex), 0.14);
+          .lerp(_tempColor.set(atmosCfg.fogColor), 0.46)
+          .lerp(_tempColor.set(cachedSpectralDiurnal.fogAtmosphere.hex), 0.36);
         (scene.background as THREE.Color).lerp(_targetSkyColor, 1 - Math.exp(-2.5 * dt));
         (scene.fog as THREE.FogExp2).color.lerp(_targetFogColor, 1 - Math.exp(-2.5 * dt));
+        _tempColor.set(cachedSpectralDiurnal.sunDirectional.hex);
+        sunLight.color.lerp(_tempColor, 1 - Math.exp(-2.0 * dt));
         (scene.fog as THREE.FogExp2).density = THREE.MathUtils.damp(
           (scene.fog as THREE.FogExp2).density,
           diurnalEval.effectiveFogDensity *
@@ -5140,16 +5495,14 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       pbrSuite.stoneColorTex.dispose();
       pbrSuite.stoneNormalTex.dispose();
       pbrSuite.petalVeinNormalTex.dispose();
-      hdRosetteLeafGeo.dispose();
-      hdBellCorollaGeo.dispose();
-      hdPinnateFrondGeo.dispose();
-      hdCrozierGeoA.dispose();
-      hdCrozierGeoB.dispose();
-      hdLotusPadGeo.dispose();
-      hdLotusOuterPetalGeo.dispose();
-      hdLotusInnerPetalGeo.dispose();
-      hdOrchidSepalGeo.dispose();
-      hdOrchidTepalGeo.dispose();
+      disposeSuiteGeometries(activeBMeshSuite, sharedPlantGeometries);
+      for (const g of shorelineCrystalGeos) g.dispose();
+      for (const g of holdfastCrystalGeos) g.dispose();
+      shorelineStoneGeo.dispose();
+      rockGeo.dispose();
+      stalkGeo.dispose();
+      canopyGeo.dispose();
+      grassGeo.dispose();
       terrainGeo.dispose();
       terrainMat.dispose();
       filamentGeo.dispose();
