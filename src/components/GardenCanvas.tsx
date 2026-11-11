@@ -19,8 +19,10 @@ import {
   MIRROR_LAGOON_WATER_SURFACE_Y,
   NeuromorphicEngineState,
   PLANT_SPECIES_CONFIGS,
+  ParametricWorldTopologyModel,
   PlayerActionId,
   SANCTUARY_TRAIL_WAYPOINTS,
+  SolidCollider,
   SoundscapeOutcome,
   SurfaceMaterialId,
   VERDANT_BOTANICAL_STANDARD,
@@ -77,9 +79,12 @@ import {
   stepKuramotoPhaseEntrainment,
   stepSporeFluidDynamics,
   stepSymbioticEnvironmentalAgency,
+  syncImmanentWitnessCollider,
   synthesizeBotanicalOrganogenesis,
   synthesizeCompoundSurfaceProfile,
   synthesizeObserverInorganicMonuments,
+  synthesizeParametricBiomeConfigs,
+  synthesizeParametricPlantSpeciesConfigs,
   evaluateHighDefinitionVisualSynthesis,
   evaluateImmanentObserverPresence,
   evaluateKinematicRigPose,
@@ -2623,6 +2628,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       z2: number,
       hexColor: string,
       targetPlantId: string | null = null,
+      colliders?: readonly SolidCollider[],
+      topology?: ParametricWorldTopologyModel,
     ) => {
       const f = filaments[filamentCursor % FILAMENT_COUNT];
       filamentCursor = (filamentCursor + 1) % FILAMENT_COUNT;
@@ -2635,6 +2642,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         z2,
         elapsedSinceTriggerSec: 0,
         segments: PARABOLIC_SEGMENTS,
+        colliders,
+        topology,
       });
       if (arc.arcLengthMeters < 0.1) return;
 
@@ -2715,6 +2724,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
     // Live Neuromorphic Synthesis Engine & Symbiotic Environmental Agency State
     let neuromorphicState = createInitialNeuromorphicState();
+    syncImmanentWitnessCollider(gardenColliders, neuromorphicState.observer.immanentPresence);
+    let prevWitnessX = neuromorphicState.observer.immanentPresence.x;
+    let prevWitnessZ = neuromorphicState.observer.immanentPresence.z;
     const initialPlayerModel = neuromorphicState.observer.cosmogenesis.playerRealm;
 
     // Grounded Parametric Player/User Co-Observer Harmonic Locus Ring (`createPlayerCoObserverLocusGeometry`)
@@ -2922,7 +2934,16 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
       const updatedNearest = nearest;
       const meshRecord = plantMeshes.find((m) => m.instance.id === updatedNearest.plant.id);
-      const speciesCfg = PLANT_SPECIES_CONFIGS[updatedNearest.plant.species];
+      const liveInteractionCosmo = neuromorphicState.observer.cosmogenesis;
+      const liveInteractionSpeciesCfgs = synthesizeParametricPlantSpeciesConfigs({
+        alphaSeed: liveInteractionCosmo.alphaSeed,
+        manifold: neuromorphicState.universalManifold,
+      });
+      const liveInteractionBiomeCfgs = synthesizeParametricBiomeConfigs({
+        alphaSeed: liveInteractionCosmo.alphaSeed,
+        manifold: neuromorphicState.universalManifold,
+      });
+      const speciesCfg = liveInteractionSpeciesCfgs[updatedNearest.plant.species];
       const targetPan = computeBinauralPan(
         player.x,
         player.z,
@@ -2997,6 +3018,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
               nb.z,
               speciesCfg.emissiveHue,
               nb.id,
+              gardenColliders,
+              liveInteractionCosmo.worldTopology,
             );
             // Causal Finite-Velocity Wavefront Arrival (`Foundation.Ecology.V1.Model` `actionPotentialWaveSpeedMps = 6.5`):
             // The sympathetic acoustic echo triggers at the exact parabolic arc travel time `arc.travelTimeSec`,
@@ -3010,6 +3033,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
               z2: nb.z,
               elapsedSinceTriggerSec: 0,
               segments: PARABOLIC_SEGMENTS,
+              colliders: gardenColliders,
+              topology: liveInteractionCosmo.worldTopology,
             });
             const nbPan = computeBinauralPan(player.x, player.z, player.yaw, nb.x, nb.z);
             const nbDist = Math.hypot(nb.x - player.x, nb.z - player.z);
@@ -3084,7 +3109,12 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         );
       } else if (act === 'stillness') {
         // Self-decaying 650ms inhale / 3.2s exhale warm pastoral ninth breathing pad
-        spawnSoundWaveRings(player.x, player.y, player.z, BIOME_CONFIGS[currentBiome].accentColor);
+        spawnSoundWaveRings(
+          player.x,
+          player.y,
+          player.z,
+          liveInteractionBiomeCfgs[currentBiome].accentColor,
+        );
         soundEngine.playStillnessMeditationSwell(currentBiome, atmosphereRef.current);
       } else {
         // [Space] Attune Flora: 24-spore burst + 5 expanding ground wave rings + 220ms 6-voice polyphonic choir
@@ -3139,7 +3169,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
       if (neuroTick.emergentSeedling) {
         plantsRef.current.push(neuroTick.emergentSeedling);
-        registerEmergentSeedlingCollider(gardenColliders, neuroTick.emergentSeedling);
+        registerEmergentSeedlingCollider(gardenColliders, neuroTick.emergentSeedling, {
+          alphaSeed: liveInteractionCosmo.alphaSeed,
+          manifold: neuromorphicState.universalManifold,
+        });
         const newMeshRecord = buildPlantGroup(neuroTick.emergentSeedling);
         plantMeshes.push(newMeshRecord);
         spawnBurstAt(
@@ -3158,6 +3191,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           neuroTick.emergentSeedling.z,
           '#fde047',
           neuroTick.emergentSeedling.id,
+          gardenColliders,
+          liveInteractionCosmo.worldTopology,
         );
       }
 
@@ -3378,6 +3413,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           manifold: neuromorphicState.universalManifold,
         }),
       );
+      syncImmanentWitnessCollider(gardenColliders, neuromorphicState.observer.immanentPresence);
 
       const nearestNow = findNearestPlant(player.x, player.z, nextPlants, player.yaw);
       player.harmony = computeGardenHarmonyPct({
@@ -3771,7 +3807,14 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         action: player.action,
         harmonyPct: Math.round(player.harmony),
         plants: plantsRef.current,
+        colliders: gardenColliders,
       });
+      const safeDt = Math.max(0.008, dt);
+      const witnessVX = (liveWitness.x - prevWitnessX) / safeDt;
+      const witnessVZ = (liveWitness.z - prevWitnessZ) / safeDt;
+      prevWitnessX = liveWitness.x;
+      prevWitnessZ = liveWitness.z;
+      syncImmanentWitnessCollider(gardenColliders, liveWitness);
       neuromorphicState.observer.immanentPresence = liveWitness;
       immanentWitness.group.position.set(liveWitness.x, liveWitness.y, liveWitness.z);
       immanentWitness.group.rotation.set(liveWitness.reciprocalBowRad, liveWitness.headingYawRad, 0);
@@ -3794,7 +3837,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
       const frameDiurnal = evaluateDiurnalProfile(
         atmosphereRef.current,
-        biomeAt(player.x, player.z),
+        biomeAt(player.x, player.z, liveCosmo.worldTopology),
         player.harmony,
       );
       meadowMonument.sunOrbPivot.rotation.y = frameDiurnal.sunAzimuthRad + elapsed * 0.25 * spinMult;
@@ -3855,7 +3898,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         synapticWeight: activeSynapticWeight,
       });
       lagoonMesh.position.y =
-        MIRROR_LAGOON_WATER_SURFACE_Y +
+        liveCosmo.worldTopology.lagoonWaterSurfaceY +
         centerCymatics.waveDisplacementY * 0.45 * directives.physics.cymaticWaveCoherence;
       lagoonMat.emissiveIntensity = 0.18 + centerCymatics.meniscusPulseFactor * 0.16;
 
@@ -3870,7 +3913,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           synapticWeight: activeSynapticWeight,
         });
         mr.mesh.position.y =
-          MIRROR_LAGOON_WATER_SURFACE_Y + 0.012 + ringCymatics.waveDisplacementY;
+          liveCosmo.worldTopology.lagoonWaterSurfaceY + 0.012 + ringCymatics.waveDisplacementY;
         mr.mesh.scale.setScalar(1 + ringCymatics.waveDisplacementY * 1.4);
         mr.mat.opacity = 0.22 + ringCymatics.meniscusPulseFactor * 0.22;
       }
@@ -3953,6 +3996,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           z2: f.z2,
           elapsedSinceTriggerSec: f.age,
           segments: PARABOLIC_SEGMENTS,
+          colliders: gardenColliders,
+          topology: liveCosmo.worldTopology,
         });
         f.wavefrontOrb.position.set(
           arc.wavefrontPosition[0],
@@ -4271,6 +4316,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           elapsedSeconds: elapsed,
           playerVX,
           playerVZ,
+          witnessX: liveWitness.x,
+          witnessZ: liveWitness.z,
+          witnessVX,
+          witnessVZ,
           rule30Byte: activeRule30Byte,
           synapticWeight: activeSynapticWeight,
         });
@@ -4478,8 +4527,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           prevLocusGeo.dispose();
         }
         const locusGroundY = player.inWater
-          ? MIRROR_LAGOON_WATER_SURFACE_Y + 0.02
-          : groundHeightAt(player.x, player.z) + 0.024;
+          ? liveCosmo.worldTopology.lagoonWaterSurfaceY + 0.02
+          : groundHeightAt(player.x, player.z, liveCosmo.worldTopology) + 0.024;
         playerLocusMesh.position.set(player.x, locusGroundY, player.z);
         playerLocusMesh.rotation.y = elapsed * 0.28 + player.yaw * 0.35;
         playerLocusMesh.scale.setScalar(
@@ -4498,7 +4547,11 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           const rippleSpacing = player.inWater ? 1.45 : 2.8;
           if (player.walkDist - lastWaveFootstepDist >= rippleSpacing) {
             lastWaveFootstepDist = player.walkDist;
-            const b = biomeAt(player.x, player.z);
+            const b = biomeAt(player.x, player.z, liveCosmo.worldTopology);
+            const liveStepBiomeCfgs = synthesizeParametricBiomeConfigs({
+              alphaSeed: liveCosmo.alphaSeed,
+              manifold: neuromorphicState.universalManifold,
+            });
             player.exploredBiomes.add(b);
             player.harmony = computeGardenHarmonyPct({
               plants: plantsRef.current,
@@ -4507,10 +4560,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
             spawnFootstepRipple(
               player.x,
               player.inWater
-                ? MIRROR_LAGOON_WATER_SURFACE_Y + 0.015
-                : groundHeightAt(player.x, player.z),
+                ? liveCosmo.worldTopology.lagoonWaterSurfaceY + 0.015
+                : groundHeightAt(player.x, player.z, liveCosmo.worldTopology),
               player.z,
-              player.inWater ? '#5eead4' : BIOME_CONFIGS[b].accentColor,
+              player.inWater ? '#5eead4' : liveStepBiomeCfgs[b].accentColor,
             );
             // Step neuromorphic `/5` Clifford Cl(0,6) basin memory when crossing a new spatial basin while strolling
             const currentBasin = computeCliffordBasinState(player.x, player.z, player.yaw);

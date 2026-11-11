@@ -5,7 +5,7 @@ import path from 'node:path';
  * Deterministic Prism `.lex.tex` AST Extractor & TypeScript Artifact Compiler
  * (`scripts/extractPrismArtifacts.ts`).
  *
- * Parses all 14 `.lex.tex` source modules under `prism/src/` and `prism/spec.json`,
+ * Parses all 15 `.lex.tex` source modules under `prism/src/` and `prism/spec.json`,
  * verifies that zero unproved `:= true` flags exist in any Foundation module,
  * evaluates pure definitions and record constructors directly from the `.lex.tex` AST
  * (including executable bus verification predicates such as `verifySingleCallPropagatesAllTenDomains`,
@@ -352,6 +352,57 @@ export function evaluateLexExpr(
     }
   }
 
+  if (expr.startsWith('match ')) {
+    let pDepth = 0;
+    let bDepth = 0;
+    let inStr = false;
+    const armIndices: number[] = [];
+    for (let i = 6; i < expr.length; i++) {
+      const ch = expr[i];
+      if (ch === '"' && expr[i - 1] !== '\\') inStr = !inStr;
+      if (inStr) continue;
+      if (ch === '(') pDepth++;
+      else if (ch === ')') pDepth--;
+      else if (ch === '{') bDepth++;
+      else if (ch === '}') bDepth--;
+      else if (ch === '|' && pDepth === 0 && bDepth === 0) {
+        armIndices.push(i);
+      }
+    }
+    if (armIndices.length > 0) {
+      const scrutineeExpr = expr.slice(6, armIndices[0]).trim();
+      const scrutineeVal = evaluateLexExpr(scrutineeExpr, currentModule, modules, env);
+      for (let a = 0; a < armIndices.length; a++) {
+        const armStart = armIndices[a] + 1;
+        const armEnd = a + 1 < armIndices.length ? armIndices[a + 1] : expr.length;
+        const armText = expr.slice(armStart, armEnd).trim();
+        const arrowIdx = armText.indexOf('=>');
+        if (arrowIdx === -1) continue;
+        const pat = armText.slice(0, arrowIdx).trim();
+        const bodyExpr = armText.slice(arrowIdx + 2).trim();
+        if (pat === 'Bool.true' && scrutineeVal === true) {
+          return evaluateLexExpr(bodyExpr, currentModule, modules, env);
+        }
+        if (pat === 'Bool.false' && scrutineeVal === false) {
+          return evaluateLexExpr(bodyExpr, currentModule, modules, env);
+        }
+        if (pat === 'Nat.zero' && Number(scrutineeVal) === 0) {
+          return evaluateLexExpr(bodyExpr, currentModule, modules, env);
+        }
+        if (pat.startsWith('Nat.succ ') && Number(scrutineeVal) > 0) {
+          const bindVar = pat.slice('Nat.succ '.length).trim();
+          return evaluateLexExpr(bodyExpr, currentModule, modules, {
+            ...env,
+            [bindVar]: Number(scrutineeVal) - 1,
+          });
+        }
+        if (pat === '_') {
+          return evaluateLexExpr(bodyExpr, currentModule, modules, env);
+        }
+      }
+    }
+  }
+
   const binaryOps = ['||', '&&', '<=?', '<?', '=?', '+'];
   for (const op of binaryOps) {
     let pDepth = 0;
@@ -472,18 +523,122 @@ export function extractVerdantJudgeArtifact(modules: Map<string, ParsedLexModule
   const judgeRulesDef = vr.definitions.get('judgeRules') ?? vr.definitions.get('judge');
   if (!judgeRulesDef) throw new Error('judgeRules definition missing');
 
+  const codeToAnswerName = new Map<number, string>();
+  for (const [name, code] of Object.entries(enumConstants)) {
+    if (name.startsWith('answer')) {
+      codeToAnswerName.set(code, name);
+    }
+  }
+
   const ruleOutcomeMap = new Map<string, string>();
   const ruleOutcomeRegex = /if\s+\((rule\d+)\s+request\)\s+then\s+\((answer[A-Za-z]+)\)/g;
-  let rm: RegExpExecArray | null;
-  while ((rm = ruleOutcomeRegex.exec(judgeRulesDef.bodyRaw)) !== null) {
-    ruleOutcomeMap.set(rm[1], rm[2]);
+  for (const [defName, def] of vr.definitions.entries()) {
+    if (!defName.startsWith('judge')) continue;
+    ruleOutcomeRegex.lastIndex = 0;
+    let rm: RegExpExecArray | null;
+    while ((rm = ruleOutcomeRegex.exec(def.bodyRaw)) !== null) {
+      ruleOutcomeMap.set(rm[1], rm[2]);
+    }
+  }
+
+  const ruleNames: string[] = [];
+  for (const name of vr.definitions.keys()) {
+    if (/^rule\d+$/.test(name)) {
+      ruleNames.push(name);
+    }
+  }
+  ruleNames.sort((a, b) => Number(a.slice(4)) - Number(b.slice(4)));
+
+  if (ruleOutcomeMap.size < ruleNames.length) {
+    const eqPinRegex = /\(project\s+request\s+([a-z]+)\)\s*=\?\s*\(?([A-Za-z0-9]+)\)?/g;
+    for (let idx = 0; idx < ruleNames.length; idx++) {
+      const rName = ruleNames[idx];
+      if (ruleOutcomeMap.has(rName)) continue;
+      const rDef = vr.definitions.get(rName)!;
+      const pinned: Record<string, number> = {};
+      eqPinRegex.lastIndex = 0;
+      let pm: RegExpExecArray | null;
+      while ((pm = eqPinRegex.exec(rDef.bodyRaw)) !== null) {
+        const field = pm[1];
+        const rhs = pm[2];
+        const val = /^\d+$/.test(rhs) ? Number(rhs) : enumConstants[rhs];
+        if (val !== undefined) pinned[field] = val;
+      }
+      const biomes = pinned.biome !== undefined ? [pinned.biome] : [0, 1, 2, 3, 4];
+      const plants = pinned.plant !== undefined ? [pinned.plant] : [0, 1, 2, 3, 4];
+      const actions = pinned.action !== undefined ? [pinned.action] : [0, 1, 2, 3, 4];
+      const atmospheres =
+        pinned.atmosphere !== undefined ? [pinned.atmosphere] : [0, 1, 2, 3];
+      const choruses = pinned.chorus !== undefined ? [pinned.chorus] : [0, 1];
+      const proximities =
+        pinned.proximity !== undefined ? [pinned.proximity] : [10, 18, 24, 28, 40];
+      const velocities =
+        pinned.velocity !== undefined ? [pinned.velocity] : [0, 5, 8, 12, 18];
+
+      let matchedAnswer: string | undefined;
+      outer: for (const biome of biomes) {
+        for (const plant of plants) {
+          for (const action of actions) {
+            for (const atmosphere of atmospheres) {
+              for (const chorus of choruses) {
+                for (const proximity of proximities) {
+                  for (const velocity of velocities) {
+                    const req = {
+                      biome,
+                      plant,
+                      action,
+                      atmosphere,
+                      chorus,
+                      proximity,
+                      velocity,
+                    };
+                    if (
+                      !evaluateLexExpr(`(${rName} request)`, 'VerdantResonance', modules, {
+                        request: req,
+                      })
+                    ) {
+                      continue;
+                    }
+                    let shadowed = false;
+                    for (let prev = 0; prev < idx; prev++) {
+                      if (
+                        evaluateLexExpr(
+                          `(${ruleNames[prev]} request)`,
+                          'VerdantResonance',
+                          modules,
+                          { request: req },
+                        )
+                      ) {
+                        shadowed = true;
+                        break;
+                      }
+                    }
+                    if (shadowed) continue;
+                    const ansCode = Number(
+                      evaluateLexExpr('(judgeRules request)', 'VerdantResonance', modules, {
+                        request: req,
+                      }),
+                    );
+                    matchedAnswer = codeToAnswerName.get(ansCode);
+                    break outer;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      if (matchedAnswer) {
+        ruleOutcomeMap.set(rName, matchedAnswer);
+      }
+    }
   }
 
   const appDef = vr.definitions.get('acceptanceVectors') ?? vr.definitions.get('application');
   const acceptanceVectors: { request: string; response: string }[] = [];
   if (appDef) {
     const vecRegex =
-      /record\s+Foundation\.View\.Text\.V1\.Model::AcceptanceVector\s*\{\s*request\s*:=\s*(0x[0-9a-fA-F]*)\s*,\s*response\s*:=\s*(0x[0-9a-fA-F]*)\s*\}/g;
+      /record\s+Foundation\.View\.Text\.V1\.Model::AcceptanceVector\s*\{\s*request\s*:=\s*(0x[0-9a-fA-F]*)\s*,\s*response\s*:=\s*(0x[0-9a-fA-F]*)\s*,?\s*\}/g;
     let vm: RegExpExecArray | null;
     while ((vm = vecRegex.exec(appDef.bodyRaw)) !== null) {
       acceptanceVectors.push({

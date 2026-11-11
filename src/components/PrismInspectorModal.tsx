@@ -31,6 +31,7 @@ import {
   evaluateGranularMatterSynthesis,
   evaluateHighDefinitionVisualSynthesis,
   evaluateHumaneErgonomics,
+  evaluateMaterialSynthesisCrossModalObstruction,
   evaluatePrismRequest,
   formatPrismRequest,
   GardenPlantInstance,
@@ -1588,9 +1589,26 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                     </div>
                   </div>
                   <div className="text-[11px] text-emerald-100/85 leading-snug">
-                    Solid ({VERDANT_PHYSICS_STANDARD.solidColliderClasses} Classes): Monument Columns, 64 Bamboo/Quartz
-                    Stalks (r=0.28m), 52 Boulders (r=2.5m), Stem Cores (r=0.34m). Permeable ({VERDANT_PHYSICS_STANDARD.permeableMediaCatalog.length} Media): 360 Grass/Reed Blades (1.85m Hooke Wake), Mirror Lagoon Water, Moss &amp; Lotus Pads.
+                    Solid ({VERDANT_PHYSICS_STANDARD.solidColliderClasses} Classes): Monument Columns (incl. 5 Wetland
+                    Piers), 64 Bamboo/Quartz Stalks (r=0.28m), 52 Perimeter + 28 Shoreline Boulders, Stem Cores
+                    (r=0.34m), 7-Part Immanent Witness. Permeable ({VERDANT_PHYSICS_STANDARD.permeableMediaCatalog.length}{' '}
+                    Media): 360 Grass/Reed Blades (1.85m Dual-Observer Hooke Wake), Mirror Lagoon Water, Moss &amp; Lotus Pads.
                   </div>
+                  {(() => {
+                    const obsReport = evaluateMaterialSynthesisCrossModalObstruction({
+                      physicsWeight:
+                        telemetry.neuromorphic.universalManifold.domains.physics.synapticWeight,
+                    });
+                    return (
+                      <div className="text-[10px] font-mono text-teal-200/85 pt-0.5">
+                        Cross-Modal Obstruction ({obsReport.synthesisCompoundCount} Compounds ×{' '}
+                        {obsReport.crossModalChannelCount} Channels): Phase {obsReport.crossModalPhaseObstructionPermille}‰
+                        · Acoustic Shadow {obsReport.crossModalAcousticShadowPermille}‰ · Quartz n-Retard{' '}
+                        {obsReport.quartzPhaseVelocityRetardationPermille}‰ ·{' '}
+                        {obsReport.allChannelsConsistent ? 'Verified' : 'Drift'}
+                      </div>
+                    );
+                  })()}
                 </div>
 
                 <div className="rounded-lg border border-amber-400/25 bg-[#0c1d17] p-3 space-y-1.5">

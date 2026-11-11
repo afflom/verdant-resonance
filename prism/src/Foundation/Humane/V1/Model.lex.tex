@@ -130,103 +130,33 @@ structure{
   ]
 }
 
-definition{
-  name: requiredOpenViewportPct,
-  parameters: [],
-  result: Nat,
-  body: 85
-}
+definition{name: requiredOpenViewportPct, parameters: [], result: Nat, body: 85}
 
-definition{
-  name: verdantOpenViewportPct,
-  parameters: [],
-  result: Nat,
-  body: 88
-}
+definition{name: verdantOpenViewportPct, parameters: [], result: Nat, body: 88}
 
-definition{
-  name: verdantViolenceCount,
-  parameters: [],
-  result: Nat,
-  body: 0
-}
+definition{name: verdantViolenceCount, parameters: [], result: Nat, body: 0}
 
-definition{
-  name: verdantTeleportCountOnInteract,
-  parameters: [],
-  result: Nat,
-  body: 0
-}
+definition{name: verdantTeleportCountOnInteract, parameters: [], result: Nat, body: 0}
 
-definition{
-  name: verdantOsKeyRepeatChaosCount,
-  parameters: [],
-  result: Nat,
-  body: 0
-}
+definition{name: verdantOsKeyRepeatChaosCount, parameters: [], result: Nat, body: 0}
 
-definition{
-  name: verdantStillnessBreathCycleMs,
-  parameters: [],
-  result: Nat,
-  body: 4200
-}
+definition{name: verdantStillnessBreathCycleMs, parameters: [], result: Nat, body: 4200}
 
-definition{
-  name: minRequiredBreathCycleMs,
-  parameters: [],
-  result: Nat,
-  body: 4000
-}
+definition{name: minRequiredBreathCycleMs, parameters: [], result: Nat, body: 4000}
 
-definition{
-  name: verdantHumaneBasisPrime,
-  parameters: [],
-  result: Nat,
-  body: 103
-}
+definition{name: verdantHumaneBasisPrime, parameters: [], result: Nat, body: 103}
 
-definition{
-  name: verdantMaxZephyrAccelMmPerSec2,
-  parameters: [],
-  result: Nat,
-  body: 280
-}
+definition{name: verdantMaxZephyrAccelMmPerSec2, parameters: [], result: Nat, body: 280}
 
-definition{
-  name: maxPermissibleGentleZephyrMmPerSec2,
-  parameters: [],
-  result: Nat,
-  body: 350
-}
+definition{name: maxPermissibleGentleZephyrMmPerSec2, parameters: [], result: Nat, body: 350}
 
-definition{
-  name: verdantOptimizedModalityCount,
-  parameters: [],
-  result: Nat,
-  body: 6
-}
+definition{name: verdantOptimizedModalityCount, parameters: [], result: Nat, body: 6}
 
-definition{
-  name: verdantBehindPlayerActivationsCount,
-  parameters: [],
-  result: Nat,
-  body: 0
-}
+definition{name: verdantBehindPlayerActivationsCount, parameters: [], result: Nat, body: 0}
 
-definition{
-  name: verdantForwardFovHalfAngleDeg,
-  parameters: [],
-  result: Nat,
-  body: 62
-}
+definition{name: verdantForwardFovHalfAngleDeg, parameters: [], result: Nat, body: 62}
 
-definition{
-  name: maxForwardHemisphereHalfAngleDeg,
-  parameters: [],
-  result: Nat,
-  body: 90
-}
+definition{name: maxForwardHemisphereHalfAngleDeg, parameters: [], result: Nat, body: 90}
 
 definition{
   name: stepHumaneBusModulation,
@@ -246,69 +176,7 @@ definition{
   name: verdantHumaneStandard,
   parameters: [],
   result: HumaneDesignStandard,
-  body: (record HumaneDesignStandard {
-    profile := "prism/humane-design/3",
-    philosophy := "Calm Technology, Focal Gaze-Cone Selection, Reciprocal Environmental Co-Agency, Zero Camera Snap & Sustained Mindful Hold",
-    viewportBudget := (record ViewportCalmBudget {
-      minUnobstructedPct := 85,
-      actualUnobstructedPct := 88,
-      maxCornerClusters := 3,
-      actualCornerClusters := 2,
-      collapsibleControlDock := ((requiredOpenViewportPct) <=? (verdantOpenViewportPct))
-    }),
-    safetyGuarantee := (record HumaneSafetyGuarantee {
-      violenceElements := 0,
-      punitiveTimers := 0,
-      darkPatterns := 0,
-      nonViolentSanctuary := ((verdantViolenceCount) =? 0),
-      userAgencyPreserved := ((verdantMaxZephyrAccelMmPerSec2) <=? (maxPermissibleGentleZephyrMmPerSec2))
-    }),
-    pacingModel := (record RestorativePacingModel {
-      stillnessVelocityDm := 0,
-      calmAttuneMaxVelocityDm := 10,
-      gentleStrollMaxVelocityDm := 20,
-      blossomFramingDistanceDm := 36
-    }),
-    cameraKinematics := (record CameraKinematicsPolicy {
-      zeroPositionTeleportOnInteract := ((verdantTeleportCountOnInteract) =? 0),
-      zeroHardYawSnapOnInteract := ((verdantTeleportCountOnInteract) =? 0),
-      positionSpringDampingPerSec := 14,
-      rotationSpringDampingPerSec := 12,
-      softGazeAssistMaxMillirad := 65
-    }),
-    gestureHoldPolicy := (record GestureHoldAndCooldownPolicy {
-      suppressOsKeyRepeat := ((verdantOsKeyRepeatChaosCount) =? 0),
-      touchRefractoryMs := 550,
-      attuneRefractoryMs := 1100,
-      stillnessBreathCycleMs := 4200,
-      sustainedHoldPulseMs := 2400,
-      mindfulExplorationNeverForceEnds := ((minRequiredBreathCycleMs) <=? (verdantStillnessBreathCycleMs))
-    }),
-    focalGazeSelection := (record FocalGazeSelectionPolicy {
-      forwardFovHalfAngleDeg := 62,
-      maxInteractiveRangeMeters := 22,
-      rayAlignmentWeightPct := 72,
-      rejectsBehindCameraTargets := (not (evaluateGazeTargetInForwardCone 180 5)),
-      behindPlayerActivationsCount := 0
-    }),
-    environmentalAgency := (record SymbioticEnvironmentalAgencySpec {
-      environmentObservesSelfAndPlayer := (evaluateGazeTargetInForwardCone 10 8),
-      environmentActsOnSelfAndPlayer := ((stepHumaneBusModulation 8) <=? (verdantMaxZephyrAccelMmPerSec2)),
-      playerObjectiveUnchanged := ((verdantMaxZephyrAccelMmPerSec2) <=? (maxPermissibleGentleZephyrMmPerSec2)),
-      optimizedModalityCount := 6,
-      maxZephyrGuidanceAccelMmPerSec2 := 280,
-      maxReciprocalBowMillirad := 140,
-      autonomousBeckoningIntervalMs := 4800
-    }),
-    neuromorphicBridge := (record NeuromorphicHumaneBridgeSpec {
-      neuromorphicBusCoupled := ((stepHumaneBusModulation 1) <? (stepHumaneBusModulation 16)),
-      domainBasisPrime := (verdantHumaneBasisPrime),
-      rule30RegisterBits := 64,
-      pointKeyBits := 28,
-      crossDomainTransferEnabled := ((stepHumaneBusModulation 8) <? (stepHumaneBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))),
-      autopoieticSelfRefinementEnabled := ((stepHumaneBusModulation 8) <? (stepHumaneBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))
-    })
-  })
+  body: (record HumaneDesignStandard {profile := "prism/humane-design/3", philosophy := "Calm Technology, Focal Gaze-Cone Selection, Reciprocal Environmental Co-Agency, Zero Camera Snap & Sustained Mindful Hold", viewportBudget := (record ViewportCalmBudget {minUnobstructedPct := 85, actualUnobstructedPct := 88, maxCornerClusters := 3, actualCornerClusters := 2, collapsibleControlDock := ((requiredOpenViewportPct) <=? (verdantOpenViewportPct))}), safetyGuarantee := (record HumaneSafetyGuarantee {violenceElements := 0, punitiveTimers := 0, darkPatterns := 0, nonViolentSanctuary := ((verdantViolenceCount) =? 0), userAgencyPreserved := ((verdantMaxZephyrAccelMmPerSec2) <=? (maxPermissibleGentleZephyrMmPerSec2))}), pacingModel := (record RestorativePacingModel {stillnessVelocityDm := 0, calmAttuneMaxVelocityDm := 10, gentleStrollMaxVelocityDm := 20, blossomFramingDistanceDm := 36}), cameraKinematics := (record CameraKinematicsPolicy {zeroPositionTeleportOnInteract := ((verdantTeleportCountOnInteract) =? 0), zeroHardYawSnapOnInteract := ((verdantTeleportCountOnInteract) =? 0), positionSpringDampingPerSec := 14, rotationSpringDampingPerSec := 12, softGazeAssistMaxMillirad := 65}), gestureHoldPolicy := (record GestureHoldAndCooldownPolicy {suppressOsKeyRepeat := ((verdantOsKeyRepeatChaosCount) =? 0), touchRefractoryMs := 550, attuneRefractoryMs := 1100, stillnessBreathCycleMs := 4200, sustainedHoldPulseMs := 2400, mindfulExplorationNeverForceEnds := ((minRequiredBreathCycleMs) <=? (verdantStillnessBreathCycleMs))}), focalGazeSelection := (record FocalGazeSelectionPolicy {forwardFovHalfAngleDeg := 62, maxInteractiveRangeMeters := 22, rayAlignmentWeightPct := 72, rejectsBehindCameraTargets := (not (evaluateGazeTargetInForwardCone 180 5)), behindPlayerActivationsCount := 0}), environmentalAgency := (record SymbioticEnvironmentalAgencySpec {environmentObservesSelfAndPlayer := (evaluateGazeTargetInForwardCone 10 8), environmentActsOnSelfAndPlayer := ((stepHumaneBusModulation 8) <=? (verdantMaxZephyrAccelMmPerSec2)), playerObjectiveUnchanged := ((verdantMaxZephyrAccelMmPerSec2) <=? (maxPermissibleGentleZephyrMmPerSec2)), optimizedModalityCount := 6, maxZephyrGuidanceAccelMmPerSec2 := 280, maxReciprocalBowMillirad := 140, autonomousBeckoningIntervalMs := 4800}), neuromorphicBridge := (record NeuromorphicHumaneBridgeSpec {neuromorphicBusCoupled := ((stepHumaneBusModulation 1) <? (stepHumaneBusModulation 16)), domainBasisPrime := (verdantHumaneBasisPrime), rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := ((stepHumaneBusModulation 8) <? (stepHumaneBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))), autopoieticSelfRefinementEnabled := ((stepHumaneBusModulation 8) <? (stepHumaneBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))})})
 }
 
 definition{
@@ -322,7 +190,9 @@ theorem{
   name: humaneViewportStandardHolds,
   parameters: [openPct : Nat],
   statement: ((breaksHumaneViewportBudget openPct) = false),
-  proof: linear_arithmetic{definitions: [breaksHumaneViewportBudget, requiredOpenViewportPct, verdantOpenViewportPct]},
+  proof: linear_arithmetic{
+    definitions: [breaksHumaneViewportBudget, requiredOpenViewportPct, verdantOpenViewportPct]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -337,7 +207,15 @@ theorem{
   name: humaneInputAndCameraGuaranteeHolds,
   parameters: [teleports : Nat, repeatChaos : Nat, breathMs : Nat],
   statement: ((breaksCameraOrHoldDiscipline teleports repeatChaos breathMs) = false),
-  proof: linear_arithmetic{definitions: [breaksCameraOrHoldDiscipline, minRequiredBreathCycleMs, verdantOsKeyRepeatChaosCount, verdantStillnessBreathCycleMs, verdantTeleportCountOnInteract]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksCameraOrHoldDiscipline,
+      minRequiredBreathCycleMs,
+      verdantOsKeyRepeatChaosCount,
+      verdantStillnessBreathCycleMs,
+      verdantTeleportCountOnInteract
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -352,7 +230,17 @@ theorem{
   name: humaneNeuromorphicCouplingHolds,
   parameters: [busWeight : Nat],
   statement: ((breaksHumaneNeuromorphicCoupling busWeight) = false),
-  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksHumaneNeuromorphicCoupling, stepHumaneBusModulation, verdantMaxZephyrAccelMmPerSec2]},
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksHumaneNeuromorphicCoupling,
+      stepHumaneBusModulation,
+      verdantMaxZephyrAccelMmPerSec2
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -367,7 +255,14 @@ theorem{
   name: symbioticEnvironmentalAgencyBoundedAndPreservesAutonomyHolds,
   parameters: [zephyrMm : Nat, modalities : Nat],
   statement: ((breaksSymbioticAgencyAutonomyBounds zephyrMm modalities) = false),
-  proof: linear_arithmetic{definitions: [breaksSymbioticAgencyAutonomyBounds, maxPermissibleGentleZephyrMmPerSec2, verdantMaxZephyrAccelMmPerSec2, verdantOptimizedModalityCount]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksSymbioticAgencyAutonomyBounds,
+      maxPermissibleGentleZephyrMmPerSec2,
+      verdantMaxZephyrAccelMmPerSec2,
+      verdantOptimizedModalityCount
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -382,7 +277,14 @@ theorem{
   name: focalGazeExcludesBehindPlayerHolds,
   parameters: [angleDeg : Nat, distMeters : Nat],
   statement: ((breaksFocalGazeSelectionLaw angleDeg distMeters) = false),
-  proof: linear_arithmetic{definitions: [breaksFocalGazeSelectionLaw, evaluateGazeTargetInForwardCone, maxForwardHemisphereHalfAngleDeg, verdantForwardFovHalfAngleDeg]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksFocalGazeSelectionLaw,
+      evaluateGazeTargetInForwardCone,
+      maxForwardHemisphereHalfAngleDeg,
+      verdantForwardFovHalfAngleDeg
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

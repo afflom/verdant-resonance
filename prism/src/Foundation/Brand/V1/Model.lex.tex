@@ -177,73 +177,14 @@ definition{
   name: verifyParametricDisplayDesignClosure,
   parameters: [busWeight : Nat],
   result: Bool,
-  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight); let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated cw); (((((wcagAaMinimumContrastTenths) <=? (stepBrandBusModulation cw)) && ((wcagAaaMinimumContrastTenths) <=? (synthesizeParametricDisplayHarmonizedContrastTenths cw))) && ((parametricInnerRadiusPx cw) <? (parametricOuterRadiusPx cw))) && ((synthesizeParametricDisplayHarmonizedContrastTenths cw) <=? (synthesizeParametricDisplayHarmonizedContrastTenths nextW))))
+  body: (let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated busWeight); (((((wcagAaMinimumContrastTenths) <=? (stepBrandBusModulation busWeight)) && ((wcagAaaMinimumContrastTenths) <=? (synthesizeParametricDisplayHarmonizedContrastTenths busWeight))) && ((parametricInnerRadiusPx busWeight) <? (parametricOuterRadiusPx busWeight))) && ((synthesizeParametricDisplayHarmonizedContrastTenths busWeight) <=? (synthesizeParametricDisplayHarmonizedContrastTenths nextW))))
 }
 
 definition{
   name: verdantBrandStandard,
   parameters: [],
   result: BrandStandard,
-  body: (let w0 : Nat := (Foundation.Neuromorphic.V1.Model::weightInitial); let wMax : Nat := (Foundation.Neuromorphic.V1.Model::weightMax); let deca : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat); record BrandStandard {
-    profile := "prism/brand-standard/1",
-    brandName := "Verdant Resonance",
-    conservatorySubtitle := "Conservatory of Living Botanical Acoustics and Just Intonation",
-    primarySurface := (record ChromaticToken {
-      tokenName := "obsidian-moss",
-      hexValue := "#071510",
-      contrastRatioTenths := deca,
-      semanticRole := "Primary Sanctuary Canopy Canvas"
-    }),
-    primaryAccent := (record ChromaticToken {
-      tokenName := "pollen-gold",
-      hexValue := "#FDE047",
-      contrastRatioTenths := (verdantPrimaryContrastTenths),
-      semanticRole := "Primary Harmonic Attunement and Focal CTA"
-    }),
-    secondaryAccent := (record ChromaticToken {
-      tokenName := "bioluminescent-jade",
-      hexValue := "#6EE7B7",
-      contrastRatioTenths := (verdantSecondaryContrastTenths),
-      semanticRole := "Secondary Botanical Telemetry and Herbarium Accent"
-    }),
-    typography := (record TypographicScale {
-      displayFamily := "Cormorant Garamond",
-      sansFamily := "Plus Jakarta Sans",
-      monoFamily := "JetBrains Mono",
-      scaleRatioTenths := wMax,
-      minBodyContrastTenths := (wcagAaaMinimumContrastTenths)
-    }),
-    marketing := (record MarketingProposition {
-      editionTitle := "Conservatory Edition - 262 / 432 Hz Just Intonation",
-      tagline := "Where every footstep, breeze, and blossom awakens a living harmonic choir.",
-      genreClassification := "Peaceful First-Person Botanical and Acoustic Sanctuary",
-      primaryCallToAction := "Enter the Garden",
-      secondaryCallToAction := "Botanical Field Guide",
-      maxFocalActions := (Foundation.Neuromorphic.V1.Model::meadowPrime)
-    }),
-    parametricDisplay := (record ParametricDisplayDesignSpec {
-      displayIsParametric := ((stepBrandBusModulation w0) <? (stepBrandBusModulation wMax)),
-      designIsParametric := (verifyParametricDisplayDesignClosure w0),
-      nestedRadiusLawVerified := ((parametricInnerRadiusPx w0) <? (parametricOuterRadiusPx w0)),
-      wcagContrastVerified := ((wcagAaaMinimumContrastTenths) <=? (stepBrandBusModulation w0)),
-      baseSpatialUnitPx := (parametricBaseSpatialUnitPx),
-      containerPaddingPx := (parametricContainerPaddingPx),
-      outerRadiusPx := (parametricOuterRadiusPx w0),
-      innerRadiusPx := (parametricInnerRadiusPx w0),
-      spectrumBandCount := wMax,
-      colorDistributionCanvasPct := (prim multiply (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::grovePrime) : Nat) deca : Nat),
-      colorDistributionSurfacePct := (prim multiply (Foundation.Neuromorphic.V1.Model::grovePrime) deca : Nat),
-      colorDistributionAccentPct := deca
-    }),
-    neuromorphicBridge := (record NeuromorphicBrandBridgeSpec {
-      neuromorphicBusCoupled := ((stepBrandBusModulation 1) <? (stepBrandBusModulation wMax)),
-      domainBasisPrime := (verdantBrandBasisPrime),
-      rule30RegisterBits := (prim multiply w0 w0 : Nat),
-      pointKeyBits := (prim multiply (parametricBaseSpatialUnitPx) (Foundation.Neuromorphic.V1.Model::wetlandPrime) : Nat),
-      crossDomainTransferEnabled := ((stepBrandBusModulation w0) <? (stepBrandBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain w0 (verifyParametricDisplayDesignClosure w0)))),
-      autopoieticSelfRefinementEnabled := ((stepBrandBusModulation w0) <? (stepBrandBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic w0 wMax)))
-    })
-  })
+  body: (let w0 : Nat := (Foundation.Neuromorphic.V1.Model::weightInitial); (let wMax : Nat := (Foundation.Neuromorphic.V1.Model::weightMax); (let deca : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat); (record BrandStandard {profile := "prism/brand-standard/1", brandName := "Verdant Resonance", conservatorySubtitle := "Conservatory of Living Botanical Acoustics and Just Intonation", primarySurface := (record ChromaticToken {tokenName := "obsidian-moss", hexValue := "#071510", contrastRatioTenths := deca, semanticRole := "Primary Sanctuary Canopy Canvas"}), primaryAccent := (record ChromaticToken {tokenName := "pollen-gold", hexValue := "#FDE047", contrastRatioTenths := (verdantPrimaryContrastTenths), semanticRole := "Primary Harmonic Attunement and Focal CTA"}), secondaryAccent := (record ChromaticToken {tokenName := "bioluminescent-jade", hexValue := "#6EE7B7", contrastRatioTenths := (verdantSecondaryContrastTenths), semanticRole := "Secondary Botanical Telemetry and Herbarium Accent"}), typography := (record TypographicScale {displayFamily := "Cormorant Garamond", sansFamily := "Plus Jakarta Sans", monoFamily := "JetBrains Mono", scaleRatioTenths := wMax, minBodyContrastTenths := (wcagAaaMinimumContrastTenths)}), marketing := (record MarketingProposition {editionTitle := "Conservatory Edition - 262 / 432 Hz Just Intonation", tagline := "Where every footstep, breeze, and blossom awakens a living harmonic choir.", genreClassification := "Peaceful First-Person Botanical and Acoustic Sanctuary", primaryCallToAction := "Enter the Garden", secondaryCallToAction := "Botanical Field Guide", maxFocalActions := (Foundation.Neuromorphic.V1.Model::meadowPrime)}), parametricDisplay := (record ParametricDisplayDesignSpec {displayIsParametric := ((stepBrandBusModulation w0) <? (stepBrandBusModulation wMax)), designIsParametric := (verifyParametricDisplayDesignClosure w0), nestedRadiusLawVerified := ((parametricInnerRadiusPx w0) <? (parametricOuterRadiusPx w0)), wcagContrastVerified := ((wcagAaaMinimumContrastTenths) <=? (stepBrandBusModulation w0)), baseSpatialUnitPx := (parametricBaseSpatialUnitPx), containerPaddingPx := (parametricContainerPaddingPx), outerRadiusPx := (parametricOuterRadiusPx w0), innerRadiusPx := (parametricInnerRadiusPx w0), spectrumBandCount := wMax, colorDistributionCanvasPct := (prim multiply (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::grovePrime) : Nat) deca : Nat), colorDistributionSurfacePct := (prim multiply (Foundation.Neuromorphic.V1.Model::grovePrime) deca : Nat), colorDistributionAccentPct := deca}), neuromorphicBridge := (record NeuromorphicBrandBridgeSpec {neuromorphicBusCoupled := ((stepBrandBusModulation 1) <? (stepBrandBusModulation wMax)), domainBasisPrime := (verdantBrandBasisPrime), rule30RegisterBits := (prim multiply w0 w0 : Nat), pointKeyBits := (prim multiply (parametricBaseSpatialUnitPx) (Foundation.Neuromorphic.V1.Model::wetlandPrime) : Nat), crossDomainTransferEnabled := ((stepBrandBusModulation w0) <? (stepBrandBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain w0 (verifyParametricDisplayDesignClosure w0)))), autopoieticSelfRefinementEnabled := ((stepBrandBusModulation w0) <? (stepBrandBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic w0 wMax)))})}))))
 }
 
 definition{
@@ -257,7 +198,18 @@ theorem{
   name: brandContrastStandardHolds,
   parameters: [contrastTenths : Nat],
   statement: ((breaksBrandContrast contrastTenths) = false),
-  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::crystalPrime, Foundation.Neuromorphic.V1.Model::meadowPrime, Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::wetlandPrime, breaksBrandContrast, verdantPrimaryContrastTenths, wcagAaaMinimumContrastTenths]},
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::crystalPrime,
+      Foundation.Neuromorphic.V1.Model::meadowPrime,
+      Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::wetlandPrime,
+      breaksBrandContrast,
+      verdantPrimaryContrastTenths,
+      wcagAaaMinimumContrastTenths
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -272,7 +224,24 @@ theorem{
   name: brandNeuromorphicCouplingHolds,
   parameters: [busWeight : Nat],
   statement: ((breaksBrandNeuromorphicCoupling busWeight) = false),
-  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::consolidationThreshold, Foundation.Neuromorphic.V1.Model::crystalPrime, Foundation.Neuromorphic.V1.Model::grovePrime, Foundation.Neuromorphic.V1.Model::learnWeightPotentiated, Foundation.Neuromorphic.V1.Model::meadowPrime, Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, Foundation.Neuromorphic.V1.Model::weightRaise, Foundation.Neuromorphic.V1.Model::wetlandPrime, breaksBrandNeuromorphicCoupling, parametricBaseSpatialUnitPx, parametricInnerRadiusPx, parametricOuterRadiusPx, stepBrandBusModulation, synthesizeParametricDisplayHarmonizedContrastTenths, verifyParametricDisplayDesignClosure, verdantSecondaryContrastTenths, wcagAaMinimumContrastTenths, wcagAaaMinimumContrastTenths]},
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::consolidationThreshold,
+      Foundation.Neuromorphic.V1.Model::crystalPrime,
+      Foundation.Neuromorphic.V1.Model::learnWeightPotentiated,
+      Foundation.Neuromorphic.V1.Model::meadowPrime,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      Foundation.Neuromorphic.V1.Model::weightRaise,
+      Foundation.Neuromorphic.V1.Model::wetlandPrime,
+      breaksBrandNeuromorphicCoupling,
+      stepBrandBusModulation,
+      verdantSecondaryContrastTenths,
+      wcagAaaMinimumContrastTenths
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -287,8 +256,32 @@ theorem{
   name: parametricDisplayDesignClosureHolds,
   parameters: [busWeight : Nat],
   statement: ((breaksParametricDisplayDesignClosure busWeight) = false),
-  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::consolidationThreshold, Foundation.Neuromorphic.V1.Model::crystalPrime, Foundation.Neuromorphic.V1.Model::grovePrime, Foundation.Neuromorphic.V1.Model::learnWeightPotentiated, Foundation.Neuromorphic.V1.Model::meadowPrime, Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, Foundation.Neuromorphic.V1.Model::weightRaise, Foundation.Neuromorphic.V1.Model::wetlandPrime, breaksParametricDisplayDesignClosure, parametricBaseSpatialUnitPx, parametricInnerRadiusPx, parametricOuterRadiusPx, stepBrandBusModulation, synthesizeParametricDisplayHarmonizedContrastTenths, verifyParametricDisplayDesignClosure, verdantSecondaryContrastTenths, wcagAaMinimumContrastTenths, wcagAaaMinimumContrastTenths]},
-  axioms: [Quot.sound, propext]
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::consolidationThreshold,
+      Foundation.Neuromorphic.V1.Model::crystalPrime,
+      Foundation.Neuromorphic.V1.Model::grovePrime,
+      Foundation.Neuromorphic.V1.Model::learnWeightPotentiated,
+      Foundation.Neuromorphic.V1.Model::meadowPrime,
+      Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      Foundation.Neuromorphic.V1.Model::weightRaise,
+      Foundation.Neuromorphic.V1.Model::wetlandPrime,
+      breaksParametricDisplayDesignClosure,
+      parametricBaseSpatialUnitPx,
+      parametricInnerRadiusPx,
+      parametricOuterRadiusPx,
+      stepBrandBusModulation,
+      synthesizeParametricDisplayHarmonizedContrastTenths,
+      verdantSecondaryContrastTenths,
+      verifyParametricDisplayDesignClosure,
+      wcagAaMinimumContrastTenths,
+      wcagAaaMinimumContrastTenths
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
 }
 \end{semanticmodule}
 \end{lexlean}

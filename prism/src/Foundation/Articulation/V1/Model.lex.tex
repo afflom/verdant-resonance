@@ -106,40 +106,15 @@ structure{
   ]
 }
 
-definition{
-  name: verdantTouchAttackMs,
-  parameters: [],
-  result: Nat,
-  body: 3
-}
+definition{name: verdantTouchAttackMs, parameters: [], result: Nat, body: 3}
 
-definition{
-  name: verdantAttuneAttackMs,
-  parameters: [],
-  result: Nat,
-  body: 220
-}
+definition{name: verdantAttuneAttackMs, parameters: [], result: Nat, body: 220}
 
-definition{
-  name: verdantConstellationVoices,
-  parameters: [],
-  result: Nat,
-  body: 6
-}
+definition{name: verdantConstellationVoices, parameters: [], result: Nat, body: 6}
 
-definition{
-  name: minRequiredConstellationVoices,
-  parameters: [],
-  result: Nat,
-  body: 4
-}
+definition{name: minRequiredConstellationVoices, parameters: [], result: Nat, body: 4}
 
-definition{
-  name: verdantArticulationBasisPrime,
-  parameters: [],
-  result: Nat,
-  body: 97
-}
+definition{name: verdantArticulationBasisPrime, parameters: [], result: Nat, body: 97}
 
 definition{
   name: stepArticulationBusModulation,
@@ -180,59 +155,7 @@ definition{
   name: verdantArticulationStandard,
   parameters: [],
   result: BotanicalArticulationStandard,
-  body: (record BotanicalArticulationStandard {
-    profile := "prism/articulation-standard/2",
-    speciesArticulation := (record SpeciesModalArticulationSpec {
-      speciesCount := 5,
-      partialsPerSpecies := 5,
-      chimeLilyModel := "Silver Campanula Bell · Pendulum Corolla Swing & Clapper Harmonics [1.0, 2.0, 3.0, 4.24, 5.42]",
-      pulseFernModel := "Rosewood Kalimba Tine · Crozier Spiral Unfurling & Frond Breathing [1.0, 2.92, 5.40, 8.15, 11.2]",
-      echoLotusModel := "Hydro-Acoustic Water Harp · Concentric Petal Blooming & Meniscus Glide [1.0, 1.5, 2.0, 2.67, 4.0]",
-      droneMossModel := "Basalt Organ Bourdon · Sub-Octave Cushion Respiration & Spore Levitation [0.5, 1.0, 1.5, 2.0, 3.0]",
-      starOrchidModel := "Quartz Glass Harmonica · Celestial Gaze Tracking & Tepal Shimmer [1.0, 2.0, 3.0, 4.0, 6.0]"
-    }),
-    gestureContrast := (record GestureArticulationContrastSpec {
-      touchAttackMs := 3,
-      touchDecayMs := 420,
-      touchVoices := 2,
-      touchGestureModel := "Touch Petal [T]: Crisp 3ms plucked/struck solo upper-harmonic transient (2x & 3x overtones) with 9Hz elastic petal shiver and 420ms intimate decay",
-      attuneAttackMs := 220,
-      attuneDecayMs := 2400,
-      attuneVoices := 6,
-      attuneGestureModel := "Attune Flora [Space]: Lush 220ms polyphonic bowed/harmonica 6-voice multi-octave choir swell + 3 staggered binaural cross-pollination echoes over 2.4s",
-      stillnessAttackMs := 650,
-      stillnessDecayMs := 3200,
-      stillnessGestureModel := "Meditative Stillness [C]: Self-decaying 650ms inhale / 3.2s exhale warm pastoral ninth breathing pad that fades cleanly to natural silence"
-    }),
-    landscapeTerraces := (record BiomeLandscapeTerraceSpec {
-      terraceCount := 5,
-      meadowTerrace := "Sunlit Travertine Parterre & Radial Sundial Inlay",
-      groveTerrace := "Raked Zen Moss & Jade Gravel Acoustic Ring Terrace with Nodal Bamboo Culms",
-      crystalTerrace := "Obsidian-Sapphire Geode Mirror Basin & Perimeter Quartz Clusters",
-      wetlandTerrace := "Multi-Tiered Mirror Lagoon with Expanding Water-Harp Ripple Rings",
-      sanctuaryTerrace := "Golden-Ratio Harmonic Labyrinth Amphitheater & 5-Biome Ley-Line Conduits"
-    }),
-    sympatheticArcs := (record SympatheticArcAudioVisualSpec {
-      parabolicArcSegments := 9,
-      sympatheticEchoDelayMs := 140,
-      constellationVoices := 6
-    }),
-    kinematicRig := (record KinematicRigAndMorphSpec {
-      kinematicJointsPerSpecimen := 3,
-      shapeKeyMorphChannels := 2,
-      phaseLagMilliRadPerJoint := 550,
-      threeJointKinematicChainVerified := (verifyThreeJointKinematicHierarchy (Foundation.Neuromorphic.V1.Model::weightInitial)),
-      shapeKeyMorphCouplingVerified := ((verdantTouchAttackMs) <? (verdantAttuneAttackMs))
-    }),
-    neuromorphicBridge := (record NeuromorphicArticulationBridgeSpec {
-      neuromorphicBusCoupled := ((stepArticulationBusModulation 1) <? (stepArticulationBusModulation 16)),
-      domainBasisPrime := (verdantArticulationBasisPrime),
-      rule30RegisterBits := 64,
-      pointKeyBits := 28,
-      crossDomainTransferEnabled := ((stepArticulationBusModulation 8) <? (stepArticulationBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))),
-      autopoieticSelfRefinementEnabled := ((stepArticulationBusModulation 8) <? (stepArticulationBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))
-    })
-  })
+  body: (record BotanicalArticulationStandard {profile := "prism/articulation-standard/2", speciesArticulation := (record SpeciesModalArticulationSpec {speciesCount := 5, partialsPerSpecies := 5, chimeLilyModel := "Silver Campanula Bell · Pendulum Corolla Swing & Clapper Harmonics [1.0, 2.0, 3.0, 4.24, 5.42]", pulseFernModel := "Rosewood Kalimba Tine · Crozier Spiral Unfurling & Frond Breathing [1.0, 2.92, 5.40, 8.15, 11.2]", echoLotusModel := "Hydro-Acoustic Water Harp · Concentric Petal Blooming & Meniscus Glide [1.0, 1.5, 2.0, 2.67, 4.0]", droneMossModel := "Basalt Organ Bourdon · Sub-Octave Cushion Respiration & Spore Levitation [0.5, 1.0, 1.5, 2.0, 3.0]", starOrchidModel := "Quartz Glass Harmonica · Celestial Gaze Tracking & Tepal Shimmer [1.0, 2.0, 3.0, 4.0, 6.0]"}), gestureContrast := (record GestureArticulationContrastSpec {touchAttackMs := 3, touchDecayMs := 420, touchVoices := 2, touchGestureModel := "Touch Petal [T]: Crisp 3ms plucked/struck solo upper-harmonic transient (2x & 3x overtones) with 9Hz elastic petal shiver and 420ms intimate decay", attuneAttackMs := 220, attuneDecayMs := 2400, attuneVoices := 6, attuneGestureModel := "Attune Flora [Space]: Lush 220ms polyphonic bowed/harmonica 6-voice multi-octave choir swell + 3 staggered binaural cross-pollination echoes over 2.4s", stillnessAttackMs := 650, stillnessDecayMs := 3200, stillnessGestureModel := "Meditative Stillness [C]: Self-decaying 650ms inhale / 3.2s exhale warm pastoral ninth breathing pad that fades cleanly to natural silence"}), landscapeTerraces := (record BiomeLandscapeTerraceSpec {terraceCount := 5, meadowTerrace := "Sunlit Travertine Parterre & Radial Sundial Inlay", groveTerrace := "Raked Zen Moss & Jade Gravel Acoustic Ring Terrace with Nodal Bamboo Culms", crystalTerrace := "Obsidian-Sapphire Geode Mirror Basin & Perimeter Quartz Clusters", wetlandTerrace := "Multi-Tiered Mirror Lagoon with Expanding Water-Harp Ripple Rings", sanctuaryTerrace := "Golden-Ratio Harmonic Labyrinth Amphitheater & 5-Biome Ley-Line Conduits"}), sympatheticArcs := (record SympatheticArcAudioVisualSpec {parabolicArcSegments := 9, sympatheticEchoDelayMs := 140, constellationVoices := 6}), kinematicRig := (record KinematicRigAndMorphSpec {kinematicJointsPerSpecimen := 3, shapeKeyMorphChannels := 2, phaseLagMilliRadPerJoint := 550, threeJointKinematicChainVerified := (verifyThreeJointKinematicHierarchy (Foundation.Neuromorphic.V1.Model::weightInitial)), shapeKeyMorphCouplingVerified := ((verdantTouchAttackMs) <? (verdantAttuneAttackMs))}), neuromorphicBridge := (record NeuromorphicArticulationBridgeSpec {neuromorphicBusCoupled := ((stepArticulationBusModulation 1) <? (stepArticulationBusModulation 16)), domainBasisPrime := (verdantArticulationBasisPrime), rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := ((stepArticulationBusModulation 8) <? (stepArticulationBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))), autopoieticSelfRefinementEnabled := ((stepArticulationBusModulation 8) <? (stepArticulationBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))})})
 }
 
 definition{
@@ -246,7 +169,13 @@ theorem{
   name: articulationVoicesMinimumHolds,
   parameters: [voices : Nat],
   statement: ((breaksArticulationVoicesMinimum voices) = false),
-  proof: linear_arithmetic{definitions: [breaksArticulationVoicesMinimum, minRequiredConstellationVoices, verdantConstellationVoices]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksArticulationVoicesMinimum,
+      minRequiredConstellationVoices,
+      verdantConstellationVoices
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -261,7 +190,9 @@ theorem{
   name: gestureAttackContrastHolds,
   parameters: [touchMs : Nat, attuneMs : Nat],
   statement: ((breaksGestureAttackContrast touchMs attuneMs) = false),
-  proof: linear_arithmetic{definitions: [breaksGestureAttackContrast, verdantAttuneAttackMs, verdantTouchAttackMs]},
+  proof: linear_arithmetic{
+    definitions: [breaksGestureAttackContrast, verdantAttuneAttackMs, verdantTouchAttackMs]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -276,7 +207,16 @@ theorem{
   name: articulationNeuromorphicCouplingHolds,
   parameters: [busWeight : Nat],
   statement: ((breaksArticulationNeuromorphicCoupling busWeight) = false),
-  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksArticulationNeuromorphicCoupling, stepArticulationBusModulation]},
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksArticulationNeuromorphicCoupling,
+      stepArticulationBusModulation
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -291,7 +231,19 @@ theorem{
   name: threeJointKinematicHierarchyHolds,
   parameters: [busWeight : Nat],
   statement: ((breaksThreeJointKinematicHierarchy busWeight) = false),
-  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksThreeJointKinematicHierarchy, stepApicalCorollaGimbalMilli, stepBasalJointTorqueMilli, stepMidCulmFlexureMilli, verifyThreeJointKinematicHierarchy]},
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksThreeJointKinematicHierarchy,
+      stepApicalCorollaGimbalMilli,
+      stepBasalJointTorqueMilli,
+      stepMidCulmFlexureMilli,
+      verifyThreeJointKinematicHierarchy
+    ]
+  },
   axioms: [Classical.choice, Quot.sound, propext]
 }
 \end{semanticmodule}

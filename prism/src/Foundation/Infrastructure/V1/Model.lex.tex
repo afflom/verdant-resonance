@@ -62,33 +62,13 @@ structure{
   ]
 }
 
-definition{
-  name: verdantPerFrameHeapAllocations,
-  parameters: [],
-  result: Nat,
-  body: 0
-}
+definition{name: verdantPerFrameHeapAllocations, parameters: [], result: Nat, body: 0}
 
-definition{
-  name: maxAllowedPerFrameHeapAllocations,
-  parameters: [],
-  result: Nat,
-  body: 0
-}
+definition{name: maxAllowedPerFrameHeapAllocations, parameters: [], result: Nat, body: 0}
 
-definition{
-  name: verdantInfrastructureBasisPrime,
-  parameters: [],
-  result: Nat,
-  body: 71
-}
+definition{name: verdantInfrastructureBasisPrime, parameters: [], result: Nat, body: 71}
 
-definition{
-  name: minRequiredInfrastructureBasisPrime,
-  parameters: [],
-  result: Nat,
-  body: 71
-}
+definition{name: minRequiredInfrastructureBasisPrime, parameters: [], result: Nat, body: 71}
 
 definition{
   name: stepInfrastructureBusModulation,
@@ -101,36 +81,7 @@ definition{
   name: verdantInfrastructureStandard,
   parameters: [],
   result: InfrastructureStandard,
-  body: (record InfrastructureStandard {
-    profile := "prism/infrastructure-standard/3",
-    runtimeArchitecture := "Deterministic Zero-GC WebGL2 + 5-Partial WebAudio Sanctuary Runtime + Universal Neuromorphic Bus",
-    memoryPools := (record ZeroAllocationPoolSpec {
-      sporeRingBufferCapacity := 220,
-      acousticWaveRingCapacity := 5,
-      sympatheticFilamentCapacity := 6,
-      instancedSteppingStones := 64,
-      instancedPerimeterRocks := 52,
-      instancedGroveStalks := 64,
-      instancedMeadowGrassBlades := 360,
-      perFrameHeapAllocations := 0
-    }),
-    renderPipeline := (record RenderPipelineContract {
-      colorSpace := "SRGBColorSpace",
-      toneMapping := "ACESFilmicToneMapping",
-      environmentLighting := "PMREMGenerator RoomEnvironment + 512px Procedural Micro-Relief BumpMap",
-      maxPixelRatio := 2,
-      targetFrameBudgetMs := 16,
-      softwareGlFallbackEnabled := ((verdantPerFrameHeapAllocations) <=? (maxAllowedPerFrameHeapAllocations))
-    }),
-    neuromorphicBridge := (record NeuromorphicInfrastructureSpec {
-      neuromorphicBusCoupled := ((stepInfrastructureBusModulation 1) <? (stepInfrastructureBusModulation 16)),
-      domainBasisPrime := (verdantInfrastructureBasisPrime),
-      adaptivePoolGovernorEnabled := ((verdantPerFrameHeapAllocations) <=? (maxAllowedPerFrameHeapAllocations)),
-      dynamicBumpAndExposureRefinement := ((stepInfrastructureBusModulation 8) <? (stepInfrastructureBusModulation (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated 8))),
-      crossDomainTelemetrySync := ((stepInfrastructureBusModulation 8) <? (stepInfrastructureBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))),
-      selfRefiningRenderContract := ((stepInfrastructureBusModulation 8) <? (stepInfrastructureBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))
-    })
-  })
+  body: (record InfrastructureStandard {profile := "prism/infrastructure-standard/3", runtimeArchitecture := "Deterministic Zero-GC WebGL2 + 5-Partial WebAudio Sanctuary Runtime + Universal Neuromorphic Bus", memoryPools := (record ZeroAllocationPoolSpec {sporeRingBufferCapacity := 220, acousticWaveRingCapacity := 5, sympatheticFilamentCapacity := 6, instancedSteppingStones := 64, instancedPerimeterRocks := 52, instancedGroveStalks := 64, instancedMeadowGrassBlades := 360, perFrameHeapAllocations := 0}), renderPipeline := (record RenderPipelineContract {colorSpace := "SRGBColorSpace", toneMapping := "ACESFilmicToneMapping", environmentLighting := "PMREMGenerator RoomEnvironment + 512px Procedural Micro-Relief BumpMap", maxPixelRatio := 2, targetFrameBudgetMs := 16, softwareGlFallbackEnabled := ((verdantPerFrameHeapAllocations) <=? (maxAllowedPerFrameHeapAllocations))}), neuromorphicBridge := (record NeuromorphicInfrastructureSpec {neuromorphicBusCoupled := ((stepInfrastructureBusModulation 1) <? (stepInfrastructureBusModulation 16)), domainBasisPrime := (verdantInfrastructureBasisPrime), adaptivePoolGovernorEnabled := ((verdantPerFrameHeapAllocations) <=? (maxAllowedPerFrameHeapAllocations)), dynamicBumpAndExposureRefinement := ((stepInfrastructureBusModulation 8) <? (stepInfrastructureBusModulation (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated 8))), crossDomainTelemetrySync := ((stepInfrastructureBusModulation 8) <? (stepInfrastructureBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))), selfRefiningRenderContract := ((stepInfrastructureBusModulation 8) <? (stepInfrastructureBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))})})
 }
 
 definition{
@@ -144,7 +95,13 @@ theorem{
   name: zeroAllocationStandardHolds,
   parameters: [allocs : Nat],
   statement: ((breaksZeroAllocationBudget allocs) = false),
-  proof: linear_arithmetic{definitions: [breaksZeroAllocationBudget, maxAllowedPerFrameHeapAllocations, verdantPerFrameHeapAllocations]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksZeroAllocationBudget,
+      maxAllowedPerFrameHeapAllocations,
+      verdantPerFrameHeapAllocations
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -159,7 +116,16 @@ theorem{
   name: infrastructureNeuromorphicCouplingHolds,
   parameters: [busWeight : Nat],
   statement: ((breaksInfrastructureNeuromorphicCoupling busWeight) = false),
-  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksInfrastructureNeuromorphicCoupling, stepInfrastructureBusModulation]},
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksInfrastructureNeuromorphicCoupling,
+      stepInfrastructureBusModulation
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

@@ -157,74 +157,39 @@ structure{
   ]
 }
 
-definition{
-  name: weightMin,
-  parameters: [],
-  result: Nat,
-  body: 1
-}
+definition{name: weightMin, parameters: [], result: Nat, body: 1}
 
-definition{
-  name: weightMax,
-  parameters: [],
-  result: Nat,
-  body: 16
-}
+definition{name: weightMax, parameters: [], result: Nat, body: 16}
 
-definition{
-  name: weightInitial,
-  parameters: [],
-  result: Nat,
-  body: 8
-}
+definition{name: weightInitial, parameters: [], result: Nat, body: 8}
 
-definition{
-  name: weightRaise,
-  parameters: [],
-  result: Nat,
-  body: 2
-}
+definition{name: weightRaise, parameters: [], result: Nat, body: 2}
 
-definition{
-  name: weightLower,
-  parameters: [],
-  result: Nat,
-  body: 1
-}
+definition{name: weightLower, parameters: [], result: Nat, body: 1}
 
-definition{
-  name: consolidationThreshold,
-  parameters: [],
-  result: Nat,
-  body: 12
-}
+definition{name: consolidationThreshold, parameters: [], result: Nat, body: 12}
 
-definition{
-  name: neuromorphicBasisPrime,
-  parameters: [],
-  result: Nat,
-  body: 109
-}
+definition{name: neuromorphicBasisPrime, parameters: [], result: Nat, body: 109}
 
 definition{
   name: clampBusWeight,
   parameters: [w : Nat],
   result: Nat,
-  body: (if (w <? (weightMin)) then (weightMin) else (if ((weightMax) <? w) then (weightMax) else w))
+  body: (let span : Nat := (prim subtract (weightMax) (weightMin) : Nat); (prim subtract (weightMax) (prim subtract span (prim subtract w (weightMin) : Nat) : Nat) : Nat))
 }
 
 definition{
   name: learnWeightPotentiated,
   parameters: [w : Nat],
   result: Nat,
-  body: (if ((weightMax) <=? (w + (weightRaise))) then (weightMax) else (w + (weightRaise)))
+  body: (let cap : Nat := (prim subtract (weightMax) (weightRaise) : Nat); (prim subtract (weightMax) (prim subtract cap w : Nat) : Nat))
 }
 
 definition{
   name: learnWeightDepressed,
   parameters: [w : Nat],
   result: Nat,
-  body: (let c : Nat := (clampBusWeight w); (if (c <=? ((weightMin) + (weightLower))) then (weightMin) else (prim subtract c (weightLower) : Nat)))
+  body: (let c : Nat := (clampBusWeight w); ((weightMin) + (prim subtract c ((weightMin) + (weightLower)) : Nat)))
 }
 
 definition{
@@ -238,14 +203,16 @@ definition{
   name: transferWeightCrossDomain,
   parameters: [wTarget : Nat, sourceConsolidated : Bool],
   result: Nat,
-  body: (if sourceConsolidated then (if ((weightMax) <=? wTarget) then (weightMax) else (wTarget + 1)) else (if ((weightMax) <=? wTarget) then (weightMax) else (if (wTarget <? (weightMin)) then (weightMin) else wTarget)))
+  body: (let span : Nat := (prim subtract (weightMax) (weightMin) : Nat); (match sourceConsolidated
+    | Bool.true => (prim subtract (weightMax) (prim subtract span wTarget : Nat) : Nat)
+    | Bool.false => (prim subtract (weightMax) (prim subtract span (prim subtract wTarget (weightMin) : Nat) : Nat) : Nat)))
 }
 
 definition{
   name: refineDomainWeightAutopoietic,
   parameters: [wCurrent : Nat, wLeader : Nat],
   result: Nat,
-  body: (if ((weightMax) <=? wCurrent) then (weightMax) else (wCurrent + 1))
+  body: (let span : Nat := (prim subtract (weightMax) 1 : Nat); (prim subtract (weightMax) (prim subtract span wCurrent : Nat) : Nat))
 }
 
 definition{
@@ -259,36 +226,14 @@ definition{
   name: stepUniversalBusBroadcast,
   parameters: [state : BusManifoldState, sourceConsolidated : Bool],
   result: BusManifoldState,
-  body: (record BusManifoldState {
-    wInfrastructure := (transferWeightCrossDomain (project state wInfrastructure) sourceConsolidated),
-    wPhysics := (transferWeightCrossDomain (project state wPhysics) sourceConsolidated),
-    wBotany := (transferWeightCrossDomain (project state wBotany) sourceConsolidated),
-    wEcology := (transferWeightCrossDomain (project state wEcology) sourceConsolidated),
-    wAcoustics := (transferWeightCrossDomain (project state wAcoustics) sourceConsolidated),
-    wArticulation := (transferWeightCrossDomain (project state wArticulation) sourceConsolidated),
-    wSoundtrack := (transferWeightCrossDomain (project state wSoundtrack) sourceConsolidated),
-    wHumane := (transferWeightCrossDomain (project state wHumane) sourceConsolidated),
-    wBrand := (transferWeightCrossDomain (project state wBrand) sourceConsolidated),
-    wNeuromorphic := (learnWeightPotentiated (project state wNeuromorphic))
-  })
+  body: (record BusManifoldState {wInfrastructure := (transferWeightCrossDomain (project state wInfrastructure) sourceConsolidated), wPhysics := (transferWeightCrossDomain (project state wPhysics) sourceConsolidated), wBotany := (transferWeightCrossDomain (project state wBotany) sourceConsolidated), wEcology := (transferWeightCrossDomain (project state wEcology) sourceConsolidated), wAcoustics := (transferWeightCrossDomain (project state wAcoustics) sourceConsolidated), wArticulation := (transferWeightCrossDomain (project state wArticulation) sourceConsolidated), wSoundtrack := (transferWeightCrossDomain (project state wSoundtrack) sourceConsolidated), wHumane := (transferWeightCrossDomain (project state wHumane) sourceConsolidated), wBrand := (transferWeightCrossDomain (project state wBrand) sourceConsolidated), wNeuromorphic := (learnWeightPotentiated (project state wNeuromorphic))})
 }
 
 definition{
   name: stepAutopoieticBusManifold,
   parameters: [state : BusManifoldState, leaderWeight : Nat],
   result: BusManifoldState,
-  body: (record BusManifoldState {
-    wInfrastructure := (refineDomainWeightAutopoietic (project state wInfrastructure) leaderWeight),
-    wPhysics := (refineDomainWeightAutopoietic (project state wPhysics) leaderWeight),
-    wBotany := (refineDomainWeightAutopoietic (project state wBotany) leaderWeight),
-    wEcology := (refineDomainWeightAutopoietic (project state wEcology) leaderWeight),
-    wAcoustics := (refineDomainWeightAutopoietic (project state wAcoustics) leaderWeight),
-    wArticulation := (refineDomainWeightAutopoietic (project state wArticulation) leaderWeight),
-    wSoundtrack := (refineDomainWeightAutopoietic (project state wSoundtrack) leaderWeight),
-    wHumane := (refineDomainWeightAutopoietic (project state wHumane) leaderWeight),
-    wBrand := (refineDomainWeightAutopoietic (project state wBrand) leaderWeight),
-    wNeuromorphic := (refineDomainWeightAutopoietic (project state wNeuromorphic) leaderWeight)
-  })
+  body: (record BusManifoldState {wInfrastructure := (refineDomainWeightAutopoietic (project state wInfrastructure) leaderWeight), wPhysics := (refineDomainWeightAutopoietic (project state wPhysics) leaderWeight), wBotany := (refineDomainWeightAutopoietic (project state wBotany) leaderWeight), wEcology := (refineDomainWeightAutopoietic (project state wEcology) leaderWeight), wAcoustics := (refineDomainWeightAutopoietic (project state wAcoustics) leaderWeight), wArticulation := (refineDomainWeightAutopoietic (project state wArticulation) leaderWeight), wSoundtrack := (refineDomainWeightAutopoietic (project state wSoundtrack) leaderWeight), wHumane := (refineDomainWeightAutopoietic (project state wHumane) leaderWeight), wBrand := (refineDomainWeightAutopoietic (project state wBrand) leaderWeight), wNeuromorphic := (refineDomainWeightAutopoietic (project state wNeuromorphic) leaderWeight)})
 }
 
 definition{
@@ -326,33 +271,53 @@ definition{
   body: (((((consolidationThreshold) <=? synapticWeight) && (orphanCount =? 0)) && (shortCycleCount =? 0)) && (8 <=? windowHi))
 }
 
-definition{ name: meadowPrime, parameters: [], result: Nat, body: 2 }
-definition{ name: grovePrime, parameters: [], result: Nat, body: 3 }
-definition{ name: crystalPrime, parameters: [], result: Nat, body: 5 }
-definition{ name: wetlandPrime, parameters: [], result: Nat, body: 7 }
-definition{ name: sanctuaryPrime, parameters: [], result: Nat, body: 11 }
-definition{ name: chimeLilyPrime, parameters: [], result: Nat, body: 13 }
-definition{ name: pulseFernPrime, parameters: [], result: Nat, body: 17 }
-definition{ name: echoLotusPrime, parameters: [], result: Nat, body: 19 }
-definition{ name: droneMossPrime, parameters: [], result: Nat, body: 23 }
-definition{ name: starOrchidPrime, parameters: [], result: Nat, body: 29 }
-definition{ name: dawnPrime, parameters: [], result: Nat, body: 31 }
-definition{ name: goldenPrime, parameters: [], result: Nat, body: 37 }
-definition{ name: twilightPrime, parameters: [], result: Nat, body: 41 }
-definition{ name: starlightPrime, parameters: [], result: Nat, body: 43 }
-definition{ name: observePrime, parameters: [], result: Nat, body: 47 }
-definition{ name: touchPrime, parameters: [], result: Nat, body: 53 }
-definition{ name: attunePrime, parameters: [], result: Nat, body: 59 }
-definition{ name: strollPrime, parameters: [], result: Nat, body: 61 }
-definition{ name: stillnessPrime, parameters: [], result: Nat, body: 67 }
-definition{ name: dormantPrime, parameters: [], result: Nat, body: 71 }
-definition{ name: awakenedPrime, parameters: [], result: Nat, body: 73 }
+definition{name: meadowPrime, parameters: [], result: Nat, body: 2}
+
+definition{name: grovePrime, parameters: [], result: Nat, body: 3}
+
+definition{name: crystalPrime, parameters: [], result: Nat, body: 5}
+
+definition{name: wetlandPrime, parameters: [], result: Nat, body: 7}
+
+definition{name: sanctuaryPrime, parameters: [], result: Nat, body: 11}
+
+definition{name: chimeLilyPrime, parameters: [], result: Nat, body: 13}
+
+definition{name: pulseFernPrime, parameters: [], result: Nat, body: 17}
+
+definition{name: echoLotusPrime, parameters: [], result: Nat, body: 19}
+
+definition{name: droneMossPrime, parameters: [], result: Nat, body: 23}
+
+definition{name: starOrchidPrime, parameters: [], result: Nat, body: 29}
+
+definition{name: dawnPrime, parameters: [], result: Nat, body: 31}
+
+definition{name: goldenPrime, parameters: [], result: Nat, body: 37}
+
+definition{name: twilightPrime, parameters: [], result: Nat, body: 41}
+
+definition{name: starlightPrime, parameters: [], result: Nat, body: 43}
+
+definition{name: observePrime, parameters: [], result: Nat, body: 47}
+
+definition{name: touchPrime, parameters: [], result: Nat, body: 53}
+
+definition{name: attunePrime, parameters: [], result: Nat, body: 59}
+
+definition{name: strollPrime, parameters: [], result: Nat, body: 61}
+
+definition{name: stillnessPrime, parameters: [], result: Nat, body: 67}
+
+definition{name: dormantPrime, parameters: [], result: Nat, body: 71}
+
+definition{name: awakenedPrime, parameters: [], result: Nat, body: 73}
 
 definition{
   name: stepStakeholderValueReinforcement,
   parameters: [w : Nat, allFacetsActive : Bool],
   result: Nat,
-  body: (if allFacetsActive then (if ((weightMax) <=? w) then (weightMax) else (w + 1)) else (if ((weightMax) <=? w) then (weightMax) else (if (w <? (weightMin)) then (weightMin) else w)))
+  body: (let span : Nat := (prim subtract (weightMax) (weightMin) : Nat); (if allFacetsActive then (prim subtract (weightMax) (prim subtract span w : Nat) : Nat) else (prim subtract (weightMax) (prim subtract span (prim subtract w (weightMin) : Nat) : Nat) : Nat)))
 }
 
 definition{
@@ -369,12 +334,7 @@ definition{
   body: (((w <? (stepStakeholderValueReinforcement w true)) && ((stepWisdomPhenomenonModulation w) <? (stepWisdomPhenomenonModulation (stepStakeholderValueReinforcement w true)))) && ((stepStakeholderValueReinforcement w true) <=? (weightMax)))
 }
 
-definition{
-  name: observerPartCountTotal,
-  parameters: [],
-  result: Nat,
-  body: 11
-}
+definition{name: observerPartCountTotal, parameters: [], result: Nat, body: 11}
 
 definition{
   name: stepTheoryOfMindCoherencePermille,
@@ -415,14 +375,14 @@ definition{
   name: stepRule30LeftDiagonalPeriod,
   parameters: [d : Nat],
   result: Nat,
-  body: (if (d =? 0) then 1 else (if (d =? 1) then 2 else (if (d =? 2) then 4 else (if (d =? 3) then 8 else 16))))
+  body: (let poly : Nat := (((d + (prim subtract d 1 : Nat)) + (prim multiply 2 (prim subtract d 2 : Nat) : Nat)) + (prim multiply 4 (prim subtract d 3 : Nat) : Nat)); (prim subtract 16 (prim subtract 15 poly : Nat) : Nat))
 }
 
 definition{
   name: stepRule30AperiodicCompensationIndex,
   parameters: [d : Nat, w : Nat],
   result: Nat,
-  body: (if (d <? 3) then 0 else ((prim multiply d 12 : Nat) + (prim multiply (clampBusWeight w) 4 : Nat)))
+  body: (let gate : Nat := (prim subtract 1 (prim subtract 3 d : Nat) : Nat); (prim multiply gate ((prim multiply d 12 : Nat) + (prim multiply (clampBusWeight w) 4 : Nat)) : Nat))
 }
 
 definition{
@@ -450,79 +410,7 @@ definition{
   name: verdantNeuromorphicStandard,
   parameters: [],
   result: NeuromorphicSynthesisStandard,
-  body: (record NeuromorphicSynthesisStandard {
-    profile := "prism/neuromorphic-standard/5",
-    plasticity := (record HebbianPlasticitySpec {
-      weightMin := (weightMin),
-      weightMax := (weightMax),
-      weightInitial := (weightInitial),
-      weightRaise := (weightRaise),
-      weightLower := (weightLower),
-      consolidationThreshold := (consolidationThreshold),
-      familyCount := 5,
-      strategyCount := 4
-    }),
-    cellularAutomaton := (record Rule30CellularAutomatonSpec {
-      ruleNumber := 30,
-      registerWidthBits := 64,
-      orbitBound := 256,
-      periodBound := 256,
-      drivesVoiceLeading := (rule30CellStep false true false),
-      drivesMorphogenesis := (rule30CellStep false false true)
-    }),
-    lutStack := (record UORLutStackSpec {
-      headerMagic := "UORLUT01",
-      basinStatesCl06 := 64,
-      icosianGoldenRoots := 17,
-      primeAddressBasisCount := 21,
-      pointKeyBits := 28,
-      shortCycleGuardMaxPeriod := 4,
-      maxEmergentSeedlings := 15
-    }),
-    universalBus := (record UniversalNeuromorphicBusSpec {
-      coupledModuleCount := 10,
-      domainBasisPrimeCount := 10,
-      crossDomainTransferEnabled := ((weightInitial) <? (transferWeightCrossDomain (weightInitial) true)),
-      autopoieticSelfRefinementEnabled := (verifyAutopoieticSingleCallAdvancesAllTenDomains (weightInitial)),
-      infrastructureCoupled := ((weightInitial) <? (project (stepUniversalBusBroadcast (uniformBusManifold (weightInitial)) true) wInfrastructure)),
-      zeroManualIterationOverhead := (verifySingleCallPropagatesAllTenDomains (weightInitial))
-    }),
-    stakeholderEntity := (record EmergentEntityStakeholderSpec {
-      emergenceFacetCount := 4,
-      wisdomPhenomenonCount := 4,
-      entitySynthesizesAllFourFacets := (verifyEmergentEntitySynthesizesFacets (weightInitial)),
-      wisdomExpressedAsEnvironmentalPhenomena := ((stepWisdomPhenomenonModulation (weightInitial)) <? (stepWisdomPhenomenonModulation (consolidationThreshold))),
-      stakeholderReinforcesPlayerValue := ((weightInitial) <? (stepStakeholderValueReinforcement (weightInitial) true)),
-      baselinePlayerValueIndex := (stepStakeholderValueReinforcement (weightInitial) true)
-    }),
-    observerQuadruple := (record ObserverQuadrupleSpec {
-      observerPartCount := (observerPartCountTotal),
-      centerlineVantageCount := 6,
-      realObjectPole := "prism-deterministic-kernel",
-      sensualObjectPole := "dyadic-regular-left-diagonals",
-      withdrawnCoreFacet := "aperiodic-compensation",
-      includesEnvironmentGardenAndPlayer := (10 <? (observerPartCountTotal)),
-      deterministicKernelVerified := ((rule30CellStep false true false) && (not (rule30CellStep true true true))),
-      nonDeterministicWithdrawnHorizonVerified := (verifyRule30DeterministicAndWithdrawnDuality (weightInitial))
-    }),
-    theoryOfMind := (record TheoryOfMindTeleologySpec {
-      teleologyWhyChannelCount := (observerPartCountTotal),
-      engineStageCount := 5,
-      portfolioStrategyCount := 4,
-      busCarriesTeleologicalWhy := ((stepTheoryOfMindCoherencePermille (weightInitial)) <? (stepTheoryOfMindCoherencePermille (consolidationThreshold))),
-      observerKnowsPartsAndImprovement := (verifyObserverHolisticWhyClosure (weightInitial)),
-      enhancesGardenAndUserMutually := ((verifyEmergentEntitySynthesizesFacets (weightInitial)) && (verifySingleCallPropagatesAllTenDomains (weightInitial)))
-    }),
-    supraDirective := (record SupraDirectiveOptimizationSpec {
-      baseDirectiveWeight := (weightInitial),
-      supraDirectiveMaxWeight := (weightMax),
-      compileTimeGeneratedModelCount := 5,
-      runtimeMaxSynthesizedModels := 16,
-      exceedsBaseFidelityAndQuality := (((stepSupraDirectiveFidelityPermille (weightInitial)) <? (stepSupraDirectiveFidelityPermille (consolidationThreshold))) && ((stepSupraDirectiveQualityPermille (weightInitial)) <? (stepSupraDirectiveQualityPermille (consolidationThreshold)))),
-      exceedsBaseDefinitionAndFeatures := (((stepSupraDirectiveDefinitionSubdiv (weightInitial)) <? (stepSupraDirectiveDefinitionSubdiv (consolidationThreshold))) && ((stepSupraDirectiveFeatureUnlockCount (weightInitial)) <? (stepSupraDirectiveFeatureUnlockCount (consolidationThreshold)))),
-      compileAndRuntimeSynthesisCoupled := (verifyObserverSupraDirectiveTranscendence (weightInitial))
-    })
-  })
+  body: (record NeuromorphicSynthesisStandard {profile := "prism/neuromorphic-standard/5", plasticity := (record HebbianPlasticitySpec {weightMin := (weightMin), weightMax := (weightMax), weightInitial := (weightInitial), weightRaise := (weightRaise), weightLower := (weightLower), consolidationThreshold := (consolidationThreshold), familyCount := 5, strategyCount := 4}), cellularAutomaton := (record Rule30CellularAutomatonSpec {ruleNumber := 30, registerWidthBits := 64, orbitBound := 256, periodBound := 256, drivesVoiceLeading := (rule30CellStep false true false), drivesMorphogenesis := (rule30CellStep false false true)}), lutStack := (record UORLutStackSpec {headerMagic := "UORLUT01", basinStatesCl06 := 64, icosianGoldenRoots := 17, primeAddressBasisCount := 21, pointKeyBits := 28, shortCycleGuardMaxPeriod := 4, maxEmergentSeedlings := 15}), universalBus := (record UniversalNeuromorphicBusSpec {coupledModuleCount := 10, domainBasisPrimeCount := 10, crossDomainTransferEnabled := ((weightInitial) <? (transferWeightCrossDomain (weightInitial) true)), autopoieticSelfRefinementEnabled := (verifyAutopoieticSingleCallAdvancesAllTenDomains (weightInitial)), infrastructureCoupled := ((weightInitial) <? (project (stepUniversalBusBroadcast (uniformBusManifold (weightInitial)) true) wInfrastructure)), zeroManualIterationOverhead := (verifySingleCallPropagatesAllTenDomains (weightInitial))}), stakeholderEntity := (record EmergentEntityStakeholderSpec {emergenceFacetCount := 4, wisdomPhenomenonCount := 4, entitySynthesizesAllFourFacets := (verifyEmergentEntitySynthesizesFacets (weightInitial)), wisdomExpressedAsEnvironmentalPhenomena := ((stepWisdomPhenomenonModulation (weightInitial)) <? (stepWisdomPhenomenonModulation (consolidationThreshold))), stakeholderReinforcesPlayerValue := ((weightInitial) <? (stepStakeholderValueReinforcement (weightInitial) true)), baselinePlayerValueIndex := (stepStakeholderValueReinforcement (weightInitial) true)}), observerQuadruple := (record ObserverQuadrupleSpec {observerPartCount := (observerPartCountTotal), centerlineVantageCount := 6, realObjectPole := "prism-deterministic-kernel", sensualObjectPole := "dyadic-regular-left-diagonals", withdrawnCoreFacet := "aperiodic-compensation", includesEnvironmentGardenAndPlayer := (10 <? (observerPartCountTotal)), deterministicKernelVerified := ((rule30CellStep false true false) && (not (rule30CellStep true true true))), nonDeterministicWithdrawnHorizonVerified := (verifyRule30DeterministicAndWithdrawnDuality (weightInitial))}), theoryOfMind := (record TheoryOfMindTeleologySpec {teleologyWhyChannelCount := (observerPartCountTotal), engineStageCount := 5, portfolioStrategyCount := 4, busCarriesTeleologicalWhy := ((stepTheoryOfMindCoherencePermille (weightInitial)) <? (stepTheoryOfMindCoherencePermille (consolidationThreshold))), observerKnowsPartsAndImprovement := (verifyObserverHolisticWhyClosure (weightInitial)), enhancesGardenAndUserMutually := ((verifyEmergentEntitySynthesizesFacets (weightInitial)) && (verifySingleCallPropagatesAllTenDomains (weightInitial)))}), supraDirective := (record SupraDirectiveOptimizationSpec {baseDirectiveWeight := (weightInitial), supraDirectiveMaxWeight := (weightMax), compileTimeGeneratedModelCount := 5, runtimeMaxSynthesizedModels := 16, exceedsBaseFidelityAndQuality := (((stepSupraDirectiveFidelityPermille (weightInitial)) <? (stepSupraDirectiveFidelityPermille (consolidationThreshold))) && ((stepSupraDirectiveQualityPermille (weightInitial)) <? (stepSupraDirectiveQualityPermille (consolidationThreshold)))), exceedsBaseDefinitionAndFeatures := (((stepSupraDirectiveDefinitionSubdiv (weightInitial)) <? (stepSupraDirectiveDefinitionSubdiv (consolidationThreshold))) && ((stepSupraDirectiveFeatureUnlockCount (weightInitial)) <? (stepSupraDirectiveFeatureUnlockCount (consolidationThreshold)))), compileAndRuntimeSynthesisCoupled := (verifyObserverSupraDirectiveTranscendence (weightInitial))})})
 }
 
 definition{
@@ -536,7 +424,15 @@ theorem{
   name: hebbianUpperBoundHolds,
   parameters: [w : Nat],
   statement: ((breaksHebbianUpperBound w) = false),
-  proof: linear_arithmetic{definitions: [breaksHebbianUpperBound, learnWeightPotentiated, weightMax, weightMin, weightRaise]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksHebbianUpperBound,
+      learnWeightPotentiated,
+      weightMax,
+      weightMin,
+      weightRaise
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -551,7 +447,19 @@ theorem{
   name: hebbianBidirectionalBoundsHold,
   parameters: [w : Nat, success : Bool],
   statement: ((breaksHebbianBidirectionalBounds w success) = false),
-  proof: linear_arithmetic{definitions: [breaksHebbianBidirectionalBounds, clampBusWeight, learnHebbianWeight, learnWeightDepressed, learnWeightPotentiated, weightLower, weightMax, weightMin, weightRaise]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksHebbianBidirectionalBounds,
+      clampBusWeight,
+      learnHebbianWeight,
+      learnWeightDepressed,
+      learnWeightPotentiated,
+      weightLower,
+      weightMax,
+      weightMin,
+      weightRaise
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -566,7 +474,18 @@ theorem{
   name: uorLutContextPrimesStrictlyOrderedHolds,
   parameters: [p : Nat],
   statement: ((breaksUorLutContextPrimesOrdering p) = false),
-  proof: linear_arithmetic{definitions: [awakenedPrime, breaksUorLutContextPrimesOrdering, meadowPrime, neuromorphicBasisPrime, sanctuaryPrime, starOrchidPrime, starlightPrime, stillnessPrime]},
+  proof: linear_arithmetic{
+    definitions: [
+      awakenedPrime,
+      breaksUorLutContextPrimesOrdering,
+      meadowPrime,
+      neuromorphicBasisPrime,
+      sanctuaryPrime,
+      starOrchidPrime,
+      starlightPrime,
+      stillnessPrime
+    ]
+  },
   axioms: [Classical.choice, Quot.sound, propext]
 }
 
@@ -581,7 +500,9 @@ theorem{
   name: shortCycleGuardPreventsRepetitionHolds,
   parameters: [synapticWeight : Nat, orphanCount : Nat, shortCycleCount : Nat, windowHi : Nat],
   statement: ((breaksShortCycleGate synapticWeight orphanCount shortCycleCount windowHi) = false),
-  proof: linear_arithmetic{definitions: [breaksShortCycleGate, consolidationThreshold, verifyPointKeyResonanceGate]},
+  proof: linear_arithmetic{
+    definitions: [breaksShortCycleGate, consolidationThreshold, verifyPointKeyResonanceGate]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -596,7 +517,9 @@ theorem{
   name: crossDomainTransferBoundedAndMonotonicHolds,
   parameters: [wTarget : Nat, sourceConsolidated : Bool],
   statement: ((breaksCrossDomainTransferBound wTarget sourceConsolidated) = false),
-  proof: linear_arithmetic{definitions: [breaksCrossDomainTransferBound, transferWeightCrossDomain, weightMax, weightMin]},
+  proof: linear_arithmetic{
+    definitions: [breaksCrossDomainTransferBound, transferWeightCrossDomain, weightMax, weightMin]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -611,7 +534,14 @@ theorem{
   name: autopoieticModelRefinementConvergesAndBoundedHolds,
   parameters: [wCurrent : Nat, wLeader : Nat],
   statement: ((breaksAutopoieticRefinementConvergence wCurrent wLeader) = false),
-  proof: linear_arithmetic{definitions: [breaksAutopoieticRefinementConvergence, refineDomainWeightAutopoietic, weightMax, weightMin]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksAutopoieticRefinementConvergence,
+      refineDomainWeightAutopoietic,
+      weightMax,
+      weightMin
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -626,7 +556,19 @@ theorem{
   name: zeroManualIterationOverheadUniversalHolds,
   parameters: [w : Nat],
   statement: ((breaksZeroManualIterationOverhead w) = false),
-  proof: linear_arithmetic{definitions: [breaksZeroManualIterationOverhead, learnWeightPotentiated, stepUniversalBusBroadcast, transferWeightCrossDomain, uniformBusManifold, verifySingleCallPropagatesAllTenDomains, weightMax, weightMin, weightRaise]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksZeroManualIterationOverhead,
+      learnWeightPotentiated,
+      stepUniversalBusBroadcast,
+      transferWeightCrossDomain,
+      uniformBusManifold,
+      verifySingleCallPropagatesAllTenDomains,
+      weightMax,
+      weightMin,
+      weightRaise
+    ]
+  },
   axioms: [Classical.choice, Quot.sound, propext]
 }
 
@@ -641,7 +583,17 @@ theorem{
   name: autopoieticSingleCallAllTenDomainsHolds,
   parameters: [w : Nat],
   statement: ((breaksAutopoieticSingleCallAllTenDomains w) = false),
-  proof: linear_arithmetic{definitions: [breaksAutopoieticSingleCallAllTenDomains, refineDomainWeightAutopoietic, stepAutopoieticBusManifold, uniformBusManifold, verifyAutopoieticSingleCallAdvancesAllTenDomains, weightMax, weightMin]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksAutopoieticSingleCallAllTenDomains,
+      refineDomainWeightAutopoietic,
+      stepAutopoieticBusManifold,
+      uniformBusManifold,
+      verifyAutopoieticSingleCallAdvancesAllTenDomains,
+      weightMax,
+      weightMin
+    ]
+  },
   axioms: [Classical.choice, Quot.sound, propext]
 }
 
@@ -656,7 +608,19 @@ theorem{
   name: universalBusBroadcastPreservesBoundsHolds,
   parameters: [w : Nat, sourceConsolidated : Bool],
   statement: ((breaksBusBroadcastBoundsInvariant w sourceConsolidated) = false),
-  proof: linear_arithmetic{definitions: [breaksBusBroadcastBoundsInvariant, learnWeightPotentiated, stepUniversalBusBroadcast, transferWeightCrossDomain, uniformBusManifold, verifyBusManifoldBounds, weightMax, weightMin, weightRaise]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksBusBroadcastBoundsInvariant,
+      learnWeightPotentiated,
+      stepUniversalBusBroadcast,
+      transferWeightCrossDomain,
+      uniformBusManifold,
+      verifyBusManifoldBounds,
+      weightMax,
+      weightMin,
+      weightRaise
+    ]
+  },
   axioms: [Classical.choice, Quot.sound, propext]
 }
 
@@ -671,7 +635,14 @@ theorem{
   name: stakeholderAlwaysReinforcesPlayerValueHolds,
   parameters: [w : Nat, allFacetsActive : Bool],
   statement: ((breaksStakeholderValueReinforcementBound w allFacetsActive) = false),
-  proof: linear_arithmetic{definitions: [breaksStakeholderValueReinforcementBound, stepStakeholderValueReinforcement, weightMax, weightMin]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksStakeholderValueReinforcementBound,
+      stepStakeholderValueReinforcement,
+      weightMax,
+      weightMin
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -686,8 +657,18 @@ theorem{
   name: emergentEntityWisdomPhenomenaMonotonicHolds,
   parameters: [w : Nat],
   statement: ((breaksEmergentEntityWisdomPhenomena w) = false),
-  proof: linear_arithmetic{definitions: [breaksEmergentEntityWisdomPhenomena, clampBusWeight, stepStakeholderValueReinforcement, stepWisdomPhenomenonModulation, verifyEmergentEntitySynthesizesFacets, weightMax, weightMin]},
-  axioms: [Classical.choice, Quot.sound, propext]
+  proof: linear_arithmetic{
+    definitions: [
+      breaksEmergentEntityWisdomPhenomena,
+      clampBusWeight,
+      stepStakeholderValueReinforcement,
+      stepWisdomPhenomenonModulation,
+      verifyEmergentEntitySynthesizesFacets,
+      weightMax,
+      weightMin
+    ]
+  },
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -697,13 +678,21 @@ definition{
   body: ((((weightMin) <=? w) && (w <? (weightMax))) && (not ((stepTheoryOfMindCoherencePermille w) <? (stepTheoryOfMindCoherencePermille (w + 1)))))
 }
 
-theorem{
-  name: observerTheoryOfMindMonotonicHolds,
-  parameters: [w : Nat],
-  statement: ((breaksObserverTheoryOfMindMonotonic w) = false),
-  proof: linear_arithmetic{definitions: [breaksObserverTheoryOfMindMonotonic, clampBusWeight, stepTheoryOfMindCoherencePermille, weightMax, weightMin]},
-  axioms: [Classical.choice, Quot.sound, propext]
-}
+  theorem{
+    name: observerTheoryOfMindMonotonicHolds,
+    parameters: [w : Nat],
+    statement: ((breaksObserverTheoryOfMindMonotonic w) = false),
+    proof: linear_arithmetic{
+      definitions: [
+        breaksObserverTheoryOfMindMonotonic,
+        clampBusWeight,
+        stepTheoryOfMindCoherencePermille,
+        weightMax,
+        weightMin
+      ]
+    },
+    axioms: [Quot.sound, propext]
+  }
 
 definition{
   name: breaksSupraDirectiveExceedsBaseDirective,
@@ -716,7 +705,23 @@ theorem{
   name: supraDirectiveExceedsBaseDirectiveHolds,
   parameters: [w : Nat],
   statement: ((breaksSupraDirectiveExceedsBaseDirective w) = false),
-  proof: linear_arithmetic{definitions: [breaksSupraDirectiveExceedsBaseDirective, clampBusWeight, learnWeightPotentiated, stepSupraDirectiveDefinitionSubdiv, stepSupraDirectiveFeatureUnlockCount, stepSupraDirectiveFidelityPermille, stepSupraDirectiveQualityPermille, stepTheoryOfMindCoherencePermille, verifyObserverSupraDirectiveTranscendence, weightInitial, weightMax, weightMin, weightRaise]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksSupraDirectiveExceedsBaseDirective,
+      clampBusWeight,
+      learnWeightPotentiated,
+      stepSupraDirectiveDefinitionSubdiv,
+      stepSupraDirectiveFeatureUnlockCount,
+      stepSupraDirectiveFidelityPermille,
+      stepSupraDirectiveQualityPermille,
+      stepTheoryOfMindCoherencePermille,
+      verifyObserverSupraDirectiveTranscendence,
+      weightInitial,
+      weightMax,
+      weightMin,
+      weightRaise
+    ]
+  },
   axioms: [Classical.choice, Quot.sound, propext]
 }
 
@@ -731,7 +736,17 @@ theorem{
   name: rule30DoublingLawAndWithdrawnDualityHolds,
   parameters: [w : Nat],
   statement: ((breaksRule30DoublingLawDuality w) = false),
-  proof: linear_arithmetic{definitions: [breaksRule30DoublingLawDuality, clampBusWeight, stepRule30AperiodicCompensationIndex, stepRule30LeftDiagonalPeriod, verifyRule30DeterministicAndWithdrawnDuality, weightMax, weightMin]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksRule30DoublingLawDuality,
+      clampBusWeight,
+      stepRule30AperiodicCompensationIndex,
+      stepRule30LeftDiagonalPeriod,
+      verifyRule30DeterministicAndWithdrawnDuality,
+      weightMax,
+      weightMin
+    ]
+  },
   axioms: [Classical.choice, Quot.sound, propext]
 }
 \end{semanticmodule}

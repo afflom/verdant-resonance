@@ -210,6 +210,12 @@ import {
   computeTenneyHeightAndEulerGradus,
   evaluateFoundationalMathematicalAffect,
   evaluateObserverAffectAndPreferences,
+  countStaticColliderPairwiseOverlaps,
+  syncImmanentWitnessCollider,
+  evaluateMaterialSynthesisCrossModalObstruction,
+  stepCrossModalPhaseObstructionPermille,
+  stepCrossModalAcousticShadowPermille,
+  verifyMaterialSynthesisCrossModalObstruction,
   BiomeId,
   AtmosphereId,
 } from './prismModel';
@@ -463,7 +469,7 @@ test('Procedural garden generation, sympathetic cross-pollination, biome mastery
 
 test('Environmental physics distinguishes solid obstructions from permeable grass, moss, lotus pads, and shallow water', () => {
   assert.equal(VERDANT_PHYSICS_STANDARD.profile, 'prism/physics-standard/1');
-  assert.equal(VERDANT_PHYSICS_STANDARD.solidColliderClasses, 6);
+  assert.equal(VERDANT_PHYSICS_STANDARD.solidColliderClasses, 7);
   assert.equal(VERDANT_PHYSICS_STANDARD.permeableMediumClasses, 5);
   assert.equal(VERDANT_PHYSICS_STANDARD.wadingSpeedPct, 76);
 
@@ -3454,5 +3460,159 @@ test('40. Six Canonical Observer Preferences: Physics/Math Derivation, Monotonic
   });
   assert.equal(agency.beckoningPlantId, 'cand-underrep');
 });
+
+test('41. Zero Spec/Implementation Drift: Concert Pitch Bit-Identity, 7-Class Colliders, and Zero Static Overlaps Across Alpha Seeds 1..8', () => {
+  // 1. Exact bit-for-bit alignment with Foundation.Cosmogenesis.V1.Model::synthesizeParametricConcertPitchCentiHz
+  assert.equal(synthesizeParametricConcertPitchHz(1, 1), 261.63);
+  assert.equal(synthesizeParametricConcertPitchHz(1, 8), 261.63);
+  assert.equal(synthesizeParametricConcertPitchHz(1, 16), 261.63);
+  for (let s = 2; s <= 8; s++) {
+    let prevPitch = synthesizeParametricConcertPitchHz(s, 8);
+    assert.ok(prevPitch > synthesizeParametricConcertPitchHz(s - 1, 8));
+    for (let w = 9; w <= 16; w++) {
+      const nextPitch = synthesizeParametricConcertPitchHz(s, w);
+      assert.ok(nextPitch > prevPitch, `Expected monotonic pitch increase for seed=${s}, w=${w}`);
+      prevPitch = nextPitch;
+    }
+  }
+
+  // 2. Across every Alpha Seed s = 1..8: all 7 collider classes exist, zero static pairwise overlaps, and 100% spatial grounding holds
+  for (let alphaSeed = 1; alphaSeed <= 8; alphaSeed++) {
+    const cosmoParams = { alphaSeed };
+    const plants = generateGardenPlants(cosmoParams);
+    const colliders = buildGardenColliders(plants, cosmoParams);
+
+    const wetlandPiers = colliders.filter((c) => c.id.startsWith('col-wetland-lantern-'));
+    const shorelineBoulders = colliders.filter((c) => c.category === 'shoreline-boulder');
+    assert.equal(wetlandPiers.length, 5, `Seed ${alphaSeed} must register 5 Wetland Hydro-Lantern Pier colliders`);
+    assert.equal(shorelineBoulders.length, 28, `Seed ${alphaSeed} must register 28 Shoreline Boulder colliders`);
+
+    const staticOverlaps = countStaticColliderPairwiseOverlaps(colliders);
+    assert.equal(staticOverlaps, 0, `Seed ${alphaSeed} has ${staticOverlaps} static pairwise collider overlaps`);
+
+    const neuro = createInitialNeuromorphicState(alphaSeed);
+    const syncedWitness = syncImmanentWitnessCollider(colliders, neuro.observer.immanentPresence);
+    assert.equal(syncedWitness.category, 'immanent-witness');
+
+    const categories = new Set(colliders.map((c) => c.category));
+    assert.equal(categories.size, 7, `Seed ${alphaSeed} must populate all 7 ColliderCategoryId classes`);
+
+    const grounding = verifySpatialGroundingAndSubstrateCoherence({
+      plants,
+      cosmogenesis: cosmoParams,
+    });
+    assert.equal(grounding.allGroundedAndValid, true, `Seed ${alphaSeed} failed spatial grounding coherence`);
+  }
+});
+
+test('42. Material-Synthesis Cross-Modal Obstruction (6 Compounds × 6 Channels), Dual-Observer Wake, Witness Avoidance & Arc Clearance', () => {
+  // 1. Constructive LUT monotonicity across w = 1..16
+  for (let w = 1; w <= 16; w++) {
+    assert.equal(verifyMaterialSynthesisCrossModalObstruction(w), true);
+    if (w < 16) {
+      assert.ok(stepCrossModalPhaseObstructionPermille(w + 1) > stepCrossModalPhaseObstructionPermille(w));
+      assert.ok(stepCrossModalAcousticShadowPermille(w + 1) > stepCrossModalAcousticShadowPermille(w));
+    }
+  }
+
+  // 2. Full 6-compound × 6-channel physical evaluation
+  const plants = generateGardenPlants({ alphaSeed: 1 });
+  const colliders = buildGardenColliders(plants, { alphaSeed: 1 });
+  const baseNeuro = createInitialNeuromorphicState(1);
+  syncImmanentWitnessCollider(colliders, baseNeuro.observer.immanentPresence);
+
+  const report = evaluateMaterialSynthesisCrossModalObstruction({
+    physicsWeight: 8,
+    colliders,
+  });
+  assert.equal(report.allChannelsConsistent, true);
+  assert.equal(report.synthesisCompoundCount, 6);
+  assert.equal(report.crossModalChannelCount, 6);
+  assert.equal(report.quartzPhaseVelocityRetardationPermille, 352);
+  assert.equal(report.stoneAcousticImpedanceReflectionPermille, 999);
+  assert.equal(report.lagoonHydroMomentumObstructionPermille, 240);
+  assert.equal(report.solidMechanicalTransmittancePermille, 0);
+  assert.equal(report.staticPairwiseOverlapCount, 0);
+  assert.equal(report.colliderCategoryCoverageCount, 7);
+
+  // 3. Dual-Observer Foliage Deflection: grass bends from Immanent Witness even when player is far away
+  const witnessOnlyDeflect = computeFoliageDeflection({
+    bladeX: 4.2,
+    bladeZ: -6.0,
+    playerX: 30.0,
+    playerZ: 30.0,
+    witnessX: 4.0,
+    witnessZ: -6.3,
+    witnessVX: 0.8,
+    witnessVZ: 0.6,
+    elapsedSeconds: 2.0,
+  });
+  assert.equal(witnessOnlyDeflect.isDeflectedByPlayer, false);
+  assert.equal(witnessOnlyDeflect.isDeflectedByWitness, true);
+
+  // 4. Immanent Witness static-collider avoidance
+  const customObstacle = {
+    id: 'col-test-pillar',
+    category: 'monument-column' as const,
+    label: 'Test Pillar',
+    x: 2.55,
+    z: -7.15,
+    radiusMeters: 0.8,
+    heightMeters: 3.5,
+    acousticOcclusion: 0.2,
+  };
+  const witnessWithObstacle = evaluateImmanentObserverPresence({
+    elapsedSeconds: 0,
+    alphaSeed: 1,
+    manifold: baseNeuro.universalManifold,
+    cosmogenesis: baseNeuro.observer.cosmogenesis,
+    displayDesign: baseNeuro.observer.parametricDisplayDesign,
+    playerX: 0,
+    playerZ: 0,
+    playerYaw: 0,
+    action: 'observe',
+    harmonyPct: 50,
+    plants,
+    colliders: [...colliders, customObstacle],
+  });
+  const distFromTestObstacle = Math.hypot(
+    witnessWithObstacle.x - customObstacle.x,
+    witnessWithObstacle.z - customObstacle.z,
+  );
+  assert.ok(
+    distFromTestObstacle >= customObstacle.radiusMeters + 0.4,
+    `Witness must stay clear of static colliders (got dist=${distFromTestObstacle})`,
+  );
+
+  // 5. Sympathetic Parabolic Arc solid-obstacle clearance
+  const baselineArc = computeSympatheticParabolicArc({
+    x1: -4,
+    y1: 0,
+    z1: -34,
+    x2: 4,
+    y2: 0,
+    z2: -34,
+    elapsedSinceTriggerSec: 0.1,
+  });
+  const clearedArc = computeSympatheticParabolicArc({
+    x1: -4,
+    y1: 0,
+    z1: -34,
+    x2: 4,
+    y2: 0,
+    z2: -34,
+    elapsedSinceTriggerSec: 0.1,
+    colliders,
+  });
+  assert.ok(clearedArc.clearedObstacleCount >= 1);
+  assert.ok(clearedArc.apexHeightMeters > baselineArc.apexHeightMeters);
+
+  // 6. Holistic system coupling & root closure verification
+  const holistic = verifyHolisticSystemCoupling();
+  assert.equal(holistic.materialSynthesisCrossModalObstructionVerified, true);
+  assert.equal(holistic.completePrismModelClosureVerified, true);
+  assert.equal(holistic.allConstrained, true);
+});
+
 
 

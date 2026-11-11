@@ -74,12 +74,7 @@ structure{
   ]
 }
 
-definition{
-  name: maxLifecycleStage,
-  parameters: [],
-  result: Nat,
-  body: 4
-}
+definition{name: maxLifecycleStage, parameters: [], result: Nat, body: 4}
 
 definition{
   name: advanceLifecycleStage,
@@ -88,33 +83,13 @@ definition{
   body: (if ((stage + delta) <=? (maxLifecycleStage)) then (stage + delta) else (maxLifecycleStage))
 }
 
-definition{
-  name: stepsPerBar,
-  parameters: [],
-  result: Nat,
-  body: 16
-}
+definition{name: stepsPerBar, parameters: [], result: Nat, body: 16}
 
-definition{
-  name: maxActiveStepsPerBar,
-  parameters: [],
-  result: Nat,
-  body: 10
-}
+definition{name: maxActiveStepsPerBar, parameters: [], result: Nat, body: 10}
 
-definition{
-  name: minRestStepsPerBar,
-  parameters: [],
-  result: Nat,
-  body: 6
-}
+definition{name: minRestStepsPerBar, parameters: [], result: Nat, body: 6}
 
-definition{
-  name: verdantSoundtrackBasisPrime,
-  parameters: [],
-  result: Nat,
-  body: 101
-}
+definition{name: verdantSoundtrackBasisPrime, parameters: [], result: Nat, body: 101}
 
 definition{
   name: stepSoundtrackBusModulation,
@@ -127,41 +102,7 @@ definition{
   name: verdantSoundtrackStandard,
   parameters: [],
   result: LifecycleSoundtrackStandard,
-  body: (record LifecycleSoundtrackStandard {
-    profile := "prism/soundtrack-standard/1",
-    botanicalLifecycle := (record BotanicalLifecycleSpec {
-      stageCount := 5,
-      stage0DormantSeed := "Closed corolla bud in quietude (0 active score voices)",
-      stage1SproutingBud := "First tactile awakening ([T] Touch): 45 pct petal opening and sparse off-beat pizzicato plucks",
-      stage2ResonantBloom := "Full Fibonacci bloom ([Space] Attune): 100 pct corolla opening and primary melodic lead motifs",
-      stage3HarmonicFruiting := "Symbiotic fruiting crown: golden seed-pearl crown and bowed root-fifth harmonic anchor",
-      stage4MycelialMemory := "Consolidated conservatory elder ([C] Stillness or PointKey germination): celestial 7-limit canonic counterpoint"
-    }),
-    environmentalLifecycle := (record EnvironmentalLifecycleSpec {
-      phaseCount := 4,
-      phase0DewAwakening := "0-24 pct Harmony: Morning mist, solo flora lead stem",
-      phase1PollenDrift := "25-54 pct Harmony: Golden pollen currents, 2-stem duet (Lead + Ostinato)",
-      phase2NectarConfluence := "55-84 pct Harmony: Symbiotic guild filaments, 3-stem trio (+ Bowed Bass Anchor)",
-      phase3BioluminescentSlumber := "85-100 pct Harmony: Aurora canopy and monument unison, 4-stem chamber ensemble"
-    }),
-    soundtrack := (record GenerativeSoundtrackSpec {
-      stemCount := 4,
-      stepsPerBar := 16,
-      maxActiveStepsPerBar := 10,
-      minRestStepsPerBar := 6,
-      minTempoBpm := 64,
-      maxTempoBpm := 76,
-      selfDecayingVoicesOnly := ((minRestStepsPerBar) <=? (prim subtract (stepsPerBar) (maxActiveStepsPerBar) : Nat))
-    }),
-    neuromorphicBridge := (record NeuromorphicSoundtrackBridgeSpec {
-      neuromorphicBusCoupled := ((stepSoundtrackBusModulation 1) <? (stepSoundtrackBusModulation 16)),
-      domainBasisPrime := (verdantSoundtrackBasisPrime),
-      rule30RegisterBits := 64,
-      pointKeyBits := 28,
-      crossDomainTransferEnabled := ((stepSoundtrackBusModulation 8) <? (stepSoundtrackBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))),
-      autopoieticSelfRefinementEnabled := ((stepSoundtrackBusModulation 8) <? (stepSoundtrackBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))
-    })
-  })
+  body: (record LifecycleSoundtrackStandard {profile := "prism/soundtrack-standard/1", botanicalLifecycle := (record BotanicalLifecycleSpec {stageCount := 5, stage0DormantSeed := "Closed corolla bud in quietude (0 active score voices)", stage1SproutingBud := "First tactile awakening ([T] Touch): 45 pct petal opening and sparse off-beat pizzicato plucks", stage2ResonantBloom := "Full Fibonacci bloom ([Space] Attune): 100 pct corolla opening and primary melodic lead motifs", stage3HarmonicFruiting := "Symbiotic fruiting crown: golden seed-pearl crown and bowed root-fifth harmonic anchor", stage4MycelialMemory := "Consolidated conservatory elder ([C] Stillness or PointKey germination): celestial 7-limit canonic counterpoint"}), environmentalLifecycle := (record EnvironmentalLifecycleSpec {phaseCount := 4, phase0DewAwakening := "0-24 pct Harmony: Morning mist, solo flora lead stem", phase1PollenDrift := "25-54 pct Harmony: Golden pollen currents, 2-stem duet (Lead + Ostinato)", phase2NectarConfluence := "55-84 pct Harmony: Symbiotic guild filaments, 3-stem trio (+ Bowed Bass Anchor)", phase3BioluminescentSlumber := "85-100 pct Harmony: Aurora canopy and monument unison, 4-stem chamber ensemble"}), soundtrack := (record GenerativeSoundtrackSpec {stemCount := 4, stepsPerBar := 16, maxActiveStepsPerBar := 10, minRestStepsPerBar := 6, minTempoBpm := 64, maxTempoBpm := 76, selfDecayingVoicesOnly := ((minRestStepsPerBar) <=? (prim subtract (stepsPerBar) (maxActiveStepsPerBar) : Nat))}), neuromorphicBridge := (record NeuromorphicSoundtrackBridgeSpec {neuromorphicBusCoupled := ((stepSoundtrackBusModulation 1) <? (stepSoundtrackBusModulation 16)), domainBasisPrime := (verdantSoundtrackBasisPrime), rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := ((stepSoundtrackBusModulation 8) <? (stepSoundtrackBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))), autopoieticSelfRefinementEnabled := ((stepSoundtrackBusModulation 8) <? (stepSoundtrackBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))})})
 }
 
 definition{
@@ -175,7 +116,9 @@ theorem{
   name: lifecycleProgressionMonotonicHolds,
   parameters: [stage : Nat, delta : Nat],
   statement: ((breaksLifecycleMonotonicity stage delta) = false),
-  proof: linear_arithmetic{definitions: [advanceLifecycleStage, breaksLifecycleMonotonicity, maxLifecycleStage]},
+  proof: linear_arithmetic{
+    definitions: [advanceLifecycleStage, breaksLifecycleMonotonicity, maxLifecycleStage]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -190,7 +133,14 @@ theorem{
   name: soundtrackBreathingSilenceGuaranteeHolds,
   parameters: [activeSteps : Nat],
   statement: ((breaksSoundtrackBreathingRest activeSteps) = false),
-  proof: linear_arithmetic{definitions: [breaksSoundtrackBreathingRest, maxActiveStepsPerBar, minRestStepsPerBar, stepsPerBar]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksSoundtrackBreathingRest,
+      maxActiveStepsPerBar,
+      minRestStepsPerBar,
+      stepsPerBar
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -205,7 +155,16 @@ theorem{
   name: soundtrackNeuromorphicCouplingHolds,
   parameters: [busWeight : Nat],
   statement: ((breaksSoundtrackNeuromorphicCoupling busWeight) = false),
-  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksSoundtrackNeuromorphicCoupling, stepSoundtrackBusModulation]},
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksSoundtrackNeuromorphicCoupling,
+      stepSoundtrackBusModulation
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}

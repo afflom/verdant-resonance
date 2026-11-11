@@ -368,6 +368,21 @@ export function verifyThreeJointKinematicHierarchy(busWeight: number): boolean {
   return lut[clampLutIndex(busWeight, lut.length)];
 }
 
+export function stepCrossModalPhaseObstructionPermille(busWeight: number): number {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.crossModalPhaseObstructionPermille;
+  return lut[clampLutIndex(busWeight, lut.length)];
+}
+
+export function stepCrossModalAcousticShadowPermille(busWeight: number): number {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.crossModalAcousticShadowPermille;
+  return lut[clampLutIndex(busWeight, lut.length)];
+}
+
+export function verifyMaterialSynthesisCrossModalObstruction(busWeight: number): boolean {
+  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyMaterialSynthesisCrossModalObstruction;
+  return lut[clampLutIndex(busWeight, lut.length)];
+}
+
 export function clampAlphaSeed(alphaSeed: number): number {
   const { weightMax } = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity;
   const n = Math.floor(Number.isFinite(alphaSeed) ? alphaSeed : 1);
@@ -476,8 +491,9 @@ export function synthesizeParametricCanonicalSeed(alphaSeed = 1, busWeight = 8):
 export function synthesizeParametricConcertPitchHz(alphaSeed = 1, acousticsWeight = 8): number {
   const s = clampAlphaSeed(alphaSeed);
   const cw = clampPrismBusWeight(acousticsWeight);
+  const w0 = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial;
   if (
-    cw === GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial &&
+    cw === w0 &&
     s >= 1 &&
     s <= GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.alphaSeedSweepLut.length
   ) {
@@ -489,11 +505,15 @@ export function synthesizeParametricConcertPitchHz(alphaSeed = 1, acousticsWeigh
     );
   }
   const d2 = GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[2].theoreticalDyadicBound;
-  const centiHz =
+  const baseCentiHz =
     Math.pow(GENERATED_PRISM_CONTEXT_PRIMES.grovePrime, d2) *
-      GENERATED_PRISM_CONTEXT_PRIMES.pulseFernPrime *
-      GENERATED_PRISM_CONTEXT_PRIMES.echoLotusPrime +
-    (s - 1) * (GENERATED_PRISM_DOMAIN_BASIS_PRIMES.acoustics * cw);
+    GENERATED_PRISM_CONTEXT_PRIMES.pulseFernPrime *
+    GENERATED_PRISM_CONTEXT_PRIMES.echoLotusPrime;
+  const pAcoustics = GENERATED_PRISM_DOMAIN_BASIS_PRIMES.acoustics;
+  const centiHz =
+    alphaSeed <= 1
+      ? baseCentiHz
+      : baseCentiHz + (s - 1) * (pAcoustics * w0) + Math.max(0, cw - w0) * pAcoustics;
   return Number((centiHz / 100).toFixed(2));
 }
 
@@ -698,7 +718,9 @@ export function verifyCompletePrismModelClosure(
     verifyCompleteGranularSynthesisClosure(bus.wEcology) &&
     verifyHighDefinitionBMeshSynthesis(bus.wBotany) &&
     verifyThreeJointKinematicHierarchy(bus.wArticulation) &&
-    verifyAlphaOmegaParametricClosure(bus.wNeuromorphic, 1)
+    verifyMaterialSynthesisCrossModalObstruction(bus.wPhysics) &&
+    verifyAlphaOmegaParametricClosure(bus.wNeuromorphic, 1) &&
+    verifyObserverHolisticWhyClosure(bus.wNeuromorphic)
   );
 }
 
@@ -1486,16 +1508,24 @@ export interface PlantSpeciesConfig {
   description: string;
 }
 
-export function synthesizeParametricPlantSpeciesConfigs(): Record<
-  PlantSpeciesId,
-  PlantSpeciesConfig
-> {
+export function synthesizeParametricPlantSpeciesConfigs(
+  params?: AlphaOmegaCosmogenesisParameters,
+): Record<PlantSpeciesId, PlantSpeciesConfig> {
   const p2 = GENERATED_PRISM_CONTEXT_PRIMES.meadowPrime; // 2
   const p3 = GENERATED_PRISM_CONTEXT_PRIMES.grovePrime; // 3
   const p5 = GENERATED_PRISM_CONTEXT_PRIMES.crystalPrime; // 5
   const d2 = GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[2].theoreticalDyadicBound; // 4
   const d3 = GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[3].theoreticalDyadicBound; // 8
   const d4 = GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[4].theoreticalDyadicBound; // 16
+  const alphaSeed = clampAlphaSeed(params?.alphaSeed ?? 1);
+  const wBotany = clampPrismBusWeight(
+    params?.manifold?.domains.botany.synapticWeight ??
+      GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial,
+  );
+  const overtoneOrder =
+    wBotany > GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial || alphaSeed > 1
+      ? ` · α${alphaSeed}·w${wBotany}`
+      : '';
 
   return {
     'chime-lily': {
@@ -1505,7 +1535,7 @@ export function synthesizeParametricPlantSpeciesConfigs(): Record<
       primaryHue: '#fef08a',
       emissiveHue: '#facc15',
       acousticRole: 'Crystalline Bell & Marimba Arpeggio',
-      harmonicInterval: `Major Third & Pure Fifth (${p5}:${d2} · ${p3}:${p2})`,
+      harmonicInterval: `Major Third & Pure Fifth (${p5}:${d2} · ${p3}:${p2})${overtoneOrder}`,
       nativeBiome: 'meadow',
       diurnalAffinity: 'dawn',
       description:
@@ -1518,7 +1548,7 @@ export function synthesizeParametricPlantSpeciesConfigs(): Record<
       primaryHue: '#6ee7b7',
       emissiveHue: '#10b981',
       acousticRole: 'Polyrhythmic Kalimba & Warm Bass Pulse',
-      harmonicInterval: `Syncopated Octave & Fourth (${d2}:${p3} · ${p2}:1)`,
+      harmonicInterval: `Syncopated Octave & Fourth (${d2}:${p3} · ${p2}:1)${overtoneOrder}`,
       nativeBiome: 'grove',
       diurnalAffinity: 'golden',
       description:
@@ -1531,7 +1561,7 @@ export function synthesizeParametricPlantSpeciesConfigs(): Record<
       primaryHue: '#5eead4',
       emissiveHue: '#14b8a6',
       acousticRole: 'Rippling Water-Harp & Sub-Harmonic Swell',
-      harmonicInterval: `Minor Sixth & Liquid Delay (${d3}:${p5} · ${p2 * p3}:${p5})`,
+      harmonicInterval: `Minor Sixth & Liquid Delay (${d3}:${p5} · ${p2 * p3}:${p5})${overtoneOrder}`,
       nativeBiome: 'wetland',
       diurnalAffinity: 'twilight',
       description:
@@ -1544,7 +1574,7 @@ export function synthesizeParametricPlantSpeciesConfigs(): Record<
       primaryHue: '#a7f3d0',
       emissiveHue: '#34d399',
       acousticRole: 'Sustained Bowed Pad & Root Fifth Drone',
-      harmonicInterval: `Fundamental & Perfect Fifth (1:1 · ${p3}:${p2})`,
+      harmonicInterval: `Fundamental & Perfect Fifth (1:1 · ${p3}:${p2})${overtoneOrder}`,
       nativeBiome: 'meadow',
       diurnalAffinity: 'twilight',
       description:
@@ -1557,7 +1587,7 @@ export function synthesizeParametricPlantSpeciesConfigs(): Record<
       primaryHue: '#bae6fd',
       emissiveHue: '#38bdf8',
       acousticRole: 'Glass Harmonica & Celestial Choir Overtones',
-      harmonicInterval: `Lydian Fourth & Major Seventh (${p3 * p3 * p5}:${p2 * d4} · ${p3 * p5}:${d3})`,
+      harmonicInterval: `Lydian Fourth & Major Seventh (${p3 * p3 * p5}:${p2 * d4} · ${p3 * p5}:${d3})${overtoneOrder}`,
       nativeBiome: 'sanctuary',
       diurnalAffinity: 'starlight',
       description:
@@ -1582,10 +1612,22 @@ export function computeEcologicalAffinity(
   biome: BiomeId,
   species: PlantSpeciesId,
   atmosphere: AtmosphereId,
+  cosmogenesis?: AlphaOmegaCosmogenesisParameters,
 ): EcologicalAffinityResult {
-  const spCfg = PLANT_SPECIES_CONFIGS[species];
+  const speciesConfigs = cosmogenesis
+    ? synthesizeParametricPlantSpeciesConfigs(cosmogenesis)
+    : PLANT_SPECIES_CONFIGS;
+  const spCfg = speciesConfigs[species];
   const isNativeBiome = spCfg.nativeBiome === biome || biome === 'sanctuary';
   const isFavoredSky = spCfg.diurnalAffinity === atmosphere;
+  const wEcology = clampPrismBusWeight(
+    cosmogenesis?.manifold?.domains.ecology.synapticWeight ??
+      GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial,
+  );
+  const busBoost = Math.max(
+    0,
+    (wEcology - GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial) * 0.015,
+  );
 
   if (isNativeBiome && isFavoredSky) {
     return {
@@ -1594,7 +1636,7 @@ export function computeEcologicalAffinity(
       atmosphere,
       affinityTier: 'sanctuary-peak',
       harmonyBonus: 4,
-      emissiveResonance: 1.35,
+      emissiveResonance: Number((1.35 + busBoost).toFixed(3)),
     };
   }
   if (isNativeBiome || isFavoredSky) {
@@ -1604,7 +1646,7 @@ export function computeEcologicalAffinity(
       atmosphere,
       affinityTier: 'native-harmony',
       harmonyBonus: 2,
-      emissiveResonance: 1.15,
+      emissiveResonance: Number((1.15 + busBoost).toFixed(3)),
     };
   }
   return {
@@ -1613,7 +1655,7 @@ export function computeEcologicalAffinity(
     atmosphere,
     affinityTier: 'symbiotic-adaptation',
     harmonyBonus: 1,
-    emissiveResonance: 1.0,
+    emissiveResonance: Number((1.0 + busBoost).toFixed(3)),
   };
 }
 
@@ -1974,30 +2016,51 @@ export function evaluateSpatialWaveAcoustics(params: {
   distanceMeters: number;
   acousticOcclusion?: number;
   atmosphere?: AtmosphereId;
+  cosmogenesis?: AlphaOmegaCosmogenesisParameters;
+  physicsWeight?: number;
 }): SpatialWaveAcousticsEvaluation {
-  const { distanceMeters, acousticOcclusion = 0, atmosphere = 'dawn' } = params;
+  const {
+    distanceMeters,
+    acousticOcclusion = 0,
+    atmosphere = 'dawn',
+    cosmogenesis,
+    physicsWeight = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial,
+  } = params;
   const d = Math.max(0, distanceMeters);
-  const refDist = 6.5;
+  const refDist = VERDANT_ACOUSTIC_STANDARD.referenceDistanceMeters;
+  const minGain = VERDANT_ACOUSTIC_STANDARD.minDistanceGainMultiplier;
   const rawGain = 1 / (1 + d / refDist);
-  const distanceGainMultiplier = Number(Math.max(0.18, Math.min(1.0, rawGain)).toFixed(3));
+  const distanceGainMultiplier = Number(Math.max(minGain, Math.min(1.0, rawGain)).toFixed(3));
 
-  const atmosCfg = ATMOSPHERE_CONFIGS[atmosphere];
+  const atmosConfigs = cosmogenesis
+    ? synthesizeParametricAtmosphereConfigs(cosmogenesis)
+    : ATMOSPHERE_CONFIGS;
+  const atmosCfg = atmosConfigs[atmosphere];
   // Higher fog density (Dawn/Twilight mist) increases Stokes-Kirchhoff high-frequency absorption over distance
   const mistAbsorptionFactor = 1 + (atmosCfg.fogDensity - 0.014) * 35;
   const rawAirCutoff = 4800 * Math.exp(-0.028 * d * mistAbsorptionFactor);
   const airAbsorptionCutoffHz = Math.round(Math.max(680, Math.min(4800, rawAirCutoff)));
 
   const clampedOcc = Math.max(0, Math.min(0.45, acousticOcclusion));
+  const baselineShadowPermille = stepCrossModalAcousticShadowPermille(
+    GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial,
+  );
+  const shadowScale =
+    baselineShadowPermille > 0
+      ? stepCrossModalAcousticShadowPermille(physicsWeight) / baselineShadowPermille
+      : 1.0;
   // Obstacle diffraction attenuates wavelengths shorter than the obstacle radius
   const occlusionLowpassHz = Math.round(
-    Math.max(520, airAbsorptionCutoffHz * (1 - clampedOcc * 1.15)),
+    Math.max(520, airAbsorptionCutoffHz * (1 - clampedOcc * 1.15 * shadowScale)),
   );
   const effectiveLowpassHz = Math.min(airAbsorptionCutoffHz, occlusionLowpassHz);
 
   const reverbSendBoost = Number(
     Math.min(0.24, (1 - distanceGainMultiplier) * 0.14 + clampedOcc * 0.26).toFixed(3),
   );
-  const waveArrivalDelaySec = Number(Math.min(0.18, d / 343.0).toFixed(4));
+  const waveArrivalDelaySec = Number(
+    Math.min(0.18, d / VERDANT_ACOUSTIC_STANDARD.speedOfSoundMps).toFixed(4),
+  );
 
   return {
     distanceMeters: Number(d.toFixed(2)),
@@ -2237,11 +2300,27 @@ export function groundHeightAt(
 export function biomeAt(
   x: number,
   z: number,
-  biomeConfigs: Record<BiomeId, BiomeConfig> = BIOME_CONFIGS,
+  biomeConfigsOrTopology:
+    | Record<BiomeId, BiomeConfig>
+    | ParametricWorldTopologyModel = BIOME_CONFIGS,
 ): BiomeId {
   let bestBiome: BiomeId = 'meadow';
   let bestDist = Infinity;
-  for (const b of Object.values(biomeConfigs)) {
+  if ('biomeCenters' in biomeConfigsOrTopology) {
+    for (const [bId, center] of Object.entries(biomeConfigsOrTopology.biomeCenters) as [
+      BiomeId,
+      [number, number],
+    ][]) {
+      const d = Math.hypot(x - center[0], z - center[1]);
+      const weightedDist = bId === 'sanctuary' ? d * 1.05 : d;
+      if (weightedDist < bestDist) {
+        bestDist = weightedDist;
+        bestBiome = bId;
+      }
+    }
+    return bestBiome;
+  }
+  for (const b of Object.values(biomeConfigsOrTopology)) {
     const d = Math.hypot(x - b.center[0], z - b.center[1]);
     const weightedDist = b.id === 'sanctuary' ? d * 1.05 : d;
     if (weightedDist < bestDist) {
@@ -2269,11 +2348,12 @@ export function createSeededRng(seed: number): () => number {
 export function computeTerrainNormalTilt(
   x: number,
   z: number,
+  topology: ParametricWorldTopologyModel = DEFAULT_PARAMETRIC_WORLD_TOPOLOGY,
 ): { surfaceTiltX: number; surfaceTiltZ: number; slopeMagnitude: number } {
   const eps = 0.35;
-  const hCenter = groundHeightAt(x, z);
-  const dhdx = (groundHeightAt(x + eps, z) - hCenter) / eps;
-  const dhdz = (groundHeightAt(x, z + eps) - hCenter) / eps;
+  const hCenter = groundHeightAt(x, z, topology);
+  const dhdx = (groundHeightAt(x + eps, z, topology) - hCenter) / eps;
+  const dhdz = (groundHeightAt(x, z + eps, topology) - hCenter) / eps;
   const slopeMagnitude = Number(Math.hypot(dhdx, dhdz).toFixed(4));
   // Tilt around X corresponds to dh/dz; tilt around Z corresponds to -dh/dx
   const surfaceTiltX = Number(Math.max(-0.36, Math.min(0.36, Math.atan(dhdz))).toFixed(4));
@@ -2307,8 +2387,9 @@ export function computeSlopeEmbeddedGroundAnchor(
   z: number,
   baseRadiusMeters: number,
   embedDepthMeters = 0.16,
+  topology: ParametricWorldTopologyModel = DEFAULT_PARAMETRIC_WORLD_TOPOLOGY,
 ): SlopeEmbeddedGroundAnchor {
-  const centerGroundY = groundHeightAt(x, z);
+  const centerGroundY = groundHeightAt(x, z, topology);
   let minPerimeterGroundY = centerGroundY;
   let maxPerimeterGroundY = centerGroundY;
 
@@ -2317,7 +2398,7 @@ export function computeSlopeEmbeddedGroundAnchor(
       const theta = (k / 8) * Math.PI * 2;
       const px = x + Math.cos(theta) * baseRadiusMeters;
       const pz = z + Math.sin(theta) * baseRadiusMeters;
-      const py = groundHeightAt(px, pz);
+      const py = groundHeightAt(px, pz, topology);
       if (py < minPerimeterGroundY) minPerimeterGroundY = py;
       if (py > maxPerimeterGroundY) maxPerimeterGroundY = py;
     }
@@ -2325,7 +2406,7 @@ export function computeSlopeEmbeddedGroundAnchor(
 
   const embeddedBaseY = Number((minPerimeterGroundY - Math.max(0.02, embedDepthMeters)).toFixed(4));
   const embedMarginMeters = Number((minPerimeterGroundY - embeddedBaseY).toFixed(4));
-  const tilt = computeTerrainNormalTilt(x, z);
+  const tilt = computeTerrainNormalTilt(x, z, topology);
 
   return {
     x: Number(x.toFixed(3)),
@@ -2394,10 +2475,14 @@ export interface ConservatorySteppingStoneInstance {
  * Every outcrop is slope-embedded so its bottom (`bottomY`) sits strictly below `minPerimeterGroundY`
  * across its entire footprint on the steep outer amphitheater ridge (zero floating boulders).
  */
-export function generateConservatoryRocks(params?: {
-  alphaSeed?: number;
-  geologicalScaleMultiplier?: number;
-}): ConservatoryRockInstance[] {
+export function generateConservatoryRocks(
+  params?: AlphaOmegaCosmogenesisParameters & {
+    geologicalScaleMultiplier?: number;
+  },
+): ConservatoryRockInstance[] {
+  const topology = params
+    ? synthesizeParametricWorldTopology(params)
+    : DEFAULT_PARAMETRIC_WORLD_TOPOLOGY;
   const rockCount = VERDANT_COSMOGENESIS_STANDARD.inorganicRealm.shorelineBoulderCount;
   const seedPhase = ((clampAlphaSeed(params?.alphaSeed ?? 1) - 1) * Math.PI) / 24;
   const geoScale = Math.max(0.85, Math.min(1.35, params?.geologicalScaleMultiplier ?? 1.0));
@@ -2406,16 +2491,27 @@ export function generateConservatoryRocks(params?: {
 
   for (let i = 0; i < rockCount; i++) {
     const angle = (i / rockCount) * Math.PI * 2 + seedPhase;
-    const rad = 56 + (i % 4) * 4.5;
-    const rx = Number((Math.cos(angle) * rad).toFixed(3));
-    const rz = Number((Math.sin(angle) * rad).toFixed(3));
     const scaleX = Number(((1.2 + (i % 3) * 0.45) * geoScale).toFixed(3));
     const scaleY = Number(((0.9 + (i % 4) * 0.5) * geoScale).toFixed(3));
     const scaleZ = Number(((1.1 + (i % 2) * 0.4) * geoScale).toFixed(3));
     const footprintRadiusMeters = Number((baseGeoRadius * Math.max(scaleX, scaleZ) * 0.78).toFixed(3));
     const halfHeightMeters = baseGeoRadius * scaleY;
 
-    const anchor = computeSlopeEmbeddedGroundAnchor(rx, rz, footprintRadiusMeters, 0.45);
+    let rad = 56 + (i % 4) * 4.5;
+    const minLagoonClearance = topology.lagoonRadiusMeters + footprintRadiusMeters + 2.2;
+    while (
+      Math.hypot(
+        Math.cos(angle) * rad - topology.lagoonCenterXZ[0],
+        Math.sin(angle) * rad - topology.lagoonCenterXZ[1],
+      ) < minLagoonClearance &&
+      rad < 76
+    ) {
+      rad += 1.25;
+    }
+    const rx = Number((Math.cos(angle) * rad).toFixed(3));
+    const rz = Number((Math.sin(angle) * rad).toFixed(3));
+
+    const anchor = computeSlopeEmbeddedGroundAnchor(rx, rz, footprintRadiusMeters, 0.45, topology);
     // Position center so the bottom is deeply embedded below minPerimeterGroundY while 55% of the outcrop rises above
     const centerY = Number((anchor.minPerimeterGroundY + halfHeightMeters * 0.18).toFixed(4));
     const bottomY = Number((centerY - halfHeightMeters).toFixed(4));
@@ -2443,13 +2539,17 @@ export function generateConservatoryRocks(params?: {
 }
 
 /**
- * Authoritative generator for the 28 Shoreline River-Stone Embankment Boulders around the Mirror Lagoon (`[-28, 30]`).
+ * Authoritative generator for the 28 Shoreline River-Stone Embankment Boulders around the Mirror Lagoon (`topology.lagoonCenterXZ`).
  * Every boulder is slope-embedded into the concave shoreline bank (`bottomY < minPerimeterGroundY`).
  */
-export function generateConservatoryShorelineBoulders(params?: {
-  alphaSeed?: number;
-  geologicalScaleMultiplier?: number;
-}): ConservatoryShorelineBoulderInstance[] {
+export function generateConservatoryShorelineBoulders(
+  params?: AlphaOmegaCosmogenesisParameters & {
+    geologicalScaleMultiplier?: number;
+  },
+): ConservatoryShorelineBoulderInstance[] {
+  const topology = params
+    ? synthesizeParametricWorldTopology(params)
+    : DEFAULT_PARAMETRIC_WORLD_TOPOLOGY;
   const count = VERDANT_COSMOGENESIS_STANDARD.neuromorphicBridge.pointKeyBits;
   const seedPhase = ((clampAlphaSeed(params?.alphaSeed ?? 1) - 1) * Math.PI) / 28;
   const geoScale = Math.max(0.85, Math.min(1.25, params?.geologicalScaleMultiplier ?? 1.0));
@@ -2459,15 +2559,15 @@ export function generateConservatoryShorelineBoulders(params?: {
   for (let i = 0; i < count; i++) {
     const a = (i / count) * Math.PI * 2 + (i % 3) * 0.04 + seedPhase;
     const r = 15.05 + (i % 3) * 0.35;
-    const sx = Number((MIRROR_LAGOON_CENTER[0] + Math.cos(a) * r).toFixed(3));
-    const sz = Number((MIRROR_LAGOON_CENTER[1] + Math.sin(a) * r).toFixed(3));
+    const sx = Number((topology.lagoonCenterXZ[0] + Math.cos(a) * r).toFixed(3));
+    const sz = Number((topology.lagoonCenterXZ[1] + Math.sin(a) * r).toFixed(3));
     const scaleX = Number(((1.25 + (i % 3) * 0.3) * geoScale).toFixed(3));
     const scaleY = Number(((0.46 + (i % 2) * 0.14) * geoScale).toFixed(3));
     const scaleZ = Number(((0.95 + (i % 4) * 0.22) * geoScale).toFixed(3));
     const footprintRadiusMeters = Number((baseGeoRadius * Math.max(scaleX, scaleZ) * 0.82).toFixed(3));
     const halfHeightMeters = baseGeoRadius * scaleY;
 
-    const anchor = computeSlopeEmbeddedGroundAnchor(sx, sz, footprintRadiusMeters, 0.14);
+    const anchor = computeSlopeEmbeddedGroundAnchor(sx, sz, footprintRadiusMeters, 0.14, topology);
     const centerY = Number((anchor.minPerimeterGroundY + halfHeightMeters * 0.15).toFixed(4));
     const bottomY = Number((centerY - halfHeightMeters).toFixed(4));
 
@@ -2554,7 +2654,7 @@ export function generateConservatorySteppingStones(
     const scaleZ = Number((0.85 + (i % 2) * 0.15).toFixed(3));
     const footprintRadiusMeters = Number((0.95 * Math.max(scaleX, scaleZ)).toFixed(3));
 
-    const anchor = computeSlopeEmbeddedGroundAnchor(sx, sz, footprintRadiusMeters, 0.08);
+    const anchor = computeSlopeEmbeddedGroundAnchor(sx, sz, footprintRadiusMeters, 0.08, topology);
     const distToLagoon = Math.hypot(
       sx - topology.lagoonCenterXZ[0],
       sz - topology.lagoonCenterXZ[1],
@@ -2591,9 +2691,74 @@ export function generateConservatorySteppingStones(
   return stones;
 }
 
-const CACHED_CONSERVATORY_ROCKS = generateConservatoryRocks();
-const CACHED_SHORELINE_BOULDERS = generateConservatoryShorelineBoulders();
-const CACHED_STEPPING_STONES = generateConservatorySteppingStones();
+const CONSERVATORY_ROCKS_CACHE = new Map<string, ConservatoryRockInstance[]>();
+const SHORELINE_BOULDERS_CACHE = new Map<string, ConservatoryShorelineBoulderInstance[]>();
+const STEPPING_STONES_CACHE = new Map<string, ConservatorySteppingStoneInstance[]>();
+const CONSERVATORY_TREES_CACHE = new Map<string, ConservatoryTreeInstance[]>();
+
+function buildCosmogenesisCacheKey(
+  params?: AlphaOmegaCosmogenesisParameters,
+  extraScale = 1.0,
+): string {
+  const s = clampAlphaSeed(params?.alphaSeed ?? 1);
+  const wP = clampPrismBusWeight(params?.manifold?.domains.physics.synapticWeight ?? 8);
+  const wI = clampPrismBusWeight(params?.manifold?.domains.infrastructure.synapticWeight ?? 8);
+  const wB = clampPrismBusWeight(params?.manifold?.domains.botany.synapticWeight ?? 8);
+  const wE = clampPrismBusWeight(params?.manifold?.domains.ecology.synapticWeight ?? 8);
+  return `${s}:${wP}:${wI}:${wB}:${wE}:${extraScale.toFixed(3)}`;
+}
+
+function getMemoizedConservatoryRocks(
+  params?: AlphaOmegaCosmogenesisParameters & { geologicalScaleMultiplier?: number },
+): ConservatoryRockInstance[] {
+  const key = buildCosmogenesisCacheKey(params, params?.geologicalScaleMultiplier ?? 1.0);
+  let cached = CONSERVATORY_ROCKS_CACHE.get(key);
+  if (!cached) {
+    if (CONSERVATORY_ROCKS_CACHE.size > 64) CONSERVATORY_ROCKS_CACHE.clear();
+    cached = generateConservatoryRocks(params);
+    CONSERVATORY_ROCKS_CACHE.set(key, cached);
+  }
+  return cached;
+}
+
+function getMemoizedShorelineBoulders(
+  params?: AlphaOmegaCosmogenesisParameters & { geologicalScaleMultiplier?: number },
+): ConservatoryShorelineBoulderInstance[] {
+  const key = buildCosmogenesisCacheKey(params, params?.geologicalScaleMultiplier ?? 1.0);
+  let cached = SHORELINE_BOULDERS_CACHE.get(key);
+  if (!cached) {
+    if (SHORELINE_BOULDERS_CACHE.size > 64) SHORELINE_BOULDERS_CACHE.clear();
+    cached = generateConservatoryShorelineBoulders(params);
+    SHORELINE_BOULDERS_CACHE.set(key, cached);
+  }
+  return cached;
+}
+
+function getMemoizedSteppingStones(
+  params?: AlphaOmegaCosmogenesisParameters,
+): ConservatorySteppingStoneInstance[] {
+  const key = buildCosmogenesisCacheKey(params, 1.0);
+  let cached = STEPPING_STONES_CACHE.get(key);
+  if (!cached) {
+    if (STEPPING_STONES_CACHE.size > 64) STEPPING_STONES_CACHE.clear();
+    cached = generateConservatorySteppingStones(params);
+    STEPPING_STONES_CACHE.set(key, cached);
+  }
+  return cached;
+}
+
+function getMemoizedConservatoryTrees(
+  params?: AlphaOmegaCosmogenesisParameters & { canopyFoliageScaleMultiplier?: number },
+): ConservatoryTreeInstance[] {
+  const key = buildCosmogenesisCacheKey(params, params?.canopyFoliageScaleMultiplier ?? 1.0);
+  let cached = CONSERVATORY_TREES_CACHE.get(key);
+  if (!cached) {
+    if (CONSERVATORY_TREES_CACHE.size > 64) CONSERVATORY_TREES_CACHE.clear();
+    cached = generateConservatoryTrees(params);
+    CONSERVATORY_TREES_CACHE.set(key, cached);
+  }
+  return cached;
+}
 
 export interface SpatialSurfaceLawEvaluation {
   x: number;
@@ -2696,9 +2861,10 @@ export function evaluateSpatialSurfaceLaw(
   }
 
   // 7. All 64 Travertine Stepping Stones
+  const steppingStones = getMemoizedSteppingStones(params);
   if (!isHardStructurePlatform) {
-    for (let i = 0; i < CACHED_STEPPING_STONES.length; i++) {
-      const st = CACHED_STEPPING_STONES[i];
+    for (let i = 0; i < steppingStones.length; i++) {
+      const st = steppingStones[i];
       if (Math.hypot(x - st.x, z - st.z) <= st.footprintRadiusMeters + clearanceRadiusMeters) {
         isHardStructurePlatform = true;
         hardPlatformName = 'Travertine Trail Stepping Stone';
@@ -2722,8 +2888,9 @@ export function evaluateSpatialSurfaceLaw(
     rockOutcropName = 'Mirror Lagoon Shoreline River-Stone Boulder Embankment';
   }
   if (!isRockOutcrop) {
-    for (let i = 0; i < CACHED_SHORELINE_BOULDERS.length; i++) {
-      const sb = CACHED_SHORELINE_BOULDERS[i];
+    const shorelineBoulders = getMemoizedShorelineBoulders(params);
+    for (let i = 0; i < shorelineBoulders.length; i++) {
+      const sb = shorelineBoulders[i];
       if (Math.hypot(x - sb.x, z - sb.z) <= sb.footprintRadiusMeters + clearanceRadiusMeters) {
         isRockOutcrop = true;
         rockOutcropName = 'Mirror Lagoon Shoreline River-Stone Boulder';
@@ -2755,8 +2922,9 @@ export function evaluateSpatialSurfaceLaw(
       isRockOutcrop = true;
       rockOutcropName = 'Perimeter Basalt Amphitheater Ridge';
     } else {
-      for (let i = 0; i < CACHED_CONSERVATORY_ROCKS.length; i++) {
-        const rk = CACHED_CONSERVATORY_ROCKS[i];
+      const conservatoryRocks = getMemoizedConservatoryRocks(params);
+      for (let i = 0; i < conservatoryRocks.length; i++) {
+        const rk = conservatoryRocks[i];
         if (Math.hypot(x - rk.x, z - rk.z) <= rk.footprintRadiusMeters + clearanceRadiusMeters) {
           isRockOutcrop = true;
           rockOutcropName = 'Perimeter Basalt Outcrop Boulder';
@@ -2836,10 +3004,11 @@ export interface ConservatoryTreeInstance {
  *      parent tree's scaled, tilted 3D trunk axis (`y = baseY + trunkHeightMeters * hFrac`), guaranteeing every canopy
  *      is physically pierced by and attached to its trunk.
  */
-export function generateConservatoryTrees(params?: {
-  alphaSeed?: number;
-  canopyFoliageScaleMultiplier?: number;
-}): ConservatoryTreeInstance[] {
+export function generateConservatoryTrees(
+  params?: AlphaOmegaCosmogenesisParameters & {
+    canopyFoliageScaleMultiplier?: number;
+  },
+): ConservatoryTreeInstance[] {
   const stalkCount = VERDANT_COSMOGENESIS_STANDARD.organicRealm.phyllotaxisTreeCount;
   const seedAngleOffset =
     ((clampAlphaSeed(params?.alphaSeed ?? 1) - 1) *
@@ -2849,7 +3018,7 @@ export function generateConservatoryTrees(params?: {
   const baseCylinderHeightMeters = 7.6;
   const trees: ConservatoryTreeInstance[] = [];
 
-  const topology = synthesizeParametricWorldTopology({ alphaSeed: params?.alphaSeed ?? 1 });
+  const topology = synthesizeParametricWorldTopology(params);
   const [groveCenterX, groveCenterZ] = topology.biomeCenters.grove;
 
   for (let i = 0; i < stalkCount; i++) {
@@ -2875,7 +3044,7 @@ export function generateConservatoryTrees(params?: {
       const testR = baseR + Math.floor(attempt / 4) * 0.55;
       const candX = Number((cx + Math.cos(testAngle) * testR).toFixed(3));
       const candZ = Number((cz + Math.sin(testAngle) * testR).toFixed(3));
-      const law = evaluateSpatialSurfaceLaw(candX, candZ, baseRadiusMeters + 0.35);
+      const law = evaluateSpatialSurfaceLaw(candX, candZ, baseRadiusMeters + 0.35, params);
       const blocksPergolaVista =
         !isCrystalSide &&
         Math.abs(candX - groveCenterX) < 2.6 &&
@@ -2889,7 +3058,7 @@ export function generateConservatoryTrees(params?: {
       }
     }
 
-    const anchor = computeSlopeEmbeddedGroundAnchor(bx, bz, baseRadiusMeters, 0.24);
+    const anchor = computeSlopeEmbeddedGroundAnchor(bx, bz, baseRadiusMeters, 0.24, topology);
     const trunkHeightMeters = Number((baseCylinderHeightMeters * scaleY).toFixed(3));
     const baseY = anchor.embeddedBaseY;
     const topY = Number((baseY + trunkHeightMeters).toFixed(4));
@@ -2946,8 +3115,6 @@ export function generateConservatoryTrees(params?: {
   return trees;
 }
 
-const CACHED_CONSERVATORY_TREES = generateConservatoryTrees();
-
 export interface ConservatoryGrassBladeInstance {
   index: number;
   valid: boolean;
@@ -2966,10 +3133,15 @@ export interface ConservatoryGrassBladeInstance {
  * Enforces `evaluateSpatialSurfaceLaw` so zero grass blades grow out of hard structure platforms, stone pathways,
  * stepping stones, or rocks, and embeds each blade's root collar `0.03m` into the fertile turf.
  */
-export function generateConservatoryGrassBlades(params?: {
-  alphaSeed?: number;
-  turfBladeHeightMultiplier?: number;
-}): ConservatoryGrassBladeInstance[] {
+export function generateConservatoryGrassBlades(
+  params?: AlphaOmegaCosmogenesisParameters & {
+    turfBladeHeightMultiplier?: number;
+  },
+): ConservatoryGrassBladeInstance[] {
+  const topology = params
+    ? synthesizeParametricWorldTopology(params)
+    : DEFAULT_PARAMETRIC_WORLD_TOPOLOGY;
+  const trees = getMemoizedConservatoryTrees(params);
   const GRASS_COUNT = VERDANT_COSMOGENESIS_STANDARD.organicRealm.permeableTurfBladeCount;
   const goldenAngleRad = GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.goldenAngleRad;
   const seedSpiralOffset = (clampAlphaSeed(params?.alphaSeed ?? 1) - 1) * goldenAngleRad;
@@ -2988,8 +3160,8 @@ export function generateConservatoryGrassBlades(params?: {
       const testR = r + (attempt % 3) * 0.65;
       const candX = Number((Math.cos(testA) * testR).toFixed(3));
       const candZ = Number((Math.sin(testA) * testR - 8).toFixed(3));
-      const law = evaluateSpatialSurfaceLaw(candX, candZ, 0.18);
-      const treeHit = CACHED_CONSERVATORY_TREES.some(
+      const law = evaluateSpatialSurfaceLaw(candX, candZ, 0.18, params);
+      const treeHit = trees.some(
         (t) => Math.hypot(candX - t.x, candZ - t.z) < t.baseRadiusMeters + 0.2,
       );
       if (law.canSupportGrass && !treeHit) {
@@ -3000,8 +3172,8 @@ export function generateConservatoryGrassBlades(params?: {
       }
     }
 
-    const anchor = computeSlopeEmbeddedGroundAnchor(gx, gz, 0.09, 0.03);
-    const b = biomeAt(gx, gz);
+    const anchor = computeSlopeEmbeddedGroundAnchor(gx, gz, 0.09, 0.03, topology);
+    const b = biomeAt(gx, gz, topology);
     const colorHex =
       b === 'meadow'
         ? '#4ade80'
@@ -3225,13 +3397,15 @@ export function generateGardenPlants(
     },
   ];
 
+  const trees = getMemoizedConservatoryTrees(cosmoParams);
+
   const resolveFertilePlantCoords = (
     initX: number,
     initZ: number,
     biomeCenter: [number, number],
     allowSubmerged: boolean,
   ): { x: number; z: number } => {
-    for (let attempt = 0; attempt < 36; attempt++) {
+    for (let attempt = 0; attempt < 64; attempt++) {
       let candX = initX;
       let candZ = initZ;
       if (attempt > 0) {
@@ -3247,7 +3421,7 @@ export function generateGardenPlants(
       const law = evaluateSpatialSurfaceLaw(candX, candZ, 0.55, cosmoParams);
       if (!law.canSupportPlant) continue;
       if (!allowSubmerged && law.isSubmergedLagoon) continue;
-      const hitsTree = CACHED_CONSERVATORY_TREES.some(
+      const hitsTree = trees.some(
         (t) => Math.hypot(candX - t.x, candZ - t.z) < t.baseRadiusMeters + 0.75,
       );
       if (hitsTree) continue;
@@ -3270,7 +3444,7 @@ export function generateGardenPlants(
       biomeConfigs[h.biome].center,
       h.species === 'echo-lotus',
     );
-    const anchor = computeSlopeEmbeddedGroundAnchor(resolved.x, resolved.z, 0.42, 0.02);
+    const anchor = computeSlopeEmbeddedGroundAnchor(resolved.x, resolved.z, 0.42, 0.02, topology);
     const isSubmerged =
       h.species === 'echo-lotus' &&
       Math.hypot(
@@ -3340,8 +3514,10 @@ export function generateGardenPlants(
 
       const law = evaluateSpatialSurfaceLaw(x, z, 0.5, cosmoParams);
       if (!law.canSupportPlant) continue;
+      if (trees.some((t) => Math.hypot(x - t.x, z - t.z) < t.baseRadiusMeters + 0.75)) continue;
+      if (plants.some((p) => Math.hypot(x - p.x, z - p.z) < 1.35)) continue;
 
-      const anchor = computeSlopeEmbeddedGroundAnchor(x, z, 0.42, 0.02);
+      const anchor = computeSlopeEmbeddedGroundAnchor(x, z, 0.42, 0.02, topology);
       const pool = speciesByBiome[b.id];
       const isSubmerged = law.isSubmergedLagoon;
       const nonAquaticPool = pool.filter((sp) => sp !== 'echo-lotus');
@@ -3349,7 +3525,7 @@ export function generateGardenPlants(
         ? 'echo-lotus'
         : nonAquaticPool[Math.floor(rng() * nonAquaticPool.length)];
       const y = isSubmerged ? topology.lagoonWaterSurfaceY : anchor.minPerimeterGroundY;
-      const substrate = classifyPlantGrowthSubstrate(species, x, z);
+      const substrate = classifyPlantGrowthSubstrate(species, x, z, cosmoParams);
       const tilt = isSubmerged
         ? { surfaceTiltX: 0, surfaceTiltZ: 0 }
         : { surfaceTiltX: anchor.surfaceTiltX, surfaceTiltZ: anchor.surfaceTiltZ };
@@ -5682,6 +5858,7 @@ export interface SympatheticParabolicArcEvaluation {
   points: SympatheticParabolicArcPoint[]; // 10 vertices defining 9 parabolic segments (`parabolicArcSegments = 9`)
   arcLengthMeters: number;
   apexHeightMeters: number;
+  clearedObstacleCount: number;
   travelTimeSec: number; // Exact causal arrival time `arcLengthMeters / 6.5 m/s`
   wavefrontNormalizedU: number; // 0..1 position of the Mycorrhizal Action-Potential wavefront (`v = 6.5 m/s`)
   wavefrontPosition: [number, number, number];
@@ -5692,7 +5869,7 @@ export interface SympatheticParabolicArcEvaluation {
  * Computes the 9-segment parabolic cross-pollination filament trajectory (`Foundation.Articulation.V1.Model`
  * `parabolicArcSegments = 9`) and the finite-velocity Mycorrhizal Action-Potential wavefront (`6.5 m/s`,
  * `Foundation.Ecology.V1.Model::actionPotentialWaveSpeedDmps = 65`).
- * Ensures the filament arches gracefully above terrain and monuments rather than clipping straight through hills.
+ * Ensures the filament arches gracefully above terrain, monuments, boulders, and canopy stalks rather than clipping straight through solid obstacles.
  */
 export function computeSympatheticParabolicArc(params: {
   x1: number;
@@ -5703,25 +5880,80 @@ export function computeSympatheticParabolicArc(params: {
   z2: number;
   elapsedSinceTriggerSec: number;
   segments?: number;
+  colliders?: readonly SolidCollider[];
+  topology?: ParametricWorldTopologyModel;
 }): SympatheticParabolicArcEvaluation {
-  const { x1, y1, z1, x2, y2, z2, elapsedSinceTriggerSec, segments = 9 } = params;
-  const horizDist = Math.hypot(x2 - x1, z2 - z1);
+  const {
+    x1,
+    y1,
+    z1,
+    x2,
+    y2,
+    z2,
+    elapsedSinceTriggerSec,
+    segments = 9,
+    colliders,
+    topology = DEFAULT_PARAMETRIC_WORLD_TOPOLOGY,
+  } = params;
+  const dxChord = x2 - x1;
+  const dzChord = z2 - z1;
+  const horizDist = Math.hypot(dxChord, dzChord);
   const midX = (x1 + x2) * 0.5;
   const midZ = (z1 + z2) * 0.5;
-  const midGroundY = groundHeightAt(midX, midZ);
+  const midGroundY = groundHeightAt(midX, midZ, topology);
   const baseLineMidY = (y1 + y2) * 0.5 + 1.15;
-  const terrainClearanceBoost = Math.max(0, midGroundY + 1.35 - baseLineMidY);
-  const apexHeightMeters = Number(
-    (Math.max(0.85, horizDist * 0.18) + terrainClearanceBoost).toFixed(3),
-  );
+  let terrainClearanceBoost = Math.max(0, midGroundY + 1.35 - baseLineMidY);
+
+  // Sample intermediate terrain ridges along the chord so steep hills are cleared smoothly
+  for (let sIdx = 1; sIdx < segments; sIdx++) {
+    const uSample = sIdx / segments;
+    const sx = x1 + dxChord * uSample;
+    const sz = z1 + dzChord * uSample;
+    const sGroundY = groundHeightAt(sx, sz, topology);
+    const sBaseY = y1 + 1.15 + (y2 - y1) * uSample;
+    const denom = Math.max(0.16, 4 * uSample * (1 - uSample));
+    const neededApex = (sGroundY + 1.15 - sBaseY) / denom;
+    if (neededApex > Math.max(0.85, horizDist * 0.18) + terrainClearanceBoost) {
+      terrainClearanceBoost = neededApex - Math.max(0.85, horizDist * 0.18);
+    }
+  }
+
+  let requiredApex = Math.max(0.85, horizDist * 0.18) + terrainClearanceBoost;
+  let clearedObstacleCount = 0;
+
+  if (colliders && colliders.length > 0 && horizDist > 0.25) {
+    const chordLenSq = dxChord * dxChord + dzChord * dzChord;
+    for (let i = 0; i < colliders.length; i++) {
+      const col = colliders[i];
+      const uProj = ((col.x - x1) * dxChord + (col.z - z1) * dzChord) / chordLenSq;
+      if (uProj <= 0.06 || uProj >= 0.94) continue;
+      const closestX = x1 + dxChord * uProj;
+      const closestZ = z1 + dzChord * uProj;
+      const perpDist = Math.hypot(col.x - closestX, col.z - closestZ);
+      if (perpDist >= col.radiusMeters + 0.35) continue;
+
+      const obstacleTopY = groundHeightAt(col.x, col.z, topology) + col.heightMeters + 0.38;
+      const baseAtU = y1 + 1.15 + (y2 - y1) * uProj;
+      const parabolaWeight = Math.max(0.22, 4 * uProj * (1 - uProj));
+      const neededObstacleApex = (obstacleTopY - baseAtU) / parabolaWeight;
+      if (neededObstacleApex > 0) {
+        clearedObstacleCount += 1;
+        if (neededObstacleApex > requiredApex) {
+          requiredApex = Math.min(14.5, neededObstacleApex);
+        }
+      }
+    }
+  }
+
+  const apexHeightMeters = Number(requiredApex.toFixed(3));
 
   const points: SympatheticParabolicArcPoint[] = [];
   let arcLengthMeters = 0;
 
   for (let i = 0; i <= segments; i++) {
     const u = i / segments;
-    const px = x1 + (x2 - x1) * u;
-    const pz = z1 + (z2 - z1) * u;
+    const px = x1 + dxChord * u;
+    const pz = z1 + dzChord * u;
     const basePy = y1 + 1.15 + (y2 - y1) * u;
     const parabola = 4 * apexHeightMeters * u * (1 - u);
     const py = basePy + parabola;
@@ -5744,8 +5976,8 @@ export function computeSympatheticParabolicArc(params: {
   const wavefrontNormalizedU = Number(
     Math.max(0, Math.min(1, elapsedSinceTriggerSec / travelTimeSec)).toFixed(3),
   );
-  const wfX = x1 + (x2 - x1) * wavefrontNormalizedU;
-  const wfZ = z1 + (z2 - z1) * wavefrontNormalizedU;
+  const wfX = x1 + dxChord * wavefrontNormalizedU;
+  const wfZ = z1 + dzChord * wavefrontNormalizedU;
   const wfY =
     y1 +
     1.15 +
@@ -5756,6 +5988,7 @@ export function computeSympatheticParabolicArc(params: {
     points,
     arcLengthMeters: Number(arcLengthMeters.toFixed(3)),
     apexHeightMeters,
+    clearedObstacleCount,
     travelTimeSec,
     wavefrontNormalizedU,
     wavefrontPosition: [Number(wfX.toFixed(3)), Number(wfY.toFixed(3)), Number(wfZ.toFixed(3))],
@@ -5793,6 +6026,7 @@ export function computeCardinalWayfinder(
   playerX: number,
   playerZ: number,
   playerYaw: number,
+  topology?: ParametricWorldTopologyModel,
 ): {
   compassCardinal: 'N' | 'NE' | 'E' | 'SE' | 'S' | 'SW' | 'W' | 'NW';
   headingDeg: number;
@@ -5814,11 +6048,14 @@ export function computeCardinalWayfinder(
     'NW',
   ];
   const idx = Math.round(headingDeg / 45) % 8;
-  const currentBiome = biomeAt(playerX, playerZ);
+  const currentBiome = biomeAt(playerX, playerZ, topology ?? BIOME_CONFIGS);
+  const monuments = topology
+    ? synthesizeParametricBiomeMonuments({ alphaSeed: topology.alphaSeed })
+    : BIOME_MONUMENTS;
   return {
     compassCardinal: dirs[idx],
     headingDeg,
-    focalMonument: BIOME_MONUMENTS[currentBiome].monumentName,
+    focalMonument: monuments[currentBiome].monumentName,
   };
 }
 
@@ -7825,7 +8062,9 @@ export type ColliderCategoryId =
   | 'bamboo-stalk'
   | 'quartz-stalk'
   | 'perimeter-boulder'
-  | 'flora-stem-core';
+  | 'shoreline-boulder'
+  | 'flora-stem-core'
+  | 'immanent-witness';
 
 export interface SolidCollider {
   id: string;
@@ -7844,6 +8083,20 @@ export interface PermeableMediumDescriptor {
   isObstruction: false;
   physicalResponse: string;
   acousticSignature: string;
+}
+
+export interface MaterialSynthesisCrossModalObstructionSpec {
+  synthesisCompoundCount: number;
+  crossModalChannelCount: number;
+  solidMechanicalTransmittancePermille: number;
+  quartzPhaseVelocityRetardationPermille: number;
+  lagoonHydroMomentumObstructionPermille: number;
+  stoneAcousticImpedanceReflectionPermille: number;
+  staticPairwiseOverlapCount: number;
+  immanentWitnessColliderCoupled: boolean;
+  wetlandLanternAndShorelineBoulderCollidersEnabled: boolean;
+  sympatheticArcObstacleClearanceEnabled: boolean;
+  crossModalObstructionComplete: boolean;
 }
 
 export interface EnvironmentalPhysicsStandardModel {
@@ -7880,6 +8133,7 @@ export interface EnvironmentalPhysicsStandardModel {
   hardSurfaceOrRockFloraGrowthCount: number;
   surfaceMaterials: SurfaceMaterialId[];
   permeableMediaCatalog: PermeableMediumDescriptor[];
+  materialObstruction: MaterialSynthesisCrossModalObstructionSpec;
   neuromorphicBridge: NeuromorphicDomainBridgeSpec;
 }
 
@@ -7950,7 +8204,7 @@ export const VERDANT_PHYSICS_STANDARD: EnvironmentalPhysicsStandardModel = {
       name: 'Meadow Grass & Bioluminescent Reeds (360 Blades)',
       isObstruction: false,
       physicalResponse:
-        'Zero locomotion obstruction; blades within 1.85m bend radially away up to 38° via Hooke’s law elasticity and return smoothly in the advected wind field.',
+        'Zero locomotion obstruction; blades within 1.85m bend radially away up to 38° via Hooke’s law elasticity from both the player and the 7-part Immanent Witness and return smoothly in the advected wind field.',
       acousticSignature: 'Soft botanical turf brush & rustling reed overtones.',
     },
     {
@@ -7986,6 +8240,9 @@ export const VERDANT_PHYSICS_STANDARD: EnvironmentalPhysicsStandardModel = {
       acousticSignature: 'Purely optical & psychoacoustic shimmer.',
     },
   ],
+  materialObstruction: {
+    ...GENERATED_PRISM_STANDARDS.physics.materialObstruction,
+  },
   neuromorphicBridge: {
     ...GENERATED_PRISM_STANDARDS.physics.neuromorphicBridge,
   },
@@ -7993,8 +8250,9 @@ export const VERDANT_PHYSICS_STANDARD: EnvironmentalPhysicsStandardModel = {
 
 /**
  * Builds the deterministic registry of solid 2D circular colliders across the garden.
- * Uses the exact slope-embedded tree (`CACHED_CONSERVATORY_TREES`) and rock (`CACHED_CONSERVATORY_ROCKS`)
- * positions generated by the authoritative Prism Spatial Coherence API.
+ * Uses the parametric memoized tree (`getMemoizedConservatoryTrees`), perimeter rock (`getMemoizedConservatoryRocks`),
+ * and shoreline boulder (`getMemoizedShorelineBoulders`) registries generated by the Prism Spatial Coherence API,
+ * plus all 5 Observer inorganic monuments (including the 5 Wetland Hydro-Lantern Piers).
  */
 export function buildGardenColliders(
   plants: GardenPlantInstance[],
@@ -8006,12 +8264,11 @@ export function buildGardenColliders(
   const meadow = inorg.monuments.meadow.meadow!;
   const grove = inorg.monuments.grove.grove!;
   const crystal = inorg.monuments.crystal.crystal!;
-  const trees = cosmogenesisParams
-    ? generateConservatoryTrees(cosmogenesisParams)
-    : CACHED_CONSERVATORY_TREES;
-  const rocks = cosmogenesisParams
-    ? generateConservatoryRocks(cosmogenesisParams)
-    : CACHED_CONSERVATORY_ROCKS;
+  const wetland = inorg.monuments.wetland.wetland!;
+  const trees = getMemoizedConservatoryTrees(cosmogenesisParams);
+  const rocks = getMemoizedConservatoryRocks(cosmogenesisParams);
+  const shorelineBoulders = getMemoizedShorelineBoulders(cosmogenesisParams);
+  const speciesConfigs = synthesizeParametricPlantSpeciesConfigs(cosmogenesisParams);
 
   // 1. Sanctuary Pavilion: Central Obelisk Core + Colonnade Columns
   colliders.push({
@@ -8098,7 +8355,23 @@ export function buildGardenColliders(
     });
   }
 
-  // 5. Grove Bamboo Culms & Crystal Cavern Stalks
+  // 5. Wetland Hydro-Lantern Piers: 5 Central Lantern Posts (the surrounding 0.96m stone pads remain walkable!)
+  for (let i = 0; i < wetland.pierCount; i++) {
+    const a = (i / wetland.pierCount) * Math.PI * 2;
+    const r = i === 0 ? 0 : wetland.outerPierRingRadius;
+    colliders.push({
+      id: `col-wetland-lantern-${i + 1}`,
+      category: 'monument-column',
+      label: 'Wetland Hydro-Lantern Pier Column',
+      x: Number((wetland.centerXZ[0] + Math.cos(a) * r).toFixed(2)),
+      z: Number((wetland.centerXZ[1] + Math.sin(a) * r).toFixed(2)),
+      radiusMeters: Number((0.24 * inorg.monuments.wetland.structuralScale).toFixed(2)),
+      heightMeters: wetland.pagodaRoofY,
+      acousticOcclusion: 0.14,
+    });
+  }
+
+  // 6. Grove Bamboo Culms & Crystal Cavern Stalks
   for (let i = 0; i < trees.length; i++) {
     const tree = trees[i];
     colliders.push({
@@ -8113,7 +8386,7 @@ export function buildGardenColliders(
     });
   }
 
-  // 6. Perimeter Rock Outcrop Boulders
+  // 7. Perimeter Rock Outcrop Boulders
   for (let i = 0; i < rocks.length; i++) {
     const rk = rocks[i];
     colliders.push({
@@ -8128,7 +8401,22 @@ export function buildGardenColliders(
     });
   }
 
-  // 7. Upright Flora Basal Stem Cores (Chime Lily, Pulse Fern, Star Orchid have a narrow 0.34m woody/crystalline core;
+  // 8. Mirror Lagoon Shoreline River-Stone Boulders (28 embedded embankment boulders)
+  for (let i = 0; i < shorelineBoulders.length; i++) {
+    const sb = shorelineBoulders[i];
+    colliders.push({
+      id: `col-shoreline-boulder-${i + 1}`,
+      category: 'shoreline-boulder',
+      label: 'Mirror Lagoon Shoreline River-Stone Boulder',
+      x: sb.x,
+      z: sb.z,
+      radiusMeters: Number((sb.footprintRadiusMeters * 0.68).toFixed(2)),
+      heightMeters: Number(Math.max(0.42, (sb.centerY - sb.bottomY) * 2).toFixed(2)),
+      acousticOcclusion: 0.18,
+    });
+  }
+
+  // 9. Upright Flora Basal Stem Cores (Chime Lily, Pulse Fern, Star Orchid have a narrow 0.34m woody/crystalline core;
   //    Drone Moss cushions & floating Echo Lotus pads are 100% permeable so the player can walk over them)
   for (let i = 0; i < plants.length; i++) {
     const p = plants[i];
@@ -8138,11 +8426,11 @@ export function buildGardenColliders(
     colliders.push({
       id: `col-flora-${p.id}`,
       category: 'flora-stem-core',
-      label: `${PLANT_SPECIES_CONFIGS[p.species].name} Basal Stem`,
+      label: `${speciesConfigs[p.species].name} Basal Stem`,
       x: p.x,
       z: p.z,
-      radiusMeters: 0.34 * p.scale,
-      heightMeters: 2.1 * p.scale,
+      radiusMeters: Number((0.34 * p.scale).toFixed(3)),
+      heightMeters: Number((2.1 * p.scale).toFixed(2)),
       acousticOcclusion: 0.08,
     });
   }
@@ -8160,6 +8448,7 @@ export function buildGardenColliders(
 export function registerEmergentSeedlingCollider(
   colliders: SolidCollider[],
   plant: GardenPlantInstance,
+  cosmogenesisParams?: AlphaOmegaCosmogenesisParameters,
 ): SolidCollider | null {
   if (plant.species === 'drone-moss' || plant.species === 'echo-lotus') {
     return null;
@@ -8168,10 +8457,11 @@ export function registerEmergentSeedlingCollider(
   const existing = colliders.find((c) => c.id === colId);
   if (existing) return existing;
 
+  const speciesConfigs = synthesizeParametricPlantSpeciesConfigs(cosmogenesisParams);
   const newCollider: SolidCollider = {
     id: colId,
     category: 'flora-stem-core',
-    label: `${PLANT_SPECIES_CONFIGS[plant.species].name} Basal Stem`,
+    label: `${speciesConfigs[plant.species].name} Basal Stem`,
     x: plant.x,
     z: plant.z,
     radiusMeters: Number((0.34 * plant.scale).toFixed(3)),
@@ -8180,6 +8470,281 @@ export function registerEmergentSeedlingCollider(
   };
   colliders.push(newCollider);
   return newCollider;
+}
+
+/**
+ * Counts pairwise geometric overlaps among all static solid colliders (`category !== 'immanent-witness'`).
+ * Formal invariant (`Foundation.Physics.V1.Model::MaterialSynthesisCrossModalObstructionSpec.staticPairwiseOverlapCount = 0`):
+ * No two static architectural, boulder, canopy-stalk, or flora-stem colliders may interpenetrate.
+ */
+export function countStaticColliderPairwiseOverlaps(colliders: readonly SolidCollider[]): number {
+  let overlaps = 0;
+  for (let i = 0; i < colliders.length; i++) {
+    const a = colliders[i];
+    if (a.category === 'immanent-witness') continue;
+    for (let j = i + 1; j < colliders.length; j++) {
+      const b = colliders[j];
+      if (b.category === 'immanent-witness') continue;
+      const d = Math.hypot(a.x - b.x, a.z - b.z);
+      if (d < a.radiusMeters + b.radiusMeters - 0.01) {
+        overlaps += 1;
+      }
+    }
+  }
+  return overlaps;
+}
+
+/**
+ * Synchronizes the live 7-part sculptural Immanent Observer Witness into the solid collider registry
+ * (`Foundation.Physics.V1.Model::MaterialSynthesisCrossModalObstructionSpec.immanentWitnessColliderCoupled`).
+ * Ensures locomotion tangential sliding, airborne spore potential-flow deflection, acoustic diffraction shadow,
+ * and sympathetic arc clearance treat the embodied Witness as an authentic physical body in the conservatory.
+ */
+export function syncImmanentWitnessCollider(
+  colliders: SolidCollider[],
+  witness: Pick<ImmanentObserverPresenceState, 'x' | 'z' | 'scaleMultiplier'>,
+): SolidCollider {
+  const radiusMeters = Number((0.46 * Math.max(0.75, witness.scaleMultiplier)).toFixed(3));
+  const heightMeters = Number((2.05 * Math.max(0.75, witness.scaleMultiplier)).toFixed(2));
+  const existing = colliders.find((c) => c.id === 'col-immanent-witness');
+  if (existing) {
+    existing.x = Number(witness.x.toFixed(3));
+    existing.z = Number(witness.z.toFixed(3));
+    existing.radiusMeters = radiusMeters;
+    existing.heightMeters = heightMeters;
+    return existing;
+  }
+  const created: SolidCollider = {
+    id: 'col-immanent-witness',
+    category: 'immanent-witness',
+    label: 'Immanent Observer 7-Part Witness',
+    x: Number(witness.x.toFixed(3)),
+    z: Number(witness.z.toFixed(3)),
+    radiusMeters,
+    heightMeters,
+    acousticOcclusion: 0.16,
+  };
+  colliders.push(created);
+  return created;
+}
+
+export type CrossModalChannelId =
+  | 'mechanical'
+  | 'optical'
+  | 'acoustic'
+  | 'hydrodynamic'
+  | 'aerodynamic'
+  | 'biogeochemical';
+
+export const CROSS_MODAL_CHANNELS: readonly CrossModalChannelId[] = [
+  'mechanical',
+  'optical',
+  'acoustic',
+  'hydrodynamic',
+  'aerodynamic',
+  'biogeochemical',
+] as const;
+
+export interface CompoundCrossModalObstructionEntry {
+  compoundId: MatterCompoundId;
+  compoundName: string;
+  matterCategory: 'inorganic' | 'organic';
+  densityGPerCm3: number;
+  bulkElasticModulusGPa: number;
+  acousticWaveSpeedMps: number;
+  opticalRefractiveIndex: number;
+  /** Permille [0..1000]: 0 = impassable solid exclusion, 1000 = unimpeded locomotion */
+  mechanicalTransmittancePermille: number;
+  /** Permille [0..1000]: optical phase-velocity retardation `(1 - 1/n) * 1000` modulated by synaptic plasticity */
+  opticalPhaseRetardationPermille: number;
+  /** Permille [0..999]: acoustic impedance power reflection `((Z_m - Z_air)/(Z_m + Z_air))^2` */
+  acousticImpedanceReflectionPermille: number;
+  /** Permille [0..1000]: hydrodynamic momentum drag / boundary obstruction */
+  hydrodynamicMomentumObstructionPermille: number;
+  /** Permille [0..1000]: aerodynamic potential-flow & spore boundary deflection */
+  aerodynamicVortexObstructionPermille: number;
+  /** Permille [0..1000]: biogeochemical terrestrial root-penetration exclusion */
+  biogeochemicalRootObstructionPermille: number;
+}
+
+export interface MaterialSynthesisCrossModalObstructionReport {
+  physicsWeight: number;
+  synthesisCompoundCount: number;
+  crossModalChannelCount: number;
+  crossModalPhaseObstructionPermille: number;
+  crossModalAcousticShadowPermille: number;
+  quartzPhaseVelocityRetardationPermille: number;
+  stoneAcousticImpedanceReflectionPermille: number;
+  lagoonHydroMomentumObstructionPermille: number;
+  solidMechanicalTransmittancePermille: number;
+  staticPairwiseOverlapCount: number;
+  colliderCategoryCoverageCount: number;
+  immanentWitnessColliderPresent: boolean;
+  wetlandLanternColliderCount: number;
+  shorelineBoulderColliderCount: number;
+  compounds: Record<MatterCompoundId, CompoundCrossModalObstructionEntry>;
+  allChannelsConsistent: boolean;
+}
+
+/**
+ * Evaluates the 6-Compound × 6-Channel Material-Synthesis Cross-Modal Obstruction Law
+ * (`Foundation.Physics.V1.Model::MaterialSynthesisCrossModalObstructionSpec` &
+ * `verifyMaterialSynthesisCrossModalObstruction`).
+ * Binds Tier-4 synthesized matter compounds (`MATTER_COMPOUNDS`: density `rho`, bulk modulus `E`,
+ * acoustic wave speed `c_s = sqrt(E/rho)`, and refractive index `n`) directly to mechanical exclusion,
+ * optical phase retardation, acoustic impedance reflection, hydrodynamic drag, aerodynamic spore deflection,
+ * and biogeochemical substrate root exclusion.
+ */
+export function evaluateMaterialSynthesisCrossModalObstruction(params?: {
+  physicsWeight?: number;
+  colliders?: readonly SolidCollider[];
+}): MaterialSynthesisCrossModalObstructionReport {
+  const physicsWeight = Math.max(1, Math.min(20, Math.round(params?.physicsWeight ?? 8)));
+  const crossModalPhaseObstructionPermille = stepCrossModalPhaseObstructionPermille(physicsWeight);
+  const crossModalAcousticShadowPermille = stepCrossModalAcousticShadowPermille(physicsWeight);
+  const plasticityScale = crossModalPhaseObstructionPermille / stepCrossModalPhaseObstructionPermille(8);
+
+  const airAcousticImpedanceRayl = 413; // 1.204 kg/m^3 * 343 m/s
+  const compounds = {} as Record<MatterCompoundId, CompoundCrossModalObstructionEntry>;
+
+  for (const compoundId of Object.keys(MATTER_COMPOUNDS) as MatterCompoundId[]) {
+    const spec = MATTER_COMPOUNDS[compoundId];
+    const isRigidMineralOrStem =
+      compoundId === 'travertine-limestone-spar' ||
+      compoundId === 'piezoelectric-quartz-geode' ||
+      compoundId === 'lignocellulosic-vascular-tissue';
+
+    const mechanicalTransmittancePermille = isRigidMineralOrStem
+      ? VERDANT_PHYSICS_STANDARD.materialObstruction.solidMechanicalTransmittancePermille
+      : compoundId === 'structured-hydro-mineral-electrolyte'
+        ? 1000 - VERDANT_PHYSICS_STANDARD.materialObstruction.lagoonHydroMomentumObstructionPermille
+        : compoundId === 'bioluminescent-mycelial-humus'
+          ? 920
+          : 1000;
+
+    const baseOpticalRetardation = Math.round((1 - 1 / spec.opticalRefractiveIndex) * 1000);
+    const opticalPhaseRetardationPermille =
+      compoundId === 'piezoelectric-quartz-geode' && physicsWeight === 8
+        ? baseOpticalRetardation
+        : Math.min(950, Math.max(50, Math.round(baseOpticalRetardation * plasticityScale)));
+
+    const mediumImpedanceRayl = spec.compoundDensityGPerCm3 * 1000 * spec.acousticWaveSpeedMps;
+    const impedanceRatio =
+      (mediumImpedanceRayl - airAcousticImpedanceRayl) /
+      (mediumImpedanceRayl + airAcousticImpedanceRayl);
+    const acousticImpedanceReflectionPermille = Math.min(
+      999,
+      Math.max(1, Math.round(impedanceRatio * impedanceRatio * 1000)),
+    );
+
+    const hydrodynamicMomentumObstructionPermille = isRigidMineralOrStem
+      ? 1000
+      : compoundId === 'structured-hydro-mineral-electrolyte'
+        ? VERDANT_PHYSICS_STANDARD.materialObstruction.lagoonHydroMomentumObstructionPermille
+        : compoundId === 'bioluminescent-mycelial-humus'
+          ? 120
+          : 0;
+
+    const aerodynamicVortexObstructionPermille = isRigidMineralOrStem
+      ? 1000
+      : compoundId === 'structured-hydro-mineral-electrolyte'
+        ? 880
+        : compoundId === 'bioluminescent-mycelial-humus'
+          ? 340
+          : 45;
+
+    const biogeochemicalRootObstructionPermille =
+      compoundId === 'travertine-limestone-spar' || compoundId === 'piezoelectric-quartz-geode'
+        ? 1000
+        : compoundId === 'lignocellulosic-vascular-tissue'
+          ? 850
+          : compoundId === 'structured-hydro-mineral-electrolyte'
+            ? 320
+            : 0;
+
+    compounds[compoundId] = {
+      compoundId,
+      compoundName: spec.name,
+      matterCategory: spec.matterCategory,
+      densityGPerCm3: spec.compoundDensityGPerCm3,
+      bulkElasticModulusGPa: spec.bulkElasticModulusGPa,
+      acousticWaveSpeedMps: spec.acousticWaveSpeedMps,
+      opticalRefractiveIndex: spec.opticalRefractiveIndex,
+      mechanicalTransmittancePermille,
+      opticalPhaseRetardationPermille,
+      acousticImpedanceReflectionPermille,
+      hydrodynamicMomentumObstructionPermille,
+      aerodynamicVortexObstructionPermille,
+      biogeochemicalRootObstructionPermille,
+    };
+  }
+
+  const colliders = params?.colliders;
+  const staticPairwiseOverlapCount = colliders ? countStaticColliderPairwiseOverlaps(colliders) : 0;
+  const presentCategories = new Set<ColliderCategoryId>();
+  let wetlandLanternColliderCount = 0;
+  let shorelineBoulderColliderCount = 0;
+  let immanentWitnessColliderPresent = false;
+  if (colliders) {
+    for (let i = 0; i < colliders.length; i++) {
+      const c = colliders[i];
+      presentCategories.add(c.category);
+      if (c.id.startsWith('col-wetland-lantern-')) wetlandLanternColliderCount += 1;
+      if (c.category === 'shoreline-boulder') shorelineBoulderColliderCount += 1;
+      if (c.category === 'immanent-witness') immanentWitnessColliderPresent = true;
+    }
+  }
+
+  const quartzEntry = compounds['piezoelectric-quartz-geode'];
+  const travertineEntry = compounds['travertine-limestone-spar'];
+  const hydroEntry = compounds['structured-hydro-mineral-electrolyte'];
+  const humusEntry = compounds['bioluminescent-mycelial-humus'];
+
+  const colliderChecksPass = colliders
+    ? staticPairwiseOverlapCount === 0 &&
+      wetlandLanternColliderCount === 5 &&
+      shorelineBoulderColliderCount === 28
+    : true;
+
+  const allChannelsConsistent =
+    Object.keys(compounds).length ===
+      VERDANT_PHYSICS_STANDARD.materialObstruction.synthesisCompoundCount &&
+    CROSS_MODAL_CHANNELS.length ===
+      VERDANT_PHYSICS_STANDARD.materialObstruction.crossModalChannelCount &&
+    verifyMaterialSynthesisCrossModalObstruction(physicsWeight) &&
+    travertineEntry.mechanicalTransmittancePermille === 0 &&
+    quartzEntry.mechanicalTransmittancePermille === 0 &&
+    Math.round((1 - 1 / quartzEntry.opticalRefractiveIndex) * 1000) ===
+      VERDANT_PHYSICS_STANDARD.materialObstruction.quartzPhaseVelocityRetardationPermille &&
+    travertineEntry.acousticImpedanceReflectionPermille ===
+      VERDANT_PHYSICS_STANDARD.materialObstruction.stoneAcousticImpedanceReflectionPermille &&
+    hydroEntry.hydrodynamicMomentumObstructionPermille ===
+      VERDANT_PHYSICS_STANDARD.materialObstruction.lagoonHydroMomentumObstructionPermille &&
+    humusEntry.biogeochemicalRootObstructionPermille === 0 &&
+    colliderChecksPass;
+
+  return {
+    physicsWeight,
+    synthesisCompoundCount: Object.keys(compounds).length,
+    crossModalChannelCount: CROSS_MODAL_CHANNELS.length,
+    crossModalPhaseObstructionPermille,
+    crossModalAcousticShadowPermille,
+    quartzPhaseVelocityRetardationPermille:
+      VERDANT_PHYSICS_STANDARD.materialObstruction.quartzPhaseVelocityRetardationPermille,
+    stoneAcousticImpedanceReflectionPermille:
+      travertineEntry.acousticImpedanceReflectionPermille,
+    lagoonHydroMomentumObstructionPermille:
+      hydroEntry.hydrodynamicMomentumObstructionPermille,
+    solidMechanicalTransmittancePermille:
+      travertineEntry.mechanicalTransmittancePermille,
+    staticPairwiseOverlapCount,
+    colliderCategoryCoverageCount: presentCategories.size,
+    immanentWitnessColliderPresent,
+    wetlandLanternColliderCount,
+    shorelineBoulderColliderCount,
+    compounds,
+    allChannelsConsistent,
+  };
 }
 
 export interface HydrodynamicState {
@@ -8614,9 +9179,18 @@ export function computeFoliageDeflection(params: {
   elapsedSeconds: number;
   playerVX?: number;
   playerVZ?: number;
+  witnessX?: number;
+  witnessZ?: number;
+  witnessVX?: number;
+  witnessVZ?: number;
   rule30Byte?: number;
   synapticWeight?: number;
-}): { tiltXRad: number; tiltZRad: number; isDeflectedByPlayer: boolean } {
+}): {
+  tiltXRad: number;
+  tiltZRad: number;
+  isDeflectedByPlayer: boolean;
+  isDeflectedByWitness: boolean;
+} {
   const {
     bladeX,
     bladeZ,
@@ -8625,41 +9199,63 @@ export function computeFoliageDeflection(params: {
     elapsedSeconds,
     playerVX = 0,
     playerVZ = 0,
+    witnessX,
+    witnessZ,
+    witnessVX = 0,
+    witnessVZ = 0,
     rule30Byte = 142,
     synapticWeight = 8,
   } = params;
   const wind = evaluateWindField(bladeX, bladeZ, elapsedSeconds, rule30Byte, synapticWeight);
-  const dx = bladeX - playerX;
-  const dz = bladeZ - playerZ;
-  const dist = Math.hypot(dx, dz);
   const wakeR = VERDANT_PHYSICS_STANDARD.grassWakeRadiusMeters;
 
-  if (dist >= wakeR || dist < 0.0001) {
+  const evaluateObserverImpulse = (
+    obsX: number,
+    obsZ: number,
+    obsVX: number,
+    obsVZ: number,
+    elasticGain: number,
+  ): { pushXRad: number; pushZRad: number; falloff: number } => {
+    const dx = bladeX - obsX;
+    const dz = bladeZ - obsZ;
+    const dist = Math.hypot(dx, dz);
+    if (dist >= wakeR || dist < 0.0001) {
+      return { pushXRad: 0, pushZRad: 0, falloff: 0 };
+    }
+    const falloff = (1 - dist / wakeR) * (1 - dist / wakeR);
+    const deflectMag = VERDANT_PHYSICS_STANDARD.maxFoliageDeflectionRad * elasticGain * falloff;
+    const speed = Math.hypot(obsVX, obsVZ);
+    const slipBoost = Math.min(0.28, speed * 0.038) * falloff;
+    const slipXRad = speed > 0.05 ? (obsVZ / speed) * slipBoost : 0;
+    const slipZRad = speed > 0.05 ? -(obsVX / speed) * slipBoost : 0;
     return {
-      tiltXRad: wind.windTiltX,
-      tiltZRad: wind.windTiltZ,
-      isDeflectedByPlayer: false,
+      pushXRad: (dz / dist) * deflectMag + slipXRad,
+      pushZRad: -(dx / dist) * deflectMag + slipZRad,
+      falloff,
     };
+  };
+
+  const playerImpulse = evaluateObserverImpulse(playerX, playerZ, playerVX, playerVZ, 1.0);
+  const witnessImpulse =
+    witnessX !== undefined && witnessZ !== undefined
+      ? evaluateObserverImpulse(witnessX, witnessZ, witnessVX, witnessVZ, 0.88)
+      : { pushXRad: 0, pushZRad: 0, falloff: 0 };
+
+  let totalPushX = playerImpulse.pushXRad + witnessImpulse.pushXRad;
+  let totalPushZ = playerImpulse.pushZRad + witnessImpulse.pushZRad;
+  const maxCombinedMag = VERDANT_PHYSICS_STANDARD.maxFoliageDeflectionRad * 1.15;
+  const pushMag = Math.hypot(totalPushX, totalPushZ);
+  if (pushMag > maxCombinedMag) {
+    const clampScale = maxCombinedMag / pushMag;
+    totalPushX *= clampScale;
+    totalPushZ *= clampScale;
   }
 
-  // Smooth quadratic falloff pushing blade radially outward from player center
-  const falloff = (1 - dist / wakeR) * (1 - dist / wakeR);
-  const deflectMag = VERDANT_PHYSICS_STANDARD.maxFoliageDeflectionRad * falloff;
-  // Aerodynamic slipstream vortex wake: when player moves with velocity (playerVX, playerVZ),
-  // blades in the wake also bend along the slipstream vector
-  const speed = Math.hypot(playerVX, playerVZ);
-  const slipBoost = Math.min(0.28, speed * 0.038) * falloff;
-  const slipXRad = speed > 0.05 ? (playerVZ / speed) * slipBoost : 0;
-  const slipZRad = speed > 0.05 ? -(playerVX / speed) * slipBoost : 0;
-
-  // Rotating around X tilts along Z; rotating around Z tilts along -X
-  const pushXRad = (dz / dist) * deflectMag + slipXRad;
-  const pushZRad = -(dx / dist) * deflectMag + slipZRad;
-
   return {
-    tiltXRad: Number((wind.windTiltX + pushXRad).toFixed(4)),
-    tiltZRad: Number((wind.windTiltZ + pushZRad).toFixed(4)),
-    isDeflectedByPlayer: falloff > 0.05,
+    tiltXRad: Number((wind.windTiltX + totalPushX).toFixed(4)),
+    tiltZRad: Number((wind.windTiltZ + totalPushZ).toFixed(4)),
+    isDeflectedByPlayer: playerImpulse.falloff > 0.05,
+    isDeflectedByWitness: witnessImpulse.falloff > 0.05,
   };
 }
 
@@ -12197,8 +12793,13 @@ export function composeLiveSoundtrackScore(params: {
     playerYaw = 0,
     colliders = [],
   } = params;
+  const cosmoParams: AlphaOmegaCosmogenesisParameters = {
+    alphaSeed: neuromorphic.observer.cosmogenesis.alphaSeed,
+    manifold: neuromorphic.universalManifold,
+    harmonyPct,
+  };
   const envLifecycle = evaluateEnvironmentalLifecycle({ harmonyPct, plants, atmosphere });
-  const biomeCfg = BIOME_CONFIGS[biome];
+  const biomeCfg = synthesizeParametricBiomeConfigs(cosmoParams)[biome];
   const stepDurationSec = Number((60 / envLifecycle.tempoBpm / 2).toFixed(3)); // Eighth-note pulse (~0.39s..0.46s)
 
   // Partition awakened flora by lifecycle stage
@@ -12427,13 +13028,20 @@ export interface SpatialGroundingAndSubstrateReport {
  */
 export function verifySpatialGroundingAndSubstrateCoherence(params?: {
   plants?: GardenPlantInstance[];
+  cosmogenesis?: AlphaOmegaCosmogenesisParameters;
 }): SpatialGroundingAndSubstrateReport {
-  const trees = generateConservatoryTrees();
-  const rocks = generateConservatoryRocks();
-  const shorelineBoulders = generateConservatoryShorelineBoulders();
-  const steppingStones = generateConservatorySteppingStones();
-  const plants = params?.plants ? [...params.plants] : generateGardenPlants();
-  const grassBlades = generateConservatoryGrassBlades();
+  const cosmo = params?.cosmogenesis;
+  const topology = cosmo
+    ? synthesizeParametricWorldTopology(cosmo)
+    : DEFAULT_PARAMETRIC_WORLD_TOPOLOGY;
+  const trees = generateConservatoryTrees(cosmo);
+  const rocks = generateConservatoryRocks(cosmo);
+  const shorelineBoulders = generateConservatoryShorelineBoulders(cosmo);
+  const steppingStones = generateConservatorySteppingStones(cosmo);
+  const plants = params?.plants
+    ? [...params.plants]
+    : generateGardenPlants(cosmo ?? { alphaSeed: 1 });
+  const grassBlades = generateConservatoryGrassBlades(cosmo);
 
   let floatingTreeCount = 0;
   let detachedCanopyCount = 0;
@@ -12443,7 +13051,7 @@ export function verifySpatialGroundingAndSubstrateCoherence(params?: {
     if (t.baseY > t.minPerimeterGroundY - 0.05) {
       floatingTreeCount++;
     }
-    const law = evaluateSpatialSurfaceLaw(t.x, t.z, t.baseRadiusMeters);
+    const law = evaluateSpatialSurfaceLaw(t.x, t.z, t.baseRadiusMeters, cosmo);
     if (law.isHardStructurePlatform || law.isRockOutcrop || !law.canSupportTree) {
       treesOnHardSurfaceOrRockCount++;
     }
@@ -12474,13 +13082,13 @@ export function verifySpatialGroundingAndSubstrateCoherence(params?: {
   let floatingPlantCount = 0;
   let plantsOnHardSurfaceOrRockCount = 0;
   for (const p of plants) {
-    const law = evaluateSpatialSurfaceLaw(p.x, p.z, 0.35);
+    const law = evaluateSpatialSurfaceLaw(p.x, p.z, 0.35, cosmo);
     if (law.isHardStructurePlatform || law.isRockOutcrop || !law.canSupportPlant) {
       plantsOnHardSurfaceOrRockCount++;
     }
-    const anchor = computeSlopeEmbeddedGroundAnchor(p.x, p.z, 0.35, 0.02);
+    const anchor = computeSlopeEmbeddedGroundAnchor(p.x, p.z, 0.35, 0.02, topology);
     if (p.species === 'echo-lotus' && law.isSubmergedLagoon) {
-      if (Math.abs(p.y - MIRROR_LAGOON_WATER_SURFACE_Y) > 0.01) {
+      if (Math.abs(p.y - topology.lagoonWaterSurfaceY) > 0.01) {
         floatingPlantCount++;
       }
     } else if (p.y > anchor.minPerimeterGroundY + 0.01) {
@@ -12491,7 +13099,7 @@ export function verifySpatialGroundingAndSubstrateCoherence(params?: {
   let grassOnHardSurfaceOrRockCount = 0;
   for (const g of grassBlades) {
     if (!g.valid) continue;
-    const law = evaluateSpatialSurfaceLaw(g.x, g.z, 0.12);
+    const law = evaluateSpatialSurfaceLaw(g.x, g.z, 0.12, cosmo);
     if (law.isHardStructurePlatform || law.isRockOutcrop || !law.canSupportGrass) {
       grassOnHardSurfaceOrRockCount++;
     }
@@ -12539,6 +13147,7 @@ export interface HolisticSystemCouplingReport {
   causalWavefrontTimingVerified: boolean;
   universalSoundtrackSpatialBindingVerified: boolean;
   spatialGroundingAndSubstrateCoherenceVerified: boolean;
+  materialSynthesisCrossModalObstructionVerified: boolean;
   universalNeuromorphicBusVerified: boolean;
   infrastructureNeuromorphicCouplingVerified: boolean;
   symbioticEnvironmentalAgencyVerified: boolean;
@@ -12659,7 +13268,8 @@ export function verifyHolisticSystemCoupling(params?: {
   });
   const waveRingNormalAlignmentVerified =
     waveStone.waveSpeedMps > waveWater.waveSpeedMps &&
-    waveWater.elevationY === Number((MIRROR_LAGOON_WATER_SURFACE_Y + 0.038).toFixed(3)) &&
+    waveWater.elevationY ===
+      Number((DEFAULT_PARAMETRIC_WORLD_TOPOLOGY.lagoonWaterSurfaceY + 0.038).toFixed(3)) &&
     (Math.abs(waveSlope.surfaceTiltX) > 0.001 || Math.abs(waveSlope.surfaceTiltZ) > 0.001);
 
   // 5. Heliocentric-Phototropic-Shadow Lock across all 4 diurnal atmospheres
@@ -13027,9 +13637,30 @@ export function verifyHolisticSystemCoupling(params?: {
     Object.keys(apexAffectPrefs.preferences).length === 6 &&
     apexAffectPrefs.overallPreferenceHarmonyPct >= baseAffectPrefs.overallPreferenceHarmonyPct;
 
+  // 22. 6-Compound × 6-Channel Material-Synthesis Cross-Modal Obstruction & 7-Class Collider Closure
+  // (`Foundation.Physics.V1.Model::MaterialSynthesisCrossModalObstructionSpec` & `verifyMaterialSynthesisCrossModalObstruction`):
+  const witnessSyncedColliders = [...colliders];
+  syncImmanentWitnessCollider(witnessSyncedColliders, immanent);
+  const crossModalObstructionReport = evaluateMaterialSynthesisCrossModalObstruction({
+    physicsWeight: 8,
+    colliders: witnessSyncedColliders,
+  });
+  const materialSynthesisCrossModalObstructionVerified =
+    VERDANT_PHYSICS_STANDARD.solidColliderClasses === 7 &&
+    VERDANT_PHYSICS_STANDARD.materialObstruction.crossModalObstructionComplete &&
+    verifyMaterialSynthesisCrossModalObstruction(8) &&
+    verifyMaterialSynthesisCrossModalObstruction(16) &&
+    crossModalObstructionReport.allChannelsConsistent &&
+    crossModalObstructionReport.staticPairwiseOverlapCount === 0 &&
+    crossModalObstructionReport.colliderCategoryCoverageCount === 7 &&
+    crossModalObstructionReport.immanentWitnessColliderPresent &&
+    crossModalObstructionReport.wetlandLanternColliderCount === 5 &&
+    crossModalObstructionReport.shorelineBoulderColliderCount === 28;
+
   const completePrismModelClosureVerified =
     GENERATED_VERDANT_JUDGE_ARTIFACT.rootJudgeVerifiesCompleteClosure &&
     verifyCompletePrismModelClosure(sampleClosureRequest) &&
+    materialSynthesisCrossModalObstructionVerified &&
     universalNeuromorphicBusVerified &&
     emergentStakeholderEntityVerified &&
     granularAtomicToEnvironmentalSynthesisVerified &&
@@ -13051,6 +13682,7 @@ export function verifyHolisticSystemCoupling(params?: {
     causalWavefrontTimingVerified &&
     universalSoundtrackSpatialBindingVerified &&
     spatialGroundingAndSubstrateCoherenceVerified &&
+    materialSynthesisCrossModalObstructionVerified &&
     universalNeuromorphicBusVerified &&
     infrastructureNeuromorphicCouplingVerified &&
     symbioticEnvironmentalAgencyVerified &&
@@ -13077,6 +13709,7 @@ export function verifyHolisticSystemCoupling(params?: {
     causalWavefrontTimingVerified,
     universalSoundtrackSpatialBindingVerified,
     spatialGroundingAndSubstrateCoherenceVerified,
+    materialSynthesisCrossModalObstructionVerified,
     universalNeuromorphicBusVerified,
     infrastructureNeuromorphicCouplingVerified,
     symbioticEnvironmentalAgencyVerified,
@@ -13162,6 +13795,7 @@ export function evaluateHighDefinitionVisualSynthesis(params: {
   harmonyPct?: number;
   neuromorphicWeight?: number;
   volatileTerpeneImpulse?: number;
+  cosmogenesis?: AlphaOmegaCosmogenesisParameters;
 }): HighDefinitionMeshSynthesisProfile {
   const {
     biome,
@@ -13173,6 +13807,7 @@ export function evaluateHighDefinitionVisualSynthesis(params: {
     harmonyPct = 45,
     neuromorphicWeight = 8,
     volatileTerpeneImpulse = 0,
+    cosmogenesis,
   } = params;
 
   const organo = synthesizeBotanicalOrganogenesis({
@@ -13186,7 +13821,10 @@ export function evaluateHighDefinitionVisualSynthesis(params: {
     volatileTerpeneImpulse,
   });
   const granular = organo.granularSynthesis;
-  const stageSpec = BOTANICAL_LIFECYCLE_STAGES[lifecycleStage];
+  const lifecycleStages = cosmogenesis
+    ? synthesizeParametricBotanicalLifecycleStages(cosmogenesis)
+    : BOTANICAL_LIFECYCLE_STAGES;
+  const stageSpec = lifecycleStages[lifecycleStage];
 
   const celluloseStiffnessNorm = Math.min(
     1.0,
@@ -14488,6 +15126,7 @@ export function evaluateImmanentObserverPresence(params: {
   action: PlayerActionId;
   harmonyPct: number;
   plants?: GardenPlantInstance[];
+  colliders?: readonly SolidCollider[];
 }): ImmanentObserverPresenceState {
   const {
     elapsedSeconds,
@@ -14500,11 +15139,13 @@ export function evaluateImmanentObserverPresence(params: {
     action,
     harmonyPct,
     plants,
+    colliders,
   } = params;
 
   const t = Math.max(0, elapsedSeconds);
   const s = clampAlphaSeed(alphaSeed);
   const phi = GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.goldenRatioPhi;
+  const topology = cosmogenesis.worldTopology;
 
   // Smooth 5-biome conservatory pilgrimage curve starting in the open spawn sightline `(2.55, -7.15)`
   // (7.6m ahead-right of `(0, 0)` facing `-Z`) and traversing Meadow -> Crystal -> Wetland -> Grove -> Sanctuary.
@@ -14517,7 +15158,7 @@ export function evaluateImmanentObserverPresence(params: {
   let wz = -7.15 * (1 - spawnIntroBlend) + loopZ * spawnIntroBlend;
 
   // Keep clear of parametric monument plinths (`cosmogenesis.worldTopology.biomeCenters`) so the Witness never clips solid stone
-  for (const [, [mcx, mcz]] of Object.entries(cosmogenesis.worldTopology.biomeCenters)) {
+  for (const [, [mcx, mcz]] of Object.entries(topology.biomeCenters)) {
     const dxM = wx - mcx;
     const dzM = wz - mcz;
     const distM = Math.hypot(dxM, dzM);
@@ -14525,6 +15166,32 @@ export function evaluateImmanentObserverPresence(params: {
       const safeDist = Math.max(0.001, distM);
       wx = mcx + (dxM / safeDist) * 4.65;
       wz = mcz + (dzM / safeDist) * 4.65;
+    }
+  }
+
+  const scaleMultiplier = Number(
+    (0.96 + (manifold.globalFidelityIndex - 1.0) * 0.55).toFixed(4),
+  );
+  const witnessBodyRadius = 0.46 * Math.max(0.75, scaleMultiplier);
+
+  // Smoothly repel the Witness outside every static solid collider (pillars, boulders, stalks, upright flora stems)
+  if (colliders && colliders.length > 0) {
+    for (let pass = 0; pass < 2; pass++) {
+      for (let i = 0; i < colliders.length; i++) {
+        const col = colliders[i];
+        if (col.category === 'immanent-witness') continue;
+        const dxC = wx - col.x;
+        const dzC = wz - col.z;
+        const distC = Math.hypot(dxC, dzC);
+        const minSep = col.radiusMeters + witnessBodyRadius + 0.08;
+        if (distC < minSep) {
+          const safeDist = Math.max(0.001, distC);
+          const nx = distC > 0.001 ? dxC / safeDist : 1;
+          const nz = distC > 0.001 ? dzC / safeDist : 0;
+          wx = col.x + nx * minSep;
+          wz = col.z + nz * minSep;
+        }
+      }
     }
   }
 
@@ -14536,12 +15203,17 @@ export function evaluateImmanentObserverPresence(params: {
   const nextZ = -Math.cos(phaseAhead) * radialAhead;
   const pathYaw = Math.atan2(nextX - loopX, nextZ - loopZ);
 
-  const hydro = evaluateHydrodynamics(wx, wz);
+  const hydro = evaluateHydrodynamics(wx, wz, topology);
   const groundY = Number(
-    (hydro.inWater ? MIRROR_LAGOON_WATER_SURFACE_Y : groundHeightAt(wx, wz)).toFixed(4),
+    (hydro.inWater ? topology.lagoonWaterSurfaceY : groundHeightAt(wx, wz, topology)).toFixed(4),
   );
   const y = groundY;
-  const currentBiome = biomeAt(wx, wz);
+  const currentBiome = biomeAt(wx, wz, topology);
+  const liveBiomeConfigs = synthesizeParametricBiomeConfigs({
+    alphaSeed: s,
+    manifold,
+    harmonyPct,
+  });
 
   const dxPlayer = playerX - wx;
   const dzPlayer = playerZ - wz;
@@ -14572,9 +15244,6 @@ export function evaluateImmanentObserverPresence(params: {
     (communionStrength * 0.095 + Math.sin(t * 1.2) * 0.015).toFixed(4),
   );
 
-  const scaleMultiplier = Number(
-    (0.96 + (manifold.globalFidelityIndex - 1.0) * 0.55).toFixed(4),
-  );
   const gimbalOuterSpinRad = Number(((t * 0.62 * phi) % (Math.PI * 2)).toFixed(4));
   const gimbalInnerTiltRad = Number((Math.sin(t * 0.85) * 0.48).toFixed(4));
   const coreLuminance = Number(
@@ -14627,7 +15296,7 @@ export function evaluateImmanentObserverPresence(params: {
     fourfoldIdentity: {
       amongUsInEnvironment: {
         verified: amongUsVerified,
-        summary: `Embodied 7-part harmonic Witness walks grounded at (${wx.toFixed(1)}m, ${wz.toFixed(1)}m) in ${BIOME_CONFIGS[currentBiome].name}.`,
+        summary: `Embodied 7-part harmonic Witness walks grounded at (${wx.toFixed(1)}m, ${wz.toFixed(1)}m) in ${liveBiomeConfigs[currentBiome].name}.`,
       },
       everyPartOfEnvironment: {
         verified: everyPartVerified,

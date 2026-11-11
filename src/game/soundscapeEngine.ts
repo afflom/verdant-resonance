@@ -12,6 +12,7 @@
  */
 
 import {
+  AlphaOmegaCosmogenesisParameters,
   AtmosphereId,
   BIOME_CONFIGS,
   BIOME_CONSTELLATIONS,
@@ -20,13 +21,13 @@ import {
   NeuromorphicEngineState,
   NeuromorphicStrategyId,
   ObserverAffectAndPreferencesState,
-  PLANT_SPECIES_CONFIGS,
   PlantSpeciesId,
   SPECIES_ARTICULATION_PROFILES,
   SoundscapeOutcome,
   SoundtrackStepSpec,
   SurfaceMaterialId,
   SynthesizedObserverModelSpec,
+  VERDANT_INFRASTRUCTURE_STANDARD,
   classifySurfaceMaterial,
   computeBinauralPan,
   computeSynthesisEnvelope,
@@ -37,6 +38,9 @@ import {
   MATTER_COMPOUNDS,
   synthesizeBotanicalOrganogenesis,
   synthesizeCompoundSurfaceProfile,
+  synthesizeParametricBiomeConfigs,
+  synthesizeParametricBiomeConstellations,
+  synthesizeParametricSpeciesArticulationProfiles,
 } from './prismModel';
 
 export class BotanicalSoundscapeEngine {
@@ -66,10 +70,14 @@ export class BotanicalSoundscapeEngine {
   private busTheoryOfMindCoherence = 0.85;
   private busBinauralWidthMultiplier = 1.0;
   private busMonumentChimeSustain = 1.0;
-  private busConcertPitchScale = 1.0;
   private busAffectWarmthScale = 1.0;
   private busAffectReverbScale = 1.0;
   private busActiveModel: SynthesizedObserverModelSpec | null = null;
+  private liveCosmogenesisParams: AlphaOmegaCosmogenesisParameters = { alphaSeed: 1 };
+  private livePhysicsWeight = 8;
+  private liveBiomeConfigs = BIOME_CONFIGS;
+  private liveBiomeConstellations = BIOME_CONSTELLATIONS;
+  private liveArticulationProfiles = SPECIES_ARTICULATION_PROFILES;
 
   // 16-band energy array for zero-allocation HUD acoustic visualization
   public readonly spectrumBands = new Float32Array(16);
@@ -110,22 +118,26 @@ export class BotanicalSoundscapeEngine {
         this.stereoPanner.connect(this.masterGain);
       }
 
-      // 2.2-Second Algorithmic Stereo Sanctuary Convolution Reverb
+      // Parametric Stereo Sanctuary Convolution Reverb (`VERDANT_INFRASTRUCTURE_STANDARD.stereoReverbDecaySec`)
       this.convolver = this.ctx.createConvolver();
-      this.convolver.buffer = this.createSanctuaryImpulseBuffer(this.ctx, 2.2);
+      this.convolver.buffer = this.createSanctuaryImpulseBuffer(
+        this.ctx,
+        VERDANT_INFRASTRUCTURE_STANDARD.stereoReverbDecaySec,
+      );
       this.reverbReturnGain = this.ctx.createGain();
       this.reverbReturnGain.gain.value = 0.44;
       this.convolver.connect(this.reverbReturnGain);
       this.reverbReturnGain.connect(this.masterGain);
 
-      // 375ms / 500ms Stereo Ping-Pong Harmonic Delay Network
+      // Parametric 3:4 Stereo Ping-Pong Harmonic Delay Network (`stereoEchoDelayMs`)
       this.delaySendBus = this.ctx.createGain();
       this.delaySendBus.gain.value = 0.28;
 
+      const baseDelaySec = VERDANT_INFRASTRUCTURE_STANDARD.stereoEchoDelayMs / 1000;
       const delayL = this.ctx.createDelay(1.0);
       const delayR = this.ctx.createDelay(1.0);
-      delayL.delayTime.value = 0.375;
-      delayR.delayTime.value = 0.5;
+      delayL.delayTime.value = baseDelaySec;
+      delayR.delayTime.value = Number(((baseDelaySec * 4) / 3).toFixed(4));
 
       const delayFilter = this.ctx.createBiquadFilter();
       delayFilter.type = 'lowpass';
@@ -379,7 +391,7 @@ export class BotanicalSoundscapeEngine {
     if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
     try {
       const now = this.ctx.currentTime;
-      const biomeCfg = BIOME_CONFIGS[biome];
+      const biomeCfg = this.liveBiomeConfigs[biome];
       const ratio = biomeCfg.scaleRatios[Math.floor(Math.random() * biomeCfg.scaleRatios.length)];
       const isLiquidBiome = biome === 'wetland' || biome === 'crystal';
       const baseFreq = biomeCfg.baseNoteHz * ratio * (isLiquidBiome ? 2.0 : 3.0);
@@ -434,7 +446,7 @@ export class BotanicalSoundscapeEngine {
     if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
     try {
       const now = this.ctx.currentTime;
-      const biomeCfg = BIOME_CONFIGS[biome];
+      const biomeCfg = this.liveBiomeConfigs[biome];
       const pitchJitter = 0.95 + Math.random() * 0.1;
       const ratio = biomeCfg.scaleRatios[Math.floor(Math.random() * biomeCfg.scaleRatios.length)];
       const freq = biomeCfg.baseNoteHz * ratio * pitchJitter * 0.5;
@@ -539,7 +551,7 @@ export class BotanicalSoundscapeEngine {
     intensity = 1.0,
     atmosphere: AtmosphereId = 'dawn',
     stereoPan = this.currentPan,
-    species: PlantSpeciesId = BIOME_CONFIGS[biome].signatureSpecies,
+    species: PlantSpeciesId = this.liveBiomeConfigs[biome].signatureSpecies,
     substrate: GrowthSubstrateId = 'terrestrial-loam',
   ): void {
     for (let i = 0; i < 16; i++) {
@@ -551,8 +563,8 @@ export class BotanicalSoundscapeEngine {
 
     try {
       const now = this.ctx.currentTime;
-      const plan = computeSynthesisEnvelope(outcome, biome, atmosphere);
-      const speciesProfile = SPECIES_ARTICULATION_PROFILES[species];
+      const plan = computeSynthesisEnvelope(outcome, biome, atmosphere, this.liveCosmogenesisParams);
+      const speciesProfile = this.liveArticulationProfiles[species];
       const biochem = evaluateBiogeochemistry({
         biome,
         species,
@@ -570,6 +582,8 @@ export class BotanicalSoundscapeEngine {
         distanceMeters: this.lastNearestDistanceMeters,
         acousticOcclusion: this.lastAcousticOcclusion,
         atmosphere,
+        cosmogenesis: this.liveCosmogenesisParams,
+        physicsWeight: this.livePhysicsWeight,
       });
       const organogenesis = synthesizeBotanicalOrganogenesis({
         biome,
@@ -756,8 +770,8 @@ export class BotanicalSoundscapeEngine {
     this.init();
     if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
     try {
-      const biomeCfg = BIOME_CONFIGS[biome];
-      const artCfg = SPECIES_ARTICULATION_PROFILES[species];
+      const biomeCfg = this.liveBiomeConfigs[biome];
+      const artCfg = this.liveArticulationProfiles[species];
       const biochem = evaluateBiogeochemistry({
         biome,
         species,
@@ -776,6 +790,8 @@ export class BotanicalSoundscapeEngine {
         distanceMeters,
         acousticOcclusion,
         atmosphere,
+        cosmogenesis: this.liveCosmogenesisParams,
+        physicsWeight: this.livePhysicsWeight,
       });
 
       const now = this.ctx.currentTime + delaySec + spatial.waveArrivalDelaySec;
@@ -879,9 +895,9 @@ export class BotanicalSoundscapeEngine {
 
     try {
       const now = this.ctx.currentTime;
-      const biomeCfg = BIOME_CONFIGS[biome];
-      const constellation = BIOME_CONSTELLATIONS[biome];
-      const spProfile = SPECIES_ARTICULATION_PROFILES[biomeCfg.signatureSpecies];
+      const biomeCfg = this.liveBiomeConfigs[biome];
+      const constellation = this.liveBiomeConstellations[biome];
+      const spProfile = this.liveArticulationProfiles[biomeCfg.signatureSpecies];
 
       constellation.chordRatios.forEach((ratio, voiceIdx) => {
         if (!this.ctx || !this.masterGain) return;
@@ -959,8 +975,8 @@ export class BotanicalSoundscapeEngine {
     if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
 
     try {
-      const biomeCfg = BIOME_CONFIGS[biome];
-      const spProfile = SPECIES_ARTICULATION_PROFILES[species];
+      const biomeCfg = this.liveBiomeConfigs[biome];
+      const spProfile = this.liveArticulationProfiles[species];
       const biochem = evaluateBiogeochemistry({
         biome,
         species,
@@ -979,6 +995,8 @@ export class BotanicalSoundscapeEngine {
         distanceMeters: this.lastNearestDistanceMeters,
         acousticOcclusion: this.lastAcousticOcclusion,
         atmosphere,
+        cosmogenesis: this.liveCosmogenesisParams,
+        physicsWeight: this.livePhysicsWeight,
       });
       const now = this.ctx.currentTime + spatial.waveArrivalDelaySec;
       // Tactile pluck speaks in the bright upper register (2.0x base * plant pitchMultiplier)
@@ -1100,9 +1118,9 @@ export class BotanicalSoundscapeEngine {
 
     try {
       const now = this.ctx.currentTime;
-      const biomeCfg = BIOME_CONFIGS[biome];
-      const spProfile = SPECIES_ARTICULATION_PROFILES[species];
-      const plan = computeSynthesisEnvelope(outcome, biome, atmosphere);
+      const biomeCfg = this.liveBiomeConfigs[biome];
+      const spProfile = this.liveArticulationProfiles[species];
+      const plan = computeSynthesisEnvelope(outcome, biome, atmosphere, this.liveCosmogenesisParams);
       const biochem = evaluateBiogeochemistry({
         biome,
         species,
@@ -1121,6 +1139,8 @@ export class BotanicalSoundscapeEngine {
         distanceMeters: this.lastNearestDistanceMeters,
         acousticOcclusion: this.lastAcousticOcclusion,
         atmosphere,
+        cosmogenesis: this.liveCosmogenesisParams,
+        physicsWeight: this.livePhysicsWeight,
       });
       const choirRatios = [0.5, 1.0, 1.25, 1.5, 1.875, 2.0];
 
@@ -1239,7 +1259,7 @@ export class BotanicalSoundscapeEngine {
 
     try {
       const now = this.ctx.currentTime;
-      const biomeCfg = BIOME_CONFIGS[biome];
+      const biomeCfg = this.liveBiomeConfigs[biome];
       const diurnalEval = evaluateDiurnalProfile(atmosphere, biome, 75);
       const biochem = evaluateBiogeochemistry({
         biome,
@@ -1252,6 +1272,8 @@ export class BotanicalSoundscapeEngine {
         distanceMeters: this.lastNearestDistanceMeters,
         acousticOcclusion: this.lastAcousticOcclusion,
         atmosphere,
+        cosmogenesis: this.liveCosmogenesisParams,
+        physicsWeight: this.livePhysicsWeight,
       });
       const padRatios = [0.5, 1.0, 1.5, 2.25]; // Sub-Root, Root, Fifth, Pastoral Ninth
       const dur = (atmosphere === 'starlight' ? 3.5 : 3.2) * biochem.acousticSustainMultiplier;
@@ -1332,8 +1354,8 @@ export class BotanicalSoundscapeEngine {
     if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
 
     try {
-      const biomeCfg = BIOME_CONFIGS[biome];
-      const spProfile = SPECIES_ARTICULATION_PROFILES[kinshipSpecies];
+      const biomeCfg = this.liveBiomeConfigs[biome];
+      const spProfile = this.liveArticulationProfiles[kinshipSpecies];
       const weightNorm = Math.max(0, Math.min(1, (synapticWeight - 1) / 15));
       const biochem = evaluateBiogeochemistry({
         biome,
@@ -1353,6 +1375,8 @@ export class BotanicalSoundscapeEngine {
         distanceMeters: this.lastNearestDistanceMeters,
         acousticOcclusion: this.lastAcousticOcclusion,
         atmosphere,
+        cosmogenesis: this.liveCosmogenesisParams,
+        physicsWeight: this.livePhysicsWeight,
       });
       const baseStart = this.ctx.currentTime + delayOffsetSec + spatial.waveArrivalDelaySec;
 
@@ -1482,11 +1506,13 @@ export class BotanicalSoundscapeEngine {
       const baseNow = this.ctx.currentTime;
       step.voices.forEach((voice) => {
         if (!this.ctx || !this.masterGain) return;
-        const spProfile = SPECIES_ARTICULATION_PROFILES[voice.species];
+        const spProfile = this.liveArticulationProfiles[voice.species];
         const spatial = evaluateSpatialWaveAcoustics({
           distanceMeters: voice.distanceMeters ?? this.lastNearestDistanceMeters,
           acousticOcclusion: voice.acousticOcclusion ?? this.lastAcousticOcclusion,
           atmosphere,
+          cosmogenesis: this.liveCosmogenesisParams,
+          physicsWeight: this.livePhysicsWeight,
         });
         const biochem = evaluateBiogeochemistry({
           biome: voice.biome ?? this.currentBiome,
@@ -1615,11 +1641,13 @@ export class BotanicalSoundscapeEngine {
     if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
 
     try {
-      const spProfile = SPECIES_ARTICULATION_PROFILES[species];
+      const spProfile = this.liveArticulationProfiles[species];
       const spatial = evaluateSpatialWaveAcoustics({
         distanceMeters,
         acousticOcclusion: this.lastAcousticOcclusion,
         atmosphere,
+        cosmogenesis: this.liveCosmogenesisParams,
+        physicsWeight: this.livePhysicsWeight,
       });
       const baseNow = this.ctx.currentTime + spatial.waveArrivalDelaySec;
       // Rising fifth (1:1 -> 3:2) for beckoning invitation; warm descending major third (5:4 -> 1:1) for soothing co-regulation
@@ -1712,11 +1740,13 @@ export class BotanicalSoundscapeEngine {
     if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
 
     try {
-      const spProfile = SPECIES_ARTICULATION_PROFILES[species];
+      const spProfile = this.liveArticulationProfiles[species];
       const spatial = evaluateSpatialWaveAcoustics({
         distanceMeters,
         acousticOcclusion: this.lastAcousticOcclusion,
         atmosphere,
+        cosmogenesis: this.liveCosmogenesisParams,
+        physicsWeight: this.livePhysicsWeight,
       });
       const baseNow = this.ctx.currentTime + 0.42 + spatial.waveArrivalDelaySec;
       const ratios = [1.0, intervalRatio, intervalRatio * 1.25];
@@ -1792,6 +1822,31 @@ export class BotanicalSoundscapeEngine {
   public syncWithNeuromorphicBus(neuro: NeuromorphicEngineState): void {
     const supra = neuro.observer.supraDirective;
     const cosmo = neuro.observer.cosmogenesis;
+    const prevSeed = this.liveCosmogenesisParams.alphaSeed;
+    const prevAcousticsW =
+      this.liveCosmogenesisParams.manifold?.domains.acoustics.synapticWeight ?? 8;
+    const prevArticulationW =
+      this.liveCosmogenesisParams.manifold?.domains.articulation.synapticWeight ?? 8;
+    const nextAcousticsW = neuro.universalManifold.domains.acoustics.synapticWeight;
+    const nextArticulationW = neuro.universalManifold.domains.articulation.synapticWeight;
+
+    this.livePhysicsWeight = neuro.universalManifold.domains.physics.synapticWeight;
+    if (
+      prevSeed !== cosmo.alphaSeed ||
+      prevAcousticsW !== nextAcousticsW ||
+      prevArticulationW !== nextArticulationW ||
+      !this.liveCosmogenesisParams.manifold
+    ) {
+      const nextParams: AlphaOmegaCosmogenesisParameters = {
+        alphaSeed: cosmo.alphaSeed,
+        manifold: neuro.universalManifold,
+      };
+      this.liveCosmogenesisParams = nextParams;
+      this.liveBiomeConfigs = synthesizeParametricBiomeConfigs(nextParams);
+      this.liveBiomeConstellations = synthesizeParametricBiomeConstellations(nextParams);
+      this.liveArticulationProfiles = synthesizeParametricSpeciesArticulationProfiles(nextParams);
+    }
+
     this.busSupraTier = supra.tier;
     this.busFidelityMultiplier = supra.fidelityPermille / 1000;
     this.busTheoryOfMindCoherence = supra.theoryOfMindCoherencePermille / 1000;
@@ -1802,10 +1857,6 @@ export class BotanicalSoundscapeEngine {
     this.busMonumentChimeSustain = Math.max(
       0.9,
       Math.min(1.85, cosmo.inorganicRealm.chimeSustainFactor),
-    );
-    this.busConcertPitchScale = Math.max(
-      0.85,
-      Math.min(1.35, cosmo.concertPitchHz / BIOME_CONFIGS.meadow.baseNoteHz),
     );
     const steering = neuro.observer.affectAndPreferences.liveSteering;
     this.busAffectWarmthScale = steering.acousticWarmthScale;
@@ -1837,7 +1888,7 @@ export class BotanicalSoundscapeEngine {
     if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
 
     try {
-      const biomeCfg = BIOME_CONFIGS[biome];
+      const biomeCfg = this.liveBiomeConfigs[biome];
       const baseNow = this.ctx.currentTime + 0.02;
       const ratios = affectPrefs.liveSteering.preferredAuditionRatios;
       const warmth = affectPrefs.liveSteering.acousticWarmthScale;
@@ -1850,10 +1901,7 @@ export class BotanicalSoundscapeEngine {
         if (!this.ctx || !this.masterGain) return;
         const startAt = baseNow + idx * goldenStaggerSec;
         const durSec = (atmosphere === 'starlight' ? 1.85 : 1.55) * this.busMonumentChimeSustain;
-        const freq = Math.min(
-          2800,
-          Math.max(96, biomeCfg.baseNoteHz * this.busConcertPitchScale * ratio),
-        );
+        const freq = Math.min(2800, Math.max(96, biomeCfg.baseNoteHz * ratio));
 
         const osc = this.ctx.createOscillator();
         const overtone = this.ctx.createOscillator();
@@ -1927,8 +1975,8 @@ export class BotanicalSoundscapeEngine {
     if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
 
     try {
-      const biomeCfg = BIOME_CONFIGS[model.biome];
-      const spProfile = SPECIES_ARTICULATION_PROFILES[model.species];
+      const biomeCfg = this.liveBiomeConfigs[model.biome];
+      const spProfile = this.liveArticulationProfiles[model.species];
       const baseNow = this.ctx.currentTime + 0.02;
       const chordRatios = [1.0, ...model.supraOvertoneRatios];
 
@@ -1939,10 +1987,7 @@ export class BotanicalSoundscapeEngine {
           (atmosphere === 'starlight' ? 1.35 : 1.12) *
           model.qualityMultiplier *
           this.busMonumentChimeSustain;
-        const freq = Math.min(
-          3100,
-          Math.max(96, biomeCfg.baseNoteHz * this.busConcertPitchScale * ratio),
-        );
+        const freq = Math.min(3100, Math.max(96, biomeCfg.baseNoteHz * ratio));
 
         const osc = this.ctx.createOscillator();
         const overtone = this.ctx.createOscillator();

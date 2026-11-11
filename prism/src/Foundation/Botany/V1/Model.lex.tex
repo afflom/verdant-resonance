@@ -112,61 +112,21 @@ structure{
   ]
 }
 
-definition{
-  name: verdantRoughnessDeltaMilli,
-  parameters: [],
-  result: Nat,
-  body: 600
-}
+definition{name: verdantRoughnessDeltaMilli, parameters: [], result: Nat, body: 600}
 
-definition{
-  name: minRequiredRoughnessDeltaMilli,
-  parameters: [],
-  result: Nat,
-  body: 250
-}
+definition{name: minRequiredRoughnessDeltaMilli, parameters: [], result: Nat, body: 250}
 
-definition{
-  name: verdantSubstrateClassCount,
-  parameters: [],
-  result: Nat,
-  body: 5
-}
+definition{name: verdantSubstrateClassCount, parameters: [], result: Nat, body: 5}
 
-definition{
-  name: minRequiredSubstrateClassCount,
-  parameters: [],
-  result: Nat,
-  body: 5
-}
+definition{name: minRequiredSubstrateClassCount, parameters: [], result: Nat, body: 5}
 
-definition{
-  name: verdantMinTurgorCenti,
-  parameters: [],
-  result: Nat,
-  body: 72
-}
+definition{name: verdantMinTurgorCenti, parameters: [], result: Nat, body: 72}
 
-definition{
-  name: verdantMaxTurgorCenti,
-  parameters: [],
-  result: Nat,
-  body: 118
-}
+definition{name: verdantMaxTurgorCenti, parameters: [], result: Nat, body: 118}
 
-definition{
-  name: verdantHardSurfaceOrRockViolations,
-  parameters: [],
-  result: Nat,
-  body: 0
-}
+definition{name: verdantHardSurfaceOrRockViolations, parameters: [], result: Nat, body: 0}
 
-definition{
-  name: verdantBotanyBasisPrime,
-  parameters: [],
-  result: Nat,
-  body: 79
-}
+definition{name: verdantBotanyBasisPrime, parameters: [], result: Nat, body: 79}
 
 definition{
   name: stepBotanyBusModulation,
@@ -200,65 +160,7 @@ definition{
   name: verdantBotanicalStandard,
   parameters: [],
   result: BotanicalFidelityStandard,
-  body: (record BotanicalFidelityStandard {
-    profile := "prism/botanical-standard/1",
-    morphologySystem := "Fibonacci Golden-Angle Phyllotaxis, Parametric B-Mesh & Shape-Key Organogenesis, 5-Substrate Fertile Soil/Water Holdfast Morphology (Zero Hard-Surface or Rock Growth), Slope-Embedded Grounding, Circadian Stomatal Turgor & Kuramoto Phase Entrainment",
-    phyllotaxis := (record PhyllotaxisGeometrySpec {
-      goldenAngleDeciDeg := 1375,
-      minPartsPerSpecimen := 14,
-      maxPartsPerSpecimen := 19,
-      matteStemRoughnessMilli := 780,
-      glossyPetalRoughnessMilli := 180,
-      clearcoatEnabled := ((minRequiredRoughnessDeltaMilli) <=? (verdantRoughnessDeltaMilli))
-    }),
-    substrates := (record GrowthSubstrateTaxonomySpec {
-      substrateClassCount := (verdantSubstrateClassCount),
-      terrestrialLoamEnabled := (1 <=? (verdantSubstrateClassCount)),
-      pelagicWaterEnabled := (2 <=? (verdantSubstrateClassCount)),
-      lithophyticRockEnabled := (3 <=? (verdantSubstrateClassCount)),
-      architecturalFoundationEnabled := (4 <=? (verdantSubstrateClassCount)),
-      crystallineEpiphyteEnabled := (5 <=? (verdantSubstrateClassCount)),
-      gravitropicStemAlignment := ((verdantHardSurfaceOrRockViolations) =? 0),
-      zeroHardSurfaceOrRockPlantGrowth := ((verdantHardSurfaceOrRockViolations) =? 0),
-      zeroFloatingTreeTrunks := ((verdantHardSurfaceOrRockViolations) =? 0),
-      zeroDetachedCanopyCrowns := ((verdantHardSurfaceOrRockViolations) =? 0)
-    }),
-    monuments := (record BiomeArchitecturalMonumentSpec {
-      monumentCount := 5,
-      meadowMonument := "Sunlit Sundial Compass Rotunda",
-      groveMonument := "Wind-Carved Bamboo Chime Pergola",
-      crystalMonument := "Prismatic Quartz Geode Archway",
-      wetlandMonument := "Mirror Lagoon Lantern Pier",
-      sanctuaryMonument := "Levitating Tuning-Fork Obelisk & Gimbal Halo"
-    }),
-    sympatheticResonance := (record SympatheticResonanceSpec {
-      crossPollinationRadiusDm := 49,
-      harmonicFilamentCount := 6,
-      sympatheticHarmonyBonus := 3,
-      kuramotoPhaseLockingEnabled := ((stepBotanyBusModulation 1) <? (stepBotanyBusModulation 16)),
-      circadianStomatalTurgorEnabled := ((verdantMinTurgorCenti) <? (verdantMaxTurgorCenti)),
-      minTurgorPressureCenti := 72,
-      maxTurgorPressureCenti := 118
-    }),
-    highDefinitionBMesh := (record HighDefinitionBMeshVisualSpec {
-      parametricBMeshBuildersCount := 11,
-      sobelNormalMapResolutionPx := 256,
-      minThinFilmIridescenceNm := 180,
-      maxThinFilmIridescenceNm := 520,
-      shapeKeyMorphTargetsPerOrgan := 2,
-      customBotanicalGlslShaderEnabled := (verifyHighDefinitionBMeshSynthesis (Foundation.Neuromorphic.V1.Model::weightInitial)),
-      subsurfaceTranslucencyCoupled := ((minRequiredRoughnessDeltaMilli) <=? (verdantRoughnessDeltaMilli)),
-      bMeshTopologyVerified := (verifyHighDefinitionBMeshSynthesis (Foundation.Neuromorphic.V1.Model::weightInitial))
-    }),
-    neuromorphicBridge := (record NeuromorphicBotanyBridgeSpec {
-      neuromorphicBusCoupled := ((stepBotanyBusModulation 1) <? (stepBotanyBusModulation 16)),
-      domainBasisPrime := (verdantBotanyBasisPrime),
-      rule30RegisterBits := 64,
-      pointKeyBits := 28,
-      crossDomainTransferEnabled := ((stepBotanyBusModulation 8) <? (stepBotanyBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))),
-      autopoieticSelfRefinementEnabled := ((stepBotanyBusModulation 8) <? (stepBotanyBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))
-    })
-  })
+  body: (record BotanicalFidelityStandard {profile := "prism/botanical-standard/1", morphologySystem := "Fibonacci Golden-Angle Phyllotaxis, Parametric B-Mesh & Shape-Key Organogenesis, 5-Substrate Fertile Soil/Water Holdfast Morphology (Zero Hard-Surface or Rock Growth), Slope-Embedded Grounding, Circadian Stomatal Turgor & Kuramoto Phase Entrainment", phyllotaxis := (record PhyllotaxisGeometrySpec {goldenAngleDeciDeg := 1375, minPartsPerSpecimen := 14, maxPartsPerSpecimen := 19, matteStemRoughnessMilli := 780, glossyPetalRoughnessMilli := 180, clearcoatEnabled := ((minRequiredRoughnessDeltaMilli) <=? (verdantRoughnessDeltaMilli))}), substrates := (record GrowthSubstrateTaxonomySpec {substrateClassCount := (verdantSubstrateClassCount), terrestrialLoamEnabled := (1 <=? (verdantSubstrateClassCount)), pelagicWaterEnabled := (2 <=? (verdantSubstrateClassCount)), lithophyticRockEnabled := (3 <=? (verdantSubstrateClassCount)), architecturalFoundationEnabled := (4 <=? (verdantSubstrateClassCount)), crystallineEpiphyteEnabled := (5 <=? (verdantSubstrateClassCount)), gravitropicStemAlignment := ((verdantHardSurfaceOrRockViolations) =? 0), zeroHardSurfaceOrRockPlantGrowth := ((verdantHardSurfaceOrRockViolations) =? 0), zeroFloatingTreeTrunks := ((verdantHardSurfaceOrRockViolations) =? 0), zeroDetachedCanopyCrowns := ((verdantHardSurfaceOrRockViolations) =? 0)}), monuments := (record BiomeArchitecturalMonumentSpec {monumentCount := 5, meadowMonument := "Sunlit Sundial Compass Rotunda", groveMonument := "Wind-Carved Bamboo Chime Pergola", crystalMonument := "Prismatic Quartz Geode Archway", wetlandMonument := "Mirror Lagoon Lantern Pier", sanctuaryMonument := "Levitating Tuning-Fork Obelisk & Gimbal Halo"}), sympatheticResonance := (record SympatheticResonanceSpec {crossPollinationRadiusDm := 49, harmonicFilamentCount := 6, sympatheticHarmonyBonus := 3, kuramotoPhaseLockingEnabled := ((stepBotanyBusModulation 1) <? (stepBotanyBusModulation 16)), circadianStomatalTurgorEnabled := ((verdantMinTurgorCenti) <? (verdantMaxTurgorCenti)), minTurgorPressureCenti := 72, maxTurgorPressureCenti := 118}), highDefinitionBMesh := (record HighDefinitionBMeshVisualSpec {parametricBMeshBuildersCount := 11, sobelNormalMapResolutionPx := 256, minThinFilmIridescenceNm := 180, maxThinFilmIridescenceNm := 520, shapeKeyMorphTargetsPerOrgan := 2, customBotanicalGlslShaderEnabled := (verifyHighDefinitionBMeshSynthesis (Foundation.Neuromorphic.V1.Model::weightInitial)), subsurfaceTranslucencyCoupled := ((minRequiredRoughnessDeltaMilli) <=? (verdantRoughnessDeltaMilli)), bMeshTopologyVerified := (verifyHighDefinitionBMeshSynthesis (Foundation.Neuromorphic.V1.Model::weightInitial))}), neuromorphicBridge := (record NeuromorphicBotanyBridgeSpec {neuromorphicBusCoupled := ((stepBotanyBusModulation 1) <? (stepBotanyBusModulation 16)), domainBasisPrime := (verdantBotanyBasisPrime), rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := ((stepBotanyBusModulation 8) <? (stepBotanyBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))), autopoieticSelfRefinementEnabled := ((stepBotanyBusModulation 8) <? (stepBotanyBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))})})
 }
 
 definition{
@@ -293,7 +195,13 @@ theorem{
   name: botanicalRoughnessContrastHolds,
   parameters: [deltaMilli : Nat],
   statement: ((breaksBotanicalRoughnessContrast deltaMilli) = false),
-  proof: linear_arithmetic{definitions: [breaksBotanicalRoughnessContrast, minRequiredRoughnessDeltaMilli, verdantRoughnessDeltaMilli]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksBotanicalRoughnessContrast,
+      minRequiredRoughnessDeltaMilli,
+      verdantRoughnessDeltaMilli
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -301,7 +209,13 @@ theorem{
   name: substrateDiversityGuaranteeHolds,
   parameters: [count : Nat],
   statement: ((breaksSubstrateDiversityGuarantee count) = false),
-  proof: linear_arithmetic{definitions: [breaksSubstrateDiversityGuarantee, minRequiredSubstrateClassCount, verdantSubstrateClassCount]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksSubstrateDiversityGuarantee,
+      minRequiredSubstrateClassCount,
+      verdantSubstrateClassCount
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -309,7 +223,9 @@ theorem{
   name: circadianTurgorBoundsHold,
   parameters: [minT : Nat, maxT : Nat],
   statement: ((breaksCircadianTurgorBounds minT maxT) = false),
-  proof: linear_arithmetic{definitions: [breaksCircadianTurgorBounds, verdantMaxTurgorCenti, verdantMinTurgorCenti]},
+  proof: linear_arithmetic{
+    definitions: [breaksCircadianTurgorBounds, verdantMaxTurgorCenti, verdantMinTurgorCenti]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -317,7 +233,9 @@ theorem{
   name: zeroHardSurfaceOrRockGrowthHolds,
   parameters: [violations : Nat],
   statement: ((breaksHardSurfaceOrRockExclusion violations) = false),
-  proof: linear_arithmetic{definitions: [breaksHardSurfaceOrRockExclusion, verdantHardSurfaceOrRockViolations]},
+  proof: linear_arithmetic{
+    definitions: [breaksHardSurfaceOrRockExclusion, verdantHardSurfaceOrRockViolations]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -332,7 +250,16 @@ theorem{
   name: botanyNeuromorphicCouplingHolds,
   parameters: [busWeight : Nat],
   statement: ((breaksBotanyNeuromorphicCoupling busWeight) = false),
-  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksBotanyNeuromorphicCoupling, stepBotanyBusModulation]},
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksBotanyNeuromorphicCoupling,
+      stepBotanyBusModulation
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -347,7 +274,18 @@ theorem{
   name: highDefinitionBMeshSynthesisHolds,
   parameters: [busWeight : Nat],
   statement: ((breaksHighDefinitionBMeshSynthesis busWeight) = false),
-  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksHighDefinitionBMeshSynthesis, stepBMeshSubdivisionDensity, stepThinFilmIridescenceSpanNm, verifyHighDefinitionBMeshSynthesis]},
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksHighDefinitionBMeshSynthesis,
+      stepBMeshSubdivisionDensity,
+      stepThinFilmIridescenceSpanNm,
+      verifyHighDefinitionBMeshSynthesis
+    ]
+  },
   axioms: [Classical.choice, Quot.sound, propext]
 }
 \end{semanticmodule}

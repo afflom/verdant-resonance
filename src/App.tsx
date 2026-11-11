@@ -26,7 +26,12 @@ import {
   evaluateHumaneErgonomics,
   generateGardenPlants,
   getPlantLifecycleStage,
+  synthesizeParametricAtmosphereConfigs,
   synthesizeParametricBiomeConfigs,
+  synthesizeParametricBiomeMonuments,
+  synthesizeParametricBotanicalLifecycleStages,
+  synthesizeParametricPlantSpeciesConfigs,
+  synthesizeParametricSoundOutcomeProfiles,
 } from './game/prismModel';
 import { BotanicalSoundscapeEngine } from './game/soundscapeEngine';
 import {
@@ -211,13 +216,51 @@ export default function App() {
     });
   }, []);
 
+  const liveCosmoParams = useMemo(
+    () => ({
+      alphaSeed: telemetry.neuromorphic.observer.cosmogenesis.alphaSeed,
+      manifold: telemetry.neuromorphic.universalManifold,
+      harmonyPct: telemetry.harmony,
+    }),
+    [
+      telemetry.neuromorphic.observer.cosmogenesis.alphaSeed,
+      telemetry.neuromorphic.universalManifold,
+      telemetry.harmony,
+    ],
+  );
+
+  const liveBiomeConfigs = useMemo(
+    () => synthesizeParametricBiomeConfigs(liveCosmoParams),
+    [liveCosmoParams],
+  );
+  const liveAtmosphereConfigs = useMemo(
+    () => synthesizeParametricAtmosphereConfigs(liveCosmoParams),
+    [liveCosmoParams],
+  );
+  const liveSpeciesConfigs = useMemo(
+    () => synthesizeParametricPlantSpeciesConfigs(liveCosmoParams),
+    [liveCosmoParams],
+  );
+  const liveOutcomeProfiles = useMemo(
+    () => synthesizeParametricSoundOutcomeProfiles(liveCosmoParams),
+    [liveCosmoParams],
+  );
+  const liveBiomeMonuments = useMemo(
+    () => synthesizeParametricBiomeMonuments(liveCosmoParams),
+    [liveCosmoParams],
+  );
+  const liveLifecycleStages = useMemo(
+    () => synthesizeParametricBotanicalLifecycleStages(liveCosmoParams),
+    [liveCosmoParams],
+  );
+
   const handlePlantAttuned = useCallback(
     (_plantId: string, biome: BiomeId, outcome: SoundscapeOutcome) => {
-      const profile = SOUND_OUTCOME_PROFILES[outcome];
-      const biomeCfg = BIOME_CONFIGS[biome];
+      const profile = liveOutcomeProfiles[outcome] ?? SOUND_OUTCOME_PROFILES[outcome];
+      const biomeCfg = liveBiomeConfigs[biome] ?? BIOME_CONFIGS[biome];
       setRecentBanner(`${profile.label} · ${biomeCfg.name}`);
     },
-    [],
+    [liveBiomeConfigs, liveOutcomeProfiles],
   );
 
   useEffect(() => {
@@ -279,22 +322,13 @@ export default function App() {
     }
   }, [gameState, telemetry.gestureHold.agitationPct]);
 
-  const liveBiomeConfigs = useMemo(
-    () =>
-      synthesizeParametricBiomeConfigs({
-        alphaSeed: telemetry.neuromorphic.observer.cosmogenesis.alphaSeed,
-        manifold: telemetry.neuromorphic.universalManifold,
-      }),
-    [
-      telemetry.neuromorphic.observer.cosmogenesis.alphaSeed,
-      telemetry.neuromorphic.universalManifold,
-    ],
-  );
   const activeBiomeCfg = liveBiomeConfigs[telemetry.biome] ?? BIOME_CONFIGS[telemetry.biome];
-  const activeAtmosphereCfg = ATMOSPHERE_CONFIGS[atmosphere];
-  const nearestSpeciesCfg = PLANT_SPECIES_CONFIGS[telemetry.nearestPlant.species];
+  const activeAtmosphereCfg = liveAtmosphereConfigs[atmosphere] ?? ATMOSPHERE_CONFIGS[atmosphere];
+  const nearestSpeciesCfg =
+    liveSpeciesConfigs[telemetry.nearestPlant.species] ??
+    PLANT_SPECIES_CONFIGS[telemetry.nearestPlant.species];
   const outcomeProfile =
-    SOUND_OUTCOME_PROFILES[telemetry.prismOutcome] ?? SOUND_OUTCOME_PROFILES['wind-whisper'];
+    liveOutcomeProfiles[telemetry.prismOutcome] ?? SOUND_OUTCOME_PROFILES['wind-whisper'];
 
   const humaneEval = evaluateHumaneErgonomics({
     velocityDm: telemetry.velocityDm,
@@ -307,8 +341,9 @@ export default function App() {
     telemetry.playerX,
     telemetry.playerZ,
     telemetry.playerYaw,
+    telemetry.neuromorphic.observer.cosmogenesis.worldTopology,
   );
-  const activeMonument = BIOME_MONUMENTS[telemetry.biome];
+  const activeMonument = liveBiomeMonuments[telemetry.biome] ?? BIOME_MONUMENTS[telemetry.biome];
   const biomeMastery = evaluateBiomeMasteryAndGuilds(telemetry.biome, plants);
 
   const stereoPan = computeBinauralPan(
@@ -665,8 +700,9 @@ export default function App() {
                     </span>
                   </div>
                   <div className="text-[10px] font-mono text-emerald-300/75 whitespace-nowrap">
-                    {BOTANICAL_LIFECYCLE_STAGES[getPlantLifecycleStage(telemetry.nearestPlant)].label} ·{' '}
-                    {biomeMastery.attunedInBiome}/{biomeMastery.totalInBiome} Flora ·{' '}
+                    {(liveLifecycleStages[getPlantLifecycleStage(telemetry.nearestPlant)] ??
+                      BOTANICAL_LIFECYCLE_STAGES[getPlantLifecycleStage(telemetry.nearestPlant)]).label}{' '}
+                    · {biomeMastery.attunedInBiome}/{biomeMastery.totalInBiome} Flora ·{' '}
                     {telemetry.inWater
                       ? `Wading Lagoon (${Math.round(telemetry.waterDepthMeters * 100)}cm)`
                       : telemetry.surfaceMaterial.replace('-', ' ')}

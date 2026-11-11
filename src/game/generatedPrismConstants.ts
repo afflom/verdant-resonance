@@ -2729,7 +2729,7 @@ export const GENERATED_PRISM_STANDARDS = {
       "perimeterBoulderColliders": "52 slope-embedded dodecahedral basalt outcrop colliders + 28 Mirror Lagoon shoreline river-stone boulder colliders + amphitheater boundary",
       "woodyStemCoreColliders": "Solid basal stem cores for upright flora and emergent seedlings rooted exclusively in fertile soil/water media while outer petals/fronds remain compliant",
       "permeableGrassAndReeds": "360 non-obstructing grass & reed blades rooted in fertile turf outside platforms, stepping stones, boulders, trees, and flora bases with Hooke's law bending wake from player & Witness",
-      "permeableShallowWaterLagoon": "Hydrostatically contained Mirror Lagoon fluid basin with levelled shoreline embankment, neuromorphic Rule-30 cymatic standing waves, 24% viscous momentum drag & 5 dry stone lantern aprons"
+      "permeableShallowWaterLagoon": "Hydrostatically contained Mirror Lagoon fluid basin with levelled shoreline embankment, neuromorphic Rule-30 cymatic standing waves, 24 pct viscous momentum drag & 5 dry stone lantern aprons"
     },
     "hydrodynamics": {
       "lagoonRadiusMeters": 16,
@@ -3502,6 +3502,50 @@ export const GENERATED_VERDANT_JUDGE_ARTIFACT = {
       "response": "harmonic-bloom"
     },
     {
+      "request": "crystal star-orchid observe golden awakened 18 5",
+      "response": "crystalline-choir"
+    },
+    {
+      "request": "sanctuary echo-lotus observe golden awakened 18 5",
+      "response": "sanctuary-chorus"
+    },
+    {
+      "request": "grove pulse-fern observe golden awakened 18 5",
+      "response": "harmonic-bloom"
+    },
+    {
+      "request": "meadow echo-lotus observe dawn dormant 18 5",
+      "response": "dawn-arpeggio"
+    },
+    {
+      "request": "sanctuary echo-lotus touch starlight awakened 18 5",
+      "response": "sanctuary-chorus"
+    },
+    {
+      "request": "crystal echo-lotus observe starlight awakened 18 5",
+      "response": "crystalline-choir"
+    },
+    {
+      "request": "grove pulse-fern stillness dawn dormant 30 0",
+      "response": "serene-rest"
+    },
+    {
+      "request": "wetland pulse-fern stroll twilight awakened 20 6",
+      "response": "nocturnal-symphony"
+    },
+    {
+      "request": "grove echo-lotus observe golden awakened 18 5",
+      "response": "harmonic-bloom"
+    },
+    {
+      "request": "meadow echo-lotus touch dawn awakened 18 5",
+      "response": "dawn-arpeggio"
+    },
+    {
+      "request": "crystal pulse-fern observe twilight awakened 18 5",
+      "response": "crystalline-choir"
+    },
+    {
       "request": "meadow pulse-fern stroll golden dormant 40 5",
       "response": "ambient-drone"
     },
@@ -3515,6 +3559,10 @@ export const GENERATED_VERDANT_JUDGE_ARTIFACT = {
     },
     {
       "request": "meadow chime-lily observe dawn dormant 0 1",
+      "response": "dawn-arpeggio"
+    },
+    {
+      "request": "meadow chime-lily observe dawn dormant 0 9",
       "response": "dawn-arpeggio"
     },
     {
@@ -3538,6 +3586,10 @@ export const GENERATED_VERDANT_JUDGE_ARTIFACT = {
       "response": "melodic-chime"
     },
     {
+      "request": "meadow chime-lily observe dawn dormant 21 9",
+      "response": "melodic-chime"
+    },
+    {
       "request": "meadow chime-lily observe dawn dormant 21 10",
       "response": "melodic-chime"
     },
@@ -3550,11 +3602,39 @@ export const GENERATED_VERDANT_JUDGE_ARTIFACT = {
       "response": "wind-whisper"
     },
     {
+      "request": "meadow chime-lily observe dawn dormant 26 0",
+      "response": "melodic-chime"
+    },
+    {
+      "request": "meadow chime-lily observe dawn dormant 26 1",
+      "response": "melodic-chime"
+    },
+    {
+      "request": "meadow chime-lily observe dawn dormant 26 9",
+      "response": "melodic-chime"
+    },
+    {
+      "request": "meadow chime-lily observe dawn dormant 26 10",
+      "response": "melodic-chime"
+    },
+    {
+      "request": "meadow chime-lily observe dawn dormant 26 11",
+      "response": "melodic-chime"
+    },
+    {
+      "request": "meadow chime-lily observe dawn dormant 26 21",
+      "response": "wind-whisper"
+    },
+    {
       "request": "meadow chime-lily observe dawn dormant 31 0",
       "response": "ambient-drone"
     },
     {
       "request": "meadow chime-lily observe dawn dormant 31 1",
+      "response": "ambient-drone"
+    },
+    {
+      "request": "meadow chime-lily observe dawn dormant 31 9",
       "response": "ambient-drone"
     },
     {
@@ -3568,42 +3648,6 @@ export const GENERATED_VERDANT_JUDGE_ARTIFACT = {
     {
       "request": "meadow chime-lily observe dawn dormant 31 21",
       "response": "wind-whisper"
-    },
-    {
-      "request": "meadow chime-lily observe dawn dormant 46 0",
-      "response": "wind-whisper"
-    },
-    {
-      "request": "meadow chime-lily observe dawn dormant 46 1",
-      "response": "wind-whisper"
-    },
-    {
-      "request": "meadow chime-lily observe dawn dormant 46 10",
-      "response": "wind-whisper"
-    },
-    {
-      "request": "meadow chime-lily observe dawn dormant 46 11",
-      "response": "wind-whisper"
-    },
-    {
-      "request": "meadow chime-lily observe dawn dormant 46 21",
-      "response": "wind-whisper"
-    },
-    {
-      "request": "meadow chime-lily observe dawn awakened 0 0",
-      "response": "dawn-arpeggio"
-    },
-    {
-      "request": "meadow chime-lily observe dawn awakened 0 1",
-      "response": "dawn-arpeggio"
-    },
-    {
-      "request": "meadow chime-lily observe dawn awakened 0 10",
-      "response": "dawn-arpeggio"
-    },
-    {
-      "request": "meadow chime-lily observe dawn awakened 0 11",
-      "response": "melodic-chime"
     },
     {
       "request": "",

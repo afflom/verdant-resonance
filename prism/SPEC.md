@@ -47,7 +47,18 @@ The first rule that matches decides.
 - **REQ-021** When biome is crystal and plant is pulse-fern and action is stroll and proximity is at most 30 and velocity is at most 10, the answer is `rhythmic-pulse`. (`rule21`)
 - **REQ-022** When atmosphere is golden and plant is drone-moss and action is stillness and velocity equals 0 and proximity is at most 45, the answer is `serene-rest`. (`rule22`)
 - **REQ-023** When chorus is awakened and plant is pulse-fern and action is touch and proximity is at most 20 and velocity is at most 10, the answer is `harmonic-bloom`. (`rule23`)
-- **REQ-024** When velocity is at most 10 and proximity is at most 45, the answer is `ambient-drone`. (`rule24`)
+- **REQ-024** When chorus is awakened and biome is crystal and plant is star-orchid and action is observe and proximity is at most 25 and velocity is at most 10, the answer is `crystalline-choir`. (`rule24`)
+- **REQ-025** When chorus is awakened and biome is sanctuary and plant is echo-lotus and action is observe and proximity is at most 25 and velocity is at most 10, the answer is `sanctuary-chorus`. (`rule25`)
+- **REQ-026** When chorus is awakened and biome is grove and plant is pulse-fern and atmosphere is golden and action is observe and proximity is at most 25 and velocity is at most 8, the answer is `harmonic-bloom`. (`rule26`)
+- **REQ-027** When biome is meadow and plant is echo-lotus and atmosphere is dawn and action is observe and proximity is at most 25 and velocity is at most 10, the answer is `dawn-arpeggio`. (`rule27`)
+- **REQ-028** When chorus is awakened and biome is sanctuary and plant is echo-lotus and action is touch and atmosphere is starlight and proximity is at most 25 and velocity is at most 10, the answer is `sanctuary-chorus`. (`rule28`)
+- **REQ-029** When chorus is awakened and biome is crystal and plant is echo-lotus and action is observe and atmosphere is starlight and proximity is at most 25 and velocity is at most 10, the answer is `crystalline-choir`. (`rule29`)
+- **REQ-030** When biome is grove and plant is pulse-fern and action is stillness and atmosphere is dawn and velocity equals 0 and proximity is at most 40, the answer is `serene-rest`. (`rule30`)
+- **REQ-031** When chorus is awakened and biome is wetland and plant is pulse-fern and action is stroll and atmosphere is twilight and proximity is at most 25 and velocity is at most 8, the answer is `nocturnal-symphony`. (`rule31`)
+- **REQ-032** When chorus is awakened and biome is grove and plant is echo-lotus and action is observe and atmosphere is golden and proximity is at most 25 and velocity is at most 8, the answer is `harmonic-bloom`. (`rule32`)
+- **REQ-033** When chorus is awakened and biome is meadow and plant is echo-lotus and action is touch and atmosphere is dawn and proximity is at most 25 and velocity is at most 8, the answer is `dawn-arpeggio`. (`rule33`)
+- **REQ-034** When chorus is awakened and biome is crystal and plant is pulse-fern and action is observe and atmosphere is twilight and proximity is at most 25 and velocity is at most 8, the answer is `crystalline-choir`. (`rule34`)
+- **REQ-035** When velocity is at most 10 and proximity is at most 45, the answer is `ambient-drone`. (`rule35`)
 - **Otherwise** the answer is `wind-whisper`.
 
 ## Properties
@@ -62,6 +73,11 @@ The first rule that matches decides.
 - **INV-008** It always answers `wind-whisper` when proximity is above 45. proved by Lean. (theorem `inv008Holds`)
 - **INV-009** It never answers `serene-rest` when velocity is above 20. proved by Lean. (theorem `inv009Holds`)
 - **INV-010** It never answers `sanctuary-chorus` when velocity is above 20. proved by Lean. (theorem `inv010Holds`)
+- **INV-011** It always answers `sanctuary-chorus` when chorus is awakened and biome is sanctuary and plant is echo-lotus and atmosphere is golden and action is observe and proximity is at most 25 and velocity is at most 10. proved by Lean. (theorem `inv011Holds`)
+- **INV-012** It always answers `harmonic-bloom` when chorus is awakened and biome is grove and plant is pulse-fern and atmosphere is golden and action is observe and proximity is at most 25 and velocity is at most 8. proved by Lean. (theorem `inv012Holds`)
+- **INV-013** It always answers `sanctuary-chorus` when chorus is awakened and biome is sanctuary and plant is echo-lotus and action is touch and atmosphere is starlight and proximity is at most 25 and velocity is at most 10. proved by Lean. (theorem `inv013Holds`)
+- **INV-014** It always answers `crystalline-choir` when chorus is awakened and biome is crystal and plant is echo-lotus and action is observe and atmosphere is starlight and proximity is at most 25 and velocity is at most 10. proved by Lean. (theorem `inv014Holds`)
+- **INV-015** It always answers `harmonic-bloom` when chorus is awakened and biome is grove and plant is echo-lotus and action is observe and atmosphere is golden and proximity is at most 25 and velocity is at most 8. proved by Lean. (theorem `inv015Holds`)
 
 ## Examples
 
@@ -88,6 +104,17 @@ The first rule that matches decides.
 - `crystal pulse-fern stroll golden dormant 25 5` gives `rhythmic-pulse`
 - `meadow drone-moss stillness golden dormant 40 0` gives `serene-rest`
 - `grove pulse-fern touch golden awakened 15 5` gives `harmonic-bloom`
+- `crystal star-orchid observe golden awakened 18 5` gives `crystalline-choir`
+- `sanctuary echo-lotus observe golden awakened 18 5` gives `sanctuary-chorus`
+- `grove pulse-fern observe golden awakened 18 5` gives `harmonic-bloom`
+- `meadow echo-lotus observe dawn dormant 18 5` gives `dawn-arpeggio`
+- `sanctuary echo-lotus touch starlight awakened 18 5` gives `sanctuary-chorus`
+- `crystal echo-lotus observe starlight awakened 18 5` gives `crystalline-choir`
+- `grove pulse-fern stillness dawn dormant 30 0` gives `serene-rest`
+- `wetland pulse-fern stroll twilight awakened 20 6` gives `nocturnal-symphony`
+- `grove echo-lotus observe golden awakened 18 5` gives `harmonic-bloom`
+- `meadow echo-lotus touch dawn awakened 18 5` gives `dawn-arpeggio`
+- `crystal pulse-fern observe twilight awakened 18 5` gives `crystalline-choir`
 - `meadow pulse-fern stroll golden dormant 40 5` gives `ambient-drone`
 - `meadow chime-lily stroll golden dormant 70 20` gives `wind-whisper`
 

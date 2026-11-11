@@ -80,47 +80,17 @@ structure{
   ]
 }
 
-definition{
-  name: verdantContinuousDroneGainMilli,
-  parameters: [],
-  result: Nat,
-  body: 0
-}
+definition{name: verdantContinuousDroneGainMilli, parameters: [], result: Nat, body: 0}
 
-definition{
-  name: verdantMasterGainMilli,
-  parameters: [],
-  result: Nat,
-  body: 360
-}
+definition{name: verdantMasterGainMilli, parameters: [], result: Nat, body: 360}
 
-definition{
-  name: verdantLimiterCeilingMilli,
-  parameters: [],
-  result: Nat,
-  body: 500
-}
+definition{name: verdantLimiterCeilingMilli, parameters: [], result: Nat, body: 500}
 
-definition{
-  name: verdantMinDistanceGainMilli,
-  parameters: [],
-  result: Nat,
-  body: 180
-}
+definition{name: verdantMinDistanceGainMilli, parameters: [], result: Nat, body: 180}
 
-definition{
-  name: verdantMaxDistanceGainMilli,
-  parameters: [],
-  result: Nat,
-  body: 1000
-}
+definition{name: verdantMaxDistanceGainMilli, parameters: [], result: Nat, body: 1000}
 
-definition{
-  name: verdantAcousticsBasisPrime,
-  parameters: [],
-  result: Nat,
-  body: 89
-}
+definition{name: verdantAcousticsBasisPrime, parameters: [], result: Nat, body: 89}
 
 definition{
   name: stepAcousticsBusModulation,
@@ -133,42 +103,7 @@ definition{
   name: verdantAcousticStandard,
   parameters: [],
   result: BotanicalAcousticStandard,
-  body: (record BotanicalAcousticStandard {
-    profile := "prism/acoustic-standard/3",
-    tuningSystem := "5-Limit & 7-Limit Pure Just Intonation with 5-Partial Modal Synthesis, Spatial Wave Propagation & Zero Continuous Drone Fatigue",
-    silenceFloorPolicy := "Zero persistent oscillator drone (continuousDroneGainMilli = 0); all harmonic pads and chimes use self-decaying breathing envelopes over natural quietude",
-    unisonInterval := (record JustIntonationInterval {intervalName := "Fundamental Unison", numerator := 1, denominator := 1, centsDeviation := 0}),
-    majorThirdInterval := (record JustIntonationInterval {intervalName := "Pure Harmonic Major Third", numerator := 5, denominator := 4, centsDeviation := 0}),
-    perfectFifthInterval := (record JustIntonationInterval {intervalName := "Pure Acoustic Fifth", numerator := 3, denominator := 2, centsDeviation := 0}),
-    harmonicSeventhInterval := (record JustIntonationInterval {intervalName := "Celestial Diatonic Seventh", numerator := 15, denominator := 8, centsDeviation := 0}),
-    synthesisSpec := (record SpatialSynthesisSpec {
-      sampleRateHz := 48000,
-      partialsPerVoice := 5,
-      spectrumBands := 16,
-      stereoConvolverIrMs := 2200,
-      stereoEchoDelayMs := 375,
-      binauralPanningEnabled := ((verdantMasterGainMilli) <=? (verdantLimiterCeilingMilli)),
-      continuousDroneGainMilli := (verdantContinuousDroneGainMilli),
-      masterGainMilli := (verdantMasterGainMilli),
-      limiterCeilingMilli := (verdantLimiterCeilingMilli)
-    }),
-    wavePropagation := (record SpatialWavePropagationSpec {
-      speedOfSoundMps := 343,
-      referenceDistanceDm := 65,
-      minDistanceGainMilli := (verdantMinDistanceGainMilli),
-      maxDistanceGainMilli := (verdantMaxDistanceGainMilli),
-      stokesKirchhoffAirAbsorptionEnabled := ((verdantMinDistanceGainMilli) <? (verdantMaxDistanceGainMilli)),
-      obstacleDiffractionLowpassEnabled := ((verdantMinDistanceGainMilli) <? (verdantMaxDistanceGainMilli))
-    }),
-    neuromorphicBridge := (record NeuromorphicAcousticsBridgeSpec {
-      neuromorphicBusCoupled := ((stepAcousticsBusModulation 1) <? (stepAcousticsBusModulation 16)),
-      domainBasisPrime := (verdantAcousticsBasisPrime),
-      rule30RegisterBits := 64,
-      pointKeyBits := 28,
-      crossDomainTransferEnabled := ((stepAcousticsBusModulation 8) <? (stepAcousticsBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))),
-      autopoieticSelfRefinementEnabled := ((stepAcousticsBusModulation 8) <? (stepAcousticsBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))
-    })
-  })
+  body: (record BotanicalAcousticStandard {profile := "prism/acoustic-standard/3", tuningSystem := "5-Limit & 7-Limit Pure Just Intonation with 5-Partial Modal Synthesis, Spatial Wave Propagation & Zero Continuous Drone Fatigue", silenceFloorPolicy := "Zero persistent oscillator drone (continuousDroneGainMilli = 0); all harmonic pads and chimes use self-decaying breathing envelopes over natural quietude", unisonInterval := (record JustIntonationInterval {intervalName := "Fundamental Unison", numerator := 1, denominator := 1, centsDeviation := 0}), majorThirdInterval := (record JustIntonationInterval {intervalName := "Pure Harmonic Major Third", numerator := 5, denominator := 4, centsDeviation := 0}), perfectFifthInterval := (record JustIntonationInterval {intervalName := "Pure Acoustic Fifth", numerator := 3, denominator := 2, centsDeviation := 0}), harmonicSeventhInterval := (record JustIntonationInterval {intervalName := "Celestial Diatonic Seventh", numerator := 15, denominator := 8, centsDeviation := 0}), synthesisSpec := (record SpatialSynthesisSpec {sampleRateHz := 48000, partialsPerVoice := 5, spectrumBands := 16, stereoConvolverIrMs := 2200, stereoEchoDelayMs := 375, binauralPanningEnabled := ((verdantMasterGainMilli) <=? (verdantLimiterCeilingMilli)), continuousDroneGainMilli := (verdantContinuousDroneGainMilli), masterGainMilli := (verdantMasterGainMilli), limiterCeilingMilli := (verdantLimiterCeilingMilli)}), wavePropagation := (record SpatialWavePropagationSpec {speedOfSoundMps := 343, referenceDistanceDm := 65, minDistanceGainMilli := (verdantMinDistanceGainMilli), maxDistanceGainMilli := (verdantMaxDistanceGainMilli), stokesKirchhoffAirAbsorptionEnabled := ((verdantMinDistanceGainMilli) <? (verdantMaxDistanceGainMilli)), obstacleDiffractionLowpassEnabled := ((verdantMinDistanceGainMilli) <? (verdantMaxDistanceGainMilli))}), neuromorphicBridge := (record NeuromorphicAcousticsBridgeSpec {neuromorphicBusCoupled := ((stepAcousticsBusModulation 1) <? (stepAcousticsBusModulation 16)), domainBasisPrime := (verdantAcousticsBasisPrime), rule30RegisterBits := 64, pointKeyBits := 28, crossDomainTransferEnabled := ((stepAcousticsBusModulation 8) <? (stepAcousticsBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain 8 true))), autopoieticSelfRefinementEnabled := ((stepAcousticsBusModulation 8) <? (stepAcousticsBusModulation (Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic 8 16)))})})
 }
 
 definition{
@@ -182,7 +117,9 @@ theorem{
   name: acousticHeadroomStandardHolds,
   parameters: [gainMilli : Nat],
   statement: ((breaksAcousticHeadroom gainMilli) = false),
-  proof: linear_arithmetic{definitions: [breaksAcousticHeadroom, verdantLimiterCeilingMilli, verdantMasterGainMilli]},
+  proof: linear_arithmetic{
+    definitions: [breaksAcousticHeadroom, verdantLimiterCeilingMilli, verdantMasterGainMilli]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -197,7 +134,9 @@ theorem{
   name: zeroContinuousDroneFatigueHolds,
   parameters: [droneMilli : Nat],
   statement: ((breaksZeroContinuousDroneFatigue droneMilli) = false),
-  proof: linear_arithmetic{definitions: [breaksZeroContinuousDroneFatigue, verdantContinuousDroneGainMilli]},
+  proof: linear_arithmetic{
+    definitions: [breaksZeroContinuousDroneFatigue, verdantContinuousDroneGainMilli]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -212,7 +151,13 @@ theorem{
   name: spatialAttenuationBoundedHolds,
   parameters: [minGain : Nat, maxGain : Nat],
   statement: ((breaksSpatialAttenuationBounds minGain maxGain) = false),
-  proof: linear_arithmetic{definitions: [breaksSpatialAttenuationBounds, verdantMaxDistanceGainMilli, verdantMinDistanceGainMilli]},
+  proof: linear_arithmetic{
+    definitions: [
+      breaksSpatialAttenuationBounds,
+      verdantMaxDistanceGainMilli,
+      verdantMinDistanceGainMilli
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 
@@ -227,7 +172,16 @@ theorem{
   name: acousticsNeuromorphicCouplingHolds,
   parameters: [busWeight : Nat],
   statement: ((breaksAcousticsNeuromorphicCoupling busWeight) = false),
-  proof: linear_arithmetic{definitions: [Foundation.Neuromorphic.V1.Model::clampBusWeight, Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain, Foundation.Neuromorphic.V1.Model::weightMax, Foundation.Neuromorphic.V1.Model::weightMin, breaksAcousticsNeuromorphicCoupling, stepAcousticsBusModulation]},
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksAcousticsNeuromorphicCoupling,
+      stepAcousticsBusModulation
+    ]
+  },
   axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}
