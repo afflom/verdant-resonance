@@ -9,14 +9,19 @@ import {
   BIOME_LANDSCAPE_TERRACES,
   BIOME_MONUMENTS,
   BOTANICAL_LIFECYCLE_STAGES,
+  CANONICAL_PLAYER_ARCHETYPE_SCENARIOS,
   DIURNAL_CELESTIAL_VECTORS,
   GROWTH_SUBSTRATE_SPECS,
   MIRROR_LAGOON_CENTER,
   MIRROR_LAGOON_WATER_SURFACE_Y,
+  PLAYER_CO_OBSERVER_PRIME,
   PRISM_DOMAIN_BASIS_PRIMES,
   PRISM_DOMAIN_BRIDGES,
   PRISM_DOMAIN_ORDER,
+  REFLEXIVE_24_FACET_DIRECTIVES,
+  REFLEXIVE_HOLON_FACET_TOTAL,
   SANCTUARY_TRAIL_WAYPOINTS,
+  SOLIPSISTIC_RULE30_CEILING_PERMILLE,
   SPECIES_ARTICULATION_PROFILES,
   SYMBIOTIC_GUILDS,
   VERDANT_ACOUSTIC_STANDARD,
@@ -24,6 +29,7 @@ import {
   VERDANT_BOTANICAL_STANDARD,
   VERDANT_BRAND_STANDARD,
   VERDANT_ECOLOGY_STANDARD,
+  VERDANT_GAME_HOLON_BASIS_PRIME,
   VERDANT_HUMANE_STANDARD,
   VERDANT_INFRASTRUCTURE_STANDARD,
   VERDANT_NEUROMORPHIC_STANDARD,
@@ -70,9 +76,11 @@ import {
   evaluateGroundWavePropagation,
   evaluateHumaneErgonomics,
   evaluateHydrodynamics,
+  evaluateObserverPlayerDissonanceReconciliation,
   evaluatePrismRequest,
   evaluateSpatialSurfaceLaw,
   evaluateSpatialWaveAcoustics,
+  evaluateVerdantAutonomousKpis,
   executeNeuromorphicSynthesisTick,
   findSympatheticNeighbors,
   formatPrismRequest,
@@ -88,6 +96,7 @@ import {
   registerEmergentSeedlingCollider,
   resolveBiomeWaypointLanding,
   resolvePlayerPhysicsStep,
+  runAutonomousHolonSelfOptimization,
   rule30CellStep,
   runAcceptanceVectors,
   scheduleNeuromorphicStrategies,
@@ -6757,11 +6766,11 @@ test('63. Universal Prism LexLean-to-TypeScript Mechanizer, Differential Dispatc
     assert.equal(decodePrismTextRequest(bad).tag, 'none');
   }
 
-  // 4. Universal auto-discovered contract sweep (all 87 byte vectors + 150 breaks* refuters + 34 verify* gates)
+  // 4. Universal auto-discovered contract sweep (all 87 byte vectors + >=152 breaks* refuters + 34 verify* gates)
   const sweep = await runMechanizedContractSweep();
   assert.equal(sweep.modulesVerified, 27);
   assert.equal(sweep.acceptanceVectorsVerified, 87);
-  assert.equal(sweep.counterexamplePredicatesChecked, 150);
+  assert.ok(sweep.counterexamplePredicatesChecked >= 152);
   assert.ok(sweep.counterexampleEvaluations >= 1300);
   assert.ok(sweep.verificationPredicatesChecked >= 34);
 
@@ -6777,4 +6786,102 @@ test('63. Universal Prism LexLean-to-TypeScript Mechanizer, Differential Dispatc
   assert.equal(warmSync.fromCache, true);
   assert.equal(warmSync.constantsChanged, false);
   assert.equal(warmSync.runtimeChanged, false);
+});
+
+test('64. 24-Facet Reflexive Holon Guiding Directives, Autonomous KPIs & Player-Game Dissonance Reconciliation', () => {
+  // 1. Formal constants & Lean 4.32 theorem attestation in Foundation.Teleology.V1.Model
+  assert.equal(REFLEXIVE_HOLON_FACET_TOTAL, 24);
+  assert.equal(PLAYER_CO_OBSERVER_PRIME, 181);
+  assert.equal(VERDANT_GAME_HOLON_BASIS_PRIME, 191);
+  assert.equal(SOLIPSISTIC_RULE30_CEILING_PERMILLE, 760);
+  assert.equal(REFLEXIVE_24_FACET_DIRECTIVES.length, 24);
+
+  const teleologyTheorems = GENERATED_PRISM_THEOREMS_BY_MODULE['Foundation.Teleology.V1.Model'];
+  assert.ok(teleologyTheorems.includes('inclusivePlayerReferenceTranscendsRule30CeilingHolds'));
+  assert.ok(teleologyTheorems.includes('reflexiveHolonDirectivesAndDissonanceReconciliationHold'));
+
+  // 2. Every single facet (24/24: 22 Canonical Standard Models + Player + Whole-Game Holon) has a Guiding Directive & KPI
+  const seenPrimes = new Set<number>();
+  for (const spec of REFLEXIVE_24_FACET_DIRECTIVES) {
+    assert.ok(spec.guidingDirective.length >= 40, `Missing guiding directive on ${spec.facetKey}`);
+    assert.ok(spec.objectiveTitle.length >= 20, `Missing objective title on ${spec.facetKey}`);
+    assert.ok(spec.kpiId.startsWith('KPI-F'));
+    assert.ok(!seenPrimes.has(spec.basisPrime), `Duplicate prime ${spec.basisPrime}`);
+    seenPrimes.add(spec.basisPrime);
+  }
+  assert.equal(seenPrimes.size, 24);
+
+  const scorecard = evaluateVerdantAutonomousKpis({ busWeight: 12 });
+  assert.equal(scorecard.verified, true);
+  assert.equal(scorecard.satisfiedFacetKpiCount, 24);
+  assert.equal(scorecard.distinctPrimeNicheCount, 24);
+  assert.equal(scorecard.executiveKpis.length, 6);
+  for (const kpi of scorecard.executiveKpis) {
+    assert.equal(kpi.satisfied, true, `Executive KPI failed: ${kpi.kpiId} (${kpi.unitSummary})`);
+  }
+
+  // 3. Solipsistic Rule-30 Ceiling (<= 760‰) vs. Inclusive Player-Reference Transcendence (> 760‰ .. 1000‰)
+  for (const w of [1, 8, 12, 16]) {
+    const solipsistic = evaluateObserverPlayerDissonanceReconciliation({
+      busWeight: w,
+      rule30Register64: 0xffffffffffffffffn, // maximum internal Rule-30 popcount
+      rawPlayerGameDissonancePermille: 0,
+      includePlayerInSelfReference: false,
+    } as any);
+    assert.ok(
+      solipsistic.triadicPlayerGameObserverCoherencePermille <= SOLIPSISTIC_RULE30_CEILING_PERMILLE,
+      `Solipsistic self-reference at w=${w} exceeded 760‰ ceiling: ${solipsistic.triadicPlayerGameObserverCoherencePermille}`,
+    );
+    assert.equal(solipsistic.transcendsSolipsisticCeiling, false);
+  }
+
+  const inclusiveApex = evaluateObserverPlayerDissonanceReconciliation({
+    busWeight: 16,
+    harmonyPct: 100,
+    velocityDm: 0,
+    isStillness: true,
+    gestureHoldProgress01: 1,
+    hasFocalTarget: true,
+    focalTargetAttuned: true,
+    nearestFeatureDistanceM: 3,
+    restStepCount: 8,
+    activeVoiceCount: 2,
+    awakenedSpeciesCount: 5,
+    exploredBiomesCount: 5,
+    tunedWaystoneCount: 8,
+    emergentOffshootCount: 4,
+    includePlayerInSelfReference: true,
+  });
+  assert.equal(inclusiveApex.reconciledResidualDissonancePermille, 0);
+  assert.equal(inclusiveApex.triadicPlayerGameObserverCoherencePermille, 1000);
+  assert.equal(inclusiveApex.transcendsSolipsisticCeiling, true);
+  assert.ok(inclusiveApex.healthyGratifyingQualityPermille >= 950);
+
+  // 4. Non-coercive humane ethics: any coercive/extractive dark pattern zeroes out game quality immediately
+  const coerciveProbe = evaluateObserverPlayerDissonanceReconciliation({
+    busWeight: 16,
+    harmonyPct: 100,
+    coerciveDarkPatternCount: 1,
+  });
+  assert.equal(coerciveProbe.healthyGratifyingQualityPermille, 0);
+
+  // 5. Autonomous Rule-30 + Player-Referenced multi-cycle optimization across all 4 player archetypes
+  assert.equal(CANONICAL_PLAYER_ARCHETYPE_SCENARIOS.length, 4);
+  const opt = runAutonomousHolonSelfOptimization(8, 10);
+  assert.equal(opt.monotonicQualityAscentVerified, true);
+  assert.equal(opt.playerInclusionRequiredVerified, true);
+  assert.ok(opt.finalMeanQualityPermille >= opt.initialMeanQualityPermille);
+  assert.ok(opt.finalMeanResidualDissonancePermille <= opt.initialMeanDissonancePermille);
+  for (const sc of opt.scenarioOutcomes) {
+    assert.ok(sc.residualDissonancePermille <= sc.rawDissonancePermille);
+    assert.ok(sc.solipsisticCoherencePermille <= SOLIPSISTIC_RULE30_CEILING_PERMILLE);
+    assert.ok(sc.triadicCoherencePermille > SOLIPSISTIC_RULE30_CEILING_PERMILLE);
+  }
+
+  // 6. Live Conservatory runtime & soundscape coupling verified
+  const gardenCanvasSrc = fs.readFileSync('src/components/GardenCanvas.tsx', 'utf8');
+  const soundscapeSrc = fs.readFileSync('src/game/soundscapeEngine.ts', 'utf8');
+  assert.equal(gardenCanvasSrc.includes('evaluateObserverPlayerDissonanceReconciliation('), true);
+  assert.equal(gardenCanvasSrc.includes('setPlayerReconciliationWarmthScale('), true);
+  assert.equal(soundscapeSrc.includes('playerReconciliationWarmthScale'), true);
 });

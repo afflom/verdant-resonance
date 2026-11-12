@@ -1414,11 +1414,27 @@ export interface Foundation_Teleology_V1_Model_PhysicalBasisAndTriuneObserverCur
   readonly emergentResonanceReplacesFixedTimers: boolean;
 }
 
+export interface Foundation_Teleology_V1_Model_ReflexiveHolonObjectivesAndPlayerReconciliationSpec {
+  readonly verdantGameHolonBasisPrime: bigint;
+  readonly reflexiveHolonFacetTotal: bigint;
+  readonly guidingDirectiveCoverageTotal: bigint;
+  readonly measurableKpiObjectiveTotal: bigint;
+  readonly solipsisticRule30CeilingPermille: bigint;
+  readonly apexInclusiveCoherencePermille: bigint;
+  readonly coerciveExtractivePatternZero: bigint;
+  readonly everyFacetHasGuidingDirective: boolean;
+  readonly rule30AloneBoundedWithoutPlayerReference: boolean;
+  readonly observerReconcilesPlayerGameDissonance: boolean;
+  readonly triadicCoherenceReplacesDissonance: boolean;
+  readonly healthyGratifyingQualityEnforced: boolean;
+}
+
 export interface Foundation_Teleology_V1_Model_TeleologyStandardModel {
   readonly profile: string;
   readonly requirementChain: Foundation_Teleology_V1_Model_EnvironmentalRequirementChainSpec;
   readonly purposeAndAutonomy: Foundation_Teleology_V1_Model_InteractivePurposeAndAutonomousPlasticitySpec;
   readonly physicalBasisAndTriuneCuration: Foundation_Teleology_V1_Model_PhysicalBasisAndTriuneObserverCurationSpec;
+  readonly reflexiveHolonAndKpis: Foundation_Teleology_V1_Model_ReflexiveHolonObjectivesAndPlayerReconciliationSpec;
   readonly canonicalDescriptor: Foundation_MetaModel_V1_Model_CanonicalStandardModelDescriptor;
 }
 
@@ -4226,9 +4242,48 @@ export function Foundation_Teleology_V1_Model_playerCoObserverPrime(): bigint {
   return _c_Foundation_Teleology_V1_Model_playerCoObserverPrime !== undefined ? _c_Foundation_Teleology_V1_Model_playerCoObserverPrime : (_c_Foundation_Teleology_V1_Model_playerCoObserverPrime = 181n);
 }
 
+let _c_Foundation_Teleology_V1_Model_verdantGameHolonPrime: bigint | undefined;
+export function Foundation_Teleology_V1_Model_verdantGameHolonPrime(): bigint {
+  return _c_Foundation_Teleology_V1_Model_verdantGameHolonPrime !== undefined ? _c_Foundation_Teleology_V1_Model_verdantGameHolonPrime : (_c_Foundation_Teleology_V1_Model_verdantGameHolonPrime = 191n);
+}
+
 let _c_Foundation_Teleology_V1_Model_observerUnifiedFacetTotal: bigint | undefined;
 export function Foundation_Teleology_V1_Model_observerUnifiedFacetTotal(): bigint {
   return _c_Foundation_Teleology_V1_Model_observerUnifiedFacetTotal !== undefined ? _c_Foundation_Teleology_V1_Model_observerUnifiedFacetTotal : (_c_Foundation_Teleology_V1_Model_observerUnifiedFacetTotal = 23n);
+}
+
+let _c_Foundation_Teleology_V1_Model_reflexiveHolonFacetTotal: bigint | undefined;
+export function Foundation_Teleology_V1_Model_reflexiveHolonFacetTotal(): bigint {
+  return _c_Foundation_Teleology_V1_Model_reflexiveHolonFacetTotal !== undefined ? _c_Foundation_Teleology_V1_Model_reflexiveHolonFacetTotal : (_c_Foundation_Teleology_V1_Model_reflexiveHolonFacetTotal = 24n);
+}
+
+let _c_Foundation_Teleology_V1_Model_solipsisticRule30CeilingPermille: bigint | undefined;
+export function Foundation_Teleology_V1_Model_solipsisticRule30CeilingPermille(): bigint {
+  return _c_Foundation_Teleology_V1_Model_solipsisticRule30CeilingPermille !== undefined ? _c_Foundation_Teleology_V1_Model_solipsisticRule30CeilingPermille : (_c_Foundation_Teleology_V1_Model_solipsisticRule30CeilingPermille = 760n);
+}
+
+export function Foundation_Teleology_V1_Model_clampTeleologyPermille(value: bigint): bigint {
+  return ((value <= 1000n) ? value : 1000n);
+}
+
+export function Foundation_Teleology_V1_Model_stepReflexiveFacetNicheIndex(facetPrime: bigint, busWeight: bigint, facetOrdinal: bigint): bigint {
+  return (_natMul(facetPrime, (Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight) + 16n)) + facetOrdinal);
+}
+
+export function Foundation_Teleology_V1_Model_stepPlayerGameDissonancePermille(pacingMismatchPermille: bigint, attentionMismatchPermille: bigint, sensoryMismatchPermille: bigint): bigint {
+  return _natQuot(((_natMul(Foundation_Teleology_V1_Model_clampTeleologyPermille(pacingMismatchPermille), 4n) + _natMul(Foundation_Teleology_V1_Model_clampTeleologyPermille(attentionMismatchPermille), 4n)) + _natMul(Foundation_Teleology_V1_Model_clampTeleologyPermille(sensoryMismatchPermille), 2n)), 10n, 0n);
+}
+
+export function Foundation_Teleology_V1_Model_stepObserverDissonanceReconciliationPermille(busWeight: bigint, rule30Entropy: bigint, playerAttentionPermille: bigint, rawDissonancePermille: bigint): bigint {
+  return (() => { const internalCap = (_natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 12n) + ((rule30Entropy <= 64n) ? rule30Entropy : 64n)); const playerCap = _natQuot(_natMul(Foundation_Teleology_V1_Model_clampTeleologyPermille(playerAttentionPermille), 4n), 5n, 0n); return _natSub(Foundation_Teleology_V1_Model_clampTeleologyPermille(rawDissonancePermille), (internalCap + playerCap)); })();
+}
+
+export function Foundation_Teleology_V1_Model_stepTriadicPlayerGameObserverCoherencePermille(busWeight: bigint, rule30Entropy: bigint, playerAttentionPermille: bigint, residualDissonancePermille: bigint): bigint {
+  return (() => { const internalBase = ((468n + _natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 16n)) + ((rule30Entropy <= 36n) ? rule30Entropy : 36n)); const playerBridge = _natQuot(_natMul(Foundation_Teleology_V1_Model_clampTeleologyPermille(playerAttentionPermille), 240n), 1000n, 0n); const dissonanceDrag = _natQuot(Foundation_Teleology_V1_Model_clampTeleologyPermille(residualDissonancePermille), 2n, 0n); return _natSub((internalBase + playerBridge), dissonanceDrag); })();
+}
+
+export function Foundation_Teleology_V1_Model_stepHealthyGratifyingQualityPermille(triadicCoherencePermille: bigint, featureDifferentiationPermille: bigint, coerciveDarkPatternCount: bigint): bigint {
+  return ((0n < coerciveDarkPatternCount) ? 0n : _natQuot((_natMul(Foundation_Teleology_V1_Model_clampTeleologyPermille(triadicCoherencePermille), 6n) + _natMul(Foundation_Teleology_V1_Model_clampTeleologyPermille(featureDifferentiationPermille), 4n)), 10n, 0n));
 }
 
 let _c_Foundation_Teleology_V1_Model_intrinsicObserverDirectiveTotal: bigint | undefined;
@@ -4354,7 +4409,7 @@ export function Foundation_Teleology_V1_Model_teleologyCanonicalDescriptor(): Fo
 
 let _c_Foundation_Teleology_V1_Model_verdantTeleologyStandard: Foundation_Teleology_V1_Model_TeleologyStandardModel | undefined;
 export function Foundation_Teleology_V1_Model_verdantTeleologyStandard(): Foundation_Teleology_V1_Model_TeleologyStandardModel {
-  return _c_Foundation_Teleology_V1_Model_verdantTeleologyStandard !== undefined ? _c_Foundation_Teleology_V1_Model_verdantTeleologyStandard : (_c_Foundation_Teleology_V1_Model_verdantTeleologyStandard = ({ profile: "prism/teleology-standard/1", requirementChain: ({ synthesizedWorldPhenomenonTotal: Foundation_Teleology_V1_Model_synthesizedWorldPhenomenaTotal(), concreteSceneGroupCount: Foundation_Teleology_V1_Model_synthesizedWorldPhenomenaTotal(), synthesizedLandmarkTotal: Foundation_Teleology_V1_Model_synthesizedBiomeLandmarkTotal(), orphanUnexplainedElementCount: Foundation_Teleology_V1_Model_orphanUnexplainedElementsZero(), ungroundedArbitraryPropCount: Foundation_Teleology_V1_Model_orphanUnexplainedElementsZero(), minUpstreamRequiringModelsPerFeature: Foundation_Teleology_V1_Model_minRequiringModelsPerPhenomenon(), everyFeatureSynthesizedFromEnvironment: Foundation_Teleology_V1_Model_verifyRequirementGroundsEnvironmentalSynthesis(3n, 100n, Foundation_Teleology_V1_Model_stepTeleologicalFulfillmentPermille(8n)), requirementsPrecedeAndGroundSynthesis: Foundation_Teleology_V1_Model_verifyZeroOrphanElementsAndZeroManualControls(Foundation_Teleology_V1_Model_orphanUnexplainedElementsZero(), Foundation_Teleology_V1_Model_manualNeuromorphicControlsZero()), sceneBijectiveClosureVerified: Foundation_Teleology_V1_Model_verifySceneBijectivePhenomenonClosure(Foundation_Teleology_V1_Model_synthesizedWorldPhenomenaTotal(), Foundation_Teleology_V1_Model_synthesizedWorldPhenomenaTotal(), Foundation_Teleology_V1_Model_minRequiringModelsPerPhenomenon(), Foundation_Teleology_V1_Model_orphanUnexplainedElementsZero()) } as Foundation_Teleology_V1_Model_EnvironmentalRequirementChainSpec), purposeAndAutonomy: ({ interactiveLandmarkResonatorCount: Foundation_Teleology_V1_Model_synthesizedBiomeLandmarkTotal(), interactiveLithophoneWaystoneCount: Foundation_Teleology_V1_Model_interactiveWaystoneFlagstoneTotal(), tunableWaystoneHarmonicDegreeCount: Foundation_Teleology_V1_Model_tunableWaystoneHarmonicDegrees(), maxEmergentMicroclimateOffshoots: Foundation_Teleology_V1_Model_maxMicroclimateOffshootsCap(), interactiveChladniTerraceCount: Foundation_Teleology_V1_Model_synthesizedBiomeLandmarkTotal(), manualNeuromorphicControlCount: Foundation_Teleology_V1_Model_manualNeuromorphicControlsZero(), clutteredBackendReadoutCount: Foundation_Teleology_V1_Model_manualNeuromorphicControlsZero(), basePurposeFulfillmentPermille: Foundation_Teleology_V1_Model_stepTeleologicalFulfillmentPermille(8n), apexPurposeFulfillmentPermille: Foundation_Teleology_V1_Model_stepTeleologicalFulfillmentPermille(16n), neuromorphicsInherentToGameplay: (Foundation_Teleology_V1_Model_manualNeuromorphicControlsZero() === 0n), landmarksInteractiveViaContemplativeGestures: (Foundation_Teleology_V1_Model_stepLandmarkResonanceCouplingPermille(8n) < Foundation_Teleology_V1_Model_stepLandmarkResonanceCouplingPermille(16n)), witnessCommunionInteractive: (Foundation_Teleology_V1_Model_stepWitnessCommunionReciprocityPermille(8n) < Foundation_Teleology_V1_Model_stepWitnessCommunionReciprocityPermille(16n)), coCuratorialPathwaysAndShareableUorcEnabled: (Foundation_Teleology_V1_Model_stepEmergentOffshootColonizationCap(8n) < Foundation_Teleology_V1_Model_stepEmergentOffshootColonizationCap(16n)) } as Foundation_Teleology_V1_Model_InteractivePurposeAndAutonomousPlasticitySpec), physicalBasisAndTriuneCuration: ({ unifiedObserverFacetCount: Foundation_Teleology_V1_Model_observerUnifiedFacetTotal(), playerCoObserverBasisPrime: Foundation_Teleology_V1_Model_playerCoObserverPrime(), intrinsicObserverDirectiveCount: Foundation_Teleology_V1_Model_intrinsicObserverDirectiveTotal(), minFoundationEmbedmentMm: Foundation_Teleology_V1_Model_minMonumentFoundationEmbedMm(), cardanKinematicHierarchyDepth: Foundation_Teleology_V1_Model_cardanKinematicChainDepth(), minWalkablePortalClearanceMm: Foundation_Teleology_V1_Model_minWalkablePortalClearanceMm(), baseCuratorialAffinityPermille: Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(8n, 50n), apexCuratorialAffinityPermille: Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(16n, 100n), physicalBasisRequiredForEveryManifestation: Foundation_Teleology_V1_Model_verifyPhysicalLoadPathAndPendulumLaw(280n, 100n, 90n, 2670n, 2374n), structuralLoadPathAndPendulumLawEnforced: (Foundation_Teleology_V1_Model_minMonumentFoundationEmbedMm() <= 280n), cardanTrunnionZeroSlipEnforced: Foundation_Teleology_V1_Model_verifyHierarchicalCardanAndPortalClearance(4n, 0n, 1780n), walkableMonumentPortalsEnforced: (Foundation_Teleology_V1_Model_minWalkablePortalClearanceMm() <= 1780n), triuneObserverMotivationNonContrived: Foundation_Teleology_V1_Model_verifyTriuneObserverMotivation(280n, 23n, 3n, Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(8n, 50n)), emergentResonanceReplacesFixedTimers: (Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(8n, 50n) < Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(16n, 100n)) } as Foundation_Teleology_V1_Model_PhysicalBasisAndTriuneObserverCurationSpec), canonicalDescriptor: Foundation_Teleology_V1_Model_teleologyCanonicalDescriptor() } as Foundation_Teleology_V1_Model_TeleologyStandardModel));
+  return _c_Foundation_Teleology_V1_Model_verdantTeleologyStandard !== undefined ? _c_Foundation_Teleology_V1_Model_verdantTeleologyStandard : (_c_Foundation_Teleology_V1_Model_verdantTeleologyStandard = ({ profile: "prism/teleology-standard/1", requirementChain: ({ synthesizedWorldPhenomenonTotal: Foundation_Teleology_V1_Model_synthesizedWorldPhenomenaTotal(), concreteSceneGroupCount: Foundation_Teleology_V1_Model_synthesizedWorldPhenomenaTotal(), synthesizedLandmarkTotal: Foundation_Teleology_V1_Model_synthesizedBiomeLandmarkTotal(), orphanUnexplainedElementCount: Foundation_Teleology_V1_Model_orphanUnexplainedElementsZero(), ungroundedArbitraryPropCount: Foundation_Teleology_V1_Model_orphanUnexplainedElementsZero(), minUpstreamRequiringModelsPerFeature: Foundation_Teleology_V1_Model_minRequiringModelsPerPhenomenon(), everyFeatureSynthesizedFromEnvironment: Foundation_Teleology_V1_Model_verifyRequirementGroundsEnvironmentalSynthesis(3n, 100n, Foundation_Teleology_V1_Model_stepTeleologicalFulfillmentPermille(8n)), requirementsPrecedeAndGroundSynthesis: Foundation_Teleology_V1_Model_verifyZeroOrphanElementsAndZeroManualControls(Foundation_Teleology_V1_Model_orphanUnexplainedElementsZero(), Foundation_Teleology_V1_Model_manualNeuromorphicControlsZero()), sceneBijectiveClosureVerified: Foundation_Teleology_V1_Model_verifySceneBijectivePhenomenonClosure(Foundation_Teleology_V1_Model_synthesizedWorldPhenomenaTotal(), Foundation_Teleology_V1_Model_synthesizedWorldPhenomenaTotal(), Foundation_Teleology_V1_Model_minRequiringModelsPerPhenomenon(), Foundation_Teleology_V1_Model_orphanUnexplainedElementsZero()) } as Foundation_Teleology_V1_Model_EnvironmentalRequirementChainSpec), purposeAndAutonomy: ({ interactiveLandmarkResonatorCount: Foundation_Teleology_V1_Model_synthesizedBiomeLandmarkTotal(), interactiveLithophoneWaystoneCount: Foundation_Teleology_V1_Model_interactiveWaystoneFlagstoneTotal(), tunableWaystoneHarmonicDegreeCount: Foundation_Teleology_V1_Model_tunableWaystoneHarmonicDegrees(), maxEmergentMicroclimateOffshoots: Foundation_Teleology_V1_Model_maxMicroclimateOffshootsCap(), interactiveChladniTerraceCount: Foundation_Teleology_V1_Model_synthesizedBiomeLandmarkTotal(), manualNeuromorphicControlCount: Foundation_Teleology_V1_Model_manualNeuromorphicControlsZero(), clutteredBackendReadoutCount: Foundation_Teleology_V1_Model_manualNeuromorphicControlsZero(), basePurposeFulfillmentPermille: Foundation_Teleology_V1_Model_stepTeleologicalFulfillmentPermille(8n), apexPurposeFulfillmentPermille: Foundation_Teleology_V1_Model_stepTeleologicalFulfillmentPermille(16n), neuromorphicsInherentToGameplay: (Foundation_Teleology_V1_Model_manualNeuromorphicControlsZero() === 0n), landmarksInteractiveViaContemplativeGestures: (Foundation_Teleology_V1_Model_stepLandmarkResonanceCouplingPermille(8n) < Foundation_Teleology_V1_Model_stepLandmarkResonanceCouplingPermille(16n)), witnessCommunionInteractive: (Foundation_Teleology_V1_Model_stepWitnessCommunionReciprocityPermille(8n) < Foundation_Teleology_V1_Model_stepWitnessCommunionReciprocityPermille(16n)), coCuratorialPathwaysAndShareableUorcEnabled: (Foundation_Teleology_V1_Model_stepEmergentOffshootColonizationCap(8n) < Foundation_Teleology_V1_Model_stepEmergentOffshootColonizationCap(16n)) } as Foundation_Teleology_V1_Model_InteractivePurposeAndAutonomousPlasticitySpec), physicalBasisAndTriuneCuration: ({ unifiedObserverFacetCount: Foundation_Teleology_V1_Model_observerUnifiedFacetTotal(), playerCoObserverBasisPrime: Foundation_Teleology_V1_Model_playerCoObserverPrime(), intrinsicObserverDirectiveCount: Foundation_Teleology_V1_Model_intrinsicObserverDirectiveTotal(), minFoundationEmbedmentMm: Foundation_Teleology_V1_Model_minMonumentFoundationEmbedMm(), cardanKinematicHierarchyDepth: Foundation_Teleology_V1_Model_cardanKinematicChainDepth(), minWalkablePortalClearanceMm: Foundation_Teleology_V1_Model_minWalkablePortalClearanceMm(), baseCuratorialAffinityPermille: Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(8n, 50n), apexCuratorialAffinityPermille: Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(16n, 100n), physicalBasisRequiredForEveryManifestation: Foundation_Teleology_V1_Model_verifyPhysicalLoadPathAndPendulumLaw(280n, 100n, 90n, 2670n, 2374n), structuralLoadPathAndPendulumLawEnforced: (Foundation_Teleology_V1_Model_minMonumentFoundationEmbedMm() <= 280n), cardanTrunnionZeroSlipEnforced: Foundation_Teleology_V1_Model_verifyHierarchicalCardanAndPortalClearance(4n, 0n, 1780n), walkableMonumentPortalsEnforced: (Foundation_Teleology_V1_Model_minWalkablePortalClearanceMm() <= 1780n), triuneObserverMotivationNonContrived: Foundation_Teleology_V1_Model_verifyTriuneObserverMotivation(280n, 23n, 3n, Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(8n, 50n)), emergentResonanceReplacesFixedTimers: (Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(8n, 50n) < Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(16n, 100n)) } as Foundation_Teleology_V1_Model_PhysicalBasisAndTriuneObserverCurationSpec), reflexiveHolonAndKpis: ({ verdantGameHolonBasisPrime: Foundation_Teleology_V1_Model_verdantGameHolonPrime(), reflexiveHolonFacetTotal: Foundation_Teleology_V1_Model_reflexiveHolonFacetTotal(), guidingDirectiveCoverageTotal: Foundation_Teleology_V1_Model_reflexiveHolonFacetTotal(), measurableKpiObjectiveTotal: Foundation_Teleology_V1_Model_reflexiveHolonFacetTotal(), solipsisticRule30CeilingPermille: Foundation_Teleology_V1_Model_solipsisticRule30CeilingPermille(), apexInclusiveCoherencePermille: Foundation_Teleology_V1_Model_stepTriadicPlayerGameObserverCoherencePermille(16n, 36n, 1000n, 0n), coerciveExtractivePatternZero: 0n, everyFacetHasGuidingDirective: (Foundation_Teleology_V1_Model_reflexiveHolonFacetTotal() === 24n), rule30AloneBoundedWithoutPlayerReference: (Foundation_Teleology_V1_Model_stepTriadicPlayerGameObserverCoherencePermille(16n, 64n, 0n, 0n) <= Foundation_Teleology_V1_Model_solipsisticRule30CeilingPermille()), observerReconcilesPlayerGameDissonance: (Foundation_Teleology_V1_Model_stepObserverDissonanceReconciliationPermille(12n, 32n, 900n, 400n) === 0n), triadicCoherenceReplacesDissonance: (Foundation_Teleology_V1_Model_solipsisticRule30CeilingPermille() < Foundation_Teleology_V1_Model_stepTriadicPlayerGameObserverCoherencePermille(16n, 36n, 1000n, 0n)), healthyGratifyingQualityEnforced: (850n <= Foundation_Teleology_V1_Model_stepHealthyGratifyingQualityPermille(940n, 960n, 0n)) } as Foundation_Teleology_V1_Model_ReflexiveHolonObjectivesAndPlayerReconciliationSpec), canonicalDescriptor: Foundation_Teleology_V1_Model_teleologyCanonicalDescriptor() } as Foundation_Teleology_V1_Model_TeleologyStandardModel));
 }
 
 export function Foundation_Teleology_V1_Model_breaksZeroOrphanElementsAndZeroManualOverrides(orphan: bigint, manual: bigint): boolean {
@@ -4383,6 +4438,14 @@ export function Foundation_Teleology_V1_Model_breaksPhysicalBasisAndTriuneObserv
 
 export function Foundation_Teleology_V1_Model_breaksCoCuratorialOffshootAndWaystoneBounds(w1: bigint, w2: bigint): boolean {
   return (((w1 <= w2) && (Foundation_Teleology_V1_Model_stepEmergentOffshootColonizationCap(w2) < Foundation_Teleology_V1_Model_stepEmergentOffshootColonizationCap(w1))) || ((Foundation_Teleology_V1_Model_maxMicroclimateOffshootsCap() < Foundation_Teleology_V1_Model_stepEmergentOffshootColonizationCap(w2)) || ((Foundation_Teleology_V1_Model_stepEmergentOffshootColonizationCap(16n) <= Foundation_Teleology_V1_Model_stepEmergentOffshootColonizationCap(8n)) || (Foundation_Teleology_V1_Model_tunableWaystoneHarmonicDegrees() < 8n))));
+}
+
+export function Foundation_Teleology_V1_Model_breaksInclusivePlayerReferenceTranscendsRule30Ceiling(busWeight: bigint, coerciveCount: bigint): boolean {
+  return ((((Foundation_Teleology_V1_Model_solipsisticRule30CeilingPermille() < Foundation_Teleology_V1_Model_stepTriadicPlayerGameObserverCoherencePermille(busWeight, 36n, 0n, 0n)) || (Foundation_Teleology_V1_Model_stepTriadicPlayerGameObserverCoherencePermille(16n, 36n, 1000n, 0n) < 1000n)) || ((0n < coerciveCount) && (0n < Foundation_Teleology_V1_Model_stepHealthyGratifyingQualityPermille(1000n, 1000n, coerciveCount)))) || (Foundation_Teleology_V1_Model_stepHealthyGratifyingQualityPermille(950n, 950n, 0n) < 950n));
+}
+
+export function Foundation_Teleology_V1_Model_breaksReflexiveHolonDirectivesAndDissonanceReconciliation(w: bigint, rawDissonance: bigint): boolean {
+  return (((Foundation_Teleology_V1_Model_clampTeleologyPermille(rawDissonance) < Foundation_Teleology_V1_Model_stepObserverDissonanceReconciliationPermille(w, 32n, 800n, rawDissonance)) || (0n < Foundation_Teleology_V1_Model_stepObserverDissonanceReconciliationPermille(12n, 32n, 900n, 400n))) || ((Foundation_Teleology_V1_Model_stepReflexiveFacetNicheIndex(Foundation_Teleology_V1_Model_verdantGameHolonPrime(), w, 23n) <= Foundation_Teleology_V1_Model_stepReflexiveFacetNicheIndex(Foundation_Teleology_V1_Model_playerCoObserverPrime(), w, 22n)) || ((1000n < Foundation_Teleology_V1_Model_stepPlayerGameDissonancePermille(1200n, 1200n, 1200n)) || (Foundation_Teleology_V1_Model_reflexiveHolonFacetTotal() < 24n))));
 }
 
 let _c_Foundation_Vedanta_V1_Model_verdantVedantaBasisPrime: bigint | undefined;
@@ -6557,7 +6620,16 @@ export const PRISM_COMPILED_MODULES = {
   "Foundation.Teleology.V1.Model": {
     "verdantTeleologyBasisPrime": Foundation_Teleology_V1_Model_verdantTeleologyBasisPrime,
     "playerCoObserverPrime": Foundation_Teleology_V1_Model_playerCoObserverPrime,
+    "verdantGameHolonPrime": Foundation_Teleology_V1_Model_verdantGameHolonPrime,
     "observerUnifiedFacetTotal": Foundation_Teleology_V1_Model_observerUnifiedFacetTotal,
+    "reflexiveHolonFacetTotal": Foundation_Teleology_V1_Model_reflexiveHolonFacetTotal,
+    "solipsisticRule30CeilingPermille": Foundation_Teleology_V1_Model_solipsisticRule30CeilingPermille,
+    "clampTeleologyPermille": Foundation_Teleology_V1_Model_clampTeleologyPermille,
+    "stepReflexiveFacetNicheIndex": Foundation_Teleology_V1_Model_stepReflexiveFacetNicheIndex,
+    "stepPlayerGameDissonancePermille": Foundation_Teleology_V1_Model_stepPlayerGameDissonancePermille,
+    "stepObserverDissonanceReconciliationPermille": Foundation_Teleology_V1_Model_stepObserverDissonanceReconciliationPermille,
+    "stepTriadicPlayerGameObserverCoherencePermille": Foundation_Teleology_V1_Model_stepTriadicPlayerGameObserverCoherencePermille,
+    "stepHealthyGratifyingQualityPermille": Foundation_Teleology_V1_Model_stepHealthyGratifyingQualityPermille,
     "intrinsicObserverDirectiveTotal": Foundation_Teleology_V1_Model_intrinsicObserverDirectiveTotal,
     "minMonumentFoundationEmbedMm": Foundation_Teleology_V1_Model_minMonumentFoundationEmbedMm,
     "cardanKinematicChainDepth": Foundation_Teleology_V1_Model_cardanKinematicChainDepth,
@@ -6593,6 +6665,8 @@ export const PRISM_COMPILED_MODULES = {
     "breaksTeleologyDescriptorComplete": Foundation_Teleology_V1_Model_breaksTeleologyDescriptorComplete,
     "breaksPhysicalBasisAndTriuneObserverCuration": Foundation_Teleology_V1_Model_breaksPhysicalBasisAndTriuneObserverCuration,
     "breaksCoCuratorialOffshootAndWaystoneBounds": Foundation_Teleology_V1_Model_breaksCoCuratorialOffshootAndWaystoneBounds,
+    "breaksInclusivePlayerReferenceTranscendsRule30Ceiling": Foundation_Teleology_V1_Model_breaksInclusivePlayerReferenceTranscendsRule30Ceiling,
+    "breaksReflexiveHolonDirectivesAndDissonanceReconciliation": Foundation_Teleology_V1_Model_breaksReflexiveHolonDirectivesAndDissonanceReconciliation,
   },
   "Foundation.Vedanta.V1.Model": {
     "verdantVedantaBasisPrime": Foundation_Vedanta_V1_Model_verdantVedantaBasisPrime,
@@ -6979,12 +7053,12 @@ export const PRISM_COMPILED_MODULES = {
 export type PrismCompiledModuleName = keyof typeof PRISM_COMPILED_MODULES;
 
 export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
-  "sourceTreeDigestSha256": "8630fa4f3255c68f799ddaa330529b0f9c0e4ed60524c04e87f110d170a17850",
+  "sourceTreeDigestSha256": "c0704cabe37ba58ca3280187f10f6686544de7098731cd08558968f8c883a2d0",
   "moduleCount": 27,
   "inductiveCount": 2,
-  "structureCount": 149,
-  "definitionCount": 967,
-  "theoremCount": 154,
+  "structureCount": 150,
+  "definitionCount": 978,
+  "theoremCount": 156,
   "modules": [
     {
       "moduleName": "Foundation.MetaModel.V1.Model",
@@ -7228,9 +7302,9 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
         "Foundation.Humane.V1.Model"
       ],
       "inductiveCount": 0,
-      "structureCount": 4,
-      "definitionCount": 38,
-      "theoremCount": 7
+      "structureCount": 5,
+      "definitionCount": 49,
+      "theoremCount": 9
     },
     {
       "moduleName": "Foundation.Vedanta.V1.Model",
@@ -8979,6 +9053,36 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
         },
         {
           "name": "w2",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "Foundation.Teleology.V1.Model",
+      "name": "breaksInclusivePlayerReferenceTranscendsRule30Ceiling",
+      "parameters": [
+        {
+          "name": "busWeight",
+          "lexType": "Nat"
+        },
+        {
+          "name": "coerciveCount",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "Foundation.Teleology.V1.Model",
+      "name": "breaksReflexiveHolonDirectivesAndDissonanceReconciliation",
+      "parameters": [
+        {
+          "name": "w",
+          "lexType": "Nat"
+        },
+        {
+          "name": "rawDissonance",
           "lexType": "Nat"
         }
       ],
@@ -10900,6 +11004,109 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       "parameters": [
         {
           "name": "busWeight",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "moduleName": "Foundation.Teleology.V1.Model",
+      "name": "stepReflexiveFacetNicheIndex",
+      "parameters": [
+        {
+          "name": "facetPrime",
+          "lexType": "Nat"
+        },
+        {
+          "name": "busWeight",
+          "lexType": "Nat"
+        },
+        {
+          "name": "facetOrdinal",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "moduleName": "Foundation.Teleology.V1.Model",
+      "name": "stepPlayerGameDissonancePermille",
+      "parameters": [
+        {
+          "name": "pacingMismatchPermille",
+          "lexType": "Nat"
+        },
+        {
+          "name": "attentionMismatchPermille",
+          "lexType": "Nat"
+        },
+        {
+          "name": "sensoryMismatchPermille",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "moduleName": "Foundation.Teleology.V1.Model",
+      "name": "stepObserverDissonanceReconciliationPermille",
+      "parameters": [
+        {
+          "name": "busWeight",
+          "lexType": "Nat"
+        },
+        {
+          "name": "rule30Entropy",
+          "lexType": "Nat"
+        },
+        {
+          "name": "playerAttentionPermille",
+          "lexType": "Nat"
+        },
+        {
+          "name": "rawDissonancePermille",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "moduleName": "Foundation.Teleology.V1.Model",
+      "name": "stepTriadicPlayerGameObserverCoherencePermille",
+      "parameters": [
+        {
+          "name": "busWeight",
+          "lexType": "Nat"
+        },
+        {
+          "name": "rule30Entropy",
+          "lexType": "Nat"
+        },
+        {
+          "name": "playerAttentionPermille",
+          "lexType": "Nat"
+        },
+        {
+          "name": "residualDissonancePermille",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "moduleName": "Foundation.Teleology.V1.Model",
+      "name": "stepHealthyGratifyingQualityPermille",
+      "parameters": [
+        {
+          "name": "triadicCoherencePermille",
+          "lexType": "Nat"
+        },
+        {
+          "name": "featureDifferentiationPermille",
+          "lexType": "Nat"
+        },
+        {
+          "name": "coerciveDarkPatternCount",
           "lexType": "Nat"
         }
       ],

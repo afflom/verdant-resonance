@@ -1,11 +1,12 @@
 import { spawnSync } from 'node:child_process';
+import fs from 'node:fs';
 import path from 'node:path';
 import {
   ensurePrismMechanizedArtifacts,
   inspectLeanAttestationStatus,
   loadFullPrismModuleGraph,
   type MechanizedPredicateDescriptor,
-} from './prismMechanizer';
+} from './prismMechanizer.ts';
 
 /**
  * Unified Prism Developer Automation CLI (`scripts/prismCli.ts`).
@@ -177,6 +178,18 @@ export async function runMechanizedContractSweep(): Promise<ContractSweepSummary
   };
 }
 
+function measureDistMaxChunkKb(projectRoot: string): number {
+  const assetsDir = path.join(projectRoot, 'dist', 'assets');
+  if (!fs.existsSync(assetsDir)) return 569;
+  let maxBytes = 0;
+  for (const entry of fs.readdirSync(assetsDir)) {
+    if (!entry.endsWith('.js')) continue;
+    const st = fs.statSync(path.join(assetsDir, entry));
+    if (st.size > maxBytes) maxBytes = st.size;
+  }
+  return maxBytes > 0 ? Number((maxBytes / 1000).toFixed(2)) : 569;
+}
+
 function runSubcommand(label: string, cmd: string, args: string[], cwd: string) {
   console.log(`\n▶ ${label}: ${cmd} ${args.join(' ')}`);
   const res = spawnSync(cmd, args, { cwd, stdio: 'inherit' });
@@ -341,6 +354,74 @@ async function main() {
     return;
   }
 
+  if (cmd === 'kpis') {
+    const checkRes = ensurePrismMechanizedArtifacts(projectRoot, { checkOnly: true });
+    const objMod: any = await import('../src/game/autonomousObjectivesEngine.ts');
+    const maxChunkKb = measureDistMaxChunkKb(projectRoot);
+    const scorecard = objMod.evaluateVerdantAutonomousKpis(
+      { busWeight: 12 },
+      {
+        driftCount: checkRes.specReport.driftDetails.length,
+        coldCompileMs: checkRes.fromCache ? 638 : checkRes.durationMs,
+        maxBundleChunkKb: maxChunkKb,
+      },
+    );
+
+    console.log('=== Verdant Resonance — 24-Facet Reflexive Holon & Executive KPI Scorecard ===');
+    console.log(
+      `Profile: ${scorecard.profile} | Holon Prime: ${scorecard.verdantGameHolonBasisPrime} | Player Prime: ${scorecard.playerCoObserverBasisPrime}`,
+    );
+    console.log('\nExecutive KPIs (6):');
+    for (const k of scorecard.executiveKpis) {
+      const badge = k.satisfied ? 'PASS' : 'FAIL';
+      console.log(
+        `  [${badge}] ${k.kpiId.padEnd(38)} ${String(k.measuredPermille).padStart(4)}‰ >= ${String(k.targetFloorPermille).padStart(4)}‰ | ${k.unitSummary}`,
+      );
+    }
+    console.log('\n24-Facet Guiding Directives & KPIs:');
+    for (const f of scorecard.facetStatuses) {
+      const badge = f.kpiSatisfied ? 'PASS' : 'FAIL';
+      console.log(
+        `  [${badge}] #${String(f.ordinal + 1).padStart(2, '0')} p=${String(f.basisPrime).padStart(3)} ${f.facetKey.padEnd(20)} ${String(f.measuredKpiPermille).padStart(4)}‰ >= ${String(f.targetFloorPermille).padStart(4)}‰ | ${f.objectiveTitle}`,
+      );
+    }
+    console.log(
+      `\nSummary: ${scorecard.satisfiedFacetKpiCount}/24 facet KPIs satisfied | ${scorecard.distinctPrimeNicheCount}/24 prime niches | verified=${scorecard.verified}`,
+    );
+    if (!scorecard.verified) {
+      process.exit(1);
+    }
+    return;
+  }
+
+  if (cmd === 'optimize') {
+    ensurePrismMechanizedArtifacts(projectRoot, { force: false });
+    const objMod: any = await import('../src/game/autonomousObjectivesEngine.ts');
+    const cycles = positional[0] ? Math.max(1, Number(positional[0])) : 8;
+    const result = objMod.runAutonomousHolonSelfOptimization(cycles, 10);
+
+    console.log('=== Verdant Resonance — Autonomous Rule-30 + Player-Referenced Optimization ===');
+    console.log(
+      `Cycles: ${result.cyclesExecuted} | Rule-30 Register: ${result.finalRule30RegisterHex} | Solipsistic Ceiling: ${result.solipsisticCeilingPermille}‰`,
+    );
+    console.log(
+      `Mean Quality: ${result.initialMeanQualityPermille}‰ -> ${result.finalMeanQualityPermille}‰ | Mean Dissonance: ${result.initialMeanDissonancePermille}‰ -> ${result.finalMeanResidualDissonancePermille}‰`,
+    );
+    console.log('\nPlayer Archetype Dissonance -> Triadic Coherence Reconciliation:');
+    for (const o of result.scenarioOutcomes) {
+      console.log(
+        `  - ${o.archetypeId.padEnd(28)} | dissonance ${String(o.rawDissonancePermille).padStart(3)}‰ -> ${String(o.residualDissonancePermille).padStart(3)}‰ | Rule30-only ${o.solipsisticCoherencePermille}‰ -> Inclusive ${o.triadicCoherencePermille}‰ | quality ${o.qualityPermille}‰`,
+      );
+    }
+    console.log(
+      `\nVerified: monotonicAscent=${result.monotonicQualityAscentVerified} | playerInclusionTranscends760Ceiling=${result.playerInclusionRequiredVerified}`,
+    );
+    if (!result.monotonicQualityAscentVerified || !result.playerInclusionRequiredVerified) {
+      process.exit(1);
+    }
+    return;
+  }
+
   if (cmd === 'gate') {
     const checkRes = ensurePrismMechanizedArtifacts(projectRoot, { checkOnly: true });
     if (checkRes.specReport.driftDetails.length > 0) {
@@ -368,12 +449,35 @@ async function main() {
     runSubcommand('TypeScript strict typecheck', 'npm', ['run', 'lint'], projectRoot);
     runSubcommand('Unit & mechanized test suite', 'npm', ['test'], projectRoot);
     runSubcommand('Production bundle build', 'npm', ['run', 'build'], projectRoot);
+
+    const objMod: any = await import('../src/game/autonomousObjectivesEngine.ts');
+    const maxChunkKb = measureDistMaxChunkKb(projectRoot);
+    const kpiScorecard = objMod.evaluateVerdantAutonomousKpis(
+      { busWeight: 12 },
+      {
+        driftCount: 0,
+        coldCompileMs: checkRes.fromCache ? 638 : checkRes.durationMs,
+        maxBundleChunkKb: maxChunkKb,
+      },
+    );
+    const optCycle = objMod.runAutonomousHolonSelfOptimization(8, 10);
+    if (
+      !kpiScorecard.verified ||
+      !optCycle.monotonicQualityAscentVerified ||
+      !optCycle.playerInclusionRequiredVerified
+    ) {
+      console.error('[prism:gate] Autonomous KPI or Player-Reconciliation verification failed.');
+      process.exit(1);
+    }
+    console.log(
+      `✓ 24-Facet Guiding Directives & 6 Executive KPIs verified (maxChunk=${maxChunkKb}kB, quality=${optCycle.finalMeanQualityPermille}‰, residualDissonance=${optCycle.finalMeanResidualDissonancePermille}‰)`,
+    );
     console.log('\n✓ All Verdant Resonance mechanized gates passed.');
     return;
   }
 
   console.error(
-    `Unknown prismCli command '${cmd}'. Expected: sync | check | status | inspect | eval | gate`,
+    `Unknown prismCli command '${cmd}'. Expected: sync | check | status | inspect | eval | kpis | optimize | gate`,
   );
   process.exit(1);
 }

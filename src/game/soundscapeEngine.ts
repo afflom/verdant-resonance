@@ -744,6 +744,7 @@ export class BotanicalSoundscapeEngine {
   private busBinauralWidthMultiplier = 1.0;
   private busMonumentChimeSustain = 1.0;
   private busAffectWarmthScale = 1.0;
+  private playerReconciliationWarmthScale = 1.0;
   private busAffectReverbScale = 1.0;
   private busCuratedBreathScale = 1.0;
   private busCuratedAntiphony01 = 0.55;
@@ -955,6 +956,14 @@ export class BotanicalSoundscapeEngine {
 
   public getLastBinauralCue(): Woodworth3DBinauralCue | null {
     return this.lastBinauralCue;
+  }
+
+  /**
+   * Updates live Observer-Player dissonance reconciliation warmth scale (`0.86 .. 1.14`)
+   * so brisk pace or sensory density gently softens overtone cutoff & body formants.
+   */
+  public setPlayerReconciliationWarmthScale(scale: number): void {
+    this.playerReconciliationWarmthScale = Math.max(0.84, Math.min(1.18, scale));
   }
 
   public setMuted(muted: boolean): void {
@@ -2573,7 +2582,9 @@ export class BotanicalSoundscapeEngine {
             rawCutoff + (this.liveModalPartialsPerVoice - 5) * 240,
             (granularAcoustic?.lignocellulosicWarmthCutoffHz ?? biochem.harmonicWarmthFilterHz) *
               0.65,
-          ) * this.busEcologyIso9613Clarity,
+          ) *
+            this.busEcologyIso9613Clarity *
+            this.playerReconciliationWarmthScale,
         );
         filter.frequency.setValueAtTime(baseCutoffHz * 0.88, now);
         filter.Q.value = ((isCanon ? 2.1 : 1.2) + biochem.silicaMineralIndex * 0.9) * silicaQMult;
@@ -3417,7 +3428,10 @@ export class BotanicalSoundscapeEngine {
         modalGain.gain.exponentialRampToValueAtTime(0.001, startAt + 0.14);
 
         filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(1850 * this.busAffectWarmthScale, startAt);
+        filter.frequency.setValueAtTime(
+          1850 * this.busAffectWarmthScale * this.playerReconciliationWarmthScale,
+          startAt,
+        );
         filter.Q.value = 1.2;
 
         // Travertine stone-marimba acoustic body resonator

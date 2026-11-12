@@ -1,6 +1,7 @@
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+import { transformSync } from 'esbuild';
 import {
   renderGeneratedPrismConstantsSource,
   verifyNoUnprovedTrueLiteralsInFoundationModules,
@@ -1647,8 +1648,18 @@ export function ensurePrismMechanizedArtifacts(
     write: !options.checkOnly,
   });
 
-  const expectedConstants = renderGeneratedPrismConstantsSource(prismSrcDir);
   const expectedRuntime = renderGeneratedPrismRuntimeSource(prismDir);
+  let inMemoryCompiledModules: Record<string, Record<string, (...args: any[]) => any>> | undefined;
+  try {
+    const cjs = transformSync(expectedRuntime, { loader: 'ts', format: 'cjs' }).code;
+    const modHolder: { exports: Record<string, any> } = { exports: {} };
+    const evalFactory = new Function('exports', 'module', cjs);
+    evalFactory(modHolder.exports, modHolder);
+    inMemoryCompiledModules = modHolder.exports.PRISM_COMPILED_MODULES;
+  } catch {
+    inMemoryCompiledModules = undefined;
+  }
+  const expectedConstants = renderGeneratedPrismConstantsSource(prismSrcDir, inMemoryCompiledModules);
 
   if (options.checkOnly) {
     const currentConstants = fs.existsSync(constantsOutPath)

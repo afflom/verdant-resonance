@@ -14,6 +14,8 @@
     "prism:status": "tsx scripts/prismCli.ts status",
     "prism:inspect": "tsx scripts/prismCli.ts inspect",
     "prism:eval": "tsx scripts/prismCli.ts eval",
+    "prism:kpis": "tsx scripts/prismCli.ts kpis",
+    "prism:optimize": "tsx scripts/prismCli.ts optimize",
     "prism:gate": "tsx scripts/prismCli.ts gate",
     "prism:doctor": "cd prism && ../node_modules/.bin/prism-doctor",
     "prism:check": "cd prism && ../node_modules/.bin/prism-code build --check --local",

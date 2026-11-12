@@ -2157,7 +2157,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Teleology (Requirement-Grounded Environmental Synthesis + Interactive Landmarks + Inherent Plasticity)",
     "sourceModule": "Foundation.Teleology.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Teleology/V1/Model.lex.tex",
-    "sourceSha256": "e688ce262016636b60f15266b5257103e78233f84e5af400144c1ba69b88f260",
+    "sourceSha256": "b8f8005b39abcd2bd0ec24ffa9a676d599b5691ab766d825886c592d0ac72dfd",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -7772,6 +7772,20 @@ export const GENERATED_PRISM_STANDARDS = {
       "triuneObserverMotivationNonContrived": true,
       "emergentResonanceReplacesFixedTimers": true
     },
+    "reflexiveHolonAndKpis": {
+      "verdantGameHolonBasisPrime": 191,
+      "reflexiveHolonFacetTotal": 24,
+      "guidingDirectiveCoverageTotal": 24,
+      "measurableKpiObjectiveTotal": 24,
+      "solipsisticRule30CeilingPermille": 760,
+      "apexInclusiveCoherencePermille": 1000,
+      "coerciveExtractivePatternZero": 0,
+      "everyFacetHasGuidingDirective": true,
+      "rule30AloneBoundedWithoutPlayerReference": true,
+      "observerReconcilesPlayerGameDissonance": true,
+      "triadicCoherenceReplacesDissonance": true,
+      "healthyGratifyingQualityEnforced": true
+    },
     "canonicalDescriptor": {
       "requiredElementCount": 11,
       "identity": {
@@ -10855,7 +10869,9 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "teleologyFulfillmentAndLandmarkMonotonicHold",
     "teleologyDescriptorCompleteHolds",
     "physicalBasisAndTriuneObserverCurationHold",
-    "coCuratorialOffshootAndWaystoneBoundsHold"
+    "coCuratorialOffshootAndWaystoneBoundsHold",
+    "inclusivePlayerReferenceTranscendsRule30CeilingHolds",
+    "reflexiveHolonDirectivesAndDissonanceReconciliationHold"
   ],
   "Foundation.Vedanta.V1.Model": [
     "trigunaExactConservationThousandPermilleHolds",

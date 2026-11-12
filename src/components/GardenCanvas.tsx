@@ -63,6 +63,7 @@ import {
   evaluateLithophoneWaystoneStep,
   evaluateMonumentPhysicalMechanics,
   evaluateNearestSynthesizedLandmark,
+  evaluateObserverPlayerDissonanceReconciliation,
   evaluatePrismRequest,
   evaluateStandingWaveTerraceResonance,
   evaluateWindField,
@@ -1756,6 +1757,11 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     let environmentalAgencyState = createInitialEnvironmentalAgencyState();
     let landmarkResonance = createInitialLandmarkResonanceState();
     let autonomousPlasticity = createInitialAutonomousPlasticityState();
+    let liveReconciliationEval = evaluateObserverPlayerDissonanceReconciliation({
+      busWeight: neuromorphicState.lastActiveSynapticWeight,
+      harmonyPct: 15,
+    });
+    let reconciliationRefreshTimer = 0;
     let activeWaystoneIndex = -1;
     let activeSteppingStones = steppingStones;
     let witnessCommunionGlowImpulse = 0;
@@ -4235,13 +4241,16 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         );
         const isFocalObservedSpecimen =
           nearestForSpores.inForwardGazeCone && pm.instance.id === nearestForSpores.plant.id;
+        const focalMeetingGlow = isFocalObservedSpecimen
+          ? 0.22 * liveReconciliationEval.actionDirectives.focalAttentionGlowBoost
+          : 0;
         const liveVd = neuromorphicState.observer.vedantaAndDharma;
         for (const mat of pm.emissiveMaterials) {
           mat.emissiveIntensity =
             (morph.emissiveIntensity +
               directives.botany.emissiveBloomBoost +
               pm.singingVoiceGlow * 0.48 +
-              (isFocalObservedSpecimen ? 0.22 : 0)) *
+              focalMeetingGlow) *
             lifecycleSpec.emissiveMultiplier *
             liveVd.sattvaLuminosityClarityFactor;
         }
@@ -4249,7 +4258,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           0.95,
           (morph.haloOpacity +
             pm.singingVoiceGlow * 0.24 +
-            (isFocalObservedSpecimen ? 0.26 : 0)) *
+            (isFocalObservedSpecimen
+              ? 0.26 * liveReconciliationEval.actionDirectives.focalAttentionGlowBoost
+              : 0)) *
             (pm.elderHaloRing.visible ? liveVd.indrasNetMycelialShimmerFactor : 1.0),
         );
 
@@ -4909,9 +4920,41 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           modalFilterQMultiplier: directives.acoustics.modalFilterQMultiplier,
         });
 
+        // Throttled 4Hz Observer-Player Dissonance Reconciliation (`Foundation.Teleology.V1.Model`)
+        reconciliationRefreshTimer += dt;
+        if (reconciliationRefreshTimer >= 0.25) {
+          reconciliationRefreshTimer = 0;
+          const activeStepVoices =
+            currentSoundtrackScore.steps[currentSoundtrackStep]?.voices.length ?? 2;
+          liveReconciliationEval = evaluateObserverPlayerDissonanceReconciliation({
+            busWeight:
+              neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity
+                .meanSynapticWeight,
+            harmonyPct: player.harmony,
+            velocityDm: player.velocityDm,
+            isStillness: player.action === 'stillness',
+            gestureHoldProgress01: gestureHoldState.holdProgress,
+            hasFocalTarget: nearest.inForwardGazeCone || frameNearestLandmark.inForwardGazeCone,
+            focalTargetAttuned: nearest.plant.attuned,
+            nearestFeatureDistanceM: Math.min(
+              nearest.distanceMeters,
+              frameNearestLandmark.distanceMeters,
+            ),
+            restStepCount: currentSoundtrackScore.restStepCount,
+            activeVoiceCount: activeStepVoices,
+            tenneyConsonancePurity01: currentSoundtrackScore.curatedConsonancePurity01,
+            awakenedSpeciesCount: Math.max(1, awakenedSpeciesCount),
+            exploredBiomesCount: player.exploredBiomes.size,
+          });
+          soundEngine.setPlayerReconciliationWarmthScale(
+            liveReconciliationEval.actionDirectives.harmonicWarmthFilterScale,
+          );
+        }
+
         // Advance Live 4-Stem 16-Step Generative Soundtrack Sequencer (`Foundation.Soundtrack.V1.Model`)
         if (currentSoundtrackScore.activeStems.length > 0) {
-          soundtrackStepTimer += dt;
+          soundtrackStepTimer +=
+            dt * liveReconciliationEval.actionDirectives.pacingTempoAdaptationFactor;
           if (soundtrackStepTimer >= currentSoundtrackScore.stepDurationSec) {
             soundtrackStepTimer -= currentSoundtrackScore.stepDurationSec;
             const nextStep = (currentSoundtrackStep + 1) % 16;
@@ -5065,7 +5108,12 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         const guidanceWaypoints =
           environmentalAgencyState.stakeholderEntity.guidanceFilamentWaypoints;
         const guidanceLum = environmentalAgencyState.stakeholderEntity.guidanceFilamentLuminance;
-        guidanceNodeMat.opacity = Math.min(0.68, 0.22 + guidanceLum * 0.42);
+        guidanceNodeMat.opacity = Math.min(
+          0.72,
+          0.22 +
+            guidanceLum * 0.42 +
+            liveReconciliationEval.actionDirectives.discoveryDifferentiationCue01 * 0.1,
+        );
         for (let wIdx = 0; wIdx < GUIDANCE_WAYPOINT_COUNT; wIdx++) {
           const wp = guidanceWaypoints[wIdx];
           if (wp) {

@@ -73,6 +73,7 @@ export * from './spectralColorEngine';
 export * from './neuromorphicFunctorBus';
 export * from './anamnesisEngine';
 export * from './teleologyEngine';
+export * from './autonomousObjectivesEngine';
 export * from './realizabilityEngine';
 export * from './vedantaDharmaEngine';
 export * from './parametricCompressionEngine';

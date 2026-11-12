@@ -69,6 +69,26 @@ structure{
 }
 
 structure{
+  name: ReflexiveHolonObjectivesAndPlayerReconciliationSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: verdantGameHolonBasisPrime, type: Nat},
+    {name: reflexiveHolonFacetTotal, type: Nat},
+    {name: guidingDirectiveCoverageTotal, type: Nat},
+    {name: measurableKpiObjectiveTotal, type: Nat},
+    {name: solipsisticRule30CeilingPermille, type: Nat},
+    {name: apexInclusiveCoherencePermille, type: Nat},
+    {name: coerciveExtractivePatternZero, type: Nat},
+    {name: everyFacetHasGuidingDirective, type: Bool},
+    {name: rule30AloneBoundedWithoutPlayerReference, type: Bool},
+    {name: observerReconcilesPlayerGameDissonance, type: Bool},
+    {name: triadicCoherenceReplacesDissonance, type: Bool},
+    {name: healthyGratifyingQualityEnforced, type: Bool}
+  ]
+}
+
+structure{
   name: TeleologyStandardModel,
   type_parameters: [],
   parameters: [],
@@ -77,6 +97,7 @@ structure{
     {name: requirementChain, type: EnvironmentalRequirementChainSpec},
     {name: purposeAndAutonomy, type: InteractivePurposeAndAutonomousPlasticitySpec},
     {name: physicalBasisAndTriuneCuration, type: PhysicalBasisAndTriuneObserverCurationSpec},
+    {name: reflexiveHolonAndKpis, type: ReflexiveHolonObjectivesAndPlayerReconciliationSpec},
     {name: canonicalDescriptor, type: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor}
   ]
 }
@@ -85,7 +106,55 @@ definition{name: verdantTeleologyBasisPrime, parameters: [], result: Nat, body: 
 
 definition{name: playerCoObserverPrime, parameters: [], result: Nat, body: 181}
 
+definition{name: verdantGameHolonPrime, parameters: [], result: Nat, body: 191}
+
 definition{name: observerUnifiedFacetTotal, parameters: [], result: Nat, body: 23}
+
+definition{name: reflexiveHolonFacetTotal, parameters: [], result: Nat, body: 24}
+
+definition{name: solipsisticRule30CeilingPermille, parameters: [], result: Nat, body: 760}
+
+definition{
+  name: clampTeleologyPermille,
+  parameters: [value : Nat],
+  result: Nat,
+  body: (if (value <=? 1000) then value else 1000)
+}
+
+definition{
+  name: stepReflexiveFacetNicheIndex,
+  parameters: [facetPrime : Nat, busWeight : Nat, facetOrdinal : Nat],
+  result: Nat,
+  body: ((prim multiply facetPrime ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) + 16) : Nat) + facetOrdinal)
+}
+
+definition{
+  name: stepPlayerGameDissonancePermille,
+  parameters: [pacingMismatchPermille : Nat, attentionMismatchPermille : Nat, sensoryMismatchPermille : Nat],
+  result: Nat,
+  body: (prim quotient (((prim multiply (clampTeleologyPermille pacingMismatchPermille) 4 : Nat) + (prim multiply (clampTeleologyPermille attentionMismatchPermille) 4 : Nat)) + (prim multiply (clampTeleologyPermille sensoryMismatchPermille) 2 : Nat)) 10 0 : Nat)
+}
+
+definition{
+  name: stepObserverDissonanceReconciliationPermille,
+  parameters: [busWeight : Nat, rule30Entropy : Nat, playerAttentionPermille : Nat, rawDissonancePermille : Nat],
+  result: Nat,
+  body: (let internalCap : Nat := ((prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 12 : Nat) + (if (rule30Entropy <=? 64) then rule30Entropy else 64)); (let playerCap : Nat := (prim quotient (prim multiply (clampTeleologyPermille playerAttentionPermille) 4 : Nat) 5 0 : Nat); (prim subtract (clampTeleologyPermille rawDissonancePermille) (internalCap + playerCap) : Nat)))
+}
+
+definition{
+  name: stepTriadicPlayerGameObserverCoherencePermille,
+  parameters: [busWeight : Nat, rule30Entropy : Nat, playerAttentionPermille : Nat, residualDissonancePermille : Nat],
+  result: Nat,
+  body: (let internalBase : Nat := ((468 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 16 : Nat)) + (if (rule30Entropy <=? 36) then rule30Entropy else 36)); (let playerBridge : Nat := (prim quotient (prim multiply (clampTeleologyPermille playerAttentionPermille) 240 : Nat) 1000 0 : Nat); (let dissonanceDrag : Nat := (prim quotient (clampTeleologyPermille residualDissonancePermille) 2 0 : Nat); (prim subtract (internalBase + playerBridge) dissonanceDrag : Nat))))
+}
+
+definition{
+  name: stepHealthyGratifyingQualityPermille,
+  parameters: [triadicCoherencePermille : Nat, featureDifferentiationPermille : Nat, coerciveDarkPatternCount : Nat],
+  result: Nat,
+  body: (if (0 <? coerciveDarkPatternCount) then 0 else (prim quotient ((prim multiply (clampTeleologyPermille triadicCoherencePermille) 6 : Nat) + (prim multiply (clampTeleologyPermille featureDifferentiationPermille) 4 : Nat)) 10 0 : Nat))
+}
 
 definition{name: intrinsicObserverDirectiveTotal, parameters: [], result: Nat, body: 3}
 
@@ -220,7 +289,7 @@ definition{
   name: verdantTeleologyStandard,
   parameters: [],
   result: TeleologyStandardModel,
-  body: (record TeleologyStandardModel {profile := "prism/teleology-standard/1", requirementChain := (record EnvironmentalRequirementChainSpec {synthesizedWorldPhenomenonTotal := (synthesizedWorldPhenomenaTotal), concreteSceneGroupCount := (synthesizedWorldPhenomenaTotal), synthesizedLandmarkTotal := (synthesizedBiomeLandmarkTotal), orphanUnexplainedElementCount := (orphanUnexplainedElementsZero), ungroundedArbitraryPropCount := (orphanUnexplainedElementsZero), minUpstreamRequiringModelsPerFeature := (minRequiringModelsPerPhenomenon), everyFeatureSynthesizedFromEnvironment := (verifyRequirementGroundsEnvironmentalSynthesis 3 100 (stepTeleologicalFulfillmentPermille 8)), requirementsPrecedeAndGroundSynthesis := (verifyZeroOrphanElementsAndZeroManualControls (orphanUnexplainedElementsZero) (manualNeuromorphicControlsZero)), sceneBijectiveClosureVerified := (verifySceneBijectivePhenomenonClosure (synthesizedWorldPhenomenaTotal) (synthesizedWorldPhenomenaTotal) (minRequiringModelsPerPhenomenon) (orphanUnexplainedElementsZero))}), purposeAndAutonomy := (record InteractivePurposeAndAutonomousPlasticitySpec {interactiveLandmarkResonatorCount := (synthesizedBiomeLandmarkTotal), interactiveLithophoneWaystoneCount := (interactiveWaystoneFlagstoneTotal), tunableWaystoneHarmonicDegreeCount := (tunableWaystoneHarmonicDegrees), maxEmergentMicroclimateOffshoots := (maxMicroclimateOffshootsCap), interactiveChladniTerraceCount := (synthesizedBiomeLandmarkTotal), manualNeuromorphicControlCount := (manualNeuromorphicControlsZero), clutteredBackendReadoutCount := (manualNeuromorphicControlsZero), basePurposeFulfillmentPermille := (stepTeleologicalFulfillmentPermille 8), apexPurposeFulfillmentPermille := (stepTeleologicalFulfillmentPermille 16), neuromorphicsInherentToGameplay := ((manualNeuromorphicControlsZero) =? 0), landmarksInteractiveViaContemplativeGestures := ((stepLandmarkResonanceCouplingPermille 8) <? (stepLandmarkResonanceCouplingPermille 16)), witnessCommunionInteractive := ((stepWitnessCommunionReciprocityPermille 8) <? (stepWitnessCommunionReciprocityPermille 16)), coCuratorialPathwaysAndShareableUorcEnabled := ((stepEmergentOffshootColonizationCap 8) <? (stepEmergentOffshootColonizationCap 16))}), physicalBasisAndTriuneCuration := (record PhysicalBasisAndTriuneObserverCurationSpec {unifiedObserverFacetCount := (observerUnifiedFacetTotal), playerCoObserverBasisPrime := (playerCoObserverPrime), intrinsicObserverDirectiveCount := (intrinsicObserverDirectiveTotal), minFoundationEmbedmentMm := (minMonumentFoundationEmbedMm), cardanKinematicHierarchyDepth := (cardanKinematicChainDepth), minWalkablePortalClearanceMm := (minWalkablePortalClearanceMm), baseCuratorialAffinityPermille := (stepCuratorialAffinityPermille 8 50), apexCuratorialAffinityPermille := (stepCuratorialAffinityPermille 16 100), physicalBasisRequiredForEveryManifestation := (verifyPhysicalLoadPathAndPendulumLaw 280 100 90 2670 2374), structuralLoadPathAndPendulumLawEnforced := ((minMonumentFoundationEmbedMm) <=? 280), cardanTrunnionZeroSlipEnforced := (verifyHierarchicalCardanAndPortalClearance 4 0 1780), walkableMonumentPortalsEnforced := ((minWalkablePortalClearanceMm) <=? 1780), triuneObserverMotivationNonContrived := (verifyTriuneObserverMotivation 280 23 3 (stepCuratorialAffinityPermille 8 50)), emergentResonanceReplacesFixedTimers := ((stepCuratorialAffinityPermille 8 50) <? (stepCuratorialAffinityPermille 16 100))}), canonicalDescriptor := (teleologyCanonicalDescriptor)})
+  body: (record TeleologyStandardModel {profile := "prism/teleology-standard/1", requirementChain := (record EnvironmentalRequirementChainSpec {synthesizedWorldPhenomenonTotal := (synthesizedWorldPhenomenaTotal), concreteSceneGroupCount := (synthesizedWorldPhenomenaTotal), synthesizedLandmarkTotal := (synthesizedBiomeLandmarkTotal), orphanUnexplainedElementCount := (orphanUnexplainedElementsZero), ungroundedArbitraryPropCount := (orphanUnexplainedElementsZero), minUpstreamRequiringModelsPerFeature := (minRequiringModelsPerPhenomenon), everyFeatureSynthesizedFromEnvironment := (verifyRequirementGroundsEnvironmentalSynthesis 3 100 (stepTeleologicalFulfillmentPermille 8)), requirementsPrecedeAndGroundSynthesis := (verifyZeroOrphanElementsAndZeroManualControls (orphanUnexplainedElementsZero) (manualNeuromorphicControlsZero)), sceneBijectiveClosureVerified := (verifySceneBijectivePhenomenonClosure (synthesizedWorldPhenomenaTotal) (synthesizedWorldPhenomenaTotal) (minRequiringModelsPerPhenomenon) (orphanUnexplainedElementsZero))}), purposeAndAutonomy := (record InteractivePurposeAndAutonomousPlasticitySpec {interactiveLandmarkResonatorCount := (synthesizedBiomeLandmarkTotal), interactiveLithophoneWaystoneCount := (interactiveWaystoneFlagstoneTotal), tunableWaystoneHarmonicDegreeCount := (tunableWaystoneHarmonicDegrees), maxEmergentMicroclimateOffshoots := (maxMicroclimateOffshootsCap), interactiveChladniTerraceCount := (synthesizedBiomeLandmarkTotal), manualNeuromorphicControlCount := (manualNeuromorphicControlsZero), clutteredBackendReadoutCount := (manualNeuromorphicControlsZero), basePurposeFulfillmentPermille := (stepTeleologicalFulfillmentPermille 8), apexPurposeFulfillmentPermille := (stepTeleologicalFulfillmentPermille 16), neuromorphicsInherentToGameplay := ((manualNeuromorphicControlsZero) =? 0), landmarksInteractiveViaContemplativeGestures := ((stepLandmarkResonanceCouplingPermille 8) <? (stepLandmarkResonanceCouplingPermille 16)), witnessCommunionInteractive := ((stepWitnessCommunionReciprocityPermille 8) <? (stepWitnessCommunionReciprocityPermille 16)), coCuratorialPathwaysAndShareableUorcEnabled := ((stepEmergentOffshootColonizationCap 8) <? (stepEmergentOffshootColonizationCap 16))}), physicalBasisAndTriuneCuration := (record PhysicalBasisAndTriuneObserverCurationSpec {unifiedObserverFacetCount := (observerUnifiedFacetTotal), playerCoObserverBasisPrime := (playerCoObserverPrime), intrinsicObserverDirectiveCount := (intrinsicObserverDirectiveTotal), minFoundationEmbedmentMm := (minMonumentFoundationEmbedMm), cardanKinematicHierarchyDepth := (cardanKinematicChainDepth), minWalkablePortalClearanceMm := (minWalkablePortalClearanceMm), baseCuratorialAffinityPermille := (stepCuratorialAffinityPermille 8 50), apexCuratorialAffinityPermille := (stepCuratorialAffinityPermille 16 100), physicalBasisRequiredForEveryManifestation := (verifyPhysicalLoadPathAndPendulumLaw 280 100 90 2670 2374), structuralLoadPathAndPendulumLawEnforced := ((minMonumentFoundationEmbedMm) <=? 280), cardanTrunnionZeroSlipEnforced := (verifyHierarchicalCardanAndPortalClearance 4 0 1780), walkableMonumentPortalsEnforced := ((minWalkablePortalClearanceMm) <=? 1780), triuneObserverMotivationNonContrived := (verifyTriuneObserverMotivation 280 23 3 (stepCuratorialAffinityPermille 8 50)), emergentResonanceReplacesFixedTimers := ((stepCuratorialAffinityPermille 8 50) <? (stepCuratorialAffinityPermille 16 100))}), reflexiveHolonAndKpis := (record ReflexiveHolonObjectivesAndPlayerReconciliationSpec {verdantGameHolonBasisPrime := (verdantGameHolonPrime), reflexiveHolonFacetTotal := (reflexiveHolonFacetTotal), guidingDirectiveCoverageTotal := (reflexiveHolonFacetTotal), measurableKpiObjectiveTotal := (reflexiveHolonFacetTotal), solipsisticRule30CeilingPermille := (solipsisticRule30CeilingPermille), apexInclusiveCoherencePermille := (stepTriadicPlayerGameObserverCoherencePermille 16 36 1000 0), coerciveExtractivePatternZero := 0, everyFacetHasGuidingDirective := ((reflexiveHolonFacetTotal) =? 24), rule30AloneBoundedWithoutPlayerReference := ((stepTriadicPlayerGameObserverCoherencePermille 16 64 0 0) <=? (solipsisticRule30CeilingPermille)), observerReconcilesPlayerGameDissonance := ((stepObserverDissonanceReconciliationPermille 12 32 900 400) =? 0), triadicCoherenceReplacesDissonance := ((solipsisticRule30CeilingPermille) <? (stepTriadicPlayerGameObserverCoherencePermille 16 36 1000 0)), healthyGratifyingQualityEnforced := (850 <=? (stepHealthyGratifyingQualityPermille 940 960 0))}), canonicalDescriptor := (teleologyCanonicalDescriptor)})
 }
 
 definition{
@@ -395,6 +464,61 @@ theorem{
       maxMicroclimateOffshootsCap,
       stepEmergentOffshootColonizationCap,
       tunableWaystoneHarmonicDegrees
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksInclusivePlayerReferenceTranscendsRule30Ceiling,
+  parameters: [busWeight : Nat, coerciveCount : Nat],
+  result: Bool,
+  body: (((((solipsisticRule30CeilingPermille) <? (stepTriadicPlayerGameObserverCoherencePermille busWeight 36 0 0)) || ((stepTriadicPlayerGameObserverCoherencePermille 16 36 1000 0) <? 1000)) || ((0 <? coerciveCount) && (0 <? (stepHealthyGratifyingQualityPermille 1000 1000 coerciveCount)))) || ((stepHealthyGratifyingQualityPermille 950 950 0) <? 950))
+}
+
+theorem{
+  name: inclusivePlayerReferenceTranscendsRule30CeilingHolds,
+  parameters: [busWeight : Nat, coerciveCount : Nat],
+  statement: ((breaksInclusivePlayerReferenceTranscendsRule30Ceiling busWeight coerciveCount) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksInclusivePlayerReferenceTranscendsRule30Ceiling,
+      clampTeleologyPermille,
+      solipsisticRule30CeilingPermille,
+      stepHealthyGratifyingQualityPermille,
+      stepTriadicPlayerGameObserverCoherencePermille
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksReflexiveHolonDirectivesAndDissonanceReconciliation,
+  parameters: [w : Nat, rawDissonance : Nat],
+  result: Bool,
+  body: ((((clampTeleologyPermille rawDissonance) <? (stepObserverDissonanceReconciliationPermille w 32 800 rawDissonance)) || (0 <? (stepObserverDissonanceReconciliationPermille 12 32 900 400))) || (((stepReflexiveFacetNicheIndex (verdantGameHolonPrime) w 23) <=? (stepReflexiveFacetNicheIndex (playerCoObserverPrime) w 22)) || ((1000 <? (stepPlayerGameDissonancePermille 1200 1200 1200)) || ((reflexiveHolonFacetTotal) <? 24))))
+}
+
+theorem{
+  name: reflexiveHolonDirectivesAndDissonanceReconciliationHold,
+  parameters: [w : Nat, rawDissonance : Nat],
+  statement: ((breaksReflexiveHolonDirectivesAndDissonanceReconciliation w rawDissonance) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksReflexiveHolonDirectivesAndDissonanceReconciliation,
+      clampTeleologyPermille,
+      playerCoObserverPrime,
+      reflexiveHolonFacetTotal,
+      stepObserverDissonanceReconciliationPermille,
+      stepPlayerGameDissonancePermille,
+      stepReflexiveFacetNicheIndex,
+      verdantGameHolonPrime
     ]
   },
   axioms: [Quot.sound, propext]

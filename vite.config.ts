@@ -43,6 +43,7 @@ export default defineConfig(({command}) => {
               id.includes('parametricCompressionEngine') ||
               id.includes('vedantaDharmaEngine') ||
               id.includes('teleologyEngine') ||
+              id.includes('autonomousObjectivesEngine') ||
               id.includes('conservatoryCurationEngine') ||
               id.includes('neuromorphicFunctorBus')
             ) {
