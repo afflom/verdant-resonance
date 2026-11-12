@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import { ensurePrismMechanizedArtifacts } from '../../scripts/prismMechanizer';
+import { runMechanizedContractSweep } from '../../scripts/prismCli';
 import {
   ATMOSPHERE_CONFIGS,
   BIOME_CONSTELLATIONS,
@@ -112,6 +114,10 @@ import {
   GENERATED_PRISM_THEOREMS_BY_MODULE,
   GENERATED_VERDANT_JUDGE_ARTIFACT,
   GENERATED_VERDANT_RESONANCE_SPEC,
+  GENERATED_PRISM_MECHANIZED_MANIFEST,
+  PRISM_COMPILED_MODULES,
+  dispatchPrismTextRequest,
+  decodePrismTextRequest,
   BIOME_PRIMES,
   SPECIES_PRIMES,
   ATMOSPHERE_PRIMES,
@@ -179,10 +185,7 @@ import {
   stepParametricPlayerEmbodimentPermille,
   verifyObserverCreatesAllThreeRealms,
   verifyAlphaOmegaParametricClosure,
-  synthesizeParametricPhysicsAndGeology,
   synthesizeObserverInorganicMonuments,
-  synthesizeParametricOrganicBiota,
-  synthesizeEmbodiedPlayerObserverModel,
   evaluateAlphaOmegaCosmogenesis,
   synthesizeParametricCanonicalSeed,
   synthesizeParametricConcertPitchHz,
@@ -204,7 +207,6 @@ import {
   synthesizeParametricDisplayAndDesignModel,
   computeWcagContrastRatio,
   extrapolatePrismToHighestResolution,
-  evaluateObserverDifferentiationAndExtrapolation,
   stepPartDifferentiationNicheIndex,
   evaluateImmanentObserverPresence,
   OBSERVER_PREFERENCE_DOMAIN_ORDER,
@@ -312,11 +314,9 @@ import {
   verifyColdLoadModularChunkBudget,
   sha256Hex,
   utf8ToBytes,
-  bytesToUtf8,
   encodeUleb128,
   decodeUleb128,
   U64_MAX_BIGINT,
-  PROFILE_V03,
   PROFILE_MID,
   PROFILE_FULL,
   POINT_FILTER_FLAG,
@@ -353,6 +353,12 @@ import {
   evaluateGardenCurationCandidate,
   createInitialConservatoryCurationState,
   stepAutonomousConservatoryCuration,
+  TUNABLE_WAYSTONE_HARMONIC_DEGREES,
+  createInitialWaystoneTuningTable,
+  tuneNearestLithophoneWaystone,
+  synthesizeCrossPollinatedMicroclimateOffshoot,
+  encodeShareableUorcGardenHash,
+  decodeShareableUorcGardenHash,
   BiomeId,
   AtmosphereId,
 } from './prismModel';
@@ -379,6 +385,7 @@ import {
   verifyManifoldBMeshTopology,
 } from './proceduralMeshEngine';
 import {
+  SPECIES_BODY_FORMANT_SPEC,
   ZWICKER_24_BARK_EDGES_HZ,
   computeHdVoiceHarmonicPartials,
   computeIso226EqualLoudnessWeight,
@@ -393,6 +400,7 @@ import {
 } from './soundscapeEngine';
 import path from 'node:path';
 import { extractAllPrismArtifacts } from '../../scripts/extractPrismArtifacts';
+import { computeDeterministicPlantPulsePhase } from '../components/gardenFloraBuilder';
 
 test('Botanical soundscape specification validates all 7 fields, 10 outcomes, 35 rules, 15 invariants, and 36 examples', () => {
   assert.equal(VERDANT_RESONANCE_SPEC.schema, 'prism/spec/1');
@@ -4903,9 +4911,14 @@ test('54. Physical Basis & Form Detail of All 5 Biome Monuments, Triune 20-Facet
     canvasSource.includes('sanctuaryMonument.orbitRing.rotation.x = monumentMechanics.sanctuary.outerGimbalPitchX'),
     true,
   );
+  const monumentSource = fs.readFileSync(
+    path.join(process.cwd(), 'src', 'components', 'gardenMonuments.ts'),
+    'utf8',
+  );
   assert.equal(
-    canvasSource.includes('spireCradle.add(spire)') &&
-      canvasSource.includes('orbitRing.add(innerGimbalRing)'),
+    canvasSource.includes('buildSanctuaryPavilion(') &&
+      monumentSource.includes('spireCradle.add(spire)') &&
+      monumentSource.includes('orbitRing.add(innerGimbalRing)'),
     true,
     'Sanctuary spire must be hierarchically nested inside spireCradle -> innerGimbalRing -> orbitRing with zero clipping',
   );
@@ -6453,10 +6466,315 @@ test('60. End-to-End 64-Bit Continuum Runtime Coherence: 17-Limit 7D Formal Tonn
   assert.ok(canvasSrc.includes('ecologyRayleighOpticalTransmittancePermille'));
 });
 
+test('61. Sensory & Co-Curatorial Mastery: Rayleigh/Mie Sky Dome, Capillary/Fresnel Lagoon, Species Body Formants, Tunable Lithophone Waystones, Cross-Pollinated Microclimate Offshoots & Shareable #uorc= Gardens', () => {
+  // 1. Formal LexLean Teleology v1.5 Constants, Lean 4.32 Theorem & Bus Modulation LUT
+  const purposeSpec = GENERATED_PRISM_STANDARDS.teleology.purposeAndAutonomy;
+  assert.equal(purposeSpec.tunableWaystoneHarmonicDegreeCount, 8);
+  assert.equal(purposeSpec.maxEmergentMicroclimateOffshoots, 12);
+  assert.equal(purposeSpec.coCuratorialPathwaysAndShareableUorcEnabled, true);
+  assert.ok(
+    GENERATED_PRISM_THEOREMS_BY_MODULE['Foundation.Teleology.V1.Model'].includes(
+      'coCuratorialOffshootAndWaystoneBoundsHold',
+    ),
+  );
+  assert.equal(GENERATED_PRISM_BUS_MODULATION_LUT.emergentOffshootColonizationCap[1], 4);
+  assert.equal(GENERATED_PRISM_BUS_MODULATION_LUT.emergentOffshootColonizationCap[16], 12);
 
+  // 2. Tunable Lithophone Waystone Degrees (5..17-limit Just Intonation) & Chained Hydro-Acoustic Neighbors
+  assert.equal(TUNABLE_WAYSTONE_HARMONIC_DEGREES.length, 8);
+  const stones = generateConservatorySteppingStones();
+  const tuningTable = createInitialWaystoneTuningTable(stones.length);
+  assert.equal(tuningTable.length, stones.length);
+  const targetStone = stones[0];
+  let saw17Limit = false;
+  for (let step = 0; step < 8; step++) {
+    const res = tuneNearestLithophoneWaystone({
+      playerX: targetStone.x + 0.35,
+      playerZ: targetStone.z - 0.25,
+      steppingStones: stones,
+      waystoneTuningTable: tuningTable,
+      primeLimitCeiling: 17,
+    });
+    assert.equal(res.tuned, true);
+    tuningTable[res.stoneIndex] = res.nextDegreeIndex;
+    if (res.label.includes('17:12')) saw17Limit = true;
+  }
+  assert.equal(saw17Limit, true, '17-limit prime ceiling must unlock the 17:12 tridecimal/septendecimal waystone consonance');
 
+  tuningTable[0] = 4; // Perfect Fifth 3:2
+  const stepEval = evaluateLithophoneWaystoneStep(-1, {
+    playerX: targetStone.x,
+    playerZ: targetStone.z,
+    isMoving: true,
+    inWater: false,
+    steppingStones: stones,
+    busWeight: 12,
+    waystoneTuningIndices: tuningTable,
+  });
+  assert.equal(stepEval.triggered, true);
+  assert.equal(stepEval.degreeIndex, 4);
+  assert.equal(stepEval.scaleDegreeRatio, 1.5);
+  assert.ok(stepEval.chainedNeighborIndices.length >= 1, 'Trail waystones must chain hydro-acoustically to neighboring stones');
+  assert.equal(stepEval.chainedNeighborRatios.length, stepEval.chainedNeighborIndices.length);
 
+  // 3. Emergent Cross-Pollinated Microclimate Offshoot Colonization (`synthesizeCrossPollinatedMicroclimateOffshoot`)
+  const basePlants = generateGardenPlants({ alphaSeed: 1 });
+  const colliders = buildGardenColliders(basePlants);
+  let colonizedResult: ReturnType<typeof synthesizeCrossPollinatedMicroclimateOffshoot> | null = null;
+  for (let i = 0; i < basePlants.length && !colonizedResult?.colonized; i++) {
+    for (let j = i + 1; j < basePlants.length; j++) {
+      if (basePlants[i].species === basePlants[j].species) continue;
+      const dist = Math.hypot(basePlants[i].x - basePlants[j].x, basePlants[i].z - basePlants[j].z);
+      if (dist > 15) continue;
+      const attempt = synthesizeCrossPollinatedMicroclimateOffshoot({
+        parentA: basePlants[i],
+        parentB: basePlants[j],
+        existingPlants: basePlants,
+        colliders,
+        busWeight: 12,
+      });
+      if (attempt.colonized) {
+        colonizedResult = attempt;
+        break;
+      }
+    }
+  }
+  assert.ok(colonizedResult?.colonized && colonizedResult.offshoot, 'Distinct guild neighbors must colonize a fertile microclimate offshoot');
+  const offshoot = colonizedResult!.offshoot!;
+  assert.ok(offshoot.id.startsWith('offshoot-'));
+  const surfaceLaw = evaluateSpatialSurfaceLaw(offshoot.x, offshoot.z, 0.55);
+  assert.equal(surfaceLaw.canSupportPlant, true, 'Offshoot must strictly respect substrate & trail clearance laws');
 
+  // 4. Lossless Shareable `#uorc=...` URL Garden Archive Round-Trip & Tamper Rejection
+  const gardenWithOffshoot = [
+    ...basePlants.map((p, idx) => (idx < 3 ? { ...p, attuned: true } : p)),
+    offshoot,
+  ];
+  const neuro = createInitialNeuromorphicState();
+  const snapshot = serializeAnamnesisSnapshot({
+    alphaSeed: 7,
+    atmosphere: 'twilight',
+    isMuted: false,
+    exploredBiomes: ['meadow', 'wetland', 'sanctuary'],
+    manifold: neuro.universalManifold,
+    plants: gardenWithOffshoot,
+    consolidatedMemories: neuro.observer.conservatoryCuration.consolidatedMemories,
+    tunedWaystoneDegrees: tuningTable,
+  });
+  const sharedLink = encodeShareableUorcGardenHash(snapshot);
+  assert.ok(sharedLink.hashFragment.startsWith('#uorc='));
+  assert.ok(sharedLink.archiveByteLength > 32 && sharedLink.archiveByteLength < 4096);
 
+  const decodedLink = decodeShareableUorcGardenHash(
+    `https://verdant-resonance.example/${sharedLink.hashFragment}`,
+  );
+  assert.equal(decodedLink.verified, true);
+  assert.ok(decodedLink.envelope);
+  assert.equal(decodedLink.envelope!.payload.alphaSeed, 7);
+  assert.equal(decodedLink.envelope!.payload.atmosphere, 'twilight');
+  assert.deepEqual(decodedLink.envelope!.payload.tunedWaystoneDegrees, tuningTable);
 
+  const freshBase = generateGardenPlants({ alphaSeed: 7 });
+  const hydratedFlora = hydratePlantsFromAnamnesis(freshBase, decodedLink.envelope!.payload);
+  assert.equal(hydratedFlora.length, freshBase.length + 1);
+  const restoredOffshoot = hydratedFlora.find((p) => p.id === offshoot.id);
+  assert.ok(restoredOffshoot, 'Hydrated #uorc= garden must restore cross-pollinated microclimate offshoot');
+  assert.ok(Math.abs(restoredOffshoot!.x - offshoot.x) < 1e-3);
+  assert.ok(Math.abs(restoredOffshoot!.z - offshoot.z) < 1e-3);
 
+  // Tamper rejection on corrupted `#uorc=` payload
+  const rawToken = sharedLink.hashFragment.slice('#uorc='.length);
+  const midIdx = Math.floor(rawToken.length / 2);
+  const flipChar = rawToken[midIdx] === 'A' ? 'B' : 'A';
+  const tamperedHash =
+    '#uorc=' + rawToken.slice(0, midIdx) + flipChar + rawToken.slice(midIdx + 1);
+  const tamperedDecode = decodeShareableUorcGardenHash(tamperedHash);
+  assert.equal(tamperedDecode.verified, false, 'Tampered #uorc= link must fail UORC/Merkle verification');
+
+  // 5. Sensory Shader, Acoustic Body Formant & Zero-Allocation 60Hz Invariants
+  for (const sp of ['chime-lily', 'pulse-fern', 'echo-lotus', 'drone-moss', 'star-orchid'] as const) {
+    const body = SPECIES_BODY_FORMANT_SPEC[sp];
+    assert.ok(body.formantHz >= 250 && body.formantHz <= 1800);
+    assert.ok(body.formantGainDb > 0);
+  }
+  const soundSrc = fs.readFileSync('src/game/soundscapeEngine.ts', 'utf8');
+  assert.equal(soundSrc.includes('Math.random('), false, 'soundscapeEngine.ts must maintain zero Math.random');
+  assert.equal(soundSrc.includes('SPECIES_BODY_FORMANT_SPEC'), true);
+
+  const canvasSrc = fs.readFileSync('src/components/GardenCanvas.tsx', 'utf8');
+  assert.equal(canvasSrc.includes('skyAtmosphereDome'), true, 'GardenCanvas must render Rayleigh/Mie + Curtain Aurora sky dome');
+  assert.equal(canvasSrc.includes('verdant-lagoon-capillary-fresnel-v1'), true, 'GardenCanvas must render multi-ring GPU capillary/Fresnel lagoon shader');
+  assert.equal(canvasSrc.includes('const nbPhases: number[] = []'), false, 'Kuramoto 60Hz loop must not heap-allocate neighbor arrays per frame');
+});
+
+test('62. Modular Scene Builders, Zero-GC 60Hz Biogeochemistry & Strict Compiler Hygiene Invariants', () => {
+  // 1. Fast-path `evaluateBiogeochemistry({ ..., includeGranularSynthesis: false })` preserves exact scalar kinetics with zero 6-tier object allocation
+  const fullBiochem = evaluateBiogeochemistry({
+    biome: 'wetland',
+    species: 'echo-lotus',
+    substrate: 'pelagic-water',
+    atmosphere: 'twilight',
+    attuned: true,
+    lifecycleStage: 'harmonic-fruiting',
+    sympatheticNeighborCount: 2,
+    neuromorphicWeight: 14,
+    volatileTerpeneImpulse: 0.65,
+  });
+  const hotPathBiochem = evaluateBiogeochemistry({
+    biome: 'wetland',
+    species: 'echo-lotus',
+    substrate: 'pelagic-water',
+    atmosphere: 'twilight',
+    attuned: true,
+    lifecycleStage: 'harmonic-fruiting',
+    sympatheticNeighborCount: 2,
+    neuromorphicWeight: 14,
+    volatileTerpeneImpulse: 0.65,
+    includeGranularSynthesis: false,
+  });
+  assert.ok(fullBiochem.granularSynthesis, 'Default evaluateBiogeochemistry must populate granularSynthesis');
+  assert.equal(
+    hotPathBiochem.granularSynthesis,
+    undefined,
+    '60Hz hot-path evaluateBiogeochemistry must skip 6-tier granular object allocation',
+  );
+  assert.equal(hotPathBiochem.pH, fullBiochem.pH);
+  assert.equal(hotPathBiochem.silicaMineralIndex, fullBiochem.silicaMineralIndex);
+  assert.equal(hotPathBiochem.mycorrhizalNutrientFlux, fullBiochem.mycorrhizalNutrientFlux);
+  assert.equal(hotPathBiochem.luciferinOxidationRate, fullBiochem.luciferinOxidationRate);
+  assert.equal(hotPathBiochem.volatileTerpenePlume, fullBiochem.volatileTerpenePlume);
+  assert.equal(hotPathBiochem.bioluminescentWavelengthNm, fullBiochem.bioluminescentWavelengthNm);
+  assert.equal(hotPathBiochem.acousticSustainMultiplier, fullBiochem.acousticSustainMultiplier);
+  assert.equal(hotPathBiochem.harmonicWarmthFilterHz, fullBiochem.harmonicWarmthFilterHz);
+
+  // 2. Deterministic coordinate-seeded oscillator phase (`0` Math.random in `gardenFloraBuilder.ts`)
+  const phaseA1 = computeDeterministicPlantPulsePhase(12.4, -18.7);
+  const phaseA2 = computeDeterministicPlantPulsePhase(12.4, -18.7);
+  const phaseB = computeDeterministicPlantPulsePhase(-8.2, 21.5);
+  assert.equal(phaseA1, phaseA2, 'Pulse phase must be strictly deterministic for #uorc= garden parity');
+  assert.ok(phaseA1 >= 0 && phaseA1 < Math.PI * 2);
+  assert.ok(phaseB >= 0 && phaseB < Math.PI * 2);
+  assert.notEqual(phaseA1, phaseB);
+
+  const floraSrc = fs.readFileSync('src/components/gardenFloraBuilder.ts', 'utf8');
+  const monumentSrc = fs.readFileSync('src/components/gardenMonuments.ts', 'utf8');
+  const canvasSrc = fs.readFileSync('src/components/GardenCanvas.tsx', 'utf8');
+  assert.equal(floraSrc.includes('Math.random('), false, 'gardenFloraBuilder.ts must have zero Math.random');
+  assert.equal(monumentSrc.includes('Math.random('), false, 'gardenMonuments.ts must have zero Math.random');
+
+  // 3. Modular delegation, O(1) plant lookup, and hot-path biogeochemistry in `GardenCanvas.tsx`
+  assert.equal(
+    canvasSrc.includes('plantMeshes.find('),
+    false,
+    'GardenCanvas.tsx must use O(1) plantMeshById.get(...) instead of linear plantMeshes.find(...)',
+  );
+  assert.equal(
+    canvasSrc.includes('includeGranularSynthesis: false'),
+    true,
+    'GardenCanvas.tsx 60Hz loop must invoke evaluateBiogeochemistry with includeGranularSynthesis: false',
+  );
+  assert.equal(canvasSrc.includes('buildSanctuaryPavilion('), true);
+  assert.equal(canvasSrc.includes('buildConservatoryPlantGroup('), true);
+  assert.equal(canvasSrc.includes('disposeMonumentGroup('), true);
+  assert.ok(
+    canvasSrc.split('\n').length < 5400,
+    'GardenCanvas.tsx must remain modularized well below its former 7,258-line monolith',
+  );
+
+  // 4. Strict TypeScript unused-symbol compiler hygiene in `tsconfig.json`
+  const tsconfig = JSON.parse(fs.readFileSync('tsconfig.json', 'utf8'));
+  assert.equal(tsconfig.compilerOptions.noUnusedLocals, true);
+  assert.equal(tsconfig.compilerOptions.noUnusedParameters, true);
+});
+
+test('63. Universal Prism LexLean-to-TypeScript Mechanizer, Differential Dispatch Parity & Zero-Drift Automation Gate', async () => {
+  // 1. Complete 27-module compilation coverage in generatedPrismRuntime.ts
+  assert.equal(GENERATED_PRISM_MECHANIZED_MANIFEST.moduleCount, 27);
+  assert.ok(GENERATED_PRISM_MECHANIZED_MANIFEST.inductiveCount >= 2);
+  assert.ok(GENERATED_PRISM_MECHANIZED_MANIFEST.structureCount >= 149);
+  assert.ok(GENERATED_PRISM_MECHANIZED_MANIFEST.definitionCount >= 967);
+  assert.ok(GENERATED_PRISM_MECHANIZED_MANIFEST.theoremCount >= 154);
+  assert.equal(Object.keys(PRISM_COMPILED_MODULES).length, 27);
+
+  // 2. Exact 64-bit BigInt formal kernel parity (beyond IEEE-754 MAX_SAFE_INTEGER 2^53 - 1)
+  const Comp = PRISM_COMPILED_MODULES['Foundation.Compression.V1.Model'];
+  assert.equal(Comp.rule30Ring64(), 18446744073709551616n);
+  assert.equal(Comp.rule30Step(0n), 8170733857868071477n);
+  assert.equal(Comp.rule30Step(1n), 9223372036854775811n);
+  assert.equal(Comp.verifyRule30RingAndOrbitVectors(), true);
+  assert.equal(
+    PRISM_COMPILED_MODULES['VerdantResonance'].verifyCanonicalStandardModelsAllTheWayDown(),
+    true,
+  );
+
+  // 3. Differential equivalence: compiled LexLean `dispatch` vs TypeScript `evaluatePrismRequest`
+  for (const ex of GENERATED_VERDANT_RESONANCE_SPEC.examples) {
+    const compiledAns = dispatchPrismTextRequest(ex.request);
+    const tsEval = evaluatePrismRequest(ex.request);
+    assert.equal(tsEval.valid, true);
+    assert.equal(compiledAns, ex.response);
+    assert.equal(compiledAns, tsEval.outcome);
+    assert.equal(decodePrismTextRequest(ex.request).tag, 'some');
+  }
+
+  // Combinatorial sweep across all 5 biomes x 5 species x 5 actions x sample atmospheres/proximities/velocities
+  const biomes = ['meadow', 'grove', 'crystal', 'wetland', 'sanctuary'] as const;
+  const plants = ['chime-lily', 'pulse-fern', 'echo-lotus', 'drone-moss', 'star-orchid'] as const;
+  const actions = ['observe', 'touch', 'attune', 'stroll', 'stillness'] as const;
+  const samples = [
+    { atmo: 'dawn', chorus: 'dormant', prox: 10, vel: 0 },
+    { atmo: 'golden', chorus: 'awakened', prox: 15, vel: 4 },
+    { atmo: 'twilight', chorus: 'awakened', prox: 22, vel: 12 },
+    { atmo: 'starlight', chorus: 'dormant', prox: 50, vel: 24 },
+  ] as const;
+
+  for (const b of biomes) {
+    for (const p of plants) {
+      for (const a of actions) {
+        for (const s of samples) {
+          const line = `${b} ${p} ${a} ${s.atmo} ${s.chorus} ${s.prox} ${s.vel}`;
+          assert.equal(
+            dispatchPrismTextRequest(line),
+            evaluatePrismRequest(line).outcome,
+            `Differential mismatch on '${line}'`,
+          );
+        }
+      }
+    }
+  }
+
+  // Malformed & boundary rejection parity
+  for (const bad of [
+    '',
+    'meadow chime-lily observe dawn dormant 07 0',
+    'meadow chime-lily observe dawn dormant -1 0',
+    'meadow chime-lily observe dawn dormant 101 0',
+    'meadow chime-lily observe dawn dormant 10 31',
+    'meadow  chime-lily observe dawn dormant 10 4',
+    'x'.repeat(185),
+  ]) {
+    assert.equal(dispatchPrismTextRequest(bad), 'invalid');
+    assert.equal(decodePrismTextRequest(bad).tag, 'none');
+  }
+
+  // 4. Universal auto-discovered contract sweep (all 87 byte vectors + 150 breaks* refuters + 34 verify* gates)
+  const sweep = await runMechanizedContractSweep();
+  assert.equal(sweep.modulesVerified, 27);
+  assert.equal(sweep.acceptanceVectorsVerified, 87);
+  assert.equal(sweep.counterexamplePredicatesChecked, 150);
+  assert.ok(sweep.counterexampleEvaluations >= 1300);
+  assert.ok(sweep.verificationPredicatesChecked >= 34);
+
+  // 5. Zero-drift & content-addressed incremental cache idempotence
+  const driftCheck = ensurePrismMechanizedArtifacts(process.cwd(), { checkOnly: true });
+  assert.deepEqual(driftCheck.specReport.driftDetails, []);
+  assert.equal(driftCheck.constantsChanged, false);
+  assert.equal(driftCheck.runtimeChanged, false);
+  assert.equal(driftCheck.specReport.specMdInSync, true);
+  assert.equal(driftCheck.specReport.lexParsersAndRulesInSync, true);
+
+  const warmSync = ensurePrismMechanizedArtifacts(process.cwd(), { force: false });
+  assert.equal(warmSync.fromCache, true);
+  assert.equal(warmSync.constantsChanged, false);
+  assert.equal(warmSync.runtimeChanged, false);
+});

@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Verify mechanized Prism zero-drift & contracts
+        run: npm run prism:drift
+
       - name: Run type check
         run: npm run lint
 

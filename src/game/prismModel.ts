@@ -22,6 +22,18 @@ import {
   GENERATED_VERDANT_RESONANCE_SPEC,
 } from './generatedPrismConstants';
 import {
+  decodePrismBytesToUtf8,
+  decodePrismTextRequest,
+  dispatchPrismTextRequest,
+  encodeUtf8ToPrismBytes,
+  GENERATED_PRISM_MECHANIZED_MANIFEST,
+  PRISM_COMPILED_MODULES,
+  toPrismNat,
+  type Foundation_Neuromorphic_V1_Model_BusManifoldState,
+  type PrismCompiledModuleName,
+  type PrismOption,
+} from './generatedPrismRuntime';
+import {
   evaluateHolisticObserverStandardModelContext,
   type HolisticObserverStandardModelContext,
 } from './neuromorphicFunctorBus';
@@ -67,6 +79,10 @@ export * from './parametricCompressionEngine';
 export * from './conservatoryCurationEngine';
 
 export {
+  decodePrismBytesToUtf8,
+  decodePrismTextRequest,
+  dispatchPrismTextRequest,
+  encodeUtf8ToPrismBytes,
   GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS,
   GENERATED_CANONICAL_MODEL_BASIS_PRIMES,
   GENERATED_CANONICAL_STANDARD_MODELS,
@@ -76,12 +92,17 @@ export {
   GENERATED_PRISM_CONTEXT_PRIMES,
   GENERATED_PRISM_DOMAIN_BASIS_PRIMES,
   GENERATED_PRISM_FOUNDATION_PURITY,
+  GENERATED_PRISM_MECHANIZED_MANIFEST,
   GENERATED_PRISM_PLASTICITY_LUT,
   GENERATED_PRISM_RULE30_LUT,
   GENERATED_PRISM_STANDARDS,
   GENERATED_PRISM_THEOREMS_BY_MODULE,
   GENERATED_VERDANT_JUDGE_ARTIFACT,
   GENERATED_VERDANT_RESONANCE_SPEC,
+  PRISM_COMPILED_MODULES,
+  toPrismNat,
+  type PrismCompiledModuleName,
+  type PrismOption,
 };
 
 export const VERDANT_COSMOGENESIS_STANDARD = GENERATED_PRISM_STANDARDS.cosmogenesis;
@@ -258,197 +279,197 @@ export interface JudgeDomainBusModulations {
 }
 
 /**
- * Exact executable domain bus modulation functions backed directly by
- * `GENERATED_PRISM_BUS_MODULATION_LUT` and `GENERATED_PRISM_PLASTICITY_LUT`
- * compiled from `prism/src/Foundation/<Domain>/V1/Model.lex.tex` by `scripts/extractPrismArtifacts.ts`.
+ * Mechanized domain bus modulation & verification bindings delegated directly to
+ * `PRISM_COMPILED_MODULES` (`src/game/generatedPrismRuntime.ts`), transpiled from
+ * `prism/src/Foundation/<Domain>/V1/Model.lex.tex` and `prism/src/VerdantResonance.lex.tex`
+ * by `scripts/prismMechanizer.ts`.
  */
-function clampLutIndex(w: number, len: number): number {
-  return Math.max(0, Math.min(len - 1, Math.round(w)));
+const _LexNeuro = PRISM_COMPILED_MODULES['Foundation.Neuromorphic.V1.Model'];
+const _LexInfra = PRISM_COMPILED_MODULES['Foundation.Infrastructure.V1.Model'];
+const _LexPhys = PRISM_COMPILED_MODULES['Foundation.Physics.V1.Model'];
+const _LexBotany = PRISM_COMPILED_MODULES['Foundation.Botany.V1.Model'];
+const _LexEcology = PRISM_COMPILED_MODULES['Foundation.Ecology.V1.Model'];
+const _LexAcoustics = PRISM_COMPILED_MODULES['Foundation.Acoustics.V1.Model'];
+const _LexArtic = PRISM_COMPILED_MODULES['Foundation.Articulation.V1.Model'];
+const _LexSound = PRISM_COMPILED_MODULES['Foundation.Soundtrack.V1.Model'];
+const _LexHumane = PRISM_COMPILED_MODULES['Foundation.Humane.V1.Model'];
+const _LexBrand = PRISM_COMPILED_MODULES['Foundation.Brand.V1.Model'];
+const _LexCosmo = PRISM_COMPILED_MODULES['Foundation.Cosmogenesis.V1.Model'];
+const _LexVerdant = PRISM_COMPILED_MODULES['VerdantResonance'];
+
+function toLexBusManifold(
+  state: JudgeBusManifoldState,
+): Foundation_Neuromorphic_V1_Model_BusManifoldState {
+  return {
+    wInfrastructure: toPrismNat(state.wInfrastructure),
+    wPhysics: toPrismNat(state.wPhysics),
+    wBotany: toPrismNat(state.wBotany),
+    wEcology: toPrismNat(state.wEcology),
+    wAcoustics: toPrismNat(state.wAcoustics),
+    wArticulation: toPrismNat(state.wArticulation),
+    wSoundtrack: toPrismNat(state.wSoundtrack),
+    wHumane: toPrismNat(state.wHumane),
+    wBrand: toPrismNat(state.wBrand),
+    wNeuromorphic: toPrismNat(state.wNeuromorphic),
+  };
+}
+
+function fromLexBusManifold(
+  bus: Foundation_Neuromorphic_V1_Model_BusManifoldState,
+): JudgeBusManifoldState {
+  return {
+    wInfrastructure: Number(bus.wInfrastructure),
+    wPhysics: Number(bus.wPhysics),
+    wBotany: Number(bus.wBotany),
+    wEcology: Number(bus.wEcology),
+    wAcoustics: Number(bus.wAcoustics),
+    wArticulation: Number(bus.wArticulation),
+    wSoundtrack: Number(bus.wSoundtrack),
+    wHumane: Number(bus.wHumane),
+    wBrand: Number(bus.wBrand),
+    wNeuromorphic: Number(bus.wNeuromorphic),
+  };
 }
 
 export function clampPrismBusWeight(w: number): number {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.clampBusWeight;
-  return lut[clampLutIndex(w, lut.length)];
+  return Number(_LexNeuro.clampBusWeight(toPrismNat(w)));
 }
 
 export function stepInfrastructureBusModulation(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.infrastructure;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexInfra.stepInfrastructureBusModulation(toPrismNat(busWeight)));
 }
 
 export function stepPhysicsBusModulation(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.physics;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexPhys.stepPhysicsBusModulation(toPrismNat(busWeight)));
 }
 
 export function stepBotanyBusModulation(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.botany;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexBotany.stepBotanyBusModulation(toPrismNat(busWeight)));
 }
 
 export function stepEcologyBusModulation(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.ecology;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexEcology.stepEcologyBusModulation(toPrismNat(busWeight)));
 }
 
 export function stepAcousticsBusModulation(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.acoustics;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexAcoustics.stepAcousticsBusModulation(toPrismNat(busWeight)));
 }
 
 export function stepArticulationBusModulation(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.articulation;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexArtic.stepArticulationBusModulation(toPrismNat(busWeight)));
 }
 
 export function stepSoundtrackBusModulation(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.soundtrack;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexSound.stepSoundtrackBusModulation(toPrismNat(busWeight)));
 }
 
 export function stepHumaneBusModulation(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.humane;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexHumane.stepHumaneBusModulation(toPrismNat(busWeight)));
 }
 
 export function stepBrandBusModulation(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.brand;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexBrand.stepBrandBusModulation(toPrismNat(busWeight)));
 }
 
 export function stepWisdomPhenomenonModulation(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.wisdomPhenomenon;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexNeuro.stepWisdomPhenomenonModulation(toPrismNat(busWeight)));
 }
 
 export function stepStakeholderValueReinforcement(
   w: number,
   allFacetsActive: boolean,
 ): number {
-  const lut = allFacetsActive
-    ? GENERATED_PRISM_PLASTICITY_LUT.stepStakeholderValueReinforcementCoactive
-    : GENERATED_PRISM_PLASTICITY_LUT.stepStakeholderValueReinforcementSilent;
-  return lut[clampLutIndex(w, lut.length)];
+  return Number(_LexNeuro.stepStakeholderValueReinforcement(toPrismNat(w), allFacetsActive));
 }
 
 export function verifyEmergentEntitySynthesizesFacets(w: number): boolean {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyEmergentEntitySynthesizesFacets;
-  return lut[clampLutIndex(w, lut.length)];
+  return _LexNeuro.verifyEmergentEntitySynthesizesFacets(toPrismNat(w));
 }
 
 export function stepAtomicValenceActivity(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.atomicValence;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexEcology.stepAtomicValenceActivity(toPrismNat(busWeight)));
 }
 
 export function stepMolecularBondCoherence(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.molecularBond;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexEcology.stepMolecularBondCoherence(toPrismNat(busWeight)));
 }
 
 export function stepMacromolecularPolymerization(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.macromolecularPolymer;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexEcology.stepMacromolecularPolymerization(toPrismNat(busWeight)));
 }
 
 export function stepCompoundManifestation(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.compoundManifestation;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexEcology.stepCompoundManifestation(toPrismNat(busWeight)));
 }
 
 export function stepEnvironmentalModalSynthesis(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.environmentalModalSynthesis;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexEcology.stepEnvironmentalModalSynthesis(toPrismNat(busWeight)));
 }
 
 export function verifyGranularAtomicToEnvironmentalChain(busWeight: number): boolean {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyGranularAtomicToEnvironmentalChain;
-  return lut[clampLutIndex(busWeight, lut.length)];
+  return _LexEcology.verifyGranularAtomicToEnvironmentalChain(toPrismNat(busWeight));
 }
 
 export function stepAtomicRemineralizationFlux(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.atomicRemineralization;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexEcology.stepAtomicRemineralizationFlux(toPrismNat(busWeight)));
 }
 
 export function verifyClosedLoopMatterConservation(busWeight: number): boolean {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyClosedLoopMatterConservation;
-  return lut[clampLutIndex(busWeight, lut.length)];
+  return _LexEcology.verifyClosedLoopMatterConservation(toPrismNat(busWeight));
 }
 
 export function verifyCompleteGranularSynthesisClosure(busWeight: number): boolean {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyCompleteGranularSynthesisClosure;
-  return lut[clampLutIndex(busWeight, lut.length)];
+  return _LexEcology.verifyCompleteGranularSynthesisClosure(toPrismNat(busWeight));
 }
 
 export function stepBMeshSubdivisionDensity(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.bMeshSubdivisionDensity;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexBotany.stepBMeshSubdivisionDensity(toPrismNat(busWeight)));
 }
 
 export function stepThinFilmIridescenceSpanNm(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.thinFilmIridescenceSpanNm;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexBotany.stepThinFilmIridescenceSpanNm(toPrismNat(busWeight)));
 }
 
 export function verifyHighDefinitionBMeshSynthesis(busWeight: number): boolean {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyHighDefinitionBMeshSynthesis;
-  return lut[clampLutIndex(busWeight, lut.length)];
+  return _LexBotany.verifyHighDefinitionBMeshSynthesis(toPrismNat(busWeight));
 }
 
 export function stepBasalJointTorqueMilli(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.basalJointTorqueMilli;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexArtic.stepBasalJointTorqueMilli(toPrismNat(busWeight)));
 }
 
 export function stepMidCulmFlexureMilli(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.midCulmFlexureMilli;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexArtic.stepMidCulmFlexureMilli(toPrismNat(busWeight)));
 }
 
 export function stepApicalCorollaGimbalMilli(busWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.apicalCorollaGimbalMilli;
-  return lut[clampPrismBusWeight(busWeight)];
+  return Number(_LexArtic.stepApicalCorollaGimbalMilli(toPrismNat(busWeight)));
 }
 
 export function verifyThreeJointKinematicHierarchy(busWeight: number): boolean {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyThreeJointKinematicHierarchy;
-  return lut[clampLutIndex(busWeight, lut.length)];
+  return _LexArtic.verifyThreeJointKinematicHierarchy(toPrismNat(busWeight));
 }
 
 export function stepCrossModalPhaseObstructionPermille(busWeight: number): number {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.crossModalPhaseObstructionPermille;
-  return lut[clampLutIndex(busWeight, lut.length)];
+  return Number(_LexPhys.stepCrossModalPhaseObstructionPermille(toPrismNat(busWeight)));
 }
 
 export function stepCrossModalAcousticShadowPermille(busWeight: number): number {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.crossModalAcousticShadowPermille;
-  return lut[clampLutIndex(busWeight, lut.length)];
+  return Number(_LexPhys.stepCrossModalAcousticShadowPermille(toPrismNat(busWeight)));
 }
 
 export function verifyMaterialSynthesisCrossModalObstruction(busWeight: number): boolean {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyMaterialSynthesisCrossModalObstruction;
-  return lut[clampLutIndex(busWeight, lut.length)];
+  return _LexPhys.verifyMaterialSynthesisCrossModalObstruction(toPrismNat(busWeight));
 }
 
 export function clampAlphaSeed(alphaSeed: number): number {
-  const { weightMax } = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity;
-  const n = Math.floor(Number.isFinite(alphaSeed) ? alphaSeed : 1);
-  if (n <= 0) return 1;
-  if (n > weightMax) return weightMax;
-  return n;
+  const safe = Number.isFinite(alphaSeed) ? Math.max(0, Math.floor(alphaSeed)) : 1;
+  return Number(_LexCosmo.clampAlphaSeed(BigInt(safe)));
 }
 
 export function stepAlphaOmegaFieldPotential(busWeight: number, alphaSeed = 1): number {
-  const s = clampAlphaSeed(alphaSeed);
-  if (s === 1) {
-    const lut = GENERATED_PRISM_BUS_MODULATION_LUT.alphaOmegaFieldPotential;
-    return lut[clampPrismBusWeight(busWeight)];
-  }
-  const cw = clampPrismBusWeight(busWeight);
-  return (
-    GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.cosmogenesisBasisPrime * cw +
-    s * GENERATED_PRISM_STANDARDS.neuromorphic.observerQuadruple.observerPartCount
+  return Number(
+    _LexCosmo.stepAlphaOmegaFieldPotential(toPrismNat(clampAlphaSeed(alphaSeed)), toPrismNat(busWeight)),
   );
 }
 
@@ -457,19 +478,12 @@ export function stepParametricInorganicScalePermille(
   wInfra: number = wPhysics,
   alphaSeed = 1,
 ): number {
-  const wp = clampPrismBusWeight(wPhysics);
-  const wi = clampPrismBusWeight(wInfra);
-  const s = clampAlphaSeed(alphaSeed);
-  if (s === 1 && wp === wi) {
-    return GENERATED_PRISM_BUS_MODULATION_LUT.parametricInorganicScalePermille[wp];
-  }
-  const d2 = GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[2].theoreticalDyadicBound;
-  return (
-    GENERATED_PRISM_DOMAIN_BASIS_PRIMES.infrastructure *
-      (GENERATED_PRISM_CONTEXT_PRIMES.meadowPrime * GENERATED_PRISM_CONTEXT_PRIMES.grovePrime) +
-    GENERATED_PRISM_DOMAIN_BASIS_PRIMES.physics * d2 +
-    (wp + wi) * GENERATED_PRISM_CONTEXT_PRIMES.pulseFernPrime +
-    s * (GENERATED_PRISM_CONTEXT_PRIMES.meadowPrime * GENERATED_PRISM_CONTEXT_PRIMES.crystalPrime)
+  return Number(
+    _LexCosmo.synthesizeParametricInorganicScalePermille(
+      toPrismNat(clampAlphaSeed(alphaSeed)),
+      toPrismNat(wPhysics),
+      toPrismNat(wInfra),
+    ),
   );
 }
 
@@ -478,19 +492,12 @@ export function stepParametricOrganicVitalityPermille(
   wEcology: number = wBotany,
   alphaSeed = 1,
 ): number {
-  const wb = clampPrismBusWeight(wBotany);
-  const we = clampPrismBusWeight(wEcology);
-  const s = clampAlphaSeed(alphaSeed);
-  if (s === 1 && wb === we) {
-    return GENERATED_PRISM_BUS_MODULATION_LUT.parametricOrganicVitalityPermille[wb];
-  }
-  const d2 = GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[2].theoreticalDyadicBound;
-  return (
-    GENERATED_PRISM_DOMAIN_BASIS_PRIMES.botany * GENERATED_PRISM_CONTEXT_PRIMES.crystalPrime +
-    GENERATED_PRISM_DOMAIN_BASIS_PRIMES.ecology * GENERATED_PRISM_CONTEXT_PRIMES.grovePrime +
-    (wb + we) *
-      (GENERATED_PRISM_CONTEXT_PRIMES.grovePrime * GENERATED_PRISM_CONTEXT_PRIMES.wetlandPrime) +
-    s * (d2 * GENERATED_PRISM_CONTEXT_PRIMES.crystalPrime)
+  return Number(
+    _LexCosmo.synthesizeParametricOrganicVitalityPermille(
+      toPrismNat(clampAlphaSeed(alphaSeed)),
+      toPrismNat(wBotany),
+      toPrismNat(wEcology),
+    ),
   );
 }
 
@@ -499,212 +506,85 @@ export function stepParametricPlayerEmbodimentPermille(
   wAcoustics: number = wHumane,
   alphaSeed = 1,
 ): number {
-  const wh = clampPrismBusWeight(wHumane);
-  const wa = clampPrismBusWeight(wAcoustics);
-  const s = clampAlphaSeed(alphaSeed);
-  if (s === 1 && wh === wa) {
-    return GENERATED_PRISM_BUS_MODULATION_LUT.parametricPlayerEmbodimentPermille[wh];
-  }
-  const d2 = GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[2].theoreticalDyadicBound;
-  return (
-    GENERATED_PRISM_DOMAIN_BASIS_PRIMES.humane * d2 +
-    GENERATED_PRISM_DOMAIN_BASIS_PRIMES.acoustics * GENERATED_PRISM_CONTEXT_PRIMES.grovePrime +
-    (wh + wa) * GENERATED_PRISM_CONTEXT_PRIMES.echoLotusPrime +
-    s * GENERATED_PRISM_CONTEXT_PRIMES.pulseFernPrime
+  return Number(
+    _LexCosmo.synthesizeParametricPlayerEmbodimentPermille(
+      toPrismNat(clampAlphaSeed(alphaSeed)),
+      toPrismNat(wHumane),
+      toPrismNat(wAcoustics),
+    ),
   );
 }
 
 export function synthesizeParametricCanonicalSeed(alphaSeed = 1, busWeight = 8): number {
-  const s = clampAlphaSeed(alphaSeed);
-  const cw = clampPrismBusWeight(busWeight);
-  if (
-    cw === GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial &&
-    s >= 1 &&
-    s <= GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.alphaSeedSweepLut.length
-  ) {
-    return GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.alphaSeedSweepLut[s - 1]
-      .canonicalGenesisSeed;
-  }
-  return (
-    GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.cosmogenesisBasisPrime *
-      GENERATED_PRISM_CONTEXT_PRIMES.starlightPrime *
-      cw +
-    s *
-      (GENERATED_PRISM_CONTEXT_PRIMES.meadowPrime *
-        GENERATED_PRISM_CONTEXT_PRIMES.echoLotusPrime *
-        GENERATED_PRISM_DOMAIN_BASIS_PRIMES.ecology)
+  return Number(
+    _LexCosmo.synthesizeParametricCanonicalSeed(
+      toPrismNat(clampAlphaSeed(alphaSeed)),
+      toPrismNat(busWeight),
+    ),
   );
 }
 
 export function synthesizeParametricConcertPitchHz(alphaSeed = 1, acousticsWeight = 8): number {
-  const s = clampAlphaSeed(alphaSeed);
-  const cw = clampPrismBusWeight(acousticsWeight);
-  const w0 = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightInitial;
-  if (
-    cw === w0 &&
-    s >= 1 &&
-    s <= GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.alphaSeedSweepLut.length
-  ) {
-    return Number(
-      (
-        GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.alphaSeedSweepLut[s - 1]
-          .concertPitchCentiHz / 100
-      ).toFixed(2),
-    );
-  }
-  const d2 = GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[2].theoreticalDyadicBound;
-  const baseCentiHz =
-    Math.pow(GENERATED_PRISM_CONTEXT_PRIMES.grovePrime, d2) *
-    GENERATED_PRISM_CONTEXT_PRIMES.pulseFernPrime *
-    GENERATED_PRISM_CONTEXT_PRIMES.echoLotusPrime;
-  const pAcoustics = GENERATED_PRISM_DOMAIN_BASIS_PRIMES.acoustics;
-  const centiHz =
-    alphaSeed <= 1
-      ? baseCentiHz
-      : baseCentiHz + (s - 1) * (pAcoustics * w0) + Math.max(0, cw - w0) * pAcoustics;
+  const seedNat = alphaSeed <= 1 ? 1n : toPrismNat(clampAlphaSeed(alphaSeed));
+  const centiHz = Number(
+    _LexCosmo.synthesizeParametricConcertPitchCentiHz(seedNat, toPrismNat(acousticsWeight)),
+  );
   return Number((centiHz / 100).toFixed(2));
 }
 
 export function verifyObserverCreatesAllThreeRealms(busWeight: number, alphaSeed = 1): boolean {
-  const s = clampAlphaSeed(alphaSeed);
-  if (s === 1) {
-    const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyObserverCreatesAllThreeRealms;
-    return lut[clampLutIndex(busWeight, lut.length)];
-  }
-  const cw = clampPrismBusWeight(busWeight);
-  const d2 = GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[2].theoreticalDyadicBound;
-  const minThreshold =
-    GENERATED_PRISM_CONTEXT_PRIMES.wetlandPrime *
-    Math.pow(
-      GENERATED_PRISM_CONTEXT_PRIMES.meadowPrime * GENERATED_PRISM_CONTEXT_PRIMES.crystalPrime,
-      GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[1].theoreticalDyadicBound,
-    );
-  return (
-    GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.createdRealmCount ===
-      GENERATED_PRISM_CONTEXT_PRIMES.grovePrime &&
-    d2 === 4 &&
-    stepParametricInorganicScalePermille(cw, cw, s) >= minThreshold &&
-    stepParametricOrganicVitalityPermille(cw, cw, s) >= minThreshold &&
-    stepParametricPlayerEmbodimentPermille(cw, cw, s) >= minThreshold
+  return _LexCosmo.verifyObserverCreatesAllThreeRealms(
+    toPrismNat(clampAlphaSeed(alphaSeed)),
+    toPrismNat(busWeight),
   );
 }
 
 export function verifyAlphaOmegaParametricClosure(busWeight: number, alphaSeed = 1): boolean {
-  const s = clampAlphaSeed(alphaSeed);
-  if (s === 1) {
-    const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyAlphaOmegaParametricClosure;
-    return lut[clampLutIndex(busWeight, lut.length)];
-  }
-  const cw = clampPrismBusWeight(busWeight);
-  const nextW = GENERATED_PRISM_PLASTICITY_LUT.learnWeightPotentiated[cw];
-  return (
-    verifyObserverCreatesAllThreeRealms(cw, s) &&
-    synthesizeParametricCanonicalSeed(s, cw) <= synthesizeParametricCanonicalSeed(s, nextW) &&
-    synthesizeParametricConcertPitchHz(s, cw) <= synthesizeParametricConcertPitchHz(s, nextW) &&
-    stepAlphaOmegaFieldPotential(cw, s) <= stepAlphaOmegaFieldPotential(nextW, s) &&
-    stepParametricInorganicScalePermille(cw, cw, s) <=
-      stepParametricInorganicScalePermille(nextW, nextW, s) &&
-    stepParametricOrganicVitalityPermille(cw, cw, s) <=
-      stepParametricOrganicVitalityPermille(nextW, nextW, s) &&
-    stepParametricPlayerEmbodimentPermille(cw, cw, s) <=
-      stepParametricPlayerEmbodimentPermille(nextW, nextW, s)
+  return _LexCosmo.verifyAlphaOmegaParametricClosure(
+    toPrismNat(clampAlphaSeed(alphaSeed)),
+    toPrismNat(busWeight),
   );
 }
 
 export function uniformJudgeBusManifold(w: number): JudgeBusManifoldState {
-  return {
-    wInfrastructure: w,
-    wPhysics: w,
-    wBotany: w,
-    wEcology: w,
-    wAcoustics: w,
-    wArticulation: w,
-    wSoundtrack: w,
-    wHumane: w,
-    wBrand: w,
-    wNeuromorphic: w,
-  };
+  return fromLexBusManifold(_LexNeuro.uniformBusManifold(toPrismNat(w)));
 }
 
 export function stepUniversalBusBroadcastManifold(
   state: JudgeBusManifoldState,
   sourceConsolidated: boolean,
 ): JudgeBusManifoldState {
-  const txLut = sourceConsolidated
-    ? GENERATED_PRISM_PLASTICITY_LUT.transferWeightCrossDomainCoactive
-    : GENERATED_PRISM_PLASTICITY_LUT.transferWeightCrossDomainSilent;
-  const potLut = GENERATED_PRISM_PLASTICITY_LUT.learnWeightPotentiated;
-  const tx = (wTarget: number) => txLut[clampLutIndex(wTarget, txLut.length)];
-  const learnPotentiated = (w: number) => potLut[clampLutIndex(w, potLut.length)];
-
-  return {
-    wInfrastructure: tx(state.wInfrastructure),
-    wPhysics: tx(state.wPhysics),
-    wBotany: tx(state.wBotany),
-    wEcology: tx(state.wEcology),
-    wAcoustics: tx(state.wAcoustics),
-    wArticulation: tx(state.wArticulation),
-    wSoundtrack: tx(state.wSoundtrack),
-    wHumane: tx(state.wHumane),
-    wBrand: tx(state.wBrand),
-    wNeuromorphic: learnPotentiated(state.wNeuromorphic),
-  };
+  return fromLexBusManifold(
+    _LexNeuro.stepUniversalBusBroadcast(toLexBusManifold(state), sourceConsolidated),
+  );
 }
 
 export function stepAutopoieticBusManifold(
   state: JudgeBusManifoldState,
   leaderWeight: number = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightMax,
 ): JudgeBusManifoldState {
-  const refLut = GENERATED_PRISM_PLASTICITY_LUT.refineDomainWeightAutopoietic;
-  const sigIdx = clampLutIndex(leaderWeight, refLut[0].length);
-  const step = (wCurrent: number) => refLut[clampLutIndex(wCurrent, refLut.length)][sigIdx];
-  return {
-    wInfrastructure: step(state.wInfrastructure),
-    wPhysics: step(state.wPhysics),
-    wBotany: step(state.wBotany),
-    wEcology: step(state.wEcology),
-    wAcoustics: step(state.wAcoustics),
-    wArticulation: step(state.wArticulation),
-    wSoundtrack: step(state.wSoundtrack),
-    wHumane: step(state.wHumane),
-    wBrand: step(state.wBrand),
-    wNeuromorphic: step(state.wNeuromorphic),
-  };
+  return fromLexBusManifold(
+    _LexNeuro.stepAutopoieticBusManifold(toLexBusManifold(state), toPrismNat(leaderWeight)),
+  );
 }
 
-/**
- * Executable constructive verification predicate `verifySingleCallPropagatesAllTenDomains(w)`
- * backed directly by `GENERATED_PRISM_PLASTICITY_LUT.verifySingleCallPropagatesAllTenDomains`
- * compiled from `Foundation.Neuromorphic.V1.Model.lex.tex` (proven universally for all `w in [1, 15]`
- * in `zeroManualIterationOverheadUniversalHolds`).
- */
 export function verifySingleCallPropagatesAllTenDomains(w: number): boolean {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifySingleCallPropagatesAllTenDomains;
-  return lut[clampLutIndex(w, lut.length)];
+  return _LexNeuro.verifySingleCallPropagatesAllTenDomains(toPrismNat(w));
 }
 
-/**
- * Executable constructive verification predicate `verifyAutopoieticSingleCallAdvancesAllTenDomains(w)`
- * backed directly by `GENERATED_PRISM_PLASTICITY_LUT.verifyAutopoieticSingleCallAdvancesAllTenDomains`
- * compiled from `Foundation.Neuromorphic.V1.Model.lex.tex` (proven universally for all `w in [1, 15]`
- * in `autopoieticSingleCallAllTenDomainsHolds`).
- */
 export function verifyAutopoieticSingleCallAdvancesAllTenDomains(w: number): boolean {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyAutopoieticSingleCallAdvancesAllTenDomains;
-  return lut[clampLutIndex(w, lut.length)];
+  return _LexNeuro.verifyAutopoieticSingleCallAdvancesAllTenDomains(toPrismNat(w));
 }
 
-/**
- * Steps the 10-domain Universal Neuromorphic Bus for a decoded `VerdantResonance::Request`
- * (`VerdantResonance::stepJudgeBusManifold`).
- */
 export function stepJudgeBusManifold(
   req: Record<string, string | bigint>,
 ): JudgeBusManifoldState {
-  const { weightInitial } = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity;
-  const proximity = typeof req.proximity === 'bigint' ? Number(req.proximity) : Number(req.proximity ?? 0);
+  const proximity =
+    typeof req.proximity === 'bigint' ? Number(req.proximity) : Number(req.proximity ?? 0);
   const sourceConsolidated = 0 <= proximity;
-  return stepUniversalBusBroadcastManifold(uniformJudgeBusManifold(weightInitial), sourceConsolidated);
+  return fromLexBusManifold(
+    _LexNeuro.stepUniversalBusBroadcast(_LexNeuro.uniformBusManifold(_LexNeuro.weightInitial()), sourceConsolidated),
+  );
 }
 
 export function computeJudgeBusModulations(bus: JudgeBusManifoldState): JudgeDomainBusModulations {
@@ -721,26 +601,8 @@ export function computeJudgeBusModulations(bus: JudgeBusManifoldState): JudgeDom
   };
 }
 
-/**
- * Verifies the 10-domain cross-domain bus gate on a stepped `JudgeBusManifoldState`
- * (`VerdantResonance::verifyBusModulationsFromState` & `VerdantResonance::verifyJudgeCrossDomainBusGate`,
- * proven universally in `VerdantResonanceProofs::rootJudgeCallsBusAndSatisfiesAllDomainsHolds`).
- */
 export function verifyBusModulationsFromState(bus: JudgeBusManifoldState): boolean {
-  const { weightInitial } = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity;
-  const mod = computeJudgeBusModulations(bus);
-  return (
-    1005 <= mod.infrastructurePoolCapacity &&
-    875 <= mod.physicsBuoyancyMillihz &&
-    20 <= mod.botanyPollinationRadiusCm &&
-    825 <= mod.ecologyConductivityPermille &&
-    915 <= mod.acousticsFilterQPermille &&
-    920 <= mod.articulationGracePermille &&
-    53 <= mod.soundtrackHarmonicDensity &&
-    130 <= mod.humaneZephyrCapMmPerSec2 &&
-    85 <= mod.brandContrastTenths &&
-    weightInitial < bus.wNeuromorphic
-  );
+  return _LexVerdant.verifyBusModulationsFromState(toLexBusManifold(bus));
 }
 
 export function verifyJudgeCrossDomainBusGate(
@@ -749,13 +611,6 @@ export function verifyJudgeCrossDomainBusGate(
   return verifyBusModulationsFromState(stepJudgeBusManifold(req));
 }
 
-/**
- * Verifies complete Prism Model closure for a decoded `VerdantResonance::Request`
- * (`VerdantResonance::verifyCompletePrismModelClosure`, proven universally in
- * `VerdantResonanceProofs::completePrismModelClosureHolds`):
- * Unites the 10-Domain Universal Neuromorphic Bus, the 4-Facet Emergent Stakeholder Entity,
- * and the 6-Stage Closed-Loop Granular Atomic-to-Environmental Procedural Synthesis.
- */
 export function verifyCompletePrismModelClosure(
   req: Record<string, string | bigint>,
 ): boolean {
@@ -7966,6 +7821,7 @@ export function evaluateBiogeochemistry(params: {
   sympatheticNeighborCount?: number;
   neuromorphicWeight?: number;
   volatileTerpeneImpulse?: number;
+  includeGranularSynthesis?: boolean;
 }): BiogeochemicalState {
   const {
     biome,
@@ -7977,6 +7833,7 @@ export function evaluateBiogeochemistry(params: {
     sympatheticNeighborCount = 0,
     neuromorphicWeight = 8,
     volatileTerpeneImpulse = 0,
+    includeGranularSynthesis = true,
   } = params;
 
   const subSpec = GROWTH_SUBSTRATE_SPECS[substrate];
@@ -7990,29 +7847,30 @@ export function evaluateBiogeochemistry(params: {
           ? -0.04
           : -0.08;
   const rawPh = biomePh * 0.55 + subSpec.baselinePh * 0.45 + diurnalPhShift;
-  const pH = Number(
-    Math.max(
-      VERDANT_ECOLOGY_STANDARD.minSoilWaterPh,
-      Math.min(VERDANT_ECOLOGY_STANDARD.maxSoilWaterPh, rawPh),
-    ).toFixed(2),
-  );
+  const pH =
+    Math.round(
+      Math.max(
+        VERDANT_ECOLOGY_STANDARD.minSoilWaterPh,
+        Math.min(VERDANT_ECOLOGY_STANDARD.maxSoilWaterPh, rawPh),
+      ) * 100,
+    ) / 100;
 
   const biomeSilicaBoost = biome === 'crystal' ? 0.18 : biome === 'sanctuary' ? 0.1 : 0;
-  const silicaMineralIndex = Number(
-    Math.min(1.0, subSpec.silicaMineralIndex + biomeSilicaBoost).toFixed(3),
-  );
+  const silicaMineralIndex =
+    Math.round(Math.min(1.0, subSpec.silicaMineralIndex + biomeSilicaBoost) * 1000) / 1000;
 
   const stageOrder = BOTANICAL_LIFECYCLE_STAGES[lifecycleStage].stageIndex;
   const weightNorm = Math.max(0.1, Math.min(1.0, neuromorphicWeight / 16));
-  const mycorrhizalNutrientFlux = Number(
-    Math.min(
-      1.0,
-      subSpec.mycorrhizalConductivity * 0.52 +
-        Math.min(3, sympatheticNeighborCount) * 0.08 +
-        weightNorm * 0.22 +
-        stageOrder * 0.045,
-    ).toFixed(3),
-  );
+  const mycorrhizalNutrientFlux =
+    Math.round(
+      Math.min(
+        1.0,
+        subSpec.mycorrhizalConductivity * 0.52 +
+          Math.min(3, sympatheticNeighborCount) * 0.08 +
+          weightNorm * 0.22 +
+          stageOrder * 0.045,
+      ) * 1000,
+    ) / 1000;
 
   // Michaelis-Menten enzymatic bioluminescence kinetics: peaks in nocturnal/twilight atmospheres & when attuned
   const atmosEnzymeFactor =
@@ -8025,51 +7883,56 @@ export function evaluateBiogeochemistry(params: {
           : 0.82;
   const speciesBioFactor =
     species === 'echo-lotus' || species === 'star-orchid' ? 1.12 : 1.0;
-  const luciferinOxidationRate = Number(
-    Math.min(
-      1.5,
-      ((attuned ? 0.78 : 0.34) +
-        mycorrhizalNutrientFlux * 0.28 +
-        volatileTerpeneImpulse * 0.24) *
-        atmosEnzymeFactor *
-        speciesBioFactor,
-    ).toFixed(3),
-  );
+  const luciferinOxidationRate =
+    Math.round(
+      Math.min(
+        1.5,
+        ((attuned ? 0.78 : 0.34) +
+          mycorrhizalNutrientFlux * 0.28 +
+          volatileTerpeneImpulse * 0.24) *
+          atmosEnzymeFactor *
+          speciesBioFactor,
+      ) * 1000,
+    ) / 1000;
 
-  const volatileTerpenePlume = Number(
-    Math.min(
-      1.0,
-      (attuned ? 0.36 : 0.08) +
-        volatileTerpeneImpulse * 0.55 +
-        Math.min(3, sympatheticNeighborCount) * 0.07,
-    ).toFixed(3),
-  );
+  const volatileTerpenePlume =
+    Math.round(
+      Math.min(
+        1.0,
+        (attuned ? 0.36 : 0.08) +
+          volatileTerpeneImpulse * 0.55 +
+          Math.min(3, sympatheticNeighborCount) * 0.07,
+      ) * 1000,
+    ) / 1000;
 
   // pH-dependent bioluminescent wavelength (482nm sapphire-cyan at high pH/silica -> 568nm golden-amber on travertine/loam)
   const bioluminescentWavelengthNm = Math.round(
     572 - (pH - 5.6) * 24 - silicaMineralIndex * 28,
   );
 
-  const acousticSustainMultiplier = Number(
-    Math.min(
-      1.28,
-      Math.max(0.88, subSpec.acousticSustainFactor * (0.94 + silicaMineralIndex * 0.14)),
-    ).toFixed(3),
-  );
+  const acousticSustainMultiplier =
+    Math.round(
+      Math.min(
+        1.28,
+        Math.max(0.88, subSpec.acousticSustainFactor * (0.94 + silicaMineralIndex * 0.14)),
+      ) * 1000,
+    ) / 1000;
 
   const harmonicWarmthFilterHz = Math.round(
     1750 + silicaMineralIndex * 1650 + luciferinOxidationRate * 480,
   );
 
-  const granularSynthesis = evaluateGranularMatterSynthesis({
-    biome,
-    species,
-    substrate,
-    atmosphere,
-    attuned,
-    neuromorphicWeight,
-    volatileTerpeneImpulse,
-  });
+  const granularSynthesis = includeGranularSynthesis
+    ? evaluateGranularMatterSynthesis({
+        biome,
+        species,
+        substrate,
+        atmosphere,
+        attuned,
+        neuromorphicWeight,
+        volatileTerpeneImpulse,
+      })
+    : undefined;
 
   return {
     pH,
@@ -10256,54 +10119,43 @@ export const VERDANT_NEUROMORPHIC_STANDARD: NeuromorphicSynthesisStandardModel =
 };
 
 export function stepTheoryOfMindCoherencePermille(w: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.theoryOfMindCoherencePermille;
-  return lut[clampLutIndex(w, lut.length)];
+  return Number(_LexNeuro.stepTheoryOfMindCoherencePermille(toPrismNat(w)));
 }
 
 export function stepSupraDirectiveFidelityPermille(w: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.supraDirectiveFidelityPermille;
-  return lut[clampLutIndex(w, lut.length)];
+  return Number(_LexNeuro.stepSupraDirectiveFidelityPermille(toPrismNat(w)));
 }
 
 export function stepSupraDirectiveQualityPermille(w: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.supraDirectiveQualityPermille;
-  return lut[clampLutIndex(w, lut.length)];
+  return Number(_LexNeuro.stepSupraDirectiveQualityPermille(toPrismNat(w)));
 }
 
 export function stepSupraDirectiveDefinitionSubdiv(w: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.supraDirectiveDefinitionSubdiv;
-  return lut[clampLutIndex(w, lut.length)];
+  return Number(_LexNeuro.stepSupraDirectiveDefinitionSubdiv(toPrismNat(w)));
 }
 
 export function stepSupraDirectiveFeatureUnlockCount(w: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.supraDirectiveFeatureUnlockCount;
-  return lut[clampLutIndex(w, lut.length)];
+  return Number(_LexNeuro.stepSupraDirectiveFeatureUnlockCount(toPrismNat(w)));
 }
 
 export function stepRule30LeftDiagonalPeriod(d: number): number {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.rule30LeftDiagonalPeriod;
-  return lut[clampLutIndex(d, lut.length)];
+  return Number(_LexNeuro.stepRule30LeftDiagonalPeriod(toPrismNat(d)));
 }
 
 export function stepRule30AperiodicCompensationIndex(d: number, w = 8): number {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.rule30AperiodicCompensation;
-  const dIdx = clampLutIndex(d, lut.length);
-  return lut[dIdx][clampLutIndex(w, lut[dIdx].length)];
+  return Number(_LexNeuro.stepRule30AperiodicCompensationIndex(toPrismNat(d), toPrismNat(w)));
 }
 
 export function verifyRule30DeterministicAndWithdrawnDuality(w: number): boolean {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyRule30DeterministicAndWithdrawnDuality;
-  return lut[clampLutIndex(w, lut.length)];
+  return _LexNeuro.verifyRule30DeterministicAndWithdrawnDuality(toPrismNat(w));
 }
 
 export function verifyObserverSupraDirectiveTranscendence(w: number): boolean {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyObserverSupraDirectiveTranscendence;
-  return lut[clampLutIndex(w, lut.length)];
+  return _LexNeuro.verifyObserverSupraDirectiveTranscendence(toPrismNat(w));
 }
 
 export function verifyObserverHolisticWhyClosure(w: number): boolean {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.verifyObserverHolisticWhyClosure;
-  return lut[clampLutIndex(w, lut.length)];
+  return _LexNeuro.verifyObserverHolisticWhyClosure(toPrismNat(w));
 }
 
 export const PRISM_DOMAIN_BRIDGES: Record<PrismDomainId, NeuromorphicDomainBridgeSpec> = {
@@ -10321,18 +10173,8 @@ export const PRISM_DOMAIN_BRIDGES: Record<PrismDomainId, NeuromorphicDomainBridg
   neuromorphic: VERDANT_NEUROMORPHIC_STANDARD.neuromorphicBridge,
 };
 
-/**
- * Exact bounded Hebbian learning rule `learnHebbianWeight(w, success)` backed directly by
- * `GENERATED_PRISM_PLASTICITY_LUT` compiled from `Foundation.Neuromorphic.V1.Model::learnHebbianWeight`
- * (proven bounded in `hebbianBidirectionalBoundsHold`):
- * - Potentiates by `weightRaise` (+2) on resonant success, clamped to `weightMax` (16).
- * - Depresses by `weightLower` (-1) on non-resonant step, clamped to `weightMin` (1).
- */
 export function learnHebbianWeight(w: number, success: boolean): number {
-  const lut = success
-    ? GENERATED_PRISM_PLASTICITY_LUT.learnHebbianWeightCoactive
-    : GENERATED_PRISM_PLASTICITY_LUT.learnHebbianWeightSilent;
-  return lut[clampLutIndex(w, lut.length)];
+  return Number(_LexNeuro.learnHebbianWeight(toPrismNat(w), success));
 }
 
 /**
@@ -11178,24 +11020,14 @@ export function transferWeightCrossDomain(
   wTarget: number,
   sourceConsolidated: boolean,
 ): number {
-  const lut = sourceConsolidated
-    ? GENERATED_PRISM_PLASTICITY_LUT.transferWeightCrossDomainCoactive
-    : GENERATED_PRISM_PLASTICITY_LUT.transferWeightCrossDomainSilent;
-  return lut[clampLutIndex(wTarget, lut.length)];
+  return Number(_LexNeuro.transferWeightCrossDomain(toPrismNat(wTarget), sourceConsolidated));
 }
 
-/**
- * Exact autopoietic self-refinement operator `refineDomainWeightAutopoietic`
- * backed directly by `GENERATED_PRISM_PLASTICITY_LUT.refineDomainWeightAutopoietic`
- * compiled from `Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic` (proven bounded, monotonic,
- * and fixed-point convergent at `w* = 16` in `autopoieticModelRefinementConvergesAndBoundedHolds`).
- */
 export function refineDomainWeightAutopoietic(
   wCurrent: number,
   wLeader: number,
 ): number {
-  const lut = GENERATED_PRISM_PLASTICITY_LUT.refineDomainWeightAutopoietic;
-  return lut[clampLutIndex(wCurrent, lut.length)][clampLutIndex(wLeader, lut[0].length)];
+  return Number(_LexNeuro.refineDomainWeightAutopoietic(toPrismNat(wCurrent), toPrismNat(wLeader)));
 }
 
 function extractDomainRule30Slice(row: boolean[], domainIndex: number): number {
@@ -11542,10 +11374,7 @@ export function synthesizeRuntimeObserverModel(params: {
   const radialSubdivisions = stepSupraDirectiveDefinitionSubdiv(w);
   const unlockedFeatureCount = stepSupraDirectiveFeatureUnlockCount(w);
   const theoryOfMindCoherencePermille = stepTheoryOfMindCoherencePermille(w);
-  const thinFilmIridescenceSpanNm =
-    GENERATED_PRISM_BUS_MODULATION_LUT.thinFilmIridescenceSpanNm[
-      clampLutIndex(w, GENERATED_PRISM_BUS_MODULATION_LUT.thinFilmIridescenceSpanNm.length)
-    ];
+  const thinFilmIridescenceSpanNm = stepThinFilmIridescenceSpanNm(w);
 
   const aperiodicNudge = (rule30Byte & 0x07) % 4;
   const harmonicCrownPetals = 8 + Math.floor((w - 8) * 1.5) + aperiodicNudge;
@@ -13178,6 +13007,156 @@ export function executeNeuromorphicSynthesisTick(
   };
 }
 
+export interface CrossPollinatedOffshootSynthesisResult {
+  readonly colonized: boolean;
+  readonly offshoot: GardenPlantInstance | null;
+  readonly guildName: string | null;
+  readonly activeOffshootCount: number;
+  readonly colonizationCap: number;
+}
+
+/**
+ * Co-Curatorial Cross-Pollinated Microclimate Colonization (`Foundation.Teleology.V1.Model`):
+ * When the player & Observer cross-pollinate two distinct species (`parentA.species !== parentB.species`),
+ * deterministically colonizes a golden-ratio (`phi^-1 = 0.618034`) microclimate niche along their
+ * mycorrhizal corridor—strictly obeying `evaluateSpatialSurfaceLaw` (never on hard stone or rocks)
+ * and bounded by `emergentOffshootColonizationCap` (`4..12` across `w = 1..16`).
+ */
+export function synthesizeCrossPollinatedMicroclimateOffshoot(params: {
+  readonly parentA: GardenPlantInstance;
+  readonly parentB: GardenPlantInstance;
+  readonly existingPlants: readonly GardenPlantInstance[];
+  readonly colliders: readonly SolidCollider[];
+  readonly busWeight?: number;
+  readonly rule30Phase01?: number;
+  readonly topology?: ParametricWorldTopologyModel;
+}): CrossPollinatedOffshootSynthesisResult {
+  const clampedW = Math.max(1, Math.min(16, Math.round(params.busWeight ?? 8)));
+  const colonizationCap =
+    GENERATED_PRISM_BUS_MODULATION_LUT.emergentOffshootColonizationCap?.[clampedW] ?? 8;
+  const activeOffshootCount = params.existingPlants.filter(
+    (p) => p.id.startsWith('offshoot-') || p.id.startsWith('emergent-'),
+  ).length;
+
+  if (
+    params.parentA.species === params.parentB.species ||
+    activeOffshootCount >= colonizationCap
+  ) {
+    return {
+      colonized: false,
+      offshoot: null,
+      guildName: null,
+      activeOffshootCount,
+      colonizationCap,
+    };
+  }
+
+  const matchedGuild =
+    SYMBIOTIC_GUILDS.find(
+      (g) =>
+        g.pair.includes(params.parentA.species) &&
+        g.pair.includes(params.parentB.species),
+    ) ?? null;
+
+  const dx = params.parentB.x - params.parentA.x;
+  const dz = params.parentB.z - params.parentA.z;
+  const span = Math.hypot(dx, dz);
+  if (span < 2.2) {
+    return {
+      colonized: false,
+      offshoot: null,
+      guildName: matchedGuild?.name ?? null,
+      activeOffshootCount,
+      colonizationCap,
+    };
+  }
+
+  const dirX = dx / span;
+  const dirZ = dz / span;
+  const perpX = -dirZ;
+  const perpZ = dirX;
+  const phase = params.rule30Phase01 ?? 0.381966;
+
+  for (let attempt = 0; attempt < 16; attempt++) {
+    const alongFrac = attempt % 2 === 0 ? 0.618034 : 0.381966;
+    const lateralSign = attempt % 4 < 2 ? 1 : -1;
+    const lateralOffset = lateralSign * (0.45 + Math.floor(attempt / 2) * 0.52);
+    const candX = Number(
+      Math.max(
+        -44,
+        Math.min(44, params.parentA.x + dx * alongFrac + perpX * lateralOffset),
+      ).toFixed(2),
+    );
+    const candZ = Number(
+      Math.max(
+        -44,
+        Math.min(44, params.parentA.z + dz * alongFrac + perpZ * lateralOffset),
+      ).toFixed(2),
+    );
+
+    const surfaceLaw = evaluateSpatialSurfaceLaw(candX, candZ, 0.55);
+    if (!surfaceLaw.canSupportPlant) continue;
+
+    const collidesSolid = params.colliders.some(
+      (c) => Math.hypot(candX - c.x, candZ - c.z) < c.radiusMeters + 0.9,
+    );
+    const tooClosePlant = params.existingPlants.some(
+      (p) => Math.hypot(candX - p.x, candZ - p.z) < 1.85,
+    );
+    if (collidesSolid || tooClosePlant) continue;
+
+    const candBiome = biomeAt(candX, candZ);
+    const anchor = computeSlopeEmbeddedGroundAnchor(candX, candZ, 0.42, 0.02);
+    const isSubmerged = surfaceLaw.isSubmergedLagoon;
+    const chosenSpecies: PlantSpeciesId = isSubmerged
+      ? 'echo-lotus'
+      : activeOffshootCount % 2 === 0
+        ? params.parentB.species
+        : params.parentA.species;
+    const offshootY = isSubmerged ? MIRROR_LAGOON_WATER_SURFACE_Y : anchor.minPerimeterGroundY;
+    const offshootSubstrate = classifyPlantGrowthSubstrate(chosenSpecies, candX, candZ);
+    const biomeRatios = BIOME_CONFIGS[candBiome].scaleRatios;
+    const offshootIndex = activeOffshootCount + 1;
+    const ratioPick =
+      biomeRatios[(offshootIndex + Math.round(phase * 16)) % biomeRatios.length] ?? 1.25;
+
+    const offshoot: GardenPlantInstance = {
+      id: `offshoot-${matchedGuild?.id ?? 'ecotone'}-${offshootIndex}`,
+      species: chosenSpecies,
+      biome: candBiome,
+      substrate: offshootSubstrate,
+      x: candX,
+      y: offshootY,
+      z: candZ,
+      scale: Number((0.84 + (offshootIndex % 4) * 0.06).toFixed(2)),
+      rotationY: Number(((phase * Math.PI * 2 + offshootIndex * 2.39996) % (Math.PI * 2)).toFixed(3)),
+      pitchMultiplier: Number(ratioPick.toFixed(4)),
+      attuned: true,
+      lifecycleStage: 'resonant-bloom',
+      surfaceTiltX: isSubmerged ? 0 : anchor.surfaceTiltX,
+      surfaceTiltZ: isSubmerged ? 0 : anchor.surfaceTiltZ,
+      rootHoldfastScale: 1.04,
+      volatileTerpeneCharge: 0.92,
+    };
+
+    return {
+      colonized: true,
+      offshoot,
+      guildName: matchedGuild?.name ?? 'Ecotone Symbiosis',
+      activeOffshootCount: offshootIndex,
+      colonizationCap,
+    };
+  }
+
+  return {
+    colonized: false,
+    offshoot: null,
+    guildName: matchedGuild?.name ?? null,
+    activeOffshootCount,
+    colonizationCap,
+  };
+}
+
 // ---------------------------------------------------------------------------
 // Subsystem 14: Botanical Object Lifecycle, Environmental Micro-Seasons &
 // Live 4-Stem Generative Soundtrack Synthesizer
@@ -13231,7 +13210,6 @@ export function synthesizeParametricBotanicalLifecycleStages(
   const botLift = (Math.max(0, wBotany - 8) / 8) * 0.05 + (alphaSeed - 1) * 0.01;
 
   const p2 = GENERATED_PRISM_CONTEXT_PRIMES.meadowPrime; // 2
-  const p3 = GENERATED_PRISM_CONTEXT_PRIMES.grovePrime; // 3
   const p5 = GENERATED_PRISM_CONTEXT_PRIMES.crystalPrime; // 5
   const p7 = GENERATED_PRISM_CONTEXT_PRIMES.wetlandPrime; // 7
   const p17 = GENERATED_PRISM_CONTEXT_PRIMES.pulseFernPrime; // 17
@@ -13239,7 +13217,6 @@ export function synthesizeParametricBotanicalLifecycleStages(
   const p29 = GENERATED_PRISM_CONTEXT_PRIMES.starOrchidPrime; // 29
   const p61 = GENERATED_PRISM_CONTEXT_PRIMES.strollPrime; // 61
   const p71 = GENERATED_PRISM_CONTEXT_PRIMES.dormantPrime; // 71
-  const d2 = GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[2].theoreticalDyadicBound; // 4
   const d3 = GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[3].theoreticalDyadicBound; // 8
   const d4 = GENERATED_OBSERVER_RULE30_FACETS.regularLeftDiagonals[4].theoreticalDyadicBound; // 16
   const centi = p2 * p2 * p5 * p5; // 100
@@ -15886,58 +15863,43 @@ export function extrapolateHighestResolutionSubdiv(
   alphaSeed: number,
   synapticWeight: number,
 ): number {
-  const s = clampAlphaSeed(alphaSeed);
-  const wIdx = clampLutIndex(
-    synapticWeight,
-    GENERATED_PRISM_BUS_MODULATION_LUT.extrapolateHighestResolutionSubdiv.length,
-  );
-  return (
-    GENERATED_PRISM_BUS_MODULATION_LUT.extrapolateHighestResolutionSubdiv[wIdx] +
-    (s - 1) * GENERATED_PRISM_CONTEXT_PRIMES.meadowPrime
+  return Number(
+    _LexCosmo.extrapolateHighestResolutionSubdiv(
+      toPrismNat(clampAlphaSeed(alphaSeed)),
+      toPrismNat(synapticWeight),
+    ),
   );
 }
 
-/**
- * Exact formal wrapper for `Foundation.Cosmogenesis.V1.Model::extrapolateHighestResolutionPermille`.
- */
 export function extrapolateHighestResolutionPermille(
   alphaSeed: number,
   synapticWeight: number,
 ): number {
-  const s = clampAlphaSeed(alphaSeed);
-  const wIdx = clampLutIndex(
-    synapticWeight,
-    GENERATED_PRISM_BUS_MODULATION_LUT.extrapolateHighestResolutionPermille.length,
-  );
-  return (
-    GENERATED_PRISM_BUS_MODULATION_LUT.extrapolateHighestResolutionPermille[wIdx] +
-    (s - 1) * GENERATED_PRISM_CONTEXT_PRIMES.crystalPrime
+  return Number(
+    _LexCosmo.extrapolateHighestResolutionPermille(
+      toPrismNat(clampAlphaSeed(alphaSeed)),
+      toPrismNat(synapticWeight),
+    ),
   );
 }
 
-/**
- * Exact formal wrapper for `Foundation.Cosmogenesis.V1.Model::stepPartDifferentiationNicheIndex`:
- * `nicheIndex = basisPrime * clampBusWeight(wDomain) + dyadicPeriod`.
- * Because all 11 Observer parts carry strictly distinct primes (`71..113`) whose minimum prime gap (`>= 2`)
- * dominates the Rule-30 left-diagonal dyadic period (`1, 2, 4, 8`), all 11 parts inhabit strictly distinct
- * specialization niches even when every part converges to uniform apex synaptic weight `w* = 16`.
- */
 export function stepPartDifferentiationNicheIndex(
   partId: ObserverPartId,
   synapticWeight: number,
 ): number {
-  const cw = Math.max(
-    VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightMin,
-    Math.min(VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightMax, Math.round(synapticWeight)),
-  );
   const basisPrime =
     partId === 'player-user'
       ? GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS.cosmogenesisBasisPrime
       : PRISM_DOMAIN_BASIS_PRIMES[partId];
   const partIdx = Math.max(0, OBSERVER_PART_ORDER.indexOf(partId));
-  const dyadicPeriod =
-    GENERATED_PRISM_PLASTICITY_LUT.rule30LeftDiagonalPeriod[partIdx % 4] ?? 1;
-  return basisPrime * cw + dyadicPeriod;
+  const dyadicPeriod = stepRule30LeftDiagonalPeriod(partIdx % 4);
+  return Number(
+    _LexCosmo.stepPartDifferentiationNicheIndex(
+      toPrismNat(basisPrime),
+      toPrismNat(synapticWeight),
+      toPrismNat(dyadicPeriod),
+    ),
+  );
 }
 
 const PART_DIFFERENTIATION_ARCHETYPES: Record<
@@ -16513,23 +16475,23 @@ export function computeTenneyHeightAndEulerGradus(
 }
 
 export function stepFoundationalHarmonyLutPermille(synapticWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.foundationalHarmonyPermille;
-  return lut[clampLutIndex(synapticWeight, lut.length)];
+  return Number(_LexCosmo.stepFoundationalHarmonyPermille(toPrismNat(synapticWeight), 2n));
 }
 
 export function stepFoundationalChaosLutPermille(
   synapticWeight: number,
   dyadicRegularMode: boolean,
 ): number {
-  const lut = dyadicRegularMode
-    ? GENERATED_PRISM_BUS_MODULATION_LUT.foundationalChaosDyadicPermille
-    : GENERATED_PRISM_BUS_MODULATION_LUT.foundationalChaosAperiodicPermille;
-  return lut[clampLutIndex(synapticWeight, lut.length)];
+  return Number(
+    _LexCosmo.stepFoundationalChaosPermille(
+      toPrismNat(synapticWeight),
+      dyadicRegularMode ? 2n : 3n,
+    ),
+  );
 }
 
 export function stepFoundationalAffectValenceLutPermille(synapticWeight: number): number {
-  const lut = GENERATED_PRISM_BUS_MODULATION_LUT.foundationalAffectValencePermille;
-  return lut[clampLutIndex(synapticWeight, lut.length)];
+  return Number(_LexCosmo.stepFoundationalAffectValencePermille(toPrismNat(synapticWeight)));
 }
 
 const EMOTION_METADATA: Record<

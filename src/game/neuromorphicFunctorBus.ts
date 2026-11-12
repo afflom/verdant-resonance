@@ -580,7 +580,6 @@ export function evaluateHolisticObserverStandardModelContext(params: {
   }
 
   const meanWeight = weightSum / MODEL_TOTAL;
-  const meanWeightInt = clampW(meanWeight);
   const meanCoherentDepthPpm = Number((coherentDepthSumPpm / MODEL_TOTAL).toFixed(2));
   const meanInboundDepthTransferPpm = Number((inboundDepthSumPpm / MODEL_TOTAL).toFixed(2));
   const normalizedFidelity01 = Number((meanCoherentDepthPpm / HD_PPM_UNITY).toFixed(6));

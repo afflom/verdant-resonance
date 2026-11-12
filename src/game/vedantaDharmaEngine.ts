@@ -19,11 +19,14 @@
 
 import {
   GENERATED_CANONICAL_MODEL_BASIS_PRIMES,
-  GENERATED_PRISM_BUS_MODULATION_LUT,
   GENERATED_PRISM_STANDARDS,
   GENERATED_VERDANT_RESONANCE_SPEC,
 } from './generatedPrismConstants';
+import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
 import type { CanonicalStandardModelKey } from './neuromorphicFunctorBus';
+
+const CompiledVedanta = PRISM_COMPILED_MODULES['Foundation.Vedanta.V1.Model'];
+const CompiledDharma = PRISM_COMPILED_MODULES['Foundation.Dharma.V1.Model'];
 
 export type GardenAtmosphereId = 'dawn' | 'golden' | 'twilight' | 'starlight';
 export type GardenBiomeId = 'meadow' | 'grove' | 'crystal' | 'wetland' | 'sanctuary';
@@ -356,13 +359,13 @@ export function evaluateTrigunaFieldDynamics(params: {
   readonly harmonyPct: number;
   readonly velocityDm: number;
 }): TrigunaFieldState {
-  const cw = Math.max(1, Math.min(16, Math.round(params.busWeight)));
-  const ch = Math.max(0, Math.min(100, Math.round(params.harmonyPct)));
-  const cv = Math.max(0, Math.min(30, Math.round(params.velocityDm)));
+  const wNat = toPrismNat(Math.max(1, Math.min(16, Math.round(params.busWeight))));
+  const hNat = toPrismNat(Math.max(0, Math.min(100, Math.round(params.harmonyPct))));
+  const vNat = toPrismNat(Math.max(0, Math.min(30, Math.round(params.velocityDm))));
 
-  const sattvaPermille = Math.max(0, 340 + cw * 16 + ch * 3 - cv * 4);
-  const rajasPermille = 60 + cv * 3;
-  const tamasPermille = 1000 - (sattvaPermille + rajasPermille);
+  const sattvaPermille = Number(CompiledVedanta.stepSattvaClarityPermille(wNat, hNat, vNat));
+  const rajasPermille = Number(CompiledVedanta.stepRajasActivityPermille(vNat));
+  const tamasPermille = Number(CompiledVedanta.stepTamasGroundingPermille(wNat, hNat, vNat));
 
   const dominantGuna: 'sattva' | 'rajas' | 'tamas' =
     sattvaPermille >= rajasPermille && sattvaPermille >= tamasPermille
@@ -404,16 +407,18 @@ export function evaluateMandukyaTuriyaResonance(params: {
   readonly isStillness: boolean;
   readonly witnessReciprocity01?: number;
 }): MandukyaTuriyaEvaluation {
-  const cw = Math.max(1, Math.min(16, Math.round(params.busWeight)));
-  const ch = Math.max(0, Math.min(100, Math.round(params.harmonyPct)));
-  const cr = Math.max(0, Math.min(16, Math.round(params.restStepCount)));
+  const wNat = toPrismNat(Math.max(1, Math.min(16, Math.round(params.busWeight))));
+  const hNat = toPrismNat(Math.max(0, Math.min(100, Math.round(params.harmonyPct))));
+  const rNat = toPrismNat(Math.max(0, Math.min(16, Math.round(params.restStepCount))));
+  const cr = Number(rNat);
   const reciprocityBonus = Math.round(Math.max(0, Math.min(1, params.witnessReciprocity01 ?? 0)) * 36);
 
-  const baseNonDual = 560 + cw * 18 + ch;
+  const baseNonDual = Number(CompiledVedanta.stepAtmanBrahmanNonDualPermille(wNat, hNat));
   const atmanBrahmanNonDualPermille = Math.min(1000, baseNonDual + reciprocityBonus);
+  const baseTuriya = Number(CompiledVedanta.stepTuriyaSilentWitnessPermille(wNat, rNat));
   const turiyaSilentWitnessPermille = Math.min(
     1000,
-    480 + cw * 20 + cr * 12 + (params.isStillness ? 24 : 0),
+    baseTuriya + (params.isStillness ? 24 : 0),
   );
 
   let activeState: MandukyaAvasthaTuriyaId;
@@ -815,13 +820,21 @@ export function evaluateVerdantVedantaAndDharmaSynthesis(params?: {
     (satExistencePermille + citConsciousnessPermille + anandaBlissPermille) / 3,
   );
 
-  // 5. Dharmic Rta, Pratityasamutpada, Indra's Net, Brahmavihara & Lokasangraha
-  const rtaZero = GENERATED_PRISM_BUS_MODULATION_LUT.rtaCosmicOrderAtZeroHarmonyPermille[cw] ?? 580 + cw * 18;
-  const rtaCosmicOrderPermille = Math.min(1000, rtaZero + ch);
-  const pratityasamutpadaCausalPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.pratityasamutpadaCausalCoherencePermille[cw] ?? 620 + cw * 22;
-  const brahmaviharaEquanimityPermille = Math.max(0, 660 + cw * 20 - cv * 4);
-  const lokasangrahaWorldWelfarePermille = Math.min(1000, 520 + cw * 20 + cg * 32);
+  // 5. Dharmic Rta, Pratityasamutpada, Indra's Net, Brahmavihara & Lokasangraha (mechanized from Foundation.Dharma.V1.Model)
+  const wNat = toPrismNat(cw);
+  const hNat = toPrismNat(ch);
+  const vNat = toPrismNat(cv);
+  const gNat = toPrismNat(cg);
+  const rtaCosmicOrderPermille = Number(CompiledDharma.stepRtaCosmicOrderPermille(wNat, hNat));
+  const pratityasamutpadaCausalPermille = Number(
+    CompiledDharma.stepPratityasamutpadaCausalCoherencePermille(wNat),
+  );
+  const brahmaviharaEquanimityPermille = Number(
+    CompiledDharma.stepBrahmaviharaEquanimityPermille(wNat, vNat),
+  );
+  const lokasangrahaWorldWelfarePermille = Number(
+    CompiledDharma.stepLokasangrahaWorldWelfarePermille(wNat, gNat),
+  );
 
   const indrasNetMutualReflection01 = Number(
     Math.min(1, 0.32 + (cg / 5) * 0.36 + (exploredBiomes / 5) * 0.16 + (cw / 16) * 0.16).toFixed(4),
@@ -861,6 +874,7 @@ export function evaluateVerdantVedantaAndDharmaSynthesis(params?: {
   return {
     verified:
       triguna.totalPermille === 1000 &&
+      CompiledVedanta.verifyTrigunaConservationLaw(wNat, hNat, vNat) &&
       rowColOk &&
       kosaModelCount === 22 &&
       STATIC_AHIMSA_AUDIT.ahimsaVerified &&

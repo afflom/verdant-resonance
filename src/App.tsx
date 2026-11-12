@@ -10,6 +10,7 @@ import {
   BIOME_CONFIGS,
   BiomeId,
   BOTANICAL_LIFECYCLE_STAGES,
+  GardenPlantInstance,
   PLANT_SPECIES_CONFIGS,
   SOUND_OUTCOME_PROFILES,
   SoundscapeOutcome,
@@ -22,6 +23,8 @@ import {
   createInitialGestureHoldState,
   createInitialLandmarkResonanceState,
   createInitialNeuromorphicState,
+  decodeShareableUorcGardenHash,
+  encodeShareableUorcGardenHash,
   evaluateBiomeMasteryAndGuilds,
   evaluateEnvironmentalLifecycle,
   evaluateNearestSynthesizedLandmark,
@@ -69,8 +72,17 @@ export default function App() {
     return params.get('autostart') === '1';
   }, []);
 
-  // Hydrate Content-Addressed Merkle Anamnesis Snapshot (`Foundation.Anamnesis.V1.Model`, Prime `157`)
-  const initialAnamnesis = useMemo(() => loadAnamnesisEnvelopeFromStorage(), []);
+  // Hydrate Shareable `#uorc=...` URL Garden Archive first, falling back to local Merkle Anamnesis (`Foundation.Anamnesis.V1.Model`, Prime `157`)
+  const initialAnamnesis = useMemo(() => {
+    if (typeof window !== 'undefined' && window.location.hash.startsWith('#uorc=')) {
+      const shared = decodeShareableUorcGardenHash(window.location.hash);
+      if (shared.verified && shared.envelope) {
+        persistAnamnesisEnvelopeToStorage(shared.envelope);
+        return shared;
+      }
+    }
+    return loadAnamnesisEnvelopeFromStorage();
+  }, []);
   const initialAnamnesisPayload = initialAnamnesis.verified
     ? (initialAnamnesis.envelope?.payload ?? null)
     : null;
@@ -82,6 +94,9 @@ export default function App() {
   const [isMuted, setIsMuted] = useState<boolean>(initialAnamnesisPayload?.isMuted ?? false);
   const [dockCollapsed, setDockCollapsed] = useState<boolean>(false);
   const [recentBanner, setRecentBanner] = useState<string | null>(null);
+  const [tunedWaystoneDegrees, setTunedWaystoneDegrees] = useState<readonly number[] | undefined>(
+    () => initialAnamnesisPayload?.tunedWaystoneDegrees,
+  );
 
   const alphaSeed = initialAnamnesisPayload?.alphaSeed ?? 1;
   const [plants, setPlants] = useState(() => {
@@ -190,10 +205,11 @@ export default function App() {
 
   // Debounced Content-Addressed Merkle Anamnesis Persistence (`verdant-resonance.anamnesis.v1`)
   useEffect(() => {
-    const isDefaultGenesis =
+      const isDefaultGenesis =
       alphaSeed === 1 &&
       atmosphere === 'dawn' &&
       !isMuted &&
+      !tunedWaystoneDegrees &&
       telemetry.attunedCount === 0 &&
       telemetry.neuromorphic.tickCount === 0 &&
       telemetry.neuromorphic.universalManifold.globalFidelityIndex <= 1.001 &&
@@ -210,6 +226,8 @@ export default function App() {
         plants,
         consolidatedMemories:
           telemetry.neuromorphic.observer.conservatoryCuration.consolidatedMemories,
+        tunedWaystoneDegrees:
+          gardenHandleRef.current?.getTunedWaystoneDegrees() ?? tunedWaystoneDegrees,
       });
       persistAnamnesisEnvelopeToStorage(envelope);
     }, 420);
@@ -219,10 +237,12 @@ export default function App() {
     atmosphere,
     isMuted,
     plants,
+    tunedWaystoneDegrees,
     telemetry.attunedCount,
     telemetry.exploredBiomes,
     telemetry.neuromorphic.tickCount,
     telemetry.neuromorphic.universalManifold,
+    telemetry.neuromorphic.observer.conservatoryCuration.consolidatedMemories,
   ]);
 
   useEffect(() => {
@@ -328,6 +348,10 @@ export default function App() {
 
   const handleRestart = useCallback(() => {
     clearAnamnesisStorage();
+    if (typeof window !== 'undefined' && window.location.hash.startsWith('#uorc=')) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    setTunedWaystoneDegrees(undefined);
     const resetPlants = generateGardenPlants({ alphaSeed });
     setPlants(resetPlants);
     gardenHandleRef.current?.setAlphaSeed(alphaSeed, resetPlants);
@@ -402,6 +426,58 @@ export default function App() {
     [liveBiomeConfigs, liveOutcomeProfiles],
   );
 
+  const handleWaystoneTuned = useCallback((degrees: readonly number[], label: string) => {
+    setTunedWaystoneDegrees(degrees);
+    setRecentBanner(`✦ Lithophone Tuned · ${label}`);
+  }, []);
+
+  const handleOffshootColonized = useCallback(
+    (offshoot: GardenPlantInstance, guildName: string) => {
+      setPlants((prev) => (prev.some((p) => p.id === offshoot.id) ? prev : [...prev, offshoot]));
+      setRecentBanner(`✦ ${guildName} Offshoot Germinated`);
+    },
+    [],
+  );
+
+  const handleShareUorcGarden = useCallback(
+    (e?: React.MouseEvent<HTMLButtonElement>) => {
+      e?.currentTarget.blur();
+      const liveWaystoneDegrees =
+        gardenHandleRef.current?.getTunedWaystoneDegrees() ?? tunedWaystoneDegrees;
+      const envelope = serializeAnamnesisSnapshot({
+        alphaSeed,
+        atmosphere,
+        isMuted,
+        exploredBiomes: telemetry.exploredBiomes,
+        manifold: telemetry.neuromorphic.universalManifold,
+        plants,
+        consolidatedMemories:
+          telemetry.neuromorphic.observer.conservatoryCuration.consolidatedMemories,
+        tunedWaystoneDegrees: liveWaystoneDegrees,
+      });
+      persistAnamnesisEnvelopeToStorage(envelope);
+      const link = encodeShareableUorcGardenHash(envelope);
+      if (typeof window !== 'undefined') {
+        window.history.replaceState(null, '', link.hashFragment);
+        const fullUrl = window.location.href;
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+          navigator.clipboard.writeText(fullUrl).catch(() => {});
+        }
+      }
+      setRecentBanner(`✦ UORC Garden Link Copied · ${link.archiveByteLength} B κ-Archive`);
+    },
+    [
+      alphaSeed,
+      atmosphere,
+      isMuted,
+      plants,
+      tunedWaystoneDegrees,
+      telemetry.exploredBiomes,
+      telemetry.neuromorphic.universalManifold,
+      telemetry.neuromorphic.observer.conservatoryCuration.consolidatedMemories,
+    ],
+  );
+
   useEffect(() => {
     if (!recentBanner) return;
     const timer = window.setTimeout(() => setRecentBanner(null), 2600);
@@ -445,12 +521,15 @@ export default function App() {
       } else if (e.code === 'KeyH' && gameState === 'playing') {
         e.preventDefault();
         setDockCollapsed((prev) => !prev);
+      } else if (e.code === 'KeyU' && gameState === 'playing') {
+        e.preventDefault();
+        handleShareUorcGarden();
       }
     };
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [gameState, startGame, handleToggleMute, handleRestart, cycleAtmosphere]);
+  }, [gameState, startGame, handleToggleMute, handleRestart, cycleAtmosphere, handleShareUorcGarden]);
 
   // Mindful exploration never force-terminates gameplay at 100% Harmony.
   // Only extreme unmindful agitation (sustained rapid key mashing during refractory cooldowns >= 100%)
@@ -488,6 +567,8 @@ export default function App() {
         soundEngine={soundEngine}
         onTelemetryUpdate={setTelemetry}
         onPlantAttuned={handlePlantAttuned}
+        onWaystoneTuned={handleWaystoneTuned}
+        onOffshootColonized={handleOffshootColonized}
         handleRef={gardenHandleRef}
       />
 
@@ -821,8 +902,31 @@ export default function App() {
               </div>
             </div>
 
-            {/* Compact Square <svg> Utility Buttons (Mute [M], Field Guide / Pause [P], Reset [R]) */}
+            {/* Compact Square <svg> Utility Buttons (Share UORC [U], Mute [M], Field Guide / Pause [P], Reset [R]) */}
             <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                tabIndex={-1}
+                aria-label="Share UORC Garden Link [U]"
+                title="Copy Shareable UORC Garden Link [U]"
+                onClick={handleShareUorcGarden}
+                className="w-10 h-10 rounded-lg border hover:bg-emerald-900/70 text-emerald-100 flex items-center justify-center shadow-lg transition-colors cursor-pointer"
+                style={{
+                  backgroundColor: 'var(--prism-surface-bg)',
+                  borderColor: 'var(--prism-border-hairline)',
+                }}
+              >
+                <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4" aria-hidden="true">
+                  <path
+                    d="M8.5 11.5L11.5 8.5M7 13L5.6 14.4a2.83 2.83 0 01-4-4L3 9m10-2l1.4-1.4a2.83 2.83 0 014 4L17 11"
+                    stroke="currentColor"
+                    strokeWidth="1.65"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+
               <button
                 type="button"
                 tabIndex={-1}

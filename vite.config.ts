@@ -2,6 +2,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import {fileURLToPath} from 'node:url';
 import {defineConfig} from 'vite';
+import {prismMechanizerVitePlugin} from './scripts/prismVitePlugin.ts';
 
 const projectRoot = fileURLToPath(new URL('.', import.meta.url));
 
@@ -10,7 +11,7 @@ export default defineConfig(({command}) => {
     process.env.GITHUB_ACTIONS === 'true' ? '/verdant-resonance/' : './';
   return {
     base: command === 'build' ? buildBase : '/',
-    plugins: [react(), tailwindcss()],
+    plugins: [prismMechanizerVitePlugin(projectRoot), react(), tailwindcss()],
     resolve: {
       alias: {
         '@': projectRoot,
@@ -32,6 +33,20 @@ export default defineConfig(({command}) => {
             }
             if (id.includes('generatedPrismConstants')) {
               return 'prism-constants';
+            }
+            if (id.includes('generatedPrismRuntime')) {
+              return 'prism-runtime';
+            }
+            if (
+              id.includes('standardModelEngine') ||
+              id.includes('spectralColorEngine') ||
+              id.includes('parametricCompressionEngine') ||
+              id.includes('vedantaDharmaEngine') ||
+              id.includes('teleologyEngine') ||
+              id.includes('conservatoryCurationEngine') ||
+              id.includes('neuromorphicFunctorBus')
+            ) {
+              return 'prism-domains';
             }
             return undefined;
           },

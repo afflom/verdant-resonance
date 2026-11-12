@@ -29,6 +29,8 @@ import type {
   BiomeId,
   BotanicalLifecycleStageId,
   GardenPlantInstance,
+  GrowthSubstrateId,
+  PlantSpeciesId,
   UniversalNeuromorphicManifold,
 } from './prismModel';
 
@@ -38,6 +40,25 @@ export interface PersistedPlantAnamnesisRecord {
   readonly id: string;
   readonly attuned: boolean;
   readonly lifecycleStage: BotanicalLifecycleStageId;
+  readonly volatileTerpeneCharge: number;
+}
+
+export interface PersistedEmergentOffshootRecord {
+  readonly id: string;
+  readonly species: PlantSpeciesId;
+  readonly biome: BiomeId;
+  readonly substrate?: GrowthSubstrateId;
+  readonly x: number;
+  readonly y: number;
+  readonly z: number;
+  readonly scale: number;
+  readonly rotationY: number;
+  readonly pitchMultiplier: number;
+  readonly attuned: boolean;
+  readonly lifecycleStage: BotanicalLifecycleStageId;
+  readonly surfaceTiltX?: number;
+  readonly surfaceTiltZ?: number;
+  readonly rootHoldfastScale?: number;
   readonly volatileTerpeneCharge: number;
 }
 
@@ -69,6 +90,8 @@ export interface VerdantAnamnesisPayload {
     readonly neuromorphic: number;
   }>;
   readonly floraStates: readonly PersistedPlantAnamnesisRecord[];
+  readonly emergentOffshoots?: readonly PersistedEmergentOffshootRecord[];
+  readonly tunedWaystoneDegrees?: readonly number[];
   readonly episodicHorizon: readonly EpisodicMemoryTraceEntry[];
   readonly consolidatedMemories?: readonly ConsolidatedGardenMemory[];
 }
@@ -173,6 +196,7 @@ export function serializeAnamnesisSnapshot(params: {
   readonly exploredBiomes?: readonly BiomeId[];
   readonly manifold: UniversalNeuromorphicManifold;
   readonly plants: readonly GardenPlantInstance[];
+  readonly tunedWaystoneDegrees?: readonly number[];
   readonly episodicHorizon?: readonly EpisodicMemoryTraceEntry[];
   readonly consolidatedMemories?: readonly ConsolidatedGardenMemory[];
   readonly savedAtIso?: string;
@@ -192,6 +216,37 @@ export function serializeAnamnesisSnapshot(params: {
   const boundedMemories =
     params.consolidatedMemories && params.consolidatedMemories.length > 0
       ? params.consolidatedMemories.slice(0, memoryCap)
+      : undefined;
+  const maxOffshoots =
+    GENERATED_PRISM_STANDARDS.teleology?.purposeAndAutonomy?.maxEmergentMicroclimateOffshoots ?? 12;
+  const emergentRecords: PersistedEmergentOffshootRecord[] = params.plants
+    .filter((p) => p.id.startsWith('emergent-') || p.id.startsWith('offshoot-'))
+    .slice(0, maxOffshoots)
+    .map((p) => ({
+      id: p.id,
+      species: p.species,
+      biome: p.biome,
+      ...(p.substrate ? { substrate: p.substrate } : {}),
+      x: Number(p.x.toFixed(3)),
+      y: Number(p.y.toFixed(3)),
+      z: Number(p.z.toFixed(3)),
+      scale: Number(p.scale.toFixed(3)),
+      rotationY: Number(p.rotationY.toFixed(4)),
+      pitchMultiplier: Number(p.pitchMultiplier.toFixed(4)),
+      attuned: Boolean(p.attuned),
+      lifecycleStage: p.lifecycleStage ?? (p.attuned ? 'resonant-bloom' : 'dormant-seed'),
+      ...(p.surfaceTiltX !== undefined ? { surfaceTiltX: Number(p.surfaceTiltX.toFixed(4)) } : {}),
+      ...(p.surfaceTiltZ !== undefined ? { surfaceTiltZ: Number(p.surfaceTiltZ.toFixed(4)) } : {}),
+      ...(p.rootHoldfastScale !== undefined
+        ? { rootHoldfastScale: Number(p.rootHoldfastScale.toFixed(3)) }
+        : {}),
+      volatileTerpeneCharge: Number((p.volatileTerpeneCharge ?? 0).toFixed(4)),
+    }));
+  const boundedWaystones =
+    params.tunedWaystoneDegrees && params.tunedWaystoneDegrees.length > 0
+      ? params.tunedWaystoneDegrees
+          .slice(0, 64)
+          .map((d) => Math.max(0, Math.min(7, Math.round(d))))
       : undefined;
 
   const payload: VerdantAnamnesisPayload = {
@@ -219,6 +274,8 @@ export function serializeAnamnesisSnapshot(params: {
       lifecycleStage: p.lifecycleStage ?? (p.attuned ? 'resonant-bloom' : 'dormant-seed'),
       volatileTerpeneCharge: Number((p.volatileTerpeneCharge ?? 0).toFixed(4)),
     })),
+    ...(emergentRecords.length > 0 ? { emergentOffshoots: emergentRecords } : {}),
+    ...(boundedWaystones ? { tunedWaystoneDegrees: boundedWaystones } : {}),
     episodicHorizon: boundedHorizon,
     ...(boundedMemories ? { consolidatedMemories: boundedMemories } : {}),
   };
@@ -322,7 +379,9 @@ export function hydratePlantsFromAnamnesis(
   for (const rec of payload.floraStates) {
     byId.set(rec.id, rec);
   }
-  return basePlants.map((plant) => {
+  const existingIds = new Set<string>();
+  const hydrated: GardenPlantInstance[] = basePlants.map((plant) => {
+    existingIds.add(plant.id);
     const saved = byId.get(plant.id);
     if (!saved) return plant;
     return {
@@ -332,9 +391,47 @@ export function hydratePlantsFromAnamnesis(
       volatileTerpeneCharge: saved.volatileTerpeneCharge,
     };
   });
+  if (payload.emergentOffshoots) {
+    for (const off of payload.emergentOffshoots) {
+      if (existingIds.has(off.id)) continue;
+      existingIds.add(off.id);
+      hydrated.push({
+        id: off.id,
+        species: off.species,
+        biome: off.biome,
+        ...(off.substrate ? { substrate: off.substrate } : {}),
+        x: off.x,
+        y: off.y,
+        z: off.z,
+        scale: off.scale,
+        rotationY: off.rotationY,
+        pitchMultiplier: off.pitchMultiplier,
+        attuned: off.attuned,
+        lifecycleStage: off.lifecycleStage,
+        ...(off.surfaceTiltX !== undefined ? { surfaceTiltX: off.surfaceTiltX } : {}),
+        ...(off.surfaceTiltZ !== undefined ? { surfaceTiltZ: off.surfaceTiltZ } : {}),
+        ...(off.rootHoldfastScale !== undefined
+          ? { rootHoldfastScale: off.rootHoldfastScale }
+          : {}),
+        volatileTerpeneCharge: off.volatileTerpeneCharge,
+      });
+    }
+  }
+  return hydrated;
 }
 
 export const UORC_STORAGE_PREFIX = 'uorc1:';
+export const UORC_URL_HASH_PREFIX = '#uorc=';
+
+function uint8ToBase64Url(bytes: Uint8Array): string {
+  return uint8ToBase64(bytes).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+}
+
+function base64UrlToUint8(b64url: string): Uint8Array {
+  const normalized = b64url.replace(/-/g, '+').replace(/_/g, '/');
+  const padLen = (4 - (normalized.length % 4)) % 4;
+  return base64ToUint8(normalized + '='.repeat(padLen));
+}
 
 function uint8ToBase64(bytes: Uint8Array): string {
   let binary = '';
@@ -414,6 +511,64 @@ export function unpackAnamnesisEnvelopeFromUorc(
   }
   const jsonText = bytesToUtf8(dec.value.objects[0]);
   return deserializeAndVerifyAnamnesisSnapshot(jsonText);
+}
+
+export interface ShareableUorcGardenLink {
+  readonly hashFragment: string;
+  readonly archiveByteLength: number;
+  readonly rawJsonBytes: number;
+  readonly compressionRatio: number;
+  readonly codecPointKappa: string;
+  readonly merkleDigestHex: string;
+}
+
+/**
+ * Encodes any curated Conservatory envelope (including emergent cross-pollinated offshoots,
+ * player-tuned lithophone waystones, κ-consolidated memories, and 10-domain synaptic weights)
+ * into a compact, URL-safe `#uorc=<base64url>` shareable fragment backed by `UORC\x01`.
+ */
+export function encodeShareableUorcGardenHash(
+  envelope: ContentAddressedAnamnesisEnvelope,
+): ShareableUorcGardenLink {
+  const packed = packAnamnesisEnvelopeToUorc(envelope);
+  return {
+    hashFragment: `${UORC_URL_HASH_PREFIX}${uint8ToBase64Url(packed.archiveBytes)}`,
+    archiveByteLength: packed.archiveByteLength,
+    rawJsonBytes: packed.rawJsonBytes,
+    compressionRatio: packed.compressionRatio,
+    codecPointKappa: packed.codecPointKappa,
+    merkleDigestHex: envelope.merkleDigestHex,
+  };
+}
+
+/**
+ * Decodes and cryptographically verifies a `#uorc=<base64url>` URL hash fragment or full URL,
+ * enforcing both `UORC\x01` SHA-256 chain integrity and 128-bit Anamnesis Merkle verification.
+ */
+export function decodeShareableUorcGardenHash(
+  hashOrUrl: string | null | undefined,
+  options?: { readonly stepBudget?: number },
+): AnamnesisRoundTripVerification & { readonly uorcError?: UorcCodecError } {
+  if (!hashOrUrl || typeof hashOrUrl !== 'string') {
+    return deserializeAndVerifyAnamnesisSnapshot(null);
+  }
+  const idx = hashOrUrl.indexOf(UORC_URL_HASH_PREFIX);
+  const rawToken =
+    idx >= 0
+      ? hashOrUrl.slice(idx + UORC_URL_HASH_PREFIX.length)
+      : hashOrUrl.startsWith('uorc=')
+        ? hashOrUrl.slice('uorc='.length)
+        : '';
+  const trimmed = rawToken.split('&')[0]?.trim() ?? '';
+  if (!trimmed || !/^[A-Za-z0-9\-_]+$/.test(trimmed)) {
+    return deserializeAndVerifyAnamnesisSnapshot(null);
+  }
+  try {
+    const archiveBytes = base64UrlToUint8(trimmed);
+    return unpackAnamnesisEnvelopeFromUorc(archiveBytes, options);
+  } catch {
+    return deserializeAndVerifyAnamnesisSnapshot(null);
+  }
 }
 
 /**

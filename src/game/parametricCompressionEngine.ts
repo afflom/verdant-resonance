@@ -30,6 +30,10 @@ import {
   GENERATED_PRISM_BUS_MODULATION_LUT,
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
+import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
+
+const CompiledCompression = PRISM_COMPILED_MODULES['Foundation.Compression.V1.Model'];
+const CompiledNeuro = PRISM_COMPILED_MODULES['Foundation.Neuromorphic.V1.Model'];
 
 // ============================================================================
 // 1. PURE SOURCE-OWNED SHA-256 & UORC-SHA256-CHAIN-v1 CONTENT ADDRESSING (κ)
@@ -228,16 +232,13 @@ export function encodeUleb128(value: number | bigint): Uint8Array {
 }
 
 /**
- * Computes exact shortest ULEB128 byte length (`1..10`), matching `Foundation.Compression.V1.Model::ulebLength`.
+ * Computes exact shortest ULEB128 byte length (`1..10`), mechanized directly from
+ * `Foundation.Compression.V1.Model::ulebLength`.
  */
 export function computeUleb128Length(value: number | bigint): number {
-  let v = typeof value === 'bigint' ? value : BigInt(Math.max(0, Math.floor(value)));
-  let len = 1;
-  while (v >= 128n && len < ULEB64_MAX_BYTES) {
-    v >>= 7n;
-    len++;
-  }
-  return len;
+  const raw = typeof value === 'bigint' ? value : BigInt(Math.max(0, Math.floor(value)));
+  const clamped = raw < 0n ? 0n : raw > U64_MAX_BIGINT ? U64_MAX_BIGINT : raw;
+  return Number(CompiledCompression.ulebLength(clamped));
 }
 
 /**
@@ -428,25 +429,44 @@ export function lookupWarmStateByKappa(kappaHex: string): ConsolidatedWarmBasisS
   return WARM_STATE_BY_KAPPA.get(kappaHex.toLowerCase());
 }
 
+const NCM_FAST_PLASTICITY_SPAN = 8192;
+const MECHANIZED_NCM_PLASTICITY_LUT = (() => {
+  const lut = new Uint8Array(NCM_FAST_PLASTICITY_SPAN);
+  for (let i = 0; i < NCM_FAST_PLASTICITY_SPAN; i++) {
+    lut[i] = Number(CompiledNeuro.ncmPlasticity(BigInt(i)));
+  }
+  return lut;
+})();
+
+const MECHANIZED_NCM_SLOT_RATE_LUT = (() => {
+  const limit = Number(CompiledNeuro.ncmCountLimit());
+  const lut = new Uint16Array(limit + 1);
+  for (let i = 0; i <= limit; i++) {
+    lut[i] = Number(CompiledNeuro.ncmSlotRate(BigInt(i)));
+  }
+  return lut;
+})();
+
 /**
- * Exact `uorc/ncm-plasticity/1` hyperbolic synaptic schedule from `Foundation.Neuromorphic.V1.Model::ncmPlasticity`:
- * `plasticity(pos) = 24 + floor(104 * 4096 / (4096 + pos))` (`128` at `pos=0`, `76` at `pos=4096`, `25` at `421888`, `24` at `>=421889`).
+ * Exact `uorc/ncm-plasticity/1` hyperbolic synaptic schedule mechanized directly from
+ * `Foundation.Neuromorphic.V1.Model::ncmPlasticity` (`128` at `pos=0`, `76` at `pos=4096`, `25` at `421888`, `24` at `>=421889`).
  */
 export function evaluateNcmPlasticity(bytePos: number): number {
-  const std = GENERATED_PRISM_STANDARDS.ncmMicroPlasticity.synaptic;
   const p = Math.max(0, Math.floor(bytePos));
-  const gain = std.plasticityCeiling - std.plasticityFloor; // 104
-  return std.plasticityFloor + Math.floor((gain * std.plasticityHalfLife) / (std.plasticityHalfLife + p));
+  if (p < NCM_FAST_PLASTICITY_SPAN) {
+    return MECHANIZED_NCM_PLASTICITY_LUT[p];
+  }
+  return Number(CompiledNeuro.ncmPlasticity(toPrismNat(p)));
 }
 
 /**
- * Exact `uorc/ncm-plasticity/1` context-slot learning rate from `Foundation.Neuromorphic.V1.Model::ncmSlotRate`:
- * `slotRate(count) = floor(131072 / (2 * min(count, 127) + 3))` (`43690` at `count=0`, consolidating to `510` at `count=127`).
+ * Exact `uorc/ncm-plasticity/1` context-slot learning rate mechanized directly from
+ * `Foundation.Neuromorphic.V1.Model::ncmSlotRate` (`43690` at `count=0`, consolidating to `510` at `count=127`).
  */
 export function evaluateNcmSlotRate(slotCount: number): number {
-  const std = GENERATED_PRISM_STANDARDS.ncmMicroPlasticity.slot;
-  const clamped = Math.min(Math.max(0, Math.floor(slotCount)), std.countLimit);
-  return Math.floor(std.rateNumerator / (2 * clamped + 3));
+  const maxIdx = MECHANIZED_NCM_SLOT_RATE_LUT.length - 1;
+  const clamped = Math.min(Math.max(0, Math.floor(slotCount)), maxIdx);
+  return MECHANIZED_NCM_SLOT_RATE_LUT[clamped];
 }
 
 export function popcount17(mask: number): number {
@@ -489,17 +509,15 @@ export function decodeProfileCapabilities(profile: number): {
 // ============================================================================
 
 export function saturateCounter(value: number, limit: number): number {
-  const v = Math.max(0, Math.floor(value));
-  const lim = Math.max(0, Math.floor(limit));
-  return v > lim ? lim : v;
+  return Number(CompiledCompression.saturate(toPrismNat(value), toPrismNat(limit)));
 }
 
 export function excessOverThreshold(threshold: number, observed: number): number {
-  return observed > threshold ? observed - threshold : 0;
+  return Number(CompiledCompression.excessOver(toPrismNat(threshold), toPrismNat(observed)));
 }
 
 export function lackUnderThreshold(threshold: number, observed: number): number {
-  return observed < threshold ? threshold - observed : 0;
+  return Number(CompiledCompression.lackUnder(toPrismNat(threshold), toPrismNat(observed)));
 }
 
 /**
@@ -547,12 +565,13 @@ export interface PerformancePair {
   readonly decodeSteps: number;
 }
 
-/** Strict partial order `dominates(cand, inc)` from `Foundation.Compression.V1.Model::dominates`. */
+/** Strict partial order `dominates(cand, inc)` mechanized from `Foundation.Compression.V1.Model::dominates`. */
 export function strictlyDominates(cand: PerformancePair, inc: PerformancePair): boolean {
-  return (
-    cand.bytes <= inc.bytes &&
-    cand.decodeSteps <= inc.decodeSteps &&
-    (cand.bytes < inc.bytes || cand.decodeSteps < inc.decodeSteps)
+  return CompiledCompression.dominates(
+    toPrismNat(cand.bytes),
+    toPrismNat(cand.decodeSteps),
+    toPrismNat(inc.bytes),
+    toPrismNat(inc.decodeSteps),
   );
 }
 
@@ -592,7 +611,6 @@ function invertByteDeltaFilter(filtered: Uint8Array): Uint8Array {
   return out;
 }
 
-const LZ_WINDOW_MAX = 8192;
 const LZ_HASH_BITS = 13;
 const LZ_HASH_SIZE = 1 << LZ_HASH_BITS;
 
@@ -1867,7 +1885,7 @@ export function computeClaimKappa(params: {
 }
 
 /**
- * Exact claim admission gate matching `Foundation.Compression.V1.Model::admitMintCode`:
+ * Exact claim admission gate mechanized from `Foundation.Compression.V1.Model::admitMintCode`:
  *  - `known === true` -> `'refusedKnown'` (`code = 1`)
  *  - `remainingBudget <= 0` -> `'refusedBudget'` (`code = 2`)
  *  - otherwise -> `'minted'` (`code = 0`)
@@ -1877,22 +1895,20 @@ export function evaluateClaimMintAdmission(
   knownClaimKappas: ReadonlySet<string>,
   remainingBudget: number,
 ): { readonly decision: ClaimMintDecision; readonly code: 0 | 1 | 2 } {
-  if (knownClaimKappas.has(claimKappa)) {
-    return { decision: 'refusedKnown', code: 1 };
-  }
-  if (remainingBudget <= 0) {
-    return { decision: 'refusedBudget', code: 2 };
-  }
+  const code = Number(
+    CompiledCompression.admitMintCode(knownClaimKappas.has(claimKappa), toPrismNat(remainingBudget)),
+  ) as 0 | 1 | 2;
+  if (code === 1) return { decision: 'refusedKnown', code: 1 };
+  if (code === 2) return { decision: 'refusedBudget', code: 2 };
   return { decision: 'minted', code: 0 };
 }
 
 export function computeWinnerPortfolioWeight(candidateWeight: number, incumbentWeight: number): number {
-  const larger = Math.max(candidateWeight, incumbentWeight);
-  return Math.min(16, larger + 2);
+  return Number(CompiledCompression.winnerWeight(toPrismNat(candidateWeight), toPrismNat(incumbentWeight)));
 }
 
 export function computeLoserPortfolioWeight(incumbentWeight: number): number {
-  return Math.max(1, incumbentWeight - 1);
+  return Number(CompiledCompression.loserWeight(toPrismNat(incumbentWeight)));
 }
 
 export function createAutonomousCompressionPortfolio(

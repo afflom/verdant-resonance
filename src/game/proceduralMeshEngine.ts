@@ -2905,7 +2905,6 @@ export function synthesizeLSystemBotanicalMorphogenesis(params: {
 }): BotanicalMorphogenesisSynthesis {
   const stageIndex = LIFECYCLE_STAGE_TO_INDEX[params.lifecycleStage] ?? 0;
   const continuousW = Math.max(1.0, Math.min(16.0, Number.isFinite(params.busWeight) ? params.busWeight : 8.0));
-  const w = Math.max(1, Math.min(16, Math.round(continuousW)));
   const continuousDepth01 =
     params.coherentDepth01 !== undefined
       ? Math.max(0, Math.min(1, params.coherentDepth01))

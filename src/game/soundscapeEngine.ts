@@ -348,6 +348,57 @@ export function computeHdVoiceHarmonicPartials(params: {
   return result;
 }
 
+export interface SpeciesAcousticBodyFormantSpec {
+  readonly formantHz: number;
+  readonly formantQ: number;
+  readonly formantGainDb: number;
+  readonly attackHarmonicRatio: number;
+  readonly attackDecaySec: number;
+}
+
+/**
+ * Deterministic Acoustic Instrument Body Formant Resonators per botanical species:
+ * Grounds each voice in physical acoustic body warmth (campanulate bell-harp, rosewood marimba,
+ * ceramic water singing-bowl, cello soundboard, crystalline glass armonica) with zero randomness.
+ */
+export const SPECIES_BODY_FORMANT_SPEC: Record<PlantSpeciesId, SpeciesAcousticBodyFormantSpec> = {
+  'chime-lily': {
+    formantHz: 1180,
+    formantQ: 2.2,
+    formantGainDb: 4.2,
+    attackHarmonicRatio: 3.0,
+    attackDecaySec: 0.085,
+  },
+  'pulse-fern': {
+    formantHz: 540,
+    formantQ: 2.5,
+    formantGainDb: 4.8,
+    attackHarmonicRatio: 4.0,
+    attackDecaySec: 0.068,
+  },
+  'echo-lotus': {
+    formantHz: 760,
+    formantQ: 2.3,
+    formantGainDb: 4.5,
+    attackHarmonicRatio: 2.0,
+    attackDecaySec: 0.11,
+  },
+  'drone-moss': {
+    formantHz: 290,
+    formantQ: 1.9,
+    formantGainDb: 5.0,
+    attackHarmonicRatio: 1.5,
+    attackDecaySec: 0.14,
+  },
+  'star-orchid': {
+    formantHz: 1520,
+    formantQ: 2.6,
+    formantGainDb: 3.8,
+    attackHarmonicRatio: 5.0,
+    attackDecaySec: 0.095,
+  },
+};
+
 // ============================================================================
 // CANONICAL 3D SPATIAL ACOUSTICS: ISO 3382 ROOM IMPULSE & WOODWORTH HRTF
 // (`Foundation.SpatialAcoustics.V1.Model`, Model #17, Basis Prime `151`)
@@ -2003,7 +2054,6 @@ export class BotanicalSoundscapeEngine {
     try {
       const now = this.ctx.currentTime;
       const biomeCfg = this.liveBiomeConfigs[biome];
-      const spProfile = this.liveArticulationProfiles[species];
       const plan = computeSynthesisEnvelope(outcome, biome, atmosphere, this.liveCosmogenesisParams);
       const biochem = evaluateBiogeochemistry({
         biome,
@@ -2561,6 +2611,31 @@ export class BotanicalSoundscapeEngine {
         overtone.connect(ovGain);
         ovGain.connect(filter);
 
+        // Acoustic Instrument Body Formant Resonator + gentle deterministic pluck bloom (zero randomness)
+        const bodySpec = SPECIES_BODY_FORMANT_SPEC[voice.species];
+        const bodyFormantFilter = this.ctx.createBiquadFilter();
+        bodyFormantFilter.type = 'peaking';
+        bodyFormantFilter.frequency.setValueAtTime(
+          Math.min(spatial.effectiveLowpassHz * 0.92, bodySpec.formantHz * this.busAffectWarmthScale),
+          now,
+        );
+        bodyFormantFilter.Q.value = bodySpec.formantQ;
+        bodyFormantFilter.gain.value = bodySpec.formantGainDb;
+        filter.connect(bodyFormantFilter);
+
+        if ((isLead || isOstinato) && voice.frequencyHz * bodySpec.attackHarmonicRatio < this.ctx.sampleRate * 0.44) {
+          const pluckOsc = this.ctx.createOscillator();
+          const pluckGain = this.ctx.createGain();
+          pluckOsc.type = 'triangle';
+          pluckOsc.frequency.setValueAtTime(voice.frequencyHz * bodySpec.attackHarmonicRatio, now);
+          pluckGain.gain.setValueAtTime(Math.max(0.0005, peakAmp * 0.16), now);
+          pluckGain.gain.exponentialRampToValueAtTime(0.0002, now + bodySpec.attackDecaySec);
+          pluckOsc.connect(pluckGain);
+          pluckGain.connect(bodyFormantFilter);
+          pluckOsc.start(now);
+          pluckOsc.stop(now + bodySpec.attackDecaySec + 0.02);
+        }
+
         // Apply live 3D Woodworth pinna elevation cue, curated antiphony & binaural stereo bearing per singing plant
         const antiphonySpread = isCanon
           ? (voiceIdx % 2 === 0 ? 1 : -1) * (this.busCuratedAntiphony01 - 0.5) * 0.28
@@ -2575,10 +2650,10 @@ export class BotanicalSoundscapeEngine {
           pinnaFilter.frequency.setValueAtTime(liveVoiceCue.pinnaElevationNotchHz, now);
           pinnaFilter.Q.value = 2.8;
           pinnaFilter.gain.value = -2.8;
-          filter.connect(pinnaFilter);
+          bodyFormantFilter.connect(pinnaFilter);
           pinnaFilter.connect(gain);
         } else {
-          filter.connect(gain);
+          bodyFormantFilter.connect(gain);
         }
 
         if (typeof this.ctx.createStereoPanner === 'function') {
@@ -2639,7 +2714,6 @@ export class BotanicalSoundscapeEngine {
     if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
 
     try {
-      const spProfile = this.liveArticulationProfiles[species];
       const spatial = evaluateSpatialWaveAcoustics({
         distanceMeters,
         acousticOcclusion: this.lastAcousticOcclusion,
@@ -2738,7 +2812,6 @@ export class BotanicalSoundscapeEngine {
     if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
 
     try {
-      const spProfile = this.liveArticulationProfiles[species];
       const spatial = evaluateSpatialWaveAcoustics({
         distanceMeters,
         acousticOcclusion: this.lastAcousticOcclusion,
@@ -3016,7 +3089,6 @@ export class BotanicalSoundscapeEngine {
 
     try {
       const biomeCfg = this.liveBiomeConfigs[model.biome];
-      const spProfile = this.liveArticulationProfiles[model.species];
       const baseNow = this.ctx.currentTime + 0.02;
       const chordRatios = [1.0, ...model.supraOvertoneRatios];
       const modelBarkAudit = evaluate24BarkMaskingGovernor(
@@ -3266,6 +3338,8 @@ export class BotanicalSoundscapeEngine {
     readonly stoneX: number;
     readonly stoneY: number;
     readonly stoneZ: number;
+    readonly chainedEchoRatios?: readonly number[];
+    readonly isTuningGesture?: boolean;
   }): void {
     this.spectrumBands[2] = Math.min(1, this.spectrumBands[2] + 0.24);
     this.spectrumBands[6] = Math.min(1, this.spectrumBands[6] + 0.2);
@@ -3274,6 +3348,8 @@ export class BotanicalSoundscapeEngine {
     if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
 
     try {
+      const ctx = this.ctx;
+      const masterGain = this.masterGain;
       const biomeCfg = this.liveBiomeConfigs[params.biome];
       const compound = MATTER_COMPOUNDS['travertine-limestone-spar'];
       const chladniRatios = computeMaterialChladniModalRatios(
@@ -3292,80 +3368,111 @@ export class BotanicalSoundscapeEngine {
         sourceZ: params.stoneZ,
       });
 
-      const baseHz = Math.min(
-        1180,
-        Math.max(130, biomeCfg.baseNoteHz * params.scaleDegreeRatio),
-      );
-      const marimbaOvertoneHz = Math.min(
-        2600,
-        baseHz * ((chladniRatios[1] ?? 1.5) * 1.32),
-      );
-      const rawAmp = 0.036 * (0.72 + params.coupling01 * 0.35);
-      const barkAudit = evaluate24BarkMaskingGovernor(
-        [
-          { freqHz: baseHz, gain: rawAmp },
-          { freqHz: marimbaOvertoneHz, gain: rawAmp * 0.35 },
-        ],
-        this.liveBarkHeadroomDb,
-        this.barkScratchBuffer,
-      );
-
-      const startAt = this.ctx.currentTime + 0.008;
-      const durSec = 0.44 * this.busMonumentChimeSustain;
-      const panVal = Math.max(
+      const basePanVal = Math.max(
         -0.75,
         Math.min(0.75, spatialCue.interauralTimeDiffMicros / 660),
       );
+      const rawAmpBase =
+        (params.isTuningGesture ? 0.048 : 0.036) * (0.72 + params.coupling01 * 0.35);
 
-      const osc = this.ctx.createOscillator();
-      const modalOsc = this.ctx.createOscillator();
-      const filter = this.ctx.createBiquadFilter();
-      const gain = this.ctx.createGain();
-      const modalGain = this.ctx.createGain();
+      const scheduleStoneStrike = (
+        degreeRatio: number,
+        delayOffsetSec: number,
+        ampScale: number,
+        panSpreadOffset: number,
+      ) => {
+        const baseHz = Math.max(24, biomeCfg.baseNoteHz * degreeRatio);
+        if (baseHz >= ctx.sampleRate * 0.44) return;
+        const marimbaOvertoneHz = Math.min(
+          ctx.sampleRate * 0.42,
+          baseHz * ((chladniRatios[1] ?? 1.5) * 1.32),
+        );
+        const strikeAmp = rawAmpBase * ampScale;
+        const barkAudit = evaluate24BarkMaskingGovernor(
+          [
+            { freqHz: baseHz, gain: strikeAmp },
+            { freqHz: marimbaOvertoneHz, gain: strikeAmp * 0.35 },
+          ],
+          this.liveBarkHeadroomDb,
+          this.barkScratchBuffer,
+        );
 
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(baseHz, startAt);
-      modalOsc.type = 'triangle';
-      modalOsc.frequency.setValueAtTime(marimbaOvertoneHz, startAt);
-      modalGain.gain.setValueAtTime(0.24, startAt);
-      modalGain.gain.exponentialRampToValueAtTime(0.001, startAt + 0.14);
+        const startAt = ctx.currentTime + 0.008 + delayOffsetSec;
+        const durSec =
+          (params.isTuningGesture ? 0.56 : 0.44) * this.busMonumentChimeSustain;
+        const panVal = Math.max(-0.85, Math.min(0.85, basePanVal + panSpreadOffset));
 
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(1650 * this.busAffectWarmthScale, startAt);
-      filter.Q.value = 1.2;
+        const osc = ctx.createOscillator();
+        const modalOsc = ctx.createOscillator();
+        const filter = ctx.createBiquadFilter();
+        const stoneBodyFormant = ctx.createBiquadFilter();
+        const gain = ctx.createGain();
+        const modalGain = ctx.createGain();
 
-      const peakAmp =
-        (barkAudit.attenuatedGains[0] ?? rawAmp) *
-        computeIso226EqualLoudnessWeight(baseHz, 60);
-      gain.gain.setValueAtTime(0.0003, startAt);
-      gain.gain.linearRampToValueAtTime(peakAmp, startAt + 0.012);
-      gain.gain.exponentialRampToValueAtTime(0.0003, startAt + durSec);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(baseHz, startAt);
+        modalOsc.type = 'triangle';
+        modalOsc.frequency.setValueAtTime(marimbaOvertoneHz, startAt);
+        modalGain.gain.setValueAtTime(0.24, startAt);
+        modalGain.gain.exponentialRampToValueAtTime(0.001, startAt + 0.14);
 
-      osc.connect(filter);
-      modalOsc.connect(modalGain);
-      modalGain.connect(filter);
-      filter.connect(gain);
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1850 * this.busAffectWarmthScale, startAt);
+        filter.Q.value = 1.2;
 
-      if (typeof this.ctx.createStereoPanner === 'function') {
-        const panner = this.ctx.createStereoPanner();
-        panner.pan.setValueAtTime(panVal, startAt);
-        gain.connect(panner);
-        panner.connect(this.masterGain);
-      } else {
-        gain.connect(this.masterGain);
+        // Travertine stone-marimba acoustic body resonator
+        stoneBodyFormant.type = 'peaking';
+        stoneBodyFormant.frequency.setValueAtTime(680 * this.busAffectWarmthScale, startAt);
+        stoneBodyFormant.Q.value = 2.4;
+        stoneBodyFormant.gain.value = 4.2;
+
+        const peakAmp =
+          (barkAudit.attenuatedGains[0] ?? strikeAmp) *
+          computeIso226EqualLoudnessWeight(baseHz, 60);
+        gain.gain.setValueAtTime(0.0003, startAt);
+        gain.gain.linearRampToValueAtTime(peakAmp, startAt + 0.011);
+        gain.gain.exponentialRampToValueAtTime(0.0003, startAt + durSec);
+
+        osc.connect(filter);
+        modalOsc.connect(modalGain);
+        modalGain.connect(filter);
+        filter.connect(stoneBodyFormant);
+        stoneBodyFormant.connect(gain);
+
+        if (typeof ctx.createStereoPanner === 'function') {
+          const panner = ctx.createStereoPanner();
+          panner.pan.setValueAtTime(panVal, startAt);
+          gain.connect(panner);
+          panner.connect(masterGain);
+        } else {
+          gain.connect(masterGain);
+        }
+
+        if (this.convolver) {
+          const verbSend = ctx.createGain();
+          verbSend.gain.value = Math.min(0.6, 0.36 * this.busAffectReverbScale);
+          gain.connect(verbSend);
+          verbSend.connect(this.convolver);
+        }
+
+        osc.start(startAt);
+        modalOsc.start(startAt);
+        osc.stop(startAt + durSec + 0.03);
+        modalOsc.stop(startAt + durSec + 0.03);
+      };
+
+      scheduleStoneStrike(params.scaleDegreeRatio, 0, 1.0, 0);
+      if (params.chainedEchoRatios && params.chainedEchoRatios.length > 0) {
+        const echoScales = [0.52, 0.34] as const;
+        for (let i = 0; i < Math.min(2, params.chainedEchoRatios.length); i++) {
+          scheduleStoneStrike(
+            params.chainedEchoRatios[i],
+            0.11 * (i + 1),
+            echoScales[i],
+            (i === 0 ? 0.14 : -0.14),
+          );
+        }
       }
-
-      if (this.convolver) {
-        const verbSend = this.ctx.createGain();
-        verbSend.gain.value = Math.min(0.55, 0.34 * this.busAffectReverbScale);
-        gain.connect(verbSend);
-        verbSend.connect(this.convolver);
-      }
-
-      osc.start(startAt);
-      modalOsc.start(startAt);
-      osc.stop(startAt + durSec + 0.03);
-      modalOsc.stop(startAt + durSec + 0.03);
     } catch {
       // Ignore audio errors
     }

@@ -151,36 +151,31 @@ definition{
   name: parseBiome,
   parameters: [value : Bytes],
   result: (Option Nat),
-  body: (if (prim equal value 0x6d6561646f77 : Bool) then (ctor Option.some [Nat] (biomeMeadow)) else (if (prim equal value 0x67726f7665 : Bool) then (ctor Option.some [Nat] (biomeGrove)) else (if (prim equal value 0x6372797374616c : Bool) then (ctor Option.some [Nat] (biomeCrystal)) else (if (prim equal value 0x7765746c616e64 : Bool) then (ctor Option.some [Nat] (biomeWetland)) else (if (prim equal value 0x73616e637475617279 : Bool) then (ctor Option.some [Nat] (biomeSanctuary)) else (ctor Option.none [Nat]))))))
-}
+  body: (if (prim equal value 0x6d6561646f77 : Bool) then (ctor Option.some [Nat] (biomeMeadow)) else (if (prim equal value 0x67726f7665 : Bool) then (ctor Option.some [Nat] (biomeGrove)) else (if (prim equal value 0x6372797374616c : Bool) then (ctor Option.some [Nat] (biomeCrystal)) else (if (prim equal value 0x7765746c616e64 : Bool) then (ctor Option.some [Nat] (biomeWetland)) else (if (prim equal value 0x73616e637475617279 : Bool) then (ctor Option.some [Nat] (biomeSanctuary)) else (ctor Option.none [Nat]))))))}
 
 definition{
   name: parsePlant,
   parameters: [value : Bytes],
   result: (Option Nat),
-  body: (if (prim equal value 0x6368696d652d6c696c79 : Bool) then (ctor Option.some [Nat] (plantChimeLily)) else (if (prim equal value 0x70756c73652d6665726e : Bool) then (ctor Option.some [Nat] (plantPulseFern)) else (if (prim equal value 0x6563686f2d6c6f747573 : Bool) then (ctor Option.some [Nat] (plantEchoLotus)) else (if (prim equal value 0x64726f6e652d6d6f7373 : Bool) then (ctor Option.some [Nat] (plantDroneMoss)) else (if (prim equal value 0x737461722d6f7263686964 : Bool) then (ctor Option.some [Nat] (plantStarOrchid)) else (ctor Option.none [Nat]))))))
-}
+  body: (if (prim equal value 0x6368696d652d6c696c79 : Bool) then (ctor Option.some [Nat] (plantChimeLily)) else (if (prim equal value 0x70756c73652d6665726e : Bool) then (ctor Option.some [Nat] (plantPulseFern)) else (if (prim equal value 0x6563686f2d6c6f747573 : Bool) then (ctor Option.some [Nat] (plantEchoLotus)) else (if (prim equal value 0x64726f6e652d6d6f7373 : Bool) then (ctor Option.some [Nat] (plantDroneMoss)) else (if (prim equal value 0x737461722d6f7263686964 : Bool) then (ctor Option.some [Nat] (plantStarOrchid)) else (ctor Option.none [Nat]))))))}
 
 definition{
   name: parseAction,
   parameters: [value : Bytes],
   result: (Option Nat),
-  body: (if (prim equal value 0x6f627365727665 : Bool) then (ctor Option.some [Nat] (actionObserve)) else (if (prim equal value 0x746f756368 : Bool) then (ctor Option.some [Nat] (actionTouch)) else (if (prim equal value 0x617474756e65 : Bool) then (ctor Option.some [Nat] (actionAttune)) else (if (prim equal value 0x7374726f6c6c : Bool) then (ctor Option.some [Nat] (actionStroll)) else (if (prim equal value 0x7374696c6c6e657373 : Bool) then (ctor Option.some [Nat] (actionStillness)) else (ctor Option.none [Nat]))))))
-}
+  body: (if (prim equal value 0x6f627365727665 : Bool) then (ctor Option.some [Nat] (actionObserve)) else (if (prim equal value 0x746f756368 : Bool) then (ctor Option.some [Nat] (actionTouch)) else (if (prim equal value 0x617474756e65 : Bool) then (ctor Option.some [Nat] (actionAttune)) else (if (prim equal value 0x7374726f6c6c : Bool) then (ctor Option.some [Nat] (actionStroll)) else (if (prim equal value 0x7374696c6c6e657373 : Bool) then (ctor Option.some [Nat] (actionStillness)) else (ctor Option.none [Nat]))))))}
 
 definition{
   name: parseAtmosphere,
   parameters: [value : Bytes],
   result: (Option Nat),
-  body: (if (prim equal value 0x6461776e : Bool) then (ctor Option.some [Nat] (atmosphereDawn)) else (if (prim equal value 0x676f6c64656e : Bool) then (ctor Option.some [Nat] (atmosphereGolden)) else (if (prim equal value 0x7477696c69676874 : Bool) then (ctor Option.some [Nat] (atmosphereTwilight)) else (if (prim equal value 0x737461726c69676874 : Bool) then (ctor Option.some [Nat] (atmosphereStarlight)) else (ctor Option.none [Nat])))))
-}
+  body: (if (prim equal value 0x6461776e : Bool) then (ctor Option.some [Nat] (atmosphereDawn)) else (if (prim equal value 0x676f6c64656e : Bool) then (ctor Option.some [Nat] (atmosphereGolden)) else (if (prim equal value 0x7477696c69676874 : Bool) then (ctor Option.some [Nat] (atmosphereTwilight)) else (if (prim equal value 0x737461726c69676874 : Bool) then (ctor Option.some [Nat] (atmosphereStarlight)) else (ctor Option.none [Nat])))))}
 
 definition{
   name: parseChorus,
   parameters: [value : Bytes],
   result: (Option Nat),
-  body: (if (prim equal value 0x646f726d616e74 : Bool) then (ctor Option.some [Nat] (chorusDormant)) else (if (prim equal value 0x6177616b656e6564 : Bool) then (ctor Option.some [Nat] (chorusAwakened)) else (ctor Option.none [Nat])))
-}
+  body: (if (prim equal value 0x646f726d616e74 : Bool) then (ctor Option.some [Nat] (chorusDormant)) else (if (prim equal value 0x6177616b656e6564 : Bool) then (ctor Option.some [Nat] (chorusAwakened)) else (ctor Option.none [Nat])))}
 
 definition{
   name: parseProximity,
@@ -298,246 +293,211 @@ definition{
   name: rule1,
   parameters: [request : Request],
   result: Bool,
-  body: (((((project request action) =? (actionStillness)) && ((project request velocity) =? 0)) && ((project request biome) =? (biomeSanctuary))) && ((project request proximity) <=? 45))
-}
+  body: (((((project request action) =? (actionStillness)) && ((project request velocity) =? 0)) && ((project request biome) =? (biomeSanctuary))) && ((project request proximity) <=? 45))}
 
 definition{
   name: rule2,
   parameters: [request : Request],
   result: Bool,
-  body: ((((((project request biome) =? (biomeSanctuary)) && ((project request chorus) =? (chorusAwakened))) && ((project request action) =? (actionAttune))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))
-}
+  body: ((((((project request biome) =? (biomeSanctuary)) && ((project request chorus) =? (chorusAwakened))) && ((project request action) =? (actionAttune))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule3,
   parameters: [request : Request],
   result: Bool,
-  body: (((((((project request chorus) =? (chorusAwakened)) && ((project request plant) =? (plantStarOrchid))) && ((project request atmosphere) =? (atmosphereStarlight))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))
-}
+  body: (((((((project request chorus) =? (chorusAwakened)) && ((project request plant) =? (plantStarOrchid))) && ((project request atmosphere) =? (atmosphereStarlight))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule4,
   parameters: [request : Request],
   result: Bool,
-  body: (((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeWetland))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionAttune))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))
-}
+  body: (((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeWetland))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionAttune))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule5,
   parameters: [request : Request],
   result: Bool,
-  body: ((((project request action) =? (actionAttune)) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))
-}
+  body: ((((project request action) =? (actionAttune)) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule6,
   parameters: [request : Request],
   result: Bool,
-  body: (((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeMeadow))) && ((project request plant) =? (plantChimeLily))) && ((project request action) =? (actionTouch))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))
-}
+  body: (((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeMeadow))) && ((project request plant) =? (plantChimeLily))) && ((project request action) =? (actionTouch))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule7,
   parameters: [request : Request],
   result: Bool,
-  body: (((((project request atmosphere) =? (atmosphereStarlight)) && ((project request action) =? (actionStillness))) && ((project request velocity) =? 0)) && ((project request proximity) <=? 30))
-}
+  body: (((((project request atmosphere) =? (atmosphereStarlight)) && ((project request action) =? (actionStillness))) && ((project request velocity) =? 0)) && ((project request proximity) <=? 30))}
 
 definition{
   name: rule8,
   parameters: [request : Request],
   result: Bool,
-  body: (((((project request atmosphere) =? (atmosphereTwilight)) && ((project request plant) =? (plantEchoLotus))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))
-}
+  body: (((((project request atmosphere) =? (atmosphereTwilight)) && ((project request plant) =? (plantEchoLotus))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule9,
   parameters: [request : Request],
   result: Bool,
-  body: (((((project request atmosphere) =? (atmosphereStarlight)) && ((project request plant) =? (plantDroneMoss))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))
-}
+  body: (((((project request atmosphere) =? (atmosphereStarlight)) && ((project request plant) =? (plantDroneMoss))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule10,
   parameters: [request : Request],
   result: Bool,
-  body: (((((project request atmosphere) =? (atmosphereDawn)) && ((project request plant) =? (plantChimeLily))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))
-}
+  body: (((((project request atmosphere) =? (atmosphereDawn)) && ((project request plant) =? (plantChimeLily))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule11,
   parameters: [request : Request],
   result: Bool,
-  body: (((((project request atmosphere) =? (atmosphereGolden)) && ((project request biome) =? (biomeMeadow))) && ((project request action) =? (actionTouch))) && ((project request proximity) <=? 20))
-}
+  body: (((((project request atmosphere) =? (atmosphereGolden)) && ((project request biome) =? (biomeMeadow))) && ((project request action) =? (actionTouch))) && ((project request proximity) <=? 20))}
 
 definition{
   name: rule12,
   parameters: [request : Request],
   result: Bool,
-  body: ((((((project request atmosphere) =? (atmosphereDawn)) && ((project request biome) =? (biomeGrove))) && ((project request plant) =? (plantPulseFern))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))
-}
+  body: ((((((project request atmosphere) =? (atmosphereDawn)) && ((project request biome) =? (biomeGrove))) && ((project request plant) =? (plantPulseFern))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule13,
   parameters: [request : Request],
   result: Bool,
-  body: ((((project request biome) =? (biomeCrystal)) && ((project request action) =? (actionTouch))) && ((project request proximity) <=? 20))
-}
+  body: ((((project request biome) =? (biomeCrystal)) && ((project request action) =? (actionTouch))) && ((project request proximity) <=? 20))}
 
 definition{
   name: rule14,
   parameters: [request : Request],
   result: Bool,
-  body: (((((project request plant) =? (plantStarOrchid)) && ((project request biome) =? (biomeSanctuary))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))
-}
+  body: (((((project request plant) =? (plantStarOrchid)) && ((project request biome) =? (biomeSanctuary))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule15,
   parameters: [request : Request],
   result: Bool,
-  body: ((((project request plant) =? (plantChimeLily)) && ((project request proximity) <=? 30)) && ((project request velocity) <=? 20))
-}
+  body: ((((project request plant) =? (plantChimeLily)) && ((project request proximity) <=? 30)) && ((project request velocity) <=? 20))}
 
 definition{
   name: rule16,
   parameters: [request : Request],
   result: Bool,
-  body: ((((project request plant) =? (plantStarOrchid)) && ((project request action) =? (actionTouch))) && ((project request proximity) <=? 30))
-}
+  body: ((((project request plant) =? (plantStarOrchid)) && ((project request action) =? (actionTouch))) && ((project request proximity) <=? 30))}
 
 definition{
   name: rule17,
   parameters: [request : Request],
   result: Bool,
-  body: (((((project request plant) =? (plantPulseFern)) && ((project request proximity) <=? 30)) && (10 <=? (project request velocity))) && ((project request velocity) <=? 20))
-}
+  body: (((((project request plant) =? (plantPulseFern)) && ((project request proximity) <=? 30)) && (10 <=? (project request velocity))) && ((project request velocity) <=? 20))}
 
 definition{
   name: rule18,
   parameters: [request : Request],
   result: Bool,
-  body: ((((project request plant) =? (plantEchoLotus)) && ((project request biome) =? (biomeWetland))) && ((project request proximity) <=? 30))
-}
+  body: ((((project request plant) =? (plantEchoLotus)) && ((project request biome) =? (biomeWetland))) && ((project request proximity) <=? 30))}
 
 definition{
   name: rule19,
   parameters: [request : Request],
   result: Bool,
-  body: ((((project request plant) =? (plantDroneMoss)) && ((project request proximity) <=? 30)) && ((project request velocity) <=? 10))
-}
+  body: ((((project request plant) =? (plantDroneMoss)) && ((project request proximity) <=? 30)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule20,
   parameters: [request : Request],
   result: Bool,
-  body: (((((project request biome) =? (biomeGrove)) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionTouch))) && ((project request proximity) <=? 30))
-}
+  body: (((((project request biome) =? (biomeGrove)) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionTouch))) && ((project request proximity) <=? 30))}
 
 definition{
   name: rule21,
   parameters: [request : Request],
   result: Bool,
-  body: ((((((project request biome) =? (biomeCrystal)) && ((project request plant) =? (plantPulseFern))) && ((project request action) =? (actionStroll))) && ((project request proximity) <=? 30)) && ((project request velocity) <=? 10))
-}
+  body: ((((((project request biome) =? (biomeCrystal)) && ((project request plant) =? (plantPulseFern))) && ((project request action) =? (actionStroll))) && ((project request proximity) <=? 30)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule22,
   parameters: [request : Request],
   result: Bool,
-  body: ((((((project request atmosphere) =? (atmosphereGolden)) && ((project request plant) =? (plantDroneMoss))) && ((project request action) =? (actionStillness))) && ((project request velocity) =? 0)) && ((project request proximity) <=? 45))
-}
+  body: ((((((project request atmosphere) =? (atmosphereGolden)) && ((project request plant) =? (plantDroneMoss))) && ((project request action) =? (actionStillness))) && ((project request velocity) =? 0)) && ((project request proximity) <=? 45))}
 
 definition{
   name: rule23,
   parameters: [request : Request],
   result: Bool,
-  body: ((((((project request chorus) =? (chorusAwakened)) && ((project request plant) =? (plantPulseFern))) && ((project request action) =? (actionTouch))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))
-}
+  body: ((((((project request chorus) =? (chorusAwakened)) && ((project request plant) =? (plantPulseFern))) && ((project request action) =? (actionTouch))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule24,
   parameters: [request : Request],
   result: Bool,
-  body: (((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeCrystal))) && ((project request plant) =? (plantStarOrchid))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))
-}
+  body: (((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeCrystal))) && ((project request plant) =? (plantStarOrchid))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule25,
   parameters: [request : Request],
   result: Bool,
-  body: (((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeSanctuary))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))
-}
+  body: (((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeSanctuary))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule26,
   parameters: [request : Request],
   result: Bool,
-  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeGrove))) && ((project request plant) =? (plantPulseFern))) && ((project request atmosphere) =? (atmosphereGolden))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))
-}
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeGrove))) && ((project request plant) =? (plantPulseFern))) && ((project request atmosphere) =? (atmosphereGolden))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))}
 
 definition{
   name: rule27,
   parameters: [request : Request],
   result: Bool,
-  body: (((((((project request biome) =? (biomeMeadow)) && ((project request plant) =? (plantEchoLotus))) && ((project request atmosphere) =? (atmosphereDawn))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))
-}
+  body: (((((((project request biome) =? (biomeMeadow)) && ((project request plant) =? (plantEchoLotus))) && ((project request atmosphere) =? (atmosphereDawn))) && ((project request action) =? (actionObserve))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule28,
   parameters: [request : Request],
   result: Bool,
-  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeSanctuary))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionTouch))) && ((project request atmosphere) =? (atmosphereStarlight))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))
-}
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeSanctuary))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionTouch))) && ((project request atmosphere) =? (atmosphereStarlight))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule29,
   parameters: [request : Request],
   result: Bool,
-  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeCrystal))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionObserve))) && ((project request atmosphere) =? (atmosphereStarlight))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))
-}
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeCrystal))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionObserve))) && ((project request atmosphere) =? (atmosphereStarlight))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10))}
 
 definition{
   name: rule30,
   parameters: [request : Request],
   result: Bool,
-  body: (((((((project request biome) =? (biomeGrove)) && ((project request plant) =? (plantPulseFern))) && ((project request action) =? (actionStillness))) && ((project request atmosphere) =? (atmosphereDawn))) && ((project request velocity) =? 0)) && ((project request proximity) <=? 40))
-}
+  body: (((((((project request biome) =? (biomeGrove)) && ((project request plant) =? (plantPulseFern))) && ((project request action) =? (actionStillness))) && ((project request atmosphere) =? (atmosphereDawn))) && ((project request velocity) =? 0)) && ((project request proximity) <=? 40))}
 
 definition{
   name: rule31,
   parameters: [request : Request],
   result: Bool,
-  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeWetland))) && ((project request plant) =? (plantPulseFern))) && ((project request action) =? (actionStroll))) && ((project request atmosphere) =? (atmosphereTwilight))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))
-}
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeWetland))) && ((project request plant) =? (plantPulseFern))) && ((project request action) =? (actionStroll))) && ((project request atmosphere) =? (atmosphereTwilight))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))}
 
 definition{
   name: rule32,
   parameters: [request : Request],
   result: Bool,
-  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeGrove))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionObserve))) && ((project request atmosphere) =? (atmosphereGolden))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))
-}
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeGrove))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionObserve))) && ((project request atmosphere) =? (atmosphereGolden))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))}
 
 definition{
   name: rule33,
   parameters: [request : Request],
   result: Bool,
-  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeMeadow))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionTouch))) && ((project request atmosphere) =? (atmosphereDawn))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))
-}
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeMeadow))) && ((project request plant) =? (plantEchoLotus))) && ((project request action) =? (actionTouch))) && ((project request atmosphere) =? (atmosphereDawn))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))}
 
 definition{
   name: rule34,
   parameters: [request : Request],
   result: Bool,
-  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeCrystal))) && ((project request plant) =? (plantPulseFern))) && ((project request action) =? (actionObserve))) && ((project request atmosphere) =? (atmosphereTwilight))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))
-}
+  body: ((((((((project request chorus) =? (chorusAwakened)) && ((project request biome) =? (biomeCrystal))) && ((project request plant) =? (plantPulseFern))) && ((project request action) =? (actionObserve))) && ((project request atmosphere) =? (atmosphereTwilight))) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8))}
 
 definition{
   name: rule35,
   parameters: [request : Request],
   result: Bool,
-  body: (((project request velocity) <=? 10) && ((project request proximity) <=? 45))
-}
+  body: (((project request velocity) <=? 10) && ((project request proximity) <=? 45))}
 
 definition{
   name: judgeSlowAmbient,
@@ -1670,8 +1630,7 @@ definition{
   name: encodeAnswer,
   parameters: [code : Nat],
   result: Bytes,
-  body: (if (code =? (answerSanctuaryChorus)) then 0x73616e6374756172792d63686f727573 else (if (code =? (answerSereneRest)) then 0x736572656e652d72657374 else (if (code =? (answerNocturnalSymphony)) then 0x6e6f637475726e616c2d73796d70686f6e79 else (if (code =? (answerDawnArpeggio)) then 0x6461776e2d617270656767696f else (if (code =? (answerHarmonicBloom)) then 0x6861726d6f6e69632d626c6f6f6d else (if (code =? (answerCrystallineChoir)) then 0x6372797374616c6c696e652d63686f6972 else (if (code =? (answerMelodicChime)) then 0x6d656c6f6469632d6368696d65 else (if (code =? (answerRhythmicPulse)) then 0x72687974686d69632d70756c7365 else (if (code =? (answerAmbientDrone)) then 0x616d6269656e742d64726f6e65 else (if (code =? (answerWindWhisper)) then 0x77696e642d77686973706572 else 0x696e76616c6964))))))))))
-}
+  body: (if (code =? (answerSanctuaryChorus)) then 0x73616e6374756172792d63686f727573 else (if (code =? (answerSereneRest)) then 0x736572656e652d72657374 else (if (code =? (answerNocturnalSymphony)) then 0x6e6f637475726e616c2d73796d70686f6e79 else (if (code =? (answerDawnArpeggio)) then 0x6461776e2d617270656767696f else (if (code =? (answerHarmonicBloom)) then 0x6861726d6f6e69632d626c6f6f6d else (if (code =? (answerCrystallineChoir)) then 0x6372797374616c6c696e652d63686f6972 else (if (code =? (answerMelodicChime)) then 0x6d656c6f6469632d6368696d65 else (if (code =? (answerRhythmicPulse)) then 0x72687974686d69632d70756c7365 else (if (code =? (answerAmbientDrone)) then 0x616d6269656e742d64726f6e65 else (if (code =? (answerWindWhisper)) then 0x77696e642d77686973706572 else 0x696e76616c6964))))))))))}
 
 definition{
   name: dispatch,

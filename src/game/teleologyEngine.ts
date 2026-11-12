@@ -21,7 +21,10 @@ import {
   GENERATED_PRISM_BUS_MODULATION_LUT,
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
+import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
 import { CANONICAL_22_MODEL_KEYS, type CanonicalStandardModelKey } from './neuromorphicFunctorBus';
+
+const CompiledTeleology = PRISM_COMPILED_MODULES['Foundation.Teleology.V1.Model'];
 
 export type TeleologicalPhenomenonCategory =
   | 'biome-landmark'
@@ -713,39 +716,24 @@ export function createInitialAutonomousPlasticityState(): AutonomousGameplayPlas
   };
 }
 
-function sampleLutContinuous(lut: readonly number[], w: number, fallback: number): number {
-  const cw = Math.max(1, Math.min(16, Number.isFinite(w) ? w : 8));
-  if (Math.abs(cw - Math.round(cw)) < 1e-9) {
-    return lut[Math.round(cw)] ?? fallback;
-  }
-  const i0 = Math.floor(cw);
-  const i1 = Math.min(16, i0 + 1);
-  const frac = cw - i0;
-  const v0 = lut[i0] ?? fallback;
-  const v1 = lut[i1] ?? v0;
-  return v0 + (v1 - v0) * frac;
-}
-
 /**
- * Computes the Observer's compiled Prism Curatorial Affinity (`530..1000` permille) from synaptic maturity
- * and live garden harmony (`Foundation.Teleology.V1.Model::stepCuratorialAffinityPermille`).
+ * Computes the Observer's compiled Prism Curatorial Affinity (`530..1000` permille) mechanized directly from
+ * `Foundation.Teleology.V1.Model::stepCuratorialAffinityPermille` (with smooth continuous weight interpolation).
  */
 export function evaluateCompiledCuratorialAffinityPermille(
   busWeight: number,
   harmonyPct: number,
 ): number {
-  const h01 = Math.max(0, Math.min(1, harmonyPct / 100));
-  const affZero = sampleLutContinuous(
-    GENERATED_PRISM_BUS_MODULATION_LUT.curatorialAffinityAtZeroHarmonyPermille,
-    busWeight,
-    656,
-  );
-  const affFull = sampleLutContinuous(
-    GENERATED_PRISM_BUS_MODULATION_LUT.curatorialAffinityAtFullHarmonyPermille,
-    busWeight,
-    856,
-  );
-  return Math.round(affZero + (affFull - affZero) * h01);
+  const cw = Math.max(1, Math.min(16, Number.isFinite(busWeight) ? busWeight : 8));
+  const hNat = toPrismNat(Math.max(0, Math.min(100, Math.round(harmonyPct))));
+  const i0 = Math.floor(cw);
+  const frac = cw - i0;
+  const v0 = Number(CompiledTeleology.stepCuratorialAffinityPermille(toPrismNat(i0), hNat));
+  if (frac < 1e-9 || i0 >= 16) {
+    return v0;
+  }
+  const v1 = Number(CompiledTeleology.stepCuratorialAffinityPermille(toPrismNat(i0 + 1), hNat));
+  return Math.round(v0 + (v1 - v0) * frac);
 }
 
 /**
@@ -964,29 +952,212 @@ export function evaluateStandingWaveTerraceResonance(params: {
   };
 }
 
-const WAYSTONE_JI_SCALE_RATIOS = Object.freeze([
-  1.0, // 1:1 Unison
-  1.125, // 9:8 Major Second
-  1.25, // 5:4 Pure Major Third
-  1.3333, // 4:3 Pure Fourth
-  1.5, // 3:2 Pure Fifth
-  1.6667, // 5:3 Major Sixth
-  1.875, // 15:8 Classic Major Seventh
-  2.0, // 2:1 Octave
-] as const);
+export interface TunableWaystoneHarmonicDegree {
+  readonly degreeIndex: number;
+  readonly numerator: number;
+  readonly denominator: number;
+  readonly ratio: number;
+  readonly requiredPrimeLimit: 5 | 7 | 11 | 13 | 17;
+  readonly label: string;
+  readonly mineralGlowHex: string;
+}
+
+export const TUNABLE_WAYSTONE_HARMONIC_DEGREES: readonly TunableWaystoneHarmonicDegree[] =
+  Object.freeze([
+    {
+      degreeIndex: 0,
+      numerator: 1,
+      denominator: 1,
+      ratio: 1.0,
+      requiredPrimeLimit: 5,
+      label: '1:1 Fundamental Unison',
+      mineralGlowHex: '#fde68a',
+    },
+    {
+      degreeIndex: 1,
+      numerator: 9,
+      denominator: 8,
+      ratio: 1.125,
+      requiredPrimeLimit: 5,
+      label: '9:8 Pythagorean Whole Tone',
+      mineralGlowHex: '#fcd34d',
+    },
+    {
+      degreeIndex: 2,
+      numerator: 5,
+      denominator: 4,
+      ratio: 1.25,
+      requiredPrimeLimit: 5,
+      label: '5:4 Pure Harmonic Major Third',
+      mineralGlowHex: '#6ee7b7',
+    },
+    {
+      degreeIndex: 3,
+      numerator: 4,
+      denominator: 3,
+      ratio: 4 / 3,
+      requiredPrimeLimit: 5,
+      label: '4:3 Perfect Fourth',
+      mineralGlowHex: '#5eead4',
+    },
+    {
+      degreeIndex: 4,
+      numerator: 3,
+      denominator: 2,
+      ratio: 1.5,
+      requiredPrimeLimit: 5,
+      label: '3:2 Pure Perfect Fifth',
+      mineralGlowHex: '#fbbf24',
+    },
+    {
+      degreeIndex: 5,
+      numerator: 13,
+      denominator: 8,
+      ratio: 1.625,
+      requiredPrimeLimit: 13,
+      label: '13:8 Tridecimal Neutral Sixth',
+      mineralGlowHex: '#7dd3fc',
+    },
+    {
+      degreeIndex: 6,
+      numerator: 15,
+      denominator: 8,
+      ratio: 1.875,
+      requiredPrimeLimit: 5,
+      label: '15:8 Classic Major Seventh',
+      mineralGlowHex: '#a7f3d0',
+    },
+    {
+      degreeIndex: 7,
+      numerator: 17,
+      denominator: 12,
+      ratio: 17 / 12,
+      requiredPrimeLimit: 17,
+      label: '17:12 Septendecimal Lydian Fourth',
+      mineralGlowHex: '#fef08a',
+    },
+  ]);
+
+const DEFAULT_5_LIMIT_WAYSTONE_INDICES = Object.freeze([0, 1, 2, 3, 4, 6] as const);
+
+export function createInitialWaystoneTuningTable(stoneCount = 64): number[] {
+  const out = new Array<number>(stoneCount);
+  for (let i = 0; i < stoneCount; i++) {
+    out[i] = DEFAULT_5_LIMIT_WAYSTONE_INDICES[i % DEFAULT_5_LIMIT_WAYSTONE_INDICES.length];
+  }
+  return out;
+}
+
+export interface TuneWaystoneResult {
+  readonly tuned: boolean;
+  readonly stoneIndex: number;
+  readonly nextDegreeIndex: number;
+  readonly ratio: number;
+  readonly label: string;
+  readonly mineralGlowHex: string;
+  readonly stoneX: number;
+  readonly stoneZ: number;
+  readonly chainedNeighborIndices: readonly number[];
+  readonly chainedNeighborRatios: readonly number[];
+}
+
+/**
+ * Co-Curatorial Lithophone & Hydro-Acoustic Pathway Tuning:
+ * When the player performs a gentle `touch` or `attune` gesture while standing on or beside
+ * a travertine waystone (`<= 2.15m`), cycles that flagstone to the next unlocked pure Just-Intonation
+ * harmonic degree (`5`-limit up through `17`-limit) and propagates a sympathetic cascade along up to
+ * 2 neighboring flagstones within `4.2m`.
+ */
+export function tuneNearestLithophoneWaystone(params: {
+  readonly playerX: number;
+  readonly playerZ: number;
+  readonly steppingStones: readonly { readonly x: number; readonly z: number }[];
+  readonly waystoneTuningTable: number[];
+  readonly primeLimitCeiling?: number;
+}): TuneWaystoneResult {
+  const limit = params.primeLimitCeiling ?? 11;
+  let closestIdx = -1;
+  let closestDist = Infinity;
+  for (let i = 0; i < params.steppingStones.length; i++) {
+    const st = params.steppingStones[i];
+    const d = Math.hypot(params.playerX - st.x, params.playerZ - st.z);
+    if (d < closestDist) {
+      closestDist = d;
+      closestIdx = i;
+    }
+  }
+  if (closestIdx < 0 || closestDist > 2.15) {
+    return {
+      tuned: false,
+      stoneIndex: -1,
+      nextDegreeIndex: 0,
+      ratio: 1.0,
+      label: TUNABLE_WAYSTONE_HARMONIC_DEGREES[0].label,
+      mineralGlowHex: TUNABLE_WAYSTONE_HARMONIC_DEGREES[0].mineralGlowHex,
+      stoneX: params.playerX,
+      stoneZ: params.playerZ,
+      chainedNeighborIndices: [],
+      chainedNeighborRatios: [],
+    };
+  }
+
+  const currentDeg = params.waystoneTuningTable[closestIdx] ?? 0;
+  let nextDeg = (currentDeg + 1) % TUNABLE_WAYSTONE_HARMONIC_DEGREES.length;
+  for (let guard = 0; guard < TUNABLE_WAYSTONE_HARMONIC_DEGREES.length; guard++) {
+    if (TUNABLE_WAYSTONE_HARMONIC_DEGREES[nextDeg].requiredPrimeLimit <= limit) {
+      break;
+    }
+    nextDeg = (nextDeg + 1) % TUNABLE_WAYSTONE_HARMONIC_DEGREES.length;
+  }
+  params.waystoneTuningTable[closestIdx] = nextDeg;
+  const spec = TUNABLE_WAYSTONE_HARMONIC_DEGREES[nextDeg];
+  const st = params.steppingStones[closestIdx];
+
+  const neighborIndices: number[] = [];
+  const neighborRatios: number[] = [];
+  for (let j = 0; j < params.steppingStones.length; j++) {
+    if (j === closestIdx) continue;
+    const other = params.steppingStones[j];
+    const d = Math.hypot(st.x - other.x, st.z - other.z);
+    if (d <= 4.2 && neighborIndices.length < 2) {
+      neighborIndices.push(j);
+      const nbDeg = params.waystoneTuningTable[j] ?? 0;
+      neighborRatios.push(
+        Number((TUNABLE_WAYSTONE_HARMONIC_DEGREES[nbDeg]?.ratio ?? 1.0).toFixed(4)),
+      );
+    }
+  }
+
+  return {
+    tuned: true,
+    stoneIndex: closestIdx,
+    nextDegreeIndex: nextDeg,
+    ratio: Number(spec.ratio.toFixed(4)),
+    label: spec.label,
+    mineralGlowHex: spec.mineralGlowHex,
+    stoneX: st.x,
+    stoneZ: st.z,
+    chainedNeighborIndices: neighborIndices,
+    chainedNeighborRatios: neighborRatios,
+  };
+}
 
 export interface LithophoneWaystoneStepEvaluation {
   readonly nextStoneIndex: number;
   readonly triggered: boolean;
   readonly stoneX: number;
   readonly stoneZ: number;
+  readonly degreeIndex: number;
   readonly scaleDegreeRatio: number;
   readonly coupling01: number;
+  readonly chainedNeighborIndices: readonly number[];
+  readonly chainedNeighborRatios: readonly number[];
 }
 
 /**
  * Evaluates underfoot traversal across the 64 Piezo-Travertine Lithophone Waystones:
- * stepping onto a new flagstone while strolling triggers a delicate, biome-tuned Just-Intonation stone chime.
+ * stepping onto a new flagstone while strolling triggers a delicate, biome-tuned Just-Intonation stone chime
+ * using the player's co-curated `waystoneTuningIndices` (with up to 2 chained hydro-acoustic neighbor echoes).
  */
 export function evaluateLithophoneWaystoneStep(
   prevStoneIndex: number,
@@ -997,6 +1168,7 @@ export function evaluateLithophoneWaystoneStep(
     readonly inWater: boolean;
     readonly steppingStones: readonly { readonly x: number; readonly z: number }[];
     readonly busWeight?: number;
+    readonly waystoneTuningIndices?: readonly number[];
   },
 ): LithophoneWaystoneStepEvaluation {
   const clampedW = Math.max(1, Math.min(16, Math.round(params.busWeight ?? 8)));
@@ -1013,8 +1185,11 @@ export function evaluateLithophoneWaystoneStep(
       triggered: false,
       stoneX: params.playerX,
       stoneZ: params.playerZ,
+      degreeIndex: 0,
       scaleDegreeRatio: 1.0,
       coupling01,
+      chainedNeighborIndices: [],
+      chainedNeighborRatios: [],
     };
   }
 
@@ -1032,14 +1207,42 @@ export function evaluateLithophoneWaystoneStep(
   if (closestDist <= 1.05 && closestIdx >= 0) {
     if (closestIdx !== prevStoneIndex) {
       const st = params.steppingStones[closestIdx];
-      const ratio = WAYSTONE_JI_SCALE_RATIOS[closestIdx % WAYSTONE_JI_SCALE_RATIOS.length];
+      const degIdx =
+        params.waystoneTuningIndices?.[closestIdx] ??
+        DEFAULT_5_LIMIT_WAYSTONE_INDICES[closestIdx % DEFAULT_5_LIMIT_WAYSTONE_INDICES.length];
+      const degSpec =
+        TUNABLE_WAYSTONE_HARMONIC_DEGREES[degIdx % TUNABLE_WAYSTONE_HARMONIC_DEGREES.length];
+      const neighborIndices: number[] = [];
+      const neighborRatios: number[] = [];
+      for (let j = 0; j < params.steppingStones.length; j++) {
+        if (j === closestIdx) continue;
+        const other = params.steppingStones[j];
+        if (Math.hypot(st.x - other.x, st.z - other.z) <= 4.2 && neighborIndices.length < 2) {
+          neighborIndices.push(j);
+          const nbDeg =
+            params.waystoneTuningIndices?.[j] ??
+            DEFAULT_5_LIMIT_WAYSTONE_INDICES[j % DEFAULT_5_LIMIT_WAYSTONE_INDICES.length];
+          neighborRatios.push(
+            Number(
+              (
+                TUNABLE_WAYSTONE_HARMONIC_DEGREES[
+                  nbDeg % TUNABLE_WAYSTONE_HARMONIC_DEGREES.length
+                ].ratio
+              ).toFixed(4),
+            ),
+          );
+        }
+      }
       return {
         nextStoneIndex: closestIdx,
         triggered: true,
         stoneX: st.x,
         stoneZ: st.z,
-        scaleDegreeRatio: ratio,
+        degreeIndex: degSpec.degreeIndex,
+        scaleDegreeRatio: Number(degSpec.ratio.toFixed(4)),
         coupling01,
+        chainedNeighborIndices: neighborIndices,
+        chainedNeighborRatios: neighborRatios,
       };
     }
     return {
@@ -1047,8 +1250,11 @@ export function evaluateLithophoneWaystoneStep(
       triggered: false,
       stoneX: params.steppingStones[closestIdx].x,
       stoneZ: params.steppingStones[closestIdx].z,
+      degreeIndex: 0,
       scaleDegreeRatio: 1.0,
       coupling01,
+      chainedNeighborIndices: [],
+      chainedNeighborRatios: [],
     };
   }
 
@@ -1059,8 +1265,11 @@ export function evaluateLithophoneWaystoneStep(
     triggered: false,
     stoneX: params.playerX,
     stoneZ: params.playerZ,
+    degreeIndex: 0,
     scaleDegreeRatio: 1.0,
     coupling01,
+    chainedNeighborIndices: [],
+    chainedNeighborRatios: [],
   };
 }
 
@@ -1111,7 +1320,7 @@ export function evaluateWitnessCommunionTarget(params: {
 }
 
 export const STANDARD_GRAVITY_MPS2 = 9.80665;
-export const PLAYER_CO_OBSERVER_BASIS_PRIME = 181;
+export const PLAYER_CO_OBSERVER_BASIS_PRIME = Number(CompiledTeleology.playerCoObserverPrime());
 
 const CHIME_OMEGA_BUF = [0, 0, 0, 0, 0, 0];
 const CHIME_PITCH_X_BUF = [0, 0, 0, 0, 0, 0];
