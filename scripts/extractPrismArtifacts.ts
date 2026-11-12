@@ -473,6 +473,8 @@ export function evaluateLexExpr(
     const arg2 = evaluateLexExpr(tokens[3], currentModule, modules, env);
     if (op === 'multiply') return Number(arg1) * Number(arg2);
     if (op === 'subtract') return Math.max(0, Number(arg1) - Number(arg2));
+    if (op === 'quotient') return Number(arg2) === 0 ? 0 : Math.floor(Number(arg1) / Number(arg2));
+    if (op === 'remainder') return Number(arg2) === 0 ? Number(arg1) : Number(arg1) % Number(arg2);
     if (op === 'equal') return arg1 === arg2;
   }
 
@@ -832,6 +834,36 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
       'Foundation.Teleology.V1.Model',
       modules,
     ),
+    vedanta: evaluateLexExpr(
+      'verdantVedantaStandard',
+      'Foundation.Vedanta.V1.Model',
+      modules,
+    ),
+    dharma: evaluateLexExpr(
+      'verdantDharmaStandard',
+      'Foundation.Dharma.V1.Model',
+      modules,
+    ),
+    compression: evaluateLexExpr(
+      'verdantCompressionStandard',
+      'Foundation.Compression.V1.Model',
+      modules,
+    ),
+    ncmMicroPlasticity: evaluateLexExpr(
+      'ncmMicroPlasticityStandard',
+      'Foundation.Neuromorphic.V1.Model',
+      modules,
+    ),
+    autonomousConservatoryCuration: evaluateLexExpr(
+      'autonomousConservatoryCurationStandard',
+      'Foundation.Neuromorphic.V1.Model',
+      modules,
+    ),
+    hdCoherentPrecision: evaluateLexExpr(
+      'hdCoherentPrecisionStandard',
+      'Foundation.Neuromorphic.V1.Model',
+      modules,
+    ),
     holisticObserverRegistry: evaluateLexExpr(
       'verdantHolisticObserverRegistry',
       'Foundation.Cosmogenesis.V1.Model',
@@ -950,10 +982,20 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     teleology: Number(
       evaluateLexExpr('verdantTeleologyBasisPrime', 'Foundation.Teleology.V1.Model', modules),
     ),
+    vedanta: Number(
+      evaluateLexExpr('verdantVedantaBasisPrime', 'Foundation.Vedanta.V1.Model', modules),
+    ),
+    dharma: Number(
+      evaluateLexExpr('verdantDharmaBasisPrime', 'Foundation.Dharma.V1.Model', modules),
+    ),
+    compression: Number(
+      evaluateLexExpr('verdantCompressionBasisPrime', 'Foundation.Compression.V1.Model', modules),
+    ),
   };
 
   const expectedConsecutivePrimes = [
-    71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163,
+    71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167,
+    173, 179,
   ];
   const actualSortedPrimes = Object.values(canonicalModelBasisPrimes).slice().sort((a, b) => a - b);
   if (
@@ -961,7 +1003,7 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     actualSortedPrimes.some((p, idx) => p !== expectedConsecutivePrimes[idx])
   ) {
     throw new Error(
-      `Canonical 19-model UOR prime basis mismatch: expected consecutive primes [71..163], got [${actualSortedPrimes.join(', ')}]`,
+      `Canonical 22-model UOR prime basis mismatch: expected consecutive primes [71..179], got [${actualSortedPrimes.join(', ')}]`,
     );
   }
 
@@ -973,12 +1015,12 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
   );
   if (
     !canonicalAllTheWayDownVerified ||
-    !standards.holisticObserverRegistry.allNineteenModelsAndElevenElementsVerified ||
+    !standards.holisticObserverRegistry.allTwentyTwoModelsAndElevenElementsVerified ||
     !standards.holisticObserverRegistry.zeroCherryPickedModelsVerified ||
     !standards.holisticObserverRegistry.observerSelfKnowledgeComplete
   ) {
     throw new Error(
-      'Canonical 19x11 Standard Model completeness verification failed during AST extraction!',
+      'Canonical 22x11 Standard Model completeness verification failed during AST extraction!',
     );
   }
 
@@ -1058,13 +1100,13 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     {
       registryField: 'm13NeuromorphicBus',
       modelKey: 'neuromorphic',
-      displayName: 'Neuromorphic Bus (19x19 Inherent Gameplay Functor Matrix + STDP + Active Inference)',
+      displayName: 'Neuromorphic Bus (22x22 Inherent Gameplay Functor Matrix + uorc/ncm-plasticity/1 + STDP + Active Inference)',
       sourceModule: 'Foundation.Neuromorphic.V1.Model',
     },
     {
       registryField: 'm14ObserverCosmogenesis',
       modelKey: 'cosmogenesis',
-      displayName: 'Holistic Observer & Cosmogenesis (Complete 19x11 Context = 209 Cells + Alpha-Omega)',
+      displayName: 'Holistic Observer & Cosmogenesis (Complete 22x11 Context = 242 Cells + Alpha-Omega)',
       sourceModule: 'Foundation.Cosmogenesis.V1.Model',
     },
     {
@@ -1096,6 +1138,24 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
       modelKey: 'teleology',
       displayName: 'Teleology (Requirement-Grounded Environmental Synthesis + Interactive Landmarks + Inherent Plasticity)',
       sourceModule: 'Foundation.Teleology.V1.Model',
+    },
+    {
+      registryField: 'm20Vedanta',
+      modelKey: 'vedanta',
+      displayName: 'Vedanta (Advaita Non-Duality, 4 Mahavakyas, Turiya Pranava, 5 Panca-Kosas, Conserved Triguna & Pancikarana)',
+      sourceModule: 'Foundation.Vedanta.V1.Model',
+    },
+    {
+      registryField: 'm21Dharma',
+      modelKey: 'dharma',
+      displayName: 'Dharma (Rta Cosmic Order, Structural Ahimsa, 8-Limb Astanga, 12-Nidana Pratityasamutpada & Lokasangraha)',
+      sourceModule: 'Foundation.Dharma.V1.Model',
+    },
+    {
+      registryField: 'm22Compression',
+      modelKey: 'compression',
+      displayName: 'Parametric Compression (UORC kappa-Named Codec Points, Warm States, Saturating Cap Ledger & 64-Cell Rule-30 Portfolio)',
+      sourceModule: 'Foundation.Compression.V1.Model',
     },
   ] as const;
 
@@ -1292,6 +1352,105 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         evaluateLexExpr(
           `stepTeleologyBusModulation ${w}`,
           'Foundation.Teleology.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    vedanta: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepVedantaBusModulation ${w}`,
+          'Foundation.Vedanta.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    dharma: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepDharmaBusModulation ${w}`,
+          'Foundation.Dharma.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    compression: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepCompressionBusModulation ${w}`,
+          'Foundation.Compression.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    compressionPortfolioEfficiencyPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepCompressionPortfolioEfficiencyPermille ${w}`,
+          'Foundation.Compression.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    atmanBrahmanAtZeroHarmonyPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepAtmanBrahmanNonDualPermille ${w} 0`,
+          'Foundation.Vedanta.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    atmanBrahmanAtFullHarmonyPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepAtmanBrahmanNonDualPermille ${w} 100`,
+          'Foundation.Vedanta.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    turiyaWitnessAtSixRestsPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepTuriyaSilentWitnessPermille ${w} 6`,
+          'Foundation.Vedanta.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    rtaCosmicOrderAtZeroHarmonyPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepRtaCosmicOrderPermille ${w} 0`,
+          'Foundation.Dharma.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    rtaCosmicOrderAtFullHarmonyPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepRtaCosmicOrderPermille ${w} 100`,
+          'Foundation.Dharma.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    pratityasamutpadaCausalCoherencePermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepPratityasamutpadaCausalCoherencePermille ${w}`,
+          'Foundation.Dharma.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    lokasangrahaAtFullGuildPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepLokasangrahaWorldWelfarePermille ${w} 5`,
+          'Foundation.Dharma.V1.Model',
           modules,
         ),
       ),

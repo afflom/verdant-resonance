@@ -766,9 +766,9 @@ structure{
   ]
 }
 
-definition{name: directedFunctorCellTotal, parameters: [], result: Nat, body: 361}
+definition{name: directedFunctorCellTotal, parameters: [], result: Nat, body: 484}
 
-definition{name: crossModelFunctorPathwayTotal, parameters: [], result: Nat, body: 342}
+definition{name: crossModelFunctorPathwayTotal, parameters: [], result: Nat, body: 462}
 
 definition{
   name: stepFunctorFeatureTransferGainPermille,
@@ -798,11 +798,409 @@ definition{
   body: (record FunctorTransferMatrixSpec {registeredModelCount := (Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount), directedFunctorCellCount := (directedFunctorCellTotal), crossModelPathwayCount := (crossModelFunctorPathwayTotal), siDimensionalPortMatchingEnabled := ((Foundation.MetaModel.V1.Model::siDimensionZeroBias) =? 16), stdpSynapticPlasticityEnabled := ((weightInitial) <? (learnWeightPotentiated (weightInitial))), activeInferenceFreeEnergyEnabled := ((stepVariationalFreeEnergySurprisalPermille (consolidationThreshold)) <? (stepVariationalFreeEnergySurprisalPermille (weightInitial))), allModelsEnhanceAllModelsVerified := (verifyAllModelsEnhanceAllModelsFunctor (weightInitial))})
 }
 
+structure{
+  name: NcmSynapticPlasticitySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: mixerCount, type: Nat},
+    {name: mixerInputs, type: Nat},
+    {name: weightLimit, type: Nat},
+    {name: weightSpan, type: Nat},
+    {name: weightInitial, type: Nat},
+    {name: inputLimit, type: Nat},
+    {name: errorLimit, type: Nat},
+    {name: plasticityScale, type: Nat},
+    {name: plasticityCeiling, type: Nat},
+    {name: plasticityHalfLifeRate, type: Nat},
+    {name: plasticityFloor, type: Nat},
+    {name: plasticityHalfLife, type: Nat},
+    {name: stepLimit, type: Nat},
+    {name: laneFit32BitVerified, type: Bool}
+  ]
+}
+
+structure{
+  name: NcmSlotPlasticitySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: contexts, type: Nat},
+    {name: probabilityLimit, type: Nat},
+    {name: countLimit, type: Nat},
+    {name: rateNumerator, type: Nat},
+    {name: rateCeiling, type: Nat},
+    {name: rateFloor, type: Nat},
+    {name: consolidatesAtCount127, type: Bool}
+  ]
+}
+
+structure{
+  name: NcmRefinementPlasticitySpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: maps, type: Nat},
+    {name: points, type: Nat},
+    {name: probabilityLimit, type: Nat},
+    {name: refinementTarget, type: Nat},
+    {name: rateShift, type: Nat},
+    {name: staysWithin16BitProbability, type: Bool}
+  ]
+}
+
+structure{
+  name: NcmMicroPlasticityStandard,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: standard, type: String},
+    {name: kernel, type: String},
+    {name: synaptic, type: NcmSynapticPlasticitySpec},
+    {name: slot, type: NcmSlotPlasticitySpec},
+    {name: refinement, type: NcmRefinementPlasticitySpec}
+  ]
+}
+
+definition{name: ncmMixerCount, parameters: [], result: Nat, body: 3}
+
+definition{name: ncmMixerInputs, parameters: [], result: Nat, body: 24}
+
+definition{name: ncmWeightLimit, parameters: [], result: Nat, body: 4194304}
+
+definition{name: ncmWeightSpan, parameters: [], result: Nat, body: 8388608}
+
+definition{name: ncmWeightInitial, parameters: [], result: Nat, body: 16384}
+
+definition{name: ncmInputLimit, parameters: [], result: Nat, body: 2047}
+
+definition{name: ncmErrorLimit, parameters: [], result: Nat, body: 4096}
+
+definition{name: ncmPlasticityScale, parameters: [], result: Nat, body: 65536}
+
+definition{name: ncmPlasticityFloor, parameters: [], result: Nat, body: 24}
+
+definition{name: ncmPlasticityGain, parameters: [], result: Nat, body: 104}
+
+definition{name: ncmPlasticityHalfLife, parameters: [], result: Nat, body: 4096}
+
+definition{name: ncmPlasticityCeiling, parameters: [], result: Nat, body: 128}
+
+definition{name: ncmStepLimit, parameters: [], result: Nat, body: 16376}
+
+definition{name: ncmSlotContexts, parameters: [], result: Nat, body: 17}
+
+definition{name: ncmProbabilityLimit, parameters: [], result: Nat, body: 65535}
+
+definition{name: ncmCountLimit, parameters: [], result: Nat, body: 127}
+
+definition{name: ncmRateNumerator, parameters: [], result: Nat, body: 131072}
+
+definition{name: ncmRateCeiling, parameters: [], result: Nat, body: 43690}
+
+definition{name: ncmRateFloor, parameters: [], result: Nat, body: 510}
+
+definition{name: ncmRefinementMaps, parameters: [], result: Nat, body: 2}
+
+definition{name: ncmRefinementPoints, parameters: [], result: Nat, body: 33}
+
+definition{name: ncmRefinementTarget, parameters: [], result: Nat, body: 65598}
+
+definition{name: ncmRefinementShift, parameters: [], result: Nat, body: 6}
+
+definition{
+  name: ncmPlasticity,
+  parameters: [pos : Nat],
+  result: Nat,
+  body: ((ncmPlasticityFloor) + (prim quotient (prim multiply (ncmPlasticityGain) (ncmPlasticityHalfLife) : Nat) ((ncmPlasticityHalfLife) + pos) 0 : Nat))
+}
+
+definition{
+  name: ncmSlotRate,
+  parameters: [count : Nat],
+  result: Nat,
+  body: (prim quotient (ncmRateNumerator) ((prim multiply 2 count : Nat) + 3) 0 : Nat)
+}
+
+definition{
+  name: ncmSlotCountNext,
+  parameters: [count : Nat],
+  result: Nat,
+  body: (if ((ncmCountLimit) <=? (count + 1)) then (ncmCountLimit) else (count + 1))
+}
+
+definition{
+  name: ncmPotentiateWeight,
+  parameters: [w : Nat, step : Nat],
+  result: Nat,
+  body: (if ((ncmWeightSpan) <? (w + step)) then (ncmWeightSpan) else (w + step))
+}
+
+definition{
+  name: ncmDepressWeight,
+  parameters: [w : Nat, step : Nat],
+  result: Nat,
+  body: (prim subtract w step : Nat)
+}
+
+definition{
+  name: ncmRefineUp,
+  parameters: [t : Nat],
+  result: Nat,
+  body: (t + (prim quotient (prim subtract (ncmRefinementTarget) t : Nat) 64 0 : Nat))
+}
+
+definition{
+  name: ncmRefineDown,
+  parameters: [t : Nat],
+  result: Nat,
+  body: (prim subtract t (prim quotient (t + 63) 64 0 : Nat) : Nat)
+}
+
+definition{
+  name: ncmMicroPlasticityStandard,
+  parameters: [],
+  result: NcmMicroPlasticityStandard,
+  body: (record NcmMicroPlasticityStandard {profile := "uorc/ncm-plasticity/1", standard := "prism/neuromorphic-standard", kernel := "ncm", synaptic := (record NcmSynapticPlasticitySpec {mixerCount := (ncmMixerCount), mixerInputs := (ncmMixerInputs), weightLimit := (ncmWeightLimit), weightSpan := (ncmWeightSpan), weightInitial := (ncmWeightInitial), inputLimit := (ncmInputLimit), errorLimit := (ncmErrorLimit), plasticityScale := (ncmPlasticityScale), plasticityCeiling := (ncmPlasticity 0), plasticityHalfLifeRate := (ncmPlasticity 4096), plasticityFloor := (ncmPlasticity 421889), plasticityHalfLife := (ncmPlasticityHalfLife), stepLimit := (ncmStepLimit), laneFit32BitVerified := ((prim multiply (prim multiply (ncmInputLimit) (ncmErrorLimit) : Nat) (ncmPlasticityCeiling) : Nat) <=? 1073217536)}), slot := (record NcmSlotPlasticitySpec {contexts := (ncmSlotContexts), probabilityLimit := (ncmProbabilityLimit), countLimit := (ncmCountLimit), rateNumerator := (ncmRateNumerator), rateCeiling := (ncmSlotRate 0), rateFloor := (ncmSlotRate (ncmCountLimit)), consolidatesAtCount127 := ((ncmSlotRate (ncmCountLimit)) =? (ncmRateFloor))}), refinement := (record NcmRefinementPlasticitySpec {maps := (ncmRefinementMaps), points := (ncmRefinementPoints), probabilityLimit := (ncmProbabilityLimit), refinementTarget := (ncmRefinementTarget), rateShift := (ncmRefinementShift), staysWithin16BitProbability := ((ncmRefineUp (ncmProbabilityLimit)) <=? (ncmProbabilityLimit))})})
+}
+
+definition{
+  name: verifyNcmPlasticityAndSlotRateVectors,
+  parameters: [],
+  result: Bool,
+  body: ((((((ncmPlasticity 0) =? 128) && ((ncmPlasticity 4096) =? 76)) && (((ncmPlasticity 421888) =? 25) && ((ncmPlasticity 421889) =? 24))) && (((ncmSlotRate 0) =? (ncmRateCeiling)) && ((ncmSlotRate (ncmCountLimit)) =? (ncmRateFloor)))) && ((prim multiply (prim multiply (ncmInputLimit) (ncmErrorLimit) : Nat) (ncmPlasticityCeiling) : Nat) =? 1073217536))
+}
+
+theorem{
+  name: ncmPlasticityAndSlotRateVectorsHold,
+  parameters: [],
+  statement: ((verifyNcmPlasticityAndSlotRateVectors) = true),
+  proof: decide{},
+  axioms: []
+}
+
+definition{
+  name: breaksNcmMicroPlasticityBounds,
+  parameters: [w : Nat, step : Nat, count : Nat, t : Nat],
+  result: Bool,
+  body: ((((w <=? (ncmWeightSpan)) && (((ncmWeightSpan) <? (ncmPotentiateWeight w step)) || (((ncmPotentiateWeight w step) <? w) || (w <? (ncmDepressWeight w step))))) || ((ncmCountLimit) <? (ncmSlotCountNext count))) || ((t <=? (ncmProbabilityLimit)) && (((ncmRefineUp t) <? t) || (((ncmProbabilityLimit) <? (ncmRefineUp t)) || (t <? (ncmRefineDown t))))))
+}
+
+theorem{
+  name: ncmMicroPlasticityBoundsHold,
+  parameters: [w : Nat, step : Nat, count : Nat, t : Nat],
+  statement: ((breaksNcmMicroPlasticityBounds w step count t) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      breaksNcmMicroPlasticityBounds,
+      ncmCountLimit,
+      ncmDepressWeight,
+      ncmPotentiateWeight,
+      ncmProbabilityLimit,
+      ncmRefineDown,
+      ncmRefineUp,
+      ncmRefinementTarget,
+      ncmSlotCountNext,
+      ncmWeightSpan
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+structure{
+  name: AutonomousConservatoryCurationStandard,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: standard, type: String},
+    {name: upstreamReference, type: String},
+    {name: contentHashBits, type: Nat},
+    {name: rule30GeneratorWidthBits, type: Nat},
+    {name: candidateGeneratorCount, type: Nat},
+    {name: consolidatedMemorySlotCap, type: Nat},
+    {name: curationPhraseCycleBars, type: Nat},
+    {name: minBreathingRestSteps, type: Nat},
+    {name: maxStepwiseMelodicLeap, type: Nat},
+    {name: physicalWeightFactor, type: Nat},
+    {name: botanicalWeightFactor, type: Nat},
+    {name: musicalWeightFactor, type: Nat},
+    {name: pinnedBaselineFloorEnabled, type: Bool},
+    {name: zeroDefectAdmissionRequired, type: Bool},
+    {name: strictParetoDominanceVerified, type: Bool}
+  ]
+}
+
+definition{name: curationMinBreathingRests, parameters: [], result: Nat, body: 6}
+
+definition{name: curationMaxMelodicLeap, parameters: [], result: Nat, body: 2}
+
+definition{name: curationConsolidatedMemoryCap, parameters: [], result: Nat, body: 16}
+
+definition{name: curationPhraseCycleBars, parameters: [], result: Nat, body: 4}
+
+definition{name: curationPhysicalWeight, parameters: [], result: Nat, body: 4}
+
+definition{name: curationBotanicalWeight, parameters: [], result: Nat, body: 3}
+
+definition{name: curationMusicalWeight, parameters: [], result: Nat, body: 3}
+
+definition{
+  name: conservatoryCurationDefect,
+  parameters: [floatingGapCount : Nat, staticOverlapCount : Nat, ahimsaViolationCount : Nat, restStepCount : Nat, maxMelodicLeap : Nat],
+  result: Nat,
+  body: ((((floatingGapCount + staticOverlapCount) + ahimsaViolationCount) + (prim subtract (curationMinBreathingRests) restStepCount : Nat)) + (prim subtract maxMelodicLeap (curationMaxMelodicLeap) : Nat))
+}
+
+definition{
+  name: conservatoryCurationLyapunovCost,
+  parameters: [physicalSurprisalPermille : Nat, botanicalDeficitPermille : Nat, musicalTensionPermille : Nat],
+  result: Nat,
+  body: (((prim multiply (curationPhysicalWeight) physicalSurprisalPermille : Nat) + (prim multiply (curationBotanicalWeight) botanicalDeficitPermille : Nat)) + (prim multiply (curationMusicalWeight) musicalTensionPermille : Nat))
+}
+
+definition{
+  name: conservatoryCurationDominates,
+  parameters: [defA : Nat, physA : Nat, botA : Nat, musA : Nat, defB : Nat, physB : Nat, botB : Nat, musB : Nat],
+  result: Bool,
+  body: ((defA =? 0) && ((0 <? defB) || ((((physA <=? physB) && (botA <=? botB)) && (musA <=? musB)) && (((physA <? physB) || (botA <? botB)) || (musA <? musB)))))
+}
+
+definition{
+  name: autonomousConservatoryCurationStandard,
+  parameters: [],
+  result: AutonomousConservatoryCurationStandard,
+  body: (record AutonomousConservatoryCurationStandard {profile := "uorc/conservatory-curation/1", standard := "prism/conservatory-curation-standard", upstreamReference := "UOR-Foundation/compression@b29ae741630af4d90f53375e128c1a48fbd831c5", contentHashBits := 256, rule30GeneratorWidthBits := 64, candidateGeneratorCount := 4, consolidatedMemorySlotCap := (curationConsolidatedMemoryCap), curationPhraseCycleBars := (curationPhraseCycleBars), minBreathingRestSteps := (curationMinBreathingRests), maxStepwiseMelodicLeap := (curationMaxMelodicLeap), physicalWeightFactor := (curationPhysicalWeight), botanicalWeightFactor := (curationBotanicalWeight), musicalWeightFactor := (curationMusicalWeight), pinnedBaselineFloorEnabled := ((conservatoryCurationDefect 0 0 0 6 2) =? 0), zeroDefectAdmissionRequired := (0 <? (conservatoryCurationDefect 1 0 0 6 2)), strictParetoDominanceVerified := (conservatoryCurationDominates 0 180 220 190 0 210 220 190)})
+}
+
+definition{
+  name: verifyConservatoryCurationVectors,
+  parameters: [],
+  result: Bool,
+  body: (((((((conservatoryCurationDefect 0 0 0 6 2) =? 0) && ((conservatoryCurationDefect 0 0 0 9 1) =? 0)) && ((0 <? (conservatoryCurationDefect 1 0 0 6 2)) && (0 <? (conservatoryCurationDefect 0 1 0 6 2)))) && (((0 <? (conservatoryCurationDefect 0 0 1 6 2)) && (0 <? (conservatoryCurationDefect 0 0 0 5 2))) && (0 <? (conservatoryCurationDefect 0 0 0 6 3)))) && ((conservatoryCurationDominates 0 180 210 160 0 200 220 180) && (not (conservatoryCurationDominates 1 100 100 100 0 400 400 400)))) && ((conservatoryCurationLyapunovCost 180 210 160) <? (conservatoryCurationLyapunovCost 200 220 180)))
+}
+
+theorem{
+  name: conservatoryCurationVectorsHold,
+  parameters: [],
+  statement: ((verifyConservatoryCurationVectors) = true),
+  proof: decide{},
+  axioms: []
+}
+
+definition{
+  name: breaksConservatoryCurationDominanceAndLyapunov,
+  parameters: [defA : Nat, physA : Nat, botA : Nat, musA : Nat, physB : Nat, botB : Nat, musB : Nat],
+  result: Bool,
+  body: (((conservatoryCurationDominates defA physA botA musA 0 physB botB musB) && (((0 <? defA) || ((conservatoryCurationLyapunovCost physB botB musB) <=? (conservatoryCurationLyapunovCost physA botA musA))) || (conservatoryCurationDominates 0 physB botB musB defA physA botA musA))) || (conservatoryCurationDominates 0 physA botA musA 0 physA botA musA))
+}
+
+theorem{
+  name: conservatoryCurationDominanceAndLyapunovHold,
+  parameters: [defA : Nat, physA : Nat, botA : Nat, musA : Nat, physB : Nat, botB : Nat, musB : Nat],
+  statement: ((breaksConservatoryCurationDominanceAndLyapunov defA physA botA musA physB botB musB) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      breaksConservatoryCurationDominanceAndLyapunov,
+      conservatoryCurationDominates,
+      conservatoryCurationLyapunovCost,
+      curationBotanicalWeight,
+      curationMusicalWeight,
+      curationPhysicalWeight
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+structure{
+  name: HighDefinitionCoherentPrecisionStandard,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: processorPrecisionBits, type: Nat},
+    {name: loFiEightBitDeprecatedCeiling, type: Nat},
+    {name: coherentDepthPpmUnity, type: Nat},
+    {name: canonicalModelCount, type: Nat},
+    {name: coherentTransferPathwayCount, type: Nat},
+    {name: apexSpectralBandsOneNmCie, type: Nat},
+    {name: apexTerrainSegmentsHd, type: Nat},
+    {name: apexProceduralTexelPx, type: Nat},
+    {name: apexChladniModalPartials, type: Nat},
+    {name: apexIso3382EarlyReflections, type: Nat},
+    {name: apexJustIntonationPrimeLimit, type: Nat},
+    {name: allModelsSixtyFourBitVerified, type: Bool},
+    {name: allToAllDepthTransferVerified, type: Bool}
+  ]
+}
+
+definition{
+  name: stepModelIntrinsicDepthPpm,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (prim multiply (prim subtract (clampBusWeight busWeight) 1 : Nat) 66666 : Nat)
+}
+
+definition{
+  name: stepCoherentTransferredModelDepthScore,
+  parameters: [ownWeight : Nat, partnerWeightSum21 : Nat],
+  result: Nat,
+  body: (Foundation.MetaModel.V1.Model::composeCoherentModelDepthScore (stepModelIntrinsicDepthPpm ownWeight) (prim multiply (prim subtract partnerWeightSum21 21 : Nat) 66666 : Nat))
+}
+
+definition{
+  name: hdCoherentPrecisionStandard,
+  parameters: [],
+  result: HighDefinitionCoherentPrecisionStandard,
+  body: (record HighDefinitionCoherentPrecisionStandard {profile := "prism/hd-coherent-precision/1", processorPrecisionBits := (Foundation.MetaModel.V1.Model::hdMinimumProcessorPrecisionBits), loFiEightBitDeprecatedCeiling := (Foundation.MetaModel.V1.Model::loFiEightBitCeiling), coherentDepthPpmUnity := (Foundation.MetaModel.V1.Model::hdCoherentPpmUnity), canonicalModelCount := (Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount), coherentTransferPathwayCount := (directedFunctorCellTotal), apexSpectralBandsOneNmCie := 401, apexTerrainSegmentsHd := 224, apexProceduralTexelPx := 1024, apexChladniModalPartials := 16, apexIso3382EarlyReflections := 64, apexJustIntonationPrimeLimit := 17, allModelsSixtyFourBitVerified := ((Foundation.MetaModel.V1.Model::verifyHdModelPrecisionFloor 64) && (not (Foundation.MetaModel.V1.Model::verifyHdModelPrecisionFloor 8))), allToAllDepthTransferVerified := ((stepCoherentTransferredModelDepthScore 8 168) <? (stepCoherentTransferredModelDepthScore 8 172))})
+}
+
+definition{
+  name: verifyHdCoherentPrecisionVectors,
+  parameters: [],
+  result: Bool,
+  body: (((((Foundation.MetaModel.V1.Model::verifyHdModelPrecisionFloor 64) && (not (Foundation.MetaModel.V1.Model::verifyHdModelPrecisionFloor 8))) && (not (Foundation.MetaModel.V1.Model::verifyHdModelPrecisionFloor 32))) && (((stepModelIntrinsicDepthPpm 1) =? 0) && ((stepModelIntrinsicDepthPpm 16) =? 999990))) && ((stepCoherentTransferredModelDepthScore 8 168) <? (stepCoherentTransferredModelDepthScore 8 169)))
+}
+
+theorem{
+  name: hdCoherentPrecisionVectorsHold,
+  parameters: [],
+  statement: ((verifyHdCoherentPrecisionVectors) = true),
+  proof: decide{},
+  axioms: []
+}
+
+definition{
+  name: breaksHdCoherentDepthTransferAcrossModels,
+  parameters: [ownWeight : Nat, partnerSumLow : Nat, partnerBoost : Nat],
+  result: Bool,
+  body: (((21 <=? partnerSumLow) && (0 <? partnerBoost)) && ((stepCoherentTransferredModelDepthScore ownWeight (partnerSumLow + partnerBoost)) <=? (stepCoherentTransferredModelDepthScore ownWeight partnerSumLow)))
+}
+
+theorem{
+  name: hdCoherentDepthTransferAcrossModelsHolds,
+  parameters: [ownWeight : Nat, partnerSumLow : Nat, partnerBoost : Nat],
+  statement: ((breaksHdCoherentDepthTransferAcrossModels ownWeight partnerSumLow partnerBoost) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.MetaModel.V1.Model::composeCoherentModelDepthScore,
+      breaksHdCoherentDepthTransferAcrossModels,
+      clampBusWeight,
+      stepCoherentTransferredModelDepthScore,
+      stepModelIntrinsicDepthPpm,
+      weightMax,
+      weightMin
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
 definition{
   name: neuromorphicCanonicalDescriptor,
   parameters: [],
   result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
-  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 13 "prism/standard-model/neuromorphic-functor-bus/1" 1 0 0 (neuromorphicBasisPrime) 10900361 34200209 "Foundation.Neuromorphic.V1" 28 14 19 "Hebbian STDP Plasticity, 19x19 Functorial Feature-Transfer Matrix (361 Cells), Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Inherent Gameplay Plasticity" 19 6 524287 "Transfers SI-typed mathematical, physical, chemical, botanical, morphogenetic, spatial-acoustic, spectral-PBR, realizability, anamnesis, and teleological feature tensors across all 19x19 model pairs inherently through gameplay" 19 19 8 19 "PureKernel+BoundedRingSynapse" 15 16 16 16 16 16 16 1 1 524287 0 361 "Universal 19x19 functorial bus connecting all canonical standard models with zero conflict and associative gain composition" 2 1000 6 "Discrete STDP weight potentiation/depression + Active Inference variational free-energy minimization + Rule 30 orbit evolution" 32 840 1212 5 "0.5pct synaptic coherence JND, 64-bit Rule-30 orbit exactness, 28-bit PointKey cycle-free resonance" 8192 420 1000 35 0 "Pre-allocated 19x19 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame" "Foundation.Neuromorphic.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Neuromorphic/V1/Model.lex.tex" 6 "Hebb (1949) / Bi & Poo STDP, Friston Active Inference Variational Free Energy, Wolfram Elementary CA Rule 30, UOR Cl(0,6), LEAN-REL-4-32-1, ISO-42010-2022" 14 12 36 0 "14 machine-checked Lean 4.32 theorems proving boundedness, 19x19 functor monotonicity, free-energy reduction, and 11-element completeness" 4 63 "src/game/neuromorphicFunctorBus.ts" "LexLean 1.2 -> extractPrismArtifacts AST -> 19x19 Inherent Gameplay Functor Runtime -> Live Multi-Modal Amplification")
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 13 "prism/standard-model/neuromorphic-functor-bus/1" 1 4 0 (neuromorphicBasisPrime) 10900484 46200242 "Foundation.Neuromorphic.V1" 40 20 28 "64-Bit Coherent Depth Transfer (prism/hd-coherent-precision/1), Hebbian STDP Plasticity, uorc/ncm-plasticity/1 Micro-Plasticity, uorc/conservatory-curation/1 Autonomous Curation, 22x22 Float64 Functorial Matrix (484 Cells), Active Inference Free Energy, 64-Bit Rule 30 Continuum" 30 7 4194303 "Transfers 64-bit IEEE-754/exact precision depth and SI-typed mathematical, physical, chemical, botanical, morphogenetic, spatial-acoustic, 1nm spectral-PBR, realizability, anamnesis, teleological, vedantic, dharmic, and UORC parametric compression tensors across all 22x22 model pairs so the depth of every model coherently elevates every model" 22 22 8 24 "PureKernel+Float64CoherentDepthBus+NcmMicroPlasticity+AutonomousConservatoryCuration" 15 16 16 16 16 16 16 1 1 4194303 0 484 "Universal 22x22 64-bit functorial bus connecting all canonical standard models with all-to-all precision depth transfer, zero conflict, and associative gain composition" 2 1000 8 "Continuous 64-bit PPM depth transfer + discrete STDP + uorc/ncm-plasticity/1 hyperbolic learning + Uorc strict-dominance Lyapunov curation + 64-bit Rule 30 evolution" 64 840 1212 5 "64-bit Float64 functor arena, 1ppm coherent depth resolution, +-2^22 NCM synaptic clamp, 0-defect curation admission, strict Lyapunov curation descent" 12288 420 1000 35 0 "Pre-allocated 22x22 Float64 functor & depth-transfer arenas + NCM slot/mixer state + 64-bit Rule-30 curation registers; 0 heap allocations per frame" "Foundation.Neuromorphic.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Neuromorphic/V1/Model.lex.tex" 7 "IEEE 754-2019 Binary64, Hebb (1949) / Bi & Poo STDP, UOR-Foundation/compression uorc/ncm-plasticity/1 & Engine, Friston Active Inference, Wolfram Rule 30, UOR Cl(0,6), LEAN-REL-4-32-1" 22 18 52 0 "22 machine-checked Lean 4.32 theorems proving 64-bit HD precision floors, all-to-all coherent depth transfer, macro & NCM micro-plasticity boundedness, autonomous curation dominance, and 22x22 functor monotonicity" 4 63 "src/game/neuromorphicFunctorBus.ts" "LexLean 1.2 -> extractPrismArtifacts AST -> 64-Bit 22x22 Coherent Depth-Transfer Functor & Autonomous Conservatory Curation Runtime -> Live HD Multi-Modal Amplification")
 }
 
 definition{

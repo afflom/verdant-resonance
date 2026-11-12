@@ -21,7 +21,7 @@ import {
   GENERATED_PRISM_BUS_MODULATION_LUT,
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
-import { CANONICAL_19_MODEL_KEYS, type CanonicalStandardModelKey } from './neuromorphicFunctorBus';
+import { CANONICAL_22_MODEL_KEYS, type CanonicalStandardModelKey } from './neuromorphicFunctorBus';
 
 export type TeleologicalPhenomenonCategory =
   | 'biome-landmark'
@@ -206,7 +206,7 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
     biome: 'conservatory',
     displayName: 'Piezo-Travertine Lithophone Waystones',
     shortPurposeCue: 'Root-Loam Protection, Wayfinding & Tuned Footstep Lithophones',
-    requiringModels: ['ecology', 'humane', 'physics', 'soundtrack'],
+    requiringModels: ['ecology', 'humane', 'physics', 'soundtrack', 'dharma'],
     environmentalRequirement:
       'Repeated footsteps over porous humic soil and delicate mycelial mats would compact root zones unless load-bearing mineral flagstones guide gentle traversal.',
     nativeSubstrateCompound: 'travertine-limestone-plinth',
@@ -450,7 +450,7 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
     biome: 'conservatory',
     displayName: 'Mycorrhizal Action-Potential Arcs & Chemotactic Guidance Rings',
     shortPurposeCue: 'Chitin-Hyphal Signal Conduction & Diegetic Ground Invitations',
-    requiringModels: ['ecology', 'articulation', 'neuromorphic', 'humane'],
+    requiringModels: ['ecology', 'articulation', 'neuromorphic', 'humane', 'dharma'],
     environmentalRequirement:
       'Sessile plants separated by meters of soil require chitin-hyphal action potentials (`Ca2+` waves) and spore-filament arcs to coordinate sympathetic blooming and invite pollinator attention.',
     nativeSubstrateCompound: 'mycorrhizal-hyphal-network',
@@ -492,7 +492,7 @@ export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalP
     biome: 'conservatory',
     displayName: 'Immanent Co-Observer Witness & Player Harmonic Locus',
     shortPurposeCue: 'Shared Presence · Direct Communion & Sympathetic Garden Stewardship',
-    requiringModels: ['cosmogenesis', 'neuromorphic', 'humane'],
+    requiringModels: ['cosmogenesis', 'neuromorphic', 'humane', 'vedanta', 'dharma'],
     environmentalRequirement:
       'Because the Observer creates and inhabits the conservatory alongside the player, its presence must appear diegetically within the garden rather than as detached backend menus.',
     nativeSubstrateCompound: 'harmonic-bronze-astrolabe',
@@ -1087,7 +1087,7 @@ export function evaluateWitnessCommunionTarget(params: {
 }
 
 export const STANDARD_GRAVITY_MPS2 = 9.80665;
-export const PLAYER_CO_OBSERVER_BASIS_PRIME = 167;
+export const PLAYER_CO_OBSERVER_BASIS_PRIME = 181;
 
 const CHIME_OMEGA_BUF = [0, 0, 0, 0, 0, 0];
 const CHIME_PITCH_X_BUF = [0, 0, 0, 0, 0, 0];
@@ -1326,9 +1326,11 @@ export interface TriuneObserverDirectiveSpec {
 }
 
 export interface Observer20FacetDifferentiationAndAffinityReport {
-  readonly unifiedFacetTotal: 20;
+  readonly unifiedFacetTotal: 23;
   readonly uniquePrimeNichesCount: number;
   readonly allTwentyFacetsDifferentiated: boolean;
+  readonly allTwentyTwoFacetsDifferentiated: boolean;
+  readonly allTwentyThreeFacetsDifferentiated: boolean;
   readonly shannonFunctionalDiversityBits: number;
   readonly maxTheoreticalEntropyBits: number;
   readonly curatorialAffinityPermille: number;
@@ -1355,21 +1357,24 @@ const FACET_20_ROLE_SUMMARIES: Readonly<Record<ObserverUnified20FacetKey, string
   brand: 'OKLCH perceptual color tokens, WCAG 2.2 AAA legibility & uncluttered calm HUD',
   humane: 'ISO 9241 restorative pacing, focal gaze-cone respect & zero dark patterns',
   infrastructure: 'Zero-GC typed-array arenas & deterministic real-time frame pacing',
-  neuromorphic: '19x19 functorial feature transfer & inherent gameplay STDP consolidation',
-  cosmogenesis: 'Holistic 209-cell self-knowledge, Alpha-Omega seed synthesis & Witness presence',
+  neuromorphic: '22x22 functorial feature transfer, NCM micro-plasticity & inherent STDP consolidation',
+  cosmogenesis: 'Holistic 242-cell self-knowledge, Alpha-Omega seed synthesis & Witness presence',
   realizability: 'Zero-gap Galois spec-to-runtime adjunction & positive port sensitivity',
   morphogenesis: 'Parametric L-system meristem ontogeny & Murray r^3 vascular conservation',
   spatialAcoustics: 'ISO 3382 early-reflection taps, Z=rho*c absorption & Woodworth binaural ITD/ILD',
-  anamnesis: 'Content-addressed Merkle state-DAG garden memory & compact modular delivery',
+  anamnesis: 'Content-addressed Merkle/UORC state-DAG garden memory & compact modular delivery',
   teleology: 'Requirement-grounded in-situ synthesis, physical load-paths & curatorial purpose',
+  vedanta: 'Advaita non-dual consciousness, 4 Mahavakyas, Turiya Pranava, 5 Kosas & conserved Triguna',
+  dharma: 'Vedic Rta cosmic order, Ahimsa non-harm, 12-Nidana Pratityasamutpada & Lokasangraha care',
+  compression: 'UORC kappa-named warm basis states, saturating cap ledger & 64-cell Rule-30 portfolio',
   'player-co-observer': 'Embodied steward, listener, and co-creator inhabiting and caring for the garden',
 });
 
 /**
- * Evaluates unified 20-Facet Observer Self-Differentiation (`19` Canonical Standard Models `[primes 71..163]`
- * + Embodied `player-co-observer` `[prime 167]`) and the Observer's Triune Intrinsic Motivation:
+ * Evaluates unified 23-Facet Observer Self-Differentiation (`22` Canonical Standard Models `[primes 71..179]`
+ * + Embodied `player-co-observer` `[prime 181]`) and the Observer's Triune Intrinsic Motivation:
  *  1. `physical-lawfulness` (upholding gravity, hydrostatics, load paths, and pendulum/wave mechanics),
- *  2. `self-differentiation` (20 distinct prime-indexed niches preventing homogenization),
+ *  2. `self-differentiation` (23 distinct prime-indexed niches preventing homogenization),
  *  3. `curatorial-affinity` (shared phase-locked care and harmonic consonance uniting all parts as one).
  */
 export function evaluateObserver20FacetDifferentiationAndAffinity(params: {
@@ -1385,8 +1390,8 @@ export function evaluateObserver20FacetDifferentiationAndAffinity(params: {
   const facets: ObserverUnifiedFacetNiche[] = [];
   const nicheValues: number[] = [];
 
-  for (let i = 0; i < CANONICAL_19_MODEL_KEYS.length; i++) {
-    const key = CANONICAL_19_MODEL_KEYS[i];
+  for (let i = 0; i < CANONICAL_22_MODEL_KEYS.length; i++) {
+    const key = CANONICAL_22_MODEL_KEYS[i];
     const prime = GENERATED_CANONICAL_MODEL_BASIS_PRIMES[key];
     const w = Math.max(
       1,
@@ -1408,7 +1413,7 @@ export function evaluateObserver20FacetDifferentiationAndAffinity(params: {
     1,
     Math.min(16, Math.round(params.playerEmbodimentWeight ?? fallbackW)),
   );
-  const playerNicheIdx = PLAYER_CO_OBSERVER_BASIS_PRIME * (playerW + 16) + 19;
+  const playerNicheIdx = PLAYER_CO_OBSERVER_BASIS_PRIME * (playerW + 16) + 22;
   nicheValues.push(playerNicheIdx);
   facets.push({
     facetKey: 'player-co-observer',
@@ -1426,7 +1431,7 @@ export function evaluateObserver20FacetDifferentiationAndAffinity(params: {
     if (p > 0) shannon -= p * Math.log2(p);
   }
   const shannonFunctionalDiversityBits = Number(shannon.toFixed(4));
-  const maxTheoreticalEntropyBits = Number(Math.log2(20).toFixed(4));
+  const maxTheoreticalEntropyBits = Number(Math.log2(23).toFixed(4));
 
   const baseCompiledAffinity = evaluateCompiledCuratorialAffinityPermille(fallbackW, harmonyPct);
   const polycultureBonus = Math.round(
@@ -1445,12 +1450,14 @@ export function evaluateObserver20FacetDifferentiationAndAffinity(params: {
     1000,
     Math.round((shannonFunctionalDiversityBits / maxTheoreticalEntropyBits) * 1000),
   );
+  const allDifferentiated = uniquePrimeNichesCount === 23 && shannonFunctionalDiversityBits > 4.4;
 
   return {
-    unifiedFacetTotal: 20,
+    unifiedFacetTotal: 23,
     uniquePrimeNichesCount,
-    allTwentyFacetsDifferentiated:
-      uniquePrimeNichesCount === 20 && shannonFunctionalDiversityBits > 4.2,
+    allTwentyFacetsDifferentiated: allDifferentiated,
+    allTwentyTwoFacetsDifferentiated: allDifferentiated,
+    allTwentyThreeFacetsDifferentiated: allDifferentiated,
     shannonFunctionalDiversityBits,
     maxTheoreticalEntropyBits,
     curatorialAffinityPermille,
@@ -1459,24 +1466,24 @@ export function evaluateObserver20FacetDifferentiationAndAffinity(params: {
     triuneDirectives: [
       {
         directiveId: 'physical-lawfulness',
-        title: 'Variational Physical & Structural Lawfulness',
+        title: 'Variational Physical & Structural Lawfulness (Rta)',
         fulfillmentPermille: physicalLawfulnessPermille,
         physicalAndMathematicalBasis:
           'Every structure and organism upholds gravity (g=9.80665 m/s^2), >=250mm foundation embedment, 100% arch load-path compression, orthogonal Cardan gimbals, and compound-pendulum dynamics.',
       },
       {
         directiveId: 'self-differentiation',
-        title: '20-Facet Prime-Niche Self-Differentiation',
+        title: '23-Facet Prime-Niche Self-Differentiation',
         fulfillmentPermille: differentiationPermille,
         physicalAndMathematicalBasis:
-          'All 19 Canonical Standard Models (primes 71..163) and the Embodied Player Co-Observer (prime 167) specialize along orthogonal UOR primes without homogenization (>4.20 bits Shannon diversity).',
+          'All 22 Canonical Standard Models (primes 71..179) and the Embodied Player Co-Observer (prime 181) specialize along orthogonal UOR primes without homogenization (>4.40 bits Shannon diversity).',
       },
       {
         directiveId: 'curatorial-affinity',
-        title: 'Reciprocal Curatorial Affinity & Harmonic Unity',
+        title: 'Reciprocal Curatorial Affinity & Non-Dual Unity (Tat Tvam Asi)',
         fulfillmentPermille: curatorialAffinityPermille,
         physicalAndMathematicalBasis:
-          'Shared Kuramoto phase coherence, 5-species polyculture stewardship, and minimal Euler/Tenney harmonic distance unite environment, game master, soundtrack, and player.',
+          'Shared Kuramoto phase coherence, 5-species Lokasangraha polyculture stewardship, and minimal Euler/Tenney harmonic distance unite environment, game master, soundtrack, and player.',
       },
     ],
     facets,
@@ -1491,7 +1498,7 @@ export interface VerdantTeleologySynthesisReport {
   readonly concreteSceneGroupCount: 20;
   readonly synthesizedLandmarkTotal: 5;
   readonly interactiveLithophoneWaystoneCount: 64;
-  readonly unifiedObserverFacetCount: 20;
+  readonly unifiedObserverFacetCount: 23;
   readonly orphanUnexplainedElementCount: 0;
   readonly manualNeuromorphicControlCount: 0;
   readonly sceneBijectiveClosureVerified: boolean;
@@ -1582,7 +1589,7 @@ export function evaluateVerdantTeleologySynthesis(
     concreteSceneGroupCount: 20,
     synthesizedLandmarkTotal: 5,
     interactiveLithophoneWaystoneCount: 64,
-    unifiedObserverFacetCount: 20,
+    unifiedObserverFacetCount: 23,
     orphanUnexplainedElementCount: 0,
     manualNeuromorphicControlCount: 0,
     sceneBijectiveClosureVerified,

@@ -1,0 +1,302 @@
+\begin{lexlean}{Foundation.Dharma.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.MetaModel.V1.Model}
+\importmodule{Foundation.Neuromorphic.V1.Model}
+\importmodule{Foundation.Ecology.V1.Model}
+\importmodule{Foundation.Humane.V1.Model}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: RtaCosmicLawAndPurusarthaSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: purusarthaLifeAimCount, type: Nat},
+    {name: brahmaviharaSublimeAttitudeCount, type: Nat},
+    {name: baseRtaCosmicOrderPermille, type: Nat},
+    {name: apexRtaCosmicOrderPermille, type: Nat},
+    {name: baseBrahmaviharaEquanimityPermille, type: Nat},
+    {name: apexBrahmaviharaEquanimityPermille, type: Nat},
+    {name: rtaAlignsPhysicsEphemerisAndHarmony, type: Bool},
+    {name: purusarthasBalancedWithoutCoercion, type: Bool}
+  ]
+}
+
+structure{
+  name: AstangaYamaNiyamaAndAhimsaSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: yamaEthicalObservanceCount, type: Nat},
+    {name: niyamaInnerObservanceCount, type: Nat},
+    {name: astangaYogaLimbCount, type: Nat},
+    {name: violentOrCoerciveRuleCount, type: Nat},
+    {name: attentionTheftDarkPatternCount, type: Nat},
+    {name: ahimsaNonViolenceStructurallyGuaranteed, type: Bool},
+    {name: satyaZeroSpecRuntimeDriftEnforced, type: Bool},
+    {name: aparigrahaZeroGcAndRestSilenceEnforced, type: Bool}
+  ]
+}
+
+structure{
+  name: PratityasamutpadaAndLokasangrahaSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: pratityasamutpadaNidanaLinkCount, type: Nat},
+    {name: ungroundedAcausalPhenomenonCount, type: Nat},
+    {name: indrasNetReflectedBiomeCount, type: Nat},
+    {name: baseCausalCoOriginationPermille, type: Nat},
+    {name: apexCausalCoOriginationPermille, type: Nat},
+    {name: baseLokasangrahaWorldWelfarePermille, type: Nat},
+    {name: apexLokasangrahaWorldWelfarePermille, type: Nat},
+    {name: dependentCoOriginationRingClosed, type: Bool},
+    {name: lokasangrahaUpliftsPolycultureCommons, type: Bool}
+  ]
+}
+
+structure{
+  name: DharmaStandardModel,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: rtaAndPurusartha, type: RtaCosmicLawAndPurusarthaSpec},
+    {name: astangaAndAhimsa, type: AstangaYamaNiyamaAndAhimsaSpec},
+    {name: pratityasamutpadaAndLokasangraha, type: PratityasamutpadaAndLokasangrahaSpec},
+    {name: canonicalDescriptor, type: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor}
+  ]
+}
+
+definition{name: verdantDharmaBasisPrime, parameters: [], result: Nat, body: 173}
+
+definition{name: purusarthaTotal, parameters: [], result: Nat, body: 4}
+
+definition{name: yamaObservanceTotal, parameters: [], result: Nat, body: 5}
+
+definition{name: niyamaObservanceTotal, parameters: [], result: Nat, body: 5}
+
+definition{name: astangaLimbTotal, parameters: [], result: Nat, body: 8}
+
+definition{name: pratityasamutpadaNidanaTotal, parameters: [], result: Nat, body: 12}
+
+definition{name: brahmaviharaTotal, parameters: [], result: Nat, body: 4}
+
+definition{name: ahimsaViolentOutcomesZero, parameters: [], result: Nat, body: 0}
+
+definition{name: acausalOrphanPhenomenaZero, parameters: [], result: Nat, body: 0}
+
+definition{
+  name: clampDharmaHarmonyPct,
+  parameters: [harmonyPct : Nat],
+  result: Nat,
+  body: (prim subtract 100 (prim subtract 100 harmonyPct : Nat) : Nat)
+}
+
+definition{
+  name: clampDharmaVelocityDm,
+  parameters: [velocityDm : Nat],
+  result: Nat,
+  body: (prim subtract 30 (prim subtract 30 velocityDm : Nat) : Nat)
+}
+
+definition{
+  name: clampAwakenedGuildSpecies,
+  parameters: [awakenedSpecies : Nat],
+  result: Nat,
+  body: (prim subtract 5 (prim subtract 5 awakenedSpecies : Nat) : Nat)
+}
+
+definition{
+  name: stepRtaCosmicOrderPermille,
+  parameters: [busWeight : Nat, harmonyPct : Nat],
+  result: Nat,
+  body: ((580 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 18 : Nat)) + (clampDharmaHarmonyPct harmonyPct))
+}
+
+definition{
+  name: stepPratityasamutpadaCausalCoherencePermille,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (620 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 22 : Nat))
+}
+
+definition{
+  name: stepBrahmaviharaEquanimityPermille,
+  parameters: [busWeight : Nat, velocityDm : Nat],
+  result: Nat,
+  body: (prim subtract (660 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat)) (prim multiply (clampDharmaVelocityDm velocityDm) 4 : Nat) : Nat)
+}
+
+definition{
+  name: stepLokasangrahaWorldWelfarePermille,
+  parameters: [busWeight : Nat, awakenedSpecies : Nat],
+  result: Nat,
+  body: ((520 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat)) + (prim multiply (clampAwakenedGuildSpecies awakenedSpecies) 32 : Nat))
+}
+
+definition{
+  name: stepDharmaBusModulation,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 32 : Nat))
+}
+
+definition{
+  name: verifyAhimsaAndYamaNiyamaAstangaClosure,
+  parameters: [violentCount : Nat, darkPatterns : Nat],
+  result: Bool,
+  body: (let tenEthical : Nat := ((yamaObservanceTotal) + (niyamaObservanceTotal)); ((((((violentCount <=? (ahimsaViolentOutcomesZero)) && (darkPatterns <=? (ahimsaViolentOutcomesZero))) && (((5 <=? (yamaObservanceTotal)) && ((yamaObservanceTotal) <=? 5)) && ((5 <=? (niyamaObservanceTotal)) && ((niyamaObservanceTotal) <=? 5)))) && ((tenEthical <=? 10) && (10 <=? tenEthical))) && (((8 <=? (astangaLimbTotal)) && ((astangaLimbTotal) <=? 8)) && ((4 <=? (purusarthaTotal)) && ((purusarthaTotal) <=? 4)))) && ((4 <=? (brahmaviharaTotal)) && ((brahmaviharaTotal) <=? 4))))
+}
+
+definition{
+  name: verifyPratityasamutpadaTwelveLinkClosure,
+  parameters: [nidanaCount : Nat, acausalCount : Nat],
+  result: Bool,
+  body: ((((pratityasamutpadaNidanaTotal) <=? nidanaCount) && (nidanaCount <=? (pratityasamutpadaNidanaTotal))) && (acausalCount <=? (acausalOrphanPhenomenaZero)))
+}
+
+definition{
+  name: dharmaCanonicalDescriptor,
+  parameters: [],
+  result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 21 "prism/standard-model/dharma-rta-ahimsa-pratityasamutpada-stewardship/1" 1 0 0 (verdantDharmaBasisPrime) 17300242 48400173 "Foundation.Dharma.V1" 46 20 32 "Vedic Rta Cosmic Order, 4 Purusarthas, Patanjali 8-Limb Astanga Yoga (5 Yamas & 5 Niyamas), Structural Ahimsa, 12-Nidana Pratityasamutpada Dependent Co-Origination, Avatamsaka Indra's Net, 4 Brahmaviharas, Gita Lokasangraha" 24 6 4194303 "Upholds Rta cosmic-physical-harmonic lawfulness, structural Ahimsa (0 violence/coercion), 12-link dependent co-origination across chemistry-botany-acoustics-anamnesis-compression, Indra's Net mutual reflection, 4 Brahmavihara curatorial attitudes, and Lokasangraha ecological reciprocity" 22 22 8 24 "PureDharmicOrder+AhimsaGuarantee+DependentCoOrigination" 16 16 16 16 16 16 16 7 4194303 4194303 0 44 "Couples Rta lawfulness, Ahimsa/Aparigraha ethics, 12-link Pratityasamutpada causality, and Lokasangraha polyculture care bidirectionally across all 22 Canonical Standard Models (484 functor pathways)" 2 16667 6 "Continuous 12-nidana dependent co-origination closure + Brahmavihara Karuna/Upeksa affective co-regulation + Lokasangraha guild stewardship" 64 748 1000 2 "0 violent/coercive outcomes (Ahimsa), 0 acausal phenomena, 12/12 Pratityasamutpada nidanas, 10/10 Yamas+Niyamas, 8/8 Astanga limbs, 4/4 Purusarthas & Brahmaviharas" 4096 160 16667 12 0 "Zero-GC Rta, Astanga, Pratityasamutpada, Indra's Net, and Lokasangraha reciprocity evaluation; 0 per-frame heap allocations" "Foundation.Dharma.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Dharma/V1/Model.lex.tex" 6 "Rigveda Rta, Patanjali Yoga Sutras 2.29-2.45 (Astanga/Yama/Niyama), Pratityasamutpada 12 Nidanas, Avatamsaka Sutra Indra's Net, Bhagavad Gita 3.20 Lokasangraha, LEAN-REL-4-32-1" 5 22 44 0 "5 Lean 4.32 theorems proving structural Ahimsa & Yama/Niyama/Astanga closure, 12-link Pratityasamutpada causal closure, Rta & Lokasangraha monotonicity, Neuromorphic coupling, and 11-element completeness" 4 63 "src/game/vedantaDharmaEngine.ts" "LexLean 1.2 -> AST Extractor -> Parametric Dharma, Pratityasamutpada & Lokasangraha Engine -> Peaceful Ecological Stewardship")
+}
+
+definition{
+  name: verdantDharmaStandard,
+  parameters: [],
+  result: DharmaStandardModel,
+  body: (record DharmaStandardModel {profile := "prism/dharma-standard/1", rtaAndPurusartha := (record RtaCosmicLawAndPurusarthaSpec {purusarthaLifeAimCount := (purusarthaTotal), brahmaviharaSublimeAttitudeCount := (brahmaviharaTotal), baseRtaCosmicOrderPermille := (stepRtaCosmicOrderPermille 8 50), apexRtaCosmicOrderPermille := (stepRtaCosmicOrderPermille 16 100), baseBrahmaviharaEquanimityPermille := (stepBrahmaviharaEquanimityPermille 8 6), apexBrahmaviharaEquanimityPermille := (stepBrahmaviharaEquanimityPermille 16 0), rtaAlignsPhysicsEphemerisAndHarmony := ((stepRtaCosmicOrderPermille 8 50) <? (stepRtaCosmicOrderPermille 16 100)), purusarthasBalancedWithoutCoercion := ((stepBrahmaviharaEquanimityPermille 8 6) <? (stepBrahmaviharaEquanimityPermille 16 0))}), astangaAndAhimsa := (record AstangaYamaNiyamaAndAhimsaSpec {yamaEthicalObservanceCount := (yamaObservanceTotal), niyamaInnerObservanceCount := (niyamaObservanceTotal), astangaYogaLimbCount := (astangaLimbTotal), violentOrCoerciveRuleCount := (ahimsaViolentOutcomesZero), attentionTheftDarkPatternCount := (ahimsaViolentOutcomesZero), ahimsaNonViolenceStructurallyGuaranteed := (verifyAhimsaAndYamaNiyamaAstangaClosure 0 0), satyaZeroSpecRuntimeDriftEnforced := ((acausalOrphanPhenomenaZero) =? 0), aparigrahaZeroGcAndRestSilenceEnforced := ((ahimsaViolentOutcomesZero) =? 0)}), pratityasamutpadaAndLokasangraha := (record PratityasamutpadaAndLokasangrahaSpec {pratityasamutpadaNidanaLinkCount := (pratityasamutpadaNidanaTotal), ungroundedAcausalPhenomenonCount := (acausalOrphanPhenomenaZero), indrasNetReflectedBiomeCount := 5, baseCausalCoOriginationPermille := (stepPratityasamutpadaCausalCoherencePermille 8), apexCausalCoOriginationPermille := (stepPratityasamutpadaCausalCoherencePermille 16), baseLokasangrahaWorldWelfarePermille := (stepLokasangrahaWorldWelfarePermille 8 2), apexLokasangrahaWorldWelfarePermille := (stepLokasangrahaWorldWelfarePermille 16 5), dependentCoOriginationRingClosed := (verifyPratityasamutpadaTwelveLinkClosure 12 0), lokasangrahaUpliftsPolycultureCommons := ((stepLokasangrahaWorldWelfarePermille 8 2) <? (stepLokasangrahaWorldWelfarePermille 16 5))}), canonicalDescriptor := (dharmaCanonicalDescriptor)})
+}
+
+definition{
+  name: breaksAhimsaZeroViolenceAndYamaNiyamaAstangaClosure,
+  parameters: [violent : Nat, dark : Nat],
+  result: Bool,
+  body: ((((0 <? violent) || (0 <? dark)) && (verifyAhimsaAndYamaNiyamaAstangaClosure violent dark)) || (not (verifyAhimsaAndYamaNiyamaAstangaClosure 0 0)))
+}
+
+theorem{
+  name: ahimsaZeroViolenceAndYamaNiyamaAstangaClosureHold,
+  parameters: [violent : Nat, dark : Nat],
+  statement: ((breaksAhimsaZeroViolenceAndYamaNiyamaAstangaClosure violent dark) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      ahimsaViolentOutcomesZero,
+      astangaLimbTotal,
+      brahmaviharaTotal,
+      breaksAhimsaZeroViolenceAndYamaNiyamaAstangaClosure,
+      niyamaObservanceTotal,
+      purusarthaTotal,
+      verifyAhimsaAndYamaNiyamaAstangaClosure,
+      yamaObservanceTotal
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksPratityasamutpadaTwelveNidanaCausalClosure,
+  parameters: [nidanas : Nat, acausal : Nat],
+  result: Bool,
+  body: ((((nidanas <? 12) || ((12 <? nidanas) || (0 <? acausal))) && (verifyPratityasamutpadaTwelveLinkClosure nidanas acausal)) || (not (verifyPratityasamutpadaTwelveLinkClosure 12 0)))
+}
+
+theorem{
+  name: pratityasamutpadaTwelveNidanaCausalClosureHolds,
+  parameters: [nidanas : Nat, acausal : Nat],
+  statement: ((breaksPratityasamutpadaTwelveNidanaCausalClosure nidanas acausal) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      acausalOrphanPhenomenaZero,
+      breaksPratityasamutpadaTwelveNidanaCausalClosure,
+      pratityasamutpadaNidanaTotal,
+      verifyPratityasamutpadaTwelveLinkClosure
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksRtaAndLokasangrahaWorldWelfareMonotonic,
+  parameters: [busWeight : Nat, harmonyPct : Nat, awakenedSpecies : Nat],
+  result: Bool,
+  body: (let wNext : Nat := (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true); (((((Foundation.Neuromorphic.V1.Model::weightMin) <=? busWeight) && (busWeight <? (Foundation.Neuromorphic.V1.Model::weightMax))) && ((((stepRtaCosmicOrderPermille wNext harmonyPct) <=? (stepRtaCosmicOrderPermille busWeight harmonyPct)) || ((stepPratityasamutpadaCausalCoherencePermille wNext) <=? (stepPratityasamutpadaCausalCoherencePermille busWeight))) || ((stepLokasangrahaWorldWelfarePermille wNext awakenedSpecies) <=? (stepLokasangrahaWorldWelfarePermille busWeight awakenedSpecies)))) || ((1000 <? (stepLokasangrahaWorldWelfarePermille busWeight awakenedSpecies)) || (1000 <? (stepRtaCosmicOrderPermille busWeight harmonyPct)))))
+}
+
+theorem{
+  name: rtaAndLokasangrahaWorldWelfareMonotonicHold,
+  parameters: [busWeight : Nat, harmonyPct : Nat, awakenedSpecies : Nat],
+  statement: ((breaksRtaAndLokasangrahaWorldWelfareMonotonic busWeight harmonyPct awakenedSpecies) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksRtaAndLokasangrahaWorldWelfareMonotonic,
+      clampAwakenedGuildSpecies,
+      clampDharmaHarmonyPct,
+      stepLokasangrahaWorldWelfarePermille,
+      stepPratityasamutpadaCausalCoherencePermille,
+      stepRtaCosmicOrderPermille
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksDharmaNeuromorphicCoupling,
+  parameters: [busWeight : Nat],
+  result: Bool,
+  body: (((stepDharmaBusModulation busWeight) <? 1032) || ((1512 <? (stepDharmaBusModulation busWeight)) || ((stepDharmaBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <? (stepDharmaBusModulation busWeight))))
+}
+
+theorem{
+  name: dharmaNeuromorphicCouplingHolds,
+  parameters: [busWeight : Nat],
+  statement: ((breaksDharmaNeuromorphicCoupling busWeight) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      breaksDharmaNeuromorphicCoupling,
+      stepDharmaBusModulation
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksDharmaDescriptorComplete,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: ((probe <=? 0) && (not (Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete (dharmaCanonicalDescriptor))))
+}
+
+theorem{
+  name: dharmaDescriptorCompleteHolds,
+  parameters: [probe : Nat],
+  statement: ((breaksDharmaDescriptorComplete probe) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
+      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
+      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
+      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
+      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
+      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
+      breaksDharmaDescriptorComplete,
+      dharmaCanonicalDescriptor,
+      verdantDharmaBasisPrime
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

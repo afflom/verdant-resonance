@@ -58,9 +58,9 @@ export const CIE_D65_WHITEPOINT: CieXyzD65 = Object.freeze({
 
 export const VISIBLE_MIN_NM = 380;
 export const VISIBLE_MAX_NM = 780;
-const MAX_ADAPTIVE_BANDS = 81;
+export const MAX_ADAPTIVE_BANDS = 401; // Authoritative 1 nm CIE 015:2018 HD resolution (380..780 nm)
 
-// Pre-allocated zero-GC scratch arrays for spectral integration
+// Pre-allocated zero-GC 64-bit IEEE-754 Binary64 scratch arrays for 1nm HD spectral integration
 const SCRATCH_WAVELENGTHS = new Float64Array(MAX_ADAPTIVE_BANDS);
 const SCRATCH_ILLUMINANT = new Float64Array(MAX_ADAPTIVE_BANDS);
 const SCRATCH_REFLECTANCE = new Float64Array(MAX_ADAPTIVE_BANDS);
@@ -167,8 +167,9 @@ export function evaluateChlorophyllFoliageReflectance(
 }
 
 /**
- * Airy multi-beam thin-film interference reflectance `R(lambda, d_nm, n_film, cosTheta)`
- * for iridescent botanical cuticles and piezoelectric crystal oxide films (`180-680 nm`).
+ * Airy multi-beam Fabry-Perot thin-film interference reflectance `R(lambda, d_nm, n_film, cosTheta)`
+ * for iridescent botanical cuticles and piezoelectric crystal oxide films (`180-680 nm`),
+ * including Cauchy optical dispersion `n_1(lambda) = n_film + B / lambda^2` and dual s/p Fresnel polarization.
  */
 export function evaluateAiryThinFilmReflectance(
   wavelengthNm: number,
@@ -177,12 +178,16 @@ export function evaluateAiryThinFilmReflectance(
   cosThetaIncident: number = 0.85,
 ): number {
   const n0 = 1.0;
-  const n1 = Math.max(1.2, filmRefractiveIndex);
-  const sinTheta0Sq = Math.max(0, 1 - cosThetaIncident * cosThetaIncident);
-  const cosTheta1 = Math.sqrt(Math.max(0.04, 1 - (n0 * n0 * sinTheta0Sq) / (n1 * n1)));
-  const r01 = (n0 * cosThetaIncident - n1 * cosTheta1) / (n0 * cosThetaIncident + n1 * cosTheta1);
-  const R = r01 * r01;
-  const deltaPhase = (4 * Math.PI * n1 * filmThicknessNm * cosTheta1) / wavelengthNm;
+  const cauchyDispersion = 4200 / (wavelengthNm * wavelengthNm);
+  const n1 = Math.max(1.2, filmRefractiveIndex + cauchyDispersion);
+  const cos0 = Math.max(0.05, Math.min(1.0, cosThetaIncident));
+  const sinTheta0Sq = Math.max(0, 1 - cos0 * cos0);
+  const cos1 = Math.sqrt(Math.max(0.04, 1 - (n0 * n0 * sinTheta0Sq) / (n1 * n1)));
+  // Unpolarized average of s- and p-polarized Fresnel amplitude reflections
+  const rs = (n0 * cos0 - n1 * cos1) / (n0 * cos0 + n1 * cos1);
+  const rp = (n1 * cos0 - n0 * cos1) / (n1 * cos0 + n0 * cos1);
+  const R = Math.min(0.92, 0.5 * (rs * rs + rp * rp));
+  const deltaPhase = (4 * Math.PI * n1 * filmThicknessNm * cos1) / wavelengthNm;
   const sinHalf = Math.sin(0.5 * deltaPhase);
   const airyFinesse = (4 * R) / Math.pow(1 - R, 2);
   const reflectance = (airyFinesse * sinHalf * sinHalf) / (1 + airyFinesse * sinHalf * sinHalf);
@@ -191,7 +196,8 @@ export function evaluateAiryThinFilmReflectance(
 
 /**
  * Numerically integrates a reflectance SPD `R(lambda)` under illuminant `I(lambda)` over `380-780 nm`
- * using `bandCount` samples (`13..81`) into D65-adapted CIE 1931 XYZ. Zero heap allocations!
+ * using `bandCount` samples (`13..401`, reaching authoritative `1 nm` CIE 015:2018 HD at `401` bands)
+ * into D65-adapted CIE 1931 XYZ in 64-bit IEEE-754 precision. Zero heap allocations!
  */
 export function integrateSpectralReflectanceToXyzD65(
   reflectanceFn: (wavelengthNm: number) => number,

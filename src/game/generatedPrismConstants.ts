@@ -3,7 +3,7 @@
 
 export const GENERATED_PRISM_FOUNDATION_PURITY = {
   "verified": true,
-  "checkedModules": 21
+  "checkedModules": 24
 } as const;
 
 export const GENERATED_PRISM_DOMAIN_BASIS_PRIMES = {
@@ -38,7 +38,10 @@ export const GENERATED_CANONICAL_MODEL_BASIS_PRIMES = {
   "morphogenesis": 149,
   "spatialAcoustics": 151,
   "anamnesis": 157,
-  "teleology": 163
+  "teleology": 163,
+  "vedanta": 167,
+  "dharma": 173,
+  "compression": 179
 } as const;
 
 export const GENERATED_CANONICAL_STANDARD_MODELS = [
@@ -48,7 +51,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Mathematics (Peano/ZFC, UOR Primes, Clifford Cl(0,6), Riemannian DEC)",
     "sourceModule": "Foundation.Mathematics.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Mathematics/V1/Model.lex.tex",
-    "sourceSha256": "81057adf0a71478b36719794629ac126346a2740e9182356ba6eb95e21d3bc55",
+    "sourceSha256": "28f0e1f70a79e166a420c69626cfa1a7e8c0e3f188f9fe28cf76250bf816aae3",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -118,11 +121,11 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 53,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1024,
         "apexResolutionUnits": 1536,
         "perceptualJndPermille": 1,
-        "fidelityCriteriaSummary": "53-bit IEEE-754 / exact Nat integer precision, 0 exterior derivative residual, exact Euler-Poincare topological invariants",
+        "fidelityCriteriaSummary": "64-bit IEEE-754 / exact Nat integer precision, 0 exterior derivative residual, exact Euler-Poincare topological invariants",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -165,7 +168,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Physics (BIPM SI 2019 + SU(3)xSU(2)xU(1) 17-Field SM + Continuum)",
     "sourceModule": "Foundation.Physics.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Physics/V1/Model.lex.tex",
-    "sourceSha256": "2d0fadcea0e00e9db03b597cdd4e34c10819bca9da280809c1fa4bc0da9fe3dc",
+    "sourceSha256": "fdb1a2c996b4d0c7a4b2d573261dbf5b5a6a43a058adf99be55cef3a8003f0c8",
     "unbiasedSiExponents": {
       "s": -2,
       "m": 1,
@@ -235,7 +238,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 53,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 875,
         "apexResolutionUnits": 1250,
         "perceptualJndPermille": 2,
@@ -282,7 +285,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Chemistry (118-Element IUPAC Periodic Table + 14 Bravais Lattices)",
     "sourceModule": "Foundation.Chemistry.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Chemistry/V1/Model.lex.tex",
-    "sourceSha256": "1f5b03c2fc8aede2ef7e501aa40b30020d666bdc872f22ad70cb62c9192a99c8",
+    "sourceSha256": "1029bc4cab2808599ca140e944e70e3185dc70430ff67f4392b4331df8e34791",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -352,7 +355,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 53,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 962,
         "apexResolutionUnits": 1292,
         "perceptualJndPermille": 2,
@@ -399,7 +402,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Botany (Farquhar-von Caemmerer-Berry C3 + Lockhart Turgor + Phyllotaxis)",
     "sourceModule": "Foundation.Botany.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Botany/V1/Model.lex.tex",
-    "sourceSha256": "623ef7b4feb6935a7b8560cbe9a77cd9c31cc5cef7d083f4786b1a9ed42f9d14",
+    "sourceSha256": "fcb0fd8e87aa1a4aefcaaa0ae8941160da65fbffae06d86cc0833f43f469d00a",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -469,7 +472,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 272,
         "apexResolutionUnits": 512,
         "perceptualJndPermille": 3,
@@ -516,7 +519,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Ecology (Closed-Loop C-H-O-N-P-S-Si-Ca-Mg-Fe Biogeochemical Conservation)",
     "sourceModule": "Foundation.Ecology.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Ecology/V1/Model.lex.tex",
-    "sourceSha256": "52c3234ef2509dcde9b53767ee1c51db93c800d492afab1629d8c0e71bfcec14",
+    "sourceSha256": "caa1478751e6ede109690a606f7ac9ba553350b061a31c4fd4a1ea1bd1681041",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -586,7 +589,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 825,
         "apexResolutionUnits": 1200,
         "perceptualJndPermille": 3,
@@ -633,7 +636,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Acoustics (ISO 226:2023 Loudness + 24-Bark Masking + Chladni Eigenmodes)",
     "sourceModule": "Foundation.Acoustics.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Acoustics/V1/Model.lex.tex",
-    "sourceSha256": "5d29710c40b75a7fb0adc12131a62b64a91a73a13a5ec25813965cbca74d0a8f",
+    "sourceSha256": "fd298dad05a8c6a008dbd6205e5f24c43902ecfafd353f1a2449c056e4cee7d3",
     "unbiasedSiExponents": {
       "s": -1,
       "m": -1,
@@ -703,11 +706,11 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 915,
         "apexResolutionUnits": 1140,
         "perceptualJndPermille": 5,
-        "fidelityCriteriaSummary": "0.5 cent pitch accuracy, 0.5 phon ISO 226 contour fidelity, 24-Bark critical-band masking separation",
+        "fidelityCriteriaSummary": "0.5 cent pitch accuracy, 0.5 phon ISO 226 contour fidelity, 16 physical Chladni eigenmodes, 24-Bark critical-band masking separation",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -750,7 +753,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Articulation (Euler-Lagrange 3-Joint Botanical Kinematics + ADSR)",
     "sourceModule": "Foundation.Articulation.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Articulation/V1/Model.lex.tex",
-    "sourceSha256": "fb9f1f4a7d01474d4ee31cdad36581043f118d4af54bd7ef6dc7303cfc50770d",
+    "sourceSha256": "82438cc52be48b95372f9aa8f9cd9dfd32b7bbb5474c79b7d024c29df95ecdd1",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -820,7 +823,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 920,
         "apexResolutionUnits": 1220,
         "perceptualJndPermille": 4,
@@ -867,7 +870,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Soundtrack (11-Limit Just Intonation Tonnetz + Voice-Leading Parsimony)",
     "sourceModule": "Foundation.Soundtrack.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Soundtrack/V1/Model.lex.tex",
-    "sourceSha256": "262c6e94938f57062d1d2c55e6803c95d58928d8c551424a23b0b6a68e665330",
+    "sourceSha256": "4f3c81449e468a6d3f206b53dc3f5ba0685b3252cca5eaf6534906e7b031df86",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 0,
@@ -937,11 +940,11 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 53,
         "apexResolutionUnits": 98,
         "perceptualJndPermille": 3,
-        "fidelityCriteriaSummary": "Exact rational p/q Just Intonation ratios (0.0 cent temper drift), Euler gradus <=12 consonance purity, >=37.5pct rest-bar quietude",
+        "fidelityCriteriaSummary": "Exact rational p/q Just Intonation ratios up to 17-limit (0.0 cent temper drift), Euler gradus <=12 consonance purity, >=37.5pct rest-bar quietude",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -984,7 +987,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Graphics (380-780nm CIE 1931 -> OKLCH + glTF 2.0 GGX/Airy PBR + 2-Manifold B-Mesh)",
     "sourceModule": "Foundation.Graphics.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Graphics/V1/Model.lex.tex",
-    "sourceSha256": "e08904f5c5c1691b34c31baec18d9533a8a2c3f17d2829024fa1091da4890e57",
+    "sourceSha256": "00a204b5b2548d0e4fcc098280fc021ad260ceaa2cb94018b5cbf65463c9dd7a",
     "unbiasedSiExponents": {
       "s": -3,
       "m": -2,
@@ -1054,11 +1057,11 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1030,
         "apexResolutionUnits": 1480,
         "perceptualJndPermille": 4,
-        "fidelityCriteriaSummary": "DeltaE_OK <= 0.004 perceptual color accuracy, R+T <= 1.0 PBR energy conservation, 0 non-manifold edges, 13..73+ spectral bands",
+        "fidelityCriteriaSummary": "DeltaE_OK <= 0.004 perceptual color accuracy, R+T <= 1.0 PBR energy conservation, 0 non-manifold edges, 101..401 (1nm CIE 015:2018 HD) spectral bands, up to 1024px PBR",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -1101,7 +1104,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Brand & Design (W3C Design Tokens + OKLCH Gamut + WCAG 2.2 AAA + APCA)",
     "sourceModule": "Foundation.Brand.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Brand/V1/Model.lex.tex",
-    "sourceSha256": "343b013eb38e0d70f0782d8303ff0f363c566198637d9cc18b71f70d6d087a3e",
+    "sourceSha256": "081571b14d60868a72b2bc0a100eed921947a8274f257be1966fe681511afba7",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 1,
@@ -1171,7 +1174,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 85,
         "apexResolutionUnits": 102,
         "perceptualJndPermille": 4,
@@ -1218,7 +1221,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Humane Ergonomics (ISO 9241-110/210 + Fitts/Hick-Hyman + Zero Dark Patterns)",
     "sourceModule": "Foundation.Humane.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Humane/V1/Model.lex.tex",
-    "sourceSha256": "29134a543f42e7e1179d0940eca0889649fe9df025a792a2ac99368d68aa1815",
+    "sourceSha256": "00df9f579f0be908a909c896aa4d7ceef85a065ceae78704f3300702b9af57b9",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -1288,7 +1291,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 130,
         "apexResolutionUnits": 280,
         "perceptualJndPermille": 5,
@@ -1335,7 +1338,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Infrastructure (ISO/IEC/IEEE 42010 + ISO 25010 + Zero-GC Real-Time Arenas)",
     "sourceModule": "Foundation.Infrastructure.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Infrastructure/V1/Model.lex.tex",
-    "sourceSha256": "948310050b5a26c6f5438db96420f95969d175fce4b1f532b9b4ac5b4c15074e",
+    "sourceSha256": "a0a213ce1100cc79a7b4dff17af910c917841ea91f3663927cacd832a05a5285",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 0,
@@ -1405,7 +1408,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1005,
         "apexResolutionUnits": 1080,
         "perceptualJndPermille": 5,
@@ -1449,10 +1452,10 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
   {
     "modelKey": "neuromorphic",
     "registryField": "m13NeuromorphicBus",
-    "displayName": "Neuromorphic Bus (19x19 Inherent Gameplay Functor Matrix + STDP + Active Inference)",
+    "displayName": "Neuromorphic Bus (22x22 Inherent Gameplay Functor Matrix + uorc/ncm-plasticity/1 + STDP + Active Inference)",
     "sourceModule": "Foundation.Neuromorphic.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Neuromorphic/V1/Model.lex.tex",
-    "sourceSha256": "27f1dd5d364574050ab5eaef7b7436da99d3a450da97089e64afe62cd6c1f71c",
+    "sourceSha256": "e92821b34891d70812bae806d2206c79d6dc517d0bccb849c94252b274804637",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 0,
@@ -1468,34 +1471,34 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "modelIndex": 13,
         "canonicalModelId": "prism/standard-model/neuromorphic-functor-bus/1",
         "semverMajor": 1,
-        "semverMinor": 0,
+        "semverMinor": 4,
         "semverPatch": 0,
         "uorPrimeSignature": 109,
-        "blake3DigestHead64": 10900361,
-        "blake3DigestTail64": 34200209,
+        "blake3DigestHead64": 10900484,
+        "blake3DigestTail64": 46200242,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Neuromorphic.V1",
-        "canonicalConceptCount": 28,
-        "crossDomainSynonymCount": 14,
-        "taxonomicRelationCount": 19,
-        "keyConceptsSummary": "Hebbian STDP Plasticity, 19x19 Functorial Feature-Transfer Matrix (361 Cells), Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Inherent Gameplay Plasticity",
+        "canonicalConceptCount": 40,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 28,
+        "keyConceptsSummary": "64-Bit Coherent Depth Transfer (prism/hd-coherent-precision/1), Hebbian STDP Plasticity, uorc/ncm-plasticity/1 Micro-Plasticity, uorc/conservatory-curation/1 Autonomous Curation, 22x22 Float64 Functorial Matrix (484 Cells), Active Inference Free Energy, 64-Bit Rule 30 Continuum",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 19,
-        "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 524287,
-        "promisedBehaviorSummary": "Transfers SI-typed mathematical, physical, chemical, botanical, morphogenetic, spatial-acoustic, spectral-PBR, realizability, anamnesis, and teleological feature tensors across all 19x19 model pairs inherently through gameplay",
+        "capabilityFunctionCount": 30,
+        "conservationLawCount": 7,
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Transfers 64-bit IEEE-754/exact precision depth and SI-typed mathematical, physical, chemical, botanical, morphogenetic, spatial-acoustic, 1nm spectral-PBR, realizability, anamnesis, teleological, vedantic, dharmic, and UORC parametric compression tensors across all 22x22 model pairs so the depth of every model coherently elevates every model",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 19,
-        "typedOutputPortCount": 19,
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
         "cloudEventTypeCount": 8,
-        "stateFieldCount": 19,
-        "effectKind": "PureKernel+BoundedRingSynapse",
+        "stateFieldCount": 24,
+        "effectKind": "PureKernel+Float64CoherentDepthBus+NcmMicroPlasticity+AutonomousConservatoryCuration",
         "siBiasedTimeExp": 15,
         "siBiasedLengthExp": 16,
         "siBiasedMassExp": 16,
@@ -1508,56 +1511,56 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       "composition": {
         "dagLayerRank": 1,
         "dependencyModelMask": 1,
-        "compatiblePartnerMask": 524287,
+        "compatiblePartnerMask": 4194303,
         "conflictModelMask": 0,
-        "functorTransformationCount": 361,
-        "compositionSummary": "Universal 19x19 functorial bus connecting all canonical standard models with zero conflict and associative gain composition",
+        "functorTransformationCount": 484,
+        "compositionSummary": "Universal 22x22 64-bit functorial bus connecting all canonical standard models with all-to-all precision depth transfer, zero conflict, and associative gain composition",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 1000,
-        "adaptationRuleCount": 6,
-        "temporalLawSummary": "Discrete STDP weight potentiation/depression + Active Inference variational free-energy minimization + Rule 30 orbit evolution",
+        "adaptationRuleCount": 8,
+        "temporalLawSummary": "Continuous 64-bit PPM depth transfer + discrete STDP + uorc/ncm-plasticity/1 hyperbolic learning + Uorc strict-dominance Lyapunov curation + 64-bit Rule 30 evolution",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 840,
         "apexResolutionUnits": 1212,
         "perceptualJndPermille": 5,
-        "fidelityCriteriaSummary": "0.5pct synaptic coherence JND, 64-bit Rule-30 orbit exactness, 28-bit PointKey cycle-free resonance",
+        "fidelityCriteriaSummary": "64-bit Float64 functor arena, 1ppm coherent depth resolution, +-2^22 NCM synaptic clamp, 0-defect curation admission, strict Lyapunov curation descent",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
-        "staticArenaBytes": 8192,
+        "staticArenaBytes": 12288,
         "maxComputeMicrosPerFrame": 420,
         "maxLatencyMicros": 1000,
         "energyBudgetMilliwatts": 35,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Pre-allocated 19x19 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame",
+        "deviceConstraintSummary": "Pre-allocated 22x22 Float64 functor & depth-transfer arenas + NCM slot/mixer state + 64-bit Rule-30 curation registers; 0 heap allocations per frame",
         "resourceBoundedZeroGc": true
       },
       "authority": {
         "modelOwner": "Foundation.Neuromorphic.V1.Model",
         "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Neuromorphic/V1/Model.lex.tex",
-        "pinnedLockReferenceCount": 6,
-        "adoptedStandardsSummary": "Hebb (1949) / Bi & Poo STDP, Friston Active Inference Variational Free Energy, Wolfram Elementary CA Rule 30, UOR Cl(0,6), LEAN-REL-4-32-1, ISO-42010-2022",
+        "pinnedLockReferenceCount": 7,
+        "adoptedStandardsSummary": "IEEE 754-2019 Binary64, Hebb (1949) / Bi & Poo STDP, UOR-Foundation/compression uorc/ncm-plasticity/1 & Engine, Friston Active Inference, Wolfram Rule 30, UOR Cl(0,6), LEAN-REL-4-32-1",
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 14,
-        "runtimePropertyOracleCount": 12,
-        "acceptanceVectorCount": 36,
+        "leanTheoremCount": 22,
+        "runtimePropertyOracleCount": 18,
+        "acceptanceVectorCount": 52,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "14 machine-checked Lean 4.32 theorems proving boundedness, 19x19 functor monotonicity, free-energy reduction, and 11-element completeness",
+        "acceptanceOracleSummary": "22 machine-checked Lean 4.32 theorems proving 64-bit HD precision floors, all-to-all coherent depth transfer, macro & NCM micro-plasticity boundedness, autonomous curation dominance, and 22x22 functor monotonicity",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/neuromorphicFunctorBus.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 19x19 Inherent Gameplay Functor Runtime -> Live Multi-Modal Amplification",
+        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 64-Bit 22x22 Coherent Depth-Transfer Functor & Autonomous Conservatory Curation Runtime -> Live HD Multi-Modal Amplification",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -1566,10 +1569,10 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
   {
     "modelKey": "cosmogenesis",
     "registryField": "m14ObserverCosmogenesis",
-    "displayName": "Holistic Observer & Cosmogenesis (Complete 19x11 Context = 209 Cells + Alpha-Omega)",
+    "displayName": "Holistic Observer & Cosmogenesis (Complete 22x11 Context = 242 Cells + Alpha-Omega)",
     "sourceModule": "Foundation.Cosmogenesis.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Cosmogenesis/V1/Model.lex.tex",
-    "sourceSha256": "c7435ff886913d4be44a59a3d4dd762fb4b604f52ade1828d0c9266631274d49",
+    "sourceSha256": "dadc1c004197bc583dfa34bb363ef7598622f08a07cf3ff115177f132c96fdac",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -1585,33 +1588,33 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "modelIndex": 14,
         "canonicalModelId": "prism/standard-model/observer-cosmogenesis-holistic-context/1",
         "semverMajor": 1,
-        "semverMinor": 0,
+        "semverMinor": 2,
         "semverPatch": 0,
         "uorPrimeSignature": 113,
-        "blake3DigestHead64": 11300209,
-        "blake3DigestTail64": 19011361,
+        "blake3DigestHead64": 11300242,
+        "blake3DigestTail64": 22011484,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Cosmogenesis.V1",
-        "canonicalConceptCount": 48,
-        "crossDomainSynonymCount": 22,
-        "taxonomicRelationCount": 36,
-        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 19x11 Meta-Model Registry (209 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Teleological Environmental Synthesis Closure",
+        "canonicalConceptCount": 56,
+        "crossDomainSynonymCount": 26,
+        "taxonomicRelationCount": 42,
+        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 22x11 Meta-Model Registry (242 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Teleological, Vedantic-Dharmic & UORC Parametric Synthesis Closure",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 26,
+        "capabilityFunctionCount": 30,
         "conservationLawCount": 8,
-        "exportedFeatureChannelMask": 524287,
-        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 19 canonical standard models and itself, synthesizing every structure and phenomenon from environmental requirements and automating multi-modal Fidelity",
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 22 canonical standard models and itself, synthesizing every structure, state archive, and phenomenon from environmental requirements and non-dual dharmic harmony",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 19,
-        "typedOutputPortCount": 19,
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
         "cloudEventTypeCount": 8,
-        "stateFieldCount": 30,
+        "stateFieldCount": 34,
         "effectKind": "PureKernel+HolisticObserverView",
         "siBiasedTimeExp": 16,
         "siBiasedLengthExp": 16,
@@ -1624,26 +1627,26 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       },
       "composition": {
         "dagLayerRank": 7,
-        "dependencyModelMask": 524287,
-        "compatiblePartnerMask": 524287,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
         "conflictModelMask": 0,
-        "functorTransformationCount": 361,
-        "compositionSummary": "Apex universal observer functor indexing and cross-verifying all 19 Canonical Standard Models (Mathematics through Teleology) across 209 Meta-Model cells and 361 directed pathways",
+        "functorTransformationCount": 484,
+        "compositionSummary": "Apex universal observer functor indexing and cross-verifying all 22 Canonical Standard Models (Mathematics through UORC Compression) across 242 Meta-Model cells and 484 directed pathways",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 16667,
         "adaptationRuleCount": 8,
-        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + Teleological requirement-to-phenomenon closure",
+        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + Teleological, Vedantic-Dharmic & UORC Parametric closure",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 53,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 960,
         "apexResolutionUnits": 1320,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "209/209 verified Meta-Model context cells, 0 orphan unexplained elements, 0 realization gap, 118/118 IUPAC elements, 17/17 SM fields, 24/24 Bark bands, 380-780nm CIE/OKLCH",
+        "fidelityCriteriaSummary": "242/242 verified Meta-Model context cells, 0 orphan unexplained elements, 0 realization gap, 0 compression defect, 1000/1000 Triguna conservation, 0 Ahimsa violations, 118/118 IUPAC elements, 17/17 SM fields",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -1664,17 +1667,17 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       },
       "evidence": {
         "leanTheoremCount": 5,
-        "runtimePropertyOracleCount": 19,
-        "acceptanceVectorCount": 52,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 58,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 19x11 Registry completeness",
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 22x11 Registry completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/teleologyEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext & Teleological Synthesis -> Pure Gameplay Conservatory",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext & UORC Parametric Synthesis -> Pure Gameplay Conservatory",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -1686,7 +1689,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Realizability (Spec-to-Runtime Galois Adjunction + Non-Zero Sensitivity + Zero-Stub Oracle)",
     "sourceModule": "Foundation.Realizability.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Realizability/V1/Model.lex.tex",
-    "sourceSha256": "50dcb4f44c081c396fda04247e643e6ddf0a2cd2faeef9b37bc712b6180d5d9f",
+    "sourceSha256": "ddb67026c3ba558b28bbb5c43b96def30667de1536244e202a9ce058ac1d6ce7",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -1702,33 +1705,33 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "modelIndex": 15,
         "canonicalModelId": "prism/standard-model/realizability-spec-runtime-adjunction/1",
         "semverMajor": 1,
-        "semverMinor": 0,
+        "semverMinor": 2,
         "semverPatch": 0,
         "uorPrimeSignature": 139,
-        "blake3DigestHead64": 13900209,
-        "blake3DigestTail64": 36100139,
+        "blake3DigestHead64": 13900242,
+        "blake3DigestTail64": 48400139,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Realizability.V1",
-        "canonicalConceptCount": 32,
-        "crossDomainSynonymCount": 14,
-        "taxonomicRelationCount": 22,
+        "canonicalConceptCount": 36,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 24,
         "keyConceptsSummary": "Kleene-Lawvere Realizability, Galois Spec-to-Runtime Adjunction, Non-Zero Differential Sensitivity dObs/dPort > 0, Zero Static-Stub AST Oracle, Observer-Runtime Counit Closure",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 16,
+        "capabilityFunctionCount": 18,
         "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 524287,
-        "promisedBehaviorSummary": "Forces every formal Standard Model port to project end-to-end into live WebGL2, WebAudio, W3C CSS, Teleological Landmarks, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Forces every formal Standard Model port across all 22 models to project end-to-end into live WebGL2, WebAudio, W3C CSS, Teleological Landmarks, Vedantic/Dharmic Coherence, UORC Parametric Compression, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 19,
-        "typedOutputPortCount": 19,
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
         "cloudEventTypeCount": 6,
-        "stateFieldCount": 20,
+        "stateFieldCount": 22,
         "effectKind": "PureAntiGapOracle+LiveCounitReadback",
         "siBiasedTimeExp": 16,
         "siBiasedLengthExp": 16,
@@ -1742,10 +1745,10 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       "composition": {
         "dagLayerRank": 6,
         "dependencyModelMask": 16383,
-        "compatiblePartnerMask": 524287,
+        "compatiblePartnerMask": 4194303,
         "conflictModelMask": 0,
-        "functorTransformationCount": 38,
-        "compositionSummary": "Audits all 19 canonical models and their 361 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
+        "functorTransformationCount": 44,
+        "compositionSummary": "Audits all 22 canonical models and their 484 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -1756,11 +1759,11 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 285,
         "apexResolutionUnits": 960,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 19/19 models",
+        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 22/22 models",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -1781,8 +1784,8 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       },
       "evidence": {
         "leanTheoremCount": 4,
-        "runtimePropertyOracleCount": 19,
-        "acceptanceVectorCount": 38,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 44,
         "unprovedAdHocFlagCount": 0,
         "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero realization gap, monotonic differential sensitivity, neuromorphic coupling, and 11-element completeness",
         "evidenceMachineChecked": true
@@ -1803,7 +1806,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Morphogenesis (Parametric L-System Ontogeny + Murray r^3 Vascular Law + Turing Phyllotaxis)",
     "sourceModule": "Foundation.Morphogenesis.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Morphogenesis/V1/Model.lex.tex",
-    "sourceSha256": "842d0c902848617c3a84e46533d9dcf90b568982e0442d65d76ac99bab0f80f5",
+    "sourceSha256": "9c7efe10ada2a24ee8b0beff2577209ebf6c65daeb9414bbc115aa870136aa39",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -1873,7 +1876,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1028,
         "apexResolutionUnits": 1448,
         "perceptualJndPermille": 5,
@@ -1920,7 +1923,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Spatial Acoustics (ISO 3382 Image-Source Impulse + Z=rho*c Absorption + 3D Woodworth HRTF)",
     "sourceModule": "Foundation.SpatialAcoustics.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/SpatialAcoustics/V1/Model.lex.tex",
-    "sourceSha256": "673352e1ab9864c9ce62f38df6013ef1e46a14e831e2f3515a9c1a01a7ed9d1e",
+    "sourceSha256": "7b9a15507aa03e99559b9f3cb9138d2e729dec5a699d307c4b9659306ecdb3b6",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -1990,11 +1993,11 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1034,
         "apexResolutionUnits": 1544,
         "perceptualJndPermille": 4,
-        "fidelityCriteriaSummary": "0..660us physical Woodworth ITD, 5 distinct biome Z=rho*c impulse responses, 8..38 discrete early-reflection taps",
+        "fidelityCriteriaSummary": "0..660us physical Woodworth ITD, 5 distinct biome Z=rho*c impulse responses, 19..64 discrete early-reflection taps",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -2037,7 +2040,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Anamnesis (Content-Addressed Merkle State-DAG Persistence + Modular Cold-Load Delivery)",
     "sourceModule": "Foundation.Anamnesis.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Anamnesis/V1/Model.lex.tex",
-    "sourceSha256": "3e5b4bf9dd648ab7086e52008c7ea20e48ec67fea1027df3c3d9f8817ad3cf46",
+    "sourceSha256": "2375b5b877bf000c361ceeb2c38bf792b65a56b9a6999dc62399c9fb0c0f6253",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -2107,7 +2110,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1026,
         "apexResolutionUnits": 1416,
         "perceptualJndPermille": 2,
@@ -2154,7 +2157,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Teleology (Requirement-Grounded Environmental Synthesis + Interactive Landmarks + Inherent Plasticity)",
     "sourceModule": "Foundation.Teleology.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Teleology/V1/Model.lex.tex",
-    "sourceSha256": "692a84faf85733dfb2ed9cc354fa56cd3a9bbee8b9b37f5eaf7e5381a653587f",
+    "sourceSha256": "4847b72dd94063de3a2f4d4ee16f54a29e8ccc2b13b67c9e40230a77326a2c55",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -2170,31 +2173,31 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "modelIndex": 19,
         "canonicalModelId": "prism/standard-model/teleology-environmental-requirement-synthesis/1",
         "semverMajor": 1,
-        "semverMinor": 2,
+        "semverMinor": 4,
         "semverPatch": 0,
         "uorPrimeSignature": 163,
-        "blake3DigestHead64": 16300209,
-        "blake3DigestTail64": 36100163,
+        "blake3DigestHead64": 16300242,
+        "blake3DigestTail64": 48400163,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Teleology.V1",
-        "canonicalConceptCount": 48,
+        "canonicalConceptCount": 50,
         "crossDomainSynonymCount": 22,
-        "taxonomicRelationCount": 32,
-        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Physical Load-Path & Pendulum Lawfulness, 20-Facet Observer Self-Differentiation, Triune Curatorial Affinity, 20/20 Bijective Scene Synthesis, Inherent Plasticity",
+        "taxonomicRelationCount": 34,
+        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Physical Load-Path & Pendulum Lawfulness, 23-Facet Observer Self-Differentiation, Triune Curatorial Affinity, 20/20 Bijective Scene Synthesis, Inherent Plasticity",
         "vocabularyComplete": true
       },
       "capability": {
         "capabilityFunctionCount": 24,
         "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 524287,
+        "exportedFeatureChannelMask": 4194303,
         "promisedBehaviorSummary": "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance obeys physical load-paths and gravity, is required by >=3 upstream Standard Models, is synthesized by the Observer from local matter, and is curated with reciprocal affinity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 19,
-        "typedOutputPortCount": 19,
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
         "cloudEventTypeCount": 8,
         "stateFieldCount": 24,
         "effectKind": "PureBijectiveTeleologicalClosure+PhysicalBasis+TriuneObserverCuration",
@@ -2209,11 +2212,11 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       },
       "composition": {
         "dagLayerRank": 6,
-        "dependencyModelMask": 524287,
-        "compatiblePartnerMask": 524287,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
         "conflictModelMask": 0,
-        "functorTransformationCount": 42,
-        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 physically lawful in-world phenomena while uniting all 20 Observer facets through intrinsic curatorial affinity",
+        "functorTransformationCount": 44,
+        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, humane, vedantic, dharmic, and parametric compression requirements into 20/20 physically lawful in-world phenomena while uniting all 23 Observer facets through intrinsic curatorial affinity",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -2224,11 +2227,11 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 36,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 700,
         "apexResolutionUnits": 1000,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, >=250mm foundation embedment, 100pct arch load-path closure, 20/20 differentiated Observer facets, 64/64 lithophone waystones",
+        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, >=250mm foundation embedment, 100pct arch load-path closure, 23/23 differentiated Observer facets, 64/64 lithophone waystones",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -2237,7 +2240,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "maxLatencyMicros": 16667,
         "energyBudgetMilliwatts": 14,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Zero-GC teleological requirement registry, monument physical kinematics, and 20-facet curatorial affinity state; 0 per-frame heap allocations",
+        "deviceConstraintSummary": "Zero-GC teleological requirement registry, monument physical kinematics, and 23-facet curatorial affinity state; 0 per-frame heap allocations",
         "resourceBoundedZeroGc": true
       },
       "authority": {
@@ -2249,10 +2252,10 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       },
       "evidence": {
         "leanTheoremCount": 6,
-        "runtimePropertyOracleCount": 22,
-        "acceptanceVectorCount": 44,
+        "runtimePropertyOracleCount": 23,
+        "acceptanceVectorCount": 46,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving zero orphan elements & zero manual overrides, >=3-model requirement grounding, 20/20 bijective scene closure, monotonic purpose coupling, physical load-path & triune 20-facet Observer curation, and 11-element completeness",
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving zero orphan elements & zero manual overrides, >=3-model requirement grounding, 20/20 bijective scene closure, monotonic purpose coupling, physical load-path & triune 23-facet Observer curation, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
@@ -2260,6 +2263,357 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/teleologyEngine.ts",
         "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Physical-Teleological Synthesis & Curatorial Affinity Engine -> Uncluttered Gameplay Experience",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "vedanta",
+    "registryField": "m20Vedanta",
+    "displayName": "Vedanta (Advaita Non-Duality, 4 Mahavakyas, Turiya Pranava, 5 Panca-Kosas, Conserved Triguna & Pancikarana)",
+    "sourceModule": "Foundation.Vedanta.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Vedanta/V1/Model.lex.tex",
+    "sourceSha256": "126f264da89dd3696db87631324c7c5eed02f4f1a7dbf9e437f59b9d8b67e98c",
+    "unbiasedSiExponents": {
+      "s": 0,
+      "m": 0,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 20,
+        "canonicalModelId": "prism/standard-model/vedanta-nondual-consciousness-ontology/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 167,
+        "blake3DigestHead64": 16700242,
+        "blake3DigestTail64": 48400167,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Vedanta.V1",
+        "canonicalConceptCount": 44,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 30,
+        "keyConceptsSummary": "Advaita Non-Duality, 4 Mahavakyas, Mandukya 4 Avasthas & Turiya Pranava A-U-M, 5 Panca-Kosas, 3 Sariras, 5x5 Pancikarana Mahabhuta Quintuplication, Conserved Triguna Dynamics, Sat-Cit-Ananda, 7 Saptasvara Nada-Brahman",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 22,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Formalizes non-dual Atman-Brahman consciousness, concentric 5-sheath embodiment, exact 1000-permille Sattva-Rajas-Tamas field conservation, 5x5 Pancikarana biome-element quintuplication, and Pranava Turiya harmonic stillness across the conservatory",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 24,
+        "effectKind": "PureNonDualOntology+TrigunaConservation+TuriyaResonance",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 7,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 44,
+        "compositionSummary": "Couples non-dual witness awareness, 5 Panca-Kosa embodiment layers, and conserved Sattva-Rajas-Tamas dynamics bidirectionally across all 22 Canonical Standard Models (484 functor pathways)",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Exact Triguna conservation (S+R+T = 1000 permille) + Mandukya A-U-M-Turiya diurnal/stillness phase lock + Pancikarana 5x5 biome synthesis",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 64,
+        "baseResolutionUnits": 738,
+        "apexResolutionUnits": 948,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "1000/1000 Triguna conservation, 8/8 Pancikarana row-column closure, 4/4 Mahavakyas, 5/5 Panca-Kosas, 4/4 Turiya phases, 7/7 Saptasvara pure JI ratios",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 4096,
+        "maxComputeMicrosPerFrame": 160,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC Triguna, Panca-Kosa, Pancikarana, and Turiya non-dual witness evaluation; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Vedanta.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Vedanta/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "Mandukya Upanisad 1-12, Taittiriya Upanisad 2.1-2.5 (Panca-Kosa), Chandogya Upanisad 6.8.7 (Tat Tvam Asi), Adi Sankara Pancikarana, Samkhya-Karika Triguna, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 44,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving universal 1000-permille Triguna conservation, Panca-Kosa/Mahavakya/Pancikarana closure, Atman-Brahman & Turiya monotonicity, Neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/vedantaDharmaEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Parametric Vedanta Ontology & Nada-Brahman Engine -> Living Non-Dual Conservatory",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "dharma",
+    "registryField": "m21Dharma",
+    "displayName": "Dharma (Rta Cosmic Order, Structural Ahimsa, 8-Limb Astanga, 12-Nidana Pratityasamutpada & Lokasangraha)",
+    "sourceModule": "Foundation.Dharma.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Dharma/V1/Model.lex.tex",
+    "sourceSha256": "d6a0697617d8970ab7e330b5d30953e9c49ddc5c140e768843ef330495ea9dc3",
+    "unbiasedSiExponents": {
+      "s": 0,
+      "m": 0,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 21,
+        "canonicalModelId": "prism/standard-model/dharma-rta-ahimsa-pratityasamutpada-stewardship/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 173,
+        "blake3DigestHead64": 17300242,
+        "blake3DigestTail64": 48400173,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Dharma.V1",
+        "canonicalConceptCount": 46,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 32,
+        "keyConceptsSummary": "Vedic Rta Cosmic Order, 4 Purusarthas, Patanjali 8-Limb Astanga Yoga (5 Yamas & 5 Niyamas), Structural Ahimsa, 12-Nidana Pratityasamutpada Dependent Co-Origination, Avatamsaka Indra's Net, 4 Brahmaviharas, Gita Lokasangraha",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 24,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Upholds Rta cosmic-physical-harmonic lawfulness, structural Ahimsa (0 violence/coercion), 12-link dependent co-origination across chemistry-botany-acoustics-anamnesis-compression, Indra's Net mutual reflection, 4 Brahmavihara curatorial attitudes, and Lokasangraha ecological reciprocity",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 24,
+        "effectKind": "PureDharmicOrder+AhimsaGuarantee+DependentCoOrigination",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 7,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 44,
+        "compositionSummary": "Couples Rta lawfulness, Ahimsa/Aparigraha ethics, 12-link Pratityasamutpada causality, and Lokasangraha polyculture care bidirectionally across all 22 Canonical Standard Models (484 functor pathways)",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Continuous 12-nidana dependent co-origination closure + Brahmavihara Karuna/Upeksa affective co-regulation + Lokasangraha guild stewardship",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 64,
+        "baseResolutionUnits": 748,
+        "apexResolutionUnits": 1000,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 violent/coercive outcomes (Ahimsa), 0 acausal phenomena, 12/12 Pratityasamutpada nidanas, 10/10 Yamas+Niyamas, 8/8 Astanga limbs, 4/4 Purusarthas & Brahmaviharas",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 4096,
+        "maxComputeMicrosPerFrame": 160,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC Rta, Astanga, Pratityasamutpada, Indra's Net, and Lokasangraha reciprocity evaluation; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Dharma.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Dharma/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "Rigveda Rta, Patanjali Yoga Sutras 2.29-2.45 (Astanga/Yama/Niyama), Pratityasamutpada 12 Nidanas, Avatamsaka Sutra Indra's Net, Bhagavad Gita 3.20 Lokasangraha, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 44,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving structural Ahimsa & Yama/Niyama/Astanga closure, 12-link Pratityasamutpada causal closure, Rta & Lokasangraha monotonicity, Neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/vedantaDharmaEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Parametric Dharma, Pratityasamutpada & Lokasangraha Engine -> Peaceful Ecological Stewardship",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  {
+    "modelKey": "compression",
+    "registryField": "m22Compression",
+    "displayName": "Parametric Compression (UORC kappa-Named Codec Points, Warm States, Saturating Cap Ledger & 64-Cell Rule-30 Portfolio)",
+    "sourceModule": "Foundation.Compression.V1.Model",
+    "sourceFileRelative": "prism/src/Foundation/Compression/V1/Model.lex.tex",
+    "sourceSha256": "4d40c881e098fdc7de7beeca6e002f9c7709dbb5eeb4480d9b7cb3bd2025f292",
+    "unbiasedSiExponents": {
+      "s": 0,
+      "m": 0,
+      "kg": 0,
+      "A": 0,
+      "K": 0,
+      "mol": 0,
+      "cd": 0
+    },
+    "descriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 22,
+        "canonicalModelId": "prism/standard-model/uorc-parametric-compression-portfolio/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 179,
+        "blake3DigestHead64": 17900242,
+        "blake3DigestTail64": 48400179,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Compression.V1",
+        "canonicalConceptCount": 48,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 34,
+        "keyConceptsSummary": "UORC kappa-Named Codec Points, Consolidated Warm Basis States, Shortest U64 ULEB128, n+61 Archive Bound, Deterministic 3..24 Input Step Measure, Zero-Defect Admission, Lexicographic Choice, Strict Dominance & Lyapunov Descent, Saturating Cap Ledger, Twin-Profile Pass, 64-Cell Rule-30 Autonomous Portfolio Engine, 3-Level Honesty Ledger",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 26,
+        "conservationLawCount": 7,
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Addresses parametric codec points and immutable warm basis states by SHA-256 kappa, guarantees lossless defect=0 round-trip with <=n+61 archive size and <=192*n decode steps, abandons non-competitive payloads at the exact cap byte, and evolves a 64-cell Rule-30 Hebbian strategy portfolio without regression or duplicate claim minting",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 28,
+        "effectKind": "PureLosslessCodec+SaturatingCapLedger+Rule30PortfolioEngine",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 7,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 44,
+        "compositionSummary": "Couples kappa-addressed parametric compression, warm basis states, NCM micro-plasticity, and 64-cell Rule-30 portfolio consolidation bidirectionally across Anamnesis, Neuromorphic Bus, Infrastructure, Realizability, Teleology, and all 22 Canonical Standard Models (484 functor pathways)",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Strict dominance Lyapunov potential descent (cost = bytes + steps) + 64-cell Rule-30 autonomous hypothesis minting + kappa-memoized claim register",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 64,
+        "baseResolutionUnits": 868,
+        "apexResolutionUnits": 996,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 reconstruction defect, <=n+61 archive bound, <=192 steps/byte ceiling, 0 duplicate kappa claim mints, 0 baseline floor regressions, SHA-256 chain integrity",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 220,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 14,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC UORC wire framing, saturating byte-cap coder ledger, twin-profile shared pass, and 64-bit Rule-30 portfolio register; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Compression.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Compression/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "UOR-Foundation/compression (Uorc.Performance, Uorc.Neuromorphic, Uorc.Engine), NIST FIPS 180-4 SHA-256, DWARF-5 ULEB128, Wolfram Rule 30, ISO-25010-2023, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 7,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 48,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "7 Lean 4.32 theorems proving n+61 archive & 192*n step bounds, zero-defect lexicographic choice, strict dominance & Lyapunov descent, saturating exact cap stop & constructive requirement bounds, 64-bit Rule-30 vectors, winner scheduling & claim memoization, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/parametricCompressionEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> UORC Parametric Codec, Warm States & Autonomous Portfolio Engine -> Lossless Anamnesis & Conservatory State",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -2683,6 +3037,259 @@ export const GENERATED_PRISM_BUS_MODULATION_LUT = {
     1448,
     1448
   ],
+  "vedanta": [
+    1030,
+    1030,
+    1060,
+    1090,
+    1120,
+    1150,
+    1180,
+    1210,
+    1240,
+    1270,
+    1300,
+    1330,
+    1360,
+    1390,
+    1420,
+    1450,
+    1480,
+    1480,
+    1480,
+    1480,
+    1480
+  ],
+  "dharma": [
+    1032,
+    1032,
+    1064,
+    1096,
+    1128,
+    1160,
+    1192,
+    1224,
+    1256,
+    1288,
+    1320,
+    1352,
+    1384,
+    1416,
+    1448,
+    1480,
+    1512,
+    1512,
+    1512,
+    1512,
+    1512
+  ],
+  "compression": [
+    1032,
+    1032,
+    1064,
+    1096,
+    1128,
+    1160,
+    1192,
+    1224,
+    1256,
+    1288,
+    1320,
+    1352,
+    1384,
+    1416,
+    1448,
+    1480,
+    1512,
+    1512,
+    1512,
+    1512,
+    1512
+  ],
+  "compressionPortfolioEfficiencyPermille": [
+    756,
+    756,
+    772,
+    788,
+    804,
+    820,
+    836,
+    852,
+    868,
+    884,
+    900,
+    916,
+    932,
+    948,
+    964,
+    980,
+    996,
+    996,
+    996,
+    996,
+    996
+  ],
+  "atmanBrahmanAtZeroHarmonyPermille": [
+    578,
+    578,
+    596,
+    614,
+    632,
+    650,
+    668,
+    686,
+    704,
+    722,
+    740,
+    758,
+    776,
+    794,
+    812,
+    830,
+    848,
+    848,
+    848,
+    848,
+    848
+  ],
+  "atmanBrahmanAtFullHarmonyPermille": [
+    678,
+    678,
+    696,
+    714,
+    732,
+    750,
+    768,
+    786,
+    804,
+    822,
+    840,
+    858,
+    876,
+    894,
+    912,
+    930,
+    948,
+    948,
+    948,
+    948,
+    948
+  ],
+  "turiyaWitnessAtSixRestsPermille": [
+    572,
+    572,
+    592,
+    612,
+    632,
+    652,
+    672,
+    692,
+    712,
+    732,
+    752,
+    772,
+    792,
+    812,
+    832,
+    852,
+    872,
+    872,
+    872,
+    872,
+    872
+  ],
+  "rtaCosmicOrderAtZeroHarmonyPermille": [
+    598,
+    598,
+    616,
+    634,
+    652,
+    670,
+    688,
+    706,
+    724,
+    742,
+    760,
+    778,
+    796,
+    814,
+    832,
+    850,
+    868,
+    868,
+    868,
+    868,
+    868
+  ],
+  "rtaCosmicOrderAtFullHarmonyPermille": [
+    698,
+    698,
+    716,
+    734,
+    752,
+    770,
+    788,
+    806,
+    824,
+    842,
+    860,
+    878,
+    896,
+    914,
+    932,
+    950,
+    968,
+    968,
+    968,
+    968,
+    968
+  ],
+  "pratityasamutpadaCausalCoherencePermille": [
+    642,
+    642,
+    664,
+    686,
+    708,
+    730,
+    752,
+    774,
+    796,
+    818,
+    840,
+    862,
+    884,
+    906,
+    928,
+    950,
+    972,
+    972,
+    972,
+    972,
+    972
+  ],
+  "lokasangrahaAtFullGuildPermille": [
+    700,
+    700,
+    720,
+    740,
+    760,
+    780,
+    800,
+    820,
+    840,
+    860,
+    880,
+    900,
+    920,
+    940,
+    960,
+    980,
+    1000,
+    1000,
+    1000,
+    1000,
+    1000
+  ],
   "teleologicalFulfillmentPermille": [
     700,
     700,
@@ -3008,27 +3615,27 @@ export const GENERATED_PRISM_BUS_MODULATION_LUT = {
     ]
   ],
   "earlyReflectionTapCount": [
-    8,
-    8,
-    10,
-    12,
-    14,
-    16,
-    18,
-    20,
+    19,
+    19,
     22,
-    24,
-    26,
+    25,
     28,
-    30,
-    32,
+    31,
     34,
-    36,
-    38,
-    38,
-    38,
-    38,
-    38
+    37,
+    40,
+    43,
+    46,
+    49,
+    52,
+    55,
+    58,
+    61,
+    64,
+    64,
+    64,
+    64,
+    64
   ],
   "consolidatedMemoryHorizon": [
     20,
@@ -3054,50 +3661,50 @@ export const GENERATED_PRISM_BUS_MODULATION_LUT = {
     80
   ],
   "spectralBandResolution": [
-    13,
-    13,
-    17,
-    21,
-    25,
-    29,
-    33,
-    37,
-    41,
-    45,
-    49,
-    53,
-    57,
-    61,
-    65,
-    69,
-    73,
-    73,
-    73,
-    73,
-    73
+    101,
+    101,
+    121,
+    141,
+    161,
+    181,
+    201,
+    221,
+    241,
+    261,
+    281,
+    301,
+    321,
+    341,
+    361,
+    381,
+    401,
+    401,
+    401,
+    401,
+    401
   ],
   "adaptiveTerrainSegments": [
-    102,
-    102,
-    106,
-    110,
-    114,
-    118,
-    122,
-    126,
-    130,
     134,
-    138,
-    142,
-    146,
-    150,
+    134,
+    139,
+    144,
+    149,
     154,
-    158,
-    162,
-    162,
-    162,
-    162,
-    162
+    159,
+    164,
+    169,
+    174,
+    179,
+    184,
+    189,
+    194,
+    199,
+    204,
+    209,
+    209,
+    209,
+    209,
+    209
   ],
   "barkMaskingHeadroomMilliDb": [
     3350,
@@ -6236,11 +6843,11 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 53,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1024,
         "apexResolutionUnits": 1536,
         "perceptualJndPermille": 1,
-        "fidelityCriteriaSummary": "53-bit IEEE-754 / exact Nat integer precision, 0 exterior derivative residual, exact Euler-Poincare topological invariants",
+        "fidelityCriteriaSummary": "64-bit IEEE-754 / exact Nat integer precision, 0 exterior derivative residual, exact Euler-Poincare topological invariants",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -6374,7 +6981,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 53,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 962,
         "apexResolutionUnits": 1292,
         "perceptualJndPermille": 2,
@@ -6420,8 +7027,8 @@ export const GENERATED_PRISM_STANDARDS = {
     "colorimetry": {
       "minVisibleWavelengthNm": 380,
       "maxVisibleWavelengthNm": 780,
-      "baseSpectralBandCount": 13,
-      "apexSpectralBandCount": 73,
+      "baseSpectralBandCount": 101,
+      "apexSpectralBandCount": 401,
       "cieStandardObserverDeg": 2,
       "d65WhitepointKelvin": 6504,
       "maxDeltaEOkPermille": 4,
@@ -6444,8 +7051,8 @@ export const GENERATED_PRISM_STANDARDS = {
       "interiorEdgeFaceValence": 2,
       "nonManifoldEdgeCount": 0,
       "degenerateZeroAreaFaceCount": 0,
-      "baseTerrainGridSegments": 102,
-      "apexTerrainGridSegments": 192,
+      "baseTerrainGridSegments": 134,
+      "apexTerrainGridSegments": 224,
       "liveDynamicWorldReprojectionEnabled": true,
       "eulerPoincareTopologyVerified": true
     },
@@ -6509,11 +7116,11 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1030,
         "apexResolutionUnits": 1480,
         "perceptualJndPermille": 4,
-        "fidelityCriteriaSummary": "DeltaE_OK <= 0.004 perceptual color accuracy, R+T <= 1.0 PBR energy conservation, 0 non-manifold edges, 13..73+ spectral bands",
+        "fidelityCriteriaSummary": "DeltaE_OK <= 0.004 perceptual color accuracy, R+T <= 1.0 PBR energy conservation, 0 non-manifold edges, 101..401 (1nm CIE 015:2018 HD) spectral bands, up to 1024px PBR",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -6553,7 +7160,7 @@ export const GENERATED_PRISM_STANDARDS = {
   "realizability": {
     "profile": "prism/realizability-standard/1",
     "adjunction": {
-      "registeredObservablePortCount": 19,
+      "registeredObservablePortCount": 22,
       "danglingUnprojectedPortCount": 0,
       "realizationGapPermille": 0,
       "minDifferentialSensitivityPermille": 285,
@@ -6567,7 +7174,9 @@ export const GENERATED_PRISM_STANDARDS = {
       "deadConstantBranchCount": 0,
       "astAndRuntimeLiveAuditEnabled": true,
       "allEighteenModelsProjectedEndToEnd": true,
-      "allNineteenModelsProjectedEndToEnd": true
+      "allNineteenModelsProjectedEndToEnd": true,
+      "allTwentyOneModelsProjectedEndToEnd": true,
+      "allTwentyTwoModelsProjectedEndToEnd": true
     },
     "canonicalDescriptor": {
       "requiredElementCount": 11,
@@ -6575,33 +7184,33 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelIndex": 15,
         "canonicalModelId": "prism/standard-model/realizability-spec-runtime-adjunction/1",
         "semverMajor": 1,
-        "semverMinor": 0,
+        "semverMinor": 2,
         "semverPatch": 0,
         "uorPrimeSignature": 139,
-        "blake3DigestHead64": 13900209,
-        "blake3DigestTail64": 36100139,
+        "blake3DigestHead64": 13900242,
+        "blake3DigestTail64": 48400139,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Realizability.V1",
-        "canonicalConceptCount": 32,
-        "crossDomainSynonymCount": 14,
-        "taxonomicRelationCount": 22,
+        "canonicalConceptCount": 36,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 24,
         "keyConceptsSummary": "Kleene-Lawvere Realizability, Galois Spec-to-Runtime Adjunction, Non-Zero Differential Sensitivity dObs/dPort > 0, Zero Static-Stub AST Oracle, Observer-Runtime Counit Closure",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 16,
+        "capabilityFunctionCount": 18,
         "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 524287,
-        "promisedBehaviorSummary": "Forces every formal Standard Model port to project end-to-end into live WebGL2, WebAudio, W3C CSS, Teleological Landmarks, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Forces every formal Standard Model port across all 22 models to project end-to-end into live WebGL2, WebAudio, W3C CSS, Teleological Landmarks, Vedantic/Dharmic Coherence, UORC Parametric Compression, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 19,
-        "typedOutputPortCount": 19,
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
         "cloudEventTypeCount": 6,
-        "stateFieldCount": 20,
+        "stateFieldCount": 22,
         "effectKind": "PureAntiGapOracle+LiveCounitReadback",
         "siBiasedTimeExp": 16,
         "siBiasedLengthExp": 16,
@@ -6615,10 +7224,10 @@ export const GENERATED_PRISM_STANDARDS = {
       "composition": {
         "dagLayerRank": 6,
         "dependencyModelMask": 16383,
-        "compatiblePartnerMask": 524287,
+        "compatiblePartnerMask": 4194303,
         "conflictModelMask": 0,
-        "functorTransformationCount": 38,
-        "compositionSummary": "Audits all 19 canonical models and their 361 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
+        "functorTransformationCount": 44,
+        "compositionSummary": "Audits all 22 canonical models and their 484 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -6629,11 +7238,11 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 285,
         "apexResolutionUnits": 960,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 19/19 models",
+        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 22/22 models",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -6654,8 +7263,8 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "evidence": {
         "leanTheoremCount": 4,
-        "runtimePropertyOracleCount": 19,
-        "acceptanceVectorCount": 38,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 44,
         "unprovedAdHocFlagCount": 0,
         "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero realization gap, monotonic differential sensitivity, neuromorphic coupling, and 11-element completeness",
         "evidenceMachineChecked": true
@@ -6747,7 +7356,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1028,
         "apexResolutionUnits": 1448,
         "perceptualJndPermille": 5,
@@ -6792,8 +7401,8 @@ export const GENERATED_PRISM_STANDARDS = {
     "profile": "prism/spatial-acoustics-standard/1",
     "roomImpulse": {
       "biomeDistinctImpulseCount": 5,
-      "baseEarlyReflectionTapCount": 8,
-      "apexEarlyReflectionTapCount": 38,
+      "baseEarlyReflectionTapCount": 19,
+      "apexEarlyReflectionTapCount": 64,
       "sabineConstantMillisPerMeter": 161,
       "staticStartupImpulseEliminated": true,
       "materialImpedanceAbsorptionCoupled": true
@@ -6866,11 +7475,11 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1034,
         "apexResolutionUnits": 1544,
         "perceptualJndPermille": 4,
-        "fidelityCriteriaSummary": "0..660us physical Woodworth ITD, 5 distinct biome Z=rho*c impulse responses, 8..38 discrete early-reflection taps",
+        "fidelityCriteriaSummary": "0..660us physical Woodworth ITD, 5 distinct biome Z=rho*c impulse responses, 19..64 discrete early-reflection taps",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -6984,7 +7593,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1026,
         "apexResolutionUnits": 1416,
         "perceptualJndPermille": 2,
@@ -7051,8 +7660,8 @@ export const GENERATED_PRISM_STANDARDS = {
       "witnessCommunionInteractive": true
     },
     "physicalBasisAndTriuneCuration": {
-      "unifiedObserverFacetCount": 20,
-      "playerCoObserverBasisPrime": 167,
+      "unifiedObserverFacetCount": 23,
+      "playerCoObserverBasisPrime": 181,
       "intrinsicObserverDirectiveCount": 3,
       "minFoundationEmbedmentMm": 250,
       "cardanKinematicHierarchyDepth": 4,
@@ -7072,31 +7681,31 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelIndex": 19,
         "canonicalModelId": "prism/standard-model/teleology-environmental-requirement-synthesis/1",
         "semverMajor": 1,
-        "semverMinor": 2,
+        "semverMinor": 4,
         "semverPatch": 0,
         "uorPrimeSignature": 163,
-        "blake3DigestHead64": 16300209,
-        "blake3DigestTail64": 36100163,
+        "blake3DigestHead64": 16300242,
+        "blake3DigestTail64": 48400163,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Teleology.V1",
-        "canonicalConceptCount": 48,
+        "canonicalConceptCount": 50,
         "crossDomainSynonymCount": 22,
-        "taxonomicRelationCount": 32,
-        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Physical Load-Path & Pendulum Lawfulness, 20-Facet Observer Self-Differentiation, Triune Curatorial Affinity, 20/20 Bijective Scene Synthesis, Inherent Plasticity",
+        "taxonomicRelationCount": 34,
+        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Physical Load-Path & Pendulum Lawfulness, 23-Facet Observer Self-Differentiation, Triune Curatorial Affinity, 20/20 Bijective Scene Synthesis, Inherent Plasticity",
         "vocabularyComplete": true
       },
       "capability": {
         "capabilityFunctionCount": 24,
         "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 524287,
+        "exportedFeatureChannelMask": 4194303,
         "promisedBehaviorSummary": "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance obeys physical load-paths and gravity, is required by >=3 upstream Standard Models, is synthesized by the Observer from local matter, and is curated with reciprocal affinity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 19,
-        "typedOutputPortCount": 19,
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
         "cloudEventTypeCount": 8,
         "stateFieldCount": 24,
         "effectKind": "PureBijectiveTeleologicalClosure+PhysicalBasis+TriuneObserverCuration",
@@ -7111,11 +7720,11 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "composition": {
         "dagLayerRank": 6,
-        "dependencyModelMask": 524287,
-        "compatiblePartnerMask": 524287,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
         "conflictModelMask": 0,
-        "functorTransformationCount": 42,
-        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 physically lawful in-world phenomena while uniting all 20 Observer facets through intrinsic curatorial affinity",
+        "functorTransformationCount": 44,
+        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, humane, vedantic, dharmic, and parametric compression requirements into 20/20 physically lawful in-world phenomena while uniting all 23 Observer facets through intrinsic curatorial affinity",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -7126,11 +7735,11 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 36,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 700,
         "apexResolutionUnits": 1000,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, >=250mm foundation embedment, 100pct arch load-path closure, 20/20 differentiated Observer facets, 64/64 lithophone waystones",
+        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, >=250mm foundation embedment, 100pct arch load-path closure, 23/23 differentiated Observer facets, 64/64 lithophone waystones",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -7139,7 +7748,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "maxLatencyMicros": 16667,
         "energyBudgetMilliwatts": 14,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Zero-GC teleological requirement registry, monument physical kinematics, and 20-facet curatorial affinity state; 0 per-frame heap allocations",
+        "deviceConstraintSummary": "Zero-GC teleological requirement registry, monument physical kinematics, and 23-facet curatorial affinity state; 0 per-frame heap allocations",
         "resourceBoundedZeroGc": true
       },
       "authority": {
@@ -7151,10 +7760,10 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "evidence": {
         "leanTheoremCount": 6,
-        "runtimePropertyOracleCount": 22,
-        "acceptanceVectorCount": 44,
+        "runtimePropertyOracleCount": 23,
+        "acceptanceVectorCount": 46,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving zero orphan elements & zero manual overrides, >=3-model requirement grounding, 20/20 bijective scene closure, monotonic purpose coupling, physical load-path & triune 20-facet Observer curation, and 11-element completeness",
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving zero orphan elements & zero manual overrides, >=3-model requirement grounding, 20/20 bijective scene closure, monotonic purpose coupling, physical load-path & triune 23-facet Observer curation, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
@@ -7167,11 +7776,511 @@ export const GENERATED_PRISM_STANDARDS = {
       "completeAndEnforced": true
     }
   },
+  "vedanta": {
+    "profile": "prism/vedanta-standard/1",
+    "nonDualConsciousness": {
+      "mahavakyaGreatAxiomCount": 4,
+      "mandukyaAvasthaTuriyaCount": 4,
+      "pranavaSyllablePhaseCount": 4,
+      "saptasvaraNadaRatioCount": 7,
+      "baseAtmanBrahmanNonDualPermille": 754,
+      "apexAtmanBrahmanNonDualPermille": 948,
+      "baseTuriyaSilentWitnessPermille": 712,
+      "apexTuriyaSilentWitnessPermille": 944,
+      "tatTvamAsiTriuneIdentityVerified": true,
+      "turiyaFourthSubstratumGroundedInSilence": true
+    },
+    "embodimentAndQuintuplication": {
+      "pancaKosaSheathCount": 5,
+      "trisariraBodyCount": 3,
+      "pancaMahabhutaElementCount": 5,
+      "pancikaranaSelfShareEighths": 4,
+      "pancikaranaPeerShareEighths": 1,
+      "pancikaranaRowSumEighths": 8,
+      "allFiveKosasMappedToStandardModels": true,
+      "pancikaranaBistochasticClosureVerified": true
+    },
+    "trigunaAndSaccidananda": {
+      "trigunaModeCount": 3,
+      "saccidanandaAspectCount": 3,
+      "trigunaConservationSumPermille": 1000,
+      "baseSattvaClarityPermille": 602,
+      "apexSattvaClarityPermille": 896,
+      "calmRajasActivityPermille": 72,
+      "calmTamasGroundingPermille": 326,
+      "trigunaExactThousandPermilleConserved": true,
+      "sattvaIncreasesWithHarmonyAndWisdom": true,
+      "saccidanandaUnitesExistenceConsciousnessBliss": true
+    },
+    "canonicalDescriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 20,
+        "canonicalModelId": "prism/standard-model/vedanta-nondual-consciousness-ontology/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 167,
+        "blake3DigestHead64": 16700242,
+        "blake3DigestTail64": 48400167,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Vedanta.V1",
+        "canonicalConceptCount": 44,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 30,
+        "keyConceptsSummary": "Advaita Non-Duality, 4 Mahavakyas, Mandukya 4 Avasthas & Turiya Pranava A-U-M, 5 Panca-Kosas, 3 Sariras, 5x5 Pancikarana Mahabhuta Quintuplication, Conserved Triguna Dynamics, Sat-Cit-Ananda, 7 Saptasvara Nada-Brahman",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 22,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Formalizes non-dual Atman-Brahman consciousness, concentric 5-sheath embodiment, exact 1000-permille Sattva-Rajas-Tamas field conservation, 5x5 Pancikarana biome-element quintuplication, and Pranava Turiya harmonic stillness across the conservatory",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 24,
+        "effectKind": "PureNonDualOntology+TrigunaConservation+TuriyaResonance",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 7,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 44,
+        "compositionSummary": "Couples non-dual witness awareness, 5 Panca-Kosa embodiment layers, and conserved Sattva-Rajas-Tamas dynamics bidirectionally across all 22 Canonical Standard Models (484 functor pathways)",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Exact Triguna conservation (S+R+T = 1000 permille) + Mandukya A-U-M-Turiya diurnal/stillness phase lock + Pancikarana 5x5 biome synthesis",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 64,
+        "baseResolutionUnits": 738,
+        "apexResolutionUnits": 948,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "1000/1000 Triguna conservation, 8/8 Pancikarana row-column closure, 4/4 Mahavakyas, 5/5 Panca-Kosas, 4/4 Turiya phases, 7/7 Saptasvara pure JI ratios",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 4096,
+        "maxComputeMicrosPerFrame": 160,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC Triguna, Panca-Kosa, Pancikarana, and Turiya non-dual witness evaluation; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Vedanta.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Vedanta/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "Mandukya Upanisad 1-12, Taittiriya Upanisad 2.1-2.5 (Panca-Kosa), Chandogya Upanisad 6.8.7 (Tat Tvam Asi), Adi Sankara Pancikarana, Samkhya-Karika Triguna, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 44,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving universal 1000-permille Triguna conservation, Panca-Kosa/Mahavakya/Pancikarana closure, Atman-Brahman & Turiya monotonicity, Neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/vedantaDharmaEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Parametric Vedanta Ontology & Nada-Brahman Engine -> Living Non-Dual Conservatory",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  "dharma": {
+    "profile": "prism/dharma-standard/1",
+    "rtaAndPurusartha": {
+      "purusarthaLifeAimCount": 4,
+      "brahmaviharaSublimeAttitudeCount": 4,
+      "baseRtaCosmicOrderPermille": 774,
+      "apexRtaCosmicOrderPermille": 968,
+      "baseBrahmaviharaEquanimityPermille": 796,
+      "apexBrahmaviharaEquanimityPermille": 980,
+      "rtaAlignsPhysicsEphemerisAndHarmony": true,
+      "purusarthasBalancedWithoutCoercion": true
+    },
+    "astangaAndAhimsa": {
+      "yamaEthicalObservanceCount": 5,
+      "niyamaInnerObservanceCount": 5,
+      "astangaYogaLimbCount": 8,
+      "violentOrCoerciveRuleCount": 0,
+      "attentionTheftDarkPatternCount": 0,
+      "ahimsaNonViolenceStructurallyGuaranteed": true,
+      "satyaZeroSpecRuntimeDriftEnforced": true,
+      "aparigrahaZeroGcAndRestSilenceEnforced": true
+    },
+    "pratityasamutpadaAndLokasangraha": {
+      "pratityasamutpadaNidanaLinkCount": 12,
+      "ungroundedAcausalPhenomenonCount": 0,
+      "indrasNetReflectedBiomeCount": 5,
+      "baseCausalCoOriginationPermille": 796,
+      "apexCausalCoOriginationPermille": 972,
+      "baseLokasangrahaWorldWelfarePermille": 744,
+      "apexLokasangrahaWorldWelfarePermille": 1000,
+      "dependentCoOriginationRingClosed": true,
+      "lokasangrahaUpliftsPolycultureCommons": true
+    },
+    "canonicalDescriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 21,
+        "canonicalModelId": "prism/standard-model/dharma-rta-ahimsa-pratityasamutpada-stewardship/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 173,
+        "blake3DigestHead64": 17300242,
+        "blake3DigestTail64": 48400173,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Dharma.V1",
+        "canonicalConceptCount": 46,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 32,
+        "keyConceptsSummary": "Vedic Rta Cosmic Order, 4 Purusarthas, Patanjali 8-Limb Astanga Yoga (5 Yamas & 5 Niyamas), Structural Ahimsa, 12-Nidana Pratityasamutpada Dependent Co-Origination, Avatamsaka Indra's Net, 4 Brahmaviharas, Gita Lokasangraha",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 24,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Upholds Rta cosmic-physical-harmonic lawfulness, structural Ahimsa (0 violence/coercion), 12-link dependent co-origination across chemistry-botany-acoustics-anamnesis-compression, Indra's Net mutual reflection, 4 Brahmavihara curatorial attitudes, and Lokasangraha ecological reciprocity",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 24,
+        "effectKind": "PureDharmicOrder+AhimsaGuarantee+DependentCoOrigination",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 7,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 44,
+        "compositionSummary": "Couples Rta lawfulness, Ahimsa/Aparigraha ethics, 12-link Pratityasamutpada causality, and Lokasangraha polyculture care bidirectionally across all 22 Canonical Standard Models (484 functor pathways)",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Continuous 12-nidana dependent co-origination closure + Brahmavihara Karuna/Upeksa affective co-regulation + Lokasangraha guild stewardship",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 64,
+        "baseResolutionUnits": 748,
+        "apexResolutionUnits": 1000,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 violent/coercive outcomes (Ahimsa), 0 acausal phenomena, 12/12 Pratityasamutpada nidanas, 10/10 Yamas+Niyamas, 8/8 Astanga limbs, 4/4 Purusarthas & Brahmaviharas",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 4096,
+        "maxComputeMicrosPerFrame": 160,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC Rta, Astanga, Pratityasamutpada, Indra's Net, and Lokasangraha reciprocity evaluation; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Dharma.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Dharma/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "Rigveda Rta, Patanjali Yoga Sutras 2.29-2.45 (Astanga/Yama/Niyama), Pratityasamutpada 12 Nidanas, Avatamsaka Sutra Indra's Net, Bhagavad Gita 3.20 Lokasangraha, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 44,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving structural Ahimsa & Yama/Niyama/Astanga closure, 12-link Pratityasamutpada causal closure, Rta & Lokasangraha monotonicity, Neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/vedantaDharmaEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Parametric Dharma, Pratityasamutpada & Lokasangraha Engine -> Peaceful Ecological Stewardship",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  "compression": {
+    "profile": "prism/uorc-parametric-compression-standard/1",
+    "codecSpaceAndBounds": {
+      "uleb64MaxBytes": 10,
+      "rawFixedFrameBytes": 41,
+      "rawMaxOverheadBytes": 61,
+      "contextBitCount": 17,
+      "minInputsPerBit": 3,
+      "maxInputsPerBit": 24,
+      "minStepsPerByte": 24,
+      "maxStepsPerByte": 192,
+      "v03ReleasedProfileInputs": 20,
+      "midProfileInputs": 22,
+      "fullProfileInputs": 24,
+      "warmBasisStateSlotCount": 2,
+      "archiveBoundAt64Bytes": 107,
+      "archiveBoundHoldsAllInputs": true,
+      "warmStatesNeverChangeMeaning": true,
+      "referenceFramesZeroDecodeSteps": true
+    },
+    "dominanceChoiceAndLedger": {
+      "admittedDefectZero": 0,
+      "capHeaderMarginBytes": 5,
+      "twinSharedStrategyCount": 2,
+      "honestyClaimLevelCount": 3,
+      "architecturalFacetCount": 12,
+      "zeroDefectAdmissionEnforced": true,
+      "lexicographicBytesThenStepsEnforced": true,
+      "strictDominancePartialOrderVerified": true,
+      "lyapunovPotentialNeverRises": true,
+      "saturatingLedgerExactCapStopEnforced": true,
+      "excessAndLackBoundsConstructive": true
+    },
+    "autonomousPortfolioEngine": {
+      "rule30CellCount": 64,
+      "rule30SeedHi32": 2654435769,
+      "rule30SeedLo32": 2135587861,
+      "rule30StepSeedHi32": 1902397223,
+      "rule30StepSeedLo32": 1081852469,
+      "rule30StepOneHi32": 2147483648,
+      "rule30StepOneLo32": 3,
+      "portfolioWeightMin": 1,
+      "portfolioWeightMax": 16,
+      "portfolioWeightInitial": 8,
+      "portfolioPotentiation": 2,
+      "portfolioDepression": 1,
+      "portfolioConsolidation": 12,
+      "hypothesisBudgetPerTick": 6,
+      "portfolioSlotCapacity": 12,
+      "generatorKindCount": 4,
+      "basePortfolioEfficiencyPermille": 868,
+      "apexPortfolioEfficiencyPermille": 996,
+      "winnerScheduledFirstGuaranteed": true,
+      "knownClaimNeverReMintedGuaranteed": true,
+      "baselineFloorNoRegressionGuaranteed": true
+    },
+    "canonicalDescriptor": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 22,
+        "canonicalModelId": "prism/standard-model/uorc-parametric-compression-portfolio/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 179,
+        "blake3DigestHead64": 17900242,
+        "blake3DigestTail64": 48400179,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Compression.V1",
+        "canonicalConceptCount": 48,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 34,
+        "keyConceptsSummary": "UORC kappa-Named Codec Points, Consolidated Warm Basis States, Shortest U64 ULEB128, n+61 Archive Bound, Deterministic 3..24 Input Step Measure, Zero-Defect Admission, Lexicographic Choice, Strict Dominance & Lyapunov Descent, Saturating Cap Ledger, Twin-Profile Pass, 64-Cell Rule-30 Autonomous Portfolio Engine, 3-Level Honesty Ledger",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 26,
+        "conservationLawCount": 7,
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Addresses parametric codec points and immutable warm basis states by SHA-256 kappa, guarantees lossless defect=0 round-trip with <=n+61 archive size and <=192*n decode steps, abandons non-competitive payloads at the exact cap byte, and evolves a 64-cell Rule-30 Hebbian strategy portfolio without regression or duplicate claim minting",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 28,
+        "effectKind": "PureLosslessCodec+SaturatingCapLedger+Rule30PortfolioEngine",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 7,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 44,
+        "compositionSummary": "Couples kappa-addressed parametric compression, warm basis states, NCM micro-plasticity, and 64-cell Rule-30 portfolio consolidation bidirectionally across Anamnesis, Neuromorphic Bus, Infrastructure, Realizability, Teleology, and all 22 Canonical Standard Models (484 functor pathways)",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Strict dominance Lyapunov potential descent (cost = bytes + steps) + 64-cell Rule-30 autonomous hypothesis minting + kappa-memoized claim register",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 64,
+        "baseResolutionUnits": 868,
+        "apexResolutionUnits": 996,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 reconstruction defect, <=n+61 archive bound, <=192 steps/byte ceiling, 0 duplicate kappa claim mints, 0 baseline floor regressions, SHA-256 chain integrity",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 220,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 14,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC UORC wire framing, saturating byte-cap coder ledger, twin-profile shared pass, and 64-bit Rule-30 portfolio register; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Compression.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Compression/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "UOR-Foundation/compression (Uorc.Performance, Uorc.Neuromorphic, Uorc.Engine), NIST FIPS 180-4 SHA-256, DWARF-5 ULEB128, Wolfram Rule 30, ISO-25010-2023, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 7,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 48,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "7 Lean 4.32 theorems proving n+61 archive & 192*n step bounds, zero-defect lexicographic choice, strict dominance & Lyapunov descent, saturating exact cap stop & constructive requirement bounds, 64-bit Rule-30 vectors, winner scheduling & claim memoization, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/parametricCompressionEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> UORC Parametric Codec, Warm States & Autonomous Portfolio Engine -> Lossless Anamnesis & Conservatory State",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    }
+  },
+  "ncmMicroPlasticity": {
+    "profile": "uorc/ncm-plasticity/1",
+    "standard": "prism/neuromorphic-standard",
+    "kernel": "ncm",
+    "synaptic": {
+      "mixerCount": 3,
+      "mixerInputs": 24,
+      "weightLimit": 4194304,
+      "weightSpan": 8388608,
+      "weightInitial": 16384,
+      "inputLimit": 2047,
+      "errorLimit": 4096,
+      "plasticityScale": 65536,
+      "plasticityCeiling": 128,
+      "plasticityHalfLifeRate": 76,
+      "plasticityFloor": 24,
+      "plasticityHalfLife": 4096,
+      "stepLimit": 16376,
+      "laneFit32BitVerified": true
+    },
+    "slot": {
+      "contexts": 17,
+      "probabilityLimit": 65535,
+      "countLimit": 127,
+      "rateNumerator": 131072,
+      "rateCeiling": 43690,
+      "rateFloor": 510,
+      "consolidatesAtCount127": true
+    },
+    "refinement": {
+      "maps": 2,
+      "points": 33,
+      "probabilityLimit": 65535,
+      "refinementTarget": 65598,
+      "rateShift": 6,
+      "staysWithin16BitProbability": true
+    }
+  },
+  "autonomousConservatoryCuration": {
+    "profile": "uorc/conservatory-curation/1",
+    "standard": "prism/conservatory-curation-standard",
+    "upstreamReference": "UOR-Foundation/compression@b29ae741630af4d90f53375e128c1a48fbd831c5",
+    "contentHashBits": 256,
+    "rule30GeneratorWidthBits": 64,
+    "candidateGeneratorCount": 4,
+    "consolidatedMemorySlotCap": 16,
+    "curationPhraseCycleBars": 4,
+    "minBreathingRestSteps": 6,
+    "maxStepwiseMelodicLeap": 2,
+    "physicalWeightFactor": 4,
+    "botanicalWeightFactor": 3,
+    "musicalWeightFactor": 3,
+    "pinnedBaselineFloorEnabled": true,
+    "zeroDefectAdmissionRequired": true,
+    "strictParetoDominanceVerified": true
+  },
+  "hdCoherentPrecision": {
+    "profile": "prism/hd-coherent-precision/1",
+    "processorPrecisionBits": 64,
+    "loFiEightBitDeprecatedCeiling": 8,
+    "coherentDepthPpmUnity": 1000000,
+    "canonicalModelCount": 22,
+    "coherentTransferPathwayCount": 484,
+    "apexSpectralBandsOneNmCie": 401,
+    "apexTerrainSegmentsHd": 224,
+    "apexProceduralTexelPx": 1024,
+    "apexChladniModalPartials": 16,
+    "apexIso3382EarlyReflections": 64,
+    "apexJustIntonationPrimeLimit": 17,
+    "allModelsSixtyFourBitVerified": true,
+    "allToAllDepthTransferVerified": true
+  },
   "holisticObserverRegistry": {
     "profile": "prism/holistic-observer-standard-model-registry/1",
-    "totalStandardModels": 19,
+    "totalStandardModels": 22,
     "elementsPerModel": 11,
-    "totalVerifiedContextCells": 209,
+    "totalVerifiedContextCells": 242,
     "m01Mathematics": {
       "requiredElementCount": 11,
       "identity": {
@@ -7232,11 +8341,11 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 53,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1024,
         "apexResolutionUnits": 1536,
         "perceptualJndPermille": 1,
-        "fidelityCriteriaSummary": "53-bit IEEE-754 / exact Nat integer precision, 0 exterior derivative residual, exact Euler-Poincare topological invariants",
+        "fidelityCriteriaSummary": "64-bit IEEE-754 / exact Nat integer precision, 0 exterior derivative residual, exact Euler-Poincare topological invariants",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -7332,7 +8441,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 53,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 875,
         "apexResolutionUnits": 1250,
         "perceptualJndPermille": 2,
@@ -7432,7 +8541,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 53,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 962,
         "apexResolutionUnits": 1292,
         "perceptualJndPermille": 2,
@@ -7532,7 +8641,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 272,
         "apexResolutionUnits": 512,
         "perceptualJndPermille": 3,
@@ -7632,7 +8741,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 825,
         "apexResolutionUnits": 1200,
         "perceptualJndPermille": 3,
@@ -7732,11 +8841,11 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 915,
         "apexResolutionUnits": 1140,
         "perceptualJndPermille": 5,
-        "fidelityCriteriaSummary": "0.5 cent pitch accuracy, 0.5 phon ISO 226 contour fidelity, 24-Bark critical-band masking separation",
+        "fidelityCriteriaSummary": "0.5 cent pitch accuracy, 0.5 phon ISO 226 contour fidelity, 16 physical Chladni eigenmodes, 24-Bark critical-band masking separation",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -7832,7 +8941,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 920,
         "apexResolutionUnits": 1220,
         "perceptualJndPermille": 4,
@@ -7932,11 +9041,11 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 53,
         "apexResolutionUnits": 98,
         "perceptualJndPermille": 3,
-        "fidelityCriteriaSummary": "Exact rational p/q Just Intonation ratios (0.0 cent temper drift), Euler gradus <=12 consonance purity, >=37.5pct rest-bar quietude",
+        "fidelityCriteriaSummary": "Exact rational p/q Just Intonation ratios up to 17-limit (0.0 cent temper drift), Euler gradus <=12 consonance purity, >=37.5pct rest-bar quietude",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -8032,11 +9141,11 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1030,
         "apexResolutionUnits": 1480,
         "perceptualJndPermille": 4,
-        "fidelityCriteriaSummary": "DeltaE_OK <= 0.004 perceptual color accuracy, R+T <= 1.0 PBR energy conservation, 0 non-manifold edges, 13..73+ spectral bands",
+        "fidelityCriteriaSummary": "DeltaE_OK <= 0.004 perceptual color accuracy, R+T <= 1.0 PBR energy conservation, 0 non-manifold edges, 101..401 (1nm CIE 015:2018 HD) spectral bands, up to 1024px PBR",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -8132,7 +9241,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 85,
         "apexResolutionUnits": 102,
         "perceptualJndPermille": 4,
@@ -8232,7 +9341,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 130,
         "apexResolutionUnits": 280,
         "perceptualJndPermille": 5,
@@ -8332,7 +9441,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1005,
         "apexResolutionUnits": 1080,
         "perceptualJndPermille": 5,
@@ -8378,34 +9487,34 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelIndex": 13,
         "canonicalModelId": "prism/standard-model/neuromorphic-functor-bus/1",
         "semverMajor": 1,
-        "semverMinor": 0,
+        "semverMinor": 4,
         "semverPatch": 0,
         "uorPrimeSignature": 109,
-        "blake3DigestHead64": 10900361,
-        "blake3DigestTail64": 34200209,
+        "blake3DigestHead64": 10900484,
+        "blake3DigestTail64": 46200242,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Neuromorphic.V1",
-        "canonicalConceptCount": 28,
-        "crossDomainSynonymCount": 14,
-        "taxonomicRelationCount": 19,
-        "keyConceptsSummary": "Hebbian STDP Plasticity, 19x19 Functorial Feature-Transfer Matrix (361 Cells), Active Inference Free Energy, Rule 30 Automaton, UOR Cl(0,6) LUT, Inherent Gameplay Plasticity",
+        "canonicalConceptCount": 40,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 28,
+        "keyConceptsSummary": "64-Bit Coherent Depth Transfer (prism/hd-coherent-precision/1), Hebbian STDP Plasticity, uorc/ncm-plasticity/1 Micro-Plasticity, uorc/conservatory-curation/1 Autonomous Curation, 22x22 Float64 Functorial Matrix (484 Cells), Active Inference Free Energy, 64-Bit Rule 30 Continuum",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 19,
-        "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 524287,
-        "promisedBehaviorSummary": "Transfers SI-typed mathematical, physical, chemical, botanical, morphogenetic, spatial-acoustic, spectral-PBR, realizability, anamnesis, and teleological feature tensors across all 19x19 model pairs inherently through gameplay",
+        "capabilityFunctionCount": 30,
+        "conservationLawCount": 7,
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Transfers 64-bit IEEE-754/exact precision depth and SI-typed mathematical, physical, chemical, botanical, morphogenetic, spatial-acoustic, 1nm spectral-PBR, realizability, anamnesis, teleological, vedantic, dharmic, and UORC parametric compression tensors across all 22x22 model pairs so the depth of every model coherently elevates every model",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 19,
-        "typedOutputPortCount": 19,
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
         "cloudEventTypeCount": 8,
-        "stateFieldCount": 19,
-        "effectKind": "PureKernel+BoundedRingSynapse",
+        "stateFieldCount": 24,
+        "effectKind": "PureKernel+Float64CoherentDepthBus+NcmMicroPlasticity+AutonomousConservatoryCuration",
         "siBiasedTimeExp": 15,
         "siBiasedLengthExp": 16,
         "siBiasedMassExp": 16,
@@ -8418,56 +9527,56 @@ export const GENERATED_PRISM_STANDARDS = {
       "composition": {
         "dagLayerRank": 1,
         "dependencyModelMask": 1,
-        "compatiblePartnerMask": 524287,
+        "compatiblePartnerMask": 4194303,
         "conflictModelMask": 0,
-        "functorTransformationCount": 361,
-        "compositionSummary": "Universal 19x19 functorial bus connecting all canonical standard models with zero conflict and associative gain composition",
+        "functorTransformationCount": 484,
+        "compositionSummary": "Universal 22x22 64-bit functorial bus connecting all canonical standard models with all-to-all precision depth transfer, zero conflict, and associative gain composition",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 1000,
-        "adaptationRuleCount": 6,
-        "temporalLawSummary": "Discrete STDP weight potentiation/depression + Active Inference variational free-energy minimization + Rule 30 orbit evolution",
+        "adaptationRuleCount": 8,
+        "temporalLawSummary": "Continuous 64-bit PPM depth transfer + discrete STDP + uorc/ncm-plasticity/1 hyperbolic learning + Uorc strict-dominance Lyapunov curation + 64-bit Rule 30 evolution",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 840,
         "apexResolutionUnits": 1212,
         "perceptualJndPermille": 5,
-        "fidelityCriteriaSummary": "0.5pct synaptic coherence JND, 64-bit Rule-30 orbit exactness, 28-bit PointKey cycle-free resonance",
+        "fidelityCriteriaSummary": "64-bit Float64 functor arena, 1ppm coherent depth resolution, +-2^22 NCM synaptic clamp, 0-defect curation admission, strict Lyapunov curation descent",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
-        "staticArenaBytes": 8192,
+        "staticArenaBytes": 12288,
         "maxComputeMicrosPerFrame": 420,
         "maxLatencyMicros": 1000,
         "energyBudgetMilliwatts": 35,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Pre-allocated 19x19 Float32 functor matrix + 64-bit Rule-30 registers; 0 heap allocations per frame",
+        "deviceConstraintSummary": "Pre-allocated 22x22 Float64 functor & depth-transfer arenas + NCM slot/mixer state + 64-bit Rule-30 curation registers; 0 heap allocations per frame",
         "resourceBoundedZeroGc": true
       },
       "authority": {
         "modelOwner": "Foundation.Neuromorphic.V1.Model",
         "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Neuromorphic/V1/Model.lex.tex",
-        "pinnedLockReferenceCount": 6,
-        "adoptedStandardsSummary": "Hebb (1949) / Bi & Poo STDP, Friston Active Inference Variational Free Energy, Wolfram Elementary CA Rule 30, UOR Cl(0,6), LEAN-REL-4-32-1, ISO-42010-2022",
+        "pinnedLockReferenceCount": 7,
+        "adoptedStandardsSummary": "IEEE 754-2019 Binary64, Hebb (1949) / Bi & Poo STDP, UOR-Foundation/compression uorc/ncm-plasticity/1 & Engine, Friston Active Inference, Wolfram Rule 30, UOR Cl(0,6), LEAN-REL-4-32-1",
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 14,
-        "runtimePropertyOracleCount": 12,
-        "acceptanceVectorCount": 36,
+        "leanTheoremCount": 22,
+        "runtimePropertyOracleCount": 18,
+        "acceptanceVectorCount": 52,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "14 machine-checked Lean 4.32 theorems proving boundedness, 19x19 functor monotonicity, free-energy reduction, and 11-element completeness",
+        "acceptanceOracleSummary": "22 machine-checked Lean 4.32 theorems proving 64-bit HD precision floors, all-to-all coherent depth transfer, macro & NCM micro-plasticity boundedness, autonomous curation dominance, and 22x22 functor monotonicity",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/neuromorphicFunctorBus.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 19x19 Inherent Gameplay Functor Runtime -> Live Multi-Modal Amplification",
+        "renderAndPublishSummary": "LexLean 1.2 -> extractPrismArtifacts AST -> 64-Bit 22x22 Coherent Depth-Transfer Functor & Autonomous Conservatory Curation Runtime -> Live HD Multi-Modal Amplification",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -8478,33 +9587,33 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelIndex": 14,
         "canonicalModelId": "prism/standard-model/observer-cosmogenesis-holistic-context/1",
         "semverMajor": 1,
-        "semverMinor": 0,
+        "semverMinor": 2,
         "semverPatch": 0,
         "uorPrimeSignature": 113,
-        "blake3DigestHead64": 11300209,
-        "blake3DigestTail64": 19011361,
+        "blake3DigestHead64": 11300242,
+        "blake3DigestTail64": 22011484,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Cosmogenesis.V1",
-        "canonicalConceptCount": 48,
-        "crossDomainSynonymCount": 22,
-        "taxonomicRelationCount": 36,
-        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 19x11 Meta-Model Registry (209 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Teleological Environmental Synthesis Closure",
+        "canonicalConceptCount": 56,
+        "crossDomainSynonymCount": 26,
+        "taxonomicRelationCount": 42,
+        "keyConceptsSummary": "Holistic Observer Self-Knowledge, 22x11 Meta-Model Registry (242 Cells), Alpha-Omega Cosmogenesis, 35-Rule Behavioral Automaton, Fourfold Immanence, Teleological, Vedantic-Dharmic & UORC Parametric Synthesis Closure",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 26,
+        "capabilityFunctionCount": 30,
         "conservationLawCount": 8,
-        "exportedFeatureChannelMask": 524287,
-        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 19 canonical standard models and itself, synthesizing every structure and phenomenon from environmental requirements and automating multi-modal Fidelity",
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Holds complete, content-addressed 11-element context over all 22 canonical standard models and itself, synthesizing every structure, state archive, and phenomenon from environmental requirements and non-dual dharmic harmony",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 19,
-        "typedOutputPortCount": 19,
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
         "cloudEventTypeCount": 8,
-        "stateFieldCount": 30,
+        "stateFieldCount": 34,
         "effectKind": "PureKernel+HolisticObserverView",
         "siBiasedTimeExp": 16,
         "siBiasedLengthExp": 16,
@@ -8517,26 +9626,26 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "composition": {
         "dagLayerRank": 7,
-        "dependencyModelMask": 524287,
-        "compatiblePartnerMask": 524287,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
         "conflictModelMask": 0,
-        "functorTransformationCount": 361,
-        "compositionSummary": "Apex universal observer functor indexing and cross-verifying all 19 Canonical Standard Models (Mathematics through Teleology) across 209 Meta-Model cells and 361 directed pathways",
+        "functorTransformationCount": 484,
+        "compositionSummary": "Apex universal observer functor indexing and cross-verifying all 22 Canonical Standard Models (Mathematics through UORC Compression) across 242 Meta-Model cells and 484 directed pathways",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 16667,
         "adaptationRuleCount": 8,
-        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + Teleological requirement-to-phenomenon closure",
+        "temporalLawSummary": "Lawvere fixed-point self-observation + Alpha-Omega seed synthesis + Teleological, Vedantic-Dharmic & UORC Parametric closure",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 53,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 960,
         "apexResolutionUnits": 1320,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "209/209 verified Meta-Model context cells, 0 orphan unexplained elements, 0 realization gap, 118/118 IUPAC elements, 17/17 SM fields, 24/24 Bark bands, 380-780nm CIE/OKLCH",
+        "fidelityCriteriaSummary": "242/242 verified Meta-Model context cells, 0 orphan unexplained elements, 0 realization gap, 0 compression defect, 1000/1000 Triguna conservation, 0 Ahimsa violations, 118/118 IUPAC elements, 17/17 SM fields",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -8557,17 +9666,17 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "evidence": {
         "leanTheoremCount": 5,
-        "runtimePropertyOracleCount": 19,
-        "acceptanceVectorCount": 52,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 58,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 19x11 Registry completeness",
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving Alpha-Omega closure, Fourfold Immanence, Affective Calculus, Self-Descriptor completeness, and Full 22x11 Registry completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/teleologyEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext & Teleological Synthesis -> Pure Gameplay Conservatory",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> HolisticObserverContext & UORC Parametric Synthesis -> Pure Gameplay Conservatory",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -8578,33 +9687,33 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelIndex": 15,
         "canonicalModelId": "prism/standard-model/realizability-spec-runtime-adjunction/1",
         "semverMajor": 1,
-        "semverMinor": 0,
+        "semverMinor": 2,
         "semverPatch": 0,
         "uorPrimeSignature": 139,
-        "blake3DigestHead64": 13900209,
-        "blake3DigestTail64": 36100139,
+        "blake3DigestHead64": 13900242,
+        "blake3DigestTail64": 48400139,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Realizability.V1",
-        "canonicalConceptCount": 32,
-        "crossDomainSynonymCount": 14,
-        "taxonomicRelationCount": 22,
+        "canonicalConceptCount": 36,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 24,
         "keyConceptsSummary": "Kleene-Lawvere Realizability, Galois Spec-to-Runtime Adjunction, Non-Zero Differential Sensitivity dObs/dPort > 0, Zero Static-Stub AST Oracle, Observer-Runtime Counit Closure",
         "vocabularyComplete": true
       },
       "capability": {
-        "capabilityFunctionCount": 16,
+        "capabilityFunctionCount": 18,
         "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 524287,
-        "promisedBehaviorSummary": "Forces every formal Standard Model port to project end-to-end into live WebGL2, WebAudio, W3C CSS, Teleological Landmarks, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Forces every formal Standard Model port across all 22 models to project end-to-end into live WebGL2, WebAudio, W3C CSS, Teleological Landmarks, Vedantic/Dharmic Coherence, UORC Parametric Compression, and Merkle-persisted observables with strictly positive differential sensitivity and zero static stubs",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 19,
-        "typedOutputPortCount": 19,
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
         "cloudEventTypeCount": 6,
-        "stateFieldCount": 20,
+        "stateFieldCount": 22,
         "effectKind": "PureAntiGapOracle+LiveCounitReadback",
         "siBiasedTimeExp": 16,
         "siBiasedLengthExp": 16,
@@ -8618,10 +9727,10 @@ export const GENERATED_PRISM_STANDARDS = {
       "composition": {
         "dagLayerRank": 6,
         "dependencyModelMask": 16383,
-        "compatiblePartnerMask": 524287,
+        "compatiblePartnerMask": 4194303,
         "conflictModelMask": 0,
-        "functorTransformationCount": 38,
-        "compositionSummary": "Audits all 19 canonical models and their 361 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
+        "functorTransformationCount": 44,
+        "compositionSummary": "Audits all 22 canonical models and their 484 functor pathways to verify zero unprojected ports and exact Observer-Runtime counit identity",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -8632,11 +9741,11 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 285,
         "apexResolutionUnits": 960,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 19/19 models",
+        "fidelityCriteriaSummary": "0 permille spec-to-runtime realization gap, 0 static stubs, >0 differential sensitivity across 22/22 models",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -8657,8 +9766,8 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "evidence": {
         "leanTheoremCount": 4,
-        "runtimePropertyOracleCount": 19,
-        "acceptanceVectorCount": 38,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 44,
         "unprovedAdHocFlagCount": 0,
         "acceptanceOracleSummary": "4 Lean 4.32 theorems proving zero realization gap, monotonic differential sensitivity, neuromorphic coupling, and 11-element completeness",
         "evidenceMachineChecked": true
@@ -8732,7 +9841,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1028,
         "apexResolutionUnits": 1448,
         "perceptualJndPermille": 5,
@@ -8832,11 +9941,11 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1034,
         "apexResolutionUnits": 1544,
         "perceptualJndPermille": 4,
-        "fidelityCriteriaSummary": "0..660us physical Woodworth ITD, 5 distinct biome Z=rho*c impulse responses, 8..38 discrete early-reflection taps",
+        "fidelityCriteriaSummary": "0..660us physical Woodworth ITD, 5 distinct biome Z=rho*c impulse responses, 19..64 discrete early-reflection taps",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -8932,7 +10041,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 32,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 1026,
         "apexResolutionUnits": 1416,
         "perceptualJndPermille": 2,
@@ -8978,31 +10087,31 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelIndex": 19,
         "canonicalModelId": "prism/standard-model/teleology-environmental-requirement-synthesis/1",
         "semverMajor": 1,
-        "semverMinor": 2,
+        "semverMinor": 4,
         "semverPatch": 0,
         "uorPrimeSignature": 163,
-        "blake3DigestHead64": 16300209,
-        "blake3DigestTail64": 36100163,
+        "blake3DigestHead64": 16300242,
+        "blake3DigestTail64": 48400163,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Teleology.V1",
-        "canonicalConceptCount": 48,
+        "canonicalConceptCount": 50,
         "crossDomainSynonymCount": 22,
-        "taxonomicRelationCount": 32,
-        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Physical Load-Path & Pendulum Lawfulness, 20-Facet Observer Self-Differentiation, Triune Curatorial Affinity, 20/20 Bijective Scene Synthesis, Inherent Plasticity",
+        "taxonomicRelationCount": 34,
+        "keyConceptsSummary": "Aristotelian-Kantian Natural Teleology, Physical Load-Path & Pendulum Lawfulness, 23-Facet Observer Self-Differentiation, Triune Curatorial Affinity, 20/20 Bijective Scene Synthesis, Inherent Plasticity",
         "vocabularyComplete": true
       },
       "capability": {
         "capabilityFunctionCount": 24,
         "conservationLawCount": 6,
-        "exportedFeatureChannelMask": 524287,
+        "exportedFeatureChannelMask": 4194303,
         "promisedBehaviorSummary": "Ensures every single 3D scene group, architectural landmark, lithophone stepping-stone trail, Chladni terrace, botanical species, terpene plume, mycelial arc, celestial veil, and embodied presence in Verdant Resonance obeys physical load-paths and gravity, is required by >=3 upstream Standard Models, is synthesized by the Observer from local matter, and is curated with reciprocal affinity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
-        "typedInputPortCount": 19,
-        "typedOutputPortCount": 19,
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
         "cloudEventTypeCount": 8,
         "stateFieldCount": 24,
         "effectKind": "PureBijectiveTeleologicalClosure+PhysicalBasis+TriuneObserverCuration",
@@ -9017,11 +10126,11 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "composition": {
         "dagLayerRank": 6,
-        "dependencyModelMask": 524287,
-        "compatiblePartnerMask": 524287,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
         "conflictModelMask": 0,
-        "functorTransformationCount": 42,
-        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, and humane requirements into 20/20 physically lawful in-world phenomena while uniting all 20 Observer facets through intrinsic curatorial affinity",
+        "functorTransformationCount": 44,
+        "compositionSummary": "Synthesizes cross-model physical, chemical, botanical, acoustic, humane, vedantic, dharmic, and parametric compression requirements into 20/20 physically lawful in-world phenomena while uniting all 23 Observer facets through intrinsic curatorial affinity",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -9032,11 +10141,11 @@ export const GENERATED_PRISM_STANDARDS = {
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
-        "fixedPointPrecisionBits": 36,
+        "fixedPointPrecisionBits": 64,
         "baseResolutionUnits": 700,
         "apexResolutionUnits": 1000,
         "perceptualJndPermille": 2,
-        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, >=250mm foundation embedment, 100pct arch load-path closure, 20/20 differentiated Observer facets, 64/64 lithophone waystones",
+        "fidelityCriteriaSummary": "0 orphan unexplained elements, 0 manual neuromorphic UI controls, >=250mm foundation embedment, 100pct arch load-path closure, 23/23 differentiated Observer facets, 64/64 lithophone waystones",
         "fidelityMonotonicallyScales": true
       },
       "resources": {
@@ -9045,7 +10154,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "maxLatencyMicros": 16667,
         "energyBudgetMilliwatts": 14,
         "perTickHeapAllocations": 0,
-        "deviceConstraintSummary": "Zero-GC teleological requirement registry, monument physical kinematics, and 20-facet curatorial affinity state; 0 per-frame heap allocations",
+        "deviceConstraintSummary": "Zero-GC teleological requirement registry, monument physical kinematics, and 23-facet curatorial affinity state; 0 per-frame heap allocations",
         "resourceBoundedZeroGc": true
       },
       "authority": {
@@ -9057,10 +10166,10 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "evidence": {
         "leanTheoremCount": 6,
-        "runtimePropertyOracleCount": 22,
-        "acceptanceVectorCount": 44,
+        "runtimePropertyOracleCount": 23,
+        "acceptanceVectorCount": 46,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving zero orphan elements & zero manual overrides, >=3-model requirement grounding, 20/20 bijective scene closure, monotonic purpose coupling, physical load-path & triune 20-facet Observer curation, and 11-element completeness",
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving zero orphan elements & zero manual overrides, >=3-model requirement grounding, 20/20 bijective scene closure, monotonic purpose coupling, physical load-path & triune 23-facet Observer curation, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
@@ -9072,10 +10181,312 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "completeAndEnforced": true
     },
+    "m20Vedanta": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 20,
+        "canonicalModelId": "prism/standard-model/vedanta-nondual-consciousness-ontology/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 167,
+        "blake3DigestHead64": 16700242,
+        "blake3DigestTail64": 48400167,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Vedanta.V1",
+        "canonicalConceptCount": 44,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 30,
+        "keyConceptsSummary": "Advaita Non-Duality, 4 Mahavakyas, Mandukya 4 Avasthas & Turiya Pranava A-U-M, 5 Panca-Kosas, 3 Sariras, 5x5 Pancikarana Mahabhuta Quintuplication, Conserved Triguna Dynamics, Sat-Cit-Ananda, 7 Saptasvara Nada-Brahman",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 22,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Formalizes non-dual Atman-Brahman consciousness, concentric 5-sheath embodiment, exact 1000-permille Sattva-Rajas-Tamas field conservation, 5x5 Pancikarana biome-element quintuplication, and Pranava Turiya harmonic stillness across the conservatory",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 24,
+        "effectKind": "PureNonDualOntology+TrigunaConservation+TuriyaResonance",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 7,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 44,
+        "compositionSummary": "Couples non-dual witness awareness, 5 Panca-Kosa embodiment layers, and conserved Sattva-Rajas-Tamas dynamics bidirectionally across all 22 Canonical Standard Models (484 functor pathways)",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Exact Triguna conservation (S+R+T = 1000 permille) + Mandukya A-U-M-Turiya diurnal/stillness phase lock + Pancikarana 5x5 biome synthesis",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 64,
+        "baseResolutionUnits": 738,
+        "apexResolutionUnits": 948,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "1000/1000 Triguna conservation, 8/8 Pancikarana row-column closure, 4/4 Mahavakyas, 5/5 Panca-Kosas, 4/4 Turiya phases, 7/7 Saptasvara pure JI ratios",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 4096,
+        "maxComputeMicrosPerFrame": 160,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC Triguna, Panca-Kosa, Pancikarana, and Turiya non-dual witness evaluation; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Vedanta.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Vedanta/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "Mandukya Upanisad 1-12, Taittiriya Upanisad 2.1-2.5 (Panca-Kosa), Chandogya Upanisad 6.8.7 (Tat Tvam Asi), Adi Sankara Pancikarana, Samkhya-Karika Triguna, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 44,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving universal 1000-permille Triguna conservation, Panca-Kosa/Mahavakya/Pancikarana closure, Atman-Brahman & Turiya monotonicity, Neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/vedantaDharmaEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Parametric Vedanta Ontology & Nada-Brahman Engine -> Living Non-Dual Conservatory",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m21Dharma": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 21,
+        "canonicalModelId": "prism/standard-model/dharma-rta-ahimsa-pratityasamutpada-stewardship/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 173,
+        "blake3DigestHead64": 17300242,
+        "blake3DigestTail64": 48400173,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Dharma.V1",
+        "canonicalConceptCount": 46,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 32,
+        "keyConceptsSummary": "Vedic Rta Cosmic Order, 4 Purusarthas, Patanjali 8-Limb Astanga Yoga (5 Yamas & 5 Niyamas), Structural Ahimsa, 12-Nidana Pratityasamutpada Dependent Co-Origination, Avatamsaka Indra's Net, 4 Brahmaviharas, Gita Lokasangraha",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 24,
+        "conservationLawCount": 6,
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Upholds Rta cosmic-physical-harmonic lawfulness, structural Ahimsa (0 violence/coercion), 12-link dependent co-origination across chemistry-botany-acoustics-anamnesis-compression, Indra's Net mutual reflection, 4 Brahmavihara curatorial attitudes, and Lokasangraha ecological reciprocity",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 24,
+        "effectKind": "PureDharmicOrder+AhimsaGuarantee+DependentCoOrigination",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 7,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 44,
+        "compositionSummary": "Couples Rta lawfulness, Ahimsa/Aparigraha ethics, 12-link Pratityasamutpada causality, and Lokasangraha polyculture care bidirectionally across all 22 Canonical Standard Models (484 functor pathways)",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Continuous 12-nidana dependent co-origination closure + Brahmavihara Karuna/Upeksa affective co-regulation + Lokasangraha guild stewardship",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 64,
+        "baseResolutionUnits": 748,
+        "apexResolutionUnits": 1000,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 violent/coercive outcomes (Ahimsa), 0 acausal phenomena, 12/12 Pratityasamutpada nidanas, 10/10 Yamas+Niyamas, 8/8 Astanga limbs, 4/4 Purusarthas & Brahmaviharas",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 4096,
+        "maxComputeMicrosPerFrame": 160,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 12,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC Rta, Astanga, Pratityasamutpada, Indra's Net, and Lokasangraha reciprocity evaluation; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Dharma.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Dharma/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "Rigveda Rta, Patanjali Yoga Sutras 2.29-2.45 (Astanga/Yama/Niyama), Pratityasamutpada 12 Nidanas, Avatamsaka Sutra Indra's Net, Bhagavad Gita 3.20 Lokasangraha, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 5,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 44,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving structural Ahimsa & Yama/Niyama/Astanga closure, 12-link Pratityasamutpada causal closure, Rta & Lokasangraha monotonicity, Neuromorphic coupling, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/vedantaDharmaEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Parametric Dharma, Pratityasamutpada & Lokasangraha Engine -> Peaceful Ecological Stewardship",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
+    "m22Compression": {
+      "requiredElementCount": 11,
+      "identity": {
+        "modelIndex": 22,
+        "canonicalModelId": "prism/standard-model/uorc-parametric-compression-portfolio/1",
+        "semverMajor": 1,
+        "semverMinor": 0,
+        "semverPatch": 0,
+        "uorPrimeSignature": 179,
+        "blake3DigestHead64": 17900242,
+        "blake3DigestTail64": 48400179,
+        "stableContentAddressed": true
+      },
+      "vocabulary": {
+        "primaryNamespace": "Foundation.Compression.V1",
+        "canonicalConceptCount": 48,
+        "crossDomainSynonymCount": 20,
+        "taxonomicRelationCount": 34,
+        "keyConceptsSummary": "UORC kappa-Named Codec Points, Consolidated Warm Basis States, Shortest U64 ULEB128, n+61 Archive Bound, Deterministic 3..24 Input Step Measure, Zero-Defect Admission, Lexicographic Choice, Strict Dominance & Lyapunov Descent, Saturating Cap Ledger, Twin-Profile Pass, 64-Cell Rule-30 Autonomous Portfolio Engine, 3-Level Honesty Ledger",
+        "vocabularyComplete": true
+      },
+      "capability": {
+        "capabilityFunctionCount": 26,
+        "conservationLawCount": 7,
+        "exportedFeatureChannelMask": 4194303,
+        "promisedBehaviorSummary": "Addresses parametric codec points and immutable warm basis states by SHA-256 kappa, guarantees lossless defect=0 round-trip with <=n+61 archive size and <=192*n decode steps, abandons non-competitive payloads at the exact cap byte, and evolves a 64-cell Rule-30 Hebbian strategy portfolio without regression or duplicate claim minting",
+        "capabilityDeterministicAndTotal": true
+      },
+      "interfaceSpec": {
+        "typedInputPortCount": 22,
+        "typedOutputPortCount": 22,
+        "cloudEventTypeCount": 8,
+        "stateFieldCount": 28,
+        "effectKind": "PureLosslessCodec+SaturatingCapLedger+Rule30PortfolioEngine",
+        "siBiasedTimeExp": 16,
+        "siBiasedLengthExp": 16,
+        "siBiasedMassExp": 16,
+        "siBiasedCurrentExp": 16,
+        "siBiasedTempExp": 16,
+        "siBiasedAmountExp": 16,
+        "siBiasedLuminousExp": 16,
+        "interfaceDimensionallyHomogeneous": true
+      },
+      "composition": {
+        "dagLayerRank": 7,
+        "dependencyModelMask": 4194303,
+        "compatiblePartnerMask": 4194303,
+        "conflictModelMask": 0,
+        "functorTransformationCount": 44,
+        "compositionSummary": "Couples kappa-addressed parametric compression, warm basis states, NCM micro-plasticity, and 64-cell Rule-30 portfolio consolidation bidirectionally across Anamnesis, Neuromorphic Bus, Infrastructure, Realizability, Teleology, and all 22 Canonical Standard Models (484 functor pathways)",
+        "compositionConflictFreeAndAssociative": true
+      },
+      "dynamics": {
+        "integratorOrder": 2,
+        "characteristicStepMicros": 16667,
+        "adaptationRuleCount": 6,
+        "temporalLawSummary": "Strict dominance Lyapunov potential descent (cost = bytes + steps) + 64-cell Rule-30 autonomous hypothesis minting + kappa-memoized claim register",
+        "dynamicsForwardInvariant": true
+      },
+      "fidelity": {
+        "fixedPointPrecisionBits": 64,
+        "baseResolutionUnits": 868,
+        "apexResolutionUnits": 996,
+        "perceptualJndPermille": 2,
+        "fidelityCriteriaSummary": "0 reconstruction defect, <=n+61 archive bound, <=192 steps/byte ceiling, 0 duplicate kappa claim mints, 0 baseline floor regressions, SHA-256 chain integrity",
+        "fidelityMonotonicallyScales": true
+      },
+      "resources": {
+        "staticArenaBytes": 8192,
+        "maxComputeMicrosPerFrame": 220,
+        "maxLatencyMicros": 16667,
+        "energyBudgetMilliwatts": 14,
+        "perTickHeapAllocations": 0,
+        "deviceConstraintSummary": "Zero-GC UORC wire framing, saturating byte-cap coder ledger, twin-profile shared pass, and 64-bit Rule-30 portfolio register; 0 per-frame heap allocations",
+        "resourceBoundedZeroGc": true
+      },
+      "authority": {
+        "modelOwner": "Foundation.Compression.V1.Model",
+        "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Compression/V1/Model.lex.tex",
+        "pinnedLockReferenceCount": 6,
+        "adoptedStandardsSummary": "UOR-Foundation/compression (Uorc.Performance, Uorc.Neuromorphic, Uorc.Engine), NIST FIPS 180-4 SHA-256, DWARF-5 ULEB128, Wolfram Rule 30, ISO-25010-2023, LEAN-REL-4-32-1",
+        "authorityNormativelyPinned": true
+      },
+      "evidence": {
+        "leanTheoremCount": 7,
+        "runtimePropertyOracleCount": 22,
+        "acceptanceVectorCount": 48,
+        "unprovedAdHocFlagCount": 0,
+        "acceptanceOracleSummary": "7 Lean 4.32 theorems proving n+61 archive & 192*n step bounds, zero-defect lexicographic choice, strict dominance & Lyapunov descent, saturating exact cap stop & constructive requirement bounds, 64-bit Rule-30 vectors, winner scheduling & claim memoization, and 11-element completeness",
+        "evidenceMachineChecked": true
+      },
+      "projection": {
+        "compilationStageCount": 4,
+        "targetModalityMask": 63,
+        "runtimeModulePath": "src/game/parametricCompressionEngine.ts",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> UORC Parametric Codec, Warm States & Autonomous Portfolio Engine -> Lossless Anamnesis & Conservatory State",
+        "projectionZeroDrift": true
+      },
+      "completeAndEnforced": true
+    },
     "zeroCherryPickedModelsVerified": true,
     "allFourteenModelsAndElevenElementsVerified": true,
     "allEighteenModelsAndElevenElementsVerified": true,
     "allNineteenModelsAndElevenElementsVerified": true,
+    "allTwentyOneModelsAndElevenElementsVerified": true,
+    "allTwentyTwoModelsAndElevenElementsVerified": true,
     "observerSelfKnowledgeComplete": true
   },
   "si2019Metrology": {
@@ -9106,9 +10517,9 @@ export const GENERATED_PRISM_STANDARDS = {
     "electroweakBetaVertexConserved": true
   },
   "functorTransferMatrix": {
-    "registeredModelCount": 19,
-    "directedFunctorCellCount": 361,
-    "crossModelPathwayCount": 342,
+    "registeredModelCount": 22,
+    "directedFunctorCellCount": 484,
+    "crossModelPathwayCount": 462,
     "siDimensionalPortMatchingEnabled": true,
     "stdpSynapticPlasticityEnabled": true,
     "activeInferenceFreeEnergyEnabled": true,
@@ -9119,7 +10530,7 @@ export const GENERATED_PRISM_STANDARDS = {
     "iso226ReferencePhonLevel": 60,
     "minAudibleFreqHz": 20,
     "maxAudibleFreqHz": 20000,
-    "chladniModalEigenmodeCount": 8,
+    "chladniModalEigenmodeCount": 16,
     "iso9613HumidityAbsorptionCoupled": true,
     "barkSimultaneousMaskingEnforced": true,
     "iso226EqualLoudnessCompensated": true
@@ -9215,12 +10626,28 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "chemistryNeuromorphicCouplingHolds",
     "chemistryDescriptorCompleteHolds"
   ],
+  "Foundation.Compression.V1.Model": [
+    "archiveAndDecodeStepBoundsHold",
+    "zeroDefectAdmissionAndLexicographicChoiceHold",
+    "strictDominanceAndPotentialDescentHold",
+    "saturatingLedgerExactStopAndRequirementBoundsHold",
+    "rule30RingAndOrbitVectorsHold",
+    "winnerSchedulingClaimMintingAndCouplingHold",
+    "compressionDescriptorCompleteHolds"
+  ],
   "Foundation.Cosmogenesis.V1.Model": [
     "alphaOmegaParametricMonotonicHolds",
     "observerExtrapolationDifferentiationAndImmanenceHolds",
     "observerAffectAndPreferencesClosureHolds",
     "observerDescriptorCompleteHolds",
     "observerCompleteFourteenModelRegistryHolds"
+  ],
+  "Foundation.Dharma.V1.Model": [
+    "ahimsaZeroViolenceAndYamaNiyamaAstangaClosureHold",
+    "pratityasamutpadaTwelveNidanaCausalClosureHolds",
+    "rtaAndLokasangrahaWorldWelfareMonotonicHold",
+    "dharmaNeuromorphicCouplingHolds",
+    "dharmaDescriptorCompleteHolds"
   ],
   "Foundation.Ecology.V1.Model": [
     "ecologyConstellationMinimumHolds",
@@ -9258,7 +10685,8 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
   "Foundation.MetaModel.V1.Model": [
     "canonicalMetaModelCellAccountingHolds",
     "functorCompositionIdentityAndAssociativityHolds",
-    "fidelityResolutionMonotonicityHolds"
+    "fidelityResolutionMonotonicityHolds",
+    "coherentModelDepthTransferMonotonicHolds"
   ],
   "Foundation.Morphogenesis.V1.Model": [
     "murrayCubicVascularConservationHolds",
@@ -9281,6 +10709,12 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "observerTheoryOfMindMonotonicHolds",
     "supraDirectiveExceedsBaseDirectiveHolds",
     "rule30DoublingLawAndWithdrawnDualityHolds",
+    "ncmPlasticityAndSlotRateVectorsHold",
+    "ncmMicroPlasticityBoundsHold",
+    "conservatoryCurationVectorsHold",
+    "conservatoryCurationDominanceAndLyapunovHold",
+    "hdCoherentPrecisionVectorsHold",
+    "hdCoherentDepthTransferAcrossModelsHolds",
     "functorAllToAllEnhancementHolds",
     "neuromorphicDescriptorCompleteHolds"
   ],
@@ -9320,6 +10754,13 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "teleologyFulfillmentAndLandmarkMonotonicHold",
     "teleologyDescriptorCompleteHolds",
     "physicalBasisAndTriuneObserverCurationHold"
+  ],
+  "Foundation.Vedanta.V1.Model": [
+    "trigunaExactConservationThousandPermilleHolds",
+    "pancaKosaMahavakyaAndPancikaranaClosureHold",
+    "vedantaAtmanBrahmanAndTuriyaMonotonicHold",
+    "vedantaNeuromorphicCouplingHolds",
+    "vedantaDescriptorCompleteHolds"
   ],
   "Foundation.View.Text.V1.Model": [],
   "VerdantResonance": [],

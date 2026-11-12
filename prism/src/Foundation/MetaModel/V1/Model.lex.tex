@@ -189,9 +189,9 @@ structure{
 
 definition{name: canonicalMetaModelElementCount, parameters: [], result: Nat, body: 11}
 
-definition{name: canonicalStandardModelTotalCount, parameters: [], result: Nat, body: 19}
+definition{name: canonicalStandardModelTotalCount, parameters: [], result: Nat, body: 22}
 
-definition{name: canonicalTotalObserverMatrixCells, parameters: [], result: Nat, body: 209}
+definition{name: canonicalTotalObserverMatrixCells, parameters: [], result: Nat, body: 242}
 
 definition{name: siDimensionZeroBias, parameters: [], result: Nat, body: 16}
 
@@ -202,6 +202,10 @@ definition{name: fullPartnerMaskFourteenModels, parameters: [], result: Nat, bod
 definition{name: fullPartnerMaskEighteenModels, parameters: [], result: Nat, body: 262143}
 
 definition{name: fullPartnerMaskNineteenModels, parameters: [], result: Nat, body: 524287}
+
+definition{name: fullPartnerMaskTwentyOneModels, parameters: [], result: Nat, body: 2097151}
+
+definition{name: fullPartnerMaskTwentyTwoModels, parameters: [], result: Nat, body: 4194303}
 
 definition{
   name: verifyElementQuantitativeGates,
@@ -235,7 +239,7 @@ definition{
   name: synthesizeCanonicalDescriptor,
   parameters: [modelIndex : Nat, canonicalModelId : String, semverMajor : Nat, semverMinor : Nat, semverPatch : Nat, basisPrime : Nat, digestHead : Nat, digestTail : Nat, primaryNamespace : String, conceptCount : Nat, synonymCount : Nat, relationCount : Nat, keyConceptsSummary : String, capabilityCount : Nat, conservationCount : Nat, exportedFeatureMask : Nat, promisedBehaviorSummary : String, inPorts : Nat, outPorts : Nat, eventCount : Nat, stateFields : Nat, effectKind : String, siT : Nat, siL : Nat, siM : Nat, siI : Nat, siTheta : Nat, siN : Nat, siJ : Nat, dagRank : Nat, depMask : Nat, partnerMask : Nat, conflictMask : Nat, functorCount : Nat, compositionSummary : String, integratorOrder : Nat, stepMicros : Nat, adaptRules : Nat, temporalLawSummary : String, precisionBits : Nat, baseRes : Nat, apexRes : Nat, jndPermille : Nat, fidelityCriteriaSummary : String, arenaBytes : Nat, computeMicros : Nat, latencyMicros : Nat, energyMw : Nat, heapAllocs : Nat, deviceConstraintSummary : String, modelOwner : String, provenanceUri : String, lockRefs : Nat, adoptedStandardsSummary : String, theoremCount : Nat, oracleCount : Nat, vectorCount : Nat, adHocFlags : Nat, acceptanceOracleSummary : String, compileStages : Nat, modalityMask : Nat, runtimeModulePath : String, renderAndPublishSummary : String],
   result: CanonicalStandardModelDescriptor,
-  body: (let gateOk : Bool := (verifyElementQuantitativeGates modelIndex basisPrime conceptCount capabilityCount inPorts outPorts conflictMask baseRes apexRes computeMicros heapAllocs lockRefs theoremCount adHocFlags compileStages); (record CanonicalStandardModelDescriptor {requiredElementCount := (canonicalMetaModelElementCount), identity := (record ModelIdentitySpec {modelIndex := modelIndex, canonicalModelId := canonicalModelId, semverMajor := semverMajor, semverMinor := semverMinor, semverPatch := semverPatch, uorPrimeSignature := basisPrime, blake3DigestHead64 := digestHead, blake3DigestTail64 := digestTail, stableContentAddressed := ((1 <=? modelIndex) && ((modelIndex <=? (canonicalStandardModelTotalCount)) && ((71 <=? basisPrime) && (0 <? digestHead))))}), vocabulary := (record ModelVocabularySpec {primaryNamespace := primaryNamespace, canonicalConceptCount := conceptCount, crossDomainSynonymCount := synonymCount, taxonomicRelationCount := relationCount, keyConceptsSummary := keyConceptsSummary, vocabularyComplete := ((8 <=? conceptCount) && ((2 <=? synonymCount) && (2 <=? relationCount)))}), capability := (record ModelCapabilitySpec {capabilityFunctionCount := capabilityCount, conservationLawCount := conservationCount, exportedFeatureChannelMask := exportedFeatureMask, promisedBehaviorSummary := promisedBehaviorSummary, capabilityDeterministicAndTotal := ((3 <=? capabilityCount) && ((1 <=? conservationCount) && (0 <? exportedFeatureMask)))}), interfaceSpec := (record ModelInterfaceSpec {typedInputPortCount := inPorts, typedOutputPortCount := outPorts, cloudEventTypeCount := eventCount, stateFieldCount := stateFields, effectKind := effectKind, siBiasedTimeExp := siT, siBiasedLengthExp := siL, siBiasedMassExp := siM, siBiasedCurrentExp := siI, siBiasedTempExp := siTheta, siBiasedAmountExp := siN, siBiasedLuminousExp := siJ, interfaceDimensionallyHomogeneous := ((1 <=? inPorts) && ((1 <=? outPorts) && ((1 <=? stateFields) && (siT <=? 32))))}), composition := (record ModelCompositionSpec {dagLayerRank := dagRank, dependencyModelMask := depMask, compatiblePartnerMask := partnerMask, conflictModelMask := conflictMask, functorTransformationCount := functorCount, compositionSummary := compositionSummary, compositionConflictFreeAndAssociative := ((conflictMask =? 0) && ((1 <=? functorCount) && (0 <? partnerMask)))}), dynamics := (record ModelDynamicsSpec {integratorOrder := integratorOrder, characteristicStepMicros := stepMicros, adaptationRuleCount := adaptRules, temporalLawSummary := temporalLawSummary, dynamicsForwardInvariant := ((1 <=? integratorOrder) && ((1 <=? stepMicros) && (1 <=? adaptRules)))}), fidelity := (record ModelFidelitySpec {fixedPointPrecisionBits := precisionBits, baseResolutionUnits := baseRes, apexResolutionUnits := apexRes, perceptualJndPermille := jndPermille, fidelityCriteriaSummary := fidelityCriteriaSummary, fidelityMonotonicallyScales := ((16 <=? precisionBits) && ((baseRes <? apexRes) && (1 <=? jndPermille)))}), resources := (record ModelResourcesSpec {staticArenaBytes := arenaBytes, maxComputeMicrosPerFrame := computeMicros, maxLatencyMicros := latencyMicros, energyBudgetMilliwatts := energyMw, perTickHeapAllocations := heapAllocs, deviceConstraintSummary := deviceConstraintSummary, resourceBoundedZeroGc := ((heapAllocs =? 0) && ((computeMicros <=? (maxSingleModelFrameComputeMicros)) && (0 <? arenaBytes)))}), authority := (record ModelAuthoritySpec {modelOwner := modelOwner, provenanceUri := provenanceUri, pinnedLockReferenceCount := lockRefs, adoptedStandardsSummary := adoptedStandardsSummary, authorityNormativelyPinned := (2 <=? lockRefs)}), evidence := (record ModelEvidenceSpec {leanTheoremCount := theoremCount, runtimePropertyOracleCount := oracleCount, acceptanceVectorCount := vectorCount, unprovedAdHocFlagCount := adHocFlags, acceptanceOracleSummary := acceptanceOracleSummary, evidenceMachineChecked := ((2 <=? theoremCount) && ((2 <=? oracleCount) && (adHocFlags =? 0)))}), projection := (record ModelProjectionSpec {compilationStageCount := compileStages, targetModalityMask := modalityMask, runtimeModulePath := runtimeModulePath, renderAndPublishSummary := renderAndPublishSummary, projectionZeroDrift := ((4 <=? compileStages) && (0 <? modalityMask))}), completeAndEnforced := gateOk}))
+  body: (let gateOk : Bool := (verifyElementQuantitativeGates modelIndex basisPrime conceptCount capabilityCount inPorts outPorts conflictMask baseRes apexRes computeMicros heapAllocs lockRefs theoremCount adHocFlags compileStages); (record CanonicalStandardModelDescriptor {requiredElementCount := (canonicalMetaModelElementCount), identity := (record ModelIdentitySpec {modelIndex := modelIndex, canonicalModelId := canonicalModelId, semverMajor := semverMajor, semverMinor := semverMinor, semverPatch := semverPatch, uorPrimeSignature := basisPrime, blake3DigestHead64 := digestHead, blake3DigestTail64 := digestTail, stableContentAddressed := ((1 <=? modelIndex) && ((modelIndex <=? (canonicalStandardModelTotalCount)) && ((71 <=? basisPrime) && (0 <? digestHead))))}), vocabulary := (record ModelVocabularySpec {primaryNamespace := primaryNamespace, canonicalConceptCount := conceptCount, crossDomainSynonymCount := synonymCount, taxonomicRelationCount := relationCount, keyConceptsSummary := keyConceptsSummary, vocabularyComplete := ((8 <=? conceptCount) && ((2 <=? synonymCount) && (2 <=? relationCount)))}), capability := (record ModelCapabilitySpec {capabilityFunctionCount := capabilityCount, conservationLawCount := conservationCount, exportedFeatureChannelMask := exportedFeatureMask, promisedBehaviorSummary := promisedBehaviorSummary, capabilityDeterministicAndTotal := ((3 <=? capabilityCount) && ((1 <=? conservationCount) && (0 <? exportedFeatureMask)))}), interfaceSpec := (record ModelInterfaceSpec {typedInputPortCount := inPorts, typedOutputPortCount := outPorts, cloudEventTypeCount := eventCount, stateFieldCount := stateFields, effectKind := effectKind, siBiasedTimeExp := siT, siBiasedLengthExp := siL, siBiasedMassExp := siM, siBiasedCurrentExp := siI, siBiasedTempExp := siTheta, siBiasedAmountExp := siN, siBiasedLuminousExp := siJ, interfaceDimensionallyHomogeneous := ((1 <=? inPorts) && ((1 <=? outPorts) && ((1 <=? stateFields) && (siT <=? 32))))}), composition := (record ModelCompositionSpec {dagLayerRank := dagRank, dependencyModelMask := depMask, compatiblePartnerMask := partnerMask, conflictModelMask := conflictMask, functorTransformationCount := functorCount, compositionSummary := compositionSummary, compositionConflictFreeAndAssociative := ((conflictMask =? 0) && ((1 <=? functorCount) && (0 <? partnerMask)))}), dynamics := (record ModelDynamicsSpec {integratorOrder := integratorOrder, characteristicStepMicros := stepMicros, adaptationRuleCount := adaptRules, temporalLawSummary := temporalLawSummary, dynamicsForwardInvariant := ((1 <=? integratorOrder) && ((1 <=? stepMicros) && (1 <=? adaptRules)))}), fidelity := (record ModelFidelitySpec {fixedPointPrecisionBits := precisionBits, baseResolutionUnits := baseRes, apexResolutionUnits := apexRes, perceptualJndPermille := jndPermille, fidelityCriteriaSummary := fidelityCriteriaSummary, fidelityMonotonicallyScales := ((64 <=? precisionBits) && ((baseRes <? apexRes) && (1 <=? jndPermille)))}), resources := (record ModelResourcesSpec {staticArenaBytes := arenaBytes, maxComputeMicrosPerFrame := computeMicros, maxLatencyMicros := latencyMicros, energyBudgetMilliwatts := energyMw, perTickHeapAllocations := heapAllocs, deviceConstraintSummary := deviceConstraintSummary, resourceBoundedZeroGc := ((heapAllocs =? 0) && ((computeMicros <=? (maxSingleModelFrameComputeMicros)) && (0 <? arenaBytes)))}), authority := (record ModelAuthoritySpec {modelOwner := modelOwner, provenanceUri := provenanceUri, pinnedLockReferenceCount := lockRefs, adoptedStandardsSummary := adoptedStandardsSummary, authorityNormativelyPinned := (2 <=? lockRefs)}), evidence := (record ModelEvidenceSpec {leanTheoremCount := theoremCount, runtimePropertyOracleCount := oracleCount, acceptanceVectorCount := vectorCount, unprovedAdHocFlagCount := adHocFlags, acceptanceOracleSummary := acceptanceOracleSummary, evidenceMachineChecked := ((2 <=? theoremCount) && ((2 <=? oracleCount) && (adHocFlags =? 0)))}), projection := (record ModelProjectionSpec {compilationStageCount := compileStages, targetModalityMask := modalityMask, runtimeModulePath := runtimeModulePath, renderAndPublishSummary := renderAndPublishSummary, projectionZeroDrift := ((4 <=? compileStages) && (0 <? modalityMask))}), completeAndEnforced := gateOk}))
 }
 
 definition{
@@ -290,6 +294,49 @@ theorem{
   statement: ((breaksFidelityResolutionMonotonicity baseRes gLow gHigh) = false),
   proof: linear_arithmetic{
     definitions: [breaksFidelityResolutionMonotonicity, stepFidelityResolutionFromBusGain]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{name: hdMinimumProcessorPrecisionBits, parameters: [], result: Nat, body: 64}
+
+definition{name: loFiEightBitCeiling, parameters: [], result: Nat, body: 8}
+
+definition{name: hdCoherentPpmUnity, parameters: [], result: Nat, body: 1000000}
+
+definition{
+  name: verifyHdModelPrecisionFloor,
+  parameters: [precisionBits : Nat],
+  result: Bool,
+  body: ((hdMinimumProcessorPrecisionBits) <=? precisionBits)
+}
+
+definition{
+  name: composeCoherentModelDepthScore,
+  parameters: [ownDepthPpm : Nat, inboundPartnerSumPpm : Nat],
+  result: Nat,
+  body: ((prim multiply 21 ownDepthPpm : Nat) + inboundPartnerSumPpm)
+}
+
+definition{
+  name: breaksCoherentModelDepthTransferMonotonicity,
+  parameters: [ownDepthPpm : Nat, partnerSumLow : Nat, partnerDelta : Nat, loFiBits : Nat],
+  result: Bool,
+  body: ((((loFiBits <=? (loFiEightBitCeiling)) && (verifyHdModelPrecisionFloor loFiBits)) || ((0 <? partnerDelta) && ((composeCoherentModelDepthScore ownDepthPpm (partnerSumLow + partnerDelta)) <=? (composeCoherentModelDepthScore ownDepthPpm partnerSumLow)))) || (not (verifyHdModelPrecisionFloor (hdMinimumProcessorPrecisionBits))))
+}
+
+theorem{
+  name: coherentModelDepthTransferMonotonicHolds,
+  parameters: [ownDepthPpm : Nat, partnerSumLow : Nat, partnerDelta : Nat, loFiBits : Nat],
+  statement: ((breaksCoherentModelDepthTransferMonotonicity ownDepthPpm partnerSumLow partnerDelta loFiBits) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      breaksCoherentModelDepthTransferMonotonicity,
+      composeCoherentModelDepthScore,
+      hdMinimumProcessorPrecisionBits,
+      loFiEightBitCeiling,
+      verifyHdModelPrecisionFloor
+    ]
   },
   axioms: [Quot.sound, propext]
 }

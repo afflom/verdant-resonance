@@ -1,0 +1,612 @@
+\begin{lexlean}{Foundation.Compression.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.MetaModel.V1.Model}
+\importmodule{Foundation.Neuromorphic.V1.Model}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: CodecSpaceAndFrameBoundSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: uleb64MaxBytes, type: Nat},
+    {name: rawFixedFrameBytes, type: Nat},
+    {name: rawMaxOverheadBytes, type: Nat},
+    {name: contextBitCount, type: Nat},
+    {name: minInputsPerBit, type: Nat},
+    {name: maxInputsPerBit, type: Nat},
+    {name: minStepsPerByte, type: Nat},
+    {name: maxStepsPerByte, type: Nat},
+    {name: v03ReleasedProfileInputs, type: Nat},
+    {name: midProfileInputs, type: Nat},
+    {name: fullProfileInputs, type: Nat},
+    {name: warmBasisStateSlotCount, type: Nat},
+    {name: archiveBoundAt64Bytes, type: Nat},
+    {name: archiveBoundHoldsAllInputs, type: Bool},
+    {name: warmStatesNeverChangeMeaning, type: Bool},
+    {name: referenceFramesZeroDecodeSteps, type: Bool}
+  ]
+}
+
+structure{
+  name: DominanceChoiceAndLedgerSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: admittedDefectZero, type: Nat},
+    {name: capHeaderMarginBytes, type: Nat},
+    {name: twinSharedStrategyCount, type: Nat},
+    {name: honestyClaimLevelCount, type: Nat},
+    {name: architecturalFacetCount, type: Nat},
+    {name: zeroDefectAdmissionEnforced, type: Bool},
+    {name: lexicographicBytesThenStepsEnforced, type: Bool},
+    {name: strictDominancePartialOrderVerified, type: Bool},
+    {name: lyapunovPotentialNeverRises, type: Bool},
+    {name: saturatingLedgerExactCapStopEnforced, type: Bool},
+    {name: excessAndLackBoundsConstructive, type: Bool}
+  ]
+}
+
+structure{
+  name: AutonomousRule30PortfolioEngineSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: rule30CellCount, type: Nat},
+    {name: rule30SeedHi32, type: Nat},
+    {name: rule30SeedLo32, type: Nat},
+    {name: rule30StepSeedHi32, type: Nat},
+    {name: rule30StepSeedLo32, type: Nat},
+    {name: rule30StepOneHi32, type: Nat},
+    {name: rule30StepOneLo32, type: Nat},
+    {name: portfolioWeightMin, type: Nat},
+    {name: portfolioWeightMax, type: Nat},
+    {name: portfolioWeightInitial, type: Nat},
+    {name: portfolioPotentiation, type: Nat},
+    {name: portfolioDepression, type: Nat},
+    {name: portfolioConsolidation, type: Nat},
+    {name: hypothesisBudgetPerTick, type: Nat},
+    {name: portfolioSlotCapacity, type: Nat},
+    {name: generatorKindCount, type: Nat},
+    {name: basePortfolioEfficiencyPermille, type: Nat},
+    {name: apexPortfolioEfficiencyPermille, type: Nat},
+    {name: winnerScheduledFirstGuaranteed, type: Bool},
+    {name: knownClaimNeverReMintedGuaranteed, type: Bool},
+    {name: baselineFloorNoRegressionGuaranteed, type: Bool}
+  ]
+}
+
+structure{
+  name: CompressionStandardModel,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: codecSpaceAndBounds, type: CodecSpaceAndFrameBoundSpec},
+    {name: dominanceChoiceAndLedger, type: DominanceChoiceAndLedgerSpec},
+    {name: autonomousPortfolioEngine, type: AutonomousRule30PortfolioEngineSpec},
+    {name: canonicalDescriptor, type: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor}
+  ]
+}
+
+definition{name: verdantCompressionBasisPrime, parameters: [], result: Nat, body: 179}
+
+definition{name: bitsPerByte, parameters: [], result: Nat, body: 8}
+
+definition{name: contextBitsTotal, parameters: [], result: Nat, body: 17}
+
+definition{name: fixedInputsTotal, parameters: [], result: Nat, body: 3}
+
+definition{name: featureInputsPair, parameters: [], result: Nat, body: 2}
+
+definition{name: maxInputsPerBitTotal, parameters: [], result: Nat, body: 24}
+
+definition{name: maxStepsPerByteTotal, parameters: [], result: Nat, body: 192}
+
+definition{name: uleb64LimitBytes, parameters: [], result: Nat, body: 10}
+
+definition{name: rawFixedHeaderTrailerBytes, parameters: [], result: Nat, body: 41}
+
+definition{name: rawMaxOverheadBytes, parameters: [], result: Nat, body: 61}
+
+definition{name: defectExactZero, parameters: [], result: Nat, body: 0}
+
+definition{name: capHeaderMargin, parameters: [], result: Nat, body: 5}
+
+definition{name: honestyLevelTotal, parameters: [], result: Nat, body: 3}
+
+definition{name: architecturalFacetTotal, parameters: [], result: Nat, body: 12}
+
+definition{name: rule30CellsTotal, parameters: [], result: Nat, body: 64}
+
+definition{name: rule30Ring64, parameters: [], result: Nat, body: 18446744073709551616}
+
+definition{name: rule30Seed64, parameters: [], result: Nat, body: 11400714819323198485}
+
+definition{name: rule30SeedHi32, parameters: [], result: Nat, body: 2654435769}
+
+definition{name: rule30SeedLo32, parameters: [], result: Nat, body: 2135587861}
+
+definition{name: rule30StepSeedHi32, parameters: [], result: Nat, body: 1902397223}
+
+definition{name: rule30StepSeedLo32, parameters: [], result: Nat, body: 1081852469}
+
+definition{name: rule30StepOneHi32, parameters: [], result: Nat, body: 2147483648}
+
+definition{name: rule30StepOneLo32, parameters: [], result: Nat, body: 3}
+
+definition{name: portfolioHypothesisBudget, parameters: [], result: Nat, body: 6}
+
+definition{name: portfolioSlotTotal, parameters: [], result: Nat, body: 12}
+
+definition{name: generatorKindTotal, parameters: [], result: Nat, body: 4}
+
+definition{
+  name: ulebLength,
+  parameters: [n : Nat],
+  result: Nat,
+  body: (if (n <? 128) then 1 else (if (n <? 16384) then 2 else (if (n <? 2097152) then 3 else (if (n <? 268435456) then 4 else (if (n <? 34359738368) then 5 else (if (n <? 4398046511104) then 6 else (if (n <? 562949953421312) then 7 else (if (n <? 72057594037927936) then 8 else (if (n <? 9223372036854775808) then 9 else 10)))))))))
+}
+
+definition{
+  name: rawLength,
+  parameters: [n : Nat],
+  result: Nat,
+  body: (((prim multiply 2 (ulebLength n) : Nat) + n) + (rawFixedHeaderTrailerBytes))
+}
+
+definition{
+  name: settleBytes,
+  parameters: [candidateBytes : Nat, rawBytes : Nat],
+  result: Nat,
+  body: (prim subtract candidateBytes (prim subtract candidateBytes rawBytes : Nat) : Nat)
+}
+
+definition{
+  name: clampContextCount,
+  parameters: [ctxCount : Nat],
+  result: Nat,
+  body: (prim subtract (contextBitsTotal) (prim subtract (contextBitsTotal) ctxCount : Nat) : Nat)
+}
+
+definition{
+  name: profileInputsPerBit,
+  parameters: [ctxCount : Nat, hasShort : Bool, hasRep : Bool],
+  result: Nat,
+  body: ((((clampContextCount ctxCount) + (fixedInputsTotal)) + (if hasShort then (featureInputsPair) else 0)) + (if hasRep then (featureInputsPair) else 0))
+}
+
+definition{
+  name: profileStepsPerByte,
+  parameters: [ctxCount : Nat, hasShort : Bool, hasRep : Bool],
+  result: Nat,
+  body: (prim multiply (bitsPerByte) (profileInputsPerBit ctxCount hasShort hasRep) : Nat)
+}
+
+definition{name: referenceFrameSteps, parameters: [n : Nat], result: Nat, body: 0}
+
+definition{name: rawFrameSteps, parameters: [n : Nat], result: Nat, body: n}
+
+definition{
+  name: v03ReleasedFrameSteps,
+  parameters: [n : Nat],
+  result: Nat,
+  body: (prim multiply 160 n : Nat)
+}
+
+definition{
+  name: midProfileFrameSteps,
+  parameters: [n : Nat],
+  result: Nat,
+  body: (prim multiply 176 n : Nat)
+}
+
+definition{
+  name: fullProfileFrameSteps,
+  parameters: [n : Nat],
+  result: Nat,
+  body: (prim multiply 192 n : Nat)
+}
+
+definition{
+  name: admitZeroDefectBytes,
+  parameters: [candidateBytes : Nat, defectCount : Nat, rawFallbackBytes : Nat],
+  result: Nat,
+  body: (if (defectCount =? (defectExactZero)) then (settleBytes candidateBytes rawFallbackBytes) else rawFallbackBytes)
+}
+
+definition{
+  name: lexGap,
+  parameters: [ab : Nat, as : Nat, cb : Nat, cs : Nat],
+  result: Nat,
+  body: ((prim subtract ab cb : Nat) + (prim subtract (prim subtract (prim subtract as cs : Nat) (prim subtract (prim subtract as cs : Nat) 1 : Nat) : Nat) (prim subtract cb ab : Nat) : Nat))
+}
+
+definition{
+  name: pickBytes,
+  parameters: [b : Nat, s : Nat, kb : Nat, ks : Nat],
+  result: Nat,
+  body: (if ((b <? kb) || ((b =? kb) && (s <? ks))) then b else kb)
+}
+
+definition{
+  name: pickSteps,
+  parameters: [b : Nat, s : Nat, kb : Nat, ks : Nat],
+  result: Nat,
+  body: (if ((b <? kb) || ((b =? kb) && (s <? ks))) then s else ks)
+}
+
+definition{
+  name: dominates,
+  parameters: [cb : Nat, cs : Nat, ib : Nat, it : Nat],
+  result: Bool,
+  body: (((cb <=? ib) && (cs <=? it)) && ((cb <? ib) || (cs <? it)))
+}
+
+definition{
+  name: gainOf,
+  parameters: [cb : Nat, cs : Nat, ib : Nat, it : Nat],
+  result: Nat,
+  body: (if ((cb <=? ib) && (cs <=? it)) then (prim subtract (ib + it) (cb + cs) : Nat) else 0)
+}
+
+definition{
+  name: consolidateBytes,
+  parameters: [cb : Nat, cs : Nat, ib : Nat, it : Nat],
+  result: Nat,
+  body: (if (dominates cb cs ib it) then cb else ib)
+}
+
+definition{
+  name: consolidateSteps,
+  parameters: [cb : Nat, cs : Nat, ib : Nat, it : Nat],
+  result: Nat,
+  body: (if (dominates cb cs ib it) then cs else it)
+}
+
+definition{
+  name: consolidateCost,
+  parameters: [cb : Nat, cs : Nat, ib : Nat, it : Nat],
+  result: Nat,
+  body: ((consolidateBytes cb cs ib it) + (consolidateSteps cb cs ib it))
+}
+
+definition{
+  name: saturate,
+  parameters: [count : Nat, limit : Nat],
+  result: Nat,
+  body: (prim subtract count (prim subtract count limit : Nat) : Nat)
+}
+
+definition{
+  name: encodedPayloadBelowCap,
+  parameters: [cap : Nat, count : Nat],
+  result: Nat,
+  body: (if (count <? cap) then (count + (capHeaderMargin)) else 0)
+}
+
+definition{
+  name: excessOver,
+  parameters: [threshold : Nat, observed : Nat],
+  result: Nat,
+  body: (prim subtract observed threshold : Nat)
+}
+
+definition{
+  name: lackUnder,
+  parameters: [threshold : Nat, observed : Nat],
+  result: Nat,
+  body: (prim subtract threshold observed : Nat)
+}
+
+definition{
+  name: pow2,
+  parameters: [n : Nat],
+  result: Nat,
+  body: (match n | Nat.zero => 1 | Nat.succ k => ((pow2 k) + (pow2 k))),
+  axioms: [],
+  recursive_argument: n
+}
+
+definition{
+  name: cell,
+  parameters: [s : Nat, i : Nat],
+  result: Nat,
+  body: (prim remainder (prim quotient s (pow2 i) 0 : Nat) 2 0 : Nat)
+}
+
+definition{
+  name: rule,
+  parameters: [l : Nat, c : Nat, r : Nat],
+  result: Nat,
+  body: (if ((c =? 1) || (r =? 1)) then (if (l =? 0) then 1 else 0) else (if (l =? 1) then 1 else 0))
+}
+
+definition{
+  name: nextCell,
+  parameters: [s : Nat, i : Nat],
+  result: Nat,
+  body: (rule (cell s (prim remainder (i + 1) (rule30CellsTotal) 0 : Nat)) (cell s i) (cell s (prim remainder (i + 63) (rule30CellsTotal) 0 : Nat)))
+}
+
+definition{
+  name: stepFrom,
+  parameters: [s : Nat, fuel : Nat],
+  result: Nat,
+  body: (match fuel
+    | Nat.zero => 0
+    | Nat.succ m => ((stepFrom s m) + (if ((nextCell s m) =? 1) then (pow2 m) else 0))),
+  axioms: [],
+  recursive_argument: fuel
+}
+
+definition{
+  name: rule30Step,
+  parameters: [s : Nat],
+  result: Nat,
+  body: (stepFrom (if (s =? 0) then (rule30Seed64) else s) (rule30CellsTotal))
+}
+
+definition{
+  name: largerWeight,
+  parameters: [a : Nat, b : Nat],
+  result: Nat,
+  body: (a + (prim subtract b a : Nat))
+}
+
+definition{
+  name: potentiatePortfolioWeight,
+  parameters: [w : Nat],
+  result: Nat,
+  body: (let cap : Nat := (prim subtract (Foundation.Neuromorphic.V1.Model::weightMax) (Foundation.Neuromorphic.V1.Model::weightRaise) : Nat); (prim subtract (Foundation.Neuromorphic.V1.Model::weightMax) (prim subtract cap w : Nat) : Nat))
+}
+
+definition{
+  name: depressPortfolioWeight,
+  parameters: [w : Nat],
+  result: Nat,
+  body: ((Foundation.Neuromorphic.V1.Model::weightMin) + (prim subtract w ((Foundation.Neuromorphic.V1.Model::weightMin) + (Foundation.Neuromorphic.V1.Model::weightLower)) : Nat))
+}
+
+definition{
+  name: winnerWeight,
+  parameters: [candidate : Nat, incumbent : Nat],
+  result: Nat,
+  body: (potentiatePortfolioWeight (largerWeight candidate incumbent))
+}
+
+definition{
+  name: loserWeight,
+  parameters: [incumbent : Nat],
+  result: Nat,
+  body: (depressPortfolioWeight incumbent)
+}
+
+definition{
+  name: admitMintCode,
+  parameters: [known : Bool, remaining : Nat],
+  result: Nat,
+  body: (match known
+    | Bool.true => 1
+    | Bool.false => (prim multiply 2 (prim subtract 1 remaining : Nat) : Nat))
+}
+
+definition{
+  name: stepCompressionPortfolioEfficiencyPermille,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (740 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 16 : Nat))
+}
+
+definition{
+  name: stepCompressionBusModulation,
+  parameters: [busWeight : Nat],
+  result: Nat,
+  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 32 : Nat))
+}
+
+definition{
+  name: compressionCanonicalDescriptor,
+  parameters: [],
+  result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 22 "prism/standard-model/uorc-parametric-compression-portfolio/1" 1 0 0 (verdantCompressionBasisPrime) 17900242 48400179 "Foundation.Compression.V1" 48 20 34 "UORC kappa-Named Codec Points, Consolidated Warm Basis States, Shortest U64 ULEB128, n+61 Archive Bound, Deterministic 3..24 Input Step Measure, Zero-Defect Admission, Lexicographic Choice, Strict Dominance & Lyapunov Descent, Saturating Cap Ledger, Twin-Profile Pass, 64-Cell Rule-30 Autonomous Portfolio Engine, 3-Level Honesty Ledger" 26 7 4194303 "Addresses parametric codec points and immutable warm basis states by SHA-256 kappa, guarantees lossless defect=0 round-trip with <=n+61 archive size and <=192*n decode steps, abandons non-competitive payloads at the exact cap byte, and evolves a 64-cell Rule-30 Hebbian strategy portfolio without regression or duplicate claim minting" 22 22 8 28 "PureLosslessCodec+SaturatingCapLedger+Rule30PortfolioEngine" 16 16 16 16 16 16 16 7 4194303 4194303 0 44 "Couples kappa-addressed parametric compression, warm basis states, NCM micro-plasticity, and 64-cell Rule-30 portfolio consolidation bidirectionally across Anamnesis, Neuromorphic Bus, Infrastructure, Realizability, Teleology, and all 22 Canonical Standard Models (484 functor pathways)" 2 16667 6 "Strict dominance Lyapunov potential descent (cost = bytes + steps) + 64-cell Rule-30 autonomous hypothesis minting + kappa-memoized claim register" 64 868 996 2 "0 reconstruction defect, <=n+61 archive bound, <=192 steps/byte ceiling, 0 duplicate kappa claim mints, 0 baseline floor regressions, SHA-256 chain integrity" 8192 220 16667 14 0 "Zero-GC UORC wire framing, saturating byte-cap coder ledger, twin-profile shared pass, and 64-bit Rule-30 portfolio register; 0 per-frame heap allocations" "Foundation.Compression.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Compression/V1/Model.lex.tex" 6 "UOR-Foundation/compression (Uorc.Performance, Uorc.Neuromorphic, Uorc.Engine), NIST FIPS 180-4 SHA-256, DWARF-5 ULEB128, Wolfram Rule 30, ISO-25010-2023, LEAN-REL-4-32-1" 7 22 48 0 "7 Lean 4.32 theorems proving n+61 archive & 192*n step bounds, zero-defect lexicographic choice, strict dominance & Lyapunov descent, saturating exact cap stop & constructive requirement bounds, 64-bit Rule-30 vectors, winner scheduling & claim memoization, and 11-element completeness" 4 63 "src/game/parametricCompressionEngine.ts" "LexLean 1.2 -> AST Extractor -> UORC Parametric Codec, Warm States & Autonomous Portfolio Engine -> Lossless Anamnesis & Conservatory State")
+}
+
+definition{
+  name: verdantCompressionStandard,
+  parameters: [],
+  result: CompressionStandardModel,
+  body: (record CompressionStandardModel {profile := "prism/uorc-parametric-compression-standard/1", codecSpaceAndBounds := (record CodecSpaceAndFrameBoundSpec {uleb64MaxBytes := (uleb64LimitBytes), rawFixedFrameBytes := (rawFixedHeaderTrailerBytes), rawMaxOverheadBytes := (rawMaxOverheadBytes), contextBitCount := (contextBitsTotal), minInputsPerBit := (profileInputsPerBit 0 false false), maxInputsPerBit := (profileInputsPerBit 17 true true), minStepsPerByte := (profileStepsPerByte 0 false false), maxStepsPerByte := (profileStepsPerByte 17 true true), v03ReleasedProfileInputs := (profileInputsPerBit 17 false false), midProfileInputs := (profileInputsPerBit 17 true false), fullProfileInputs := (profileInputsPerBit 17 true true), warmBasisStateSlotCount := 2, archiveBoundAt64Bytes := (rawLength 64), archiveBoundHoldsAllInputs := ((settleBytes 200 (rawLength 64)) <=? (64 + (rawMaxOverheadBytes))), warmStatesNeverChangeMeaning := ((admitZeroDefectBytes 48 0 (rawLength 64)) <? (admitZeroDefectBytes 48 1 (rawLength 64))), referenceFramesZeroDecodeSteps := ((referenceFrameSteps 1024) =? 0)}), dominanceChoiceAndLedger := (record DominanceChoiceAndLedgerSpec {admittedDefectZero := (defectExactZero), capHeaderMarginBytes := (capHeaderMargin), twinSharedStrategyCount := 2, honestyClaimLevelCount := (honestyLevelTotal), architecturalFacetCount := (architecturalFacetTotal), zeroDefectAdmissionEnforced := ((admitZeroDefectBytes 32 1 105) =? 105), lexicographicBytesThenStepsEnforced := (((lexGap (pickBytes 40 300 40 500) (pickSteps 40 300 40 500) 40 500) =? 0) && ((pickSteps 40 300 40 500) =? 300)), strictDominancePartialOrderVerified := ((dominates 40 300 42 300) && (not (dominates 40 300 40 300))), lyapunovPotentialNeverRises := (((consolidateCost 40 300 45 320) + (gainOf 40 300 45 320)) =? (45 + 320)), saturatingLedgerExactCapStopEnforced := (((encodedPayloadBelowCap 64 (saturate 63 65)) =? 68) && ((encodedPayloadBelowCap 64 (saturate 64 65)) =? 0)), excessAndLackBoundsConstructive := (((excessOver 100 85) =? 0) && ((lackUnder 85 100) =? 0))}), autonomousPortfolioEngine := (record AutonomousRule30PortfolioEngineSpec {rule30CellCount := (rule30CellsTotal), rule30SeedHi32 := (rule30SeedHi32), rule30SeedLo32 := (rule30SeedLo32), rule30StepSeedHi32 := (rule30StepSeedHi32), rule30StepSeedLo32 := (rule30StepSeedLo32), rule30StepOneHi32 := (rule30StepOneHi32), rule30StepOneLo32 := (rule30StepOneLo32), portfolioWeightMin := (Foundation.Neuromorphic.V1.Model::weightMin), portfolioWeightMax := (Foundation.Neuromorphic.V1.Model::weightMax), portfolioWeightInitial := (Foundation.Neuromorphic.V1.Model::weightInitial), portfolioPotentiation := (Foundation.Neuromorphic.V1.Model::weightRaise), portfolioDepression := (Foundation.Neuromorphic.V1.Model::weightLower), portfolioConsolidation := (Foundation.Neuromorphic.V1.Model::consolidationThreshold), hypothesisBudgetPerTick := (portfolioHypothesisBudget), portfolioSlotCapacity := (portfolioSlotTotal), generatorKindCount := (generatorKindTotal), basePortfolioEfficiencyPermille := (stepCompressionPortfolioEfficiencyPermille 8), apexPortfolioEfficiencyPermille := (stepCompressionPortfolioEfficiencyPermille 16), winnerScheduledFirstGuaranteed := ((loserWeight 8) <? (winnerWeight 8 8)), knownClaimNeverReMintedGuaranteed := ((admitMintCode true 6) =? 1), baselineFloorNoRegressionGuaranteed := ((settleBytes 180 105) <=? 105)}), canonicalDescriptor := (compressionCanonicalDescriptor)})
+}
+
+definition{
+  name: breaksArchiveAndDecodeStepBounds,
+  parameters: [n : Nat, candBytes : Nat, ctxCount : Nat, hasShort : Bool, hasRep : Bool],
+  result: Bool,
+  body: (((((((uleb64LimitBytes) <? (ulebLength n)) || (((n + (rawMaxOverheadBytes)) <? (rawLength n)) || ((n + (rawMaxOverheadBytes)) <? (settleBytes candBytes (rawLength n))))) || (((profileInputsPerBit ctxCount hasShort hasRep) <? (fixedInputsTotal)) || ((maxInputsPerBitTotal) <? (profileInputsPerBit ctxCount hasShort hasRep)))) || (((profileStepsPerByte ctxCount hasShort hasRep) <? 24) || ((maxStepsPerByteTotal) <? (profileStepsPerByte ctxCount hasShort hasRep)))) || ((0 <? (referenceFrameSteps n)) || ((prim multiply (maxStepsPerByteTotal) n : Nat) <? (rawFrameSteps n)))) || (((fullProfileFrameSteps n) <? (midProfileFrameSteps n)) || (((midProfileFrameSteps n) <? (v03ReleasedFrameSteps n)) || ((prim multiply (maxStepsPerByteTotal) n : Nat) <? (fullProfileFrameSteps n)))))
+}
+
+theorem{
+  name: archiveAndDecodeStepBoundsHold,
+  parameters: [n : Nat, candBytes : Nat, ctxCount : Nat, hasShort : Bool, hasRep : Bool],
+  statement: ((breaksArchiveAndDecodeStepBounds n candBytes ctxCount hasShort hasRep) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      bitsPerByte,
+      breaksArchiveAndDecodeStepBounds,
+      clampContextCount,
+      contextBitsTotal,
+      featureInputsPair,
+      fixedInputsTotal,
+      fullProfileFrameSteps,
+      maxInputsPerBitTotal,
+      maxStepsPerByteTotal,
+      midProfileFrameSteps,
+      profileInputsPerBit,
+      profileStepsPerByte,
+      rawFixedHeaderTrailerBytes,
+      rawFrameSteps,
+      rawLength,
+      rawMaxOverheadBytes,
+      referenceFrameSteps,
+      settleBytes,
+      uleb64LimitBytes,
+      ulebLength,
+      v03ReleasedFrameSteps
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksZeroDefectAdmissionAndLexicographicChoice,
+  parameters: [b : Nat, s : Nat, kb : Nat, ks : Nat, defect : Nat, rawB : Nat],
+  result: Bool,
+  body: ((((0 <? defect) && (not ((admitZeroDefectBytes b defect rawB) =? rawB))) || (rawB <? (admitZeroDefectBytes b defect rawB))) || ((((0 <? (lexGap (pickBytes b s kb ks) (pickSteps b s kb ks) kb ks)) || (0 <? (lexGap (pickBytes b s kb ks) (pickSteps b s kb ks) b s))) || (not ((pickBytes b s kb ks) =? (settleBytes b kb)))) || ((not (0 <? (lexGap b s kb ks))) && (0 <? (gainOf kb ks b s)))))
+}
+
+theorem{
+  name: zeroDefectAdmissionAndLexicographicChoiceHold,
+  parameters: [b : Nat, s : Nat, kb : Nat, ks : Nat, defect : Nat, rawB : Nat],
+  statement: ((breaksZeroDefectAdmissionAndLexicographicChoice b s kb ks defect rawB) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      admitZeroDefectBytes,
+      breaksZeroDefectAdmissionAndLexicographicChoice,
+      defectExactZero,
+      gainOf,
+      lexGap,
+      pickBytes,
+      pickSteps,
+      settleBytes
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksStrictDominanceAndPotentialDescent,
+  parameters: [ab : Nat, as : Nat, bb : Nat, bs : Nat, cb : Nat, cs : Nat],
+  result: Bool,
+  body: (((dominates ab as ab as) || ((dominates ab as bb bs) && (dominates bb bs ab as))) || ((((dominates ab as bb bs) && (dominates bb bs cb cs)) && (not (dominates ab as cb cs))) || ((((dominates ab as bb bs) && (((bb <? ab) || (bs <? as)) || ((bb + bs) <=? (ab + as)))) || (not (((consolidateCost ab as bb bs) + (gainOf ab as bb bs)) =? (bb + bs)))) || ((bb + bs) <? (consolidateCost ab as bb bs)))))
+}
+
+theorem{
+  name: strictDominanceAndPotentialDescentHold,
+  parameters: [ab : Nat, as : Nat, bb : Nat, bs : Nat, cb : Nat, cs : Nat],
+  statement: ((breaksStrictDominanceAndPotentialDescent ab as bb bs cb cs) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      breaksStrictDominanceAndPotentialDescent,
+      consolidateBytes,
+      consolidateCost,
+      consolidateSteps,
+      dominates,
+      gainOf
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksSaturatingLedgerExactStopAndRequirementBounds,
+  parameters: [cap : Nat, emitted : Nat, limit : Nat, threshold : Nat, observed : Nat],
+  result: Bool,
+  body: (((not ((saturate ((saturate emitted limit) + 1) limit) =? (saturate (emitted + 1) limit))) || (((emitted <? cap) && (not ((encodedPayloadBelowCap cap (saturate emitted (cap + 1))) =? (emitted + (capHeaderMargin))))) || ((cap <=? emitted) && (0 <? (encodedPayloadBelowCap cap (saturate emitted (cap + 1))))))) || (((((excessOver threshold observed) =? 0) && (threshold <? observed)) || ((observed <=? threshold) && (0 <? (excessOver threshold observed)))) || ((((lackUnder threshold observed) =? 0) && (observed <? threshold)) || ((threshold <=? observed) && (0 <? (lackUnder threshold observed))))))
+}
+
+theorem{
+  name: saturatingLedgerExactStopAndRequirementBoundsHold,
+  parameters: [cap : Nat, emitted : Nat, limit : Nat, threshold : Nat, observed : Nat],
+  statement: ((breaksSaturatingLedgerExactStopAndRequirementBounds cap emitted limit threshold observed) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      breaksSaturatingLedgerExactStopAndRequirementBounds,
+      capHeaderMargin,
+      encodedPayloadBelowCap,
+      excessOver,
+      lackUnder,
+      saturate
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: verifyRule30RingAndOrbitVectors,
+  parameters: [],
+  result: Bool,
+  body: (((((((pow2 (rule30CellsTotal)) =? (rule30Ring64)) && ((rule30Step (rule30Seed64)) =? 8170733857868071477)) && (((rule30Step 0) =? 8170733857868071477) && ((rule30Step 1) =? 9223372036854775811))) && (((prim multiply (rule30SeedHi32) 4294967296 : Nat) + (rule30SeedLo32)) =? (rule30Seed64))) && (((prim multiply (rule30StepSeedHi32) 4294967296 : Nat) + (rule30StepSeedLo32)) =? 8170733857868071477)) && (((prim multiply (rule30StepOneHi32) 4294967296 : Nat) + (rule30StepOneLo32)) =? 9223372036854775811))
+}
+
+theorem{
+  name: rule30RingAndOrbitVectorsHold,
+  parameters: [],
+  statement: ((verifyRule30RingAndOrbitVectors) = true),
+  proof: decide{},
+  axioms: []
+}
+
+definition{
+  name: breaksWinnerSchedulingClaimMintingAndCoupling,
+  parameters: [candidate : Nat, incumbent : Nat, remaining : Nat, busWeight : Nat],
+  result: Bool,
+  body: (((((((Foundation.Neuromorphic.V1.Model::weightMin) <=? incumbent) && ((incumbent <=? (Foundation.Neuromorphic.V1.Model::weightMax)) && (candidate <=? (Foundation.Neuromorphic.V1.Model::weightMax)))) && (((winnerWeight candidate incumbent) <=? (loserWeight incumbent)) || ((Foundation.Neuromorphic.V1.Model::weightMax) <? (winnerWeight candidate incumbent)))) || (((((admitMintCode true remaining) <? 1) || (1 <? (admitMintCode true remaining))) || (((admitMintCode false 0) <? 2) || (2 <? (admitMintCode false 0)))) || ((0 <? remaining) && (0 <? (admitMintCode false remaining))))) || ((((Foundation.Neuromorphic.V1.Model::weightMin) <=? busWeight) && (busWeight <? (Foundation.Neuromorphic.V1.Model::weightMax))) && ((stepCompressionPortfolioEfficiencyPermille (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <=? (stepCompressionPortfolioEfficiencyPermille busWeight)))) || (((stepCompressionBusModulation busWeight) <? 1032) || ((1512 <? (stepCompressionBusModulation busWeight)) || ((stepCompressionBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <? (stepCompressionBusModulation busWeight)))))
+}
+
+theorem{
+  name: winnerSchedulingClaimMintingAndCouplingHold,
+  parameters: [candidate : Nat, incumbent : Nat, remaining : Nat, busWeight : Nat],
+  statement: ((breaksWinnerSchedulingClaimMintingAndCoupling candidate incumbent remaining busWeight) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
+      Foundation.Neuromorphic.V1.Model::weightLower,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      Foundation.Neuromorphic.V1.Model::weightRaise,
+      admitMintCode,
+      breaksWinnerSchedulingClaimMintingAndCoupling,
+      depressPortfolioWeight,
+      largerWeight,
+      loserWeight,
+      potentiatePortfolioWeight,
+      stepCompressionBusModulation,
+      stepCompressionPortfolioEfficiencyPermille,
+      winnerWeight
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksCompressionDescriptorComplete,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: ((probe <=? 0) && (not (Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete (compressionCanonicalDescriptor))))
+}
+
+theorem{
+  name: compressionDescriptorCompleteHolds,
+  parameters: [probe : Nat],
+  statement: ((breaksCompressionDescriptorComplete probe) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
+      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
+      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
+      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
+      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
+      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
+      breaksCompressionDescriptorComplete,
+      compressionCanonicalDescriptor,
+      verdantCompressionBasisPrime
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

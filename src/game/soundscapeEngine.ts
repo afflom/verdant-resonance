@@ -17,6 +17,7 @@ import {
   BIOME_CONFIGS,
   BIOME_CONSTELLATIONS,
   BiomeId,
+  ConsolidatedGardenMemory,
   GrowthSubstrateId,
   NeuromorphicEngineState,
   NeuromorphicStrategyId,
@@ -203,17 +204,21 @@ export function computeMaterialChladniModalRatios(
     Math.max(0.5, youngsModulusGPa) / Math.max(0.25, densityGPerCm3),
   );
   const stiffnessDispersion = Math.max(0.88, Math.min(1.16, waveSpeedKmPerS / 5.987));
-  const canonicalEigenModes = [1.0, 2.0, 2.756, 3.0, 4.133, 5.404, 6.267, 8.933];
+  // 16 physical Bessel circular-plate & Euler-Bernoulli cantilever eigenmode ratios (`prism/hd-coherent-precision/1`)
+  const canonicalEigenModes = [
+    1.0, 2.0, 2.756, 3.0, 4.0, 4.133, 5.404, 6.0, 6.267, 7.568, 8.0, 8.933, 9.821, 11.14, 12.0,
+    13.38,
+  ];
   const count = Math.max(1, Math.min(canonicalEigenModes.length, partialCount));
   const out: number[] = [1.0];
   for (let i = 1; i < count; i++) {
     const baseRatio = canonicalEigenModes[i];
-    // Preserve pure octave (2.0) and twelfth (3.0) while letting Chladni plate/bar modes disperse physically with √(E/ρ)
-    const isHarmonicLock = baseRatio === 2.0 || baseRatio === 3.0;
+    // Preserve exact integer harmonic series locks (2, 3, 4, 6, 8, 12) while physical Chladni modes disperse with √(E/ρ)
+    const isHarmonicLock = Number.isInteger(baseRatio);
     const ratio = isHarmonicLock
       ? baseRatio
       : baseRatio * (0.94 + 0.06 * stiffnessDispersion);
-    out.push(Number(ratio.toFixed(4)));
+    out.push(Number(ratio.toFixed(6)));
   }
   return out;
 }
@@ -330,7 +335,7 @@ export function computeIso3382BiomeRoomAcoustics(
   earlyReflectionTapCount = 22,
 ): Iso3382BiomeRoomAcousticsProfile {
   const spec = BIOME_ACOUSTIC_ENCLOSURE_TABLE[biome] ?? BIOME_ACOUSTIC_ENCLOSURE_TABLE.sanctuary;
-  const tapCount = Math.max(8, Math.min(38, Math.round(earlyReflectionTapCount)));
+  const tapCount = Math.max(8, Math.min(64, Math.round(earlyReflectionTapCount)));
   const cAir = 343.2;
   const zAirMRayl = 0.000413; // 1.204 kg/m³ * 343.2 m/s = 413 Rayl = 0.000413 MRayl
   const zMineralMRayl = (spec.densityKgM3 * spec.waveSpeedMS) / 1e6;
@@ -406,13 +411,20 @@ export function synthesizeIso3382ImpulseChannels(
   const left = new Float32Array(length);
   const right = new Float32Array(length);
 
-  // 1. Stamp discrete Allen-Berkley image-source early reflection spikes
+  // 1. Stamp fractional-sample linear-interpolated Allen-Berkley early reflections (`19..64` HD taps)
   for (let tIdx = 0; tIdx < profile.earlyReflections.length; tIdx++) {
     const tap = profile.earlyReflections[tIdx];
-    const sampleIdx = Math.min(length - 1, Math.max(1, Math.round(tap.delaySeconds * sampleRate)));
+    const exactSample = Math.min(length - 2, Math.max(1, tap.delaySeconds * sampleRate));
+    const s0 = Math.floor(exactSample);
+    const frac = exactSample - s0;
+    const airDamp = Math.exp(-tap.delaySeconds * 1.35 * tap.reflectionOrder);
     const polarity = tIdx % 2 === 0 ? 1 : -1;
-    left[sampleIdx] += tap.gainLeft * polarity;
-    right[sampleIdx] += tap.gainRight * polarity;
+    const gL = tap.gainLeft * airDamp * polarity;
+    const gR = tap.gainRight * airDamp * polarity;
+    left[s0] += gL * (1 - frac);
+    left[s0 + 1] += gL * frac;
+    right[s0] += gR * (1 - frac);
+    right[s0 + 1] += gR * frac;
   }
 
   // 2. Layer exponentially decaying ISO 3382 Sabine diffuse tail (`-60 dB` at `t = T60`)
@@ -557,6 +569,11 @@ export class BotanicalSoundscapeEngine {
   private isPaused = false;
   private currentBiome: BiomeId = 'meadow';
   private currentPan = 0;
+  private listenerX = 0;
+  private listenerY = 1.68;
+  private listenerZ = 0;
+  private listenerYaw = 0;
+  private listenerPitch = 0;
   private lastBinauralCue: Woodworth3DBinauralCue | null = null;
   private lastNearestDistanceMeters = 2.0;
   private lastAcousticOcclusion = 0;
@@ -572,6 +589,7 @@ export class BotanicalSoundscapeEngine {
   private busMonumentChimeSustain = 1.0;
   private busAffectWarmthScale = 1.0;
   private busAffectReverbScale = 1.0;
+  private busCuratedBreathScale = 1.0;
   private busActiveModel: SynthesizedObserverModelSpec | null = null;
   private liveCosmogenesisParams: AlphaOmegaCosmogenesisParameters = { alphaSeed: 1 };
   private livePhysicsWeight = 8;
@@ -582,7 +600,7 @@ export class BotanicalSoundscapeEngine {
   private liveBarkHeadroomDb = 3.5;
   private liveModalPartialsPerVoice = 5;
   private liveEarlyReflectionTapCount = 22;
-  private livePrimeLimitCeiling: 5 | 7 | 11 = 5;
+  private livePrimeLimitCeiling: 5 | 7 | 11 | 13 | 17 = 5;
 
   // 16-band energy array for zero-allocation HUD acoustic visualization
   public readonly spectrumBands = new Float32Array(16);
@@ -854,6 +872,11 @@ export class BotanicalSoundscapeEngine {
       modalFilterQMultiplier = 1.0,
     } = params;
 
+    this.listenerX = playerX;
+    this.listenerY = playerY;
+    this.listenerZ = playerZ;
+    this.listenerYaw = playerYaw;
+    this.listenerPitch = playerPitch;
     const cue3D = computeWoodworth3DBinauralSpatializer({
       listenerX: playerX,
       listenerY: playerY,
@@ -2277,9 +2300,22 @@ export class BotanicalSoundscapeEngine {
       );
       step.voices.forEach((voice, voiceIdx) => {
         if (!this.ctx || !this.masterGain) return;
-        const spProfile = this.liveArticulationProfiles[voice.species];
+        const liveVoiceCue = voice.worldPosition
+          ? computeWoodworth3DBinauralSpatializer({
+              listenerX: this.listenerX,
+              listenerY: this.listenerY,
+              listenerZ: this.listenerZ,
+              listenerYaw: this.listenerYaw,
+              listenerPitch: this.listenerPitch,
+              sourceX: voice.worldPosition[0],
+              sourceY: voice.worldPosition[1],
+              sourceZ: voice.worldPosition[2],
+            })
+          : null;
+        const effectiveDistMeters =
+          liveVoiceCue?.distance3DMeters ?? voice.distanceMeters ?? this.lastNearestDistanceMeters;
         const spatial = evaluateSpatialWaveAcoustics({
-          distanceMeters: voice.distanceMeters ?? this.lastNearestDistanceMeters,
+          distanceMeters: effectiveDistMeters,
           acousticOcclusion: voice.acousticOcclusion ?? this.lastAcousticOcclusion,
           atmosphere,
           cosmogenesis: this.liveCosmogenesisParams,
@@ -2309,6 +2345,7 @@ export class BotanicalSoundscapeEngine {
         const isBass = voice.stem === 'harmonic-bass-anchor';
         const isOstinato = voice.stem === 'polyrhythmic-ostinato';
         const isCanon = voice.stem === 'canonic-counterpoint-echo';
+        const isLead = voice.stem === 'melodic-flora-lead';
 
         osc.type = isBass ? 'sine' : isOstinato ? 'triangle' : 'sine';
         osc.frequency.setValueAtTime(voice.frequencyHz, now);
@@ -2347,39 +2384,72 @@ export class BotanicalSoundscapeEngine {
 
         filter.type = 'lowpass';
         const rawCutoff = isBass ? 360 : isOstinato ? 1650 : 1280;
-        filter.frequency.setValueAtTime(
-          Math.min(
-            spatial.effectiveLowpassHz,
-            Math.max(
-              rawCutoff + (this.liveModalPartialsPerVoice - 5) * 240,
-              (granularAcoustic?.lignocellulosicWarmthCutoffHz ?? biochem.harmonicWarmthFilterHz) *
-                0.65,
-            ),
+        const baseCutoffHz = Math.min(
+          spatial.effectiveLowpassHz,
+          Math.max(
+            rawCutoff + (this.liveModalPartialsPerVoice - 5) * 240,
+            (granularAcoustic?.lignocellulosicWarmthCutoffHz ?? biochem.harmonicWarmthFilterHz) *
+              0.65,
           ),
-          now,
         );
+        filter.frequency.setValueAtTime(baseCutoffHz * 0.88, now);
         filter.Q.value = ((isCanon ? 2.1 : 1.2) + biochem.silicaMineralIndex * 0.9) * silicaQMult;
 
-        const attackSec = isBass ? 0.16 : isOstinato ? 0.006 : isCanon ? 0.045 : 0.038;
+        const attackSec = isBass ? 0.15 : isOstinato ? 0.008 : isCanon ? 0.05 : 0.042;
         const durSec =
           Math.max(0.18, voice.durationSec) *
           biochem.acousticSustainMultiplier *
+          this.busCuratedBreathScale *
           (0.94 + circadian.hydraulicTurgorPressure * 0.06);
         const governedAmp = stepBarkAudit.attenuatedGains[voiceIdx] ?? voice.amplitude;
         const peakAmp = governedAmp * (0.45 + spatial.distanceGainMultiplier * 0.55);
 
+        // Two-stage expressive cantabile breath swell on melodic, bass, and canon voices
         gain.gain.setValueAtTime(0.0004, now);
-        gain.gain.linearRampToValueAtTime(peakAmp, now + attackSec);
-        gain.gain.exponentialRampToValueAtTime(0.0004, now + durSec);
+        if (isLead || isCanon || isBass) {
+          const swellPeakAt = Math.min(now + durSec * 0.42, now + attackSec + 0.14);
+          gain.gain.linearRampToValueAtTime(peakAmp * 0.72, now + attackSec);
+          gain.gain.linearRampToValueAtTime(peakAmp, swellPeakAt);
+          filter.frequency.linearRampToValueAtTime(
+            Math.min(spatial.effectiveLowpassHz, baseCutoffHz * 1.12),
+            swellPeakAt,
+          );
+          filter.frequency.exponentialRampToValueAtTime(
+            Math.max(180, baseCutoffHz * 0.78),
+            now + durSec,
+          );
+          gain.gain.exponentialRampToValueAtTime(0.0004, now + durSec);
+        } else {
+          gain.gain.linearRampToValueAtTime(peakAmp, now + attackSec);
+          gain.gain.exponentialRampToValueAtTime(0.0004, now + durSec);
+        }
 
         osc.connect(filter);
         overtone.connect(ovGain);
         ovGain.connect(filter);
-        filter.connect(gain);
+
+        // Apply live 3D Woodworth pinna elevation cue & binaural stereo bearing per singing plant
+        const liveStereoPan = liveVoiceCue
+          ? liveVoiceCue.stereoPan * 0.8 + voice.stereoPan * 0.2
+          : voice.stereoPan;
+        if (liveVoiceCue && (isLead || isCanon)) {
+          const pinnaFilter = this.ctx.createBiquadFilter();
+          pinnaFilter.type = 'peaking';
+          pinnaFilter.frequency.setValueAtTime(liveVoiceCue.pinnaElevationNotchHz, now);
+          pinnaFilter.Q.value = 2.8;
+          pinnaFilter.gain.value = -2.8;
+          filter.connect(pinnaFilter);
+          pinnaFilter.connect(gain);
+        } else {
+          filter.connect(gain);
+        }
 
         if (typeof this.ctx.createStereoPanner === 'function') {
           const panner = this.ctx.createStereoPanner();
-          panner.pan.setValueAtTime(Math.max(-0.9, Math.min(0.9, voice.stereoPan)), now);
+          panner.pan.setValueAtTime(
+            Math.max(-0.92, Math.min(0.92, liveStereoPan * this.busBinauralWidthMultiplier)),
+            now,
+          );
           gain.connect(panner);
           panner.connect(this.masterGain);
         } else {
@@ -2650,8 +2720,10 @@ export class BotanicalSoundscapeEngine {
       Math.min(1.85, cosmo.inorganicRealm.chimeSustainFactor),
     );
     const steering = neuro.observer.affectAndPreferences.liveSteering;
-    this.busAffectWarmthScale = steering.acousticWarmthScale;
-    this.busAffectReverbScale = steering.reverbBloomScale;
+    const vd = neuro.observer.vedantaAndDharma;
+    this.busAffectWarmthScale = steering.acousticWarmthScale * vd.karunaLowpassWarmthFactor;
+    this.busAffectReverbScale =
+      steering.reverbBloomScale * (1 + vd.mandukyaTuriya.overtoneSerenityGain01 * 0.08);
     if (this.ctx && this.reverbReturnGain) {
       this.reverbReturnGain.gain.setTargetAtTime(
         Math.min(0.68, 0.42 * this.busAffectReverbScale),
@@ -2663,6 +2735,13 @@ export class BotanicalSoundscapeEngine {
     this.liveBarkHeadroomDb = multiModalFidelity.barkMaskingHeadroomDb;
     this.liveModalPartialsPerVoice = multiModalFidelity.chladniModalPartialsPerVoice;
     this.livePrimeLimitCeiling = multiModalFidelity.primeLimitHarmonicCeiling;
+    const curatedMus = neuro.observer.conservatoryCuration?.incumbentPoint.musicalProfile;
+    if (curatedMus) {
+      this.busCuratedBreathScale = Math.max(
+        0.92,
+        Math.min(1.22, curatedMus.breathReleasePermille / 1000),
+      );
+    }
     if (this.liveEarlyReflectionTapCount !== multiModalFidelity.earlyReflectionTapCount) {
       this.liveEarlyReflectionTapCount = multiModalFidelity.earlyReflectionTapCount;
       if (this.ctx && this.convolver) {
@@ -3205,8 +3284,10 @@ export class BotanicalSoundscapeEngine {
         Math.min(0.88, spatialCue.interauralTimeDiffMicros / 660),
       );
 
+      const activeRatios: readonly [number, number, number, number] =
+        params.gesture === 'stillness' ? [1.0, 1.25, 1.5, 2.0] : params.chordRatios;
       const barkAudit = evaluate24BarkMaskingGovernor(
-        params.chordRatios.map((r, idx) => ({
+        activeRatios.map((r, idx) => ({
           freqHz: baseHz * r,
           gain: (idx === 0 ? 0.052 : 0.038) * distAtten * (0.8 + params.reciprocity01 * 0.25),
         })),
@@ -3214,7 +3295,7 @@ export class BotanicalSoundscapeEngine {
         this.barkScratchBuffer,
       );
 
-      params.chordRatios.forEach((ratio, idx) => {
+      activeRatios.forEach((ratio, idx) => {
         if (!this.ctx || !this.masterGain) return;
         const startAt =
           baseStart + (params.gesture === 'touch' ? idx * 0.04 : idx * 0.095);
@@ -3275,6 +3356,123 @@ export class BotanicalSoundscapeEngine {
         quartzHarmonic.start(startAt);
         osc.stop(startAt + durSec + 0.04);
         quartzHarmonic.stop(startAt + durSec + 0.04);
+      });
+    } catch {
+      // Ignore audio errors
+    }
+  }
+
+  /**
+   * Shared κ-Memory Resonance Gift (`uorc/conservatory-curation/1`):
+   * When the Observer consolidates a new `κ`-named `ConsolidatedGardenMemory` (from Symbiotic Guild
+   * completion, Biome Sanctuary mastery, Witness Communion, or Māṇḍūkya Turīya stillness), it shares
+   * that memory's pure Just-Intonation triad + octave halo with the player in 3D Woodworth space.
+   * Zero stochastic randomness (`0.0¢` pure rational harmonic lock, 24-Bark governed).
+   */
+  public playConsolidatedKappaResonanceGift(params: {
+    readonly memory: ConsolidatedGardenMemory;
+    readonly sourceX: number;
+    readonly sourceY: number;
+    readonly sourceZ: number;
+  }): void {
+    for (let b = 1; b < 15; b += 2) {
+      this.spectrumBands[b] = Math.min(1, this.spectrumBands[b] + 0.34);
+    }
+
+    this.init();
+    if (!this.ctx || !this.masterGain || this.isMuted || this.isPaused) return;
+
+    try {
+      const biomeCfg = this.liveBiomeConfigs[params.memory.biome] ?? this.liveBiomeConfigs.meadow;
+      const baseHz = biomeCfg.baseNoteHz;
+      const cue = computeWoodworth3DBinauralSpatializer({
+        listenerX: this.listenerX,
+        listenerY: this.listenerY,
+        listenerZ: this.listenerZ,
+        listenerYaw: this.listenerYaw,
+        listenerPitch: this.listenerPitch,
+        sourceX: params.sourceX,
+        sourceY: params.sourceY,
+        sourceZ: params.sourceZ,
+      });
+      const distAtten = 1 / (1 + cue.distance3DMeters * 0.045);
+      const arrivalDelaySec = Math.min(0.06, cue.distance3DMeters / 343.0);
+      const baseStart = this.ctx.currentTime + 0.02 + arrivalDelaySec;
+
+      const giftRatios: readonly [number, number, number, number] = [
+        params.memory.signatureRatios[0],
+        params.memory.signatureRatios[1],
+        params.memory.signatureRatios[2],
+        2.0,
+      ];
+      const barkAudit = evaluate24BarkMaskingGovernor(
+        giftRatios.map((r, idx) => ({
+          freqHz: baseHz * r,
+          gain: (idx === 0 ? 0.044 : 0.033) * distAtten,
+        })),
+        this.liveBarkHeadroomDb,
+        this.barkScratchBuffer,
+      );
+
+      giftRatios.forEach((ratio, idx) => {
+        if (!this.ctx || !this.masterGain) return;
+        const startAt = baseStart + idx * 0.13;
+        const durSec = (1.75 + idx * 0.18) * this.busCuratedBreathScale;
+        const freq = baseHz * ratio;
+
+        const osc = this.ctx.createOscillator();
+        const pureOctave = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const gain = this.ctx.createGain();
+        const octGain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, startAt);
+        pureOctave.type = 'sine';
+        pureOctave.frequency.setValueAtTime(Math.min(3600, freq * 2.0), startAt);
+        octGain.gain.value = 0.16;
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(2100 * this.busAffectWarmthScale, startAt);
+        filter.Q.value = 1.4;
+
+        const peakAmp =
+          (barkAudit.attenuatedGains[idx] ?? 0.032 * distAtten) *
+          computeIso226EqualLoudnessWeight(freq, 60);
+        gain.gain.setValueAtTime(0.0003, startAt);
+        gain.gain.linearRampToValueAtTime(peakAmp * 0.7, startAt + 0.065);
+        gain.gain.linearRampToValueAtTime(peakAmp, startAt + 0.24);
+        gain.gain.exponentialRampToValueAtTime(0.0003, startAt + durSec);
+
+        osc.connect(filter);
+        pureOctave.connect(octGain);
+        octGain.connect(filter);
+        filter.connect(gain);
+
+        if (typeof this.ctx.createStereoPanner === 'function') {
+          const panner = this.ctx.createStereoPanner();
+          const antiphonalSpread = ((idx % 2 === 0 ? -1 : 1) * 0.22);
+          panner.pan.setValueAtTime(
+            Math.max(-0.9, Math.min(0.9, cue.stereoPan * 0.78 + antiphonalSpread)),
+            startAt,
+          );
+          gain.connect(panner);
+          panner.connect(this.masterGain);
+        } else {
+          gain.connect(this.masterGain);
+        }
+
+        if (this.convolver) {
+          const verbSend = this.ctx.createGain();
+          verbSend.gain.value = Math.min(0.78, 0.56 * this.busAffectReverbScale);
+          gain.connect(verbSend);
+          verbSend.connect(this.convolver);
+        }
+
+        osc.start(startAt);
+        pureOctave.start(startAt);
+        osc.stop(startAt + durSec + 0.04);
+        pureOctave.stop(startAt + durSec + 0.04);
       });
     } catch {
       // Ignore audio errors

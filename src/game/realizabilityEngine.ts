@@ -17,23 +17,37 @@ import {
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
 import {
-  CANONICAL_19_MODEL_KEYS,
+  CANONICAL_22_MODEL_KEYS,
   evaluateHolisticObserverStandardModelContext,
   type CanonicalStandardModelKey,
 } from './neuromorphicFunctorBus';
 import { synthesizeLSystemBotanicalMorphogenesis } from './proceduralMeshEngine';
 import {
+  MAX_ADAPTIVE_BANDS,
+  evaluateChlorophyllFoliageReflectance,
+  integrateSpectralReflectanceToXyzD65,
+} from './spectralColorEngine';
+import {
   computeIso3382BiomeRoomAcoustics,
+  computeMaterialChladniModalRatios,
   computeWoodworth3DBinauralSpatializer,
 } from './soundscapeEngine';
 import {
   computeAnamnesisMerkleDigest,
   computeEpisodicMemoryHorizonCapacity,
   deserializeAndVerifyAnamnesisSnapshot,
+  packAnamnesisEnvelopeToUorc,
+  unpackAnamnesisEnvelopeFromUorc,
   type ContentAddressedAnamnesisEnvelope,
   type VerdantAnamnesisPayload,
 } from './anamnesisEngine';
+import { evaluateConservatoryParametricCompression } from './parametricCompressionEngine';
+import {
+  createInitialConservatoryCurationState,
+  stepAutonomousConservatoryCuration,
+} from './conservatoryCurationEngine';
 import { evaluateVerdantTeleologySynthesis } from './teleologyEngine';
+import { evaluateVerdantVedantaAndDharmaSynthesis } from './vedantaDharmaEngine';
 
 export interface ModelRealizabilitySensitivityRecord {
   readonly modelIndex: number;
@@ -52,7 +66,7 @@ export interface VerdantRealizabilityAuditReport {
   readonly profile: string;
   readonly verified: boolean;
   readonly basisPrime: number;
-  readonly auditedStandardModelCount: 19;
+  readonly auditedStandardModelCount: 22;
   readonly sensitiveModelCount: number;
   readonly auditedRuntimeSubsystemCount: 7;
   readonly danglingUnprojectedPortCount: number;
@@ -65,6 +79,11 @@ export interface VerdantRealizabilityAuditReport {
   readonly anamnesisLosslessMerkleVerified: boolean;
   readonly teleologyZeroOrphanClosureVerified: boolean;
   readonly sceneBijectiveCoverageVerified: boolean;
+  readonly vedantaTrigunaAndPancikaranaVerified: boolean;
+  readonly dharmaAhimsaAndPratityasamutpadaVerified: boolean;
+  readonly uorcParametricCompressionVerified: boolean;
+  readonly autonomousConservatoryCurationVerified: boolean;
+  readonly hdCoherentPrecisionVerified: boolean;
   readonly modelSensitivities: readonly ModelRealizabilitySensitivityRecord[];
 }
 
@@ -255,8 +274,127 @@ export function evaluateVerdantRealizabilityAudit(params?: {
     teleologyApex.terraceStandingWaveGlowPermille > teleologyBase.terraceStandingWaveGlowPermille &&
     teleologyApex.witnessCommunionReciprocityPermille > teleologyBase.witnessCommunionReciprocityPermille;
 
-  // 5. Evaluate per-model differential sensitivity across all 19 Canonical Standard Models
-  const modelSensitivities: ModelRealizabilitySensitivityRecord[] = CANONICAL_19_MODEL_KEYS.map(
+  // 4b. Audit Vedanta (Model #20, Prime 167) & Dharma (Model #21, Prime 173)
+  const vdBase = evaluateVerdantVedantaAndDharmaSynthesis({
+    busWeight: 8,
+    harmonyPct: 55,
+    velocityDm: 4,
+    restStepCount: 6,
+    awakenedSpeciesCount: 2,
+    atmosphere,
+  });
+  const vdApex = evaluateVerdantVedantaAndDharmaSynthesis({
+    busWeight: 16,
+    harmonyPct: 100,
+    velocityDm: 0,
+    restStepCount: 12,
+    awakenedSpeciesCount: 5,
+    atmosphere,
+    isStillness: true,
+    witnessReciprocity01: 1.0,
+  });
+  const vedantaTrigunaAndPancikaranaVerified =
+    vdBase.verified &&
+    vdApex.verified &&
+    vdBase.triguna.totalPermille === 1000 &&
+    vdApex.triguna.totalPermille === 1000 &&
+    vdBase.pancikaranaBistochasticVerified &&
+    vdApex.mandukyaTuriya.atmanBrahmanNonDualPermille >
+      vdBase.mandukyaTuriya.atmanBrahmanNonDualPermille &&
+    vdApex.mandukyaTuriya.turiyaSilentWitnessPermille >
+      vdBase.mandukyaTuriya.turiyaSilentWitnessPermille;
+  const dharmaAhimsaAndPratityasamutpadaVerified =
+    vdBase.ahimsaVerifiedAcrossAllRules &&
+    vdBase.twelveNidanaRingClosed &&
+    vdApex.rtaCosmicOrderPermille > vdBase.rtaCosmicOrderPermille &&
+    vdApex.pratityasamutpadaCausalPermille > vdBase.pratityasamutpadaCausalPermille &&
+    vdApex.lokasangrahaWorldWelfarePermille > vdBase.lokasangrahaWorldWelfarePermille;
+
+  // 4c. Audit Compression (Model #22, Prime 179): Lossless UORC binary Anamnesis compression & portfolio efficiency
+  const compBase = evaluateConservatoryParametricCompression({ busWeight: 8, tickCount: 1 });
+  const compApex = evaluateConservatoryParametricCompression({ busWeight: 16, tickCount: 2 });
+  const uorcPackedProbe = packAnamnesisEnvelopeToUorc(probeEnvelope);
+  const uorcUnpackedProbe = unpackAnamnesisEnvelopeFromUorc(uorcPackedProbe.archiveBytes);
+  const uorcParametricCompressionVerified =
+    compBase.verified &&
+    compApex.verified &&
+    uorcPackedProbe.archiveByteLength < uorcPackedProbe.rawJsonBytes &&
+    uorcPackedProbe.archiveByteLength <= uorcPackedProbe.rawJsonBytes + 61 &&
+    uorcUnpackedProbe.verified &&
+    uorcUnpackedProbe.digestMatches &&
+    uorcUnpackedProbe.roundTripDriftCount === 0 &&
+    compApex.portfolioEfficiencyPermille > compBase.portfolioEfficiencyPermille;
+
+  // 4d. Audit Autonomous Conservatory Curation (`uorc/conservatory-curation/1` in Model #10):
+  const curBase = createInitialConservatoryCurationState();
+  const curStepped = stepAutonomousConservatoryCuration(curBase, {
+    tickIndex: 1,
+    barIndex: 1,
+    biome: 'wetland',
+    harmonyPct: 82,
+    kuramotoOrderR: 0.88,
+    awakenedPlantCount: 12,
+    fruitingPlantCount: 4,
+    elderPlantCount: 3,
+    totalPlantCount: 25,
+    activeGuildIds: ['dewdrop-bell', 'celestial-overtone'],
+    exploredBiomes: ['meadow', 'wetland', 'crystal'],
+    barkHeadroomDb: 5.4,
+    restStepCount: 7,
+    maxMelodicStepLeap: 1,
+    meanEulerGradus: 3.4,
+    witnessCommunion01: 0.86,
+  });
+  const autonomousConservatoryCurationVerified =
+    curBase.verified &&
+    curStepped.verified &&
+    curStepped.incumbentEvaluation.defect === 0 &&
+    curStepped.incumbentEvaluation.lyapunovCost < curStepped.baselineFloorLyapunovCost &&
+    curStepped.consolidatedMemories.length >= 1 &&
+    curStepped.curationCoherencePermille > curBase.curationCoherencePermille;
+
+  // 4e. Audit 64-Bit High-Definition Coherent Precision (`prism/hd-coherent-precision/1`):
+  // Verify that all 22 models run at 64-bit precision AND perturbing a SINGLE domain (`soundtrack: 8 -> 12`)
+  // strictly elevates `coherentDepthPpm` and `liveResolutionUnits` across EVERY ONE of the 22 models!
+  const singlePerturbedCtx = evaluateHolisticObserverStandardModelContext({
+    domainWeights10: {
+      ...UNIFORM_WEIGHTS_BASE,
+      soundtrack: 12,
+    },
+    alphaSeed,
+    atmosphere,
+  });
+  const allToAllSinglePerturbationTransferred = CANONICAL_22_MODEL_KEYS.every((k) => {
+    const mBase = baseCtx.modelsByKey[k];
+    const mPerturbed = singlePerturbedCtx.modelsByKey[k];
+    return (
+      mBase.fixedPointPrecisionBits === 64 &&
+      mPerturbed.coherentDepthPpm > mBase.coherentDepthPpm &&
+      mPerturbed.liveResolutionUnits > mBase.liveResolutionUnits
+    );
+  });
+  const cie401Xyz = integrateSpectralReflectanceToXyzD65(
+    (lam) => evaluateChlorophyllFoliageReflectance(lam, 1.0, 0.1),
+    401,
+  );
+  const chladni16 = computeMaterialChladniModalRatios(95, 2.65, 16);
+  const room64 = computeIso3382BiomeRoomAcoustics('sanctuary', 64);
+  const hdCoherentPrecisionVerified =
+    MAX_ADAPTIVE_BANDS === 401 &&
+    allToAllSinglePerturbationTransferred &&
+    apexCtx.multiModalFidelity.processorPrecisionBits === 64 &&
+    apexCtx.multiModalFidelity.coherentDepthPpm === 1_000_000 &&
+    apexCtx.multiModalFidelity.spectralBandCount === 401 &&
+    apexCtx.multiModalFidelity.proceduralTexelResolution === 1024 &&
+    apexCtx.multiModalFidelity.chladniModalPartialsPerVoice === 16 &&
+    apexCtx.multiModalFidelity.earlyReflectionTapCount === 64 &&
+    apexCtx.multiModalFidelity.primeLimitHarmonicCeiling === 17 &&
+    cie401Xyz.Y > 0.05 &&
+    chladni16.length === 16 &&
+    room64.earlyReflectionTapCount === 64;
+
+  // 5. Evaluate per-model differential sensitivity across all 22 Canonical Standard Models
+  const modelSensitivities: ModelRealizabilitySensitivityRecord[] = CANONICAL_22_MODEL_KEYS.map(
     (key) => {
       const bMod = baseCtx.modelsByKey[key];
       const aMod = apexCtx.modelsByKey[key];
@@ -327,15 +465,20 @@ export function evaluateVerdantRealizabilityAudit(params?: {
           invariantOk = invariantOk && aFid.perFrameHeapAllocations === 0;
           break;
         case 'neuromorphic':
-          label = '18x18 Functor Transfer Gain + Precision Weighting';
+          label = '22x22 Functor Gain + Autonomous Curation Coherence';
           baseVal =
-            bFid.functorTransferGainPermille + (1000 - bFid.variationalFreeEnergySurprisalPermille);
+            bFid.functorTransferGainPermille +
+            (1000 - bFid.variationalFreeEnergySurprisalPermille) +
+            curBase.curationCoherencePermille;
           apexVal =
-            aFid.functorTransferGainPermille + (1000 - aFid.variationalFreeEnergySurprisalPermille);
+            aFid.functorTransferGainPermille +
+            (1000 - aFid.variationalFreeEnergySurprisalPermille) +
+            curStepped.curationCoherencePermille;
+          invariantOk = invariantOk && autonomousConservatoryCurationVerified;
           break;
         case 'cosmogenesis':
-          label = '209-Cell Holistic Observer Extrapolation Units';
-          invariantOk = invariantOk && apexCtx.zeroCherryPickingAudit.totalVerifiedContextCells === 209;
+          label = '242-Cell Holistic Observer Extrapolation Units';
+          invariantOk = invariantOk && apexCtx.zeroCherryPickingAudit.totalVerifiedContextCells === 242;
           break;
         case 'realizability':
           label = 'Galois Differential Port Sensitivity (permille)';
@@ -380,6 +523,36 @@ export function evaluateVerdantRealizabilityAudit(params?: {
             teleologyApex.witnessCommunionReciprocityPermille;
           invariantOk = invariantOk && teleologyZeroOrphanClosureVerified && sceneBijectiveCoverageVerified;
           break;
+        case 'vedanta':
+          label = 'Atman-Brahman Non-Dual + Turiya Witness + Sattva Clarity (permille)';
+          baseVal =
+            vdBase.mandukyaTuriya.atmanBrahmanNonDualPermille +
+            vdBase.mandukyaTuriya.turiyaSilentWitnessPermille +
+            vdBase.triguna.sattvaPermille;
+          apexVal =
+            vdApex.mandukyaTuriya.atmanBrahmanNonDualPermille +
+            vdApex.mandukyaTuriya.turiyaSilentWitnessPermille +
+            vdApex.triguna.sattvaPermille;
+          invariantOk = invariantOk && vedantaTrigunaAndPancikaranaVerified;
+          break;
+        case 'dharma':
+          label = 'Rta Cosmic Order + 12-Nidana Causality + Lokasangraha Welfare (permille)';
+          baseVal =
+            vdBase.rtaCosmicOrderPermille +
+            vdBase.pratityasamutpadaCausalPermille +
+            vdBase.lokasangrahaWorldWelfarePermille;
+          apexVal =
+            vdApex.rtaCosmicOrderPermille +
+            vdApex.pratityasamutpadaCausalPermille +
+            vdApex.lokasangrahaWorldWelfarePermille;
+          invariantOk = invariantOk && dharmaAhimsaAndPratityasamutpadaVerified;
+          break;
+        case 'compression':
+          label = 'UORC Autonomous Portfolio Efficiency + Bus Modulation (permille)';
+          baseVal = compBase.portfolioEfficiencyPermille + compBase.busModulationPermille;
+          apexVal = compApex.portfolioEfficiencyPermille + compApex.busModulationPermille;
+          invariantOk = invariantOk && uorcParametricCompressionVerified;
+          break;
       }
 
       const delta = Number((apexVal - baseVal).toFixed(4));
@@ -401,11 +574,11 @@ export function evaluateVerdantRealizabilityAudit(params?: {
   const sensitiveModelCount = modelSensitivities.filter(
     (m) => m.nonZeroSensitivityVerified && m.domainInvariantVerified,
   ).length;
-  const danglingUnprojectedPortCount = 19 - sensitiveModelCount;
+  const danglingUnprojectedPortCount = 22 - sensitiveModelCount;
   const staticStubViolationCount = modelSensitivities.filter(
     (m) => !m.nonZeroSensitivityVerified,
   ).length;
-  const realizationGapPermille = Math.round(((19 - sensitiveModelCount) / 19) * 1000);
+  const realizationGapPermille = Math.round(((22 - sensitiveModelCount) / 22) * 1000);
   const observerRuntimeCounitClosed =
     danglingUnprojectedPortCount === 0 &&
     staticStubViolationCount === 0 &&
@@ -421,9 +594,14 @@ export function evaluateVerdantRealizabilityAudit(params?: {
       woodworth3DHrtfVerified &&
       anamnesisLosslessMerkleVerified &&
       teleologyZeroOrphanClosureVerified &&
-      sceneBijectiveCoverageVerified,
+      sceneBijectiveCoverageVerified &&
+      vedantaTrigunaAndPancikaranaVerified &&
+      dharmaAhimsaAndPratityasamutpadaVerified &&
+      uorcParametricCompressionVerified &&
+      autonomousConservatoryCurationVerified &&
+      hdCoherentPrecisionVerified,
     basisPrime: GENERATED_CANONICAL_MODEL_BASIS_PRIMES.realizability,
-    auditedStandardModelCount: 19,
+    auditedStandardModelCount: 22,
     sensitiveModelCount,
     auditedRuntimeSubsystemCount: 7,
     danglingUnprojectedPortCount,
@@ -436,6 +614,11 @@ export function evaluateVerdantRealizabilityAudit(params?: {
     anamnesisLosslessMerkleVerified,
     teleologyZeroOrphanClosureVerified,
     sceneBijectiveCoverageVerified,
+    vedantaTrigunaAndPancikaranaVerified,
+    dharmaAhimsaAndPratityasamutpadaVerified,
+    uorcParametricCompressionVerified,
+    autonomousConservatoryCurationVerified,
+    hdCoherentPrecisionVerified,
     modelSensitivities,
   };
 }

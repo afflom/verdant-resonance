@@ -1127,7 +1127,7 @@ export function createHighDefinitionPbrTextureSuite(
   isSoftwareGl: boolean,
   requestedResolution = 512,
 ): HighDefinitionPbrTextureSuite {
-  const clampedReq = Math.max(256, Math.min(768, Math.round(requestedResolution)));
+  const clampedReq = Math.max(256, Math.min(1024, Math.round(requestedResolution)));
   const size = isSoftwareGl ? 256 : Math.max(384, clampedReq);
   const densityScale = size / 384;
 
@@ -1345,6 +1345,17 @@ export function createHighDefinitionPbrTextureSuite(
         vy - size * 0.12,
       );
       phCtx.stroke();
+      // Tertiary reticulate micro-venation unlocked at HD PBR resolutions (>= 704px)
+      if (size >= 704) {
+        phCtx.save();
+        phCtx.strokeStyle = 'rgba(205, 205, 205, 0.34)';
+        phCtx.lineWidth = 1.05 * (size / 768);
+        phCtx.beginPath();
+        phCtx.moveTo(size * (0.5 + dir * 0.22), vy - size * 0.04);
+        phCtx.lineTo(size * (0.5 + dir * 0.36), vy + size * 0.025);
+        phCtx.stroke();
+        phCtx.restore();
+      }
     }
   }
   const petalNormalCanvas = heightCanvasToNormalCanvas(petalHeightCanvas, 2.4);
@@ -2890,11 +2901,17 @@ export function synthesizeLSystemBotanicalMorphogenesis(params: {
     | 'star-orchid';
   readonly lifecycleStage: MorphogenesisLifecycleStageId;
   readonly busWeight: number;
+  readonly coherentDepth01?: number;
 }): BotanicalMorphogenesisSynthesis {
   const stageIndex = LIFECYCLE_STAGE_TO_INDEX[params.lifecycleStage] ?? 0;
-  const w = Math.max(1, Math.min(16, Math.round(params.busWeight)));
-  const fidelityTier = w >= 12 ? 2 : w >= 7 ? 1 : 0;
-  // Matches `Foundation.Morphogenesis.V1.Model::stepLSystemDerivationDepth`
+  const continuousW = Math.max(1.0, Math.min(16.0, Number.isFinite(params.busWeight) ? params.busWeight : 8.0));
+  const w = Math.max(1, Math.min(16, Math.round(continuousW)));
+  const continuousDepth01 =
+    params.coherentDepth01 !== undefined
+      ? Math.max(0, Math.min(1, params.coherentDepth01))
+      : (continuousW - 1.0) / 15.0;
+  const fidelityTier = continuousW >= 11.5 ? 2 : continuousW >= 6.5 ? 1 : 0;
+  // Matches `Foundation.Morphogenesis.V1.Model::stepLSystemDerivationDepth` while scaling vascular radii continuously in float64
   const derivationDepth = 2 + stageIndex + fidelityTier;
 
   // Species-specific D0L axioms & meristematic production rules
@@ -2985,11 +3002,11 @@ export function synthesizeLSystemBotanicalMorphogenesis(params: {
   const secondaryWhorlCount = baseSecondary + stageBoost + fidelityOrganBoost;
   const fruitingPearlCount = 3 + stageBoost + fidelityOrganBoost;
 
-  // Murray's Cubic Pipe Law: r_parent^3 = r_apicalContinuation^3 + sum_{i=1}^k r_branch_i^3
-  // Apical dominance allocates `alpha = 0.382` (`1 - 1/phi`) of cubic vascular conductance to the apical continuation,
-  // and `0.618` (`1/phi`) across the `k = primaryBranchCount` lateral meristem branches!
-  const parentRadiusCubedM3 = Math.pow(basalStemRadiusMeters, 3);
-  const apicalConductanceShare = 0.382;
+  // Murray's Cubic Pipe Law in IEEE-754 Binary64: r_parent^3 = r_apicalContinuation^3 + sum_{i=1}^k r_branch_i^3
+  // Continuous turgor-driven basal radius modulation (`1 + 0.08 * continuousDepth01`) with exact cubic conservation
+  const effectiveBasalRadiusM = basalStemRadiusMeters * (1 + 0.08 * continuousDepth01);
+  const parentRadiusCubedM3 = Math.pow(effectiveBasalRadiusM, 3);
+  const apicalConductanceShare = 0.3819660112501051; // Exact 2 - phi = 1 / phi^2
   const lateralConductanceShare = 1 - apicalConductanceShare;
   const medialStemRadiusMeters = Math.cbrt(parentRadiusCubedM3 * apicalConductanceShare);
   const perChildCubed = (parentRadiusCubedM3 * lateralConductanceShare) / Math.max(1, primaryBranchCount);
@@ -3006,9 +3023,9 @@ export function synthesizeLSystemBotanicalMorphogenesis(params: {
     primordia.push({
       index: i,
       azimuthRad: i * GOLDEN_DIVERGENCE_RAD,
-      vogelRadiusNormalized: Number(Math.sqrt(normIdx).toFixed(5)),
-      elevationNormalized: Number((0.18 + normIdx * 0.74).toFixed(5)),
-      childVascularRadiusMeters: Number(childBranchRadiusMeters.toFixed(6)),
+      vogelRadiusNormalized: Number(Math.sqrt(normIdx).toFixed(6)),
+      elevationNormalized: Number((0.18 + normIdx * (0.72 + 0.04 * continuousDepth01)).toFixed(6)),
+      childVascularRadiusMeters: Number(childBranchRadiusMeters.toFixed(8)),
     });
   }
 
@@ -3016,7 +3033,7 @@ export function synthesizeLSystemBotanicalMorphogenesis(params: {
     species: params.species,
     lifecycleStage: params.lifecycleStage,
     stageIndex,
-    busWeight: w,
+    busWeight: Number(continuousW.toFixed(4)),
     derivationDepth,
     axiom,
     derivedWord: word,
@@ -3025,13 +3042,13 @@ export function synthesizeLSystemBotanicalMorphogenesis(params: {
     primaryBranchCount,
     secondaryWhorlCount,
     fruitingPearlCount,
-    basalStemRadiusMeters: Number(basalStemRadiusMeters.toFixed(5)),
-    medialStemRadiusMeters: Number(medialStemRadiusMeters.toFixed(5)),
-    childBranchRadiusMeters: Number(childBranchRadiusMeters.toFixed(5)),
-    parentRadiusCubedM3: Number(parentRadiusCubedM3.toFixed(9)),
-    childrenRadiusCubedSumM3: Number(childrenRadiusCubedSumM3.toFixed(9)),
+    basalStemRadiusMeters: Number(effectiveBasalRadiusM.toFixed(6)),
+    medialStemRadiusMeters: Number(medialStemRadiusMeters.toFixed(6)),
+    childBranchRadiusMeters: Number(childBranchRadiusMeters.toFixed(6)),
+    parentRadiusCubedM3: Number(parentRadiusCubedM3.toFixed(12)),
+    childrenRadiusCubedSumM3: Number(childrenRadiusCubedSumM3.toFixed(12)),
     murrayCubicResidualM3,
-    murrayLawConserved: murrayCubicResidualM3 < 1e-6,
+    murrayLawConserved: murrayCubicResidualM3 < 1e-12,
     goldenDivergenceRad: GOLDEN_DIVERGENCE_RAD,
     primordia,
   };

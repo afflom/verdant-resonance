@@ -88,14 +88,14 @@ definition{
   name: stepSpectralBandResolution,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (9 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 4 : Nat))
+  body: (81 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat))
 }
 
 definition{
   name: stepAdaptiveTerrainSegments,
   parameters: [alphaSeed : Nat, busWeight : Nat],
   result: Nat,
-  body: (96 + ((prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 4 : Nat) + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight alphaSeed) 2 : Nat)))
+  body: (128 + ((prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 5 : Nat) + (Foundation.Neuromorphic.V1.Model::clampBusWeight alphaSeed)))
 }
 
 definition{
@@ -116,7 +116,7 @@ definition{
   name: graphicsCanonicalDescriptor,
   parameters: [],
   result: Foundation.MetaModel.V1.Model::CanonicalStandardModelDescriptor,
-  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 9 "prism/standard-model/graphics-cie1931-oklch-gltf2-bmesh/1" 1 0 0 (verdantGraphicsBasisPrime) 13700380 78006504 "Foundation.Graphics.V1" 44 19 28 "CIE 1931 2-deg XYZ Spectral Integration (380-780nm), Ottosson OKLab/OKLCH Perceptual Colorimetry, IEC 61966-2-1 sRGB, Khronos glTF 2.0 Cook-Torrance GGX/Smith PBR, Airy Thin-Film Interference, 2-Manifold Euler-Poincare B-Mesh, Live Scene Re-Projection" 18 6 16383 "Integrates physical Planckian/Rayleigh illuminants and IUPAC/botanical pigment spectra into CIE XYZ -> OKLCH -> energy-conserving glTF 2.0 PBR shaders and dynamically re-projects watertight 2-manifold B-Meshes as Fidelity rises" 11 14 6 24 "BoundedWebGL2Pipeline" 13 14 17 16 16 16 17 5 15 16383 0 18 "Consumes Chemistry Bravais lattices & chromophores, Physics wave dispersion, Botany phyllotaxis, and Acoustics Chladni modes while exporting OKLCH diurnal palettes to W3C Brand Tokens and Fresnel geometry to Acoustics" 2 16667 6 "60Hz spectral sky/material integration + Chladni vertex cymatics + adaptive B-Mesh tessellation on seed/Fidelity change" 32 1030 1480 4 "DeltaE_OK <= 0.004 perceptual color accuracy, R+T <= 1.0 PBR energy conservation, 0 non-manifold edges, 13..73+ spectral bands" 49152 1450 16667 85 0 "Reuse-in-place Float32 BufferAttributes and procedural DataTextures; 0 per-frame heap allocations" "Foundation.Graphics.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Graphics/V1/Model.lex.tex" 6 "CIE 015:2018 (XYZ 1931), CSS Color 4 / Ottosson OKLab-OKLCH, IEC 61966-2-1 sRGB, Khronos glTF 2.0 PBR + Iridescence + Transmission, Euler-Poincare 2-Manifold Topology, LEAN-REL-4-32-1" 5 14 32 0 "5 Lean 4.32 theorems proving PBR radiative conservation, spectral/geometric resolution monotonicity, watertight manifold topology, neuromorphic coupling, and 11-element completeness" 4 63 "src/game/spectralColorEngine.ts" "LexLean 1.2 -> AST Extractor -> CIE/OKLCH + Adaptive B-Mesh Engine -> WebGL2 PBR Shaders & Live Scene Re-Projection")
+  body: (Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor 9 "prism/standard-model/graphics-cie1931-oklch-gltf2-bmesh/1" 1 0 0 (verdantGraphicsBasisPrime) 13700380 78006504 "Foundation.Graphics.V1" 44 19 28 "CIE 1931 2-deg XYZ Spectral Integration (380-780nm), Ottosson OKLab/OKLCH Perceptual Colorimetry, IEC 61966-2-1 sRGB, Khronos glTF 2.0 Cook-Torrance GGX/Smith PBR, Airy Thin-Film Interference, 2-Manifold Euler-Poincare B-Mesh, Live Scene Re-Projection" 18 6 16383 "Integrates physical Planckian/Rayleigh illuminants and IUPAC/botanical pigment spectra into CIE XYZ -> OKLCH -> energy-conserving glTF 2.0 PBR shaders and dynamically re-projects watertight 2-manifold B-Meshes as Fidelity rises" 11 14 6 24 "BoundedWebGL2Pipeline" 13 14 17 16 16 16 17 5 15 16383 0 18 "Consumes Chemistry Bravais lattices & chromophores, Physics wave dispersion, Botany phyllotaxis, and Acoustics Chladni modes while exporting OKLCH diurnal palettes to W3C Brand Tokens and Fresnel geometry to Acoustics" 2 16667 6 "60Hz spectral sky/material integration + Chladni vertex cymatics + adaptive B-Mesh tessellation on seed/Fidelity change" 64 1030 1480 4 "DeltaE_OK <= 0.004 perceptual color accuracy, R+T <= 1.0 PBR energy conservation, 0 non-manifold edges, 101..401 (1nm CIE 015:2018 HD) spectral bands, up to 1024px PBR" 49152 1450 16667 85 0 "Reuse-in-place Float32 BufferAttributes and procedural DataTextures; 0 per-frame heap allocations" "Foundation.Graphics.V1.Model" "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Graphics/V1/Model.lex.tex" 6 "CIE 015:2018 (XYZ 1931), CSS Color 4 / Ottosson OKLab-OKLCH, IEC 61966-2-1 sRGB, Khronos glTF 2.0 PBR + Iridescence + Transmission, Euler-Poincare 2-Manifold Topology, LEAN-REL-4-32-1" 5 14 32 0 "5 Lean 4.32 theorems proving PBR radiative conservation, spectral/geometric resolution monotonicity, watertight manifold topology, neuromorphic coupling, and 11-element completeness" 4 63 "src/game/spectralColorEngine.ts" "LexLean 1.2 -> AST Extractor -> CIE/OKLCH + Adaptive B-Mesh Engine -> WebGL2 PBR Shaders & Live Scene Re-Projection")
 }
 
 definition{

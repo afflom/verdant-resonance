@@ -22,6 +22,7 @@ import {
   ParametricWorldTopologyModel,
   PlayerActionId,
   SANCTUARY_TRAIL_WAYPOINTS,
+  SYMBIOTIC_GUILDS,
   SolidCollider,
   SoundscapeOutcome,
   SurfaceMaterialId,
@@ -83,6 +84,7 @@ import {
   registerEmergentSeedlingCollider,
   resolveBiomeWaypointLanding,
   resolvePlayerPhysicsStep,
+  stepAutonomousConservatoryCuration,
   stepAutonomousGameplayPlasticity,
   stepGestureHoldEnvelope,
   stepKuramotoPhaseEntrainment,
@@ -340,7 +342,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     sunLight.position.set(28, 44, 18);
     if (!isSoftwareGl) {
       sunLight.castShadow = true;
-      sunLight.shadow.mapSize.set(1024, 1024);
+      sunLight.shadow.mapSize.set(2048, 2048);
       sunLight.shadow.camera.near = 1;
       sunLight.shadow.camera.far = 120;
       const d = 55;
@@ -600,7 +602,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     ): THREE.PlaneGeometry => {
       const clampedSegs = isSoftwareGl
         ? Math.min(112, segments)
-        : Math.max(96, Math.min(192, Math.round(segments)));
+        : Math.max(96, Math.min(224, Math.round(segments)));
       const geo = new THREE.PlaneGeometry(180, 180, clampedSegs, clampedSegs);
       geo.rotateX(-Math.PI / 2);
       populateTerrainHeightsAndSpectralColors(geo, topo, specPalette);
@@ -2431,9 +2433,12 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       morphogenesisDepth: number;
       pulsePhase: number;
       tactileShiverImpulse: number;
+      singingVoiceGlow: number;
+      singingCorollaImpulse: number;
     }
 
     const plantMeshes: AnimatedPlantRecord[] = [];
+    const plantMeshById = new Map<string, AnimatedPlantRecord>();
     const plantsRoot = new THREE.Group();
     scene.add(plantsRoot);
 
@@ -3190,11 +3195,15 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         morphogenesisDepth: morph.derivationDepth,
         pulsePhase: Math.random() * Math.PI * 2,
         tactileShiverImpulse: 0,
+        singingVoiceGlow: 0,
+        singingCorollaImpulse: 0,
       };
     };
 
     for (const p of plantsRef.current) {
-      plantMeshes.push(buildPlantGroup(p));
+      const rec = buildPlantGroup(p);
+      plantMeshes.push(rec);
+      plantMeshById.set(p.id, rec);
     }
 
     // 9. Zero-GC Pooled Particle Ring Buffer (220 Bioluminescent Acoustic Spores)
@@ -3592,6 +3601,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     let playerInteractedThisFrame = false;
     let uiHeldGesture: HoldableGestureId | null = null;
     let currentSoundtrackStep = 0;
+    let soundtrackBarIndex = 0;
     let soundtrackStepTimer = 0;
     let currentSoundtrackScore = composeLiveSoundtrackScore({
       biome: 'meadow',
@@ -3603,6 +3613,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       playerZ: 0,
       playerYaw: 0,
       colliders: gardenColliders,
+      barIndex: 0,
     });
 
     // 10. Player First-Person Controller State (Spawns on open stone road facing Sanctuary Vista)
@@ -3743,7 +3754,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
       const targetSubdiv = isSoftwareGl
         ? 24
-        : Math.max(28, Math.min(64, Math.round(fidelity.bMeshRadialSubdivisions)));
+        : Math.max(28, Math.min(80, Math.round(fidelity.bMeshRadialSubdivisions)));
       if (!isSoftwareGl && targetSubdiv !== activeBMeshSuite.subdivisions) {
         const prevSuite = activeBMeshSuite;
         const nextSuite = buildBotanicalBMeshSuite(targetSubdiv, specPalette);
@@ -3811,18 +3822,151 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         ) {
           const prevShiver = pm.tactileShiverImpulse;
           const prevPhase = pm.pulsePhase;
+          const prevSingingGlow = pm.singingVoiceGlow;
+          const prevSingingCorolla = pm.singingCorollaImpulse;
           plantsRoot.remove(pm.group);
           disposePlantGroup(pm.group);
           const rebuilt = buildPlantGroup(pm.instance);
           rebuilt.tactileShiverImpulse = prevShiver;
           rebuilt.pulsePhase = prevPhase;
+          rebuilt.singingVoiceGlow = prevSingingGlow;
+          rebuilt.singingCorollaImpulse = prevSingingCorolla;
           plantMeshes[i] = rebuilt;
+          plantMeshById.set(pm.instance.id, rebuilt);
           pm = rebuilt;
         }
         pm.bloomMat.iridescenceThicknessMaximum = 180 + fidelity.airyThinFilmSpanNm * 0.72;
         pm.accentMat.iridescenceThicknessMaximum = 160 + fidelity.airyThinFilmSpanNm * 0.65;
         _tempColor.set('#22543d').lerp(_foliageCanopyCol, 0.52);
         pm.stemMat.color.copy(_tempColor);
+      }
+    };
+
+    // Autonomous UORC-style Conservatory Curation evaluator (`uorc/conservatory-curation/1`):
+    // Evaluates physical, botanical, and musical states against hard `defect === 0` laws, advances
+    // 64-cell Rule-30 hypotheses under strict multi-objective dominance, and shares newly consolidated
+    // κ-memories visibly and acoustically with the player.
+    const runLiveConservatoryCurationStep = (
+      barIdx: number,
+      curBiome: BiomeId,
+      witnessCommunion01: number,
+    ) => {
+      let cosSum = 0;
+      let sinSum = 0;
+      let awakenedCount = 0;
+      let fruitingCount = 0;
+      let elderCount = 0;
+      const totalCount = plantMeshes.length;
+      for (let i = 0; i < totalCount; i++) {
+        const rec = plantMeshes[i];
+        cosSum += Math.cos(rec.pulsePhase);
+        sinSum += Math.sin(rec.pulsePhase);
+        const st = getPlantLifecycleStage(rec.instance);
+        if (rec.instance.attuned || st !== 'dormant-seed') awakenedCount++;
+        if (st === 'harmonic-fruiting') fruitingCount++;
+        else if (st === 'mycelial-memory') elderCount++;
+      }
+      const kuramotoOrderR =
+        totalCount > 0 ? Math.hypot(cosSum, sinSum) / totalCount : 0.35;
+
+      const prevCuration = neuromorphicState.observer.conservatoryCuration;
+      const nextCuration = stepAutonomousConservatoryCuration(prevCuration, {
+        tickIndex: prevCuration.curationTickCount + 1,
+        barIndex: barIdx,
+        biome: curBiome,
+        harmonyPct: Math.round(player.harmony),
+        kuramotoOrderR,
+        awakenedPlantCount: awakenedCount,
+        fruitingPlantCount: fruitingCount,
+        elderPlantCount: elderCount,
+        totalPlantCount: totalCount,
+        activeGuildIds: currentSoundtrackScore.activeGuildIds,
+        exploredBiomes: Array.from(player.exploredBiomes),
+        barkHeadroomDb:
+          neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity
+            .barkMaskingHeadroomDb,
+        restStepCount: currentSoundtrackScore.restStepCount,
+        maxMelodicStepLeap: currentSoundtrackScore.maxMelodicStepLeap,
+        meanEulerGradus: currentSoundtrackScore.meanEulerGradus,
+        floatingGapCount: 0,
+        staticOverlapCount: 0,
+        ahimsaViolationCount: 0,
+        witnessCommunion01,
+        isStillness: player.action === 'stillness',
+      });
+
+      neuromorphicState = {
+        ...neuromorphicState,
+        observer: {
+          ...neuromorphicState.observer,
+          conservatoryCuration: nextCuration,
+        },
+      };
+      soundEngine.syncWithNeuromorphicBus(neuromorphicState);
+
+      if (nextCuration.latestConsolidatedMemory) {
+        const mem = nextCuration.latestConsolidatedMemory;
+        witnessCommunionGlowImpulse = 1.0;
+        const wx = immanentWitness.group.position.x;
+        const wy = immanentWitness.group.position.y;
+        const wz = immanentWitness.group.position.z;
+        spawnSoundWaveRings(wx, groundHeightAt(wx, wz) + 0.04, wz, '#fde047');
+        spawnBurstAt(wx, wy + 0.85, wz, '#5eead4', 18);
+        soundEngine.playConsolidatedKappaResonanceGift({
+          memory: mem,
+          sourceX: wx,
+          sourceY: wy + 1.1,
+          sourceZ: wz,
+        });
+      }
+    };
+
+    const spawnActiveGuildResonanceArc = (barIdx: number) => {
+      if (currentSoundtrackScore.activeGuildIds.length === 0) return;
+      const targetGuildId =
+        currentSoundtrackScore.activeGuildIds[barIdx % currentSoundtrackScore.activeGuildIds.length];
+      let spA: GardenPlantInstance['species'] | null = null;
+      let spB: GardenPlantInstance['species'] | null = null;
+      let arcHue = '#fde047';
+      for (let g = 0; g < SYMBIOTIC_GUILDS.length; g++) {
+        if (SYMBIOTIC_GUILDS[g].id === targetGuildId) {
+          spA = SYMBIOTIC_GUILDS[g].pair[0];
+          spB = SYMBIOTIC_GUILDS[g].pair[1];
+          arcHue = PLANT_SPECIES_CONFIGS[spA].emissiveHue;
+          break;
+        }
+      }
+      if (!spA || !spB) return;
+      let bestPairA: GardenPlantInstance | null = null;
+      let bestPairB: GardenPlantInstance | null = null;
+      let bestDist = 24.0;
+      for (let i = 0; i < plantMeshes.length; i++) {
+        const pA = plantMeshes[i].instance;
+        if (!pA.attuned || pA.species !== spA) continue;
+        for (let j = 0; j < plantMeshes.length; j++) {
+          const pB = plantMeshes[j].instance;
+          if (!pB.attuned || pB.species !== spB) continue;
+          const d = Math.hypot(pA.x - pB.x, pA.z - pB.z);
+          if (d > 0.5 && d < bestDist) {
+            bestDist = d;
+            bestPairA = pA;
+            bestPairB = pB;
+          }
+        }
+      }
+      if (bestPairA && bestPairB) {
+        spawnSympatheticFilament(
+          bestPairA.x,
+          bestPairA.y,
+          bestPairA.z,
+          bestPairB.x,
+          bestPairB.y,
+          bestPairB.z,
+          arcHue,
+          bestPairB.id,
+          gardenColliders,
+          neuromorphicState.observer.cosmogenesis.worldTopology,
+        );
       }
     };
 
@@ -4336,6 +4480,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         });
         const newMeshRecord = buildPlantGroup(neuroTick.emergentSeedling);
         plantMeshes.push(newMeshRecord);
+        plantMeshById.set(neuroTick.emergentSeedling.id, newMeshRecord);
         spawnBurstAt(
           neuroTick.emergentSeedling.x,
           neuroTick.emergentSeedling.y,
@@ -4384,7 +4529,13 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         playerZ: player.z,
         playerYaw: player.yaw,
         colliders: gardenColliders,
+        barIndex: soundtrackBarIndex,
       });
+      runLiveConservatoryCurationStep(
+        soundtrackBarIndex,
+        currentBiome,
+        witnessTargeted ? witnessTarget.reciprocity01 : 0,
+      );
 
       onPlantAttunedRef.current(updatedNearest.plant.id, currentBiome, outcome);
       emitTelemetry(true);
@@ -4514,6 +4665,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         m.instance.lifecycleStage = 'dormant-seed';
         m.fruitingCrown.visible = false;
         m.elderHaloRing.visible = false;
+        m.singingVoiceGlow = 0;
+        m.singingCorollaImpulse = 0;
         for (const mat of m.emissiveMaterials) {
           mat.emissiveIntensity = 0.4;
         }
@@ -4525,6 +4678,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       syncMultiModalFidelityVisuals();
       activeCrownModelId = '';
       currentSoundtrackStep = 0;
+      soundtrackBarIndex = 0;
       soundtrackStepTimer = 0;
       currentSoundtrackScore = composeLiveSoundtrackScore({
         biome: 'meadow',
@@ -4536,6 +4690,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         playerZ: player.z,
         playerYaw: player.yaw,
         colliders: gardenColliders,
+        barIndex: 0,
       });
       emitTelemetry(true);
     };
@@ -4752,9 +4907,12 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         disposePlantGroup(rec.group);
       }
       plantMeshes.length = 0;
+      plantMeshById.clear();
       plantsRef.current = nextPlants;
       for (const p of nextPlants) {
-        plantMeshes.push(buildPlantGroup(p));
+        const rec = buildPlantGroup(p);
+        plantMeshes.push(rec);
+        plantMeshById.set(p.id, rec);
       }
 
       gardenColliders.length = 0;
@@ -5326,9 +5484,19 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       crystalMonument.quartzMat.emissiveIntensity = 0.5 + inorgGlow * 0.38 + crystalRes * 0.65;
       const liveFidelity =
         neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity;
-      sharedCrystalMat.iridescenceThicknessMaximum = 220 + liveFidelity.airyThinFilmSpanNm;
+      const curatedPoint = neuromorphicState.observer.conservatoryCuration.incumbentPoint;
+      const curatedIridescenceScale =
+        curatedPoint.physicalProfile.thinFilmIridescencePermille / 1000;
+      const curatedCymaticScale =
+        curatedPoint.physicalProfile.cymaticMeniscusGainPermille / 1000;
+      const curatedKuramotoScale =
+        curatedPoint.botanicalProfile.kuramotoCouplingGainPermille / 1000;
+      const curatedCorollaGrace =
+        curatedPoint.botanicalProfile.corollaBloomGracePermille / 1000;
+      sharedCrystalMat.iridescenceThicknessMaximum =
+        (220 + liveFidelity.airyThinFilmSpanNm) * curatedIridescenceScale;
       crystalMonument.quartzMat.iridescenceThicknessMaximum =
-        240 + liveFidelity.airyThinFilmSpanNm;
+        (240 + liveFidelity.airyThinFilmSpanNm) * curatedIridescenceScale;
 
       const activeSynapticWeight = neuromorphicState.lastActiveSynapticWeight;
       const directives = neuromorphicState.refinementDirectives;
@@ -5370,8 +5538,12 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       });
       lagoonMesh.position.y =
         liveCosmo.worldTopology.lagoonWaterSurfaceY +
-        centerCymatics.waveDisplacementY * 0.45 * directives.physics.cymaticWaveCoherence;
-      lagoonMat.emissiveIntensity = 0.18 + centerCymatics.meniscusPulseFactor * 0.16;
+        centerCymatics.waveDisplacementY *
+          0.45 *
+          directives.physics.cymaticWaveCoherence *
+          curatedCymaticScale;
+      lagoonMat.emissiveIntensity =
+        0.18 + centerCymatics.meniscusPulseFactor * 0.16 * curatedCymaticScale;
       if (centerCymatics.meniscusPulseFactor > 0.92 && landmarkResonance.wetland > 0.08) {
         const wetDx = wetlandMonument.group.position.x - player.x;
         const wetDz = wetlandMonument.group.position.z - player.z;
@@ -5635,11 +5807,23 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
             const kuramoto = stepKuramotoPhaseEntrainment({
               currentPhase: pm.pulsePhase,
               neighborPhases: nbPhases,
-              couplingStrengthPerSec: 0.85 * directives.botany.kuramotoCouplingMultiplier,
+              couplingStrengthPerSec:
+                0.85 * directives.botany.kuramotoCouplingMultiplier * curatedKuramotoScale,
               dt,
             });
             pm.pulsePhase = kuramoto.nextPhase;
           }
+        }
+
+        if (pm.singingVoiceGlow > 0.002) {
+          pm.singingVoiceGlow = Math.max(0, pm.singingVoiceGlow * Math.exp(-2.1 * dt));
+        } else {
+          pm.singingVoiceGlow = 0;
+        }
+        if (pm.singingCorollaImpulse > 0.002) {
+          pm.singingCorollaImpulse = Math.max(0, pm.singingCorollaImpulse * Math.exp(-3.2 * dt));
+        } else {
+          pm.singingCorollaImpulse = 0;
         }
 
         const plantStage = getPlantLifecycleStage(pm.instance);
@@ -5730,16 +5914,22 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         );
         const isFocalObservedSpecimen =
           nearestForSpores.inForwardGazeCone && pm.instance.id === nearestForSpores.plant.id;
+        const liveVd = neuromorphicState.observer.vedantaAndDharma;
         for (const mat of pm.emissiveMaterials) {
           mat.emissiveIntensity =
             (morph.emissiveIntensity +
               directives.botany.emissiveBloomBoost +
+              pm.singingVoiceGlow * 0.48 +
               (isFocalObservedSpecimen ? 0.22 : 0)) *
-            lifecycleSpec.emissiveMultiplier;
+            lifecycleSpec.emissiveMultiplier *
+            liveVd.sattvaLuminosityClarityFactor;
         }
         (pm.haloRing.material as THREE.MeshBasicMaterial).opacity = Math.min(
           0.95,
-          morph.haloOpacity + (isFocalObservedSpecimen ? 0.26 : 0),
+          (morph.haloOpacity +
+            pm.singingVoiceGlow * 0.24 +
+            (isFocalObservedSpecimen ? 0.26 : 0)) *
+            (pm.elderHaloRing.visible ? liveVd.indrasNetMycelialShimmerFactor : 1.0),
         );
 
         // Animate Stage 3 Fruiting Crown & Stage 4 Mycelial Elder Halo (`Foundation.Soundtrack.V1.Model`)
@@ -5759,11 +5949,11 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           elapsedSeconds: elapsed,
           pulsePhase: pm.pulsePhase,
           proximityDm: proxDm,
-          tactileShiverImpulse: pm.tactileShiverImpulse,
+          tactileShiverImpulse: Math.max(pm.tactileShiverImpulse, pm.singingCorollaImpulse * 0.35),
           windTiltX: windAtPlant.windTiltX,
           windTiltZ: windAtPlant.windTiltZ,
           neuromorphicSynapticWeight: activeSynapticWeight,
-          circadianApertureBoost: circadian.corollaApertureBoost,
+          circadianApertureBoost: circadian.corollaApertureBoost + pm.singingCorollaImpulse * 0.18,
         });
 
         pm.basalJoint.rotation.x = rigPose.basalJointPitchRad * 0.45;
@@ -5777,14 +5967,23 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         for (let mIdx = 0; mIdx < pm.morphMeshes.length; mIdx++) {
           const mMesh = pm.morphMeshes[mIdx];
           if (mMesh.morphTargetInfluences) {
-            mMesh.morphTargetInfluences[0] = rigPose.morphBloomOpenWeight;
-            mMesh.morphTargetInfluences[1] = rigPose.morphAcousticRippleWeight;
+            mMesh.morphTargetInfluences[0] = Math.min(
+              1,
+              rigPose.morphBloomOpenWeight + pm.singingCorollaImpulse * 0.22,
+            );
+            mMesh.morphTargetInfluences[1] = Math.min(
+              1,
+              rigPose.morphAcousticRippleWeight + pm.singingVoiceGlow * 0.28,
+            );
           }
         }
 
         if (pm.shaderUniforms) {
           pm.shaderUniforms.uTime.value = elapsed + pm.pulsePhase;
-          pm.shaderUniforms.uResonancePulse.value = rigPose.morphAcousticRippleWeight;
+          pm.shaderUniforms.uResonancePulse.value = Math.min(
+            1,
+            rigPose.morphAcousticRippleWeight + pm.singingVoiceGlow * 0.38,
+          );
           pm.shaderUniforms.uSupraDefinition.value =
             neuromorphicState.observer.supraDirective.tier / 4;
           pm.shaderUniforms.uAperiodicShimmer.value = Math.min(
@@ -5796,7 +5995,12 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         // Species-specific anatomical articulation (`Foundation.Articulation.V1.Model` + Lifecycle + Circadian Turgor)
         const corollaOpen = Math.max(
           0,
-          Math.min(1.15, lifecycleSpec.corollaOpenFactor + circadian.corollaApertureBoost),
+          Math.min(
+            1.22,
+            (lifecycleSpec.corollaOpenFactor + circadian.corollaApertureBoost) *
+              curatedCorollaGrace +
+              pm.singingCorollaImpulse * 0.16,
+          ),
         );
         if (pm.bellMeshes.length > 0) {
           for (let b = 0; b < pm.bellMeshes.length; b++) {
@@ -6258,7 +6462,19 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         autonomousPlasticity = autoPlasticityStep.nextState;
         if (autoPlasticityStep.shouldConsolidateCycle) {
           neuromorphicState = refinePrismModel(neuromorphicState, { cycles: 1 }).nextState;
-          soundEngine.syncWithNeuromorphicBus(neuromorphicState);
+          runLiveConservatoryCurationStep(
+            soundtrackBarIndex,
+            currentBiome,
+            Math.max(
+              0,
+              1 -
+                Math.hypot(
+                  player.x - immanentWitness.group.position.x,
+                  player.z - immanentWitness.group.position.z,
+                ) /
+                  16,
+            ),
+          );
           syncMultiModalFidelityVisuals();
         }
         const attunedCount = plantMeshes.filter((m) => m.instance.attuned).length;
@@ -6317,10 +6533,59 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           soundtrackStepTimer += dt;
           if (soundtrackStepTimer >= currentSoundtrackScore.stepDurationSec) {
             soundtrackStepTimer -= currentSoundtrackScore.stepDurationSec;
-            currentSoundtrackStep = (currentSoundtrackStep + 1) % 16;
+            const nextStep = (currentSoundtrackStep + 1) % 16;
+            if (nextStep === 0) {
+              soundtrackBarIndex += 1;
+              const witnessDistBar = Math.hypot(
+                player.x - immanentWitness.group.position.x,
+                player.z - immanentWitness.group.position.z,
+              );
+              runLiveConservatoryCurationStep(
+                soundtrackBarIndex,
+                currentBiome,
+                Math.max(0, 1 - witnessDistBar / 16),
+              );
+              currentSoundtrackScore = composeLiveSoundtrackScore({
+                biome: currentBiome,
+                atmosphere: atmosphereRef.current,
+                harmonyPct: player.harmony,
+                plants: plantsRef.current,
+                neuromorphic: neuromorphicState,
+                playerX: player.x,
+                playerZ: player.z,
+                playerYaw: player.yaw,
+                colliders: gardenColliders,
+                barIndex: soundtrackBarIndex,
+              });
+              spawnActiveGuildResonanceArc(soundtrackBarIndex);
+            }
+            currentSoundtrackStep = nextStep;
             const stepSpec = currentSoundtrackScore.steps[currentSoundtrackStep];
             if (stepSpec && !stepSpec.isRest) {
               soundEngine.playSoundtrackStep(stepSpec, atmosphereRef.current);
+              for (let vIdx = 0; vIdx < stepSpec.voices.length; vIdx++) {
+                const v = stepSpec.voices[vIdx];
+                const singingRec = plantMeshById.get(v.plantId);
+                if (singingRec) {
+                  const isLead = v.stem === 'melodic-flora-lead';
+                  singingRec.singingVoiceGlow = Math.max(
+                    singingRec.singingVoiceGlow,
+                    isLead ? 1.0 : 0.78,
+                  );
+                  singingRec.singingCorollaImpulse = Math.max(
+                    singingRec.singingCorollaImpulse,
+                    isLead ? 1.0 : 0.72,
+                  );
+                  if (v.substrate === 'pelagic-water') {
+                    spawnFootstepRipple(
+                      singingRec.instance.x,
+                      singingRec.baseY,
+                      singingRec.instance.z,
+                      '#5eead4',
+                    );
+                  }
+                }
+              }
             }
           }
         }

@@ -30,6 +30,22 @@ import {
   evaluateObserver20FacetDifferentiationAndAffinity,
   type Observer20FacetDifferentiationAndAffinityReport,
 } from './teleologyEngine';
+import {
+  evaluateVerdantVedantaAndDharmaSynthesis,
+  type VerdantVedantaAndDharmaSynthesisReport,
+} from './vedantaDharmaEngine';
+import {
+  evaluateConservatoryParametricCompression,
+  type ConservatoryParametricCompressionState,
+} from './parametricCompressionEngine';
+import {
+  createInitialConservatoryCurationState,
+  stepAutonomousConservatoryCuration,
+  type CantabileHyperbarPhraseMode,
+  type ConsolidatedGardenMemory,
+  type ConservatoryCurationState,
+  type SymbioticGuildId,
+} from './conservatoryCurationEngine';
 import { wavelengthNmToDisplayColor } from './spectralColorEngine';
 import {
   FOURTEEN_BRAVAIS_LATTICES,
@@ -46,6 +62,9 @@ export * from './neuromorphicFunctorBus';
 export * from './anamnesisEngine';
 export * from './teleologyEngine';
 export * from './realizabilityEngine';
+export * from './vedantaDharmaEngine';
+export * from './parametricCompressionEngine';
+export * from './conservatoryCurationEngine';
 
 export {
   GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS,
@@ -9555,14 +9574,18 @@ export function evaluateWindField(
   elapsedSeconds: number,
   rule30Byte = 142,
   synapticWeight = 8,
+  rule30Phase01?: number,
 ): { windTiltX: number; windTiltZ: number; gustStrength: number } {
   const neuroHarmonic = 1 + ((synapticWeight - 8) / 16) * 0.15;
-  const r30PhaseOffset = (rule30Byte & 0x1f) * 0.08;
+  const r30PhaseOffset =
+    rule30Phase01 !== undefined
+      ? rule30Phase01 * Math.PI * 0.8
+      : (rule30Byte & 0x1f) * 0.08;
   const phase = x * 0.08 + z * 0.06 - elapsedSeconds * 1.65 * neuroHarmonic + r30PhaseOffset;
   const secondary = Math.cos(x * 0.05 - z * 0.07 + elapsedSeconds * 1.1);
-  const gustStrength = Number((0.5 + 0.5 * Math.sin(phase * 0.7)).toFixed(3));
-  const windTiltX = Number(((Math.sin(phase) * 0.085 + secondary * 0.03) * neuroHarmonic).toFixed(4));
-  const windTiltZ = Number(((Math.cos(phase) * 0.065 + secondary * 0.025) * neuroHarmonic).toFixed(4));
+  const gustStrength = Number((0.5 + 0.5 * Math.sin(phase * 0.7)).toFixed(6));
+  const windTiltX = Number(((Math.sin(phase) * 0.085 + secondary * 0.03) * neuroHarmonic).toFixed(6));
+  const windTiltZ = Number(((Math.cos(phase) * 0.065 + secondary * 0.025) * neuroHarmonic).toFixed(6));
   return { windTiltX, windTiltZ, gustStrength };
 }
 
@@ -10388,7 +10411,8 @@ export function rule30CellStep(left: boolean, center: boolean, right: boolean): 
 
 /**
  * Steps a 64-cell cyclic Rule-30 register by one generation and returns the new 64-cell boolean row
- * along with its center-column bit, 8-bit diagonal signature (`0..255`), and active cell density.
+ * along with its center-column bit, full 64-bit word hex (`0x...`), 53-bit IEEE-754 continuous phase (`0..1`),
+ * legacy 8-bit diagonal signature (`0..255`), and active cell density.
  */
 export function stepRule30Row(
   row: boolean[],
@@ -10397,6 +10421,8 @@ export function stepRule30Row(
   nextRow: boolean[];
   centerBit: boolean;
   diagonalByte: number;
+  rule30WordHex16: string;
+  rule30Phase01: number;
   activeCount: number;
 } {
   const width = 64;
@@ -10408,16 +10434,25 @@ export function stepRule30Row(
 
   const nextRow = new Array<boolean>(width);
   let activeCount = 0;
+  let hi32 = 0;
+  let lo32 = 0;
   for (let i = 0; i < width; i++) {
     const left = working[(i - 1 + width) % width];
     const center = working[i];
     const right = working[(i + 1) % width];
     const bit = rule30CellStep(left, center, right);
     nextRow[i] = bit;
-    if (bit) activeCount++;
+    if (bit) {
+      activeCount++;
+      if (i < 32) {
+        lo32 = (lo32 | (1 << i)) >>> 0;
+      } else {
+        hi32 = (hi32 | (1 << (i - 32))) >>> 0;
+      }
+    }
   }
 
-  // Extract 8-bit signature around the center column (cells 28..35)
+  // Extract 8-bit signature around the center column (cells 28..35) for legacy compatibility
   let diagonalByte = 0;
   for (let b = 0; b < 8; b++) {
     if (nextRow[28 + b]) {
@@ -10425,10 +10460,18 @@ export function stepRule30Row(
     }
   }
 
+  // Extract 53-bit IEEE-754 Binary64 mantissa phase in [0, 1) across the 64-cell register (zero 8-bit quantization)
+  const hi21 = hi32 & 0x1fffff;
+  const mantissa53 = hi21 * 4294967296 + lo32;
+  const rule30Phase01 = mantissa53 / 9007199254740992; // 2^53
+  const rule30WordHex16 = `0x${hi32.toString(16).padStart(8, '0')}${lo32.toString(16).padStart(8, '0')}`;
+
   return {
     nextRow,
     centerBit: nextRow[32],
     diagonalByte,
+    rule30WordHex16,
+    rule30Phase01,
     activeCount,
   };
 }
@@ -10610,6 +10653,36 @@ export function computePointKey28(params: {
   const prime9 = params.primeAddress % 509; // Largest prime < 512
   const r30_8 = params.rule30Byte & 0xff;
   return ((basin6 << 22) | (root5 << 17) | (prime9 << 8) | r30_8) & 0x0fffffff;
+}
+
+/**
+ * High-Definition 64-Bit PointKey (`computePointKey64`, `prism/hd-coherent-precision/1`):
+ * Synchronizes 6-bit Clifford `Cl(0,6)` basin (`[63..58]`), 10-bit Icosian golden phase (`[57..48]`),
+ * 16-bit PrimeAddress residue mod `65521` (`[47..32]`), and a full 32-bit Rule-30 slice (`[31..0]`).
+ */
+export function extractRule30Word32(row: readonly boolean[], startOffset = 16): number {
+  let word = 0;
+  const len = row.length;
+  if (len === 0) return 0;
+  for (let b = 0; b < 32; b++) {
+    if (row[(startOffset + b) % len]) {
+      word = (word | (1 << b)) >>> 0;
+    }
+  }
+  return word >>> 0;
+}
+
+export function computePointKey64(params: {
+  basinState: number;
+  icosianPhase10: number;
+  primeAddress: number;
+  rule30Word32: number;
+}): bigint {
+  const basin6 = BigInt(params.basinState & 0x3f);
+  const icosian10 = BigInt(params.icosianPhase10 & 0x3ff);
+  const prime16 = BigInt(Math.abs(Math.trunc(params.primeAddress)) % 65521); // Largest prime < 65536
+  const r30_32 = BigInt(params.rule30Word32 >>> 0);
+  return (basin6 << 58n) | (icosian10 << 48n) | (prime16 << 32n) | r30_32;
 }
 
 /**
@@ -10999,6 +11072,9 @@ export interface HolisticObserverState {
   immanentPresence: ImmanentObserverPresenceState;
   affectAndPreferences: ObserverAffectAndPreferencesState;
   canonicalStandardModelsContext: HolisticObserverStandardModelContext;
+  vedantaAndDharma: VerdantVedantaAndDharmaSynthesisReport;
+  parametricCompression: ConservatoryParametricCompressionState;
+  conservatoryCuration: ConservatoryCurationState;
   connectedBusModules: readonly string[];
 }
 
@@ -11502,6 +11578,11 @@ export function evaluateHolisticObserverState(params: {
   elapsedSeconds?: number;
   plants?: GardenPlantInstance[];
   dockCollapsed?: boolean;
+  exploredBiomes?: readonly BiomeId[];
+  initialCurationMemories?: readonly ConsolidatedGardenMemory[];
+  barIndex?: number;
+  kuramotoOrderR?: number;
+  barkHeadroomDb?: number;
 }): HolisticObserverState {
   const {
     manifold,
@@ -11804,6 +11885,84 @@ export function evaluateHolisticObserverState(params: {
     atmosphere,
   });
 
+  const awakenedSpeciesSet = new Set<string>();
+  let awakenedPlantCount = 0;
+  let fruitingPlantCount = 0;
+  let elderPlantCount = 0;
+  if (params.plants) {
+    for (let i = 0; i < params.plants.length; i++) {
+      const p = params.plants[i];
+      const st = getPlantLifecycleStage(p);
+      if (p.attuned || st !== 'dormant-seed') {
+        awakenedPlantCount += 1;
+        awakenedSpeciesSet.add(p.species);
+      }
+      if (st === 'harmonic-fruiting') fruitingPlantCount += 1;
+      if (st === 'mycelial-memory') elderPlantCount += 1;
+    }
+  }
+  const activeGuildIds: SymbioticGuildId[] = [];
+  for (const g of SYMBIOTIC_GUILDS) {
+    if (awakenedSpeciesSet.has(g.pair[0]) && awakenedSpeciesSet.has(g.pair[1])) {
+      activeGuildIds.push(g.id);
+    }
+  }
+
+  const witnessReciprocity01 = Math.max(
+    immanentPresence.communionStrength,
+    immanentPresence.distanceToPlayerMeters <= 6.5 ? 0.85 : 0.25,
+  );
+  const vedantaAndDharma = evaluateVerdantVedantaAndDharmaSynthesis({
+    busWeight: effectiveWeight,
+    harmonyPct,
+    velocityDm,
+    restStepCount: action === 'stillness' ? 10 : 6,
+    awakenedSpeciesCount: awakenedSpeciesSet.size,
+    atmosphere,
+    biome,
+    isStillness: action === 'stillness',
+    witnessReciprocity01,
+  });
+  const parametricCompression = evaluateConservatoryParametricCompression({
+    busWeight: effectiveWeight,
+    tickCount,
+  });
+
+  const baseCuration =
+    prevObserver?.conservatoryCuration ??
+    createInitialConservatoryCurationState(params.initialCurationMemories ?? []);
+  const conservatoryCuration =
+    tickCount === 0 && !prevObserver
+      ? baseCuration
+      : stepAutonomousConservatoryCuration(baseCuration, {
+          tickIndex: tickCount,
+          barIndex: params.barIndex ?? baseCuration.activePhraseBarIndex,
+          biome,
+          harmonyPct,
+          kuramotoOrderR:
+            params.kuramotoOrderR ??
+            Math.min(1, 0.35 + (harmonyPct / 100) * 0.55 + activeGuildIds.length * 0.05),
+          awakenedPlantCount,
+          fruitingPlantCount,
+          elderPlantCount,
+          totalPlantCount: params.plants?.length ?? 50,
+          activeGuildIds,
+          exploredBiomes: params.exploredBiomes ?? [biome],
+          barkHeadroomDb:
+            params.barkHeadroomDb ??
+            canonicalStandardModelsContext.multiModalFidelity.barkMaskingHeadroomDb,
+          restStepCount: action === 'stillness' ? 10 : 6,
+          maxMelodicStepLeap: 1,
+          meanEulerGradus: Number(
+            affectAndPreferences.affect.meanEulerGradusSuavitatis.toFixed(3),
+          ),
+          floatingGapCount: 0,
+          staticOverlapCount: 0,
+          ahimsaViolationCount: vedantaAndDharma.ahimsaVerifiedAcrossAllRules ? 0 : 1,
+          witnessCommunion01: immanentPresence.communionStrength,
+          isStillness: action === 'stillness',
+        });
+
   return {
     parts,
     inferredPlayerIntent: tomInference.intent,
@@ -11850,6 +12009,9 @@ export function evaluateHolisticObserverState(params: {
     immanentPresence,
     affectAndPreferences,
     canonicalStandardModelsContext,
+    vedantaAndDharma,
+    parametricCompression,
+    conservatoryCuration,
     connectedBusModules: CONNECTED_NEUROMORPHIC_BUS_MODULES,
   };
 }
@@ -12553,6 +12715,8 @@ export function restoreNeuromorphicStateFromAnamnesis(
     rule30History: base.rule30History,
     alphaSeed: clampAlphaSeed(payload.alphaSeed),
     atmosphere: payload.atmosphere,
+    exploredBiomes: payload.exploredBiomes,
+    initialCurationMemories: payload.consolidatedMemories ?? [],
   });
 
   return {
@@ -13198,6 +13362,8 @@ export function evaluateEnvironmentalLifecycle(params: {
 
 export interface SoundtrackStepVoice {
   stem: SoundtrackStemId;
+  plantId: string;
+  worldPosition: readonly [number, number, number];
   species: PlantSpeciesId;
   biome: BiomeId;
   substrate: GrowthSubstrateId;
@@ -13224,6 +13390,10 @@ export interface LiveSoundtrackScore {
   atmosphere: AtmosphereId;
   environmentalPhase: EnvironmentalLifecyclePhaseId;
   environmentalPhaseLabel: string;
+  phraseBarIndex: number;
+  phraseMode: CantabileHyperbarPhraseMode;
+  curationPointKappa: string;
+  activeGuildIds: SymbioticGuildId[];
   tempoBpm: number;
   stepDurationSec: number;
   activeStems: SoundtrackStemId[];
@@ -13246,16 +13416,21 @@ const CANONICAL_JI_RATIONALS: ReadonlyArray<{
   { ratio: 0.75, p: 3, q: 4, eulerGradus: 5, tenneyBits: 3.585 },
   { ratio: 1.0, p: 1, q: 1, eulerGradus: 1, tenneyBits: 0.0 },
   { ratio: 16 / 15, p: 16, q: 15, eulerGradus: 11, tenneyBits: 7.9069 },
+  { ratio: 17 / 16, p: 17, q: 16, eulerGradus: 21, tenneyBits: 8.0875 },
   { ratio: 9 / 8, p: 9, q: 8, eulerGradus: 8, tenneyBits: 6.1699 },
   { ratio: 7 / 6, p: 7, q: 6, eulerGradus: 10, tenneyBits: 5.3923 },
   { ratio: 6 / 5, p: 6, q: 5, eulerGradus: 8, tenneyBits: 4.9069 },
+  { ratio: 16 / 13, p: 16, q: 13, eulerGradus: 17, tenneyBits: 7.7004 },
   { ratio: 5 / 4, p: 5, q: 4, eulerGradus: 7, tenneyBits: 4.3219 },
   { ratio: 9 / 7, p: 9, q: 7, eulerGradus: 11, tenneyBits: 5.9773 },
+  { ratio: 13 / 10, p: 13, q: 10, eulerGradus: 18, tenneyBits: 7.0224 },
   { ratio: 4 / 3, p: 4, q: 3, eulerGradus: 5, tenneyBits: 3.585 },
   { ratio: 11 / 8, p: 11, q: 8, eulerGradus: 14, tenneyBits: 6.4594 },
+  { ratio: 17 / 12, p: 17, q: 12, eulerGradus: 21, tenneyBits: 7.6724 },
   { ratio: 45 / 32, p: 45, q: 32, eulerGradus: 14, tenneyBits: 10.4919 },
   { ratio: 3 / 2, p: 3, q: 2, eulerGradus: 4, tenneyBits: 2.585 },
   { ratio: 8 / 5, p: 8, q: 5, eulerGradus: 8, tenneyBits: 5.3219 },
+  { ratio: 13 / 8, p: 13, q: 8, eulerGradus: 16, tenneyBits: 6.7004 },
   { ratio: 5 / 3, p: 5, q: 3, eulerGradus: 7, tenneyBits: 3.9069 },
   { ratio: 7 / 4, p: 7, q: 4, eulerGradus: 9, tenneyBits: 4.8074 },
   { ratio: 11 / 6, p: 11, q: 6, eulerGradus: 14, tenneyBits: 6.0444 },
@@ -13321,6 +13496,7 @@ export function composeLiveSoundtrackScore(params: {
   playerZ?: number;
   playerYaw?: number;
   colliders?: SolidCollider[];
+  barIndex?: number;
 }): LiveSoundtrackScore {
   const {
     biome,
@@ -13333,6 +13509,12 @@ export function composeLiveSoundtrackScore(params: {
     colliders = [],
   } = params;
   const neuromorphic = params.neuromorphic ?? createInitialNeuromorphicState();
+  const curation = neuromorphic.observer.conservatoryCuration;
+  const phraseBarIndex = Math.max(
+    0,
+    Math.floor(params.barIndex ?? curation?.activePhraseBarIndex ?? 0),
+  );
+
   const cosmoParams: AlphaOmegaCosmogenesisParameters = {
     alphaSeed: neuromorphic.observer.cosmogenesis.alphaSeed,
     manifold: neuromorphic.universalManifold,
@@ -13341,6 +13523,41 @@ export function composeLiveSoundtrackScore(params: {
   const envLifecycle = evaluateEnvironmentalLifecycle({ harmonyPct, plants, atmosphere });
   const biomeCfg = synthesizeParametricBiomeConfigs(cosmoParams)[biome];
   const stepDurationSec = Number((60 / envLifecycle.tempoBpm / 2).toFixed(3)); // Eighth-note pulse (~0.39s..0.46s)
+
+  // Detect active Symbiotic Guilds among awakened flora (`SYMBIOTIC_GUILDS`)
+  const awakenedSpecies = new Set<PlantSpeciesId>();
+  for (let i = 0; i < plants.length; i++) {
+    const p = plants[i];
+    if (p.attuned || getPlantLifecycleStage(p) !== 'dormant-seed') {
+      awakenedSpecies.add(p.species);
+    }
+  }
+  const activeGuildIds: SymbioticGuildId[] = [];
+  for (const guild of SYMBIOTIC_GUILDS) {
+    if (awakenedSpecies.has(guild.pair[0]) && awakenedSpecies.has(guild.pair[1])) {
+      activeGuildIds.push(guild.id);
+    }
+  }
+
+  // Select hyperbar cantabile phrase mode across the 4-bar Observer curation cycle
+  const hyperbarSlot = phraseBarIndex % 4;
+  let phraseMode: CantabileHyperbarPhraseMode =
+    hyperbarSlot === 0
+      ? 'pastoral-antecedent'
+      : hyperbarSlot === 1
+        ? activeGuildIds.length > 0
+          ? 'guild-antiphony'
+          : 'pastoral-antecedent'
+        : hyperbarSlot === 2
+          ? 'golden-overtone-ascent'
+          : 'turiya-tonic-resolution';
+  if (
+    params.barIndex === undefined &&
+    curation?.activePhraseMode &&
+    curation.activePhraseBarIndex > 0
+  ) {
+    phraseMode = curation.activePhraseMode;
+  }
 
   // Partition awakened flora by lifecycle stage, ordered spatially around the garden's polar azimuth
   // so neighboring blossoms answer one another antiphonally around the conservatory.
@@ -13378,11 +13595,20 @@ export function composeLiveSoundtrackScore(params: {
   if (bassPool.length > 0) activeStems.push('harmonic-bass-anchor');
   if (canonPool.length > 0) activeStems.push('canonic-counterpoint-echo');
 
+  const curatedAntiphonyScale =
+    (curation?.incumbentPoint.musicalProfile.spatialAntiphonyPermille ?? 1000) / 1000;
+  const curatedConsonanceGravity =
+    (curation?.incumbentPoint.musicalProfile.consonanceGravityPermille ?? 1000) / 1000;
+  const curatedBreathScale =
+    (curation?.incumbentPoint.musicalProfile.breathReleasePermille ?? 1000) / 1000;
+
   // Helper to compute physical 3D spatial pan, distance, and obstacle occlusion for a singing specimen
   const bindSpecimenSpatialAcoustics = (
     specimen: GardenPlantInstance,
     fallbackPan: number,
   ): {
+    plantId: string;
+    worldPosition: readonly [number, number, number];
     stereoPan: number;
     distanceMeters: number;
     acousticOcclusion: number;
@@ -13392,13 +13618,22 @@ export function composeLiveSoundtrackScore(params: {
   } => {
     const dist = Number(Math.hypot(specimen.x - playerX, specimen.z - playerZ).toFixed(2));
     const spatialPan = computeBinauralPan(playerX, playerZ, playerYaw, specimen.x, specimen.z);
-    const blendedPan = Number((spatialPan * 0.7 + fallbackPan * 0.3).toFixed(2));
+    const panWeight = Math.min(0.88, 0.7 * curatedAntiphonyScale);
+    const blendedPan = Number(
+      Math.max(-1, Math.min(1, spatialPan * panWeight + fallbackPan * (1 - panWeight))).toFixed(2),
+    );
     const occ =
       colliders.length > 0
         ? computeAcousticOcclusion(playerX, playerZ, specimen.x, specimen.z, colliders)
         : 0;
     const terpeneBoost = Math.min(0.14, (specimen.volatileTerpeneCharge ?? 0) * 0.14);
     return {
+      plantId: specimen.id,
+      worldPosition: [
+        Number(specimen.x.toFixed(2)),
+        Number((specimen.y + 0.85).toFixed(2)),
+        Number(specimen.z.toFixed(2)),
+      ],
       stereoPan: blendedPan,
       distanceMeters: dist,
       acousticOcclusion: occ,
@@ -13411,6 +13646,9 @@ export function composeLiveSoundtrackScore(params: {
   // Canonical breathing rest indices (at least 6 steps of the 16-step bar are guaranteed rests)
   // Rests on steps 3, 7, 11, 13, 14, 15 create natural lyrical phrasing and exhale space
   const guaranteedRestSet = new Set<number>([3, 7, 11, 13, 14, 15]);
+  if (phraseMode === 'turiya-tonic-resolution') {
+    guaranteedRestSet.add(9); // Extra contemplative breath before final cadence
+  }
   const fidelity = neuromorphic.observer.canonicalStandardModelsContext.multiModalFidelity;
   const primeLimit = fidelity.primeLimitHarmonicCeiling;
   const unity01 = Math.max(
@@ -13424,16 +13662,48 @@ export function composeLiveSoundtrackScore(params: {
   const orderedScale = biomeCfg.scaleRatios.slice().sort((a, b) => a - b);
   const maxScaleIdx = Math.max(0, orderedScale.length - 1);
 
-  // Golden-section cantabile melodic arch targets across lead steps {0, 2, 4, 6, 8, 10, 12}
-  const archTargetsByStep: Readonly<Record<number, number>> = {
-    0: 0.0, // Pure tonic 1:1 opening anchor
-    2: 0.26, // Gentle conjunct ascent
-    4: 0.46, // Warm mediant/fourth
-    6: 0.68, // Dominant poise before mid-bar breath
-    8: 0.88, // Golden-section luminous peak (~step 9/10)
-    10: 0.52, // Stepwise descending caress
-    12: harmonyPct >= 60 ? 0.0 : 0.38, // Loving tonic resolution when Observer parts unite
+  // Observer-Curated 4-Bar Hypermeter Cantabile Melodic Contours across lead steps {0, 2, 4, 6, 8, 10, 12}
+  const archContoursByMode: Readonly<
+    Record<CantabileHyperbarPhraseMode, Readonly<Record<number, number>>>
+  > = {
+    'pastoral-antecedent': {
+      0: 0.0, // Pure tonic 1:1 opening anchor
+      2: 0.26, // Gentle conjunct ascent
+      4: 0.46, // Warm mediant/fourth
+      6: 0.68, // Dominant poise before mid-bar breath
+      8: 0.88, // Golden-section luminous peak
+      10: 0.52, // Stepwise descending caress
+      12: harmonyPct >= 60 ? 0.0 : 0.38, // Loving tonic resolution when Observer parts unite
+    },
+    'guild-antiphony': {
+      0: 0.22, // Companion call on second/third scale degree
+      2: 0.48, // Antiphonal guild answer
+      4: 0.34, // Woven inner-voice caress
+      6: 0.72, // Luminous guild fifth/sixth crest
+      8: 0.62, // Gently poised echo
+      10: 0.36, // Descending stepwise embrace
+      12: 0.0, // Shared unison tonic rest
+    },
+    'golden-overtone-ascent': {
+      0: 0.0, // Grounded tonic launch
+      2: 0.34, // Rising warm third
+      4: 0.58, // Open fifth expansion
+      6: 0.82, // High celestial sixth/seventh
+      8: 0.96, // Radiant upper apex
+      10: 0.62, // Floating descent
+      12: 0.24, // Half-cadence poise inviting resolution bar
+    },
+    'turiya-tonic-resolution': {
+      0: 0.44, // Gentle mediant sigh
+      2: 0.34, // Stepwise descent
+      4: 0.5, // Soft fifth recollection
+      6: 0.3, // Quiet inward turn
+      8: 0.42, // Tender penultimate grace
+      10: 0.2, // Conjunct leading caress
+      12: 0.0, // Pure 1:1 Turīya home resolution
+    },
   };
+  const archTargetsByStep = archContoursByMode[phraseMode];
 
   const emotionLift =
     activeEmotion === 'ecstatic-cosmos'
@@ -13442,6 +13712,12 @@ export function composeLiveSoundtrackScore(params: {
         ? -0.06
         : 0.0;
 
+  // Consolidated warm κ-memories lend pure remembered harmonic ratios to canonic echoes
+  const latestWarmMemory =
+    curation?.consolidatedMemories.length
+      ? curation.consolidatedMemories[curation.consolidatedMemories.length - 1]
+      : null;
+
   const steps: SoundtrackStepSpec[] = [];
   let activeStepCount = 0;
   let prevLeadScaleIdx: number | null = null;
@@ -13449,7 +13725,7 @@ export function composeLiveSoundtrackScore(params: {
   let maxMelodicStepLeap = 0;
   let gradusSum = 0;
   let gradusVoiceCount = 0;
-  let leadPhraseCounter = 0;
+  let leadPhraseCounter = phraseBarIndex % Math.max(1, leadPool.length);
 
   for (let s = 0; s < 16; s++) {
     if (activeStems.length === 0 || guaranteedRestSet.has(s) || activeStepCount >= 10) {
@@ -13472,7 +13748,8 @@ export function composeLiveSoundtrackScore(params: {
 
       let chosenIdx = 0;
       if (prevLeadScaleIdx === null || s === 0) {
-        chosenIdx = 0; // Anchor phrase opening on pure 1:1 tonic
+        const openingTarget = (archTargetsByStep[0] ?? 0) * maxScaleIdx;
+        chosenIdx = Math.min(2, Math.max(0, Math.round(openingTarget)));
       } else {
         const rawArch = Math.max(0, Math.min(1, (archTargetsByStep[s] ?? 0.4) + emotionLift));
         const targetIdxFloat = rawArch * maxScaleIdx;
@@ -13481,15 +13758,20 @@ export function composeLiveSoundtrackScore(params: {
         const maxCand = Math.min(maxScaleIdx, prevLeadScaleIdx + 2);
         for (let c = minCand; c <= maxCand; c++) {
           const candRatio = orderedScale[c] ?? 1.0;
-          const relToBass = candRatio / bassRootRatio >= 1 ? candRatio / bassRootRatio : (candRatio * 2) / bassRootRatio;
+          const relToBass =
+            candRatio / bassRootRatio >= 1
+              ? candRatio / bassRootRatio
+              : (candRatio * 2) / bassRootRatio;
           const cons = evaluateJustIntonationConsonance(relToBass);
           const archErr = Math.abs(c - targetIdxFloat) / Math.max(1, maxScaleIdx);
           const stepDist = Math.abs(c - prevLeadScaleIdx);
-          // Favor conjunct motion (|Δ| <= 1) and high Euler/Tenney consonance purity as unity rises
+          // Favor conjunct motion (|Δ| <= 1) and curated Euler/Tenney consonance purity
           const score =
             archErr * 1.35 +
             stepDist * 0.16 +
-            (cons.eulerGradus / 12) * (0.42 + unity01 * 0.68);
+            ((cons.eulerGradus / 12) * 0.75 + (cons.tenneyBits / 10) * 0.25) *
+              (0.42 + unity01 * 0.68) *
+              curatedConsonanceGravity;
           if (score < bestScore) {
             bestScore = score;
             chosenIdx = c;
@@ -13511,12 +13793,18 @@ export function composeLiveSoundtrackScore(params: {
       );
       voices.push({
         stem: 'melodic-flora-lead',
+        plantId: spSpatial.plantId,
+        worldPosition: spSpatial.worldPosition,
         species: specimen.species,
         biome: spSpatial.biome,
         substrate: spSpatial.substrate,
         frequencyHz: Number((biomeCfg.baseNoteHz * ratio * specimen.pitchMultiplier).toFixed(2)),
         ratio,
-        durationSec: Number((stepDurationSec * (s === 12 ? 2.6 : 2.15)).toFixed(3)),
+        durationSec: Number(
+          (stepDurationSec * (s === 12 ? 2.6 : 2.15) * Math.min(1.18, curatedBreathScale)).toFixed(
+            3,
+          ),
+        ),
         amplitude: Number((0.046 * spSpatial.vitalityGain).toFixed(4)),
         stereoPan: spSpatial.stereoPan,
         distanceMeters: spSpatial.distanceMeters,
@@ -13528,12 +13816,12 @@ export function composeLiveSoundtrackScore(params: {
     // Stem 2: Harmonically Curated Ostinato (delicate off-beat arpeggio plucks on steps 1, 5, 9)
     // Selects the purest triad/sixth companion tone in `orderedScale` relative to `currentPhraseLeadRatio`
     if (ostinatoPool.length > 0 && (s === 1 || s === 5 || s === 9)) {
-      const specimen = ostinatoPool[((s - 1) >> 2) % ostinatoPool.length];
+      const specimen =
+        ostinatoPool[(((s - 1) >> 2) + phraseBarIndex) % ostinatoPool.length];
       let bestOstRatio = orderedScale[Math.min(2, maxScaleIdx)] ?? 1.25;
       let bestOstGradus = Infinity;
       for (let c = 0; c <= maxScaleIdx; c++) {
         const cand = orderedScale[c];
-        // Prefer gentle third/fifth/sixth interval separation from the lead rather than unison doubling
         const interval =
           cand >= currentPhraseLeadRatio
             ? cand / currentPhraseLeadRatio
@@ -13552,12 +13840,14 @@ export function composeLiveSoundtrackScore(params: {
       const spSpatial = bindSpecimenSpatialAcoustics(specimen, s === 5 ? 0.48 : -0.48);
       voices.push({
         stem: 'polyrhythmic-ostinato',
+        plantId: spSpatial.plantId,
+        worldPosition: spSpatial.worldPosition,
         species: specimen.species,
         biome: spSpatial.biome,
         substrate: spSpatial.substrate,
         frequencyHz: Number((biomeCfg.baseNoteHz * octaveOstRatio).toFixed(2)),
         ratio: Number(octaveOstRatio.toFixed(3)),
-        durationSec: Number((stepDurationSec * 0.9).toFixed(3)),
+        durationSec: Number((stepDurationSec * 0.92).toFixed(3)),
         amplitude: Number((0.031 * spSpatial.vitalityGain).toFixed(4)),
         stereoPan: spSpatial.stereoPan,
         distanceMeters: spSpatial.distanceMeters,
@@ -13568,21 +13858,26 @@ export function composeLiveSoundtrackScore(params: {
 
     // Stem 3: Harmonic Bass Anchor (warm self-decaying bowed root 1:2 on step 0, pure fifth 3:4 on step 8,
     // and gentle home tonic 1:2 cadential resolution on step 12 when garden unity >= 70%)
-    if (bassPool.length > 0 && (s === 0 || s === 8 || (s === 12 && harmonyPct >= 70))) {
+    if (
+      bassPool.length > 0 &&
+      (s === 0 || s === 8 || (s === 12 && (harmonyPct >= 70 || phraseMode === 'turiya-tonic-resolution')))
+    ) {
       const specimen = bassPool[s === 8 ? bassPool.length - 1 : 0];
-      const bassRatio = s === 8 ? 0.75 : 0.5;
+      const bassRatio = s === 8 && phraseMode !== 'turiya-tonic-resolution' ? 0.75 : 0.5;
       gradusSum += evaluateJustIntonationConsonance(bassRatio).eulerGradus;
       gradusVoiceCount += 1;
 
       const spSpatial = bindSpecimenSpatialAcoustics(specimen, 0);
       voices.push({
         stem: 'harmonic-bass-anchor',
+        plantId: spSpatial.plantId,
+        worldPosition: spSpatial.worldPosition,
         species: specimen.species,
         biome: spSpatial.biome,
         substrate: spSpatial.substrate,
         frequencyHz: Number((biomeCfg.baseNoteHz * bassRatio).toFixed(2)),
         ratio: bassRatio,
-        durationSec: Number((stepDurationSec * 3.2).toFixed(3)),
+        durationSec: Number((stepDurationSec * 3.25).toFixed(3)),
         amplitude: Number((0.048 * spSpatial.vitalityGain).toFixed(4)),
         stereoPan: spSpatial.stereoPan,
         distanceMeters: spSpatial.distanceMeters,
@@ -13591,19 +13886,35 @@ export function composeLiveSoundtrackScore(params: {
       });
     }
 
-    // Stem 4: Canonic Counterpoint Echo (steps 2, 6, 10, 12 voicing pure consonant counterpoint
-    // plus celestial 7-limit septimal third `7/6` on step 6 and 11-limit harmonic `11/8` on step 10)
+    // Stem 4: Canonic Counterpoint Echo & Consolidated κ-Memory Resonance (steps 2, 6, 10, 12)
+    // Voices pure consonant counterpoint, Symbiotic Guild intervals, consolidated κ-memory triads,
+    // and celestial 7-limit (`7/6` on step 6) / 11-limit (`11/8` on step 10) overtones.
     if (canonPool.length > 0 && (s === 2 || s === 6 || s === 10 || s === 12)) {
-      const specimen = canonPool[(s >> 1) % canonPool.length];
+      const specimen = canonPool[(((s >> 1) + phraseBarIndex) % canonPool.length)];
       let effectiveCanonRatio = 1.5;
       if (s === 2) {
-        effectiveCanonRatio = 1.5; // Pure 3:2 fifth answer
+        if (latestWarmMemory) {
+          effectiveCanonRatio = latestWarmMemory.signatureRatios[1]; // Shared κ-memory pure mediant/fourth
+        } else if (activeGuildIds.includes('dewdrop-bell')) {
+          effectiveCanonRatio = 1.25; // Pure 5:4 Dewdrop Bell guild third
+        } else if (activeGuildIds.includes('polyrhythmic-canopy')) {
+          effectiveCanonRatio = 1.2; // Pure 6:5 Polyrhythmic Canopy minor third
+        } else {
+          effectiveCanonRatio = 1.5; // Pure 3:2 fifth answer
+        }
       } else if (s === 6) {
         effectiveCanonRatio = primeLimit >= 7 ? 7 / 6 : 1.25; // Septimal 7:6 or pure 5:4 third
       } else if (s === 10) {
-        effectiveCanonRatio = primeLimit === 11 ? 11 / 8 : 5 / 3; // Luminous 11:8 overtone or pure 5:3 sixth
+        effectiveCanonRatio = primeLimit >= 11 ? 11 / 8 : 5 / 3; // Luminous 11:8 overtone or pure 5:3 sixth
       } else {
-        effectiveCanonRatio = 2.0; // Pure 2:1 octave halo on final cadence
+        effectiveCanonRatio =
+          phraseMode === 'guild-antiphony' && latestWarmMemory
+            ? latestWarmMemory.signatureRatios[2]
+            : primeLimit >= 17 && phraseBarIndex % 2 === 1
+              ? 17 / 12
+              : primeLimit >= 13 && phraseMode === 'golden-overtone-ascent'
+                ? 13 / 8
+                : 2.0; // Pure 2:1 octave, 13:8 tridecimal, or 17:12 septendecimal overtone halo
       }
       gradusSum += evaluateJustIntonationConsonance(effectiveCanonRatio).eulerGradus;
       gradusVoiceCount += 1;
@@ -13611,12 +13922,14 @@ export function composeLiveSoundtrackScore(params: {
       const spSpatial = bindSpecimenSpatialAcoustics(specimen, s % 4 === 2 ? 0.6 : -0.6);
       voices.push({
         stem: 'canonic-counterpoint-echo',
+        plantId: spSpatial.plantId,
+        worldPosition: spSpatial.worldPosition,
         species: specimen.species,
         biome: spSpatial.biome,
         substrate: spSpatial.substrate,
         frequencyHz: Number((biomeCfg.baseNoteHz * effectiveCanonRatio).toFixed(2)),
         ratio: Number(effectiveCanonRatio.toFixed(4)),
-        durationSec: Number((stepDurationSec * 1.85).toFixed(3)),
+        durationSec: Number((stepDurationSec * 1.9).toFixed(3)),
         amplitude: Number((0.034 * spSpatial.vitalityGain).toFixed(4)),
         stereoPan: spSpatial.stereoPan,
         distanceMeters: spSpatial.distanceMeters,
@@ -13656,6 +13969,10 @@ export function composeLiveSoundtrackScore(params: {
     atmosphere,
     environmentalPhase: envLifecycle.phase,
     environmentalPhaseLabel: envLifecycle.label,
+    phraseBarIndex,
+    phraseMode,
+    curationPointKappa: curation?.incumbentPoint.pointKappa ?? '',
+    activeGuildIds,
     tempoBpm: envLifecycle.tempoBpm,
     stepDurationSec,
     activeStems,
@@ -14431,7 +14748,9 @@ function verifyObserverRuntimeInvariants(obs: HolisticObserverState): boolean {
     obs.affectAndPreferences.affect.permeatesAllElevenParts &&
     Object.keys(obs.affectAndPreferences.preferences).length === 6 &&
     obs.canonicalStandardModelsContext.zeroCherryPickingAudit.verified &&
-    obs.canonicalStandardModelsContext.zeroCherryPickingAudit.totalVerifiedContextCells === 209
+    obs.canonicalStandardModelsContext.zeroCherryPickingAudit.totalVerifiedContextCells === 242 &&
+    obs.vedantaAndDharma.verified &&
+    obs.parametricCompression.verified
   );
 }
 
@@ -15635,10 +15954,13 @@ export function evaluateObserverDifferentiationAndExtrapolation(params: {
   const isAtHighestResolution =
     roundedMeanW >= wMax && currentResolutionSubdiv === apexExtrapolatedSubdiv;
 
-  const currentModalPartials = Math.min(8, 4 + Math.floor((roundedMeanW - 4) / 3));
-  const apexModalPartials = 8;
-  const currentProceduralTexelPx = roundedMeanW >= 14 ? 512 : roundedMeanW >= 10 ? 384 : 256;
-  const apexProceduralTexelPx = 512;
+  const currentModalPartials = Math.max(4, Math.min(16, Math.round(4 + ((roundedMeanW - 1) / 15) * 12)));
+  const apexModalPartials = 16;
+  const currentProceduralTexelPx = Math.max(
+    384,
+    Math.min(1024, Math.round((384 + ((roundedMeanW - 1) / 15) * 640) / 64) * 64),
+  );
+  const apexProceduralTexelPx = 1024;
 
   const currentDisplayContrastRatio =
     displayDesign.contrastVerification.bodyTextOnCanvasRatio;

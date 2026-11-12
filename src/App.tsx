@@ -208,6 +208,8 @@ export default function App() {
         exploredBiomes: telemetry.exploredBiomes,
         manifold: telemetry.neuromorphic.universalManifold,
         plants,
+        consolidatedMemories:
+          telemetry.neuromorphic.observer.conservatoryCuration.consolidatedMemories,
       });
       persistAnamnesisEnvelopeToStorage(envelope);
     }, 420);

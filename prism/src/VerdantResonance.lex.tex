@@ -23,6 +23,9 @@
 \importmodule{Foundation.SpatialAcoustics.V1.Model}
 \importmodule{Foundation.Anamnesis.V1.Model}
 \importmodule{Foundation.Teleology.V1.Model}
+\importmodule{Foundation.Vedanta.V1.Model}
+\importmodule{Foundation.Dharma.V1.Model}
+\importmodule{Foundation.Compression.V1.Model}
 \importmodule{Foundation.Cosmogenesis.V1.Model}
 \title{Text application model}
 \begin{semanticmodule}
@@ -1653,7 +1656,7 @@ definition{
   name: verifyCanonicalStandardModelsAllTheWayDown,
   parameters: [],
   result: Bool,
-  body: (((Foundation.Cosmogenesis.V1.Model::verifyObserverCompleteFourteenModelRegistry) && (Foundation.Physics.V1.Model::verifyGellMannNishijimaAllChiralMultiplets)) && ((Foundation.Chemistry.V1.Model::verifyPauli118PeriodicClosure) && (Foundation.Neuromorphic.V1.Model::verifyAllModelsEnhanceAllModelsFunctor (Foundation.Neuromorphic.V1.Model::weightInitial))))
+  body: (((((Foundation.Cosmogenesis.V1.Model::verifyObserverCompleteFourteenModelRegistry) && (Foundation.Physics.V1.Model::verifyGellMannNishijimaAllChiralMultiplets)) && ((Foundation.Chemistry.V1.Model::verifyPauli118PeriodicClosure) && (Foundation.Neuromorphic.V1.Model::verifyAllModelsEnhanceAllModelsFunctor (Foundation.Neuromorphic.V1.Model::weightInitial)))) && (((Foundation.Vedanta.V1.Model::verifyTrigunaConservationLaw (Foundation.Neuromorphic.V1.Model::weightInitial) 50 4) && (Foundation.Vedanta.V1.Model::verifyPancikaranaAndKosaClosure)) && ((Foundation.Dharma.V1.Model::verifyAhimsaAndYamaNiyamaAstangaClosure 0 0) && (Foundation.Dharma.V1.Model::verifyPratityasamutpadaTwelveLinkClosure 12 0)))) && (((Foundation.Compression.V1.Model::rawMaxOverheadBytes) =? 61) && ((Foundation.Compression.V1.Model::dominates 40 300 42 300) && ((Foundation.Compression.V1.Model::admitMintCode true 6) =? 1))))
 }
 
 definition{

@@ -16,6 +16,14 @@ import {
   GENERATED_PRISM_BUS_MODULATION_LUT,
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
+import {
+  bytesToUtf8,
+  compressUorcArchive,
+  decompressUorcArchive,
+  utf8ToBytes,
+  type UorcCodecError,
+} from './parametricCompressionEngine';
+import type { ConsolidatedGardenMemory } from './conservatoryCurationEngine';
 import type {
   AtmosphereId,
   BiomeId,
@@ -62,6 +70,7 @@ export interface VerdantAnamnesisPayload {
   }>;
   readonly floraStates: readonly PersistedPlantAnamnesisRecord[];
   readonly episodicHorizon: readonly EpisodicMemoryTraceEntry[];
+  readonly consolidatedMemories?: readonly ConsolidatedGardenMemory[];
 }
 
 export interface ContentAddressedAnamnesisEnvelope {
@@ -100,7 +109,9 @@ export function canonicalizeAnamnesisJson(value: unknown): string {
     return `[${value.map((item) => canonicalizeAnamnesisJson(item)).join(',')}]`;
   }
   const obj = value as Record<string, unknown>;
-  const keys = Object.keys(obj).sort();
+  const keys = Object.keys(obj)
+    .filter((k) => obj[k] !== undefined)
+    .sort();
   return `{${keys
     .map((k) => `${JSON.stringify(k)}:${canonicalizeAnamnesisJson(obj[k])}`)
     .join(',')}}`;
@@ -163,6 +174,7 @@ export function serializeAnamnesisSnapshot(params: {
   readonly manifold: UniversalNeuromorphicManifold;
   readonly plants: readonly GardenPlantInstance[];
   readonly episodicHorizon?: readonly EpisodicMemoryTraceEntry[];
+  readonly consolidatedMemories?: readonly ConsolidatedGardenMemory[];
   readonly savedAtIso?: string;
 }): ContentAddressedAnamnesisEnvelope {
   const clampW = (v: number) => Math.max(1, Math.min(16, Math.round(v)));
@@ -175,6 +187,12 @@ export function serializeAnamnesisSnapshot(params: {
   );
   const maxHorizon = computeEpisodicMemoryHorizonCapacity(wAnam);
   const boundedHorizon = (params.episodicHorizon ?? []).slice(-maxHorizon);
+  const memoryCap =
+    GENERATED_PRISM_STANDARDS.autonomousConservatoryCuration?.consolidatedMemorySlotCap ?? 16;
+  const boundedMemories =
+    params.consolidatedMemories && params.consolidatedMemories.length > 0
+      ? params.consolidatedMemories.slice(0, memoryCap)
+      : undefined;
 
   const payload: VerdantAnamnesisPayload = {
     schemaVersion: GENERATED_PRISM_STANDARDS.anamnesis.merklePersistence.schemaSemverMajor,
@@ -202,6 +220,7 @@ export function serializeAnamnesisSnapshot(params: {
       volatileTerpeneCharge: Number((p.volatileTerpeneCharge ?? 0).toFixed(4)),
     })),
     episodicHorizon: boundedHorizon,
+    ...(boundedMemories ? { consolidatedMemories: boundedMemories } : {}),
   };
 
   const digest = computeAnamnesisMerkleDigest(payload);
@@ -315,8 +334,92 @@ export function hydratePlantsFromAnamnesis(
   });
 }
 
+export const UORC_STORAGE_PREFIX = 'uorc1:';
+
+function uint8ToBase64(bytes: Uint8Array): string {
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  if (typeof btoa === 'function') {
+    return btoa(binary);
+  }
+  return Buffer.from(bytes).toString('base64');
+}
+
+function base64ToUint8(b64: string): Uint8Array {
+  if (typeof atob === 'function') {
+    const bin = atob(b64);
+    const out = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) {
+      out[i] = bin.charCodeAt(i) & 0xff;
+    }
+    return out;
+  }
+  return new Uint8Array(Buffer.from(b64, 'base64'));
+}
+
+export interface PackedUorcAnamnesisResult {
+  readonly archiveBytes: Uint8Array;
+  readonly storageToken: string;
+  readonly rawJsonBytes: number;
+  readonly archiveByteLength: number;
+  readonly compressionRatio: number;
+  readonly codecPointKappa: string;
+  readonly decodeSteps: number;
+}
+
+/**
+ * Losslessly packs a content-addressed Merkle Anamnesis envelope into a κ-addressed `UORC\x01` binary archive
+ * (`Foundation.Compression.V1.Model` + `STATE_1` warm dictionary), verifying `defect === 0` and `SHA-256` chain integrity.
+ */
+export function packAnamnesisEnvelopeToUorc(
+  envelope: ContentAddressedAnamnesisEnvelope,
+): PackedUorcAnamnesisResult {
+  const rawJson = JSON.stringify(envelope);
+  const rawBytes = utf8ToBytes(rawJson);
+  const report = compressUorcArchive([rawBytes], { allowWarmStates: true });
+  return {
+    archiveBytes: report.archiveBytes,
+    storageToken: `${UORC_STORAGE_PREFIX}${uint8ToBase64(report.archiveBytes)}`,
+    rawJsonBytes: rawBytes.length,
+    archiveByteLength: report.archiveBytes.length,
+    compressionRatio: Number((report.archiveBytes.length / Math.max(1, rawBytes.length)).toFixed(4)),
+    codecPointKappa: report.inspection.primaryCodecPoint.kappa,
+    decodeSteps: report.inspection.totalDecodeSteps,
+  };
+}
+
+/**
+ * Unpacks and cryptographically verifies a `UORC\x01` Anamnesis archive (with optional deterministic `stepBudget`),
+ * then runs the full Merkle + SemVer round-trip verification (`0` drift).
+ */
+export function unpackAnamnesisEnvelopeFromUorc(
+  archiveBytes: Uint8Array,
+  options?: { readonly stepBudget?: number },
+): AnamnesisRoundTripVerification & { readonly uorcError?: UorcCodecError } {
+  const dec = decompressUorcArchive(archiveBytes, options);
+  if (!dec.ok || dec.value.objects.length !== 1) {
+    return {
+      verified: false,
+      schemaVersionMatches: false,
+      digestMatches: false,
+      roundTripDriftCount: 1,
+      horizonCapacity: computeEpisodicMemoryHorizonCapacity(8),
+      envelope: null,
+      uorcError: dec.ok
+        ? { code: 'CorruptPayload', message: 'Expected single-object Anamnesis UORC archive' }
+        : dec.error,
+    };
+  }
+  const jsonText = bytesToUtf8(dec.value.objects[0]);
+  return deserializeAndVerifyAnamnesisSnapshot(jsonText);
+}
+
 /**
  * Safe browser/custom storage persistence helper (`0` exceptions in SSR/headless/private mode).
+ * Persists compact `uorc1:<base64>` binary archives by default while `loadAnamnesisEnvelopeFromStorage`
+ * transparently restores both `uorc1:` compact archives and legacy plain JSON envelopes.
  */
 export function persistAnamnesisEnvelopeToStorage(
   envelope: ContentAddressedAnamnesisEnvelope,
@@ -330,7 +433,8 @@ export function persistAnamnesisEnvelopeToStorage(
         : null;
   if (!target) return false;
   try {
-    target.setItem(VERDANT_ANAMNESIS_STORAGE_KEY, JSON.stringify(envelope));
+    const packed = packAnamnesisEnvelopeToUorc(envelope);
+    target.setItem(VERDANT_ANAMNESIS_STORAGE_KEY, packed.storageToken);
     return true;
   } catch {
     return false;
@@ -350,7 +454,12 @@ export function loadAnamnesisEnvelopeFromStorage(
     return deserializeAndVerifyAnamnesisSnapshot(null);
   }
   try {
-    return deserializeAndVerifyAnamnesisSnapshot(target.getItem(VERDANT_ANAMNESIS_STORAGE_KEY));
+    const raw = target.getItem(VERDANT_ANAMNESIS_STORAGE_KEY);
+    if (typeof raw === 'string' && raw.startsWith(UORC_STORAGE_PREFIX)) {
+      const archiveBytes = base64ToUint8(raw.slice(UORC_STORAGE_PREFIX.length));
+      return unpackAnamnesisEnvelopeFromUorc(archiveBytes);
+    }
+    return deserializeAndVerifyAnamnesisSnapshot(raw);
   } catch {
     return deserializeAndVerifyAnamnesisSnapshot(null);
   }
