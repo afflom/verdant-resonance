@@ -1070,7 +1070,7 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
     {
       registryField: 'm08Soundtrack',
       modelKey: 'soundtrack',
-      displayName: 'Soundtrack (11-Limit Just Intonation Tonnetz + Voice-Leading Parsimony)',
+      displayName: 'Soundtrack (17-Limit Just Intonation Tonnetz + 4-Bar Hypermeter Parsimony)',
       sourceModule: 'Foundation.Soundtrack.V1.Model',
     },
     {
@@ -1523,6 +1523,33 @@ export function extractAllPrismArtifacts(prismRootDir: string) {
         evaluateLexExpr(
           `stepCuratedConsonancePurityPermille ${w} 100`,
           'Foundation.Soundtrack.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    primeLimitHarmonicCeiling: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepPrimeLimitHarmonicCeiling ${w}`,
+          'Foundation.Soundtrack.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    microclimateIso9613ClarityPermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepMicroclimateIso9613ClarityPermille ${w} 680`,
+          'Foundation.Ecology.V1.Model',
+          modules,
+        ),
+      ),
+    ),
+    rayleighOpticalTransmittancePermille: weightDomain.map((w) =>
+      Number(
+        evaluateLexExpr(
+          `stepRayleighOpticalTransmittancePermille ${w}`,
+          'Foundation.Ecology.V1.Model',
           modules,
         ),
       ),

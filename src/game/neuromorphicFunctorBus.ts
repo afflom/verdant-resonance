@@ -336,6 +336,8 @@ export interface MultiModalFidelityResolutionProfile {
   readonly iupacPeriodicElementCount: 118;
   readonly bravaisCrystalLatticeCount: 14;
   readonly fvcbRubiscoAssimilationMultiplier: number; // 1.00..1.36
+  readonly ecologyMicroclimateIso9613ClarityPermille: number; // 759..969 ISO 9613-1 microclimate acoustic air clarity
+  readonly ecologyRayleighOpticalTransmittancePermille: number; // 772..952 Rayleigh atmospheric optical clarity
   // Humane, Kinematic, Persistence, Teleology, Realizability & Design Modalities
   readonly kinematicJointHierarchyDepth: 3;
   readonly consolidatedMemoryHorizon: number; // 20..80 Merkle episodic memory snapshots
@@ -692,15 +694,29 @@ export function evaluateHolisticObserverStandardModelContext(params: {
   const dBot01 = MODEL_COHERENT_DEPTH_PPM_F64[3] / HD_PPM_UNITY;
   const dChem01 = MODEL_COHERENT_DEPTH_PPM_F64[2] / HD_PPM_UNITY;
   const dAco01 = MODEL_COHERENT_DEPTH_PPM_F64[5] / HD_PPM_UNITY;
+  const dEcoEffW = MODEL_EFFECTIVE_WEIGHT_F64[4];
   const dSndEffW = MODEL_EFFECTIVE_WEIGHT_F64[7];
   const dMorphInt = clampW(MODEL_EFFECTIVE_WEIGHT_F64[15]);
   const dSpAco01 = MODEL_COHERENT_DEPTH_PPM_F64[16] / HD_PPM_UNITY;
   const dAnamInt = clampW(MODEL_EFFECTIVE_WEIGHT_F64[17]);
-  const dTeleInt = clampW(MODEL_EFFECTIVE_WEIGHT_F64[18]);
-  const dVedantaInt = clampW(MODEL_EFFECTIVE_WEIGHT_F64[19]);
-  const dDharmaInt = clampW(MODEL_EFFECTIVE_WEIGHT_F64[20]);
-  const dCompInt = clampW(MODEL_EFFECTIVE_WEIGHT_F64[21]);
-  const dRealInt = clampW(MODEL_EFFECTIVE_WEIGHT_F64[14]);
+  const dTeleEffW = MODEL_EFFECTIVE_WEIGHT_F64[18];
+  const dVedantaEffW = MODEL_EFFECTIVE_WEIGHT_F64[19];
+  const dDharmaEffW = MODEL_EFFECTIVE_WEIGHT_F64[20];
+  const dCompEffW = MODEL_EFFECTIVE_WEIGHT_F64[21];
+  const dRealEffW = MODEL_EFFECTIVE_WEIGHT_F64[14];
+
+  const sampleLutFloat64 = (lut: readonly number[], wCont: number, fallback: number): number => {
+    const cw = clampF64W(wCont);
+    if (Math.abs(cw - Math.round(cw)) < 1e-9) {
+      return lut[Math.round(cw)] ?? fallback;
+    }
+    const i0 = Math.floor(cw);
+    const i1 = Math.min(16, i0 + 1);
+    const frac = cw - i0;
+    const v0 = lut[i0] ?? fallback;
+    const v1 = lut[i1] ?? v0;
+    return Number((v0 + (v1 - v0) * frac).toFixed(4));
+  };
 
   // Continuous 64-bit HD projections driven by coherent all-to-all transferred depth
   const spectralBandCount = Math.max(101, Math.min(401, Math.round(101 + dGfx01 * 300)));
@@ -720,49 +736,92 @@ export function evaluateHolisticObserverStandardModelContext(params: {
   const chladniModalPartialsPerVoice = Math.max(4, Math.min(16, Math.round(4 + dAco01 * 12)));
   const earlyReflectionTapCount = Math.max(19, Math.min(64, Math.round(19 + dSpAco01 * 45)));
   const primeLimitHarmonicCeiling: 5 | 7 | 11 | 13 | 17 =
-    dSndEffW >= 15.2
+    dSndEffW >= 15.0
       ? 17
-      : dSndEffW >= 13.5
+      : dSndEffW >= 13.0
         ? 13
-        : dSndEffW >= 11.5
+        : dSndEffW >= 10.0
           ? 11
-          : dSndEffW >= 9.5
+          : dSndEffW >= 6.0
             ? 7
             : 5;
   const fvcbRubiscoAssimilationMultiplier = Number(
     (1.0 + ((1 + dBot01 * 15 + (1 + dChem01 * 15)) / 32) * 0.36).toFixed(5),
   );
+  const ecologyMicroclimateIso9613ClarityPermille = sampleLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.microclimateIso9613ClarityPermille,
+    dEcoEffW,
+    857,
+  );
+  const ecologyRayleighOpticalTransmittancePermille = sampleLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.rayleighOpticalTransmittancePermille,
+    dEcoEffW,
+    856,
+  );
   const consolidatedMemoryHorizon =
     GENERATED_PRISM_BUS_MODULATION_LUT.consolidatedMemoryHorizon[dAnamInt] ?? 48;
-  const teleologicalFulfillmentPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.teleologicalFulfillmentPermille[dTeleInt] ?? 840;
-  const landmarkResonanceCouplingPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.landmarkResonanceCouplingPermille[dTeleInt] ?? 760;
-  const atmanBrahmanNonDualPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.atmanBrahmanAtFullHarmonyPermille[dVedantaInt] ?? 804;
-  const turiyaSilentWitnessPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.turiyaWitnessAtSixRestsPermille[dVedantaInt] ?? 712;
-  const rtaCosmicOrderPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.rtaCosmicOrderAtFullHarmonyPermille[dDharmaInt] ?? 824;
-  const pratityasamutpadaCausalPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.pratityasamutpadaCausalCoherencePermille[dDharmaInt] ?? 796;
-  const lokasangrahaWorldWelfarePermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.lokasangrahaAtFullGuildPermille[dDharmaInt] ?? 840;
-  const compressionPortfolioEfficiencyPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.compressionPortfolioEfficiencyPermille[dCompInt] ?? 868;
-  const realizabilitySensitivityPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.realizabilitySensitivityPermille[dRealInt] ?? 600;
+  const teleologicalFulfillmentPermille = sampleLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.teleologicalFulfillmentPermille,
+    dTeleEffW,
+    840,
+  );
+  const landmarkResonanceCouplingPermille = sampleLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.landmarkResonanceCouplingPermille,
+    dTeleEffW,
+    760,
+  );
+  const atmanBrahmanNonDualPermille = sampleLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.atmanBrahmanAtFullHarmonyPermille,
+    dVedantaEffW,
+    804,
+  );
+  const turiyaSilentWitnessPermille = sampleLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.turiyaWitnessAtSixRestsPermille,
+    dVedantaEffW,
+    712,
+  );
+  const rtaCosmicOrderPermille = sampleLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.rtaCosmicOrderAtFullHarmonyPermille,
+    dDharmaEffW,
+    824,
+  );
+  const pratityasamutpadaCausalPermille = sampleLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.pratityasamutpadaCausalCoherencePermille,
+    dDharmaEffW,
+    796,
+  );
+  const lokasangrahaWorldWelfarePermille = sampleLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.lokasangrahaAtFullGuildPermille,
+    dDharmaEffW,
+    840,
+  );
+  const compressionPortfolioEfficiencyPermille = sampleLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.compressionPortfolioEfficiencyPermille,
+    dCompEffW,
+    868,
+  );
+  const realizabilitySensitivityPermille = sampleLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.realizabilitySensitivityPermille,
+    dRealEffW,
+    600,
+  );
 
   const multiModalFidelity: MultiModalFidelityResolutionProfile = {
     processorPrecisionBits: 64,
     coherentDepthPpm: meanCoherentDepthPpm,
     meanInboundDepthTransferPpm,
-    meanSynapticWeight: Number(meanWeight.toFixed(4)),
+    meanSynapticWeight: Number(meanWeight.toFixed(6)),
     normalizedFidelity01,
-    variationalFreeEnergySurprisalPermille:
-      GENERATED_PRISM_BUS_MODULATION_LUT.variationalFreeEnergySurprisalPermille[meanWeightInt] ?? 260,
-    functorTransferGainPermille:
-      GENERATED_PRISM_BUS_MODULATION_LUT.functorFeatureTransferGainPermille[meanWeightInt] ?? 1000,
+    variationalFreeEnergySurprisalPermille: sampleLutFloat64(
+      GENERATED_PRISM_BUS_MODULATION_LUT.variationalFreeEnergySurprisalPermille,
+      meanWeight,
+      260,
+    ),
+    functorTransferGainPermille: sampleLutFloat64(
+      GENERATED_PRISM_BUS_MODULATION_LUT.functorFeatureTransferGainPermille,
+      meanWeight,
+      1000,
+    ),
     spectralBandCount,
     adaptiveTerrainSegments,
     bMeshRadialSubdivisions,
@@ -780,6 +839,8 @@ export function evaluateHolisticObserverStandardModelContext(params: {
     iupacPeriodicElementCount: 118,
     bravaisCrystalLatticeCount: 14,
     fvcbRubiscoAssimilationMultiplier,
+    ecologyMicroclimateIso9613ClarityPermille,
+    ecologyRayleighOpticalTransmittancePermille,
     kinematicJointHierarchyDepth: 3,
     consolidatedMemoryHorizon,
     teleologicalFulfillmentPermille,

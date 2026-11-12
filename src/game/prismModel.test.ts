@@ -29,6 +29,7 @@ import {
   VERDANT_RESONANCE_SPEC,
   VERDANT_SOUNDTRACK_STANDARD,
   advancePlantLifecycle,
+  applyContinuousGameplayMicroPlasticity,
   buildGardenColliders,
   classifyPlantGrowthSubstrate,
   classifySurfaceMaterial,
@@ -379,6 +380,7 @@ import {
 } from './proceduralMeshEngine';
 import {
   ZWICKER_24_BARK_EDGES_HZ,
+  computeHdVoiceHarmonicPartials,
   computeIso226EqualLoudnessWeight,
   computeIso3382BiomeRoomAcoustics,
   computeMaterialChladniModalRatios,
@@ -6190,6 +6192,265 @@ test('59. High-Definition 64-Bit Coherent Precision (prism/hd-coherent-precision
   assert.equal(audit.verified, true);
   assert.equal(audit.hdCoherentPrecisionVerified, true);
   assert.equal(audit.realizationGapPermille, 0);
+});
+
+test('60. End-to-End 64-Bit Continuum Runtime Coherence: 17-Limit 7D Formal Tonnetz, Ecology Multi-Modal Clarity, Zero-Clamp HD Partials & Continuous Micro-Plasticity', () => {
+  // 1. Formal Lean-Verified 17-Limit 7D Tonnetz (`Foundation.Soundtrack.V1.Model`) & Ecology Multi-Modal Clarity (`Foundation.Ecology.V1.Model`)
+  const tonnetz = GENERATED_PRISM_STANDARDS.primeLimitTonnetz;
+  assert.equal(tonnetz.maxPrimeHarmonicLimit, 17);
+  assert.equal(tonnetz.tonnetzLatticeDimension, 7);
+  assert.equal(tonnetz.hypermeterCycleBars, 4);
+  assert.equal(tonnetz.kappaMemoryCounterpointCoupled, true);
+  assert.ok(
+    GENERATED_PRISM_THEOREMS_BY_MODULE['Foundation.Soundtrack.V1.Model'].includes(
+      'primeLimitHarmonicCeilingMonotonicHolds',
+    ),
+  );
+
+  const ecoMicro = GENERATED_PRISM_STANDARDS.ecology.microclimates;
+  assert.equal(VERDANT_ECOLOGY_STANDARD.guildCount, 3);
+  assert.equal(ecoMicro.microclimateCount, 4);
+  assert.equal(ecoMicro.iso9613AirAbsorptionCoupled, true);
+  assert.equal(ecoMicro.rayleighOpticalTransmittanceCoupled, true);
+  assert.ok(
+    GENERATED_PRISM_THEOREMS_BY_MODULE['Foundation.Ecology.V1.Model'].includes(
+      'ecologyMicroclimateMultiModalTransferHolds',
+    ),
+  );
+
+  // 2. Continuous Float64 Gameplay Micro-Plasticity eliminates integer stair-stepping between consolidation cycles
+  const baseNeuro = createInitialNeuromorphicState(7);
+  let autoPlast = createInitialAutonomousPlasticityState();
+  autoPlast = stepAutonomousGameplayPlasticity(autoPlast, {
+    exploredBiomesCount: 1,
+    velocityDm: 0,
+    isStillness: true,
+    nearAwakenedFloraOrLandmark: true,
+    meanSynapticWeight: 8,
+    harmonyPct: 78,
+    awakenedSpeciesCount: 4,
+    tenneyConsonancePurity01: 0.94,
+    dt: 4.5,
+  }).nextState;
+  assert.ok(
+    autoPlast.continuousSynapticBonus01 > 0.2 && autoPlast.continuousSynapticBonus01 < 0.99,
+    'Continuous synaptic bonus must evolve smoothly in float64 between integer milestones',
+  );
+
+  const neuroFracA = applyContinuousGameplayMicroPlasticity(baseNeuro, 0.35, 'golden');
+  const neuroFracB = applyContinuousGameplayMicroPlasticity(baseNeuro, 0.75, 'golden');
+  const fid0 = baseNeuro.observer.canonicalStandardModelsContext.multiModalFidelity;
+  const fidA = neuroFracA.observer.canonicalStandardModelsContext.multiModalFidelity;
+  const fidB = neuroFracB.observer.canonicalStandardModelsContext.multiModalFidelity;
+
+  assert.ok(fid0.coherentDepthPpm < fidA.coherentDepthPpm && fidA.coherentDepthPpm < fidB.coherentDepthPpm);
+  assert.ok(
+    fid0.teleologicalFulfillmentPermille < fidA.teleologicalFulfillmentPermille &&
+      fidA.teleologicalFulfillmentPermille < fidB.teleologicalFulfillmentPermille,
+  );
+  assert.ok(
+    fid0.ecologyMicroclimateIso9613ClarityPermille <
+      fidA.ecologyMicroclimateIso9613ClarityPermille &&
+      fidA.ecologyMicroclimateIso9613ClarityPermille <
+        fidB.ecologyMicroclimateIso9613ClarityPermille,
+  );
+  assert.ok(
+    fid0.ecologyRayleighOpticalTransmittancePermille <
+      fidA.ecologyRayleighOpticalTransmittancePermille &&
+      fidA.ecologyRayleighOpticalTransmittancePermille <
+        fidB.ecologyRayleighOpticalTransmittancePermille,
+  );
+
+  const teleoFracA = evaluateVerdantTeleologySynthesis(8.35, 75);
+  const teleoFracB = evaluateVerdantTeleologySynthesis(8.75, 75);
+  assert.ok(teleoFracB.teleologicalFulfillmentPermille > teleoFracA.teleologicalFulfillmentPermille);
+  assert.ok(teleoFracB.curatorialAffinityPermille >= teleoFracA.curatorialAffinityPermille);
+
+  // 3. Nyquist-Safe, Zero-Detune-Clamp HD Harmonic Partials (`computeHdVoiceHarmonicPartials`)
+  const partials5Limit = computeHdVoiceHarmonicPartials({
+    baseFrequencyHz: 220,
+    secondPartialMultiplier: 2.0,
+    secondPartialRawGain: 0.22,
+    modalPartialsPerVoice: 16,
+    primeLimitCeiling: 5,
+    sampleRateHz: 48000,
+    maxAcousticCutoffHz: 5400,
+    barkHeadroomDb: 14.0,
+    includeHigherPrimeOvertones: true,
+  });
+  const partials17Limit = computeHdVoiceHarmonicPartials({
+    baseFrequencyHz: 220,
+    secondPartialMultiplier: 2.0,
+    secondPartialRawGain: 0.22,
+    modalPartialsPerVoice: 16,
+    primeLimitCeiling: 17,
+    sampleRateHz: 48000,
+    maxAcousticCutoffHz: 5400,
+    barkHeadroomDb: 16.0,
+    includeHigherPrimeOvertones: true,
+  });
+  assert.equal(partials17Limit.length, 14, '16 total partials = fundamental + 2nd overtone + 14 HD upper partials');
+  assert.ok(partials17Limit.length >= partials5Limit.length);
+  assert.equal(
+    partials5Limit.some((p) => p.harmonicMultiplier === 7 || p.harmonicMultiplier === 11),
+    false,
+  );
+  assert.equal(partials17Limit.some((p) => p.harmonicMultiplier === 13), true);
+  assert.equal(partials17Limit.some((p) => p.harmonicMultiplier === 17), true);
+  for (const hp of partials17Limit) {
+    assert.ok(
+      Math.abs(hp.frequencyHz - 220 * hp.harmonicMultiplier) < 1e-9,
+      '0.0-cent pure integer harmonic',
+    );
+    assert.ok(hp.frequencyHz < 0.44 * 48000, 'Strictly Nyquist-safe');
+    assert.ok(hp.governedGain > 0 && hp.governedGain <= 0.22);
+  }
+
+  // High-register note (`1056 Hz`): partials above acoustic ceiling are omitted cleanly rather than pitch-clamped to an inharmonic `3600 Hz`!
+  const highNotePartials = computeHdVoiceHarmonicPartials({
+    baseFrequencyHz: 1056,
+    secondPartialMultiplier: 2.0,
+    secondPartialRawGain: 0.2,
+    modalPartialsPerVoice: 16,
+    primeLimitCeiling: 17,
+    sampleRateHz: 48000,
+    maxAcousticCutoffHz: 4200,
+    barkHeadroomDb: 15.0,
+    includeHigherPrimeOvertones: true,
+  });
+  for (const hp of highNotePartials) {
+    assert.equal(
+      hp.frequencyHz,
+      1056 * hp.harmonicMultiplier,
+      'High-register partials must never be pitch-clamped',
+    );
+  }
+
+  // 4. Sub-Byte 53-Bit Rule-30 Continuum across Cymatics, Canopy Shear, Grass Deflection & Spore Fluid Dynamics
+  const cymSubA = computeNeuromorphicCymatics({
+    localX: 1.8,
+    localZ: -0.9,
+    elapsedSeconds: 3.2,
+    rule30Byte: 108,
+    rule30Phase01: 0.421875,
+    coherentDepth01: 0.52,
+    icosianRootIndex: 9,
+    synapticWeight: 10,
+  });
+  const cymSubB = computeNeuromorphicCymatics({
+    localX: 1.8,
+    localZ: -0.9,
+    elapsedSeconds: 3.2,
+    rule30Byte: 108,
+    rule30Phase01: 0.422875,
+    coherentDepth01: 0.74,
+    icosianRootIndex: 9,
+    synapticWeight: 10,
+  });
+  assert.notEqual(cymSubA.waveDisplacementY, cymSubB.waveDisplacementY);
+
+  const shearSubA = evaluateCanopyWindShear({
+    x: -8.5,
+    z: 6.2,
+    heightMeters: 4.4,
+    tier: 1,
+    elapsedSeconds: 2.1,
+    rule30Byte: 108,
+    rule30Phase01: 0.311,
+    synapticWeight: 10,
+  });
+  const shearSubB = evaluateCanopyWindShear({
+    x: -8.5,
+    z: 6.2,
+    heightMeters: 4.4,
+    tier: 1,
+    elapsedSeconds: 2.1,
+    rule30Byte: 108,
+    rule30Phase01: 0.319,
+    synapticWeight: 10,
+  });
+  assert.notEqual(shearSubA.pitchRad, shearSubB.pitchRad);
+
+  const grassSubA = computeFoliageDeflection({
+    bladeX: 3.1,
+    bladeZ: 4.2,
+    playerX: 12,
+    playerZ: 12,
+    elapsedSeconds: 1.7,
+    rule30Byte: 108,
+    rule30Phase01: 0.611,
+    synapticWeight: 10,
+  });
+  const grassSubB = computeFoliageDeflection({
+    bladeX: 3.1,
+    bladeZ: 4.2,
+    playerX: 12,
+    playerZ: 12,
+    elapsedSeconds: 1.7,
+    rule30Byte: 108,
+    rule30Phase01: 0.619,
+    synapticWeight: 10,
+  });
+  assert.notEqual(grassSubA.tiltXRad, grassSubB.tiltXRad);
+
+  const colliders = buildGardenColliders(generateGardenPlants());
+  const sporeSubA = stepSporeFluidDynamics({
+    x: 2.0,
+    y: 1.4,
+    z: -2.0,
+    vx: 0.05,
+    vy: 0.01,
+    vz: -0.04,
+    playerX: 15,
+    playerZ: 15,
+    playerVX: 0,
+    playerVZ: 0,
+    attractorX: 0,
+    attractorY: 1.2,
+    attractorZ: -5.5,
+    attractorTerpeneStrength: 0.5,
+    atmosphere: 'golden',
+    elapsedSeconds: 2.4,
+    rule30Byte: 108,
+    rule30Phase01: 0.181,
+    synapticWeight: 10,
+    colliders,
+    dt: 0.016,
+  });
+  const sporeSubB = stepSporeFluidDynamics({
+    x: 2.0,
+    y: 1.4,
+    z: -2.0,
+    vx: 0.05,
+    vy: 0.01,
+    vz: -0.04,
+    playerX: 15,
+    playerZ: 15,
+    playerVX: 0,
+    playerVZ: 0,
+    attractorX: 0,
+    attractorY: 1.2,
+    attractorZ: -5.5,
+    attractorTerpeneStrength: 0.5,
+    atmosphere: 'golden',
+    elapsedSeconds: 2.4,
+    rule30Byte: 108,
+    rule30Phase01: 0.189,
+    synapticWeight: 10,
+    colliders,
+    dt: 0.016,
+  });
+  assert.notEqual(sporeSubA.vx, sporeSubB.vx);
+
+  // 5. Verify GardenCanvas.tsx wires continuous 64-bit Rule-30 phase, coherent depth, micro-plasticity & Rayleigh clarity
+  const canvasSrc = fs.readFileSync(
+    path.resolve(process.cwd(), 'src/components/GardenCanvas.tsx'),
+    'utf8',
+  );
+  assert.ok(canvasSrc.includes('applyContinuousGameplayMicroPlasticity('));
+  assert.ok(canvasSrc.includes('activeRule30Phase01'));
+  assert.ok(canvasSrc.includes('activeCoherentDepth01'));
+  assert.ok(canvasSrc.includes('ecologyRayleighOpticalTransmittancePermille'));
 });
 
 

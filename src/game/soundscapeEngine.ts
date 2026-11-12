@@ -243,6 +243,111 @@ export function resolvePureSustainedHarmonicSeries(
   return PURE_SPECIES_SUSTAINED_HARMONICS[species] ?? PURE_SPECIES_SUSTAINED_HARMONICS['chime-lily'];
 }
 
+export interface HdVoiceHarmonicPartial {
+  readonly harmonicMultiplier: number;
+  readonly frequencyHz: number;
+  readonly governedGain: number;
+}
+
+const PURE_5_LIMIT_UPPER_HARMONICS = Object.freeze([
+  3, 4, 5, 6, 8, 9, 10, 12, 15, 16, 18, 20, 24, 30,
+] as const);
+
+const PURE_17_LIMIT_CANDIDATE_HARMONICS = Object.freeze([
+  { mult: 3, reqLimit: 5 },
+  { mult: 4, reqLimit: 5 },
+  { mult: 5, reqLimit: 5 },
+  { mult: 6, reqLimit: 5 },
+  { mult: 7, reqLimit: 7 },
+  { mult: 8, reqLimit: 5 },
+  { mult: 9, reqLimit: 5 },
+  { mult: 10, reqLimit: 5 },
+  { mult: 11, reqLimit: 11 },
+  { mult: 12, reqLimit: 5 },
+  { mult: 13, reqLimit: 13 },
+  { mult: 15, reqLimit: 5 },
+  { mult: 16, reqLimit: 5 },
+  { mult: 17, reqLimit: 17 },
+] as const);
+
+const HD_VOICE_BARK_SCRATCH = new Float32Array(24);
+
+/**
+ * Synthesizes Nyquist-safe, `0.0¢`-pure integer harmonic overtones (`3..17`x fundamental) up to
+ * `modalPartialsPerVoice` (`4..16` HD partials, `prism/hd-coherent-precision/1`) governed by the
+ * 24-Band Zwicker Bark Critical-Band Masking Governor. Never clamps frequencies to an arbitrary ceiling
+ * (which would detune pure harmonic ratios); partials above `0.44 * sampleRateHz` are cleanly omitted.
+ */
+export function computeHdVoiceHarmonicPartials(params: {
+  readonly baseFrequencyHz: number;
+  readonly secondPartialMultiplier: number;
+  readonly secondPartialRawGain: number;
+  readonly modalPartialsPerVoice: number;
+  readonly primeLimitCeiling: 5 | 7 | 11 | 13 | 17;
+  readonly sampleRateHz?: number;
+  readonly maxAcousticCutoffHz?: number;
+  readonly barkHeadroomDb?: number;
+  readonly includeHigherPrimeOvertones?: boolean;
+  readonly scratchBuffer?: Float32Array;
+}): readonly HdVoiceHarmonicPartial[] {
+  const f0 = Math.max(20, params.baseFrequencyHz);
+  const sr = Math.max(22050, params.sampleRateHz ?? 44100);
+  const nyquistSafeCeilingHz = Math.min(0.44 * sr, (params.maxAcousticCutoffHz ?? 14000) * 1.65);
+  const targetTotalPartials = Math.max(2, Math.min(16, Math.round(params.modalPartialsPerVoice)));
+  const maxExtraCount = Math.max(0, targetTotalPartials - 2);
+  if (maxExtraCount === 0) return [];
+
+  const candidates: { mult: number; freqHz: number; gain: number }[] = [
+    { mult: 1, freqHz: f0, gain: 1.0 },
+    {
+      mult: params.secondPartialMultiplier,
+      freqHz: f0 * params.secondPartialMultiplier,
+      gain: params.secondPartialRawGain,
+    },
+  ];
+
+  if (params.includeHigherPrimeOvertones) {
+    for (let i = 0; i < PURE_17_LIMIT_CANDIDATE_HARMONICS.length; i++) {
+      if (candidates.length - 2 >= maxExtraCount) break;
+      const item = PURE_17_LIMIT_CANDIDATE_HARMONICS[i];
+      if (item.reqLimit > params.primeLimitCeiling) continue;
+      if (Math.abs(item.mult - params.secondPartialMultiplier) < 1e-6) continue;
+      const pHz = f0 * item.mult;
+      if (pHz >= nyquistSafeCeilingHz) break;
+      const rawGain = 0.24 / Math.pow(item.mult, 1.32);
+      candidates.push({ mult: item.mult, freqHz: pHz, gain: rawGain });
+    }
+  } else {
+    for (let i = 0; i < PURE_5_LIMIT_UPPER_HARMONICS.length; i++) {
+      if (candidates.length - 2 >= maxExtraCount) break;
+      const mult = PURE_5_LIMIT_UPPER_HARMONICS[i];
+      if (Math.abs(mult - params.secondPartialMultiplier) < 1e-6) continue;
+      const pHz = f0 * mult;
+      if (pHz >= nyquistSafeCeilingHz) break;
+      const rawGain = 0.22 / Math.pow(mult, 1.35);
+      candidates.push({ mult, freqHz: pHz, gain: rawGain });
+    }
+  }
+
+  if (candidates.length <= 2) return [];
+
+  const bark = evaluate24BarkMaskingGovernor(
+    candidates,
+    params.barkHeadroomDb ?? 4.2,
+    params.scratchBuffer ?? HD_VOICE_BARK_SCRATCH,
+  );
+  const result: HdVoiceHarmonicPartial[] = [];
+  for (let i = 2; i < candidates.length; i++) {
+    const c = candidates[i];
+    result.push({
+      harmonicMultiplier: c.mult,
+      frequencyHz: Number(c.freqHz.toFixed(6)),
+      governedGain: Number((bark.attenuatedGains[i] ?? c.gain).toFixed(6)),
+    });
+  }
+  return result;
+}
+
 // ============================================================================
 // CANONICAL 3D SPATIAL ACOUSTICS: ISO 3382 ROOM IMPULSE & WOODWORTH HRTF
 // (`Foundation.SpatialAcoustics.V1.Model`, Model #17, Basis Prime `151`)
@@ -590,6 +695,8 @@ export class BotanicalSoundscapeEngine {
   private busAffectWarmthScale = 1.0;
   private busAffectReverbScale = 1.0;
   private busCuratedBreathScale = 1.0;
+  private busCuratedAntiphony01 = 0.55;
+  private busEcologyIso9613Clarity = 1.0;
   private busActiveModel: SynthesizedObserverModelSpec | null = null;
   private liveCosmogenesisParams: AlphaOmegaCosmogenesisParameters = { alphaSeed: 1 };
   private livePhysicsWeight = 8;
@@ -1610,11 +1717,15 @@ export class BotanicalSoundscapeEngine {
       const constellation = this.liveBiomeConstellations[biome];
       const pureHarmonics = resolvePureSustainedHarmonicSeries(biomeCfg.signatureSpecies);
       const chordRatios =
-        this.livePrimeLimitCeiling === 11
-          ? [...constellation.chordRatios, 11 / 8, 7 / 4]
-          : this.livePrimeLimitCeiling === 7
-            ? [...constellation.chordRatios, 7 / 4]
-            : constellation.chordRatios;
+        this.livePrimeLimitCeiling >= 17
+          ? [...constellation.chordRatios, 7 / 4, 11 / 8, 13 / 8, 17 / 12]
+          : this.livePrimeLimitCeiling >= 13
+            ? [...constellation.chordRatios, 7 / 4, 11 / 8, 13 / 8]
+            : this.livePrimeLimitCeiling >= 11
+              ? [...constellation.chordRatios, 11 / 8, 7 / 4]
+              : this.livePrimeLimitCeiling >= 7
+                ? [...constellation.chordRatios, 7 / 4]
+                : constellation.chordRatios;
 
       const chordBarkAudit = evaluate24BarkMaskingGovernor(
         chordRatios.map((r) => ({
@@ -1653,22 +1764,31 @@ export class BotanicalSoundscapeEngine {
         overtone.connect(ovGain);
         ovGain.connect(voiceGain);
 
-        // Pure integer harmonic partials (3:1 twelfth, 4:1 double octave, 5:1 seventeenth) unlocked as `liveModalPartialsPerVoice` scales (`5..8`)
-        const pureUpperSeries = [3.0, 4.0, 5.0];
-        const extraModes = Math.max(0, Math.min(3, this.liveModalPartialsPerVoice - 5));
-        for (let m = 0; m < extraModes; m++) {
-          const modeRatio = pureUpperSeries[m] ?? 3.0 + m;
-          const modeFreq = Math.min(3800, freq * modeRatio);
+        // Nyquist-safe, 24-Bark-governed pure harmonic overtones (`3..17`x) unlocked up to `liveModalPartialsPerVoice` (`4..16`)
+        const hdPartials = computeHdVoiceHarmonicPartials({
+          baseFrequencyHz: freq,
+          secondPartialMultiplier: pureHarmonics[1],
+          secondPartialRawGain: 0.24,
+          modalPartialsPerVoice: Math.min(10, this.liveModalPartialsPerVoice),
+          primeLimitCeiling: this.livePrimeLimitCeiling,
+          sampleRateHz: this.ctx.sampleRate,
+          maxAcousticCutoffHz: 9600 * this.busEcologyIso9613Clarity,
+          barkHeadroomDb: this.liveBarkHeadroomDb,
+          includeHigherPrimeOvertones: biome === 'sanctuary' || biome === 'crystal',
+          scratchBuffer: this.barkScratchBuffer,
+        });
+        for (let m = 0; m < hdPartials.length; m++) {
+          const hp = hdPartials[m];
           const modeOsc = this.ctx.createOscillator();
           const modeGain = this.ctx.createGain();
           modeOsc.type = 'sine';
-          modeOsc.frequency.setValueAtTime(modeFreq, startTime);
-          modeGain.gain.setValueAtTime(0.075 / (m + 1.4), startTime);
-          modeGain.gain.exponentialRampToValueAtTime(0.001, startTime + duration * 0.65);
+          modeOsc.frequency.setValueAtTime(hp.frequencyHz, startTime);
+          modeGain.gain.setValueAtTime(Math.max(0.0008, hp.governedGain), startTime);
+          modeGain.gain.exponentialRampToValueAtTime(0.0005, startTime + duration * 0.68);
           modeOsc.connect(modeGain);
           modeGain.connect(voiceGain);
           modeOsc.start(startTime);
-          modeOsc.stop(startTime + duration * 0.68);
+          modeOsc.stop(startTime + duration * 0.72);
         }
 
         if (typeof this.ctx.createStereoPanner === 'function') {
@@ -2362,23 +2482,36 @@ export class BotanicalSoundscapeEngine {
         ovGain.gain.value =
           (isBass ? 0.28 : isOstinato ? 0.18 : 0.22) * (0.85 + circadian.stomatalConductance * 0.2);
 
-        // Pure integer harmonic partials (3:1 twelfth, 4:1 double octave) unlocked by `this.liveModalPartialsPerVoice` (`5..8`)
-        if (!isBass && this.liveModalPartialsPerVoice > 5) {
-          const pureUpperHarmonics = [3.0, 4.0];
-          const upperModes = Math.min(2, this.liveModalPartialsPerVoice - 5);
-          for (let m = 0; m < upperModes; m++) {
-            const cRatio = pureUpperHarmonics[m] ?? 3.0 + m;
-            const cFreq = Math.min(3600, voice.frequencyHz * cRatio);
+        // HD pure integer harmonic partials (3..17x up to 16 partials per voice, Nyquist-safe & 24-Bark governed, zero pitch-clamping)
+        if (!isBass && this.liveModalPartialsPerVoice > 4) {
+          const hdPartials = computeHdVoiceHarmonicPartials({
+            baseFrequencyHz: voice.frequencyHz,
+            secondPartialMultiplier: pureVoiceHarmonics[1],
+            secondPartialRawGain: ovGain.gain.value,
+            modalPartialsPerVoice: this.liveModalPartialsPerVoice,
+            primeLimitCeiling: this.livePrimeLimitCeiling,
+            sampleRateHz: this.ctx.sampleRate,
+            maxAcousticCutoffHz: spatial.effectiveLowpassHz * this.busEcologyIso9613Clarity,
+            barkHeadroomDb: this.liveBarkHeadroomDb,
+            includeHigherPrimeOvertones:
+              isCanon || voice.biome === 'sanctuary' || voice.biome === 'crystal',
+            scratchBuffer: this.barkScratchBuffer,
+          });
+          for (let m = 0; m < hdPartials.length; m++) {
+            const hp = hdPartials[m];
             const cOsc = this.ctx.createOscillator();
             const cGain = this.ctx.createGain();
             cOsc.type = 'sine';
-            cOsc.frequency.setValueAtTime(cFreq, now);
-            cGain.gain.setValueAtTime(0.08 / (m + 1.3), now);
-            cGain.gain.exponentialRampToValueAtTime(0.0008, now + Math.max(0.14, voice.durationSec * 0.55));
+            cOsc.frequency.setValueAtTime(hp.frequencyHz, now);
+            cGain.gain.setValueAtTime(Math.max(0.0006, hp.governedGain), now);
+            cGain.gain.exponentialRampToValueAtTime(
+              0.0004,
+              now + Math.max(0.14, voice.durationSec * 0.62),
+            );
             cOsc.connect(cGain);
             cGain.connect(filter);
             cOsc.start(now);
-            cOsc.stop(now + Math.max(0.16, voice.durationSec * 0.58));
+            cOsc.stop(now + Math.max(0.16, voice.durationSec * 0.66));
           }
         }
 
@@ -2390,7 +2523,7 @@ export class BotanicalSoundscapeEngine {
             rawCutoff + (this.liveModalPartialsPerVoice - 5) * 240,
             (granularAcoustic?.lignocellulosicWarmthCutoffHz ?? biochem.harmonicWarmthFilterHz) *
               0.65,
-          ),
+          ) * this.busEcologyIso9613Clarity,
         );
         filter.frequency.setValueAtTime(baseCutoffHz * 0.88, now);
         filter.Q.value = ((isCanon ? 2.1 : 1.2) + biochem.silicaMineralIndex * 0.9) * silicaQMult;
@@ -2428,10 +2561,14 @@ export class BotanicalSoundscapeEngine {
         overtone.connect(ovGain);
         ovGain.connect(filter);
 
-        // Apply live 3D Woodworth pinna elevation cue & binaural stereo bearing per singing plant
-        const liveStereoPan = liveVoiceCue
-          ? liveVoiceCue.stereoPan * 0.8 + voice.stereoPan * 0.2
-          : voice.stereoPan;
+        // Apply live 3D Woodworth pinna elevation cue, curated antiphony & binaural stereo bearing per singing plant
+        const antiphonySpread = isCanon
+          ? (voiceIdx % 2 === 0 ? 1 : -1) * (this.busCuratedAntiphony01 - 0.5) * 0.28
+          : 0;
+        const liveStereoPan =
+          (liveVoiceCue
+            ? liveVoiceCue.stereoPan * 0.8 + voice.stereoPan * 0.2
+            : voice.stereoPan) + antiphonySpread;
         if (liveVoiceCue && (isLead || isCanon)) {
           const pinnaFilter = this.ctx.createBiquadFilter();
           pinnaFilter.type = 'peaking';
@@ -2735,11 +2872,17 @@ export class BotanicalSoundscapeEngine {
     this.liveBarkHeadroomDb = multiModalFidelity.barkMaskingHeadroomDb;
     this.liveModalPartialsPerVoice = multiModalFidelity.chladniModalPartialsPerVoice;
     this.livePrimeLimitCeiling = multiModalFidelity.primeLimitHarmonicCeiling;
+    this.busEcologyIso9613Clarity =
+      0.88 + (multiModalFidelity.ecologyMicroclimateIso9613ClarityPermille / 1000) * 0.24;
     const curatedMus = neuro.observer.conservatoryCuration?.incumbentPoint.musicalProfile;
     if (curatedMus) {
       this.busCuratedBreathScale = Math.max(
         0.92,
         Math.min(1.22, curatedMus.breathReleasePermille / 1000),
+      );
+      this.busCuratedAntiphony01 = Math.max(
+        0.35,
+        Math.min(0.95, curatedMus.spatialAntiphonyPermille / 1000),
       );
     }
     if (this.liveEarlyReflectionTapCount !== multiModalFidelity.earlyReflectionTapCount) {

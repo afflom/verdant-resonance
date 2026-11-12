@@ -28,6 +28,7 @@ import {
   integrateSpectralReflectanceToXyzD65,
 } from './spectralColorEngine';
 import {
+  computeHdVoiceHarmonicPartials,
   computeIso3382BiomeRoomAcoustics,
   computeMaterialChladniModalRatios,
   computeWoodworth3DBinauralSpatializer,
@@ -379,6 +380,17 @@ export function evaluateVerdantRealizabilityAudit(params?: {
   );
   const chladni16 = computeMaterialChladniModalRatios(95, 2.65, 16);
   const room64 = computeIso3382BiomeRoomAcoustics('sanctuary', 64);
+  const hdPartials16 = computeHdVoiceHarmonicPartials({
+    baseFrequencyHz: 220,
+    secondPartialMultiplier: 2.0,
+    secondPartialRawGain: 0.22,
+    modalPartialsPerVoice: 16,
+    primeLimitCeiling: 17,
+    sampleRateHz: 48000,
+    maxAcousticCutoffHz: 5200,
+    barkHeadroomDb: 16.0,
+    includeHigherPrimeOvertones: true,
+  });
   const hdCoherentPrecisionVerified =
     MAX_ADAPTIVE_BANDS === 401 &&
     allToAllSinglePerturbationTransferred &&
@@ -391,7 +403,11 @@ export function evaluateVerdantRealizabilityAudit(params?: {
     apexCtx.multiModalFidelity.primeLimitHarmonicCeiling === 17 &&
     cie401Xyz.Y > 0.05 &&
     chladni16.length === 16 &&
-    room64.earlyReflectionTapCount === 64;
+    room64.earlyReflectionTapCount === 64 &&
+    hdPartials16.length >= 12 &&
+    hdPartials16.every(
+      (p) => Math.abs(p.frequencyHz - 220 * p.harmonicMultiplier) < 1e-9 && p.governedGain > 0,
+    );
 
   // 5. Evaluate per-model differential sensitivity across all 22 Canonical Standard Models
   const modelSensitivities: ModelRealizabilitySensitivityRecord[] = CANONICAL_22_MODEL_KEYS.map(
@@ -429,9 +445,23 @@ export function evaluateVerdantRealizabilityAudit(params?: {
           apexVal = aFid.bMeshRadialSubdivisions * 10 + aFid.airyThinFilmSpanNm;
           break;
         case 'ecology':
-          label = 'Trophic Assimilation & Carrying-Capacity Resolution';
-          baseVal = bMod.liveResolutionUnits + Math.round(bFid.fvcbRubiscoAssimilationMultiplier * 100);
-          apexVal = aMod.liveResolutionUnits + Math.round(aFid.fvcbRubiscoAssimilationMultiplier * 100);
+          label = 'Trophic Assimilation + ISO 9613 & Rayleigh Microclimate Clarity';
+          baseVal =
+            bMod.liveResolutionUnits +
+            Math.round(bFid.fvcbRubiscoAssimilationMultiplier * 100) +
+            Math.round(bFid.ecologyMicroclimateIso9613ClarityPermille) +
+            Math.round(bFid.ecologyRayleighOpticalTransmittancePermille);
+          apexVal =
+            aMod.liveResolutionUnits +
+            Math.round(aFid.fvcbRubiscoAssimilationMultiplier * 100) +
+            Math.round(aFid.ecologyMicroclimateIso9613ClarityPermille) +
+            Math.round(aFid.ecologyRayleighOpticalTransmittancePermille);
+          invariantOk =
+            invariantOk &&
+            Boolean(GENERATED_PRISM_STANDARDS.ecology.microclimates.iso9613AirAbsorptionCoupled) &&
+            Boolean(
+              GENERATED_PRISM_STANDARDS.ecology.microclimates.rayleighOpticalTransmittanceCoupled,
+            );
           break;
         case 'acoustics':
           label = '24-Bark Headroom (mB) + Chladni Modal Partials';
@@ -442,9 +472,14 @@ export function evaluateVerdantRealizabilityAudit(params?: {
           label = '3-Joint Botanical Kinematics Resolution Units';
           break;
         case 'soundtrack':
-          label = 'Just-Intonation Prime-Limit Ceiling + Counterpoint';
+          label = '17-Limit 7D Just-Intonation Ceiling + Cantabile Counterpoint';
           baseVal = bFid.primeLimitHarmonicCeiling * 100 + bMod.liveResolutionUnits;
           apexVal = aFid.primeLimitHarmonicCeiling * 100 + aMod.liveResolutionUnits;
+          invariantOk =
+            invariantOk &&
+            GENERATED_PRISM_STANDARDS.primeLimitTonnetz.maxPrimeHarmonicLimit === 17 &&
+            GENERATED_PRISM_STANDARDS.primeLimitTonnetz.tonnetzLatticeDimension === 7 &&
+            GENERATED_PRISM_STANDARDS.primeLimitTonnetz.hypermeterCycleBars === 4;
           break;
         case 'graphics':
           label = 'CIE Spectral Bands + Terrain Grid + PBR Texels';

@@ -694,6 +694,7 @@ export function evaluateNearestSynthesizedLandmark(params: {
 export interface AutonomousGameplayPlasticityState {
   readonly accumulatedMindfulSeconds: number;
   readonly emergentResonanceQuantum01: number;
+  readonly continuousSynapticBonus01: number;
   readonly consolidatedMilestonesReached: number;
   readonly lastVisitedBiomeCount: number;
 }
@@ -706,9 +707,23 @@ export function createInitialAutonomousPlasticityState(): AutonomousGameplayPlas
   return {
     accumulatedMindfulSeconds: 0,
     emergentResonanceQuantum01: 0,
+    continuousSynapticBonus01: 0,
     consolidatedMilestonesReached: 0,
     lastVisitedBiomeCount: 1,
   };
+}
+
+function sampleLutContinuous(lut: readonly number[], w: number, fallback: number): number {
+  const cw = Math.max(1, Math.min(16, Number.isFinite(w) ? w : 8));
+  if (Math.abs(cw - Math.round(cw)) < 1e-9) {
+    return lut[Math.round(cw)] ?? fallback;
+  }
+  const i0 = Math.floor(cw);
+  const i1 = Math.min(16, i0 + 1);
+  const frac = cw - i0;
+  const v0 = lut[i0] ?? fallback;
+  const v1 = lut[i1] ?? v0;
+  return v0 + (v1 - v0) * frac;
 }
 
 /**
@@ -719,22 +734,26 @@ export function evaluateCompiledCuratorialAffinityPermille(
   busWeight: number,
   harmonyPct: number,
 ): number {
-  const cw = Math.max(1, Math.min(16, Math.round(busWeight)));
   const h01 = Math.max(0, Math.min(1, harmonyPct / 100));
-  const affZero =
-    GENERATED_PRISM_BUS_MODULATION_LUT.curatorialAffinityAtZeroHarmonyPermille[cw] ?? 656;
-  const affFull =
-    GENERATED_PRISM_BUS_MODULATION_LUT.curatorialAffinityAtFullHarmonyPermille[cw] ?? 856;
+  const affZero = sampleLutContinuous(
+    GENERATED_PRISM_BUS_MODULATION_LUT.curatorialAffinityAtZeroHarmonyPermille,
+    busWeight,
+    656,
+  );
+  const affFull = sampleLutContinuous(
+    GENERATED_PRISM_BUS_MODULATION_LUT.curatorialAffinityAtFullHarmonyPermille,
+    busWeight,
+    856,
+  );
   return Math.round(affZero + (affFull - affZero) * h01);
 }
 
 /**
- * Automates Neuromorphic Plasticity (`w: 8 -> 16`) purely from emergent physical-harmonic resonance:
+ * Automates Neuromorphic Plasticity (`w: 8.000000 -> 16.000000`) purely from emergent physical-harmonic resonance:
  *  - Entering a newly discovered biome immediately triggers a cross-domain consolidation pulse.
  *  - Sustained unhurried co-regulation, standing near awakened flora/landmarks, polyculture biodiversity,
- *    and Just-Intonation consonance purity integrate variational free-energy reduction across the
- *    Sabine-Lockhart phyllotactic relaxation constant (`phi^6`), consolidating whenever an emergent
- *    action quantum (`>= 1.0`) is reached—never from a contrived clock timer or manual UI button.
+ *    and Just-Intonation consonance purity continuously elevate `continuousSynapticBonus01` (`0..1`) in 64-bit
+ *    IEEE-754 precision and consolidate integer milestones whenever an emergent action quantum (`>= 1.0`) is reached.
  */
 export function stepAutonomousGameplayPlasticity(
   prev: AutonomousGameplayPlasticityState,
@@ -759,6 +778,7 @@ export function stepAutonomousGameplayPlasticity(
       nextState: {
         ...prev,
         emergentResonanceQuantum01: prevQuantum,
+        continuousSynapticBonus01: 0,
         lastVisitedBiomeCount: Math.max(prev.lastVisitedBiomeCount, params.exploredBiomesCount),
       },
       shouldConsolidateCycle: false,
@@ -771,6 +791,7 @@ export function stepAutonomousGameplayPlasticity(
       nextState: {
         accumulatedMindfulSeconds: prev.accumulatedMindfulSeconds,
         emergentResonanceQuantum01: prevQuantum,
+        continuousSynapticBonus01: Number(Math.min(0.999999, prevQuantum).toFixed(6)),
         consolidatedMilestonesReached: prev.consolidatedMilestonesReached + 1,
         lastVisitedBiomeCount: params.exploredBiomesCount,
       },
@@ -797,10 +818,12 @@ export function stepAutonomousGameplayPlasticity(
     prevQuantum + (safeDt * effectiveMindfulRate) / SABINE_LOCKHART_RELAXATION_SEC;
 
   if (nextQuantum >= 1.0) {
+    const wrapped = Math.max(0, nextQuantum - 1.0);
     return {
       nextState: {
         accumulatedMindfulSeconds: Math.max(0, nextSeconds - SABINE_LOCKHART_RELAXATION_SEC),
-        emergentResonanceQuantum01: Number((nextQuantum - 1.0).toFixed(5)),
+        emergentResonanceQuantum01: Number(wrapped.toFixed(6)),
+        continuousSynapticBonus01: Number(Math.min(0.999999, wrapped).toFixed(6)),
         consolidatedMilestonesReached: prev.consolidatedMilestonesReached + 1,
         lastVisitedBiomeCount: params.exploredBiomesCount,
       },
@@ -811,8 +834,9 @@ export function stepAutonomousGameplayPlasticity(
   return {
     nextState: {
       ...prev,
-      accumulatedMindfulSeconds: Number(nextSeconds.toFixed(4)),
-      emergentResonanceQuantum01: Number(nextQuantum.toFixed(5)),
+      accumulatedMindfulSeconds: Number(nextSeconds.toFixed(6)),
+      emergentResonanceQuantum01: Number(nextQuantum.toFixed(6)),
+      continuousSynapticBonus01: Number(Math.min(0.999999, nextQuantum).toFixed(6)),
     },
     shouldConsolidateCycle: false,
   };
@@ -1516,6 +1540,21 @@ export interface VerdantTeleologySynthesisReport {
   >;
 }
 
+function sampleTeleologyLutFloat64(
+  lut: readonly number[],
+  wFloat: number,
+  fallback: number,
+): number {
+  const clamped = Math.max(1, Math.min(16, wFloat));
+  const lo = Math.floor(clamped);
+  const hi = Math.min(16, lo + 1);
+  const frac = clamped - lo;
+  const vLo = lut[lo] ?? fallback;
+  const vHi = lut[hi] ?? vLo;
+  if (frac < 1e-9) return vLo;
+  return Number((vLo + (vHi - vLo) * frac).toFixed(4));
+}
+
 /**
  * Evaluates formal Bijective Teleological Requirement-to-Synthesis Closure across all 20 concrete scene phenomena,
  * together with Physical Structural Lawfulness and Triune 20-Facet Observer Curation.
@@ -1524,23 +1563,38 @@ export function evaluateVerdantTeleologySynthesis(
   busWeight = 8,
   harmonyPct = 50,
 ): VerdantTeleologySynthesisReport {
-  const clampedW = Math.max(1, Math.min(16, Math.round(busWeight)));
-  const fulfillmentPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.teleologicalFulfillmentPermille[clampedW] ?? 840;
-  const landmarkCouplingPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.landmarkResonanceCouplingPermille[clampedW] ?? 760;
-  const waystoneCouplingPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.lithophoneWaystoneCouplingPermille[clampedW] ?? 720;
-  const terraceGlowPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.terraceStandingWaveGlowPermille[clampedW] ?? 664;
-  const witnessReciprocityPermille =
-    GENERATED_PRISM_BUS_MODULATION_LUT.witnessCommunionReciprocityPermille[clampedW] ?? 768;
+  const clampedWFloat = Math.max(1, Math.min(16, busWeight));
+  const fulfillmentPermille = sampleTeleologyLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.teleologicalFulfillmentPermille,
+    clampedWFloat,
+    840,
+  );
+  const landmarkCouplingPermille = sampleTeleologyLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.landmarkResonanceCouplingPermille,
+    clampedWFloat,
+    760,
+  );
+  const waystoneCouplingPermille = sampleTeleologyLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.lithophoneWaystoneCouplingPermille,
+    clampedWFloat,
+    720,
+  );
+  const terraceGlowPermille = sampleTeleologyLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.terraceStandingWaveGlowPermille,
+    clampedWFloat,
+    664,
+  );
+  const witnessReciprocityPermille = sampleTeleologyLutFloat64(
+    GENERATED_PRISM_BUS_MODULATION_LUT.witnessCommunionReciprocityPermille,
+    clampedWFloat,
+    768,
+  );
   const curatorialAffinityPermille = evaluateCompiledCuratorialAffinityPermille(
-    clampedW,
+    clampedWFloat,
     harmonyPct,
   );
   const diff20 = evaluateObserver20FacetDifferentiationAndAffinity({
-    meanSynapticWeight: clampedW,
+    meanSynapticWeight: clampedWFloat,
     harmonyPct,
   });
   const stdCuration = GENERATED_PRISM_STANDARDS.teleology.physicalBasisAndTriuneCuration;

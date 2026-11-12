@@ -519,7 +519,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Ecology (Closed-Loop C-H-O-N-P-S-Si-Ca-Mg-Fe Biogeochemical Conservation)",
     "sourceModule": "Foundation.Ecology.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Ecology/V1/Model.lex.tex",
-    "sourceSha256": "caa1478751e6ede109690a606f7ac9ba553350b061a31c4fd4a1ea1bd1681041",
+    "sourceSha256": "9e3486a2bfff584d96894ce22a7aa5086d8924114819ffdbddb8967bc4c1fc76",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -535,7 +535,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "modelIndex": 5,
         "canonicalModelId": "prism/standard-model/ecology-biogeochemical-stoichiometry/1",
         "semverMajor": 3,
-        "semverMinor": 0,
+        "semverMinor": 1,
         "semverPatch": 0,
         "uorPrimeSignature": 83,
         "blake3DigestHead64": 83000118,
@@ -544,17 +544,17 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Ecology.V1",
-        "canonicalConceptCount": 34,
-        "crossDomainSynonymCount": 14,
-        "taxonomicRelationCount": 22,
-        "keyConceptsSummary": "118-Element IUPAC Biogeochemical Cycling, 17 Essential Bio-Elements, Redfield C:N:P Stoichiometry, Penman-Monteith Evapotranspiration, Mycorrhizal Exchange, Lotka-Volterra Mutualistic Guilds",
+        "canonicalConceptCount": 36,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 24,
+        "keyConceptsSummary": "118-Element IUPAC Biogeochemical Cycling, 17 Essential Bio-Elements, Redfield C:N:P Stoichiometry, Penman-Monteith Evapotranspiration, ISO 9613-1 Microclimate Clarity, Lotka-Volterra Mutualistic Guilds",
         "vocabularyComplete": true
       },
       "capability": {
         "capabilityFunctionCount": 14,
         "conservationLawCount": 6,
         "exportedFeatureChannelMask": 16383,
-        "promisedBehaviorSummary": "Closes mass-balanced elemental cycles across soil, water, atmosphere, minerals, and symbiotic flora guilds with zero matter creation or loss",
+        "promisedBehaviorSummary": "Closes mass-balanced elemental cycles across soil, water, atmosphere, minerals, and symbiotic flora guilds while transferring HD microclimate clarity to Acoustics and Graphics",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
@@ -578,7 +578,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "compatiblePartnerMask": 16383,
         "conflictModelMask": 0,
         "functorTransformationCount": 16,
-        "compositionSummary": "Couples 118-element Chemistry and FvCB Botany into microclimate humidity/temperature for ISO 9613-1 Acoustics, Rayleigh haze for CIE Graphics, and biome guild resonance",
+        "compositionSummary": "Couples 118-element Chemistry and FvCB Botany into microclimate humidity/temperature for ISO 9613-1 Acoustics, Rayleigh transmittance for CIE Graphics, and biome guild resonance",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -609,15 +609,15 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "modelOwner": "Foundation.Ecology.V1.Model",
         "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Ecology/V1/Model.lex.tex",
         "pinnedLockReferenceCount": 5,
-        "adoptedStandardsSummary": "Redfield (1958) / Sterner & Elser Ecological Stoichiometry, Penman-Monteith FAO-56, IUPAC Biogeochemistry, Lotka-Volterra Mutualism, LEAN-REL-4-32-1",
+        "adoptedStandardsSummary": "Redfield (1958) / Sterner & Elser Ecological Stoichiometry, Penman-Monteith FAO-56, ISO 9613-1 Air Absorption, IUPAC Biogeochemistry, LEAN-REL-4-32-1",
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 6,
-        "runtimePropertyOracleCount": 12,
-        "acceptanceVectorCount": 24,
+        "leanTheoremCount": 7,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 28,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving constellation bounds, pH stability, granular atomic-to-environmental synthesis, closed-loop remineralization, and 11-element completeness",
+        "acceptanceOracleSummary": "7 Lean 4.32 theorems proving constellation bounds, pH stability, granular synthesis, closed-loop remineralization, microclimate multi-modal transfer, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
@@ -867,10 +867,10 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
   {
     "modelKey": "soundtrack",
     "registryField": "m08Soundtrack",
-    "displayName": "Soundtrack (11-Limit Just Intonation Tonnetz + Voice-Leading Parsimony)",
+    "displayName": "Soundtrack (17-Limit Just Intonation Tonnetz + 4-Bar Hypermeter Parsimony)",
     "sourceModule": "Foundation.Soundtrack.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Soundtrack/V1/Model.lex.tex",
-    "sourceSha256": "4f3c81449e468a6d3f206b53dc3f5ba0685b3252cca5eaf6534906e7b031df86",
+    "sourceSha256": "7c0f91800cf37285532a3d9afa9e2faea91da7cebc4edb53542dddf3b572e37a",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 0,
@@ -886,26 +886,26 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "modelIndex": 8,
         "canonicalModelId": "prism/standard-model/soundtrack-prime-limit-tonnetz/1",
         "semverMajor": 1,
-        "semverMinor": 1,
+        "semverMinor": 2,
         "semverPatch": 0,
         "uorPrimeSignature": 101,
-        "blake3DigestHead64": 10100011,
+        "blake3DigestHead64": 10100017,
         "blake3DigestTail64": 50160076,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Soundtrack.V1",
-        "canonicalConceptCount": 32,
-        "crossDomainSynonymCount": 14,
-        "taxonomicRelationCount": 20,
-        "keyConceptsSummary": "11-Limit Just Intonation Tonnetz Lattice, Observer-Curated Parsimonious Melodic Arch, Tenney Harmonic Distance, Euler Gradus Suavitatis Purity, Fux Counterpoint, Breathing Rest Conservation",
+        "canonicalConceptCount": 36,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 22,
+        "keyConceptsSummary": "17-Limit Just Intonation Tonnetz Lattice, 4-Bar Cantabile Hypermeter Arch, Tenney Harmonic Distance, Euler Gradus Suavitatis Purity, Kappa-Memory Counterpoint, Breathing Rest Conservation",
         "vocabularyComplete": true
       },
       "capability": {
         "capabilityFunctionCount": 14,
         "conservationLawCount": 4,
         "exportedFeatureChannelMask": 16383,
-        "promisedBehaviorSummary": "Curates non-random parsimonious melodies, golden-section melodic arches, pure Just-Intonation dyadic harmonies, and breathing silence bars grounded in botanical acoustic resonators and Observer unity",
+        "promisedBehaviorSummary": "Curates non-random parsimonious melodies, 4-bar golden-section melodic arches, pure 17-limit Just-Intonation dyadic harmonies, and breathing silence bars grounded in botanical resonators and Observer unity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
@@ -929,14 +929,14 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "compatiblePartnerMask": 16383,
         "conflictModelMask": 0,
         "functorTransformationCount": 14,
-        "compositionSummary": "Maps Observer curatorial affinity, UOR prime exponents, and Acoustics 24-Bark masking into pure 11-limit Tonnetz melodies and harmonies while exporting harmonic ratios to Brand and Lagoon cymatics",
+        "compositionSummary": "Maps Observer curatorial affinity, UOR prime exponents, consolidated kappa-memories, and Acoustics 24-Bark masking into pure 17-limit Tonnetz melodies while exporting harmonic ratios to Brand and Lagoon cymatics",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 125000,
         "adaptationRuleCount": 4,
-        "temporalLawSummary": "Monotonic 5-stage botanical lifecycle progression + curated parsimonious 16-step score (>=6 rest steps/bar, <=2 step leap)",
+        "temporalLawSummary": "Monotonic 5-stage botanical lifecycle progression + curated parsimonious 16-step x 4-bar score (>=6 rest steps/bar, <=2 step leap)",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
@@ -960,22 +960,22 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
         "modelOwner": "Foundation.Soundtrack.V1.Model",
         "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Soundtrack/V1/Model.lex.tex",
         "pinnedLockReferenceCount": 4,
-        "adoptedStandardsSummary": "Euler Tentamen Novum (1739), Partch 11-Limit Tonnetz, Tenney (1984) Harmonic Space, Fux Gradus ad Parnassum, LEAN-REL-4-32-1",
+        "adoptedStandardsSummary": "Euler Tentamen Novum (1739), Partch/Johnston 17-Limit JI Tonnetz, Tenney (1984) Harmonic Space, Fux Gradus ad Parnassum, LEAN-REL-4-32-1",
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 5,
-        "runtimePropertyOracleCount": 12,
-        "acceptanceVectorCount": 24,
+        "leanTheoremCount": 6,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 28,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving lifecycle monotonicity, breathing silence rest guarantee, neuromorphic coupling, curated voice-leading & Euler consonance purity, and 11-element completeness",
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving lifecycle monotonicity, breathing silence rest guarantee, neuromorphic coupling, curated voice-leading & Euler purity, 17-limit ceiling monotonicity, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/soundscapeEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Observer-Curated 11-Limit Tonnetz & Chamber Counterpoint Engine -> WebAudio Score & UI Harmonic Ratios",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Observer-Curated 17-Limit Tonnetz & 4-Bar Chamber Counterpoint Engine -> WebAudio Score & UI Harmonic Ratios",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -3473,6 +3473,75 @@ export const GENERATED_PRISM_BUS_MODULATION_LUT = {
     940,
     940,
     940
+  ],
+  "primeLimitHarmonicCeiling": [
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    7,
+    7,
+    7,
+    7,
+    11,
+    11,
+    11,
+    13,
+    13,
+    17,
+    17,
+    17,
+    17,
+    17,
+    17
+  ],
+  "microclimateIso9613ClarityPermille": [
+    759,
+    759,
+    773,
+    787,
+    801,
+    815,
+    829,
+    843,
+    857,
+    871,
+    885,
+    899,
+    913,
+    927,
+    941,
+    955,
+    969,
+    969,
+    969,
+    969,
+    969
+  ],
+  "rayleighOpticalTransmittancePermille": [
+    772,
+    772,
+    784,
+    796,
+    808,
+    820,
+    832,
+    844,
+    856,
+    868,
+    880,
+    892,
+    904,
+    916,
+    928,
+    940,
+    952,
+    952,
+    952,
+    952,
+    952
   ],
   "realizabilitySensitivityPermille": [
     285,
@@ -6402,7 +6471,9 @@ export const GENERATED_PRISM_STANDARDS = {
     "microclimates": {
       "microclimateCount": 4,
       "footstepStrideIntervalMs": 520,
-      "maxSimultaneousConstellationBeams": 5
+      "maxSimultaneousConstellationBeams": 5,
+      "iso9613AirAbsorptionCoupled": true,
+      "rayleighOpticalTransmittanceCoupled": true
     },
     "granularSynthesis": {
       "atomicElementCount": 118,
@@ -8687,7 +8758,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelIndex": 5,
         "canonicalModelId": "prism/standard-model/ecology-biogeochemical-stoichiometry/1",
         "semverMajor": 3,
-        "semverMinor": 0,
+        "semverMinor": 1,
         "semverPatch": 0,
         "uorPrimeSignature": 83,
         "blake3DigestHead64": 83000118,
@@ -8696,17 +8767,17 @@ export const GENERATED_PRISM_STANDARDS = {
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Ecology.V1",
-        "canonicalConceptCount": 34,
-        "crossDomainSynonymCount": 14,
-        "taxonomicRelationCount": 22,
-        "keyConceptsSummary": "118-Element IUPAC Biogeochemical Cycling, 17 Essential Bio-Elements, Redfield C:N:P Stoichiometry, Penman-Monteith Evapotranspiration, Mycorrhizal Exchange, Lotka-Volterra Mutualistic Guilds",
+        "canonicalConceptCount": 36,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 24,
+        "keyConceptsSummary": "118-Element IUPAC Biogeochemical Cycling, 17 Essential Bio-Elements, Redfield C:N:P Stoichiometry, Penman-Monteith Evapotranspiration, ISO 9613-1 Microclimate Clarity, Lotka-Volterra Mutualistic Guilds",
         "vocabularyComplete": true
       },
       "capability": {
         "capabilityFunctionCount": 14,
         "conservationLawCount": 6,
         "exportedFeatureChannelMask": 16383,
-        "promisedBehaviorSummary": "Closes mass-balanced elemental cycles across soil, water, atmosphere, minerals, and symbiotic flora guilds with zero matter creation or loss",
+        "promisedBehaviorSummary": "Closes mass-balanced elemental cycles across soil, water, atmosphere, minerals, and symbiotic flora guilds while transferring HD microclimate clarity to Acoustics and Graphics",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
@@ -8730,7 +8801,7 @@ export const GENERATED_PRISM_STANDARDS = {
         "compatiblePartnerMask": 16383,
         "conflictModelMask": 0,
         "functorTransformationCount": 16,
-        "compositionSummary": "Couples 118-element Chemistry and FvCB Botany into microclimate humidity/temperature for ISO 9613-1 Acoustics, Rayleigh haze for CIE Graphics, and biome guild resonance",
+        "compositionSummary": "Couples 118-element Chemistry and FvCB Botany into microclimate humidity/temperature for ISO 9613-1 Acoustics, Rayleigh transmittance for CIE Graphics, and biome guild resonance",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
@@ -8761,15 +8832,15 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelOwner": "Foundation.Ecology.V1.Model",
         "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Ecology/V1/Model.lex.tex",
         "pinnedLockReferenceCount": 5,
-        "adoptedStandardsSummary": "Redfield (1958) / Sterner & Elser Ecological Stoichiometry, Penman-Monteith FAO-56, IUPAC Biogeochemistry, Lotka-Volterra Mutualism, LEAN-REL-4-32-1",
+        "adoptedStandardsSummary": "Redfield (1958) / Sterner & Elser Ecological Stoichiometry, Penman-Monteith FAO-56, ISO 9613-1 Air Absorption, IUPAC Biogeochemistry, LEAN-REL-4-32-1",
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 6,
-        "runtimePropertyOracleCount": 12,
-        "acceptanceVectorCount": 24,
+        "leanTheoremCount": 7,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 28,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving constellation bounds, pH stability, granular atomic-to-environmental synthesis, closed-loop remineralization, and 11-element completeness",
+        "acceptanceOracleSummary": "7 Lean 4.32 theorems proving constellation bounds, pH stability, granular synthesis, closed-loop remineralization, microclimate multi-modal transfer, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
@@ -8987,26 +9058,26 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelIndex": 8,
         "canonicalModelId": "prism/standard-model/soundtrack-prime-limit-tonnetz/1",
         "semverMajor": 1,
-        "semverMinor": 1,
+        "semverMinor": 2,
         "semverPatch": 0,
         "uorPrimeSignature": 101,
-        "blake3DigestHead64": 10100011,
+        "blake3DigestHead64": 10100017,
         "blake3DigestTail64": 50160076,
         "stableContentAddressed": true
       },
       "vocabulary": {
         "primaryNamespace": "Foundation.Soundtrack.V1",
-        "canonicalConceptCount": 32,
-        "crossDomainSynonymCount": 14,
-        "taxonomicRelationCount": 20,
-        "keyConceptsSummary": "11-Limit Just Intonation Tonnetz Lattice, Observer-Curated Parsimonious Melodic Arch, Tenney Harmonic Distance, Euler Gradus Suavitatis Purity, Fux Counterpoint, Breathing Rest Conservation",
+        "canonicalConceptCount": 36,
+        "crossDomainSynonymCount": 16,
+        "taxonomicRelationCount": 22,
+        "keyConceptsSummary": "17-Limit Just Intonation Tonnetz Lattice, 4-Bar Cantabile Hypermeter Arch, Tenney Harmonic Distance, Euler Gradus Suavitatis Purity, Kappa-Memory Counterpoint, Breathing Rest Conservation",
         "vocabularyComplete": true
       },
       "capability": {
         "capabilityFunctionCount": 14,
         "conservationLawCount": 4,
         "exportedFeatureChannelMask": 16383,
-        "promisedBehaviorSummary": "Curates non-random parsimonious melodies, golden-section melodic arches, pure Just-Intonation dyadic harmonies, and breathing silence bars grounded in botanical acoustic resonators and Observer unity",
+        "promisedBehaviorSummary": "Curates non-random parsimonious melodies, 4-bar golden-section melodic arches, pure 17-limit Just-Intonation dyadic harmonies, and breathing silence bars grounded in botanical resonators and Observer unity",
         "capabilityDeterministicAndTotal": true
       },
       "interfaceSpec": {
@@ -9030,14 +9101,14 @@ export const GENERATED_PRISM_STANDARDS = {
         "compatiblePartnerMask": 16383,
         "conflictModelMask": 0,
         "functorTransformationCount": 14,
-        "compositionSummary": "Maps Observer curatorial affinity, UOR prime exponents, and Acoustics 24-Bark masking into pure 11-limit Tonnetz melodies and harmonies while exporting harmonic ratios to Brand and Lagoon cymatics",
+        "compositionSummary": "Maps Observer curatorial affinity, UOR prime exponents, consolidated kappa-memories, and Acoustics 24-Bark masking into pure 17-limit Tonnetz melodies while exporting harmonic ratios to Brand and Lagoon cymatics",
         "compositionConflictFreeAndAssociative": true
       },
       "dynamics": {
         "integratorOrder": 2,
         "characteristicStepMicros": 125000,
         "adaptationRuleCount": 4,
-        "temporalLawSummary": "Monotonic 5-stage botanical lifecycle progression + curated parsimonious 16-step score (>=6 rest steps/bar, <=2 step leap)",
+        "temporalLawSummary": "Monotonic 5-stage botanical lifecycle progression + curated parsimonious 16-step x 4-bar score (>=6 rest steps/bar, <=2 step leap)",
         "dynamicsForwardInvariant": true
       },
       "fidelity": {
@@ -9061,22 +9132,22 @@ export const GENERATED_PRISM_STANDARDS = {
         "modelOwner": "Foundation.Soundtrack.V1.Model",
         "provenanceUri": "https://github.com/afflom/verdant-resonance/blob/main/prism/src/Foundation/Soundtrack/V1/Model.lex.tex",
         "pinnedLockReferenceCount": 4,
-        "adoptedStandardsSummary": "Euler Tentamen Novum (1739), Partch 11-Limit Tonnetz, Tenney (1984) Harmonic Space, Fux Gradus ad Parnassum, LEAN-REL-4-32-1",
+        "adoptedStandardsSummary": "Euler Tentamen Novum (1739), Partch/Johnston 17-Limit JI Tonnetz, Tenney (1984) Harmonic Space, Fux Gradus ad Parnassum, LEAN-REL-4-32-1",
         "authorityNormativelyPinned": true
       },
       "evidence": {
-        "leanTheoremCount": 5,
-        "runtimePropertyOracleCount": 12,
-        "acceptanceVectorCount": 24,
+        "leanTheoremCount": 6,
+        "runtimePropertyOracleCount": 14,
+        "acceptanceVectorCount": 28,
         "unprovedAdHocFlagCount": 0,
-        "acceptanceOracleSummary": "5 Lean 4.32 theorems proving lifecycle monotonicity, breathing silence rest guarantee, neuromorphic coupling, curated voice-leading & Euler consonance purity, and 11-element completeness",
+        "acceptanceOracleSummary": "6 Lean 4.32 theorems proving lifecycle monotonicity, breathing silence rest guarantee, neuromorphic coupling, curated voice-leading & Euler purity, 17-limit ceiling monotonicity, and 11-element completeness",
         "evidenceMachineChecked": true
       },
       "projection": {
         "compilationStageCount": 4,
         "targetModalityMask": 63,
         "runtimeModulePath": "src/game/soundscapeEngine.ts",
-        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Observer-Curated 11-Limit Tonnetz & Chamber Counterpoint Engine -> WebAudio Score & UI Harmonic Ratios",
+        "renderAndPublishSummary": "LexLean 1.2 -> AST Extractor -> Observer-Curated 17-Limit Tonnetz & 4-Bar Chamber Counterpoint Engine -> WebAudio Score & UI Harmonic Ratios",
         "projectionZeroDrift": true
       },
       "completeAndEnforced": true
@@ -10545,13 +10616,15 @@ export const GENERATED_PRISM_STANDARDS = {
     "michaelisMentenBioluminescenceCoupled": true
   },
   "primeLimitTonnetz": {
-    "maxPrimeHarmonicLimit": 11,
-    "tonnetzLatticeDimension": 5,
+    "maxPrimeHarmonicLimit": 17,
+    "tonnetzLatticeDimension": 7,
+    "hypermeterCycleBars": 4,
     "eulerGradusConsonanceBound": 12,
     "curatedParsimoniousStepMax": 2,
     "pureHarmonicOvertoneCentsDriftZero": 0,
     "speciesCounterpointRulesEnforced": true,
     "tenneyHarmonicDistanceCoupled": true,
+    "kappaMemoryCounterpointCoupled": true,
     "observerCuratedNonRandom": true,
     "deterministicPhysicalCausationEnforced": true
   },
@@ -10655,7 +10728,8 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "ecologyNeuromorphicCouplingHolds",
     "granularAtomicToEnvironmentalSynthesisHolds",
     "closedLoopAtomicRemineralizationHolds",
-    "ecologyDescriptorCompleteHolds"
+    "ecologyDescriptorCompleteHolds",
+    "ecologyMicroclimateMultiModalTransferHolds"
   ],
   "Foundation.Graphics.V1.Model": [
     "pbrRadiativeEnergyAndManifoldInvariantsHold",
@@ -10739,7 +10813,8 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "soundtrackBreathingSilenceGuaranteeHolds",
     "soundtrackNeuromorphicCouplingHolds",
     "soundtrackDescriptorCompleteHolds",
-    "observerCuratedVoiceLeadingAndPurityHold"
+    "observerCuratedVoiceLeadingAndPurityHold",
+    "primeLimitHarmonicCeilingMonotonicHolds"
   ],
   "Foundation.SpatialAcoustics.V1.Model": [
     "woodworthItdPhysicalBoundsAndSabineAbsorptionHold",

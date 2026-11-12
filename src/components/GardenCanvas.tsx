@@ -30,6 +30,7 @@ import {
   VERDANT_HUMANE_STANDARD,
   clampAlphaSeed,
   advancePlantLifecycle,
+  applyContinuousGameplayMicroPlasticity,
   biomeAt,
   buildGardenColliders,
   classifySurfaceMaterial,
@@ -5300,6 +5301,10 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
       const activeRule30Byte =
         neuromorphicState.rule30History[neuromorphicState.rule30History.length - 1] ?? 30;
+      const activeRule30Phase01 = neuromorphicState.lastRule30Phase01;
+      const activeCoherentDepth01 =
+        neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity
+          .coherentDepthPpm / 1_000_000;
       const activeIcosianRoot = neuromorphicState.lastIcosianRoot;
 
       const groveWind = evaluateWindField(
@@ -5308,6 +5313,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         elapsed,
         activeRule30Byte,
         activeIcosianRoot,
+        activeRule30Phase01,
       );
       const meadowWind = evaluateWindField(
         meadowSpec.centerXZ[0],
@@ -5315,6 +5321,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         elapsed,
         activeRule30Byte,
         activeIcosianRoot,
+        activeRule30Phase01,
       );
 
       const monumentMechanics = evaluateMonumentPhysicalMechanics({
@@ -5353,10 +5360,14 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       }
       sanctuaryMonument.observerCrown.rotation.y = elapsed * 0.32 * sanctSpin;
       if (sanctuaryMonument.observerCrown.morphTargetInfluences) {
-        const supraNorm = neuromorphicState.observer.supraDirective.tier / 4;
+        const supraNorm = Math.min(
+          1,
+          (neuromorphicState.observer.supraDirective.tier / 4) * 0.75 + activeCoherentDepth01 * 0.25,
+        );
         const aperiodicNorm = Math.min(
           1,
-          neuromorphicState.observer.rule30Horizon.aperiodicCompensationIndex / 255,
+          (neuromorphicState.observer.rule30Horizon.aperiodicCompensationIndex / 255) * 0.65 +
+            activeRule30Phase01 * 0.35,
         );
         sanctuaryMonument.observerCrown.morphTargetInfluences[0] = supraNorm;
         sanctuaryMonument.observerCrown.morphTargetInfluences[1] =
@@ -5533,6 +5544,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         localZ: 0,
         elapsedSeconds: elapsed,
         rule30Byte: activeRule30Byte,
+        rule30Phase01: activeRule30Phase01,
+        coherentDepth01: activeCoherentDepth01,
         icosianRootIndex: activeIcosianRoot,
         synapticWeight: activeSynapticWeight,
       });
@@ -5570,6 +5583,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           localZ: 0,
           elapsedSeconds: elapsed + mIdx * 0.4,
           rule30Byte: activeRule30Byte,
+          rule30Phase01: activeRule30Phase01,
+          coherentDepth01: activeCoherentDepth01,
           icosianRootIndex: activeIcosianRoot,
           synapticWeight: activeSynapticWeight,
         });
@@ -5749,6 +5764,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           tier: canopyTier[i],
           elapsedSeconds: elapsed,
           rule30Byte: activeRule30Byte,
+          rule30Phase01: activeRule30Phase01,
           synapticWeight: activeSynapticWeight,
         });
         _dummyPos.set(canopyX[i], canopyY[i], canopyZ[i]);
@@ -5886,6 +5902,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           elapsed,
           activeRule30Byte,
           activeIcosianRoot,
+          activeRule30Phase01,
         );
         const brushDeflect =
           dMeters < 1.35 && dMeters > 0.01 ? ((1.35 - dMeters) / 1.35) * 0.22 : 0;
@@ -5984,11 +6001,14 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
             1,
             rigPose.morphAcousticRippleWeight + pm.singingVoiceGlow * 0.38,
           );
-          pm.shaderUniforms.uSupraDefinition.value =
-            neuromorphicState.observer.supraDirective.tier / 4;
+          pm.shaderUniforms.uSupraDefinition.value = Math.min(
+            1,
+            (neuromorphicState.observer.supraDirective.tier / 4) * 0.72 + activeCoherentDepth01 * 0.28,
+          );
           pm.shaderUniforms.uAperiodicShimmer.value = Math.min(
             1,
-            neuromorphicState.observer.rule30Horizon.aperiodicCompensationIndex / 255,
+            (neuromorphicState.observer.rule30Horizon.aperiodicCompensationIndex / 255) * 0.65 +
+              activeRule30Phase01 * 0.35,
           );
         }
 
@@ -6079,6 +6099,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           witnessVX,
           witnessVZ,
           rule30Byte: activeRule30Byte,
+          rule30Phase01: activeRule30Phase01,
           synapticWeight: activeSynapticWeight,
         });
         _dummyPos.set(gx, grassY[i], gz);
@@ -6131,6 +6152,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           atmosphere: atmosphereRef.current,
           elapsedSeconds: elapsed,
           rule30Byte: activeRule30Byte,
+          rule30Phase01: activeRule30Phase01,
           synapticWeight: activeSynapticWeight,
           colliders: gardenColliders,
           dt,
@@ -6446,7 +6468,33 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
 
         // Inherent Gameplay Plasticity (`Foundation.Teleology.V1.Model`):
         // Neuromorphic synaptic consolidation (`w: 8 -> 16`) emerges automatically from discovering biomes,
-        // unhurried strolling, stillness, and lingering near awakened flora or landmarks—zero manual controls.
+        // unhurried strolling, stillness, and lingering near awakened flora or landmarks—zero manual controls,
+        // with continuous 64-bit float micro-plasticity eliminating integer stair-stepping between cycles.
+        let awakenedSpeciesBits = 0;
+        let attunedCount = 0;
+        for (let mIdx = 0; mIdx < plantMeshes.length; mIdx++) {
+          const inst = plantMeshes[mIdx].instance;
+          if (inst.attuned) {
+            attunedCount += 1;
+            const sBit =
+              inst.species === 'chime-lily'
+                ? 1
+                : inst.species === 'pulse-fern'
+                  ? 2
+                  : inst.species === 'echo-lotus'
+                    ? 4
+                    : inst.species === 'drone-moss'
+                      ? 8
+                      : 16;
+            awakenedSpeciesBits |= sBit;
+          }
+        }
+        const awakenedSpeciesCount =
+          (awakenedSpeciesBits & 1) +
+          ((awakenedSpeciesBits >> 1) & 1) +
+          ((awakenedSpeciesBits >> 2) & 1) +
+          ((awakenedSpeciesBits >> 3) & 1) +
+          ((awakenedSpeciesBits >> 4) & 1);
         const autoPlasticityStep = stepAutonomousGameplayPlasticity(autonomousPlasticity, {
           exploredBiomesCount: player.exploredBiomes.size,
           velocityDm: player.velocityDm,
@@ -6457,6 +6505,9 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           meanSynapticWeight:
             neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity
               .meanSynapticWeight,
+          harmonyPct: player.harmony,
+          awakenedSpeciesCount: Math.max(1, awakenedSpeciesCount),
+          tenneyConsonancePurity01: currentSoundtrackScore.curatedConsonancePurity01,
           dt,
         });
         autonomousPlasticity = autoPlasticityStep.nextState;
@@ -6476,8 +6527,18 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
             ),
           );
           syncMultiModalFidelityVisuals();
+        } else if (
+          Math.abs(
+            autonomousPlasticity.continuousSynapticBonus01 -
+              neuromorphicState.continuousPlasticityBonus01,
+          ) >= 0.002
+        ) {
+          neuromorphicState = applyContinuousGameplayMicroPlasticity(
+            neuromorphicState,
+            autonomousPlasticity.continuousSynapticBonus01,
+            atmosphereRef.current,
+          );
         }
-        const attunedCount = plantMeshes.filter((m) => m.instance.attuned).length;
         const chorusState: ChorusStateId =
           nearest.plant.attuned || attunedCount >= 5 ? 'awakened' : 'dormant';
         const reqStr = formatPrismRequest({
@@ -6731,11 +6792,14 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         (scene.fog as THREE.FogExp2).color.lerp(_targetFogColor, 1 - Math.exp(-2.5 * dt));
         _tempColor.set(cachedSpectralDiurnal.sunDirectional.hex);
         sunLight.color.lerp(_tempColor, 1 - Math.exp(-2.0 * dt));
+        const ecologyRayleighClarityFactor =
+          1.08 - (liveFidelity.ecologyRayleighOpticalTransmittancePermille / 1000) * 0.14;
         (scene.fog as THREE.FogExp2).density = THREE.MathUtils.damp(
           (scene.fog as THREE.FogExp2).density,
           diurnalEval.effectiveFogDensity *
             environmentalAgencyState.mistClearanceCorridorFactor *
-            granularModals.opticalModality.terpeneAerosolTyndallTransmittance,
+            granularModals.opticalModality.terpeneAerosolTyndallTransmittance *
+            ecologyRayleighClarityFactor,
           3.0,
           dt,
         );

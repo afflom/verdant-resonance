@@ -9267,20 +9267,39 @@ export function computeNeuromorphicCymatics(params: {
   rule30Byte: number;
   icosianRootIndex: number;
   synapticWeight: number;
+  rule30Phase01?: number;
+  coherentDepth01?: number;
 }): {
   waveDisplacementY: number;
   cymaticNodeCount: number;
   meniscusPulseFactor: number;
 } {
-  const { localX, localZ, elapsedSeconds, rule30Byte, icosianRootIndex, synapticWeight } = params;
+  const {
+    localX,
+    localZ,
+    elapsedSeconds,
+    rule30Byte,
+    icosianRootIndex,
+    synapticWeight,
+    rule30Phase01,
+    coherentDepth01,
+  } = params;
   const r = Math.hypot(localX, localZ);
   const shorelineR = DEFAULT_PARAMETRIC_WORLD_TOPOLOGY.lagoonWaterIntersectionRadiusMeters - 0.1;
 
   const cymaticNodeCount = 2 + (icosianRootIndex % 5); // 2..6 azimuthal harmonic nodes
-  const weightNorm = Math.max(0.1, Math.min(1, synapticWeight / 16));
-  const r30FreqMod = 1.0 + ((rule30Byte & 0x0f) / 15) * 0.35;
+  const weightNorm =
+    coherentDepth01 !== undefined
+      ? Math.max(0.1, Math.min(1, coherentDepth01))
+      : Math.max(0.1, Math.min(1, synapticWeight / 16));
+  const r30FreqMod =
+    rule30Phase01 !== undefined
+      ? 1.0 + rule30Phase01 * 0.35
+      : 1.0 + ((rule30Byte & 0x0f) / 15) * 0.35;
+  const r30PhaseRad =
+    rule30Phase01 !== undefined ? rule30Phase01 * Math.PI * 2 : (rule30Byte >> 4);
   const meniscusPulseFactor = Number(
-    (0.75 + 0.25 * Math.sin(elapsedSeconds * 1.8 * r30FreqMod + (rule30Byte >> 4))).toFixed(3),
+    (0.75 + 0.25 * Math.sin(elapsedSeconds * 1.8 * r30FreqMod + r30PhaseRad)).toFixed(6),
   );
 
   if (r >= shorelineR) {
@@ -9298,7 +9317,7 @@ export function computeNeuromorphicCymatics(params: {
   const azimuthalHarmonic = Math.cos(cymaticNodeCount * theta + elapsedSeconds * 0.9);
   const maxAmpMeters = (0.012 + weightNorm * 0.014) * boundaryEnvelope;
   const waveDisplacementY = Number(
-    (maxAmpMeters * (0.65 * radialStanding + 0.35 * azimuthalHarmonic)).toFixed(4),
+    (maxAmpMeters * (0.65 * radialStanding + 0.35 * azimuthalHarmonic)).toFixed(6),
   );
 
   return {
@@ -9610,6 +9629,7 @@ export function computeFoliageDeflection(params: {
   witnessVZ?: number;
   rule30Byte?: number;
   synapticWeight?: number;
+  rule30Phase01?: number;
 }): {
   tiltXRad: number;
   tiltZRad: number;
@@ -9630,8 +9650,16 @@ export function computeFoliageDeflection(params: {
     witnessVZ = 0,
     rule30Byte = 142,
     synapticWeight = 8,
+    rule30Phase01,
   } = params;
-  const wind = evaluateWindField(bladeX, bladeZ, elapsedSeconds, rule30Byte, synapticWeight);
+  const wind = evaluateWindField(
+    bladeX,
+    bladeZ,
+    elapsedSeconds,
+    rule30Byte,
+    synapticWeight,
+    rule30Phase01,
+  );
   const wakeR = VERDANT_PHYSICS_STANDARD.grassWakeRadiusMeters;
 
   const evaluateObserverImpulse = (
@@ -9697,6 +9725,7 @@ export function evaluateCanopyWindShear(params: {
   elapsedSeconds: number;
   rule30Byte?: number;
   synapticWeight?: number;
+  rule30Phase01?: number;
 }): { pitchRad: number; rollRad: number; yawFlutterRad: number } {
   const {
     x,
@@ -9706,8 +9735,9 @@ export function evaluateCanopyWindShear(params: {
     elapsedSeconds,
     rule30Byte = 142,
     synapticWeight = 8,
+    rule30Phase01,
   } = params;
-  const baseWind = evaluateWindField(x, z, elapsedSeconds, rule30Byte, synapticWeight);
+  const baseWind = evaluateWindField(x, z, elapsedSeconds, rule30Byte, synapticWeight, rule30Phase01);
   // Logarithmic wind shear profile: u(z) ~ ln(z / z0)
   const shearAmplification = 1.25 + Math.min(0.85, Math.max(0, (heightMeters - 4.0) * 0.18));
   const tierSign = tier === 0 ? 1 : -1;
@@ -9749,6 +9779,7 @@ export function stepSporeFluidDynamics(params: {
   elapsedSeconds: number;
   rule30Byte: number;
   synapticWeight: number;
+  rule30Phase01?: number;
   dt: number;
   colliders?: readonly SolidCollider[];
 }): {
@@ -9780,11 +9811,12 @@ export function stepSporeFluidDynamics(params: {
     elapsedSeconds,
     rule30Byte,
     synapticWeight,
+    rule30Phase01,
     dt,
     colliders = [],
   } = params;
 
-  const wind = evaluateWindField(x, z, elapsedSeconds, rule30Byte, synapticWeight);
+  const wind = evaluateWindField(x, z, elapsedSeconds, rule30Byte, synapticWeight, rule30Phase01);
   const thermalBuoyancy =
     atmosphere === 'golden'
       ? 0.34
@@ -11583,6 +11615,7 @@ export function evaluateHolisticObserverState(params: {
   barIndex?: number;
   kuramotoOrderR?: number;
   barkHeadroomDb?: number;
+  continuousPlasticityBonus01?: number;
 }): HolisticObserverState {
   const {
     manifold,
@@ -11868,18 +11901,23 @@ export function evaluateHolisticObserverState(params: {
     plants: params.plants,
   });
 
+  const microBonus = Math.max(
+    0,
+    Math.min(0.999999, Number.isFinite(params.continuousPlasticityBonus01) ? (params.continuousPlasticityBonus01 ?? 0) : 0),
+  );
+  const withBonus = (w: number): number => Math.min(16, w + microBonus);
   const canonicalStandardModelsContext = evaluateHolisticObserverStandardModelContext({
     domainWeights10: {
-      infrastructure: manifold.domains.infrastructure.synapticWeight,
-      physics: manifold.domains.physics.synapticWeight,
-      botany: manifold.domains.botany.synapticWeight,
-      ecology: manifold.domains.ecology.synapticWeight,
-      acoustics: manifold.domains.acoustics.synapticWeight,
-      articulation: manifold.domains.articulation.synapticWeight,
-      soundtrack: manifold.domains.soundtrack.synapticWeight,
-      humane: manifold.domains.humane.synapticWeight,
-      brand: manifold.domains.brand.synapticWeight,
-      neuromorphic: manifold.domains.neuromorphic.synapticWeight,
+      infrastructure: withBonus(manifold.domains.infrastructure.synapticWeight),
+      physics: withBonus(manifold.domains.physics.synapticWeight),
+      botany: withBonus(manifold.domains.botany.synapticWeight),
+      ecology: withBonus(manifold.domains.ecology.synapticWeight),
+      acoustics: withBonus(manifold.domains.acoustics.synapticWeight),
+      articulation: withBonus(manifold.domains.articulation.synapticWeight),
+      soundtrack: withBonus(manifold.domains.soundtrack.synapticWeight),
+      humane: withBonus(manifold.domains.humane.synapticWeight),
+      brand: withBonus(manifold.domains.brand.synapticWeight),
+      neuromorphic: withBonus(manifold.domains.neuromorphic.synapticWeight),
     },
     alphaSeed,
     atmosphere,
@@ -12351,6 +12389,8 @@ export function refinePrismModel(
   let currentRule30History = [...prevState.rule30History];
   let currentHebbianTable = prevState.hebbianTable.map((entry) => ({ ...entry }));
   let currentTick = prevState.tickCount;
+  let latestRule30Phase01 = prevState.lastRule30Phase01 ?? 0.5;
+  let latestRule30WordHex16 = prevState.lastRule30WordHex16 ?? '0x000000000000001e';
 
   // If a specific leadDomain is nominated, give it an initial resonant enhancement before autopoietic equilibration
   if (opts?.leadDomain) {
@@ -12369,6 +12409,8 @@ export function refinePrismModel(
     const r30Step = stepRule30Row(currentRule30Row, (currentTick * 7) % 64);
     currentRule30Row = r30Step.nextRow;
     currentRule30History = [...currentRule30History.slice(-15), r30Step.diagonalByte];
+    latestRule30Phase01 = r30Step.rule30Phase01;
+    latestRule30WordHex16 = r30Step.rule30WordHex16;
 
     // Find the leading synaptic weight across all 10 domains
     let wLeader = VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightMin;
@@ -12494,6 +12536,9 @@ export function refinePrismModel(
     hebbianTable: currentHebbianTable,
     rule30Row: currentRule30Row,
     rule30History: currentRule30History,
+    lastRule30Phase01: latestRule30Phase01,
+    lastRule30WordHex16: latestRule30WordHex16,
+    continuousPlasticityBonus01: 0,
     lastPointKeyHex: currentManifold.manifoldPointKeyHex,
     lastScheduledStrategy: topScheduled.id,
     lastActiveSynapticWeight: topScheduled.weight,
@@ -12617,6 +12662,9 @@ export interface NeuromorphicEngineState {
   hebbianTable: HebbianWeightEntry[];
   rule30Row: boolean[];
   rule30History: number[]; // Last 16 diagonal bytes (0..255)
+  lastRule30Phase01: number; // Continuous 53-bit IEEE-754 float64 Rule-30 phase in [0, 1)
+  lastRule30WordHex16: string; // Full 64-bit hexadecimal Rule-30 cellular register word
+  continuousPlasticityBonus01: number; // Continuous float64 micro-plasticity bonus in [0, 1)
   turnMemory: NeuromorphicMemoryRecord[]; // Scoped `/7` durable turn memory (up to 24 turns)
   recentVoicingKeys: number[]; // Used by the `period 1..4` short-cycle guard
   emergentSeedlingsMinted: number;
@@ -12650,6 +12698,9 @@ export function createInitialNeuromorphicState(alphaSeed = 1): NeuromorphicEngin
     hebbianTable: createInitialHebbianTable(),
     rule30Row: stepped.nextRow,
     rule30History: [stepped.diagonalByte],
+    lastRule30Phase01: stepped.rule30Phase01,
+    lastRule30WordHex16: stepped.rule30WordHex16,
+    continuousPlasticityBonus01: 0,
     turnMemory: [],
     recentVoicingKeys: [],
     emergentSeedlingsMinted: 0,
@@ -12665,6 +12716,51 @@ export function createInitialNeuromorphicState(alphaSeed = 1): NeuromorphicEngin
     universalManifold,
     refinementDirectives,
     observer,
+  };
+}
+
+/**
+ * Projects continuous 64-bit IEEE-754 gameplay micro-plasticity (`continuousBonus01` in `[0, 1)`)
+ * directly into the 22-model `Float64Array` Functor Bus (`canonicalStandardModelsContext`) so every
+ * model's `coherentDepthPpm` and multi-modal HD parameters evolve smoothly without integer stair-stepping.
+ */
+export function applyContinuousGameplayMicroPlasticity(
+  prevState: NeuromorphicEngineState,
+  continuousBonus01: number,
+  atmosphere: AtmosphereId = 'dawn',
+): NeuromorphicEngineState {
+  const clampedBonus = Math.max(
+    0,
+    Math.min(0.999999, Number.isFinite(continuousBonus01) ? continuousBonus01 : 0),
+  );
+  if (Math.abs(clampedBonus - prevState.continuousPlasticityBonus01) < 1e-6) {
+    return prevState;
+  }
+  const d = prevState.universalManifold.domains;
+  const withBonus = (w: number): number => Math.min(16, w + clampedBonus);
+  const nextContext = evaluateHolisticObserverStandardModelContext({
+    domainWeights10: {
+      infrastructure: withBonus(d.infrastructure.synapticWeight),
+      physics: withBonus(d.physics.synapticWeight),
+      botany: withBonus(d.botany.synapticWeight),
+      ecology: withBonus(d.ecology.synapticWeight),
+      acoustics: withBonus(d.acoustics.synapticWeight),
+      articulation: withBonus(d.articulation.synapticWeight),
+      soundtrack: withBonus(d.soundtrack.synapticWeight),
+      humane: withBonus(d.humane.synapticWeight),
+      brand: withBonus(d.brand.synapticWeight),
+      neuromorphic: withBonus(d.neuromorphic.synapticWeight),
+    },
+    alphaSeed: prevState.observer.cosmogenesis.alphaSeed,
+    atmosphere,
+  });
+  return {
+    ...prevState,
+    continuousPlasticityBonus01: Number(clampedBonus.toFixed(6)),
+    observer: {
+      ...prevState.observer,
+      canonicalStandardModelsContext: nextContext,
+    },
   };
 }
 
@@ -13054,6 +13150,9 @@ export function executeNeuromorphicSynthesisTick(
     hebbianTable: nextHebbianTable,
     rule30Row: r30.nextRow,
     rule30History: nextRule30History,
+    lastRule30Phase01: r30.rule30Phase01,
+    lastRule30WordHex16: r30.rule30WordHex16,
+    continuousPlasticityBonus01: prevState.continuousPlasticityBonus01 ?? 0,
     turnMemory: nextTurnMemory,
     recentVoicingKeys: [...prevState.recentVoicingKeys.slice(-11), candidateVoicingKey],
     emergentSeedlingsMinted,
