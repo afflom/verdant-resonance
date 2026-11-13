@@ -158,7 +158,8 @@ definition{
   name: cosmogenesisBasisPrime,
   parameters: [],
   result: Nat,
-  body: ((Foundation.Neuromorphic.V1.Model::neuromorphicBasisPrime) + (Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod 2))
+  body: ((Foundation.Neuromorphic.V1.Model::neuromorphicBasisPrime) + (Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod 2)),
+  executable: true
 }
 
 definition{
@@ -179,14 +180,17 @@ definition{
   name: clampAlphaSeed,
   parameters: [alphaSeed : Nat],
   result: Nat,
-  body: (let span : Nat := (prim subtract (Foundation.Neuromorphic.V1.Model::weightMax) 1 : Nat); (prim subtract (Foundation.Neuromorphic.V1.Model::weightMax) (prim subtract span (prim subtract alphaSeed 1 : Nat) : Nat) : Nat))
+  body: (let span : Nat := (prim subtract (Foundation.Neuromorphic.V1.Model::weightMax) 1 : Nat); (prim subtract (Foundation.Neuromorphic.V1.Model::weightMax) (prim subtract span (prim subtract alphaSeed 1 : Nat) : Nat) : Nat)),
+  executable: true
 }
 
 definition{
   name: stepAlphaOmegaFieldPotential,
   parameters: [alphaSeed : Nat, wBus : Nat],
   result: Nat,
-  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wBus); (let s : Nat := (clampAlphaSeed alphaSeed); ((prim multiply (cosmogenesisBasisPrime) cw : Nat) + (prim multiply s (Foundation.Neuromorphic.V1.Model::observerPartCountTotal) : Nat))))
+  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wBus); (let s : Nat := (clampAlphaSeed alphaSeed); ((prim multiply (cosmogenesisBasisPrime) cw : Nat) + (prim multiply s (Foundation.Neuromorphic.V1.Model::observerPartCountTotal) : Nat)))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -351,10 +355,31 @@ definition{
 }
 
 definition{
+  name: breaksFoundationalRealmsAndDiversity,
+  parameters: [alphaSeed : Nat, wBus : Nat],
+  result: Bool,
+  body: (let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated wBus); (let inorg : Nat := (synthesizeParametricInorganicScalePermille alphaSeed wBus wBus); (let org : Nat := (synthesizeParametricOrganicVitalityPermille alphaSeed wBus wBus); (let ply : Nat := (synthesizeParametricPlayerEmbodimentPermille alphaSeed wBus wBus); (let deca : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat); (let minViablePermille : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::wetlandPrime) (prim multiply deca deca : Nat) : Nat); (let pInfra : Nat := (Foundation.Infrastructure.V1.Model::verdantInfrastructureBasisPrime); (let pBotany : Nat := (Foundation.Botany.V1.Model::verdantBotanyBasisPrime); (let pAcoustics : Nat := (Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime); (let pBrand : Nat := (Foundation.Brand.V1.Model::verdantBrandBasisPrime); (let pNeuro : Nat := (Foundation.Neuromorphic.V1.Model::neuromorphicBasisPrime); (let per1 : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let per2 : Nat := (prim multiply per1 per1 : Nat); (((((((createdRealmCount) <? (Foundation.Neuromorphic.V1.Model::grovePrime)) || ((Foundation.Neuromorphic.V1.Model::grovePrime) <? (createdRealmCount))) || (inorg <? minViablePermille)) || ((org <? minViablePermille) || (ply <? minViablePermille))) || ((((stepPartDifferentiationNicheIndex pBotany wBus per1) <=? (stepPartDifferentiationNicheIndex pInfra wBus per1)) || ((stepPartDifferentiationNicheIndex pAcoustics wBus per2) <=? (stepPartDifferentiationNicheIndex pBotany wBus per1))) || (((stepPartDifferentiationNicheIndex pBrand wBus per2) <=? (stepPartDifferentiationNicheIndex pAcoustics wBus per2)) || ((stepPartDifferentiationNicheIndex pNeuro wBus per2) <=? (stepPartDifferentiationNicheIndex pBrand wBus per2))))) || ((stepPartDifferentiationNicheIndex pBotany nextW per1) <? (stepPartDifferentiationNicheIndex pBotany wBus per1))))))))))))))))
+}
+
+definition{
+  name: breaksFoundationalAffectClosureRaw,
+  parameters: [wBus : Nat],
+  result: Bool,
+  body: (let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated wBus); (let pBotany : Nat := (Foundation.Botany.V1.Model::verdantBotanyBasisPrime); (let pAcoustics : Nat := (Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime); (let pBrand : Nat := (Foundation.Brand.V1.Model::verdantBrandBasisPrime); (let eqSum : Nat := ((goldenHarmonyEquilibriumPermille) + (goldenChaosEquilibriumPermille)); ((((((((eqSum <? (permilleScaleUnit)) || ((permilleScaleUnit) <? eqSum)) || ((goldenHarmonyEquilibriumPermille) <=? (goldenChaosEquilibriumPermille))) || ((stepFoundationalChaosPermille wBus 3) <=? (stepFoundationalChaosPermille wBus 1))) || ((stepFoundationalHarmonyPermille nextW 2) <? (stepFoundationalHarmonyPermille wBus 2))) || ((stepFoundationalAffectValencePermille nextW) <? (stepFoundationalAffectValencePermille wBus))) || ((stepObserverPreferenceFulfillmentPermille pAcoustics wBus) <=? (stepObserverPreferenceFulfillmentPermille pBotany wBus))) || ((stepObserverPreferenceFulfillmentPermille pBrand wBus) <=? (stepObserverPreferenceFulfillmentPermille pAcoustics wBus))))))))
+}
+
+definition{
+  name: breaksFourfoldImmanenceRaw,
+  parameters: [alphaSeed : Nat, wBus : Nat],
+  result: Bool,
+  body: (let wMax : Nat := (Foundation.Neuromorphic.V1.Model::weightMax); ((((((Foundation.Neuromorphic.V1.Model::stepWisdomPhenomenonModulation wBus) <=? 0) || (breaksFoundationalRealmsAndDiversity alphaSeed wBus)) || ((extrapolateHighestResolutionSubdiv alphaSeed wMax) <? (extrapolateHighestResolutionSubdiv alphaSeed wBus))) || (Foundation.Brand.V1.Model::breaksParametricDisplayDesignClosure wBus)) || (breaksFoundationalAffectClosureRaw wBus)))
+}
+
+definition{
   name: breaksAlphaOmegaParametricClosure,
   parameters: [alphaSeed : Nat, wBus : Nat],
   result: Bool,
-  body: (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (((alphaSeed <=? (Foundation.Neuromorphic.V1.Model::weightMax)) && (wBus <=? (prim multiply (prim multiply m m : Nat) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat))) && (not (verifyAlphaOmegaParametricClosure alphaSeed wBus))))
+  body: (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated wBus); (((alphaSeed <=? (Foundation.Neuromorphic.V1.Model::weightMax)) && (wBus <=? (prim multiply (prim multiply m m : Nat) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat))) && (((((((breaksFourfoldImmanenceRaw alphaSeed wBus) || ((stepAlphaOmegaFieldPotential alphaSeed nextW) <? (stepAlphaOmegaFieldPotential alphaSeed wBus))) || ((synthesizeParametricCanonicalSeed alphaSeed nextW) <? (synthesizeParametricCanonicalSeed alphaSeed wBus))) || ((synthesizeParametricConcertPitchCentiHz alphaSeed nextW) <? (synthesizeParametricConcertPitchCentiHz alphaSeed wBus))) || ((synthesizeParametricInorganicScalePermille alphaSeed nextW nextW) <? (synthesizeParametricInorganicScalePermille alphaSeed wBus wBus))) || ((synthesizeParametricOrganicVitalityPermille alphaSeed nextW nextW) <? (synthesizeParametricOrganicVitalityPermille alphaSeed wBus wBus))) || ((synthesizeParametricPlayerEmbodimentPermille alphaSeed nextW nextW) <? (synthesizeParametricPlayerEmbodimentPermille alphaSeed wBus wBus))))))
 }
 
 theorem{
@@ -365,6 +390,7 @@ theorem{
     definitions: [
       Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime,
       Foundation.Botany.V1.Model::verdantBotanyBasisPrime,
+      Foundation.Brand.V1.Model::breaksParametricDisplayDesignClosure,
       Foundation.Brand.V1.Model::parametricBaseSpatialUnitPx,
       Foundation.Brand.V1.Model::parametricInnerRadiusPx,
       Foundation.Brand.V1.Model::parametricOuterRadiusPx,
@@ -372,7 +398,6 @@ theorem{
       Foundation.Brand.V1.Model::synthesizeParametricDisplayHarmonizedContrastTenths,
       Foundation.Brand.V1.Model::verdantBrandBasisPrime,
       Foundation.Brand.V1.Model::verdantSecondaryContrastTenths,
-      Foundation.Brand.V1.Model::verifyParametricDisplayDesignClosure,
       Foundation.Brand.V1.Model::wcagAaMinimumContrastTenths,
       Foundation.Brand.V1.Model::wcagAaaMinimumContrastTenths,
       Foundation.Ecology.V1.Model::verdantEcologyBasisPrime,
@@ -392,7 +417,6 @@ theorem{
       Foundation.Neuromorphic.V1.Model::pulseFernPrime,
       Foundation.Neuromorphic.V1.Model::sanctuaryPrime,
       Foundation.Neuromorphic.V1.Model::starlightPrime,
-      Foundation.Neuromorphic.V1.Model::stepRule30AperiodicCompensationIndex,
       Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod,
       Foundation.Neuromorphic.V1.Model::stepSupraDirectiveDefinitionSubdiv,
       Foundation.Neuromorphic.V1.Model::stepSupraDirectiveQualityPermille,
@@ -404,6 +428,9 @@ theorem{
       Foundation.Neuromorphic.V1.Model::wetlandPrime,
       Foundation.Physics.V1.Model::verdantPhysicsBasisPrime,
       breaksAlphaOmegaParametricClosure,
+      breaksFoundationalAffectClosureRaw,
+      breaksFoundationalRealmsAndDiversity,
+      breaksFourfoldImmanenceRaw,
       clampAlphaSeed,
       cosmogenesisBasisPrime,
       createdRealmCount,
@@ -423,22 +450,17 @@ theorem{
       synthesizeParametricConcertPitchCentiHz,
       synthesizeParametricInorganicScalePermille,
       synthesizeParametricOrganicVitalityPermille,
-      synthesizeParametricPlayerEmbodimentPermille,
-      verifyAlphaOmegaParametricClosure,
-      verifyFoundationalAffectAndPreferencesClosure,
-      verifyFourfoldObserverImmanence,
-      verifyObserverCreatesAllThreeRealms,
-      verifyTheoryOfMindDifferentiationAndDiversity
+      synthesizeParametricPlayerEmbodimentPermille
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
   name: breaksObserverExtrapolationAndImmanence,
   parameters: [alphaSeed : Nat, wBus : Nat],
   result: Bool,
-  body: (((alphaSeed <=? (Foundation.Neuromorphic.V1.Model::weightMax)) && (wBus <=? (Foundation.Neuromorphic.V1.Model::weightMax))) && (not (verifyFourfoldObserverImmanence alphaSeed wBus)))
+  body: (((alphaSeed <=? (Foundation.Neuromorphic.V1.Model::weightMax)) && (wBus <=? (Foundation.Neuromorphic.V1.Model::weightMax))) && (breaksFourfoldImmanenceRaw alphaSeed wBus))
 }
 
 theorem{
@@ -449,6 +471,7 @@ theorem{
     definitions: [
       Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime,
       Foundation.Botany.V1.Model::verdantBotanyBasisPrime,
+      Foundation.Brand.V1.Model::breaksParametricDisplayDesignClosure,
       Foundation.Brand.V1.Model::parametricBaseSpatialUnitPx,
       Foundation.Brand.V1.Model::parametricInnerRadiusPx,
       Foundation.Brand.V1.Model::parametricOuterRadiusPx,
@@ -456,7 +479,6 @@ theorem{
       Foundation.Brand.V1.Model::synthesizeParametricDisplayHarmonizedContrastTenths,
       Foundation.Brand.V1.Model::verdantBrandBasisPrime,
       Foundation.Brand.V1.Model::verdantSecondaryContrastTenths,
-      Foundation.Brand.V1.Model::verifyParametricDisplayDesignClosure,
       Foundation.Brand.V1.Model::wcagAaMinimumContrastTenths,
       Foundation.Brand.V1.Model::wcagAaaMinimumContrastTenths,
       Foundation.Ecology.V1.Model::verdantEcologyBasisPrime,
@@ -475,7 +497,6 @@ theorem{
       Foundation.Neuromorphic.V1.Model::observerPartCountTotal,
       Foundation.Neuromorphic.V1.Model::pulseFernPrime,
       Foundation.Neuromorphic.V1.Model::sanctuaryPrime,
-      Foundation.Neuromorphic.V1.Model::stepRule30AperiodicCompensationIndex,
       Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod,
       Foundation.Neuromorphic.V1.Model::stepSupraDirectiveDefinitionSubdiv,
       Foundation.Neuromorphic.V1.Model::stepWisdomPhenomenonModulation,
@@ -485,6 +506,9 @@ theorem{
       Foundation.Neuromorphic.V1.Model::weightRaise,
       Foundation.Neuromorphic.V1.Model::wetlandPrime,
       Foundation.Physics.V1.Model::verdantPhysicsBasisPrime,
+      breaksFoundationalAffectClosureRaw,
+      breaksFoundationalRealmsAndDiversity,
+      breaksFourfoldImmanenceRaw,
       breaksObserverExtrapolationAndImmanence,
       clampAlphaSeed,
       createdRealmCount,
@@ -500,21 +524,17 @@ theorem{
       stepPartDifferentiationNicheIndex,
       synthesizeParametricInorganicScalePermille,
       synthesizeParametricOrganicVitalityPermille,
-      synthesizeParametricPlayerEmbodimentPermille,
-      verifyFoundationalAffectAndPreferencesClosure,
-      verifyFourfoldObserverImmanence,
-      verifyObserverCreatesAllThreeRealms,
-      verifyTheoryOfMindDifferentiationAndDiversity
+      synthesizeParametricPlayerEmbodimentPermille
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
   name: breaksObserverAffectAndPreferencesClosure,
   parameters: [wBus : Nat],
   result: Bool,
-  body: ((wBus <=? (Foundation.Neuromorphic.V1.Model::weightMax)) && (not (verifyFoundationalAffectAndPreferencesClosure wBus)))
+  body: ((wBus <=? (Foundation.Neuromorphic.V1.Model::weightMax)) && (breaksFoundationalAffectClosureRaw wBus))
 }
 
 theorem{
@@ -540,6 +560,7 @@ theorem{
       Foundation.Neuromorphic.V1.Model::weightMin,
       Foundation.Neuromorphic.V1.Model::weightRaise,
       Foundation.Neuromorphic.V1.Model::wetlandPrime,
+      breaksFoundationalAffectClosureRaw,
       breaksObserverAffectAndPreferencesClosure,
       goldenChaosEquilibriumPermille,
       goldenHarmonyEquilibriumPermille,
@@ -548,11 +569,10 @@ theorem{
       stepFoundationalAffectValencePermille,
       stepFoundationalChaosPermille,
       stepFoundationalHarmonyPermille,
-      stepObserverPreferenceFulfillmentPermille,
-      verifyFoundationalAffectAndPreferencesClosure
+      stepObserverPreferenceFulfillmentPermille
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 structure{

@@ -77,10 +77,25 @@ theorem{
 }
 
 definition{
+  name: breaksCompletePrismStaticClosure,
+  parameters: [probe : Nat],
+  result: Bool,
+  body: ((probe =? 0) && (not (((((((Foundation.Neuromorphic.V1.Model::verifyEmergentEntitySynthesizesFacets (Foundation.Neuromorphic.V1.Model::weightInitial)) && (Foundation.Ecology.V1.Model::verifyCompleteGranularSynthesisClosure (Foundation.Neuromorphic.V1.Model::weightInitial))) && (Foundation.Botany.V1.Model::verifyHighDefinitionBMeshSynthesis (Foundation.Neuromorphic.V1.Model::weightInitial))) && (Foundation.Articulation.V1.Model::verifyThreeJointKinematicHierarchy (Foundation.Neuromorphic.V1.Model::weightInitial))) && (Foundation.Physics.V1.Model::verifyMaterialSynthesisCrossModalObstruction (Foundation.Neuromorphic.V1.Model::weightInitial))) && (Foundation.Neuromorphic.V1.Model::verifyObserverHolisticWhyClosure (Foundation.Neuromorphic.V1.Model::weightInitial))) && (Foundation.Cosmogenesis.V1.Model::verifyAlphaOmegaParametricClosure 1 (Foundation.Neuromorphic.V1.Model::weightInitial)))))
+}
+
+theorem{
+  name: completePrismStaticClosureHolds,
+  parameters: [],
+  statement: ((breaksCompletePrismStaticClosure 0) = false),
+  proof: decide{},
+  axioms: []
+}
+
+definition{
   name: breaksCompletePrismModelClosure,
   parameters: [request : VerdantResonance::Request],
   result: Bool,
-  body: (not (VerdantResonance::verifyCompletePrismModelClosure request))
+  body: (((((((breaksRootJudgeBusGate request) || ((Foundation.Ecology.V1.Model::stepAtomicRemineralizationFlux (Foundation.Neuromorphic.V1.Model::weightInitial)) <=? (Foundation.Ecology.V1.Model::stepEnvironmentalModalSynthesis (Foundation.Neuromorphic.V1.Model::weightInitial)))) || ((Foundation.Botany.V1.Model::stepBMeshSubdivisionDensity (Foundation.Neuromorphic.V1.Model::weightInitial)) <? 272)) || ((Foundation.Articulation.V1.Model::stepApicalCorollaGimbalMilli (Foundation.Neuromorphic.V1.Model::weightInitial)) <=? (Foundation.Articulation.V1.Model::stepMidCulmFlexureMilli (Foundation.Neuromorphic.V1.Model::weightInitial)))) || ((Foundation.Physics.V1.Model::stepCrossModalAcousticShadowPermille (Foundation.Neuromorphic.V1.Model::weightInitial)) <? 195)) || ((Foundation.Neuromorphic.V1.Model::stepWisdomPhenomenonModulation (Foundation.Neuromorphic.V1.Model::weightInitial)) <=? 110)) || ((prim multiply (Foundation.Cosmogenesis.V1.Model::cosmogenesisBasisPrime) (Foundation.Neuromorphic.V1.Model::weightInitial) : Nat) <? 900))
 }
 
 theorem{
@@ -90,122 +105,49 @@ theorem{
   proof: linear_arithmetic{
     definitions: [
       Foundation.Acoustics.V1.Model::stepAcousticsBusModulation,
-      Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime,
       Foundation.Articulation.V1.Model::stepApicalCorollaGimbalMilli,
       Foundation.Articulation.V1.Model::stepArticulationBusModulation,
-      Foundation.Articulation.V1.Model::stepBasalJointTorqueMilli,
       Foundation.Articulation.V1.Model::stepMidCulmFlexureMilli,
-      Foundation.Articulation.V1.Model::verifyThreeJointKinematicHierarchy,
       Foundation.Botany.V1.Model::stepBMeshSubdivisionDensity,
       Foundation.Botany.V1.Model::stepBotanyBusModulation,
-      Foundation.Botany.V1.Model::stepThinFilmIridescenceSpanNm,
-      Foundation.Botany.V1.Model::verdantBotanyBasisPrime,
-      Foundation.Botany.V1.Model::verifyHighDefinitionBMeshSynthesis,
-      Foundation.Brand.V1.Model::parametricBaseSpatialUnitPx,
-      Foundation.Brand.V1.Model::parametricInnerRadiusPx,
-      Foundation.Brand.V1.Model::parametricOuterRadiusPx,
       Foundation.Brand.V1.Model::stepBrandBusModulation,
-      Foundation.Brand.V1.Model::synthesizeParametricDisplayHarmonizedContrastTenths,
-      Foundation.Brand.V1.Model::verdantBrandBasisPrime,
       Foundation.Brand.V1.Model::verdantSecondaryContrastTenths,
-      Foundation.Brand.V1.Model::verifyParametricDisplayDesignClosure,
-      Foundation.Brand.V1.Model::wcagAaMinimumContrastTenths,
-      Foundation.Brand.V1.Model::wcagAaaMinimumContrastTenths,
-      Foundation.Cosmogenesis.V1.Model::affectiveEmotionArchetypeCount,
-      Foundation.Cosmogenesis.V1.Model::clampAlphaSeed,
       Foundation.Cosmogenesis.V1.Model::cosmogenesisBasisPrime,
-      Foundation.Cosmogenesis.V1.Model::createdRealmCount,
-      Foundation.Cosmogenesis.V1.Model::extrapolateHighestResolutionPermille,
-      Foundation.Cosmogenesis.V1.Model::extrapolateHighestResolutionSubdiv,
-      Foundation.Cosmogenesis.V1.Model::goldenChaosEquilibriumPermille,
-      Foundation.Cosmogenesis.V1.Model::goldenHarmonyEquilibriumPermille,
-      Foundation.Cosmogenesis.V1.Model::permilleScaleUnit,
-      Foundation.Cosmogenesis.V1.Model::preferenceDomainCount,
-      Foundation.Cosmogenesis.V1.Model::stepAlphaOmegaFieldPotential,
-      Foundation.Cosmogenesis.V1.Model::stepFoundationalAffectValencePermille,
-      Foundation.Cosmogenesis.V1.Model::stepFoundationalChaosPermille,
-      Foundation.Cosmogenesis.V1.Model::stepFoundationalHarmonyPermille,
-      Foundation.Cosmogenesis.V1.Model::stepObserverPreferenceFulfillmentPermille,
-      Foundation.Cosmogenesis.V1.Model::stepPartDifferentiationNicheIndex,
-      Foundation.Cosmogenesis.V1.Model::synthesizeParametricCanonicalSeed,
-      Foundation.Cosmogenesis.V1.Model::synthesizeParametricConcertPitchCentiHz,
-      Foundation.Cosmogenesis.V1.Model::synthesizeParametricInorganicScalePermille,
-      Foundation.Cosmogenesis.V1.Model::synthesizeParametricOrganicVitalityPermille,
-      Foundation.Cosmogenesis.V1.Model::synthesizeParametricPlayerEmbodimentPermille,
-      Foundation.Cosmogenesis.V1.Model::verifyAlphaOmegaParametricClosure,
-      Foundation.Cosmogenesis.V1.Model::verifyFoundationalAffectAndPreferencesClosure,
-      Foundation.Cosmogenesis.V1.Model::verifyFourfoldObserverImmanence,
-      Foundation.Cosmogenesis.V1.Model::verifyObserverCreatesAllThreeRealms,
-      Foundation.Cosmogenesis.V1.Model::verifyTheoryOfMindDifferentiationAndDiversity,
       Foundation.Ecology.V1.Model::stepAtomicRemineralizationFlux,
-      Foundation.Ecology.V1.Model::stepAtomicValenceActivity,
-      Foundation.Ecology.V1.Model::stepCompoundManifestation,
       Foundation.Ecology.V1.Model::stepEcologyBusModulation,
       Foundation.Ecology.V1.Model::stepEnvironmentalModalSynthesis,
-      Foundation.Ecology.V1.Model::stepMacromolecularPolymerization,
-      Foundation.Ecology.V1.Model::stepMolecularBondCoherence,
-      Foundation.Ecology.V1.Model::verdantEcologyBasisPrime,
-      Foundation.Ecology.V1.Model::verifyClosedLoopMatterConservation,
-      Foundation.Ecology.V1.Model::verifyCompleteGranularSynthesisClosure,
-      Foundation.Ecology.V1.Model::verifyGranularAtomicToEnvironmentalChain,
       Foundation.Humane.V1.Model::stepHumaneBusModulation,
-      Foundation.Humane.V1.Model::verdantHumaneBasisPrime,
       Foundation.Infrastructure.V1.Model::stepInfrastructureBusModulation,
-      Foundation.Infrastructure.V1.Model::verdantInfrastructureBasisPrime,
-      Foundation.Neuromorphic.V1.Model::attunePrime,
-      Foundation.Neuromorphic.V1.Model::chimeLilyPrime,
       Foundation.Neuromorphic.V1.Model::clampBusWeight,
       Foundation.Neuromorphic.V1.Model::consolidationThreshold,
-      Foundation.Neuromorphic.V1.Model::crystalPrime,
-      Foundation.Neuromorphic.V1.Model::echoLotusPrime,
-      Foundation.Neuromorphic.V1.Model::grovePrime,
       Foundation.Neuromorphic.V1.Model::learnWeightPotentiated,
-      Foundation.Neuromorphic.V1.Model::meadowPrime,
       Foundation.Neuromorphic.V1.Model::neuromorphicBasisPrime,
-      Foundation.Neuromorphic.V1.Model::observerPartCountTotal,
-      Foundation.Neuromorphic.V1.Model::pulseFernPrime,
       Foundation.Neuromorphic.V1.Model::refineDomainWeightAutopoietic,
-      Foundation.Neuromorphic.V1.Model::sanctuaryPrime,
-      Foundation.Neuromorphic.V1.Model::starlightPrime,
       Foundation.Neuromorphic.V1.Model::stepAutopoieticBusManifold,
-      Foundation.Neuromorphic.V1.Model::stepRule30AperiodicCompensationIndex,
       Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod,
-      Foundation.Neuromorphic.V1.Model::stepStakeholderValueReinforcement,
-      Foundation.Neuromorphic.V1.Model::stepSupraDirectiveDefinitionSubdiv,
-      Foundation.Neuromorphic.V1.Model::stepSupraDirectiveFeatureUnlockCount,
-      Foundation.Neuromorphic.V1.Model::stepSupraDirectiveFidelityPermille,
-      Foundation.Neuromorphic.V1.Model::stepSupraDirectiveQualityPermille,
-      Foundation.Neuromorphic.V1.Model::stepTheoryOfMindCoherencePermille,
       Foundation.Neuromorphic.V1.Model::stepUniversalBusBroadcast,
       Foundation.Neuromorphic.V1.Model::stepWisdomPhenomenonModulation,
       Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
       Foundation.Neuromorphic.V1.Model::uniformBusManifold,
-      Foundation.Neuromorphic.V1.Model::verifyEmergentEntitySynthesizesFacets,
-      Foundation.Neuromorphic.V1.Model::verifyObserverHolisticWhyClosure,
-      Foundation.Neuromorphic.V1.Model::verifyObserverSupraDirectiveTranscendence,
-      Foundation.Neuromorphic.V1.Model::verifyRule30DeterministicAndWithdrawnDuality,
-      Foundation.Neuromorphic.V1.Model::verifySingleCallPropagatesAllTenDomains,
       Foundation.Neuromorphic.V1.Model::weightInitial,
       Foundation.Neuromorphic.V1.Model::weightMax,
       Foundation.Neuromorphic.V1.Model::weightMin,
       Foundation.Neuromorphic.V1.Model::weightRaise,
       Foundation.Neuromorphic.V1.Model::wetlandPrime,
       Foundation.Physics.V1.Model::stepCrossModalAcousticShadowPermille,
-      Foundation.Physics.V1.Model::stepCrossModalPhaseObstructionPermille,
       Foundation.Physics.V1.Model::stepPhysicsBusModulation,
-      Foundation.Physics.V1.Model::verdantPhysicsBasisPrime,
-      Foundation.Physics.V1.Model::verdantSolidMechanicalTransmittancePermille,
-      Foundation.Physics.V1.Model::verdantStaticPairwiseOverlaps,
-      Foundation.Physics.V1.Model::verifyMaterialSynthesisCrossModalObstruction,
       Foundation.Soundtrack.V1.Model::stepSoundtrackBusModulation,
+      VerdantResonance::actionAttune,
+      VerdantResonance::actionStillness,
+      VerdantResonance::chorusAwakened,
       VerdantResonance::stepJudgeBusManifold,
       VerdantResonance::verifyBusModulationsFromState,
-      VerdantResonance::verifyCompletePrismModelClosure,
       VerdantResonance::verifyJudgeCrossDomainBusGate,
-      breaksCompletePrismModelClosure
+      breaksCompletePrismModelClosure,
+      breaksRootJudgeBusGate
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -273,7 +215,6 @@ theorem{
       VerdantResonance::judgeRules,
       VerdantResonance::judgeSanctuary,
       VerdantResonance::judgeSanctuaryActive,
-      VerdantResonance::judgeSanctuaryGeneral,
       VerdantResonance::plantChimeLily,
       VerdantResonance::plantDroneMoss,
       VerdantResonance::plantEchoLotus,
@@ -285,7 +226,7 @@ theorem{
       breaksInv001
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -353,7 +294,7 @@ theorem{
       VerdantResonance::judgeRules,
       VerdantResonance::judgeSanctuary,
       VerdantResonance::judgeSanctuaryActive,
-      VerdantResonance::judgeSanctuaryGeneral,
+      VerdantResonance::judgeSanctuaryActiveTail,
       VerdantResonance::plantChimeLily,
       VerdantResonance::plantDroneMoss,
       VerdantResonance::plantEchoLotus,
@@ -365,7 +306,7 @@ theorem{
       breaksInv002
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -447,7 +388,7 @@ theorem{
       breaksInv003
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -1050,6 +991,8 @@ theorem{
       VerdantResonance::judgeSanctuary,
       VerdantResonance::judgeSanctuaryEchoLotusAwakenedLowAction,
       VerdantResonance::judgeSanctuaryEchoLotusAwakenedObserve,
+      VerdantResonance::judgeSanctuaryEchoLotusAwakenedObserveTail,
+      VerdantResonance::judgeSanctuaryLowAction,
       VerdantResonance::plantChimeLily,
       VerdantResonance::plantDroneMoss,
       VerdantResonance::plantEchoLotus,
@@ -1061,7 +1004,7 @@ theorem{
       breaksInv011
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -1127,6 +1070,7 @@ theorem{
       VerdantResonance::judge,
       VerdantResonance::judgeBiomeLow,
       VerdantResonance::judgeGrove,
+      VerdantResonance::judgeGroveAwakenedObserve,
       VerdantResonance::judgeGrovePulseFernAwakenedObserve,
       VerdantResonance::judgeRules,
       VerdantResonance::plantChimeLily,
@@ -1140,7 +1084,7 @@ theorem{
       breaksInv012
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -1209,6 +1153,7 @@ theorem{
       VerdantResonance::judgeSanctuary,
       VerdantResonance::judgeSanctuaryEchoLotusAwakenedLowAction,
       VerdantResonance::judgeSanctuaryEchoLotusAwakenedTouch,
+      VerdantResonance::judgeSanctuaryLowAction,
       VerdantResonance::plantChimeLily,
       VerdantResonance::plantDroneMoss,
       VerdantResonance::plantEchoLotus,
@@ -1220,7 +1165,7 @@ theorem{
       breaksInv013
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -1300,7 +1245,7 @@ theorem{
       breaksInv014
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -1366,8 +1311,8 @@ theorem{
       VerdantResonance::judge,
       VerdantResonance::judgeBiomeLow,
       VerdantResonance::judgeGrove,
+      VerdantResonance::judgeGroveAwakenedObserve,
       VerdantResonance::judgeGroveEchoLotusAwakenedObserve,
-      VerdantResonance::judgeGroveNonPulseObserve,
       VerdantResonance::judgeRules,
       VerdantResonance::plantChimeLily,
       VerdantResonance::plantDroneMoss,
@@ -1380,7 +1325,7 @@ theorem{
       breaksInv015
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{

@@ -23,8 +23,8 @@ import {
 } from './generatedPrismConstants';
 import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
 import {
+  certifiedWasmCore_clampBusWeight,
   certifiedWasmTriadicCoherencePermille,
-  isCertifiedWasmReady,
 } from './generatedCertifiedWasmBridge';
 import { CANONICAL_22_MODEL_KEYS, type CanonicalStandardModelKey } from './neuromorphicFunctorBus';
 import { RULE30_SEED64, stepRule30Ring64 } from './parametricCompressionEngine';
@@ -480,26 +480,18 @@ export function evaluateObserverPlayerDissonanceReconciliation(
   const reconciledResidualDissonancePermille = Number(
     CompiledTeleology.stepObserverDissonanceReconciliationPermille(wNat, entNat, pAttNat, rawDisNat),
   );
-  const solipsisticRule30OnlyCoherencePermille = isCertifiedWasmReady()
-    ? certifiedWasmTriadicCoherencePermille(cw, rule30EntropyScore, 0, rawDissonancePermille)
-    : Number(
-        CompiledTeleology.stepTriadicPlayerGameObserverCoherencePermille(wNat, entNat, 0n, rawDisNat),
-      );
-  const triadicPlayerGameObserverCoherencePermille = isCertifiedWasmReady()
-    ? certifiedWasmTriadicCoherencePermille(
-        cw,
-        rule30EntropyScore,
-        playerAttentionPermille,
-        reconciledResidualDissonancePermille,
-      )
-    : Number(
-        CompiledTeleology.stepTriadicPlayerGameObserverCoherencePermille(
-          wNat,
-          entNat,
-          pAttNat,
-          toPrismNat(reconciledResidualDissonancePermille),
-        ),
-      );
+  const solipsisticRule30OnlyCoherencePermille = certifiedWasmTriadicCoherencePermille(
+    cw,
+    rule30EntropyScore,
+    0,
+    rawDissonancePermille,
+  );
+  const triadicPlayerGameObserverCoherencePermille = certifiedWasmTriadicCoherencePermille(
+    cw,
+    rule30EntropyScore,
+    playerAttentionPermille,
+    reconciledResidualDissonancePermille,
+  );
 
   const playerW = Math.min(16, Math.max(1, Math.round((playerAttentionPermille / 1000) * 16)));
   const holonW = Math.min(
@@ -892,13 +884,9 @@ export function runAutonomousHolonSelfOptimization(
   initialWeight = 10,
 ): AutonomousSelfOptimizationCycleResult {
   let reg64 = RULE30_SEED64;
-  const weights: Record<CanonicalStandardModelKey, number> = {} as Record<
-    CanonicalStandardModelKey,
-    number
-  >;
-  for (const k of CANONICAL_22_MODEL_KEYS) {
-    weights[k] = Math.max(1, Math.min(16, Math.round(initialWeight)));
-  }
+  const clampedInit = certifiedWasmCore_clampBusWeight(Math.max(1, Math.round(initialWeight)));
+  const weights = {} as Record<CanonicalStandardModelKey, number>;
+  for (const k of CANONICAL_22_MODEL_KEYS) weights[k] = clampedInit;
 
   const evaluatePortfolio = (
     wMap: Readonly<Record<CanonicalStandardModelKey, number>>,

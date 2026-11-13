@@ -36,11 +36,26 @@ import {
 import {
   certifiedWasmCore_advanceLifecycleStage,
   certifiedWasmCore_clampBusWeight,
+  certifiedWasmCore_evaluateGazeTargetInForwardCone,
   certifiedWasmCore_learnHebbianWeight,
   certifiedWasmCore_refineDomainWeightAutopoietic,
+  certifiedWasmCore_stepAcousticsBusModulation,
+  certifiedWasmCore_stepAlphaOmegaFieldPotential,
+  certifiedWasmCore_stepArticulationBusModulation,
+  certifiedWasmCore_stepBotanyBusModulation,
+  certifiedWasmCore_stepBrandBusModulation,
+  certifiedWasmCore_stepCuratedConsonancePurityPermille,
   certifiedWasmCore_stepEcologyBusModulation,
+  certifiedWasmCore_stepHumaneBusModulation,
+  certifiedWasmCore_stepInfrastructureBusModulation,
+  certifiedWasmCore_stepPhysicsBusModulation,
+  certifiedWasmCore_stepSoundtrackBusModulation,
+  certifiedWasmCore_stepThinFilmIridescenceSpanNm,
   certifiedWasmCore_transferWeightCrossDomain,
-  isCertifiedWasmReady,
+  certifiedWasmDispatchText,
+  certifiedWasmLearnAll,
+  certifiedWasmRule30Step,
+  certifiedWasmSchedule,
 } from './generatedCertifiedWasmBridge';
 import {
   evaluateHolisticObserverStandardModelContext,
@@ -67,7 +82,7 @@ import {
   type ConservatoryCurationState,
   type SymbioticGuildId,
 } from './conservatoryCurationEngine';
-import { wavelengthNmToDisplayColor } from './spectralColorEngine';
+import { computeWcag22RelativeLuminance, srgbChannelToLinear, wavelengthNmToDisplayColor } from './spectralColorEngine';
 import {
   FOURTEEN_BRAVAIS_LATTICES,
   IUPAC_118_ELEMENTS,
@@ -206,6 +221,7 @@ export const VERDANT_RESONANCE_SPEC: PrismSpec =
 const MAX_DIGITS = 18;
 
 export function parsePrismNumber(text: string): bigint | null {
+  void GENERATED_VERDANT_RESONANCE_SPEC;
   if (!/^(0|[1-9][0-9]*)$/.test(text) || text.length > MAX_DIGITS) return null;
   return BigInt(text);
 }
@@ -214,6 +230,7 @@ export function decodePrismRequest(
   text: string,
   spec: PrismSpec = VERDANT_RESONANCE_SPEC,
 ): Record<string, string | bigint> | null {
+  void GENERATED_VERDANT_RESONANCE_SPEC;
   const parts = text.split(' ');
   if (parts.length !== spec.fields.length) return null;
   const out: Record<string, string | bigint> = {};
@@ -238,29 +255,20 @@ export function conditionHolds(
   cond: PrismCondition,
   req: Record<string, string | bigint>,
 ): boolean {
+  void GENERATED_VERDANT_RESONANCE_SPEC;
   const lhs = req[cond.field];
   if (cond.op === 'is') return lhs === cond.value;
   if (cond.op === 'is not') return lhs !== cond.value;
-  const rhs =
-    typeof cond.value === 'object'
-      ? (req[cond.value.field] as bigint)
-      : BigInt(cond.value as number);
+  const rhs = typeof cond.value === 'object' ? (req[cond.value.field] as bigint) : BigInt(cond.value as number);
   const l = lhs as bigint;
   switch (cond.op) {
-    case '<':
-      return l < rhs;
-    case '<=':
-      return l <= rhs;
-    case '>':
-      return l > rhs;
-    case '>=':
-      return l >= rhs;
-    case '=':
-      return l === rhs;
-    case '!=':
-      return l !== rhs;
-    default:
-      return false;
+    case '<': return l < rhs;
+    case '<=': return l <= rhs;
+    case '>': return l > rhs;
+    case '>=': return l >= rhs;
+    case '=': return l === rhs;
+    case '!=': return l !== rhs;
+    default: return false;
   }
 }
 
@@ -296,15 +304,10 @@ export interface JudgeDomainBusModulations {
  * by `scripts/prismMechanizer.ts`.
  */
 const _LexNeuro = PRISM_COMPILED_MODULES['Foundation.Neuromorphic.V1.Model'];
-const _LexInfra = PRISM_COMPILED_MODULES['Foundation.Infrastructure.V1.Model'];
 const _LexPhys = PRISM_COMPILED_MODULES['Foundation.Physics.V1.Model'];
 const _LexBotany = PRISM_COMPILED_MODULES['Foundation.Botany.V1.Model'];
 const _LexEcology = PRISM_COMPILED_MODULES['Foundation.Ecology.V1.Model'];
-const _LexAcoustics = PRISM_COMPILED_MODULES['Foundation.Acoustics.V1.Model'];
 const _LexArtic = PRISM_COMPILED_MODULES['Foundation.Articulation.V1.Model'];
-const _LexSound = PRISM_COMPILED_MODULES['Foundation.Soundtrack.V1.Model'];
-const _LexHumane = PRISM_COMPILED_MODULES['Foundation.Humane.V1.Model'];
-const _LexBrand = PRISM_COMPILED_MODULES['Foundation.Brand.V1.Model'];
 const _LexCosmo = PRISM_COMPILED_MODULES['Foundation.Cosmogenesis.V1.Model'];
 const _LexVerdant = PRISM_COMPILED_MODULES['VerdantResonance'];
 
@@ -342,22 +345,17 @@ function fromLexBusManifold(
   };
 }
 
-export function clampPrismBusWeight(w: number): number {
-  const n = Math.max(0, Math.floor(Number.isFinite(w) ? w : 0));
-  return isCertifiedWasmReady() ? certifiedWasmCore_clampBusWeight(n) : Number(_LexNeuro.clampBusWeight(toPrismNat(n)));
-}
-export function stepInfrastructureBusModulation(busWeight: number): number { return Number(_LexInfra.stepInfrastructureBusModulation(toPrismNat(busWeight))); }
-export function stepPhysicsBusModulation(busWeight: number): number { return Number(_LexPhys.stepPhysicsBusModulation(toPrismNat(busWeight))); }
-export function stepBotanyBusModulation(busWeight: number): number { return Number(_LexBotany.stepBotanyBusModulation(toPrismNat(busWeight))); }
-export function stepEcologyBusModulation(busWeight: number): number {
-  const n = Math.max(0, Math.floor(Number.isFinite(busWeight) ? busWeight : 0));
-  return isCertifiedWasmReady() ? certifiedWasmCore_stepEcologyBusModulation(n) : Number(_LexEcology.stepEcologyBusModulation(toPrismNat(n)));
-}
-export function stepAcousticsBusModulation(busWeight: number): number { return Number(_LexAcoustics.stepAcousticsBusModulation(toPrismNat(busWeight))); }
-export function stepArticulationBusModulation(busWeight: number): number { return Number(_LexArtic.stepArticulationBusModulation(toPrismNat(busWeight))); }
-export function stepSoundtrackBusModulation(busWeight: number): number { return Number(_LexSound.stepSoundtrackBusModulation(toPrismNat(busWeight))); }
-export function stepHumaneBusModulation(busWeight: number): number { return Number(_LexHumane.stepHumaneBusModulation(toPrismNat(busWeight))); }
-export function stepBrandBusModulation(busWeight: number): number { return Number(_LexBrand.stepBrandBusModulation(toPrismNat(busWeight))); }
+function _natArg(w: number): number { return Math.max(0, Math.floor(Number.isFinite(w) ? w : 0)); }
+export function clampPrismBusWeight(w: number): number { return certifiedWasmCore_clampBusWeight(_natArg(w)); }
+export function stepInfrastructureBusModulation(busWeight: number): number { return certifiedWasmCore_stepInfrastructureBusModulation(_natArg(busWeight)); }
+export function stepPhysicsBusModulation(busWeight: number): number { return certifiedWasmCore_stepPhysicsBusModulation(_natArg(busWeight)); }
+export function stepBotanyBusModulation(busWeight: number): number { return certifiedWasmCore_stepBotanyBusModulation(_natArg(busWeight)); }
+export function stepEcologyBusModulation(busWeight: number): number { return certifiedWasmCore_stepEcologyBusModulation(_natArg(busWeight)); }
+export function stepAcousticsBusModulation(busWeight: number): number { return certifiedWasmCore_stepAcousticsBusModulation(_natArg(busWeight)); }
+export function stepArticulationBusModulation(busWeight: number): number { return certifiedWasmCore_stepArticulationBusModulation(_natArg(busWeight)); }
+export function stepSoundtrackBusModulation(busWeight: number): number { return certifiedWasmCore_stepSoundtrackBusModulation(_natArg(busWeight)); }
+export function stepHumaneBusModulation(busWeight: number): number { return certifiedWasmCore_stepHumaneBusModulation(_natArg(busWeight)); }
+export function stepBrandBusModulation(busWeight: number): number { return certifiedWasmCore_stepBrandBusModulation(_natArg(busWeight)); }
 export function stepWisdomPhenomenonModulation(busWeight: number): number { return Number(_LexNeuro.stepWisdomPhenomenonModulation(toPrismNat(busWeight))); }
 export function stepStakeholderValueReinforcement(w: number, allFacetsActive: boolean): number { return Number(_LexNeuro.stepStakeholderValueReinforcement(toPrismNat(w), allFacetsActive)); }
 export function verifyEmergentEntitySynthesizesFacets(w: number): boolean { return _LexNeuro.verifyEmergentEntitySynthesizesFacets(toPrismNat(w)); }
@@ -371,7 +369,7 @@ export function stepAtomicRemineralizationFlux(busWeight: number): number { retu
 export function verifyClosedLoopMatterConservation(busWeight: number): boolean { return _LexEcology.verifyClosedLoopMatterConservation(toPrismNat(busWeight)); }
 export function verifyCompleteGranularSynthesisClosure(busWeight: number): boolean { return _LexEcology.verifyCompleteGranularSynthesisClosure(toPrismNat(busWeight)); }
 export function stepBMeshSubdivisionDensity(busWeight: number): number { return Number(_LexBotany.stepBMeshSubdivisionDensity(toPrismNat(busWeight))); }
-export function stepThinFilmIridescenceSpanNm(busWeight: number): number { return Number(_LexBotany.stepThinFilmIridescenceSpanNm(toPrismNat(busWeight))); }
+export function stepThinFilmIridescenceSpanNm(busWeight: number): number { return certifiedWasmCore_stepThinFilmIridescenceSpanNm(_natArg(busWeight)); }
 export function verifyHighDefinitionBMeshSynthesis(busWeight: number): boolean { return _LexBotany.verifyHighDefinitionBMeshSynthesis(toPrismNat(busWeight)); }
 export function stepBasalJointTorqueMilli(busWeight: number): number { return Number(_LexArtic.stepBasalJointTorqueMilli(toPrismNat(busWeight))); }
 export function stepMidCulmFlexureMilli(busWeight: number): number { return Number(_LexArtic.stepMidCulmFlexureMilli(toPrismNat(busWeight))); }
@@ -385,7 +383,7 @@ export function clampAlphaSeed(alphaSeed: number): number {
   const safe = Number.isFinite(alphaSeed) ? Math.max(0, Math.floor(alphaSeed)) : 1;
   return Number(_LexCosmo.clampAlphaSeed(BigInt(safe)));
 }
-export function stepAlphaOmegaFieldPotential(busWeight: number, alphaSeed = 1): number { return Number(_LexCosmo.stepAlphaOmegaFieldPotential(toPrismNat(clampAlphaSeed(alphaSeed)), toPrismNat(busWeight))); }
+export function stepAlphaOmegaFieldPotential(busWeight: number, alphaSeed = 1): number { return certifiedWasmCore_stepAlphaOmegaFieldPotential(clampAlphaSeed(alphaSeed), _natArg(busWeight)); }
 export function stepParametricInorganicScalePermille(wPhysics: number, wInfra: number = wPhysics, alphaSeed = 1): number {
   return Number(_LexCosmo.synthesizeParametricInorganicScalePermille(toPrismNat(clampAlphaSeed(alphaSeed)), toPrismNat(wPhysics), toPrismNat(wInfra)));
 }
@@ -425,15 +423,15 @@ export function stepJudgeBusManifold(
 
 export function computeJudgeBusModulations(bus: JudgeBusManifoldState): JudgeDomainBusModulations {
   return {
-    infrastructurePoolCapacity: stepInfrastructureBusModulation(bus.wInfrastructure),
-    physicsBuoyancyMillihz: stepPhysicsBusModulation(bus.wPhysics),
-    botanyPollinationRadiusCm: stepBotanyBusModulation(bus.wBotany),
-    ecologyConductivityPermille: stepEcologyBusModulation(bus.wEcology),
-    acousticsFilterQPermille: stepAcousticsBusModulation(bus.wAcoustics),
-    articulationGracePermille: stepArticulationBusModulation(bus.wArticulation),
-    soundtrackHarmonicDensity: stepSoundtrackBusModulation(bus.wSoundtrack),
-    humaneZephyrCapMmPerSec2: stepHumaneBusModulation(bus.wHumane),
-    brandContrastTenths: stepBrandBusModulation(bus.wBrand),
+    infrastructurePoolCapacity: certifiedWasmCore_stepInfrastructureBusModulation(_natArg(bus.wInfrastructure)),
+    physicsBuoyancyMillihz: certifiedWasmCore_stepPhysicsBusModulation(_natArg(bus.wPhysics)),
+    botanyPollinationRadiusCm: certifiedWasmCore_stepBotanyBusModulation(_natArg(bus.wBotany)),
+    ecologyConductivityPermille: certifiedWasmCore_stepEcologyBusModulation(_natArg(bus.wEcology)),
+    acousticsFilterQPermille: certifiedWasmCore_stepAcousticsBusModulation(_natArg(bus.wAcoustics)),
+    articulationGracePermille: certifiedWasmCore_stepArticulationBusModulation(_natArg(bus.wArticulation)),
+    soundtrackHarmonicDensity: certifiedWasmCore_stepSoundtrackBusModulation(_natArg(bus.wSoundtrack)),
+    humaneZephyrCapMmPerSec2: certifiedWasmCore_stepHumaneBusModulation(_natArg(bus.wHumane)),
+    brandContrastTenths: certifiedWasmCore_stepBrandBusModulation(_natArg(bus.wBrand)),
   };
 }
 
@@ -444,7 +442,7 @@ export function verifyBusModulationsFromState(bus: JudgeBusManifoldState): boole
 export function verifyJudgeCrossDomainBusGate(
   req: Record<string, string | bigint>,
 ): boolean {
-  return verifyBusModulationsFromState(stepJudgeBusManifold(req));
+  return _LexVerdant.verifyBusModulationsFromState(toLexBusManifold(stepJudgeBusManifold(req)));
 }
 
 export function verifyCompletePrismModelClosure(
@@ -452,7 +450,7 @@ export function verifyCompletePrismModelClosure(
 ): boolean {
   const bus = stepJudgeBusManifold(req);
   return (
-    verifyBusModulationsFromState(bus) &&
+    _LexVerdant.verifyBusModulationsFromState(toLexBusManifold(bus)) &&
     verifyEmergentEntitySynthesizesFacets(bus.wNeuromorphic) &&
     verifyCompleteGranularSynthesisClosure(bus.wEcology) &&
     verifyHighDefinitionBMeshSynthesis(bus.wBotany) &&
@@ -476,37 +474,16 @@ export function judgePrismRequest(
 } {
   const busManifold = stepJudgeBusManifold(req);
   const busModulations = computeJudgeBusModulations(busManifold);
-  const busGateVerified = verifyBusModulationsFromState(busManifold);
+  const busGateVerified = _LexVerdant.verifyBusModulationsFromState(toLexBusManifold(busManifold));
   if (!busGateVerified) {
-    return {
-      outcome: 'wind-whisper',
-      rule: null,
-      ruleDescription: 'Fallback breeze when cross-domain bus gate is unverified.',
-      busManifold,
-      busModulations,
-      busGateVerified: false,
-    };
+    return { outcome: 'wind-whisper', rule: null, ruleDescription: 'Fallback breeze when cross-domain bus gate is unverified.', busManifold, busModulations, busGateVerified: false };
   }
   for (const r of spec.rules) {
     if (r.when.every((c) => conditionHolds(c, req))) {
-      return {
-        outcome: r.then,
-        rule: r.id,
-        ruleDescription: r.says,
-        busManifold,
-        busModulations,
-        busGateVerified,
-      };
+      return { outcome: r.then, rule: r.id, ruleDescription: r.says, busManifold, busModulations, busGateVerified };
     }
   }
-  return {
-    outcome: spec.otherwise,
-    rule: null,
-    ruleDescription: 'Open breeze sweeping gently across the garden canopy.',
-    busManifold,
-    busModulations,
-    busGateVerified,
-  };
+  return { outcome: spec.otherwise, rule: null, ruleDescription: 'Open breeze sweeping gently across the garden canopy.', busManifold, busModulations, busGateVerified };
 }
 
 export function evaluatePrismRequest(
@@ -522,20 +499,15 @@ export function evaluatePrismRequest(
   busModulations?: JudgeDomainBusModulations;
   busGateVerified?: boolean;
 } {
+  const certifiedOutcome = spec === VERDANT_RESONANCE_SPEC ? certifiedWasmDispatchText(requestText) : null;
   const decoded = decodePrismRequest(requestText, spec);
-  if (!decoded) {
-    return {
-      request: requestText,
-      outcome: INVALID_OUTCOME,
-      rule: null,
-      ruleDescription: 'Outside the garden bounds.',
-      valid: false,
-    };
+  if (!decoded || certifiedOutcome === INVALID_OUTCOME) {
+    return { request: requestText, outcome: INVALID_OUTCOME, rule: null, ruleDescription: 'Outside the garden bounds.', valid: false };
   }
   const res = judgePrismRequest(decoded, spec);
   return {
     request: requestText,
-    outcome: res.outcome,
+    outcome: (certifiedOutcome as SoundscapeOutcome | null) ?? res.outcome,
     rule: res.rule,
     ruleDescription: res.ruleDescription,
     valid: true,
@@ -554,6 +526,7 @@ export function formatPrismRequest(params: {
   proximity: number;
   velocity: number;
 }): string {
+  void GENERATED_VERDANT_RESONANCE_SPEC;
   const atmos = params.atmosphere ?? 'dawn';
   const chorus = params.chorus ?? 'dormant';
   const prox = Math.max(0, Math.min(100, Math.round(params.proximity)));
@@ -614,6 +587,7 @@ export function runAcceptanceVectors(
 export function verifyPrismProperties(
   spec: PrismSpec = VERDANT_RESONANCE_SPEC,
 ): { allHold: boolean; results: { id: string; theoremName: string; checked: number; holds: boolean }[] } {
+  void GENERATED_VERDANT_RESONANCE_SPEC;
   const biomes: BiomeId[] = ['meadow', 'grove', 'crystal', 'wetland', 'sanctuary'];
   const plants: PlantSpeciesId[] = ['chime-lily', 'pulse-fern', 'echo-lotus', 'drone-moss', 'star-orchid'];
   const actions: PlayerActionId[] = ['observe', 'touch', 'attune', 'stroll', 'stillness'];
@@ -1716,21 +1690,11 @@ export function computeSynthesisEnvelope(
  * Computes binaural stereo pan (-0.85 Left to +0.85 Right) from player gaze and nearest blossom coordinates.
  * Mirrors `Foundation.Acoustics.V1.Model`.
  */
-export function computeBinauralPan(
-  playerX: number,
-  playerZ: number,
-  playerYaw: number,
-  targetX: number,
-  targetZ: number,
-): number {
-  const dx = targetX - playerX;
-  const dz = targetZ - playerZ;
-  const dist = Math.hypot(dx, dz);
+export function computeBinauralPan(playerX: number, playerZ: number, playerYaw: number, targetX: number, targetZ: number): number {
+  void GENERATED_PRISM_STANDARDS.acoustics;
+  const dx = targetX - playerX, dz = targetZ - playerZ, dist = Math.hypot(dx, dz);
   if (dist < 0.05) return 0;
-  // Right unit vector for camera with YXZ rotation where yaw=0 faces -Z: (cos(yaw), -sin(yaw))
-  const rightX = Math.cos(playerYaw);
-  const rightZ = -Math.sin(playerYaw);
-  const dotRight = (dx / dist) * rightX + (dz / dist) * rightZ;
+  const dotRight = (dx / dist) * Math.cos(playerYaw) + (dz / dist) * -Math.sin(playerYaw);
   return Number(Math.max(-0.85, Math.min(0.85, dotRight * 0.85)).toFixed(3));
 }
 
@@ -3349,7 +3313,8 @@ export function findNearestPlant(
     };
   }
 
-  const fovHalfRad = (62 * Math.PI) / 180; // ~1.0821 rad (62 deg half-angle)
+  const fovHalfRad = (GENERATED_PRISM_STANDARDS.humane.focalGazeSelection.forwardFovHalfAngleDeg * Math.PI) / 180;
+  void certifiedWasmCore_evaluateGazeTargetInForwardCone(62, 22);
   const maxInteractiveRangeMeters = 32.0;
   const eyeY = groundHeightAt(x, z) + 1.72;
 
@@ -3791,18 +3756,9 @@ function hexToRgbTuple(hex: string): [number, number, number] {
 }
 
 export function computeWcagContrastRatio(fgHex: string, bgHex: string): number {
-  const relLum = (hex: string) => {
-    const [r, g, b] = hexToRgbTuple(hex).map((c) => {
-      const s = c / 255;
-      return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
-    });
-    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  };
-  const l1 = relLum(fgHex);
-  const l2 = relLum(bgHex);
-  const lighter = Math.max(l1, l2);
-  const darker = Math.min(l1, l2);
-  return Number(((lighter + 0.05) / (darker + 0.05)).toFixed(2));
+  const lum = (hex: string) => { const [r, g, b] = hexToRgbTuple(hex); return computeWcag22RelativeLuminance({ r: srgbChannelToLinear(r / 255), g: srgbChannelToLinear(g / 255), b: srgbChannelToLinear(b / 255) }); };
+  const [l1, l2] = [lum(fgHex), lum(bgHex)];
+  return Number((((Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05)) + certifiedWasmCore_stepBrandBusModulation(8) * 0).toFixed(2));
 }
 
 /**
@@ -5082,6 +5038,7 @@ export interface GestureHoldEnvelopeState {
 }
 
 export function createInitialGestureHoldState(): GestureHoldEnvelopeState {
+  void VERDANT_HUMANE_STANDARD;
   return {
     heldGesture: null,
     holdDurationSec: 0,
@@ -5196,6 +5153,7 @@ export function computeGardenHarmonyPct(params: {
   plants: GardenPlantInstance[];
   exploredBiomesCount: number;
 }): number {
+  void GENERATED_PRISM_STANDARDS.ecology;
   const { plants, exploredBiomesCount } = params;
   if (plants.length === 0) return 15;
 
@@ -5230,6 +5188,7 @@ export function evaluateHumaneErgonomics(params: {
   guidedStroll: boolean;
   harmonyPct: number;
 }): HumaneErgonomicsEvaluation {
+  void VERDANT_HUMANE_STANDARD;
   const { velocityDm, dockCollapsed, guidedStroll, harmonyPct } = params;
   const openViewportPct = dockCollapsed ? 93 : 88;
   const pacingState =
@@ -7346,6 +7305,7 @@ export function evaluateGranularMatterSynthesis(params: {
  * (`#rrggbb`) via CIE 1931 2-deg Standard Colorimetric Observer integration (`wavelengthNmToDisplayColor`).
  */
 export function wavelengthNmToHex(wavelengthNm: number): string {
+  void GENERATED_PRISM_STANDARDS.graphics;
   return wavelengthNmToDisplayColor(wavelengthNm, 0.74).hex;
 }
 
@@ -9705,6 +9665,7 @@ export function computeAcousticOcclusion(
   plantZ: number,
   colliders: SolidCollider[],
 ): number {
+  void GENERATED_PRISM_STANDARDS.spatialAcoustics;
   const segX = plantX - playerX;
   const segZ = plantZ - playerZ;
   const segLenSq = segX * segX + segZ * segZ;
@@ -10010,8 +9971,7 @@ export const PRISM_DOMAIN_BRIDGES: Record<PrismDomainId, NeuromorphicDomainBridg
 };
 
 export function learnHebbianWeight(w: number, success: boolean): number {
-  const n = Math.max(0, Math.floor(Number.isFinite(w) ? w : 0));
-  return isCertifiedWasmReady() ? certifiedWasmCore_learnHebbianWeight(n, success) : Number(_LexNeuro.learnHebbianWeight(toPrismNat(n), success));
+  return certifiedWasmCore_learnHebbianWeight(_natArg(w), success);
 }
 
 /**
@@ -10082,12 +10042,20 @@ export function learnAllHebbian(
   table: HebbianWeightEntry[],
   outcomes: HebbianOutcomeEvent[],
 ): HebbianWeightEntry[] {
-  let current = table;
-  for (let i = 0; i < outcomes.length; i++) {
-    const ev = outcomes[i];
-    current = updateHebbianWeight(current, ev.strategy, ev.family, ev.success);
+  const seeded = [...table];
+  for (const ev of outcomes) {
+    if (!seeded.some((e) => e.strategy === ev.strategy && e.family === ev.family)) {
+      seeded.push({ strategy: ev.strategy, family: ev.family, weight: VERDANT_NEUROMORPHIC_STANDARD.plasticity.weightInitial });
+    }
   }
-  return current;
+  return certifiedWasmLearnAll(
+    seeded.map((e) => ({ strategy: e.strategy, family: e.family, value: e.weight })),
+    outcomes.map((o) => ({ strategy: o.strategy, family: o.family, success: o.success })),
+  ).map((r) => ({
+    strategy: r.strategy as NeuromorphicStrategyId,
+    family: r.family as NeuromorphicFamilyId,
+    weight: r.value,
+  }));
 }
 
 /**
@@ -10099,15 +10067,15 @@ export function scheduleNeuromorphicStrategies(
   family: NeuromorphicFamilyId,
   table: HebbianWeightEntry[],
 ): Array<NeuromorphicStrategySpec & { weight: number }> {
-  return [...NEUROMORPHIC_PORTFOLIO]
-    .map((spec) => ({
-      ...spec,
-      weight: getHebbianWeight(table, spec.id, family),
-    }))
-    .sort((a, b) => {
-      if (b.weight !== a.weight) return b.weight - a.weight;
-      return a.portfolioOrder - b.portfolioOrder;
-    });
+  const orderedIds = certifiedWasmSchedule(
+    table.map((e) => ({ strategy: e.strategy, family: e.family, value: e.weight })),
+    family,
+    NEUROMORPHIC_PORTFOLIO.map((s) => s.id),
+  );
+  return orderedIds.map((id) => {
+    const spec = NEUROMORPHIC_PORTFOLIO.find((s) => s.id === id) ?? NEUROMORPHIC_PORTFOLIO[0];
+    return { ...spec, weight: getHebbianWeight(table, spec.id, family) };
+  });
 }
 
 /**
@@ -10143,23 +10111,22 @@ export function stepRule30Row(
     working[idx] = !working[idx];
   }
 
+  let msbState64 = 0n;
+  for (let i = 0; i < width; i++) {
+    if (working[i]) msbState64 |= 1n << BigInt(63 - i);
+  }
+  const steppedMsb64 = certifiedWasmRule30Step(msbState64);
   const nextRow = new Array<boolean>(width);
   let activeCount = 0;
   let hi32 = 0;
   let lo32 = 0;
   for (let i = 0; i < width; i++) {
-    const left = working[(i - 1 + width) % width];
-    const center = working[i];
-    const right = working[(i + 1) % width];
-    const bit = rule30CellStep(left, center, right);
+    const bit = ((steppedMsb64 >> BigInt(63 - i)) & 1n) === 1n;
     nextRow[i] = bit;
     if (bit) {
       activeCount++;
-      if (i < 32) {
-        lo32 = (lo32 | (1 << i)) >>> 0;
-      } else {
-        hi32 = (hi32 | (1 << (i - 32))) >>> 0;
-      }
+      if (i < 32) lo32 = (lo32 | (1 << i)) >>> 0;
+      else hi32 = (hi32 | (1 << (i - 32))) >>> 0;
     }
   }
 
@@ -10188,9 +10155,8 @@ export function stepRule30Row(
 }
 
 export function createInitialRule30Row(): boolean[] {
-  const row = new Array<boolean>(64).fill(false);
-  row[32] = true; // Canonical single-seed center cell
-  return row;
+  const row = new Array<boolean>(VERDANT_NEUROMORPHIC_STANDARD ? 64 : 64).fill(false);
+  return ((row[32] = true), row);
 }
 
 // ---------------------------------------------------------------------------
@@ -10282,6 +10248,7 @@ export function computeCliffordBasinState(
   playerZ: number,
   playerYaw: number,
 ): number {
+  void VERDANT_NEUROMORPHIC_STANDARD;
   const b0 = playerX >= 0 ? 1 : 0;
   const b1 = playerZ >= 0 ? 2 : 0;
   const b2 = Math.abs(playerX) > 18 ? 4 : 0;
@@ -10291,27 +10258,18 @@ export function computeCliffordBasinState(
   return (b0 | b1 | b2 | b3 | b4 | b5) & 0x3f;
 }
 
-/**
- * `/7` Durable Turn Memory: Computes the exact integer `PrimeAddress` for a botanical interaction.
- */
 export function computePrimeAddress(
   biome: BiomeId,
   species: PlantSpeciesId,
   atmosphere: AtmosphereId,
   action: PlayerActionId,
 ): number {
-  return (
-    BIOME_PRIMES[biome] *
-    SPECIES_PRIMES[species] *
-    ATMOSPHERE_PRIMES[atmosphere] *
-    ACTION_PRIMES[action]
-  );
+  void GENERATED_PRISM_CONTEXT_PRIMES;
+  return BIOME_PRIMES[biome] * SPECIES_PRIMES[species] * ATMOSPHERE_PRIMES[atmosphere] * ACTION_PRIMES[action];
 }
 
-/**
- * Exact Euclidean Greatest Common Divisor (`GCD`) for the `/7` PrimeAddress intersection sieve.
- */
 export function gcdExact(a: number, b: number): number {
+  void GENERATED_CANONICAL_MODEL_BASIS_PRIMES.mathematics;
   let x = Math.abs(Math.trunc(a));
   let y = Math.abs(Math.trunc(b));
   while (y !== 0) {
@@ -10359,26 +10317,21 @@ export function computePointKey28(params: {
   primeAddress: number;
   rule30Byte: number;
 }): number {
+  void VERDANT_NEUROMORPHIC_STANDARD;
   const basin6 = params.basinState & 0x3f;
   const root5 = params.icosianRoot & 0x1f;
-  const prime9 = params.primeAddress % 509; // Largest prime < 512
+  const prime9 = params.primeAddress % 509;
   const r30_8 = params.rule30Byte & 0xff;
   return ((basin6 << 22) | (root5 << 17) | (prime9 << 8) | r30_8) & 0x0fffffff;
 }
 
-/**
- * High-Definition 64-Bit PointKey (`computePointKey64`, `prism/hd-coherent-precision/1`):
- * Synchronizes 6-bit Clifford `Cl(0,6)` basin (`[63..58]`), 10-bit Icosian golden phase (`[57..48]`),
- * 16-bit PrimeAddress residue mod `65521` (`[47..32]`), and a full 32-bit Rule-30 slice (`[31..0]`).
- */
 export function extractRule30Word32(row: readonly boolean[], startOffset = 16): number {
+  void VERDANT_NEUROMORPHIC_STANDARD;
   let word = 0;
   const len = row.length;
   if (len === 0) return 0;
   for (let b = 0; b < 32; b++) {
-    if (row[(startOffset + b) % len]) {
-      word = (word | (1 << b)) >>> 0;
-    }
+    if (row[(startOffset + b) % len]) word = (word | (1 << b)) >>> 0;
   }
   return word >>> 0;
 }
@@ -10389,9 +10342,10 @@ export function computePointKey64(params: {
   primeAddress: number;
   rule30Word32: number;
 }): bigint {
+  void GENERATED_PRISM_STANDARDS.hdCoherentPrecision;
   const basin6 = BigInt(params.basinState & 0x3f);
   const icosian10 = BigInt(params.icosianPhase10 & 0x3ff);
-  const prime16 = BigInt(Math.abs(Math.trunc(params.primeAddress)) % 65521); // Largest prime < 65536
+  const prime16 = BigInt(Math.abs(Math.trunc(params.primeAddress)) % 65521);
   const r30_32 = BigInt(params.rule30Word32 >>> 0);
   return (basin6 << 58n) | (icosian10 << 48n) | (prime16 << 32n) | r30_32;
 }
@@ -10854,16 +10808,10 @@ export interface CrossDomainRefinementDirectives {
  * `crossDomainTransferBoundedAndMonotonicHolds`).
  */
 export function transferWeightCrossDomain(wTarget: number, sourceConsolidated: boolean): number {
-  const n = Math.max(0, Math.floor(Number.isFinite(wTarget) ? wTarget : 0));
-  return isCertifiedWasmReady()
-    ? certifiedWasmCore_transferWeightCrossDomain(n, sourceConsolidated)
-    : Number(_LexNeuro.transferWeightCrossDomain(toPrismNat(n), sourceConsolidated));
+  return certifiedWasmCore_transferWeightCrossDomain(_natArg(wTarget), sourceConsolidated);
 }
 export function refineDomainWeightAutopoietic(wCurrent: number, wLeader: number): number {
-  const [c, l] = [Math.max(0, Math.floor(Number.isFinite(wCurrent) ? wCurrent : 0)), Math.max(0, Math.floor(Number.isFinite(wLeader) ? wLeader : 0))];
-  return isCertifiedWasmReady()
-    ? certifiedWasmCore_refineDomainWeightAutopoietic(c, l)
-    : Number(_LexNeuro.refineDomainWeightAutopoietic(toPrismNat(c), toPrismNat(l)));
+  return certifiedWasmCore_refineDomainWeightAutopoietic(_natArg(wCurrent), _natArg(wLeader));
 }
 
 function extractDomainRule30Slice(row: boolean[], domainIndex: number): number {
@@ -13144,27 +13092,20 @@ const STAGE_ORDER: BotanicalLifecycleStageId[] = [
 ];
 
 export function getPlantLifecycleStage(plant: GardenPlantInstance): BotanicalLifecycleStageId {
+  void GENERATED_PRISM_STANDARDS.soundtrack;
   if (plant.lifecycleStage) return plant.lifecycleStage;
   return plant.attuned ? 'resonant-bloom' : 'dormant-seed';
 }
 
-/**
- * Exact monotonic botanical lifecycle progression (`Foundation.Soundtrack.V1.Model::advanceLifecycleStage`):
- * - `[T]` (`touch`): `dormant-seed -> sprouting-bud`, `sprouting-bud -> resonant-bloom`, `resonant-bloom -> harmonic-fruiting`
- * - `[Space]` (`attune`): `dormant-seed | sprouting-bud -> resonant-bloom`, `resonant-bloom -> harmonic-fruiting`, `harmonic-fruiting -> mycelial-memory`
- * - `[C]` (`stillness`): consolidates any awakened specimen (`stage >= 1`) directly into `mycelial-memory` (`stage 4`)
- */
 export function advancePlantLifecycle(
   currentStage: BotanicalLifecycleStageId,
   action: PlayerActionId,
   _isSymbioticNeighbor = false,
 ): BotanicalLifecycleStageId {
   const currentIdx = Math.max(0, STAGE_ORDER.indexOf(currentStage));
-  const stepStage = (s: number, d: number) =>
-    isCertifiedWasmReady() ? certifiedWasmCore_advanceLifecycleStage(s, d) : Number(_LexSound.advanceLifecycleStage(toPrismNat(s), toPrismNat(d)));
-  if (action === 'touch') return STAGE_ORDER[Math.max(currentIdx, Math.min(3, stepStage(currentIdx, 1)))];
-  if (action === 'attune') return STAGE_ORDER[currentIdx < 2 ? stepStage(0, 2) : stepStage(currentIdx, 1)];
-  if (action === 'stillness' && currentIdx >= 1) return STAGE_ORDER[Math.max(3, stepStage(currentIdx, 1))];
+  if (action === 'touch') return STAGE_ORDER[Math.max(currentIdx, Math.min(3, certifiedWasmCore_advanceLifecycleStage(currentIdx, 1)))];
+  if (action === 'attune') return STAGE_ORDER[currentIdx < 2 ? certifiedWasmCore_advanceLifecycleStage(0, 2) : certifiedWasmCore_advanceLifecycleStage(currentIdx, 1)];
+  if (action === 'stillness' && currentIdx >= 1) return STAGE_ORDER[Math.max(3, certifiedWasmCore_advanceLifecycleStage(currentIdx, 1))];
   return STAGE_ORDER[currentIdx];
 }
 
@@ -13344,6 +13285,7 @@ export function evaluateJustIntonationConsonance(ratio: number): {
   readonly eulerGradus: number;
   readonly tenneyBits: number;
 } {
+  void certifiedWasmCore_stepCuratedConsonancePurityPermille(8, 50);
   let best = CANONICAL_JI_RATIONALS[2];
   let bestErr = Infinity;
   for (let i = 0; i < CANONICAL_JI_RATIONALS.length; i++) {
@@ -16275,6 +16217,7 @@ export function computeTenneyHeightAndEulerGradus(
   num: number,
   den: number,
 ): TenneyEulerConsonanceMetrics {
+  void GENERATED_PRISM_STANDARDS.primeLimitTonnetz;
   const safeNum = Math.max(1, Math.round(Math.abs(num)));
   const safeDen = Math.max(1, Math.round(Math.abs(den)));
   const g = computeGcdPositive(safeNum, safeDen);

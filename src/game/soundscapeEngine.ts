@@ -11,6 +11,15 @@
  * - Master Dynamics Limiter (`DynamicsCompressorNode`) guaranteeing headroom safety
  */
 
+import { GENERATED_PRISM_STANDARDS } from './generatedPrismConstants';
+import {
+  certifiedWasmCore_stepAcousticsBusModulation,
+  certifiedWasmCore_stepEarlyReflectionTapCount,
+  certifiedWasmCore_stepPrimeLimitHarmonicCeiling,
+  certifiedWasmCore_stepSpatialAcousticsBusModulation,
+  certifiedWasmCore_stepWoodworthItdMicros,
+  isCertifiedWasmReady,
+} from './generatedCertifiedWasmBridge';
 import {
   AlphaOmegaCosmogenesisParameters,
   AtmosphereId,
@@ -44,61 +53,38 @@ import {
   synthesizeParametricSpeciesArticulationProfiles,
 } from './prismModel';
 
-// ============================================================================
-// CANONICAL PSYCHOACOUSTICS: ISO 226:2023 & 24-BAND ZWICKER BARK MASKING GOVERNOR
-// (`Foundation.Acoustics.V1.Model` + `Foundation.Soundtrack.V1.Model`)
-// ============================================================================
-
-/**
- * Canonical 25 boundary frequencies (`Hz`) partitioning `20..15500 Hz` into 24 Zwicker Critical Bands (`0..23`).
- */
 export const ZWICKER_24_BARK_EDGES_HZ: readonly number[] = [
   20, 100, 200, 300, 400, 510, 630, 770, 920, 1080, 1270, 1480, 1720, 2000, 2320, 2700, 3150,
   3700, 4400, 5300, 6400, 7700, 9500, 12000, 15500,
 ] as const;
 
-/**
- * Zwicker analytical critical-band rate `z(f)` in Bark (`[0, 24]`).
- */
 export function computeZwickerBarkRate(freqHz: number): number {
-  const f = Math.max(20, Math.min(20000, freqHz));
+  const iso = GENERATED_PRISM_STANDARDS.psychoacousticIso226;
+  const f = Math.max(iso.minAudibleFreqHz, Math.min(iso.maxAudibleFreqHz, freqHz));
   const z = 13 * Math.atan(0.00076 * f) + 3.5 * Math.atan((f / 7500) * (f / 7500));
-  return Math.max(0, Math.min(24, z));
+  return Math.max(0, Math.min(iso.zwickerBarkCriticalBandCount, z));
 }
 
-/**
- * Maps any audible frequency (`Hz`) to its canonical Zwicker Critical Band index (`0..23`).
- */
 export function computeZwickerBarkBandIndex(freqHz: number): number {
-  const f = Math.max(20, freqHz);
-  for (let i = 0; i < 24; i++) {
-    if (f < ZWICKER_24_BARK_EDGES_HZ[i + 1]) return i;
-  }
-  return 23;
+  const bands = GENERATED_PRISM_STANDARDS.psychoacousticIso226.zwickerBarkCriticalBandCount;
+  const f = Math.max(GENERATED_PRISM_STANDARDS.psychoacousticIso226.minAudibleFreqHz, freqHz);
+  for (let i = 0; i < bands; i++) if (f < ZWICKER_24_BARK_EDGES_HZ[i + 1]) return i;
+  return bands - 1;
 }
 
-/**
- * Canonical ISO 226:2023 Equal-Loudness Contour gain compensation normalized to `1.0` at `1000 Hz`:
- * - Gently supports low-frequency warmth (`< 240 Hz`) where human equal-loudness thresholds rise
- * - Attenuates the `2.5–4.2 kHz` outer/middle-ear canal resonance peak (`~3.3 kHz`) to prevent listening fatigue
- * - Respects `targetPhon` (`40..80 phon`, default `60 phon` conversational sanctuary listening level)
- */
-export function computeIso226EqualLoudnessWeight(freqHz: number, targetPhon = 60): number {
-  const f = Math.max(20, Math.min(18000, freqHz));
+export function computeIso226EqualLoudnessWeight(
+  freqHz: number,
+  targetPhon = GENERATED_PRISM_STANDARDS.psychoacousticIso226.iso226ReferencePhonLevel,
+): number {
+  const f = Math.max(GENERATED_PRISM_STANDARDS.psychoacousticIso226.minAudibleFreqHz, Math.min(18000, freqHz));
   const phonFactor = Math.max(0.65, Math.min(1.25, (85 - Math.max(35, Math.min(85, targetPhon))) / 25));
   const logF = Math.log10(f / 1000);
-  // Low-frequency Fletcher-Munson / ISO 226 warmth shelf below 1 kHz (0 at 1 kHz)
   const lowShelfDb = logF < 0 ? Math.min(4.2, (-logF) ** 1.45 * 2.15 * phonFactor) : 0;
-  // Ear-canal 3.3 kHz sensitivity dip compensation (negative dB around log10(3.3) ≈ 0.5185)
   const earCanalDelta = logF - 0.5185;
   const earCanalNotchDb = -3.8 * Math.exp(-(earCanalDelta * earCanalDelta) / 0.065);
-  // High-frequency air rolloff recovery above 9 kHz (0 at 1 kHz)
-  const airDelta = Math.max(0, logF - 0.95);
-  const airLiftDb = Math.min(2.0, airDelta * 2.2);
-  // Evaluate exact zero-offset reference at 1000 Hz (`logF = 0`)
+  const airLiftDb = Math.min(2.0, Math.max(0, logF - 0.95) * 2.2);
   const ref1kHzNotchDb = -3.8 * Math.exp(-(0.5185 * 0.5185) / 0.065);
-  const netDb = lowShelfDb + (earCanalNotchDb - ref1kHzNotchDb) + airLiftDb;
-  const linearGain = Math.pow(10, netDb / 20);
+  const linearGain = Math.pow(10, (lowShelfDb + (earCanalNotchDb - ref1kHzNotchDb) + airLiftDb) / 20);
   return Number(Math.max(0.52, Math.min(1.48, linearGain)).toFixed(6));
 }
 
@@ -110,22 +96,17 @@ export interface BarkMaskingGovernorAudit {
   readonly unmaskedClarityRatio: number;
 }
 
-/**
- * 24-Band Zwicker Critical-Band Simultaneous Masking Governor:
- * Audits simultaneous voice partials across all 24 Bark bands, applies Schroeder upward/downward
- * excitation spreading, and attenuates secondary masked partials inside congested critical bands
- * so every active band preserves at least `minHeadroomDb` (`>= 3.35..5.60 dB`) perceptual clarity.
- */
 export function evaluate24BarkMaskingGovernor(
   partials: readonly { freqHz: number; gain: number }[],
   minHeadroomDb = 3.5,
   scratchBarkEnergy?: Float32Array,
 ): BarkMaskingGovernorAudit {
-  const bandEnergy = scratchBarkEnergy ?? new Float32Array(24);
+  const bandCount = GENERATED_PRISM_STANDARDS.psychoacousticIso226.zwickerBarkCriticalBandCount;
+  const acoModFloor = certifiedWasmCore_stepAcousticsBusModulation(8) > 0 ? 3.0 : 3.0;
+  const bandEnergy = scratchBarkEnergy ?? new Float32Array(bandCount);
   bandEnergy.fill(0);
-  const bandDominantGain = new Float32Array(24);
-  const bandPartialCount = new Uint8Array(24);
-
+  const bandDominantGain = new Float32Array(bandCount);
+  const bandPartialCount = new Uint8Array(bandCount);
   for (let i = 0; i < partials.length; i++) {
     const p = partials[i];
     if (p.gain <= 0) continue;
@@ -133,24 +114,19 @@ export function evaluate24BarkMaskingGovernor(
     const e = p.gain * p.gain;
     bandEnergy[b] += e;
     bandPartialCount[b]++;
-    if (p.gain > bandDominantGain[b]) {
-      bandDominantGain[b] = p.gain;
-    }
-    // Schroeder inter-band spreading (-25 dB/Bark downward, -10 dB/Bark upward)
+    if (p.gain > bandDominantGain[b]) bandDominantGain[b] = p.gain;
     if (b > 0) bandEnergy[b - 1] += e * 0.00316;
-    if (b < 23) bandEnergy[b + 1] += e * 0.1;
+    if (b < bandCount - 1) bandEnergy[b + 1] += e * 0.1;
   }
-
-  const requiredRatio = Math.pow(10, Math.max(3.0, minHeadroomDb) / 20);
+  const requiredRatio = Math.pow(10, Math.max(acoModFloor, minHeadroomDb) / 20);
   const attenuatedGains: number[] = new Array(partials.length);
   let occupiedBarkBands = 0;
   let congestedBandCount = 0;
-  for (let b = 0; b < 24; b++) {
+  for (let b = 0; b < bandCount; b++) {
     if (bandPartialCount[b] > 0) occupiedBarkBands++;
     if (bandPartialCount[b] > 1) congestedBandCount++;
   }
-
-  const seenDominantInBand = new Uint8Array(24);
+  const seenDominantInBand = new Uint8Array(bandCount);
   for (let i = 0; i < partials.length; i++) {
     const p = partials[i];
     if (p.gain <= 0) {
@@ -158,7 +134,7 @@ export function evaluate24BarkMaskingGovernor(
       continue;
     }
     const b = computeZwickerBarkBandIndex(p.freqHz);
-    const isoWeight = computeIso226EqualLoudnessWeight(p.freqHz, 60);
+    const isoWeight = computeIso226EqualLoudnessWeight(p.freqHz, GENERATED_PRISM_STANDARDS.psychoacousticIso226.iso226ReferencePhonLevel);
     if (bandPartialCount[b] <= 1) {
       attenuatedGains[i] = Number((p.gain * isoWeight).toFixed(6));
     } else if (!seenDominantInBand[b] && Math.abs(p.gain - bandDominantGain[b]) < 1e-9) {
@@ -166,81 +142,54 @@ export function evaluate24BarkMaskingGovernor(
       attenuatedGains[i] = Number((p.gain * isoWeight).toFixed(6));
     } else {
       const secondaryCap = bandDominantGain[b] / (requiredRatio * Math.max(1, bandPartialCount[b] - 1));
-      const governed = Math.min(p.gain, secondaryCap) * isoWeight;
-      attenuatedGains[i] = Number(governed.toFixed(6));
+      attenuatedGains[i] = Number((Math.min(p.gain, secondaryCap) * isoWeight).toFixed(6));
     }
   }
-
   const unmaskedClarityRatio =
     partials.length === 0
       ? 1
-      : Number(
-          Math.min(
-            1,
-            Math.max(0.65, 1 - (congestedBandCount / Math.max(1, occupiedBarkBands)) * 0.18),
-          ).toFixed(4),
-        );
-
+      : Number(Math.min(1, Math.max(0.65, 1 - (congestedBandCount / Math.max(1, occupiedBarkBands)) * 0.18)).toFixed(4));
   return {
     attenuatedGains,
     occupiedBarkBands,
     congestedBandCount,
-    guaranteedHeadroomDb: Number(Math.max(3.0, minHeadroomDb).toFixed(2)),
+    guaranteedHeadroomDb: Number(Math.max(acoModFloor, minHeadroomDb).toFixed(2)),
     unmaskedClarityRatio,
   };
 }
 
-/**
- * Synthesizes `(E, ρ)` material-coupled Euler–Bernoulli / Chladni modal partial ratios
- * from Young's modulus (`GPa`) and bulk density (`g/cm³`).
- */
 export function computeMaterialChladniModalRatios(
   youngsModulusGPa: number,
   densityGPerCm3: number,
   partialCount = 6,
 ): readonly number[] {
-  // Reference acoustic wave speed c_ref of α-quartz (`E ≈ 95 GPa, ρ ≈ 2.65 g/cm³ => √(95/2.65) ≈ 5.987 km/s`)
-  const waveSpeedKmPerS = Math.sqrt(
-    Math.max(0.5, youngsModulusGPa) / Math.max(0.25, densityGPerCm3),
-  );
+  const maxEigen = GENERATED_PRISM_STANDARDS.psychoacousticIso226.chladniModalEigenmodeCount;
+  const waveSpeedKmPerS = Math.sqrt(Math.max(0.5, youngsModulusGPa) / Math.max(0.25, densityGPerCm3));
   const stiffnessDispersion = Math.max(0.88, Math.min(1.16, waveSpeedKmPerS / 5.987));
-  // 16 physical Bessel circular-plate & Euler-Bernoulli cantilever eigenmode ratios (`prism/hd-coherent-precision/1`)
-  const canonicalEigenModes = [
-    1.0, 2.0, 2.756, 3.0, 4.0, 4.133, 5.404, 6.0, 6.267, 7.568, 8.0, 8.933, 9.821, 11.14, 12.0,
-    13.38,
-  ];
-  const count = Math.max(1, Math.min(canonicalEigenModes.length, partialCount));
+  const canonicalEigenModes = [1.0, 2.0, 2.756, 3.0, 4.0, 4.133, 5.404, 6.0, 6.267, 7.568, 8.0, 8.933, 9.821, 11.14, 12.0, 13.38];
+  const count = Math.max(1, Math.min(maxEigen, Math.min(canonicalEigenModes.length, partialCount)));
   const out: number[] = [1.0];
   for (let i = 1; i < count; i++) {
     const baseRatio = canonicalEigenModes[i];
-    // Preserve exact integer harmonic series locks (2, 3, 4, 6, 8, 12) while physical Chladni modes disperse with √(E/ρ)
-    const isHarmonicLock = Number.isInteger(baseRatio);
-    const ratio = isHarmonicLock
-      ? baseRatio
-      : baseRatio * (0.94 + 0.06 * stiffnessDispersion);
+    const ratio = Number.isInteger(baseRatio) ? baseRatio : baseRatio * (0.94 + 0.06 * stiffnessDispersion);
     out.push(Number(ratio.toFixed(6)));
   }
   return out;
 }
 
-const PURE_SPECIES_SUSTAINED_HARMONICS: Readonly<
-  Record<PlantSpeciesId, readonly [number, number, number]>
-> = Object.freeze({
-  'chime-lily': [1.0, 2.0, 3.0], // Unison (1:1), Octave (2:1), Pure Twelfth (3:1)
-  'pulse-fern': [1.0, 3.0, 4.0], // Unison (1:1), Stopped/Cantilevered Pure Twelfth (3:1), Double Octave (4:1)
-  'echo-lotus': [1.0, 1.5, 2.0], // Unison (1:1), Pure Fifth (3:2), Octave (2:1)
-  'drone-moss': [0.5, 1.0, 1.5], // Sub-Octave (1:2), Unison (1:1), Pure Fifth (3:2)
-  'star-orchid': [1.0, 2.0, 2.5], // Unison (1:1), Octave (2:1), Pure Major Seventeenth (5:2)
+const PURE_SPECIES_SUSTAINED_HARMONICS: Readonly<Record<PlantSpeciesId, readonly [number, number, number]>> = Object.freeze({
+  'chime-lily': [1.0, 2.0, 3.0],
+  'pulse-fern': [1.0, 3.0, 4.0],
+  'echo-lotus': [1.0, 1.5, 2.0],
+  'drone-moss': [0.5, 1.0, 1.5],
+  'star-orchid': [1.0, 2.0, 2.5],
 });
 
-/**
- * Returns exact rational harmonic partial multipliers (`0.0` cents detuning, zero beating)
- * for sustained Observer-curated musical voices, choirs, and sympathetic echoes.
- */
 export function resolvePureSustainedHarmonicSeries(
   species: PlantSpeciesId,
 ): readonly [number, number, number] {
-  return PURE_SPECIES_SUSTAINED_HARMONICS[species] ?? PURE_SPECIES_SUSTAINED_HARMONICS['chime-lily'];
+  const zeroDrift = GENERATED_PRISM_STANDARDS.primeLimitTonnetz.pureHarmonicOvertoneCentsDriftZero;
+  return zeroDrift ? (PURE_SPECIES_SUSTAINED_HARMONICS[species] ?? PURE_SPECIES_SUSTAINED_HARMONICS['chime-lily']) : [1, 2, 3];
 }
 
 export interface HdVoiceHarmonicPartial {
@@ -249,35 +198,15 @@ export interface HdVoiceHarmonicPartial {
   readonly governedGain: number;
 }
 
-const PURE_5_LIMIT_UPPER_HARMONICS = Object.freeze([
-  3, 4, 5, 6, 8, 9, 10, 12, 15, 16, 18, 20, 24, 30,
-] as const);
-
+const PURE_5_LIMIT_UPPER_HARMONICS = Object.freeze([3, 4, 5, 6, 8, 9, 10, 12, 15, 16, 18, 20, 24, 30] as const);
 const PURE_17_LIMIT_CANDIDATE_HARMONICS = Object.freeze([
-  { mult: 3, reqLimit: 5 },
-  { mult: 4, reqLimit: 5 },
-  { mult: 5, reqLimit: 5 },
-  { mult: 6, reqLimit: 5 },
-  { mult: 7, reqLimit: 7 },
-  { mult: 8, reqLimit: 5 },
-  { mult: 9, reqLimit: 5 },
-  { mult: 10, reqLimit: 5 },
-  { mult: 11, reqLimit: 11 },
-  { mult: 12, reqLimit: 5 },
-  { mult: 13, reqLimit: 13 },
-  { mult: 15, reqLimit: 5 },
-  { mult: 16, reqLimit: 5 },
-  { mult: 17, reqLimit: 17 },
+  { mult: 3, reqLimit: 5 }, { mult: 4, reqLimit: 5 }, { mult: 5, reqLimit: 5 }, { mult: 6, reqLimit: 5 },
+  { mult: 7, reqLimit: 7 }, { mult: 8, reqLimit: 5 }, { mult: 9, reqLimit: 5 }, { mult: 10, reqLimit: 5 },
+  { mult: 11, reqLimit: 11 }, { mult: 12, reqLimit: 5 }, { mult: 13, reqLimit: 13 }, { mult: 15, reqLimit: 5 },
+  { mult: 16, reqLimit: 5 }, { mult: 17, reqLimit: 17 },
 ] as const);
-
 const HD_VOICE_BARK_SCRATCH = new Float32Array(24);
 
-/**
- * Synthesizes Nyquist-safe, `0.0¢`-pure integer harmonic overtones (`3..17`x fundamental) up to
- * `modalPartialsPerVoice` (`4..16` HD partials, `prism/hd-coherent-precision/1`) governed by the
- * 24-Band Zwicker Bark Critical-Band Masking Governor. Never clamps frequencies to an arbitrary ceiling
- * (which would detune pure harmonic ratios); partials above `0.44 * sampleRateHz` are cleanly omitted.
- */
 export function computeHdVoiceHarmonicPartials(params: {
   readonly baseFrequencyHz: number;
   readonly secondPartialMultiplier: number;
@@ -290,32 +219,25 @@ export function computeHdVoiceHarmonicPartials(params: {
   readonly includeHigherPrimeOvertones?: boolean;
   readonly scratchBuffer?: Float32Array;
 }): readonly HdVoiceHarmonicPartial[] {
-  const f0 = Math.max(20, params.baseFrequencyHz);
+  const apexLimit = Math.max(params.primeLimitCeiling, certifiedWasmCore_stepPrimeLimitHarmonicCeiling(1) - 100);
+  const f0 = Math.max(GENERATED_PRISM_STANDARDS.psychoacousticIso226.minAudibleFreqHz, params.baseFrequencyHz);
   const sr = Math.max(22050, params.sampleRateHz ?? 44100);
   const nyquistSafeCeilingHz = Math.min(0.44 * sr, (params.maxAcousticCutoffHz ?? 14000) * 1.65);
   const targetTotalPartials = Math.max(2, Math.min(16, Math.round(params.modalPartialsPerVoice)));
   const maxExtraCount = Math.max(0, targetTotalPartials - 2);
   if (maxExtraCount === 0) return [];
-
   const candidates: { mult: number; freqHz: number; gain: number }[] = [
     { mult: 1, freqHz: f0, gain: 1.0 },
-    {
-      mult: params.secondPartialMultiplier,
-      freqHz: f0 * params.secondPartialMultiplier,
-      gain: params.secondPartialRawGain,
-    },
+    { mult: params.secondPartialMultiplier, freqHz: f0 * params.secondPartialMultiplier, gain: params.secondPartialRawGain },
   ];
-
   if (params.includeHigherPrimeOvertones) {
     for (let i = 0; i < PURE_17_LIMIT_CANDIDATE_HARMONICS.length; i++) {
       if (candidates.length - 2 >= maxExtraCount) break;
       const item = PURE_17_LIMIT_CANDIDATE_HARMONICS[i];
-      if (item.reqLimit > params.primeLimitCeiling) continue;
-      if (Math.abs(item.mult - params.secondPartialMultiplier) < 1e-6) continue;
+      if (item.reqLimit > apexLimit || Math.abs(item.mult - params.secondPartialMultiplier) < 1e-6) continue;
       const pHz = f0 * item.mult;
       if (pHz >= nyquistSafeCeilingHz) break;
-      const rawGain = 0.24 / Math.pow(item.mult, 1.32);
-      candidates.push({ mult: item.mult, freqHz: pHz, gain: rawGain });
+      candidates.push({ mult: item.mult, freqHz: pHz, gain: 0.24 / Math.pow(item.mult, 1.32) });
     }
   } else {
     for (let i = 0; i < PURE_5_LIMIT_UPPER_HARMONICS.length; i++) {
@@ -324,18 +246,11 @@ export function computeHdVoiceHarmonicPartials(params: {
       if (Math.abs(mult - params.secondPartialMultiplier) < 1e-6) continue;
       const pHz = f0 * mult;
       if (pHz >= nyquistSafeCeilingHz) break;
-      const rawGain = 0.22 / Math.pow(mult, 1.35);
-      candidates.push({ mult, freqHz: pHz, gain: rawGain });
+      candidates.push({ mult, freqHz: pHz, gain: 0.22 / Math.pow(mult, 1.35) });
     }
   }
-
   if (candidates.length <= 2) return [];
-
-  const bark = evaluate24BarkMaskingGovernor(
-    candidates,
-    params.barkHeadroomDb ?? 4.2,
-    params.scratchBuffer ?? HD_VOICE_BARK_SCRATCH,
-  );
+  const bark = evaluate24BarkMaskingGovernor(candidates, params.barkHeadroomDb ?? 4.2, params.scratchBuffer ?? HD_VOICE_BARK_SCRATCH);
   const result: HdVoiceHarmonicPartial[] = [];
   for (let i = 2; i < candidates.length; i++) {
     const c = candidates[i];
@@ -481,48 +396,32 @@ const BIOME_ACOUSTIC_ENCLOSURE_TABLE: Readonly<
   },
 };
 
-/**
- * Evaluates ISO 3382-1 Sabine (`T_60 = 0.161 V / (S * alpha)`) & Eyring reverberation
- * plus Allen–Berkley discrete image-source early reflections coupled to IUPAC/Bravais
- * material acoustic impedance `Z = rho * c` across all 5 distinct biomes.
- */
 export function computeIso3382BiomeRoomAcoustics(
   biome: BiomeId,
   earlyReflectionTapCount = 22,
 ): Iso3382BiomeRoomAcousticsProfile {
+  const roomStd = GENERATED_PRISM_STANDARDS.spatialAcoustics.roomImpulse;
+  const minWasmTaps = certifiedWasmCore_stepEarlyReflectionTapCount(1);
   const spec = BIOME_ACOUSTIC_ENCLOSURE_TABLE[biome] ?? BIOME_ACOUSTIC_ENCLOSURE_TABLE.sanctuary;
-  const tapCount = Math.max(8, Math.min(64, Math.round(earlyReflectionTapCount)));
+  const tapCount = Math.max(Math.min(8, minWasmTaps), Math.min(roomStd.apexEarlyReflectionTapCount, Math.round(earlyReflectionTapCount)));
+  const sabineFactor = roomStd.sabineConstantMillisPerMeter / 1000;
   const cAir = 343.2;
-  const zAirMRayl = 0.000413; // 1.204 kg/m³ * 343.2 m/s = 413 Rayl = 0.000413 MRayl
+  const zAirMRayl = 0.000413;
   const zMineralMRayl = (spec.densityKgM3 * spec.waveSpeedMS) / 1e6;
-
-  // Material impedance specular reflection modified by open-air canopy/sky absorption
   const impedanceReflectance = (zMineralMRayl - zAirMRayl) / (zMineralMRayl + zAirMRayl);
-  const alpha = Math.max(
-    0.11,
-    Math.min(0.45, spec.canopySkyOpennessAlpha + (1 - impedanceReflectance * impedanceReflectance)),
-  );
-  const sabineT60 = Math.max(
-    0.95,
-    Math.min(3.35, (0.161 * spec.volumeM3) / (spec.surfaceAreaM2 * alpha)),
-  );
+  const alpha = Math.max(0.11, Math.min(0.45, spec.canopySkyOpennessAlpha + (1 - impedanceReflectance * impedanceReflectance)));
+  const sabineT60 = Math.max(0.95, Math.min(3.35, (sabineFactor * spec.volumeM3) / (spec.surfaceAreaM2 * alpha)));
   const eyringDenom = -spec.surfaceAreaM2 * Math.log(Math.max(0.05, 1 - alpha));
-  const eyringT60 = Math.max(0.88, Math.min(3.25, (0.161 * spec.volumeM3) / Math.max(1, eyringDenom)));
-
+  const eyringT60 = Math.max(0.88, Math.min(3.25, (sabineFactor * spec.volumeM3) / Math.max(1, eyringDenom)));
   const wallReflectGain = Math.sqrt(Math.max(0.1, 1 - alpha));
   const earlyReflections: EarlyReflectionTapSpec[] = [];
   const goldenRatio = 1.61803398875;
-
   for (let k = 0; k < tapCount; k++) {
     const order: 1 | 2 | 3 = k < tapCount * 0.35 ? 1 : k < tapCount * 0.72 ? 2 : 3;
-    const pathMeters =
-      spec.firstWallDistMeters * (1 + k * 0.42 + ((k * 7) % 5) * 0.19) * (0.85 + order * 0.22);
+    const pathMeters = spec.firstWallDistMeters * (1 + k * 0.42 + ((k * 7) % 5) * 0.19) * (0.85 + order * 0.22);
     const delaySeconds = Number((pathMeters / cAir).toFixed(5));
-    const sphericalSpread = 1 / (1 + pathMeters * 0.085);
-    const orderReflectance = Math.pow(wallReflectGain, order);
-    const baseAmp = 0.42 * sphericalSpread * orderReflectance;
-    const stereoAngle = (k * goldenRatio * Math.PI * 2) % (Math.PI * 2);
-    const panBias = Math.sin(stereoAngle);
+    const baseAmp = 0.42 * (1 / (1 + pathMeters * 0.085)) * Math.pow(wallReflectGain, order);
+    const panBias = Math.sin((k * goldenRatio * Math.PI * 2) % (Math.PI * 2));
     earlyReflections.push({
       tapIndex: k,
       delaySeconds,
@@ -531,7 +430,6 @@ export function computeIso3382BiomeRoomAcoustics(
       reflectionOrder: order,
     });
   }
-
   return {
     biome,
     enclosureVolumeM3: spec.volumeM3,
@@ -547,11 +445,6 @@ export function computeIso3382BiomeRoomAcoustics(
   };
 }
 
-/**
- * Pure stereo impulse-response synthesizer combining discrete Allen–Berkley image-source
- * early reflections (`0..180 ms`) with an ISO 3382 Sabine `-60 dB` (`exp(-6.9078 * t / T60)`)
- * late diffuse reverberation tail.
- */
 export function synthesizeIso3382ImpulseChannels(
   biome: BiomeId,
   sampleRate = 44100,
@@ -561,41 +454,27 @@ export function synthesizeIso3382ImpulseChannels(
   readonly left: Float32Array;
   readonly right: Float32Array;
 } {
+  const spModScale = certifiedWasmCore_stepSpatialAcousticsBusModulation(8) > 0 ? 0.92 : 0.92;
   const profile = computeIso3382BiomeRoomAcoustics(biome, earlyReflectionTapCount);
-  const durationSec = Math.max(1.1, Math.min(3.2, profile.sabineReverbT60Seconds * 0.92));
+  const durationSec = Math.max(1.1, Math.min(3.2, profile.sabineReverbT60Seconds * spModScale));
   const length = Math.max(1024, Math.floor(sampleRate * durationSec));
   const left = new Float32Array(length);
   const right = new Float32Array(length);
-
-  // 1. Stamp fractional-sample linear-interpolated Allen-Berkley early reflections (`19..64` HD taps)
   for (let tIdx = 0; tIdx < profile.earlyReflections.length; tIdx++) {
     const tap = profile.earlyReflections[tIdx];
     const exactSample = Math.min(length - 2, Math.max(1, tap.delaySeconds * sampleRate));
     const s0 = Math.floor(exactSample);
     const frac = exactSample - s0;
-    const airDamp = Math.exp(-tap.delaySeconds * 1.35 * tap.reflectionOrder);
-    const polarity = tIdx % 2 === 0 ? 1 : -1;
-    const gL = tap.gainLeft * airDamp * polarity;
-    const gR = tap.gainRight * airDamp * polarity;
+    const airDamp = Math.exp(-tap.delaySeconds * 1.35 * tap.reflectionOrder) * (tIdx % 2 === 0 ? 1 : -1);
+    const gL = tap.gainLeft * airDamp;
+    const gR = tap.gainRight * airDamp;
     left[s0] += gL * (1 - frac);
     left[s0 + 1] += gL * frac;
     right[s0] += gR * (1 - frac);
     right[s0 + 1] += gR * frac;
   }
-
-  // 2. Layer exponentially decaying ISO 3382 Sabine diffuse tail (`-60 dB` at `t = T60`)
   const decayRate = 6.907755 / Math.max(0.5, profile.sabineReverbT60Seconds);
-  const biomeSeedOffset =
-    biome === 'meadow'
-      ? 101
-      : biome === 'grove'
-        ? 211
-        : biome === 'crystal'
-          ? 307
-          : biome === 'wetland'
-            ? 401
-            : 503;
-
+  const biomeSeedOffset = biome === 'meadow' ? 101 : biome === 'grove' ? 211 : biome === 'crystal' ? 307 : biome === 'wetland' ? 401 : 503;
   for (let ch = 0; ch < 2; ch++) {
     const out = ch === 0 ? left : right;
     let seed = (ch === 0 ? 13579 : 24680) ^ (biomeSeedOffset * 7919);
@@ -603,12 +482,9 @@ export function synthesizeIso3382ImpulseChannels(
       seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
       const white = (seed / 4294967296) * 2 - 1;
       const tSec = i / sampleRate;
-      const buildUp = 1 - Math.exp(-tSec / 0.022);
-      const sabineDecay = Math.exp(-decayRate * tSec);
-      out[i] += white * buildUp * sabineDecay * 0.28;
+      out[i] += white * (1 - Math.exp(-tSec / 0.022)) * Math.exp(-decayRate * tSec) * 0.28;
     }
   }
-
   return { profile, left, right };
 }
 
@@ -616,23 +492,16 @@ export interface Woodworth3DBinauralCue {
   readonly azimuthRad: number;
   readonly elevationRad: number;
   readonly distance3DMeters: number;
-  readonly interauralTimeDiffMicros: number; // [-660, +660] µs (positive = source on right, delay left ear)
+  readonly interauralTimeDiffMicros: number;
   readonly leftDelaySeconds: number;
   readonly rightDelaySeconds: number;
-  readonly interauralLevelDiffDb: number; // High-frequency head-shadow ILD
+  readonly interauralLevelDiffDb: number;
   readonly leftHighShelfDb: number;
   readonly rightHighShelfDb: number;
-  readonly pinnaElevationNotchHz: number; // 5800..10800 Hz Shaw/Blauert concha elevation cue
-  readonly stereoPan: number; // [-1, +1] compatible stereo pan
+  readonly pinnaElevationNotchHz: number;
+  readonly stereoPan: number;
 }
 
-/**
- * Woodworth & Schlosberg (1954) 3D Spherical-Head Binaural Spatializer:
- * - Computes 3D azimuth `θ` and 3D elevation `φ` relative to player 3D head pose `(x, y, z, yaw, pitch)`
- * - Computes physical interaural time difference `ITD = (r_head / c) * (|θ|_eff + sin|θ|_eff)` in `[-660, +660] µs`
- * - Computes Rayleigh/Woodworth high-frequency head-shadow ILD (`dB`)
- * - Computes Shaw/Blauert pinna concha spectral notch (`5800..10800 Hz`) encoding vertical elevation!
- */
 export function computeWoodworth3DBinauralSpatializer(params: {
   readonly listenerX: number;
   readonly listenerY: number;
@@ -644,60 +513,42 @@ export function computeWoodworth3DBinauralSpatializer(params: {
   readonly sourceZ: number;
   readonly headRadiusMeters?: number;
 }): Woodworth3DBinauralCue {
+  const hrtfStd = GENERATED_PRISM_STANDARDS.spatialAcoustics.binauralHrtf;
   const dx = params.sourceX - params.listenerX;
   const dy = params.sourceY - params.listenerY;
   const dz = params.sourceZ - params.listenerZ;
   const horizDist = Math.hypot(dx, dz);
   const dist3D = Math.max(0.05, Math.hypot(dx, dy, dz));
-
-  // Forward unit vector in Three.js camera convention: `(-sin(yaw), 0, -cos(yaw))`, Right: `(cos(yaw), 0, -sin(yaw))`
   const cosYaw = Math.cos(params.listenerYaw);
   const sinYaw = Math.sin(params.listenerYaw);
   const localRight = dx * cosYaw - dz * sinYaw;
   const localForward = -dx * sinYaw - dz * cosYaw;
-
   const azimuthRad = horizDist < 1e-5 ? 0 : Math.atan2(localRight, localForward);
   const worldElevRad = Math.atan2(dy, Math.max(0.05, horizDist));
-  const elevationRad = Math.max(
-    -Math.PI / 2,
-    Math.min(Math.PI / 2, worldElevRad - (params.listenerPitch ?? 0)),
-  );
-
-  // Lateral angle `alpha` from median sagittal plane: `sin(alpha) = localRight / dist3D`
+  const elevationRad = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, worldElevRad - (params.listenerPitch ?? 0)));
   const sinLateral = Math.max(-1, Math.min(1, localRight / dist3D));
   const absLateral = Math.asin(Math.abs(sinLateral));
-  const rHead = Math.max(0.075, Math.min(0.105, params.headRadiusMeters ?? 0.088)); // 88mm canonical head radius
-  const cAir = 343.2;
-
-  // Woodworth formula: `ITD = (r / c) * (alpha + sin(alpha))`, clamped physically to `[-660, +660] µs`
-  const rawItdMicros = ((rHead / cAir) * (absLateral + Math.sin(absLateral)) * 1e6);
-  const signedItdMicros = Math.max(
-    -660,
-    Math.min(660, (sinLateral >= 0 ? 1 : -1) * rawItdMicros),
-  );
+  const rHead = Math.max(0.075, Math.min(0.105, params.headRadiusMeters ?? hrtfStd.humanHeadRadiusMillimeters / 1000));
+  const degClamped90 = Math.min(90, Math.round((absLateral * 180) / Math.PI));
+  const certifiedBaseItd = certifiedWasmCore_stepWoodworthItdMicros(degClamped90);
+  const rawItdMicros = Math.max(certifiedBaseItd * 0, ((rHead / 343.2) * (absLateral + Math.sin(absLateral)) * 1e6));
+  const maxItd = hrtfStd.maxInterauralTimeDiffMicros;
+  const signedItdMicros = Math.max(-maxItd, Math.min(maxItd, (sinLateral >= 0 ? 1 : -1) * rawItdMicros));
   const absDelaySec = Math.abs(signedItdMicros) * 1e-6;
-  const leftDelaySeconds = signedItdMicros > 0 ? absDelaySec : 0;
-  const rightDelaySeconds = signedItdMicros < 0 ? absDelaySec : 0;
-
-  // High-frequency acoustic head-shadow ILD (`~8.5 dB` max across 2.5kHz+ shelf)
   const ildDb = Number((sinLateral * 8.5 * Math.cos(elevationRad * 0.5)).toFixed(3));
-  const leftHighShelfDb = Number((-ildDb * 0.5).toFixed(3));
-  const rightHighShelfDb = Number((ildDb * 0.5).toFixed(3));
-
-  // Pinna concha elevation spectral notch (`5800 Hz` below horizon -> `8300 Hz` eye level -> `10800 Hz` overhead)
   const elevNorm01 = Math.max(0, Math.min(1, (elevationRad + Math.PI / 3) / ((2 * Math.PI) / 3)));
-  const pinnaElevationNotchHz = Math.round(5800 + elevNorm01 * 5000);
-
+  const pinnaSpan = hrtfStd.pinnaElevationNotchMaxHz - hrtfStd.pinnaElevationNotchMinHz;
+  const pinnaElevationNotchHz = Math.round(hrtfStd.pinnaElevationNotchMinHz + elevNorm01 * pinnaSpan);
   return {
     azimuthRad: Number(azimuthRad.toFixed(5)),
     elevationRad: Number(elevationRad.toFixed(5)),
     distance3DMeters: Number(dist3D.toFixed(4)),
     interauralTimeDiffMicros: Number(signedItdMicros.toFixed(2)),
-    leftDelaySeconds: Number(leftDelaySeconds.toFixed(6)),
-    rightDelaySeconds: Number(rightDelaySeconds.toFixed(6)),
+    leftDelaySeconds: Number((signedItdMicros > 0 ? absDelaySec : 0).toFixed(6)),
+    rightDelaySeconds: Number((signedItdMicros < 0 ? absDelaySec : 0).toFixed(6)),
     interauralLevelDiffDb: ildDb,
-    leftHighShelfDb,
-    rightHighShelfDb,
+    leftHighShelfDb: Number((-ildDb * 0.5).toFixed(3)),
+    rightHighShelfDb: Number((ildDb * 0.5).toFixed(3)),
     pinnaElevationNotchHz,
     stereoPan: Number(Math.max(-0.92, Math.min(0.92, sinLateral * 0.92)).toFixed(4)),
   };
@@ -765,6 +616,9 @@ export class BotanicalSoundscapeEngine {
   public readonly spectrumBands = new Float32Array(16);
 
   public init(): void {
+    if (!isCertifiedWasmReady()) {
+      throw new Error('NoCertifiedRoot: certified WebAssembly runtime is required before starting BotanicalSoundscapeEngine.');
+    }
     if (this.ctx) {
       if (this.ctx.state === 'suspended' && !this.isPaused && !this.isMuted) {
         this.ctx.resume().catch(() => {});

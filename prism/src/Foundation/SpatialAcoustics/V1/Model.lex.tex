@@ -61,7 +61,9 @@ definition{
   name: stepEarlyReflectionTapCount,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (16 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 3 : Nat))
+  body: (16 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 3 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -75,14 +77,18 @@ definition{
   name: stepWoodworthItdMicros,
   parameters: [azimuthDegClamped90 : Nat],
   result: Nat,
-  body: (let az : Nat := (if (90 <=? azimuthDegClamped90) then 90 else azimuthDegClamped90); (prim multiply az 7 : Nat))
+  body: (let az : Nat := (if (90 <=? azimuthDegClamped90) then 90 else azimuthDegClamped90); (prim multiply az 7 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepSpatialAcousticsBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 34 : Nat))
+  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 34 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

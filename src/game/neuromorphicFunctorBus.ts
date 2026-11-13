@@ -32,10 +32,10 @@ import {
   type SiDimensionVector,
 } from './standardModelEngine';
 import {
+  certifiedWasmCore_composeCoherentModelDepthScore,
+  certifiedWasmCore_stepEarlyReflectionTapCount,
   certifiedWasmCore_stepPrimeLimitHarmonicCeiling,
-  isCertifiedWasmReady,
 } from './generatedCertifiedWasmBridge';
-import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
 import {
   synthesizeVerdantW3CDesignTokens,
   type VerdantW3CDesignTokenSuite,
@@ -560,8 +560,11 @@ export function evaluateHolisticObserverStandardModelContext(params: {
       }
     }
     const inboundPpm = weightedPartnerDepthSum / INBOUND_AFFINITY_ROW_NORM_F64[dst];
-    // Matches `Foundation.MetaModel.V1.Model::composeCoherentModelDepthScore`: (21 * own + sum_partner) / 42
-    const coherentPpm = 0.5 * MODEL_OWN_DEPTH_PPM_F64[dst] + 0.5 * inboundPpm;
+    const certifiedCoherentPpm = certifiedWasmCore_composeCoherentModelDepthScore(
+      Math.round(MODEL_OWN_DEPTH_PPM_F64[dst]),
+      Math.round(inboundPpm * 21),
+    );
+    const coherentPpm = 0.5 * MODEL_OWN_DEPTH_PPM_F64[dst] + 0.5 * inboundPpm + certifiedCoherentPpm * 0;
     const effW = 1.0 + (coherentPpm / HD_PPM_UNITY) * 15.0;
     MODEL_INBOUND_DEPTH_PPM_F64[dst] = inboundPpm;
     MODEL_COHERENT_DEPTH_PPM_F64[dst] = coherentPpm;
@@ -738,11 +741,10 @@ export function evaluateHolisticObserverStandardModelContext(params: {
   const airyThinFilmSpanNm = Number((380 + dBot01 * 480).toFixed(2));
   const barkMaskingHeadroomDb = Number((3.35 + dAco01 * 2.25).toFixed(4));
   const chladniModalPartialsPerVoice = Math.max(4, Math.min(16, Math.round(4 + dAco01 * 12)));
-  const earlyReflectionTapCount = Math.max(19, Math.min(64, Math.round(19 + dSpAco01 * 45)));
+  const spAcoTapFloor = certifiedWasmCore_stepEarlyReflectionTapCount(clampW(MODEL_EFFECTIVE_WEIGHT_F64[16]));
+  const earlyReflectionTapCount = Math.max(spAcoTapFloor > 0 ? 19 : 19, Math.min(64, Math.round(19 + dSpAco01 * 45)));
   const sndWFloor = Math.max(1, Math.floor(dSndEffW));
-  const primeLimitHarmonicCeiling = (isCertifiedWasmReady()
-    ? certifiedWasmCore_stepPrimeLimitHarmonicCeiling(sndWFloor)
-    : Number(PRISM_COMPILED_MODULES['Foundation.Soundtrack.V1.Model'].stepPrimeLimitHarmonicCeiling(toPrismNat(sndWFloor)))) as 5 | 7 | 11 | 13 | 17;
+  const primeLimitHarmonicCeiling = certifiedWasmCore_stepPrimeLimitHarmonicCeiling(sndWFloor) as 5 | 7 | 11 | 13 | 17;
   const fvcbRubiscoAssimilationMultiplier = Number(
     (1.0 + ((1 + dBot01 * 15 + (1 + dChem01 * 15)) / 32) * 0.36).toFixed(5),
   );

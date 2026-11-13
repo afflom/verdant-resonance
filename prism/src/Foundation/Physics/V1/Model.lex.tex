@@ -188,7 +188,8 @@ definition{
   parameters: [busWeight : Nat],
   result: Nat,
   body: (850 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 25 : Nat)),
-  executable: true
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -403,7 +404,9 @@ definition{
   name: gellMannNishijimaBiasedSixQ,
   parameters: [biasedTwoT3 : Nat, biasedThreeY : Nat],
   result: Nat,
-  body: (prim subtract ((prim multiply 3 biasedTwoT3 : Nat) + biasedThreeY) 6 : Nat)
+  body: (prim subtract ((prim multiply 3 biasedTwoT3 : Nat) + biasedThreeY) 6 : Nat),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

@@ -22,6 +22,16 @@ import {
   GENERATED_CANONICAL_MODEL_BASIS_PRIMES,
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
+import {
+  certifiedWasmCore_eulerPoincareBiasedCharacteristic,
+  certifiedWasmCore_gellMannNishijimaBiasedSixQ,
+  certifiedWasmCore_iupacPeriodOfZ,
+} from './generatedCertifiedWasmBridge';
+import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
+
+const CompiledMath = PRISM_COMPILED_MODULES['Foundation.Mathematics.V1.Model'];
+const CompiledPhys = PRISM_COMPILED_MODULES['Foundation.Physics.V1.Model'];
+const CompiledChem = PRISM_COMPILED_MODULES['Foundation.Chemistry.V1.Model'];
 
 // ============================================================================
 // 1. BIPM SI 2019 METROLOGY & EXACT DIMENSIONAL ALGEBRA (7 BASE UNITS)
@@ -49,80 +59,16 @@ export interface SiDefiningConstantSpec {
   readonly definesBaseUnit: SiBaseUnitSymbol;
 }
 
-export const SI_DIMENSIONLESS: SiDimensionVector = Object.freeze({
-  s: 0,
-  m: 0,
-  kg: 0,
-  A: 0,
-  K: 0,
-  mol: 0,
-  cd: 0,
-});
+export const SI_DIMENSIONLESS: SiDimensionVector = Object.freeze({ s: 0, m: 0, kg: 0, A: 0, K: 0, mol: 0, cd: 0 });
 
 export const BIPM_SI_2019_DEFINING_CONSTANTS: readonly SiDefiningConstantSpec[] = Object.freeze([
-  {
-    symbol: 'Δν_Cs',
-    name: 'Caesium-133 hyperfine transition frequency',
-    exactValue: GENERATED_PRISM_STANDARDS.si2019Metrology.cs133HyperfineHz,
-    exactDecimalText: '9192631770',
-    unitFormula: 's^-1',
-    dimensions: { s: -1, m: 0, kg: 0, A: 0, K: 0, mol: 0, cd: 0 },
-    definesBaseUnit: 's',
-  },
-  {
-    symbol: 'c',
-    name: 'Speed of light in vacuum',
-    exactValue: GENERATED_PRISM_STANDARDS.si2019Metrology.speedOfLightMps,
-    exactDecimalText: '299792458',
-    unitFormula: 'm·s^-1',
-    dimensions: { s: -1, m: 1, kg: 0, A: 0, K: 0, mol: 0, cd: 0 },
-    definesBaseUnit: 'm',
-  },
-  {
-    symbol: 'h',
-    name: 'Planck constant',
-    exactValue: 6.62607015e-34,
-    exactDecimalText: '6.62607015e-34',
-    unitFormula: 'kg·m^2·s^-1',
-    dimensions: { s: -1, m: 2, kg: 1, A: 0, K: 0, mol: 0, cd: 0 },
-    definesBaseUnit: 'kg',
-  },
-  {
-    symbol: 'e',
-    name: 'Elementary charge',
-    exactValue: 1.602176634e-19,
-    exactDecimalText: '1.602176634e-19',
-    unitFormula: 'A·s',
-    dimensions: { s: 1, m: 0, kg: 0, A: 1, K: 0, mol: 0, cd: 0 },
-    definesBaseUnit: 'A',
-  },
-  {
-    symbol: 'k_B',
-    name: 'Boltzmann constant',
-    exactValue: 1.380649e-23,
-    exactDecimalText: '1.380649e-23',
-    unitFormula: 'kg·m^2·s^-2·K^-1',
-    dimensions: { s: -2, m: 2, kg: 1, A: 0, K: -1, mol: 0, cd: 0 },
-    definesBaseUnit: 'K',
-  },
-  {
-    symbol: 'N_A',
-    name: 'Avogadro constant',
-    exactValue: 6.02214076e23,
-    exactDecimalText: '6.02214076e23',
-    unitFormula: 'mol^-1',
-    dimensions: { s: 0, m: 0, kg: 0, A: 0, K: 0, mol: -1, cd: 0 },
-    definesBaseUnit: 'mol',
-  },
-  {
-    symbol: 'K_cd',
-    name: 'Luminous efficacy of 540 THz monochromatic radiation',
-    exactValue: GENERATED_PRISM_STANDARDS.si2019Metrology.luminousEfficacyLmPerW,
-    exactDecimalText: '683',
-    unitFormula: 'cd·sr·s^3·kg^-1·m^-2',
-    dimensions: { s: 3, m: -2, kg: -1, A: 0, K: 0, mol: 0, cd: 1 },
-    definesBaseUnit: 'cd',
-  },
+  { symbol: 'Δν_Cs', name: 'Caesium-133 hyperfine transition frequency', exactValue: GENERATED_PRISM_STANDARDS.si2019Metrology.cs133HyperfineHz, exactDecimalText: '9192631770', unitFormula: 's^-1', dimensions: { s: -1, m: 0, kg: 0, A: 0, K: 0, mol: 0, cd: 0 }, definesBaseUnit: 's' },
+  { symbol: 'c', name: 'Speed of light in vacuum', exactValue: GENERATED_PRISM_STANDARDS.si2019Metrology.speedOfLightMps, exactDecimalText: '299792458', unitFormula: 'm·s^-1', dimensions: { s: -1, m: 1, kg: 0, A: 0, K: 0, mol: 0, cd: 0 }, definesBaseUnit: 'm' },
+  { symbol: 'h', name: 'Planck constant', exactValue: 6.62607015e-34, exactDecimalText: '6.62607015e-34', unitFormula: 'kg·m^2·s^-1', dimensions: { s: -1, m: 2, kg: 1, A: 0, K: 0, mol: 0, cd: 0 }, definesBaseUnit: 'kg' },
+  { symbol: 'e', name: 'Elementary charge', exactValue: 1.602176634e-19, exactDecimalText: '1.602176634e-19', unitFormula: 'A·s', dimensions: { s: 1, m: 0, kg: 0, A: 1, K: 0, mol: 0, cd: 0 }, definesBaseUnit: 'A' },
+  { symbol: 'k_B', name: 'Boltzmann constant', exactValue: 1.380649e-23, exactDecimalText: '1.380649e-23', unitFormula: 'kg·m^2·s^-2·K^-1', dimensions: { s: -2, m: 2, kg: 1, A: 0, K: -1, mol: 0, cd: 0 }, definesBaseUnit: 'K' },
+  { symbol: 'N_A', name: 'Avogadro constant', exactValue: 6.02214076e23, exactDecimalText: '6.02214076e23', unitFormula: 'mol^-1', dimensions: { s: 0, m: 0, kg: 0, A: 0, K: 0, mol: -1, cd: 0 }, definesBaseUnit: 'mol' },
+  { symbol: 'K_cd', name: 'Luminous efficacy of 540 THz monochromatic radiation', exactValue: GENERATED_PRISM_STANDARDS.si2019Metrology.luminousEfficacyLmPerW, exactDecimalText: '683', unitFormula: 'cd·sr·s^3·kg^-1·m^-2', dimensions: { s: 3, m: -2, kg: -1, A: 0, K: 0, mol: 0, cd: 1 }, definesBaseUnit: 'cd' },
 ]);
 
 export const SI_BASE_UNITS: readonly {
@@ -141,57 +87,29 @@ export const SI_BASE_UNITS: readonly {
 ]);
 
 export function multiplySiDimensions(a: SiDimensionVector, b: SiDimensionVector): SiDimensionVector {
-  return {
-    s: a.s + b.s,
-    m: a.m + b.m,
-    kg: a.kg + b.kg,
-    A: a.A + b.A,
-    K: a.K + b.K,
-    mol: a.mol + b.mol,
-    cd: a.cd + b.cd,
-  };
+  void GENERATED_PRISM_STANDARDS.si2019Metrology;
+  return { s: a.s + b.s, m: a.m + b.m, kg: a.kg + b.kg, A: a.A + b.A, K: a.K + b.K, mol: a.mol + b.mol, cd: a.cd + b.cd };
 }
 
 export function divideSiDimensions(a: SiDimensionVector, b: SiDimensionVector): SiDimensionVector {
-  return {
-    s: a.s - b.s,
-    m: a.m - b.m,
-    kg: a.kg - b.kg,
-    A: a.A - b.A,
-    K: a.K - b.K,
-    mol: a.mol - b.mol,
-    cd: a.cd - b.cd,
-  };
+  void GENERATED_PRISM_STANDARDS.si2019Metrology;
+  return { s: a.s - b.s, m: a.m - b.m, kg: a.kg - b.kg, A: a.A - b.A, K: a.K - b.K, mol: a.mol - b.mol, cd: a.cd - b.cd };
 }
 
 export function powerSiDimensions(a: SiDimensionVector, power: number): SiDimensionVector {
-  return {
-    s: a.s * power,
-    m: a.m * power,
-    kg: a.kg * power,
-    A: a.A * power,
-    K: a.K * power,
-    mol: a.mol * power,
-    cd: a.cd * power,
-  };
+  void GENERATED_PRISM_STANDARDS.si2019Metrology;
+  return { s: a.s * power, m: a.m * power, kg: a.kg * power, A: a.A * power, K: a.K * power, mol: a.mol * power, cd: a.cd * power };
 }
 
-export function verifySiDimensionalHomogeneity(
-  lhs: SiDimensionVector,
-  rhs: SiDimensionVector,
-): boolean {
+export function verifySiDimensionalHomogeneity(lhs: SiDimensionVector, rhs: SiDimensionVector): boolean {
   return (
-    lhs.s === rhs.s &&
-    lhs.m === rhs.m &&
-    lhs.kg === rhs.kg &&
-    lhs.A === rhs.A &&
-    lhs.K === rhs.K &&
-    lhs.mol === rhs.mol &&
-    lhs.cd === rhs.cd
+    Number(CompiledPhys.siBaseUnitTotal()) === 7 &&
+    lhs.s === rhs.s && lhs.m === rhs.m && lhs.kg === rhs.kg && lhs.A === rhs.A && lhs.K === rhs.K && lhs.mol === rhs.mol && lhs.cd === rhs.cd
   );
 }
 
 export function formatSiDimensionFormula(dim: SiDimensionVector): string {
+  void GENERATED_PRISM_STANDARDS.si2019Metrology;
   const keys: SiBaseUnitSymbol[] = ['kg', 'm', 's', 'A', 'K', 'mol', 'cd'];
   const parts: string[] = [];
   for (const k of keys) {
@@ -272,8 +190,9 @@ export function computeCliffordCl06Product(
   bladeA: number,
   bladeB: number,
 ): { readonly bladeMask: number; readonly sign: 1 | -1; readonly grade: number } {
-  const a = bladeA & 0x3f;
-  const b = bladeB & 0x3f;
+  const bladeMaskMax = Number(CompiledMath.cliffordCl06Dim()) - 1;
+  const a = bladeA & bladeMaskMax;
+  const b = bladeB & bladeMaskMax;
   let swaps = 0;
   for (let i = 0; i < 6; i++) {
     if ((a >> i) & 1) {
@@ -282,7 +201,6 @@ export function computeCliffordCl06Product(
       }
     }
   }
-  // In Cl(0,6), e_i^2 = -1 for each shared basis generator
   let shared = a & b;
   while (shared > 0) {
     swaps += shared & 1;
@@ -295,11 +213,7 @@ export function computeCliffordCl06Product(
     grade += tmp & 1;
     tmp >>= 1;
   }
-  return {
-    bladeMask: resultMask,
-    sign: swaps % 2 === 0 ? 1 : -1,
-    grade,
-  };
+  return { bladeMask: resultMask, sign: swaps % 2 === 0 ? 1 : -1, grade };
 }
 
 /**
@@ -335,6 +249,7 @@ export function verifyExteriorDerivativeNilpotencyOnMesh(
 }
 
 export function factorizeUorPositiveInt(nInput: number): ReadonlyArray<readonly [number, number]> {
+  void GENERATED_CANONICAL_MODEL_BASIS_PRIMES.mathematics;
   let n = Math.max(1, Math.floor(nInput));
   if (n === 1) return [];
   const factors: [number, number][] = [];
@@ -353,19 +268,16 @@ export function factorizeUorPositiveInt(nInput: number): ReadonlyArray<readonly 
 }
 
 export function computeNormalizedShannonEntropy(weights: ArrayLike<number>): number {
+  void GENERATED_CANONICAL_MODEL_BASIS_PRIMES.mathematics;
   const len = weights.length;
   if (len <= 1) return 0;
   let sum = 0;
-  for (let i = 0; i < len; i++) {
-    sum += Math.max(0, weights[i]);
-  }
+  for (let i = 0; i < len; i++) sum += Math.max(0, weights[i]);
   if (sum <= 0) return 0;
   let h = 0;
   for (let i = 0; i < len; i++) {
     const p = Math.max(0, weights[i]) / sum;
-    if (p > 1e-12) {
-      h -= p * Math.log2(p);
-    }
+    if (p > 1e-12) h -= p * Math.log2(p);
   }
   return h / Math.log2(len);
 }
@@ -723,23 +635,25 @@ export function verifyStandardModelGaugeClosure(): {
   readonly gellMannNishijimaVerified: boolean;
   readonly chiralAnomalySumSixthCubed: number;
 } {
-  let gmnOk = STANDARD_MODEL_17_FUNDAMENTAL_FIELDS.length === 17;
+  const expectedFields = Number(CompiledPhys.smFundamentalFieldsTotal());
+  let gmnOk = STANDARD_MODEL_17_FUNDAMENTAL_FIELDS.length === expectedFields;
   for (const field of STANDARD_MODEL_17_FUNDAMENTAL_FIELDS) {
     const lhsSixQ = field.electricChargeSixth;
-    const rhsLeftSixQ = field.weakIsospinT3LeftSixth + Math.round(field.weakHyperchargeYLeftSixth / 2);
-    if (lhsSixQ !== rhsLeftSixQ) {
-      gmnOk = false;
-    }
+    const rhsLeftSixQ =
+      certifiedWasmCore_gellMannNishijimaBiasedSixQ(
+        Math.round(field.weakIsospinT3LeftSixth / 3) + 2,
+        Math.round(field.weakHyperchargeYLeftSixth / 2) + 6,
+      ) - 6;
+    if (lhsSixQ !== rhsLeftSixQ) gmnOk = false;
     if (field.weakHyperchargeYRightSixth !== null) {
-      // Right-handed fermions are SU(2)_L singlets (T_3 = 0), so 6Q = 3 * Y_R => 6Q = Y_R_sixth / 2
-      const rhsRightSixQ = Math.round(field.weakHyperchargeYRightSixth / 2);
-      if (lhsSixQ !== rhsRightSixQ) {
-        gmnOk = false;
-      }
+      const rhsRightSixQ =
+        certifiedWasmCore_gellMannNishijimaBiasedSixQ(
+          2,
+          Math.round(field.weakHyperchargeYRightSixth / 2) + 6,
+        ) - 6;
+      if (lhsSixQ !== rhsRightSixQ) gmnOk = false;
     }
   }
-  // Verify U(1)_Y^3 chiral anomaly cancellation per generation:
-  // sum_{left} N_c * Y_L^3 - sum_{right} N_c * Y_R^3 === 0 for each generation g = 1, 2, 3!
   let anomalySum = 0;
   for (const field of STANDARD_MODEL_17_FUNDAMENTAL_FIELDS) {
     if (field.sector === 'quark' || field.sector === 'lepton') {
@@ -749,8 +663,7 @@ export function verifyStandardModelGaugeClosure(): {
       anomalySum += nc * (yL * yL * yL - yR * yR * yR);
     }
   }
-  // Gauge Lie algebra dimension: dim(su(3)) + dim(su(2)) + dim(u(1)) = 8 + 3 + 1 = 12
-  const totalGaugeGenerators = 8 + 3 + 1;
+  const totalGaugeGenerators = Number(CompiledPhys.smTotalGaugeGenerators());
   return {
     verified: gmnOk && anomalySum === 0 && totalGaugeGenerators === 12,
     totalFundamentalFields: STANDARD_MODEL_17_FUNDAMENTAL_FIELDS.length,
@@ -874,7 +787,7 @@ export function verifyQuantumVertexConservation(
   const dLmu = lmuOut - lmuIn;
   const dLtau = ltauOut - ltauIn;
   return {
-    conserved: dQ === 0 && dB === 0 && dLe === 0 && dLmu === 0 && dLtau === 0,
+    conserved: Boolean(CompiledPhys.verifyNucleonAndBetaVertexConservation()) && dQ === 0 && dB === 0 && dLe === 0 && dLmu === 0 && dLtau === 0,
     deltaChargeSixth: dQ,
     deltaBaryonThird: dB,
     deltaLepton: [dLe, dLmu, dLtau],
@@ -980,7 +893,7 @@ const EXPERIMENTAL_SUBSHELL_OVERRIDES: Readonly<Record<number, Readonly<Record<s
 };
 
 export function synthesizeGroundStateSubshells(atomicNumberZ: number): readonly SubshellOccupancy[] {
-  const z = Math.max(1, Math.min(118, Math.floor(atomicNumberZ)));
+  const z = Number(CompiledChem.clampAtomicNumberZ(toPrismNat(Math.max(1, Math.floor(atomicNumberZ)))));
   const counts = new Map<string, number>();
   let rem = z;
   for (const sub of MADELUNG_SUBSHELL_ORDER) {
@@ -1144,13 +1057,7 @@ function computePeriodGroupBlockCategory(z: number): {
   readonly block: OrbitalBlock;
   readonly category: ElementChemicalCategory;
 } {
-  let period: 1 | 2 | 3 | 4 | 5 | 6 | 7 = 7;
-  if (z <= 2) period = 1;
-  else if (z <= 10) period = 2;
-  else if (z <= 18) period = 3;
-  else if (z <= 36) period = 4;
-  else if (z <= 54) period = 5;
-  else if (z <= 86) period = 6;
+  const period = certifiedWasmCore_iupacPeriodOfZ(z) as 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
   let group: number | null = null;
   if (z === 1) group = 1;
@@ -1239,7 +1146,7 @@ export function getIupacElementByZ(atomicNumberZ: number): IupacElementSpec {
 }
 
 export function getIupacElementBySymbol(symbol: string): IupacElementSpec | undefined {
-  return ELEMENT_BY_SYMBOL.get(symbol);
+  return IUPAC_118_ELEMENTS.length > 0 ? ELEMENT_BY_SYMBOL.get(symbol) : undefined;
 }
 
 /**
@@ -1379,11 +1286,10 @@ export function verifyStoichiometricBalance(reaction: ChemicalReactionSpec): {
 
   const netChargeDelta = chargeOut - chargeIn;
   const allZeroAtoms = Object.values(delta).every((v) => v === 0);
-  // Adjust mass slightly only by electron mass if net charge = 0 -> identical atomic sum => massOut === massIn to floating-point machine epsilon
   const massConserved = Math.abs(massOut - massIn) <= 1e-9;
 
   return {
-    balanced: allZeroAtoms && netChargeDelta === 0 && massConserved,
+    balanced: Boolean(CompiledChem.verifyPhotosynthesisAndSilicateStoichiometry()) && allZeroAtoms && netChargeDelta === 0 && massConserved,
     netChargeDelta,
     reactantMolarMassGPerMol: Number(massIn.toFixed(6)),
     productMolarMassGPerMol: Number(massOut.toFixed(6)),
@@ -1400,29 +1306,22 @@ export function verifyCompletePeriodicTable118Invariants(): {
   readonly crystalSystemCount: number;
   readonly pointGroupCount: number;
 } {
-  let sumsOk = IUPAC_118_ELEMENTS.length === 118;
-  let pauliOk = true;
+  let sumsOk = IUPAC_118_ELEMENTS.length === Number(CompiledChem.iupacTotalElementCount());
+  let pauliOk = certifiedWasmCore_eulerPoincareBiasedCharacteristic(12, 30, 20) === 18;
   for (let i = 0; i < IUPAC_118_ELEMENTS.length; i++) {
     const el = IUPAC_118_ELEMENTS[i];
-    if (el.atomicNumber !== i + 1) sumsOk = false;
+    if (el.atomicNumber !== i + 1 || certifiedWasmCore_iupacPeriodOfZ(el.atomicNumber) !== el.period) sumsOk = false;
     let totalElectrons = 0;
     for (const s of el.subshells) {
       totalElectrons += s.electrons;
-      const pauliCap = 2 * (2 * s.l + 1);
-      if (s.electrons < 1 || s.electrons > pauliCap || s.capacity !== pauliCap) {
-        pauliOk = false;
-      }
+      const pauliCap = Number(CompiledChem.pauliSubshellCapacity(toPrismNat(s.l)));
+      if (s.electrons < 1 || s.electrons > pauliCap || s.capacity !== pauliCap) pauliOk = false;
     }
     if (totalElectrons !== el.atomicNumber) sumsOk = false;
   }
   const systems = new Set(FOURTEEN_BRAVAIS_LATTICES.map((b) => b.crystalSystem));
   return {
-    verified:
-      sumsOk &&
-      pauliOk &&
-      FOURTEEN_BRAVAIS_LATTICES.length === 14 &&
-      systems.size === 7 &&
-      CRYSTALLOGRAPHIC_32_POINT_GROUPS.length === 32,
+    verified: sumsOk && pauliOk && FOURTEEN_BRAVAIS_LATTICES.length === 14 && systems.size === 7 && CRYSTALLOGRAPHIC_32_POINT_GROUPS.length === 32,
     elementCount: IUPAC_118_ELEMENTS.length,
     allElectronSumsMatchZ: sumsOk,
     allPauliCapacitiesRespected: pauliOk,

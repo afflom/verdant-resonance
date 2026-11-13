@@ -79,14 +79,18 @@ definition{
   name: eulerPoincareBiasedCharacteristic,
   parameters: [vertices : Nat, edges : Nat, faces : Nat],
   result: Nat,
-  body: (prim subtract ((vertices + faces) + 16) edges : Nat)
+  body: (prim subtract ((vertices + faces) + 16) edges : Nat),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepMathematicsBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (1024 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 32 : Nat))
+  body: (1024 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 32 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

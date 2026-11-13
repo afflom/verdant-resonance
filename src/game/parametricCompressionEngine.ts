@@ -35,7 +35,6 @@ import {
   certifiedWasmCore_dominates,
   certifiedWasmCore_ulebLength,
   certifiedWasmRule30Step,
-  isCertifiedWasmReady,
 } from './generatedCertifiedWasmBridge';
 
 const CompiledCompression = PRISM_COMPILED_MODULES['Foundation.Compression.V1.Model'];
@@ -244,7 +243,7 @@ export function encodeUleb128(value: number | bigint): Uint8Array {
 export function computeUleb128Length(value: number | bigint): number {
   const raw = typeof value === 'bigint' ? value : BigInt(Math.max(0, Math.floor(value)));
   const clamped = raw < 0n ? 0n : raw > U64_MAX_BIGINT ? U64_MAX_BIGINT : raw;
-  return isCertifiedWasmReady() ? certifiedWasmCore_ulebLength(clamped) : Number(CompiledCompression.ulebLength(clamped));
+  return certifiedWasmCore_ulebLength(clamped);
 }
 
 export function decodeUleb128(
@@ -523,9 +522,7 @@ export interface PerformancePair {
 
 /** Strict partial order `dominates(cand, inc)` mechanized from `Foundation.Compression.V1.Model::dominates`. */
 export function strictlyDominates(cand: PerformancePair, inc: PerformancePair): boolean {
-  return isCertifiedWasmReady()
-    ? certifiedWasmCore_dominates(Math.floor(cand.bytes), Math.floor(cand.decodeSteps), Math.floor(inc.bytes), Math.floor(inc.decodeSteps))
-    : CompiledCompression.dominates(toPrismNat(cand.bytes), toPrismNat(cand.decodeSteps), toPrismNat(inc.bytes), toPrismNat(inc.decodeSteps));
+  return certifiedWasmCore_dominates(Math.floor(cand.bytes), Math.floor(cand.decodeSteps), Math.floor(inc.bytes), Math.floor(inc.decodeSteps));
 }
 
 /** Lexicographic choice (`bytes`, then `decodeSteps`) from `Foundation.Compression.V1.Model::pickBytes/pickSteps`. */
@@ -1769,8 +1766,7 @@ export const RULE30_STEP_ONE64 = 9223372036854775811n;
  */
 export function stepPureRule30Ring64(state64: bigint): bigint {
   const s = state64 & RULE30_MASK64;
-  if (s === 0n) return 0n;
-  return isCertifiedWasmReady() ? certifiedWasmRule30Step(s) : CompiledCompression.rule30Step(s);
+  return s === 0n ? 0n : certifiedWasmRule30Step(s);
 }
 
 /**
@@ -1781,8 +1777,7 @@ export function stepPureRule30Ring64(state64: bigint): bigint {
  *  - `stepRule30Ring64(1n) === 9223372036854775811n`
  */
 export function stepRule30Ring64(state64: bigint): bigint {
-  const s = state64 & RULE30_MASK64;
-  return isCertifiedWasmReady() ? certifiedWasmRule30Step(s) : CompiledCompression.rule30Step(s);
+  return certifiedWasmRule30Step(state64 & RULE30_MASK64);
 }
 
 export type PortfolioGeneratorKind =

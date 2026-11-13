@@ -236,7 +236,9 @@ definition{
   name: stepTeleologyBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 28 : Nat))
+  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 28 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -299,7 +301,7 @@ definition{
   name: breaksZeroOrphanElementsAndZeroManualOverrides,
   parameters: [orphan : Nat, manual : Nat],
   result: Bool,
-  body: (((orphan <=? (orphanUnexplainedElementsZero)) && (0 <? orphan)) || (((manual <=? (manualNeuromorphicControlsZero)) && (0 <? manual)) || (not (verifyZeroOrphanElementsAndZeroManualControls 0 0))))
+  body: (((orphan <=? (orphanUnexplainedElementsZero)) && (0 <? orphan)) || (((manual <=? (manualNeuromorphicControlsZero)) && (0 <? manual)) || ((0 <? (orphanUnexplainedElementsZero)) || (0 <? (manualNeuromorphicControlsZero)))))
 }
 
 theorem{
@@ -310,11 +312,10 @@ theorem{
     definitions: [
       breaksZeroOrphanElementsAndZeroManualOverrides,
       manualNeuromorphicControlsZero,
-      orphanUnexplainedElementsZero,
-      verifyZeroOrphanElementsAndZeroManualControls
+      orphanUnexplainedElementsZero
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -342,7 +343,7 @@ definition{
   name: breaksSceneBijectivePhenomenonClosure,
   parameters: [mapped : Nat, sceneGroups : Nat, minReq : Nat, orphan : Nat],
   result: Bool,
-  body: ((((mapped <? 20) || ((20 <? mapped) || ((sceneGroups <? 20) || ((20 <? sceneGroups) || ((minReq <? 3) || (0 <? orphan)))))) && (verifySceneBijectivePhenomenonClosure mapped sceneGroups minReq orphan)) || (not (verifySceneBijectivePhenomenonClosure 20 20 3 0)))
+  body: (((((mapped <? 20) && (verifySceneBijectivePhenomenonClosure mapped sceneGroups minReq orphan)) || ((20 <? mapped) && (verifySceneBijectivePhenomenonClosure mapped sceneGroups minReq orphan))) || ((((sceneGroups <? 20) && (verifySceneBijectivePhenomenonClosure mapped sceneGroups minReq orphan)) || ((20 <? sceneGroups) && (verifySceneBijectivePhenomenonClosure mapped sceneGroups minReq orphan))) || (((minReq <? 3) && (verifySceneBijectivePhenomenonClosure mapped sceneGroups minReq orphan)) || ((0 <? orphan) && (verifySceneBijectivePhenomenonClosure mapped sceneGroups minReq orphan))))) || (((synthesizedWorldPhenomenaTotal) <? 20) || ((20 <? (synthesizedWorldPhenomenaTotal)) || ((3 <? (minRequiringModelsPerPhenomenon)) || (0 <? (orphanUnexplainedElementsZero))))))
 }
 
 theorem{
@@ -358,7 +359,7 @@ theorem{
       verifySceneBijectivePhenomenonClosure
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -408,7 +409,7 @@ definition{
   name: breaksPhysicalBasisAndTriuneObserverCuration,
   parameters: [embedMm : Nat, archPct : Nat, uniqueNiches : Nat],
   result: Bool,
-  body: ((((((embedMm <? (minMonumentFoundationEmbedMm)) || (archPct <? 100)) && (verifyPhysicalLoadPathAndPendulumLaw embedMm archPct 90 2670 2374)) || (((uniqueNiches <? (observerUnifiedFacetTotal)) || ((observerUnifiedFacetTotal) <? uniqueNiches)) && (verifyTriuneObserverMotivation 280 uniqueNiches 3 (stepCuratorialAffinityPermille 16 100)))) || ((verifyHierarchicalCardanAndPortalClearance 3 0 1780) || ((verifyHierarchicalCardanAndPortalClearance 4 1 1780) || (verifyHierarchicalCardanAndPortalClearance 4 0 800)))) || ((not (verifyHierarchicalCardanAndPortalClearance 4 0 1780)) || ((not (verifyPhysicalLoadPathAndPendulumLaw 280 100 90 2670 2374)) || ((not (verifyTriuneObserverMotivation 280 23 3 (stepCuratorialAffinityPermille 16 100))) || ((stepCuratorialAffinityPermille 16 100) <=? (stepCuratorialAffinityPermille 8 50))))))
+  body: (((((((embedMm <? (minMonumentFoundationEmbedMm)) && (verifyPhysicalLoadPathAndPendulumLaw embedMm archPct 90 2670 2374)) || ((archPct <? 100) && (verifyPhysicalLoadPathAndPendulumLaw embedMm archPct 90 2670 2374))) || (((uniqueNiches <? (observerUnifiedFacetTotal)) && (verifyTriuneObserverMotivation 280 uniqueNiches 3 (stepCuratorialAffinityPermille 16 100))) || (((observerUnifiedFacetTotal) <? uniqueNiches) && (verifyTriuneObserverMotivation 280 uniqueNiches 3 (stepCuratorialAffinityPermille 16 100))))) || ((verifyHierarchicalCardanAndPortalClearance 3 0 1780) || ((verifyHierarchicalCardanAndPortalClearance 4 1 1780) || (verifyHierarchicalCardanAndPortalClearance 4 0 800)))) || ((4 <? (cardanKinematicChainDepth)) || ((1780 <? (minWalkablePortalClearanceMm)) || (280 <? (minMonumentFoundationEmbedMm))))) || (((((observerUnifiedFacetTotal) <? 23) || (23 <? (observerUnifiedFacetTotal))) || ((((intrinsicObserverDirectiveTotal) <? 3) || (3 <? (intrinsicObserverDirectiveTotal))) || ((stepCuratorialAffinityPermille 16 100) <? 530))) || ((stepCuratorialAffinityPermille 16 100) <=? (stepCuratorialAffinityPermille 8 50))))
 }
 
 theorem{
@@ -432,7 +433,7 @@ theorem{
       verifyTriuneObserverMotivation
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{

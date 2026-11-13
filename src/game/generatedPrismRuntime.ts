@@ -2210,15 +2210,15 @@ export function Foundation_Neuromorphic_V1_Model_breaksAutopoieticRefinementConv
 }
 
 export function Foundation_Neuromorphic_V1_Model_breaksZeroManualIterationOverhead(w: bigint): boolean {
-  return (((Foundation_Neuromorphic_V1_Model_weightMin() <= w) && (w < Foundation_Neuromorphic_V1_Model_weightMax())) && (!Foundation_Neuromorphic_V1_Model_verifySingleCallPropagatesAllTenDomains(w)));
+  return (() => { const b = Foundation_Neuromorphic_V1_Model_stepUniversalBusBroadcast(Foundation_Neuromorphic_V1_Model_uniformBusManifold(w), true); return (((Foundation_Neuromorphic_V1_Model_weightMin() <= w) && (w < Foundation_Neuromorphic_V1_Model_weightMax())) && (((((((((((b.wInfrastructure <= w) || (b.wPhysics <= w)) || (b.wBotany <= w)) || (b.wEcology <= w)) || (b.wAcoustics <= w)) || (b.wArticulation <= w)) || (b.wSoundtrack <= w)) || (b.wHumane <= w)) || (b.wBrand <= w)) || (b.wNeuromorphic <= w)) || ((Foundation_Neuromorphic_V1_Model_weightMax() < b.wNeuromorphic) || (Foundation_Neuromorphic_V1_Model_weightMax() < b.wInfrastructure)))); })();
 }
 
 export function Foundation_Neuromorphic_V1_Model_breaksAutopoieticSingleCallAllTenDomains(w: bigint): boolean {
-  return (((Foundation_Neuromorphic_V1_Model_weightMin() <= w) && (w < Foundation_Neuromorphic_V1_Model_weightMax())) && (!Foundation_Neuromorphic_V1_Model_verifyAutopoieticSingleCallAdvancesAllTenDomains(w)));
+  return (() => { const b = Foundation_Neuromorphic_V1_Model_stepAutopoieticBusManifold(Foundation_Neuromorphic_V1_Model_uniformBusManifold(w), Foundation_Neuromorphic_V1_Model_weightMax()); return (((Foundation_Neuromorphic_V1_Model_weightMin() <= w) && (w < Foundation_Neuromorphic_V1_Model_weightMax())) && ((((((((((b.wInfrastructure <= w) || (b.wPhysics <= w)) || (b.wBotany <= w)) || (b.wEcology <= w)) || (b.wAcoustics <= w)) || (b.wArticulation <= w)) || (b.wSoundtrack <= w)) || (b.wHumane <= w)) || (b.wBrand <= w)) || ((b.wNeuromorphic <= w) || (Foundation_Neuromorphic_V1_Model_weightMax() < b.wNeuromorphic)))); })();
 }
 
 export function Foundation_Neuromorphic_V1_Model_breaksBusBroadcastBoundsInvariant(w: bigint, sourceConsolidated: boolean): boolean {
-  return (!Foundation_Neuromorphic_V1_Model_verifyBusManifoldBounds(Foundation_Neuromorphic_V1_Model_stepUniversalBusBroadcast(Foundation_Neuromorphic_V1_Model_uniformBusManifold(w), sourceConsolidated)));
+  return (() => { const s = Foundation_Neuromorphic_V1_Model_stepUniversalBusBroadcast(Foundation_Neuromorphic_V1_Model_uniformBusManifold(w), sourceConsolidated); return (((((((((((s.wInfrastructure < Foundation_Neuromorphic_V1_Model_weightMin()) || (Foundation_Neuromorphic_V1_Model_weightMax() < s.wInfrastructure)) || ((s.wPhysics < Foundation_Neuromorphic_V1_Model_weightMin()) || (Foundation_Neuromorphic_V1_Model_weightMax() < s.wPhysics))) || ((s.wBotany < Foundation_Neuromorphic_V1_Model_weightMin()) || (Foundation_Neuromorphic_V1_Model_weightMax() < s.wBotany))) || ((s.wEcology < Foundation_Neuromorphic_V1_Model_weightMin()) || (Foundation_Neuromorphic_V1_Model_weightMax() < s.wEcology))) || ((s.wAcoustics < Foundation_Neuromorphic_V1_Model_weightMin()) || (Foundation_Neuromorphic_V1_Model_weightMax() < s.wAcoustics))) || ((s.wArticulation < Foundation_Neuromorphic_V1_Model_weightMin()) || (Foundation_Neuromorphic_V1_Model_weightMax() < s.wArticulation))) || ((s.wSoundtrack < Foundation_Neuromorphic_V1_Model_weightMin()) || (Foundation_Neuromorphic_V1_Model_weightMax() < s.wSoundtrack))) || ((s.wHumane < Foundation_Neuromorphic_V1_Model_weightMin()) || (Foundation_Neuromorphic_V1_Model_weightMax() < s.wHumane))) || ((s.wBrand < Foundation_Neuromorphic_V1_Model_weightMin()) || (Foundation_Neuromorphic_V1_Model_weightMax() < s.wBrand))) || ((s.wNeuromorphic < Foundation_Neuromorphic_V1_Model_weightMin()) || (Foundation_Neuromorphic_V1_Model_weightMax() < s.wNeuromorphic))); })();
 }
 
 export function Foundation_Neuromorphic_V1_Model_breaksStakeholderValueReinforcementBound(w: bigint, allFacetsActive: boolean): boolean {
@@ -2226,7 +2226,7 @@ export function Foundation_Neuromorphic_V1_Model_breaksStakeholderValueReinforce
 }
 
 export function Foundation_Neuromorphic_V1_Model_breaksEmergentEntityWisdomPhenomena(w: bigint): boolean {
-  return (((Foundation_Neuromorphic_V1_Model_weightMin() <= w) && (w < Foundation_Neuromorphic_V1_Model_weightMax())) && (!Foundation_Neuromorphic_V1_Model_verifyEmergentEntitySynthesizesFacets(w)));
+  return (() => { const r = Foundation_Neuromorphic_V1_Model_stepStakeholderValueReinforcement(w, true); return (((Foundation_Neuromorphic_V1_Model_weightMin() <= w) && (w < Foundation_Neuromorphic_V1_Model_weightMax())) && (((r <= w) || (Foundation_Neuromorphic_V1_Model_stepWisdomPhenomenonModulation(r) <= Foundation_Neuromorphic_V1_Model_stepWisdomPhenomenonModulation(w))) || (Foundation_Neuromorphic_V1_Model_weightMax() < r))); })();
 }
 
 export function Foundation_Neuromorphic_V1_Model_breaksObserverTheoryOfMindMonotonic(w: bigint): boolean {
@@ -2234,11 +2234,11 @@ export function Foundation_Neuromorphic_V1_Model_breaksObserverTheoryOfMindMonot
 }
 
 export function Foundation_Neuromorphic_V1_Model_breaksSupraDirectiveExceedsBaseDirective(w: bigint): boolean {
-  return (((Foundation_Neuromorphic_V1_Model_weightInitial() <= w) && (w <= Foundation_Neuromorphic_V1_Model_weightMax())) && (!Foundation_Neuromorphic_V1_Model_verifyObserverSupraDirectiveTranscendence(w)));
+  return (() => { const p = Foundation_Neuromorphic_V1_Model_learnWeightPotentiated(w); return (((Foundation_Neuromorphic_V1_Model_weightInitial() <= w) && (w <= Foundation_Neuromorphic_V1_Model_weightMax())) && (((((Foundation_Neuromorphic_V1_Model_stepSupraDirectiveFidelityPermille(p) <= Foundation_Neuromorphic_V1_Model_stepSupraDirectiveFidelityPermille(Foundation_Neuromorphic_V1_Model_weightInitial())) || (Foundation_Neuromorphic_V1_Model_stepSupraDirectiveQualityPermille(p) <= Foundation_Neuromorphic_V1_Model_stepSupraDirectiveQualityPermille(Foundation_Neuromorphic_V1_Model_weightInitial()))) || (Foundation_Neuromorphic_V1_Model_stepSupraDirectiveDefinitionSubdiv(p) <= Foundation_Neuromorphic_V1_Model_stepSupraDirectiveDefinitionSubdiv(Foundation_Neuromorphic_V1_Model_weightInitial()))) || (Foundation_Neuromorphic_V1_Model_stepSupraDirectiveFeatureUnlockCount(p) <= Foundation_Neuromorphic_V1_Model_stepSupraDirectiveFeatureUnlockCount(Foundation_Neuromorphic_V1_Model_weightInitial()))) || (Foundation_Neuromorphic_V1_Model_stepTheoryOfMindCoherencePermille(p) <= Foundation_Neuromorphic_V1_Model_stepTheoryOfMindCoherencePermille(Foundation_Neuromorphic_V1_Model_weightInitial())))); })();
 }
 
 export function Foundation_Neuromorphic_V1_Model_breaksRule30DoublingLawDuality(w: bigint): boolean {
-  return (!Foundation_Neuromorphic_V1_Model_verifyRule30DeterministicAndWithdrawnDuality(w));
+  return (((((Foundation_Neuromorphic_V1_Model_stepRule30LeftDiagonalPeriod(1n) <= Foundation_Neuromorphic_V1_Model_stepRule30LeftDiagonalPeriod(0n)) || (Foundation_Neuromorphic_V1_Model_stepRule30LeftDiagonalPeriod(2n) <= Foundation_Neuromorphic_V1_Model_stepRule30LeftDiagonalPeriod(1n))) || (Foundation_Neuromorphic_V1_Model_stepRule30LeftDiagonalPeriod(3n) <= Foundation_Neuromorphic_V1_Model_stepRule30LeftDiagonalPeriod(2n))) || (0n < Foundation_Neuromorphic_V1_Model_stepRule30AperiodicCompensationIndex(2n, w))) || (Foundation_Neuromorphic_V1_Model_stepRule30AperiodicCompensationIndex(3n, w) <= 0n));
 }
 
 let _c_Foundation_Neuromorphic_V1_Model_directedFunctorCellTotal: bigint | undefined;
@@ -2514,7 +2514,7 @@ export function Foundation_Neuromorphic_V1_Model_neuromorphicCanonicalDescriptor
 }
 
 export function Foundation_Neuromorphic_V1_Model_breaksFunctorAllToAllEnhancement(w: bigint): boolean {
-  return (((Foundation_Neuromorphic_V1_Model_weightMin() <= w) && (w < Foundation_Neuromorphic_V1_Model_weightMax())) && (!Foundation_Neuromorphic_V1_Model_verifyAllModelsEnhanceAllModelsFunctor(w)));
+  return (() => { const wNext = Foundation_Neuromorphic_V1_Model_transferWeightCrossDomain(w, true); const dDiff = _natSub(Foundation_Neuromorphic_V1_Model_directedFunctorCellTotal(), Foundation_MetaModel_V1_Model_canonicalStandardModelTotalCount()); return (((Foundation_Neuromorphic_V1_Model_weightMin() <= w) && (w < Foundation_Neuromorphic_V1_Model_weightMax())) && ((((Foundation_Neuromorphic_V1_Model_stepFunctorFeatureTransferGainPermille(wNext, wNext) <= Foundation_Neuromorphic_V1_Model_stepFunctorFeatureTransferGainPermille(w, w)) || (Foundation_Neuromorphic_V1_Model_stepVariationalFreeEnergySurprisalPermille(w) <= Foundation_Neuromorphic_V1_Model_stepVariationalFreeEnergySurprisalPermille(wNext))) || ((dDiff < Foundation_Neuromorphic_V1_Model_crossModelFunctorPathwayTotal()) || (Foundation_Neuromorphic_V1_Model_crossModelFunctorPathwayTotal() < dDiff))) || Foundation_Neuromorphic_V1_Model_breaksZeroManualIterationOverhead(w))); })();
 }
 
 export function Foundation_Neuromorphic_V1_Model_breaksNeuromorphicDescriptorComplete(probe: bigint): boolean {
@@ -3170,7 +3170,7 @@ export function Foundation_Chemistry_V1_Model_verdantChemistryStandard(): Founda
 }
 
 export function Foundation_Chemistry_V1_Model_breaksPauli118AndBravaisClosure(z: bigint): boolean {
-  return ((!Foundation_Chemistry_V1_Model_verifyPauli118PeriodicClosure()) || ((!Foundation_Chemistry_V1_Model_verifyFourteenBravaisClosure()) || ((Foundation_Chemistry_V1_Model_iupacPeriodOfZ(z) < 1n) || (7n < Foundation_Chemistry_V1_Model_iupacPeriodOfZ(z)))));
+  return (() => { const sCap = Foundation_Chemistry_V1_Model_pauliSubshellCapacity(0n); const pCap = Foundation_Chemistry_V1_Model_pauliSubshellCapacity(1n); const dCap = Foundation_Chemistry_V1_Model_pauliSubshellCapacity(2n); const fCap = Foundation_Chemistry_V1_Model_pauliSubshellCapacity(3n); const per2 = (sCap + pCap); const per4 = ((sCap + dCap) + pCap); const per6 = (((sCap + fCap) + dCap) + pCap); const tot = ((((((sCap + per2) + per2) + per4) + per4) + per6) + per6); const bravSum = ((((((1n + 2n) + 4n) + 2n) + 1n) + 1n) + 3n); return (((tot < Foundation_Chemistry_V1_Model_iupacTotalElementCount()) || (Foundation_Chemistry_V1_Model_iupacTotalElementCount() < tot)) || (((bravSum < Foundation_Chemistry_V1_Model_bravaisLatticeTotal()) || (Foundation_Chemistry_V1_Model_bravaisLatticeTotal() < bravSum)) || ((Foundation_Chemistry_V1_Model_iupacPeriodOfZ(z) < 1n) || (7n < Foundation_Chemistry_V1_Model_iupacPeriodOfZ(z))))); })();
 }
 
 export function Foundation_Chemistry_V1_Model_breaksNeutralAtomChargeBalance(z: bigint): boolean {
@@ -3429,7 +3429,7 @@ export function Foundation_Brand_V1_Model_breaksBrandNeuromorphicCoupling(busWei
 }
 
 export function Foundation_Brand_V1_Model_breaksParametricDisplayDesignClosure(busWeight: bigint): boolean {
-  return (!Foundation_Brand_V1_Model_verifyParametricDisplayDesignClosure(busWeight));
+  return (() => { const nextW = Foundation_Neuromorphic_V1_Model_learnWeightPotentiated(busWeight); return (((Foundation_Brand_V1_Model_stepBrandBusModulation(busWeight) < Foundation_Brand_V1_Model_wcagAaMinimumContrastTenths()) || (Foundation_Brand_V1_Model_synthesizeParametricDisplayHarmonizedContrastTenths(busWeight) < Foundation_Brand_V1_Model_wcagAaaMinimumContrastTenths())) || ((Foundation_Brand_V1_Model_parametricOuterRadiusPx(busWeight) <= Foundation_Brand_V1_Model_parametricInnerRadiusPx(busWeight)) || (Foundation_Brand_V1_Model_synthesizeParametricDisplayHarmonizedContrastTenths(nextW) < Foundation_Brand_V1_Model_synthesizeParametricDisplayHarmonizedContrastTenths(busWeight)))); })();
 }
 
 let _c_Foundation_Brand_V1_Model_apcaMinimumBodyLc: bigint | undefined;
@@ -3659,11 +3659,11 @@ export function Foundation_Compression_V1_Model_lexGap(ab: bigint, as: bigint, c
 }
 
 export function Foundation_Compression_V1_Model_pickBytes(b: bigint, s: bigint, kb: bigint, ks: bigint): bigint {
-  return (((b < kb) || ((b === kb) && (s < ks))) ? b : kb);
+  return ((b < kb) ? b : ((b === kb) ? ((s < ks) ? b : kb) : kb));
 }
 
 export function Foundation_Compression_V1_Model_pickSteps(b: bigint, s: bigint, kb: bigint, ks: bigint): bigint {
-  return (((b < kb) || ((b === kb) && (s < ks))) ? s : ks);
+  return ((b < kb) ? s : ((b === kb) ? ((s < ks) ? s : ks) : ks));
 }
 
 export function Foundation_Compression_V1_Model_dominates(cb: bigint, cs: bigint, ib: bigint, it: bigint): boolean {
@@ -3671,15 +3671,15 @@ export function Foundation_Compression_V1_Model_dominates(cb: bigint, cs: bigint
 }
 
 export function Foundation_Compression_V1_Model_gainOf(cb: bigint, cs: bigint, ib: bigint, it: bigint): bigint {
-  return (((cb <= ib) && (cs <= it)) ? _natSub((ib + it), (cb + cs)) : 0n);
+  return ((cb <= ib) ? ((cs <= it) ? _natSub((ib + it), (cb + cs)) : 0n) : 0n);
 }
 
 export function Foundation_Compression_V1_Model_consolidateBytes(cb: bigint, cs: bigint, ib: bigint, it: bigint): bigint {
-  return (Foundation_Compression_V1_Model_dominates(cb, cs, ib, it) ? cb : ib);
+  return ((cb <= ib) ? ((cs <= it) ? ((cb < ib) ? cb : ((cs < it) ? cb : ib)) : ib) : ib);
 }
 
 export function Foundation_Compression_V1_Model_consolidateSteps(cb: bigint, cs: bigint, ib: bigint, it: bigint): bigint {
-  return (Foundation_Compression_V1_Model_dominates(cb, cs, ib, it) ? cs : it);
+  return ((cb <= ib) ? ((cs <= it) ? ((cb < ib) ? cs : ((cs < it) ? cs : it)) : it) : it);
 }
 
 export function Foundation_Compression_V1_Model_consolidateCost(cb: bigint, cs: bigint, ib: bigint, it: bigint): bigint {
@@ -3778,11 +3778,11 @@ export function Foundation_Compression_V1_Model_breaksArchiveAndDecodeStepBounds
 }
 
 export function Foundation_Compression_V1_Model_breaksZeroDefectAdmissionAndLexicographicChoice(b: bigint, s: bigint, kb: bigint, ks: bigint, defect: bigint, rawB: bigint): boolean {
-  return ((((0n < defect) && (!(Foundation_Compression_V1_Model_admitZeroDefectBytes(b, defect, rawB) === rawB))) || (rawB < Foundation_Compression_V1_Model_admitZeroDefectBytes(b, defect, rawB))) || ((((0n < Foundation_Compression_V1_Model_lexGap(Foundation_Compression_V1_Model_pickBytes(b, s, kb, ks), Foundation_Compression_V1_Model_pickSteps(b, s, kb, ks), kb, ks)) || (0n < Foundation_Compression_V1_Model_lexGap(Foundation_Compression_V1_Model_pickBytes(b, s, kb, ks), Foundation_Compression_V1_Model_pickSteps(b, s, kb, ks), b, s))) || (!(Foundation_Compression_V1_Model_pickBytes(b, s, kb, ks) === Foundation_Compression_V1_Model_settleBytes(b, kb)))) || ((!(0n < Foundation_Compression_V1_Model_lexGap(b, s, kb, ks))) && (0n < Foundation_Compression_V1_Model_gainOf(kb, ks, b, s)))));
+  return (((((0n < defect) && (Foundation_Compression_V1_Model_admitZeroDefectBytes(b, defect, rawB) < rawB)) || ((0n < defect) && (rawB < Foundation_Compression_V1_Model_admitZeroDefectBytes(b, defect, rawB)))) || (rawB < Foundation_Compression_V1_Model_admitZeroDefectBytes(b, defect, rawB))) || ((((0n < Foundation_Compression_V1_Model_lexGap(Foundation_Compression_V1_Model_pickBytes(b, s, kb, ks), Foundation_Compression_V1_Model_pickSteps(b, s, kb, ks), kb, ks)) || (0n < Foundation_Compression_V1_Model_lexGap(Foundation_Compression_V1_Model_pickBytes(b, s, kb, ks), Foundation_Compression_V1_Model_pickSteps(b, s, kb, ks), b, s))) || ((Foundation_Compression_V1_Model_pickBytes(b, s, kb, ks) < Foundation_Compression_V1_Model_settleBytes(b, kb)) || (Foundation_Compression_V1_Model_settleBytes(b, kb) < Foundation_Compression_V1_Model_pickBytes(b, s, kb, ks)))) || ((Foundation_Compression_V1_Model_lexGap(b, s, kb, ks) <= 0n) && (0n < Foundation_Compression_V1_Model_gainOf(kb, ks, b, s)))));
 }
 
 export function Foundation_Compression_V1_Model_breaksStrictDominanceAndPotentialDescent(ab: bigint, as: bigint, bb: bigint, bs: bigint, cb: bigint, cs: bigint): boolean {
-  return ((Foundation_Compression_V1_Model_dominates(ab, as, ab, as) || (Foundation_Compression_V1_Model_dominates(ab, as, bb, bs) && Foundation_Compression_V1_Model_dominates(bb, bs, ab, as))) || (((Foundation_Compression_V1_Model_dominates(ab, as, bb, bs) && Foundation_Compression_V1_Model_dominates(bb, bs, cb, cs)) && (!Foundation_Compression_V1_Model_dominates(ab, as, cb, cs))) || (((Foundation_Compression_V1_Model_dominates(ab, as, bb, bs) && (((bb < ab) || (bs < as)) || ((bb + bs) <= (ab + as)))) || (!((Foundation_Compression_V1_Model_consolidateCost(ab, as, bb, bs) + Foundation_Compression_V1_Model_gainOf(ab, as, bb, bs)) === (bb + bs)))) || ((bb + bs) < Foundation_Compression_V1_Model_consolidateCost(ab, as, bb, bs)))));
+  return ((Foundation_Compression_V1_Model_dominates(ab, as, ab, as) || (Foundation_Compression_V1_Model_dominates(ab, as, bb, bs) && Foundation_Compression_V1_Model_dominates(bb, bs, ab, as))) || (((((Foundation_Compression_V1_Model_dominates(ab, as, bb, bs) && Foundation_Compression_V1_Model_dominates(bb, bs, cb, cs)) && (cb < ab)) || ((Foundation_Compression_V1_Model_dominates(ab, as, bb, bs) && Foundation_Compression_V1_Model_dominates(bb, bs, cb, cs)) && (cs < as))) || ((Foundation_Compression_V1_Model_dominates(ab, as, bb, bs) && Foundation_Compression_V1_Model_dominates(bb, bs, cb, cs)) && ((cb <= ab) && (cs <= as)))) || (((Foundation_Compression_V1_Model_dominates(ab, as, bb, bs) && (((bb < ab) || (bs < as)) || ((bb + bs) <= (ab + as)))) || (((Foundation_Compression_V1_Model_consolidateCost(ab, as, bb, bs) + Foundation_Compression_V1_Model_gainOf(ab, as, bb, bs)) < (bb + bs)) || ((bb + bs) < (Foundation_Compression_V1_Model_consolidateCost(ab, as, bb, bs) + Foundation_Compression_V1_Model_gainOf(ab, as, bb, bs))))) || ((bb + bs) < Foundation_Compression_V1_Model_consolidateCost(ab, as, bb, bs)))));
 }
 
 export function Foundation_Compression_V1_Model_breaksSaturatingLedgerExactStopAndRequirementBounds(cap: bigint, emitted: bigint, limit: bigint, threshold: bigint, observed: bigint): boolean {
@@ -4205,7 +4205,7 @@ export function Foundation_Realizability_V1_Model_verdantRealizabilityStandard()
 }
 
 export function Foundation_Realizability_V1_Model_breaksZeroRealizationGapAndCounitClosure(gap: bigint, dangling: bigint, projected: bigint): boolean {
-  return (((gap === Foundation_Realizability_V1_Model_realizationGapZero()) && (0n < gap)) || (((dangling === Foundation_Realizability_V1_Model_danglingUnprojectedPortsZero()) && (0n < dangling)) || (!Foundation_Realizability_V1_Model_verifyObserverRuntimeCounitClosure(projected, projected))));
+  return (((gap === Foundation_Realizability_V1_Model_realizationGapZero()) && (0n < gap)) || (((dangling === Foundation_Realizability_V1_Model_danglingUnprojectedPortsZero()) && (0n < dangling)) || ((projected < projected) || (0n < Foundation_Realizability_V1_Model_realizationGapZero()))));
 }
 
 export function Foundation_Realizability_V1_Model_breaksRealizabilityDifferentialSensitivityMonotonic(busWeight: bigint): boolean {
@@ -4524,7 +4524,7 @@ export function Foundation_Teleology_V1_Model_verdantTeleologyStandard(): Founda
 }
 
 export function Foundation_Teleology_V1_Model_breaksZeroOrphanElementsAndZeroManualOverrides(orphan: bigint, manual: bigint): boolean {
-  return (((orphan <= Foundation_Teleology_V1_Model_orphanUnexplainedElementsZero()) && (0n < orphan)) || (((manual <= Foundation_Teleology_V1_Model_manualNeuromorphicControlsZero()) && (0n < manual)) || (!Foundation_Teleology_V1_Model_verifyZeroOrphanElementsAndZeroManualControls(0n, 0n))));
+  return (((orphan <= Foundation_Teleology_V1_Model_orphanUnexplainedElementsZero()) && (0n < orphan)) || (((manual <= Foundation_Teleology_V1_Model_manualNeuromorphicControlsZero()) && (0n < manual)) || ((0n < Foundation_Teleology_V1_Model_orphanUnexplainedElementsZero()) || (0n < Foundation_Teleology_V1_Model_manualNeuromorphicControlsZero()))));
 }
 
 export function Foundation_Teleology_V1_Model_breaksRequirementImpliesEnvironmentalSynthesis(reqModels: bigint, matterMass: bigint, purposeGain: bigint): boolean {
@@ -4532,7 +4532,7 @@ export function Foundation_Teleology_V1_Model_breaksRequirementImpliesEnvironmen
 }
 
 export function Foundation_Teleology_V1_Model_breaksSceneBijectivePhenomenonClosure(mapped: bigint, sceneGroups: bigint, minReq: bigint, orphan: bigint): boolean {
-  return ((((mapped < 20n) || ((20n < mapped) || ((sceneGroups < 20n) || ((20n < sceneGroups) || ((minReq < 3n) || (0n < orphan)))))) && Foundation_Teleology_V1_Model_verifySceneBijectivePhenomenonClosure(mapped, sceneGroups, minReq, orphan)) || (!Foundation_Teleology_V1_Model_verifySceneBijectivePhenomenonClosure(20n, 20n, 3n, 0n)));
+  return (((((mapped < 20n) && Foundation_Teleology_V1_Model_verifySceneBijectivePhenomenonClosure(mapped, sceneGroups, minReq, orphan)) || ((20n < mapped) && Foundation_Teleology_V1_Model_verifySceneBijectivePhenomenonClosure(mapped, sceneGroups, minReq, orphan))) || ((((sceneGroups < 20n) && Foundation_Teleology_V1_Model_verifySceneBijectivePhenomenonClosure(mapped, sceneGroups, minReq, orphan)) || ((20n < sceneGroups) && Foundation_Teleology_V1_Model_verifySceneBijectivePhenomenonClosure(mapped, sceneGroups, minReq, orphan))) || (((minReq < 3n) && Foundation_Teleology_V1_Model_verifySceneBijectivePhenomenonClosure(mapped, sceneGroups, minReq, orphan)) || ((0n < orphan) && Foundation_Teleology_V1_Model_verifySceneBijectivePhenomenonClosure(mapped, sceneGroups, minReq, orphan))))) || ((Foundation_Teleology_V1_Model_synthesizedWorldPhenomenaTotal() < 20n) || ((20n < Foundation_Teleology_V1_Model_synthesizedWorldPhenomenaTotal()) || ((3n < Foundation_Teleology_V1_Model_minRequiringModelsPerPhenomenon()) || (0n < Foundation_Teleology_V1_Model_orphanUnexplainedElementsZero())))));
 }
 
 export function Foundation_Teleology_V1_Model_breaksTeleologyFulfillmentAndLandmarkMonotonic(busWeight: bigint): boolean {
@@ -4544,7 +4544,7 @@ export function Foundation_Teleology_V1_Model_breaksTeleologyDescriptorComplete(
 }
 
 export function Foundation_Teleology_V1_Model_breaksPhysicalBasisAndTriuneObserverCuration(embedMm: bigint, archPct: bigint, uniqueNiches: bigint): boolean {
-  return ((((((embedMm < Foundation_Teleology_V1_Model_minMonumentFoundationEmbedMm()) || (archPct < 100n)) && Foundation_Teleology_V1_Model_verifyPhysicalLoadPathAndPendulumLaw(embedMm, archPct, 90n, 2670n, 2374n)) || (((uniqueNiches < Foundation_Teleology_V1_Model_observerUnifiedFacetTotal()) || (Foundation_Teleology_V1_Model_observerUnifiedFacetTotal() < uniqueNiches)) && Foundation_Teleology_V1_Model_verifyTriuneObserverMotivation(280n, uniqueNiches, 3n, Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(16n, 100n)))) || (Foundation_Teleology_V1_Model_verifyHierarchicalCardanAndPortalClearance(3n, 0n, 1780n) || (Foundation_Teleology_V1_Model_verifyHierarchicalCardanAndPortalClearance(4n, 1n, 1780n) || Foundation_Teleology_V1_Model_verifyHierarchicalCardanAndPortalClearance(4n, 0n, 800n)))) || ((!Foundation_Teleology_V1_Model_verifyHierarchicalCardanAndPortalClearance(4n, 0n, 1780n)) || ((!Foundation_Teleology_V1_Model_verifyPhysicalLoadPathAndPendulumLaw(280n, 100n, 90n, 2670n, 2374n)) || ((!Foundation_Teleology_V1_Model_verifyTriuneObserverMotivation(280n, 23n, 3n, Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(16n, 100n))) || (Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(16n, 100n) <= Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(8n, 50n))))));
+  return (((((((embedMm < Foundation_Teleology_V1_Model_minMonumentFoundationEmbedMm()) && Foundation_Teleology_V1_Model_verifyPhysicalLoadPathAndPendulumLaw(embedMm, archPct, 90n, 2670n, 2374n)) || ((archPct < 100n) && Foundation_Teleology_V1_Model_verifyPhysicalLoadPathAndPendulumLaw(embedMm, archPct, 90n, 2670n, 2374n))) || (((uniqueNiches < Foundation_Teleology_V1_Model_observerUnifiedFacetTotal()) && Foundation_Teleology_V1_Model_verifyTriuneObserverMotivation(280n, uniqueNiches, 3n, Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(16n, 100n))) || ((Foundation_Teleology_V1_Model_observerUnifiedFacetTotal() < uniqueNiches) && Foundation_Teleology_V1_Model_verifyTriuneObserverMotivation(280n, uniqueNiches, 3n, Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(16n, 100n))))) || (Foundation_Teleology_V1_Model_verifyHierarchicalCardanAndPortalClearance(3n, 0n, 1780n) || (Foundation_Teleology_V1_Model_verifyHierarchicalCardanAndPortalClearance(4n, 1n, 1780n) || Foundation_Teleology_V1_Model_verifyHierarchicalCardanAndPortalClearance(4n, 0n, 800n)))) || ((4n < Foundation_Teleology_V1_Model_cardanKinematicChainDepth()) || ((1780n < Foundation_Teleology_V1_Model_minWalkablePortalClearanceMm()) || (280n < Foundation_Teleology_V1_Model_minMonumentFoundationEmbedMm())))) || ((((Foundation_Teleology_V1_Model_observerUnifiedFacetTotal() < 23n) || (23n < Foundation_Teleology_V1_Model_observerUnifiedFacetTotal())) || (((Foundation_Teleology_V1_Model_intrinsicObserverDirectiveTotal() < 3n) || (3n < Foundation_Teleology_V1_Model_intrinsicObserverDirectiveTotal())) || (Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(16n, 100n) < 530n))) || (Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(16n, 100n) <= Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(8n, 50n))));
 }
 
 export function Foundation_Teleology_V1_Model_breaksCoCuratorialOffshootAndWaystoneBounds(w1: bigint, w2: bigint): boolean {
@@ -4795,11 +4795,11 @@ export function Foundation_Dharma_V1_Model_verdantDharmaStandard(): Foundation_D
 }
 
 export function Foundation_Dharma_V1_Model_breaksAhimsaZeroViolenceAndYamaNiyamaAstangaClosure(violent: bigint, dark: bigint): boolean {
-  return ((((0n < violent) || (0n < dark)) && Foundation_Dharma_V1_Model_verifyAhimsaAndYamaNiyamaAstangaClosure(violent, dark)) || (!Foundation_Dharma_V1_Model_verifyAhimsaAndYamaNiyamaAstangaClosure(0n, 0n)));
+  return ((((0n < violent) && Foundation_Dharma_V1_Model_verifyAhimsaAndYamaNiyamaAstangaClosure(violent, dark)) || ((0n < dark) && Foundation_Dharma_V1_Model_verifyAhimsaAndYamaNiyamaAstangaClosure(violent, dark))) || ((((Foundation_Dharma_V1_Model_yamaObservanceTotal() + Foundation_Dharma_V1_Model_niyamaObservanceTotal()) < 10n) || (10n < (Foundation_Dharma_V1_Model_yamaObservanceTotal() + Foundation_Dharma_V1_Model_niyamaObservanceTotal()))) || (((Foundation_Dharma_V1_Model_astangaLimbTotal() < 8n) || (8n < Foundation_Dharma_V1_Model_astangaLimbTotal())) || (((Foundation_Dharma_V1_Model_purusarthaTotal() < 4n) || (4n < Foundation_Dharma_V1_Model_purusarthaTotal())) || ((Foundation_Dharma_V1_Model_brahmaviharaTotal() < 4n) || (4n < Foundation_Dharma_V1_Model_brahmaviharaTotal()))))));
 }
 
 export function Foundation_Dharma_V1_Model_breaksPratityasamutpadaTwelveNidanaCausalClosure(nidanas: bigint, acausal: bigint): boolean {
-  return ((((nidanas < 12n) || ((12n < nidanas) || (0n < acausal))) && Foundation_Dharma_V1_Model_verifyPratityasamutpadaTwelveLinkClosure(nidanas, acausal)) || (!Foundation_Dharma_V1_Model_verifyPratityasamutpadaTwelveLinkClosure(12n, 0n)));
+  return ((((nidanas < 12n) && Foundation_Dharma_V1_Model_verifyPratityasamutpadaTwelveLinkClosure(nidanas, acausal)) || (((12n < nidanas) && Foundation_Dharma_V1_Model_verifyPratityasamutpadaTwelveLinkClosure(nidanas, acausal)) || ((0n < acausal) && Foundation_Dharma_V1_Model_verifyPratityasamutpadaTwelveLinkClosure(nidanas, acausal)))) || ((Foundation_Dharma_V1_Model_pratityasamutpadaNidanaTotal() < 12n) || ((12n < Foundation_Dharma_V1_Model_pratityasamutpadaNidanaTotal()) || (0n < Foundation_Dharma_V1_Model_acausalOrphanPhenomenaZero()))));
 }
 
 export function Foundation_Dharma_V1_Model_breaksRtaAndLokasangrahaWorldWelfareMonotonic(busWeight: bigint, harmonyPct: bigint, awakenedSpecies: bigint): boolean {
@@ -4935,16 +4935,28 @@ export function Foundation_Cosmogenesis_V1_Model_verdantCosmogenesisStandard(): 
   return _c_Foundation_Cosmogenesis_V1_Model_verdantCosmogenesisStandard !== undefined ? _c_Foundation_Cosmogenesis_V1_Model_verdantCosmogenesisStandard : (_c_Foundation_Cosmogenesis_V1_Model_verdantCosmogenesisStandard = (() => { const w0 = Foundation_Neuromorphic_V1_Model_weightInitial(); const wMax = Foundation_Neuromorphic_V1_Model_weightMax(); const treeCount = _natMul(w0, w0); const m = Foundation_Neuromorphic_V1_Model_meadowPrime(); const quadCount = _natMul(m, m); return ({ profile: "prism/cosmogenesis-alpha-omega/1", alphaOmega: ({ observerIsAlphaCreator: Foundation_Cosmogenesis_V1_Model_verifyObserverCreatesAllThreeRealms(1n, w0), observerIsOmegaAttractor: (Foundation_Cosmogenesis_V1_Model_stepAlphaOmegaFieldPotential(1n, w0) < Foundation_Cosmogenesis_V1_Model_stepAlphaOmegaFieldPotential(1n, wMax)), allPartsAreObserver: (Foundation_Neuromorphic_V1_Model_observerPartCountTotal() === Foundation_Neuromorphic_V1_Model_sanctuaryPrime()), zeroHardcodedKernelParameters: ((Foundation_Cosmogenesis_V1_Model_synthesizeParametricInorganicScalePermille(1n, w0, w0) === Foundation_Cosmogenesis_V1_Model_synthesizeParametricOrganicVitalityPermille(1n, w0, w0)) && (Foundation_Cosmogenesis_V1_Model_synthesizeParametricOrganicVitalityPermille(1n, w0, w0) === Foundation_Cosmogenesis_V1_Model_synthesizeParametricPlayerEmbodimentPermille(1n, w0, w0))), cosmogenesisBasisPrime: Foundation_Cosmogenesis_V1_Model_cosmogenesisBasisPrime(), createdRealmCount: Foundation_Cosmogenesis_V1_Model_createdRealmCount(), unifiedObserverPartCount: Foundation_Neuromorphic_V1_Model_observerPartCountTotal() } as Foundation_Cosmogenesis_V1_Model_AlphaOmegaGenesisSpec), inorganicRealm: ({ observerMonumentCount: Foundation_Cosmogenesis_V1_Model_observerMonumentCount(), steppingStoneHarmonicCount: treeCount, shorelineBoulderCount: _natMul(quadCount, _natSub(wMax, Foundation_Neuromorphic_V1_Model_grovePrime())), standingWaveMineralizationEnabled: (Foundation_Cosmogenesis_V1_Model_synthesizeParametricInorganicScalePermille(1n, w0, w0) < Foundation_Cosmogenesis_V1_Model_synthesizeParametricInorganicScalePermille(1n, wMax, wMax)), structuralWeldContinuityVerified: Foundation_Cosmogenesis_V1_Model_verifyAlphaOmegaParametricClosure(1n, w0) } as Foundation_Cosmogenesis_V1_Model_InorganicDemiurgicSynthesisSpec), organicRealm: ({ speciesCount: Foundation_Cosmogenesis_V1_Model_observerMonumentCount(), phyllotaxisTreeCount: treeCount, attachedCanopyCrownCount: _natMul(treeCount, m), permeableTurfBladeCount: _natMul(_natMul(Foundation_Cosmogenesis_V1_Model_observerMonumentCount(), w0), (w0 + 1n)), emergesFromGranularChemistryAndPhysics: (Foundation_Ecology_V1_Model_verifyCompleteGranularSynthesisClosure(w0) && (Foundation_Cosmogenesis_V1_Model_synthesizeParametricOrganicVitalityPermille(1n, w0, w0) < Foundation_Cosmogenesis_V1_Model_synthesizeParametricOrganicVitalityPermille(1n, wMax, wMax))) } as Foundation_Cosmogenesis_V1_Model_OrganicAutopoieticSynthesisSpec), playerRealm: ({ synthesizesUserPlayerModel: Foundation_Cosmogenesis_V1_Model_verifyObserverCreatesAllThreeRealms(1n, w0), coEvolvesWithNeuromorphicBus: (Foundation_Cosmogenesis_V1_Model_synthesizeParametricPlayerEmbodimentPermille(1n, w0, w0) < Foundation_Cosmogenesis_V1_Model_synthesizeParametricPlayerEmbodimentPermille(1n, wMax, wMax)), baselineEmbodimentPermille: Foundation_Cosmogenesis_V1_Model_synthesizeParametricPlayerEmbodimentPermille(1n, w0, w0), apexEmbodimentPermille: Foundation_Cosmogenesis_V1_Model_synthesizeParametricPlayerEmbodimentPermille(1n, wMax, wMax) } as Foundation_Cosmogenesis_V1_Model_EmbodiedPlayerSynthesisSpec), resolutionAndDifferentiation: ({ extrapolatesHighestResolution: (Foundation_Cosmogenesis_V1_Model_extrapolateHighestResolutionPermille(1n, w0) < Foundation_Cosmogenesis_V1_Model_extrapolateHighestResolutionPermille(1n, wMax)), differentiatesViaTheoryOfMind: (Foundation_Neuromorphic_V1_Model_stepTheoryOfMindCoherencePermille(w0) < Foundation_Neuromorphic_V1_Model_stepTheoryOfMindCoherencePermille(wMax)), diversifiesAcrossDomainNiches: Foundation_Cosmogenesis_V1_Model_verifyTheoryOfMindDifferentiationAndDiversity(w0), improvementAxisCount: quadCount, apexResolutionSubdiv: Foundation_Cosmogenesis_V1_Model_extrapolateHighestResolutionSubdiv(1n, wMax), apexResolutionPermille: Foundation_Cosmogenesis_V1_Model_extrapolateHighestResolutionPermille(1n, wMax) } as Foundation_Cosmogenesis_V1_Model_ObserverResolutionAndDifferentiationSpec), fourfoldImmanence: ({ observerIsAmongUsInEnvironment: (Foundation_Neuromorphic_V1_Model_stepWisdomPhenomenonModulation(w0) < Foundation_Neuromorphic_V1_Model_stepWisdomPhenomenonModulation(wMax)), observerIsEveryPartOfEnvironment: Foundation_Cosmogenesis_V1_Model_verifyObserverCreatesAllThreeRealms(1n, w0), observerIsEmbodiedUserPlayer: (Foundation_Cosmogenesis_V1_Model_synthesizeParametricPlayerEmbodimentPermille(1n, w0, w0) < Foundation_Cosmogenesis_V1_Model_synthesizeParametricPlayerEmbodimentPermille(1n, wMax, wMax)), observerIsTheEntireGameAndDisplay: Foundation_Cosmogenesis_V1_Model_verifyFourfoldObserverImmanence(1n, w0), immanentFacetCount: quadCount, immanentPresenceSculpturalPartCount: Foundation_Neuromorphic_V1_Model_wetlandPrime() } as Foundation_Cosmogenesis_V1_Model_FourfoldObserverImmanenceSpec), affectAndPreferences: ({ emotionsEmergeFromLowestMaths: (Foundation_Cosmogenesis_V1_Model_stepFoundationalChaosPermille(w0, 1n) < Foundation_Cosmogenesis_V1_Model_stepFoundationalChaosPermille(w0, 3n)), permeatesAllElevenObserverParts: Foundation_Cosmogenesis_V1_Model_verifyTheoryOfMindDifferentiationAndDiversity(w0), harmonyChaosGoldenEquilibriumVerified: ((Foundation_Cosmogenesis_V1_Model_goldenHarmonyEquilibriumPermille() + Foundation_Cosmogenesis_V1_Model_goldenChaosEquilibriumPermille()) === Foundation_Cosmogenesis_V1_Model_permilleScaleUnit()), preferencesDerivedFromPhysicsAndMaths: Foundation_Cosmogenesis_V1_Model_verifyFoundationalAffectAndPreferencesClosure(w0), preferenceDomainCount: Foundation_Cosmogenesis_V1_Model_preferenceDomainCount(), affectiveEmotionArchetypeCount: Foundation_Cosmogenesis_V1_Model_affectiveEmotionArchetypeCount(), goldenHarmonyTargetPermille: Foundation_Cosmogenesis_V1_Model_goldenHarmonyEquilibriumPermille(), goldenChaosTargetPermille: Foundation_Cosmogenesis_V1_Model_goldenChaosEquilibriumPermille() } as Foundation_Cosmogenesis_V1_Model_FoundationalAffectiveCalculusSpec), neuromorphicBridge: ({ neuromorphicBusCoupled: (Foundation_Cosmogenesis_V1_Model_stepAlphaOmegaFieldPotential(1n, w0) < Foundation_Cosmogenesis_V1_Model_stepAlphaOmegaFieldPotential(1n, wMax)), domainBasisPrime: Foundation_Cosmogenesis_V1_Model_cosmogenesisBasisPrime(), rule30RegisterBits: treeCount, pointKeyBits: _natMul(quadCount, Foundation_Neuromorphic_V1_Model_wetlandPrime()), crossDomainTransferEnabled: (Foundation_Cosmogenesis_V1_Model_stepAlphaOmegaFieldPotential(1n, w0) < Foundation_Cosmogenesis_V1_Model_stepAlphaOmegaFieldPotential(1n, Foundation_Neuromorphic_V1_Model_transferWeightCrossDomain(w0, Foundation_Cosmogenesis_V1_Model_verifyAlphaOmegaParametricClosure(1n, w0)))), autopoieticSelfRefinementEnabled: (Foundation_Cosmogenesis_V1_Model_stepAlphaOmegaFieldPotential(1n, w0) < Foundation_Cosmogenesis_V1_Model_stepAlphaOmegaFieldPotential(1n, Foundation_Neuromorphic_V1_Model_refineDomainWeightAutopoietic(w0, wMax))) } as Foundation_Cosmogenesis_V1_Model_NeuromorphicCosmogenesisBridgeSpec) } as Foundation_Cosmogenesis_V1_Model_ParametricCosmogenesisStandard); })());
 }
 
+export function Foundation_Cosmogenesis_V1_Model_breaksFoundationalRealmsAndDiversity(alphaSeed: bigint, wBus: bigint): boolean {
+  return (() => { const nextW = Foundation_Neuromorphic_V1_Model_learnWeightPotentiated(wBus); const inorg = Foundation_Cosmogenesis_V1_Model_synthesizeParametricInorganicScalePermille(alphaSeed, wBus, wBus); const org = Foundation_Cosmogenesis_V1_Model_synthesizeParametricOrganicVitalityPermille(alphaSeed, wBus, wBus); const ply = Foundation_Cosmogenesis_V1_Model_synthesizeParametricPlayerEmbodimentPermille(alphaSeed, wBus, wBus); const deca = _natMul(Foundation_Neuromorphic_V1_Model_meadowPrime(), Foundation_Neuromorphic_V1_Model_crystalPrime()); const minViablePermille = _natMul(Foundation_Neuromorphic_V1_Model_wetlandPrime(), _natMul(deca, deca)); const pInfra = Foundation_Infrastructure_V1_Model_verdantInfrastructureBasisPrime(); const pBotany = Foundation_Botany_V1_Model_verdantBotanyBasisPrime(); const pAcoustics = Foundation_Acoustics_V1_Model_verdantAcousticsBasisPrime(); const pBrand = Foundation_Brand_V1_Model_verdantBrandBasisPrime(); const pNeuro = Foundation_Neuromorphic_V1_Model_neuromorphicBasisPrime(); const per1 = Foundation_Neuromorphic_V1_Model_meadowPrime(); const per2 = _natMul(per1, per1); return ((((((Foundation_Cosmogenesis_V1_Model_createdRealmCount() < Foundation_Neuromorphic_V1_Model_grovePrime()) || (Foundation_Neuromorphic_V1_Model_grovePrime() < Foundation_Cosmogenesis_V1_Model_createdRealmCount())) || (inorg < minViablePermille)) || ((org < minViablePermille) || (ply < minViablePermille))) || (((Foundation_Cosmogenesis_V1_Model_stepPartDifferentiationNicheIndex(pBotany, wBus, per1) <= Foundation_Cosmogenesis_V1_Model_stepPartDifferentiationNicheIndex(pInfra, wBus, per1)) || (Foundation_Cosmogenesis_V1_Model_stepPartDifferentiationNicheIndex(pAcoustics, wBus, per2) <= Foundation_Cosmogenesis_V1_Model_stepPartDifferentiationNicheIndex(pBotany, wBus, per1))) || ((Foundation_Cosmogenesis_V1_Model_stepPartDifferentiationNicheIndex(pBrand, wBus, per2) <= Foundation_Cosmogenesis_V1_Model_stepPartDifferentiationNicheIndex(pAcoustics, wBus, per2)) || (Foundation_Cosmogenesis_V1_Model_stepPartDifferentiationNicheIndex(pNeuro, wBus, per2) <= Foundation_Cosmogenesis_V1_Model_stepPartDifferentiationNicheIndex(pBrand, wBus, per2))))) || (Foundation_Cosmogenesis_V1_Model_stepPartDifferentiationNicheIndex(pBotany, nextW, per1) < Foundation_Cosmogenesis_V1_Model_stepPartDifferentiationNicheIndex(pBotany, wBus, per1))); })();
+}
+
+export function Foundation_Cosmogenesis_V1_Model_breaksFoundationalAffectClosureRaw(wBus: bigint): boolean {
+  return (() => { const nextW = Foundation_Neuromorphic_V1_Model_learnWeightPotentiated(wBus); const pBotany = Foundation_Botany_V1_Model_verdantBotanyBasisPrime(); const pAcoustics = Foundation_Acoustics_V1_Model_verdantAcousticsBasisPrime(); const pBrand = Foundation_Brand_V1_Model_verdantBrandBasisPrime(); const eqSum = (Foundation_Cosmogenesis_V1_Model_goldenHarmonyEquilibriumPermille() + Foundation_Cosmogenesis_V1_Model_goldenChaosEquilibriumPermille()); return ((((((((eqSum < Foundation_Cosmogenesis_V1_Model_permilleScaleUnit()) || (Foundation_Cosmogenesis_V1_Model_permilleScaleUnit() < eqSum)) || (Foundation_Cosmogenesis_V1_Model_goldenHarmonyEquilibriumPermille() <= Foundation_Cosmogenesis_V1_Model_goldenChaosEquilibriumPermille())) || (Foundation_Cosmogenesis_V1_Model_stepFoundationalChaosPermille(wBus, 3n) <= Foundation_Cosmogenesis_V1_Model_stepFoundationalChaosPermille(wBus, 1n))) || (Foundation_Cosmogenesis_V1_Model_stepFoundationalHarmonyPermille(nextW, 2n) < Foundation_Cosmogenesis_V1_Model_stepFoundationalHarmonyPermille(wBus, 2n))) || (Foundation_Cosmogenesis_V1_Model_stepFoundationalAffectValencePermille(nextW) < Foundation_Cosmogenesis_V1_Model_stepFoundationalAffectValencePermille(wBus))) || (Foundation_Cosmogenesis_V1_Model_stepObserverPreferenceFulfillmentPermille(pAcoustics, wBus) <= Foundation_Cosmogenesis_V1_Model_stepObserverPreferenceFulfillmentPermille(pBotany, wBus))) || (Foundation_Cosmogenesis_V1_Model_stepObserverPreferenceFulfillmentPermille(pBrand, wBus) <= Foundation_Cosmogenesis_V1_Model_stepObserverPreferenceFulfillmentPermille(pAcoustics, wBus))); })();
+}
+
+export function Foundation_Cosmogenesis_V1_Model_breaksFourfoldImmanenceRaw(alphaSeed: bigint, wBus: bigint): boolean {
+  return (() => { const wMax = Foundation_Neuromorphic_V1_Model_weightMax(); return (((((Foundation_Neuromorphic_V1_Model_stepWisdomPhenomenonModulation(wBus) <= 0n) || Foundation_Cosmogenesis_V1_Model_breaksFoundationalRealmsAndDiversity(alphaSeed, wBus)) || (Foundation_Cosmogenesis_V1_Model_extrapolateHighestResolutionSubdiv(alphaSeed, wMax) < Foundation_Cosmogenesis_V1_Model_extrapolateHighestResolutionSubdiv(alphaSeed, wBus))) || Foundation_Brand_V1_Model_breaksParametricDisplayDesignClosure(wBus)) || Foundation_Cosmogenesis_V1_Model_breaksFoundationalAffectClosureRaw(wBus)); })();
+}
+
 export function Foundation_Cosmogenesis_V1_Model_breaksAlphaOmegaParametricClosure(alphaSeed: bigint, wBus: bigint): boolean {
-  return (() => { const m = Foundation_Neuromorphic_V1_Model_meadowPrime(); return (((alphaSeed <= Foundation_Neuromorphic_V1_Model_weightMax()) && (wBus <= _natMul(_natMul(m, m), Foundation_Neuromorphic_V1_Model_crystalPrime()))) && (!Foundation_Cosmogenesis_V1_Model_verifyAlphaOmegaParametricClosure(alphaSeed, wBus))); })();
+  return (() => { const m = Foundation_Neuromorphic_V1_Model_meadowPrime(); const nextW = Foundation_Neuromorphic_V1_Model_learnWeightPotentiated(wBus); return (((alphaSeed <= Foundation_Neuromorphic_V1_Model_weightMax()) && (wBus <= _natMul(_natMul(m, m), Foundation_Neuromorphic_V1_Model_crystalPrime()))) && ((((((Foundation_Cosmogenesis_V1_Model_breaksFourfoldImmanenceRaw(alphaSeed, wBus) || (Foundation_Cosmogenesis_V1_Model_stepAlphaOmegaFieldPotential(alphaSeed, nextW) < Foundation_Cosmogenesis_V1_Model_stepAlphaOmegaFieldPotential(alphaSeed, wBus))) || (Foundation_Cosmogenesis_V1_Model_synthesizeParametricCanonicalSeed(alphaSeed, nextW) < Foundation_Cosmogenesis_V1_Model_synthesizeParametricCanonicalSeed(alphaSeed, wBus))) || (Foundation_Cosmogenesis_V1_Model_synthesizeParametricConcertPitchCentiHz(alphaSeed, nextW) < Foundation_Cosmogenesis_V1_Model_synthesizeParametricConcertPitchCentiHz(alphaSeed, wBus))) || (Foundation_Cosmogenesis_V1_Model_synthesizeParametricInorganicScalePermille(alphaSeed, nextW, nextW) < Foundation_Cosmogenesis_V1_Model_synthesizeParametricInorganicScalePermille(alphaSeed, wBus, wBus))) || (Foundation_Cosmogenesis_V1_Model_synthesizeParametricOrganicVitalityPermille(alphaSeed, nextW, nextW) < Foundation_Cosmogenesis_V1_Model_synthesizeParametricOrganicVitalityPermille(alphaSeed, wBus, wBus))) || (Foundation_Cosmogenesis_V1_Model_synthesizeParametricPlayerEmbodimentPermille(alphaSeed, nextW, nextW) < Foundation_Cosmogenesis_V1_Model_synthesizeParametricPlayerEmbodimentPermille(alphaSeed, wBus, wBus)))); })();
 }
 
 export function Foundation_Cosmogenesis_V1_Model_breaksObserverExtrapolationAndImmanence(alphaSeed: bigint, wBus: bigint): boolean {
-  return (((alphaSeed <= Foundation_Neuromorphic_V1_Model_weightMax()) && (wBus <= Foundation_Neuromorphic_V1_Model_weightMax())) && (!Foundation_Cosmogenesis_V1_Model_verifyFourfoldObserverImmanence(alphaSeed, wBus)));
+  return (((alphaSeed <= Foundation_Neuromorphic_V1_Model_weightMax()) && (wBus <= Foundation_Neuromorphic_V1_Model_weightMax())) && Foundation_Cosmogenesis_V1_Model_breaksFourfoldImmanenceRaw(alphaSeed, wBus));
 }
 
 export function Foundation_Cosmogenesis_V1_Model_breaksObserverAffectAndPreferencesClosure(wBus: bigint): boolean {
-  return ((wBus <= Foundation_Neuromorphic_V1_Model_weightMax()) && (!Foundation_Cosmogenesis_V1_Model_verifyFoundationalAffectAndPreferencesClosure(wBus)));
+  return ((wBus <= Foundation_Neuromorphic_V1_Model_weightMax()) && Foundation_Cosmogenesis_V1_Model_breaksFoundationalAffectClosureRaw(wBus));
 }
 
 let _c_Foundation_Cosmogenesis_V1_Model_observerCosmogenesisCanonicalDescriptor: Foundation_MetaModel_V1_Model_CanonicalStandardModelDescriptor | undefined;
@@ -6171,8 +6183,12 @@ export function VerdantResonance_judgeGroveChimeLily(request: VerdantResonance_R
   return ((request.chorus === VerdantResonance_chorusAwakened()) ? VerdantResonance_judgeGroveChimeLilyAwakened(request) : VerdantResonance_judgeGroveChimeLilyDormant(request));
 }
 
+export function VerdantResonance_judgeGrovePulseFernAwakenedObserveTail(request: VerdantResonance_Request): bigint {
+  return ((((request.atmosphere === VerdantResonance_atmosphereDawn()) && (request.proximity <= 20n)) && (request.velocity <= 10n)) ? VerdantResonance_answerDawnArpeggio() : (((request.proximity <= 30n) && (10n <= request.velocity)) ? VerdantResonance_answerRhythmicPulse() : VerdantResonance_judgeSlowAmbient(request)));
+}
+
 export function VerdantResonance_judgeGrovePulseFernAwakenedObserve(request: VerdantResonance_Request): bigint {
-  return ((((request.atmosphere === VerdantResonance_atmosphereDawn()) && (request.proximity <= 20n)) && (request.velocity <= 10n)) ? VerdantResonance_answerDawnArpeggio() : (((request.proximity <= 30n) && (10n <= request.velocity)) ? VerdantResonance_answerRhythmicPulse() : ((((request.atmosphere === VerdantResonance_atmosphereGolden()) && (request.proximity <= 25n)) && (request.velocity <= 8n)) ? VerdantResonance_answerHarmonicBloom() : VerdantResonance_judgeSlowAmbient(request))));
+  return ((request.atmosphere === VerdantResonance_atmosphereGolden()) ? ((request.proximity <= 25n) ? ((request.velocity <= 8n) ? VerdantResonance_answerHarmonicBloom() : VerdantResonance_judgeGrovePulseFernAwakenedObserveTail(request)) : VerdantResonance_judgeGrovePulseFernAwakenedObserveTail(request)) : VerdantResonance_judgeGrovePulseFernAwakenedObserveTail(request));
 }
 
 export function VerdantResonance_judgeGrovePulseFernAwakenedOtherAction(request: VerdantResonance_Request): bigint {
@@ -6191,8 +6207,12 @@ export function VerdantResonance_judgeGrovePulseFern(request: VerdantResonance_R
   return ((request.chorus === VerdantResonance_chorusAwakened()) ? VerdantResonance_judgeGrovePulseFernAwakened(request) : VerdantResonance_judgeGrovePulseFernDormant(request));
 }
 
+export function VerdantResonance_judgeGroveEchoLotusAwakenedObserveTail(request: VerdantResonance_Request): bigint {
+  return ((((request.atmosphere === VerdantResonance_atmosphereTwilight()) && (request.proximity <= 20n)) && (request.velocity <= 10n)) ? VerdantResonance_answerNocturnalSymphony() : VerdantResonance_judgeSlowAmbient(request));
+}
+
 export function VerdantResonance_judgeGroveEchoLotusAwakenedObserve(request: VerdantResonance_Request): bigint {
-  return ((((request.atmosphere === VerdantResonance_atmosphereTwilight()) && (request.proximity <= 20n)) && (request.velocity <= 10n)) ? VerdantResonance_answerNocturnalSymphony() : ((((request.atmosphere === VerdantResonance_atmosphereGolden()) && (request.proximity <= 25n)) && (request.velocity <= 8n)) ? VerdantResonance_answerHarmonicBloom() : VerdantResonance_judgeSlowAmbient(request)));
+  return ((request.atmosphere === VerdantResonance_atmosphereGolden()) ? ((request.proximity <= 25n) ? ((request.velocity <= 8n) ? VerdantResonance_answerHarmonicBloom() : VerdantResonance_judgeSlowAmbient(request)) : VerdantResonance_judgeSlowAmbient(request)) : VerdantResonance_judgeGroveEchoLotusAwakenedObserveTail(request));
 }
 
 export function VerdantResonance_judgeGroveEchoLotusAwakenedOtherAction(request: VerdantResonance_Request): bigint {
@@ -6263,12 +6283,12 @@ export function VerdantResonance_judgeGroveGeneral(request: VerdantResonance_Req
   return ((request.plant <= VerdantResonance_plantPulseFern()) ? VerdantResonance_judgeGroveEarlyPlants(request) : VerdantResonance_judgeGroveLatePlants(request));
 }
 
-export function VerdantResonance_judgeGroveNonPulseObserve(request: VerdantResonance_Request): bigint {
-  return ((((request.plant === VerdantResonance_plantEchoLotus()) && (request.chorus === VerdantResonance_chorusAwakened())) && (request.action === VerdantResonance_actionObserve())) ? VerdantResonance_judgeGroveEchoLotusAwakenedObserve(request) : VerdantResonance_judgeGroveGeneral(request));
+export function VerdantResonance_judgeGroveAwakenedObserve(request: VerdantResonance_Request): bigint {
+  return ((request.plant === VerdantResonance_plantPulseFern()) ? VerdantResonance_judgeGrovePulseFernAwakenedObserve(request) : ((request.plant === VerdantResonance_plantEchoLotus()) ? VerdantResonance_judgeGroveEchoLotusAwakenedObserve(request) : VerdantResonance_judgeGroveGeneral(request)));
 }
 
 export function VerdantResonance_judgeGrove(request: VerdantResonance_Request): bigint {
-  return ((((request.plant === VerdantResonance_plantPulseFern()) && (request.chorus === VerdantResonance_chorusAwakened())) && (request.action === VerdantResonance_actionObserve())) ? VerdantResonance_judgeGrovePulseFernAwakenedObserve(request) : VerdantResonance_judgeGroveNonPulseObserve(request));
+  return ((request.chorus === VerdantResonance_chorusAwakened()) ? ((request.action === VerdantResonance_actionObserve()) ? VerdantResonance_judgeGroveAwakenedObserve(request) : VerdantResonance_judgeGroveGeneral(request)) : VerdantResonance_judgeGroveGeneral(request));
 }
 
 export function VerdantResonance_judgeCrystalChimeLilyAwakened(request: VerdantResonance_Request): bigint {
@@ -6295,8 +6315,12 @@ export function VerdantResonance_judgeCrystalPulseFern(request: VerdantResonance
   return ((request.chorus === VerdantResonance_chorusAwakened()) ? VerdantResonance_judgeCrystalPulseFernAwakened(request) : VerdantResonance_judgeCrystalPulseFernDormant(request));
 }
 
+export function VerdantResonance_judgeCrystalEchoLotusAwakenedObserveTail(request: VerdantResonance_Request): bigint {
+  return ((((request.atmosphere === VerdantResonance_atmosphereTwilight()) && (request.proximity <= 20n)) && (request.velocity <= 10n)) ? VerdantResonance_answerNocturnalSymphony() : VerdantResonance_judgeSlowAmbient(request));
+}
+
 export function VerdantResonance_judgeCrystalEchoLotusAwakenedObserve(request: VerdantResonance_Request): bigint {
-  return ((((request.atmosphere === VerdantResonance_atmosphereTwilight()) && (request.proximity <= 20n)) && (request.velocity <= 10n)) ? VerdantResonance_answerNocturnalSymphony() : ((((request.atmosphere === VerdantResonance_atmosphereStarlight()) && (request.proximity <= 25n)) && (request.velocity <= 10n)) ? VerdantResonance_answerCrystallineChoir() : VerdantResonance_judgeSlowAmbient(request)));
+  return ((request.atmosphere === VerdantResonance_atmosphereStarlight()) ? ((request.proximity <= 25n) ? ((request.velocity <= 10n) ? VerdantResonance_answerCrystallineChoir() : VerdantResonance_judgeSlowAmbient(request)) : VerdantResonance_judgeSlowAmbient(request)) : VerdantResonance_judgeCrystalEchoLotusAwakenedObserveTail(request));
 }
 
 export function VerdantResonance_judgeCrystalEchoLotusAwakenedOtherAction(request: VerdantResonance_Request): bigint {
@@ -6368,7 +6392,7 @@ export function VerdantResonance_judgeCrystalGeneral(request: VerdantResonance_R
 }
 
 export function VerdantResonance_judgeCrystal(request: VerdantResonance_Request): bigint {
-  return ((((request.plant === VerdantResonance_plantEchoLotus()) && (request.chorus === VerdantResonance_chorusAwakened())) && (request.action === VerdantResonance_actionObserve())) ? VerdantResonance_judgeCrystalEchoLotusAwakenedObserve(request) : VerdantResonance_judgeCrystalGeneral(request));
+  return ((request.plant === VerdantResonance_plantEchoLotus()) ? ((request.chorus === VerdantResonance_chorusAwakened()) ? ((request.action === VerdantResonance_actionObserve()) ? VerdantResonance_judgeCrystalEchoLotusAwakenedObserve(request) : VerdantResonance_judgeCrystalGeneral(request)) : VerdantResonance_judgeCrystalGeneral(request)) : VerdantResonance_judgeCrystalGeneral(request));
 }
 
 export function VerdantResonance_judgeWetlandChimeLilyAwakened(request: VerdantResonance_Request): bigint {
@@ -6400,7 +6424,7 @@ export function VerdantResonance_judgeWetlandEchoLotusAwakenedTail(request: Verd
 }
 
 export function VerdantResonance_judgeWetlandEchoLotusAwakened(request: VerdantResonance_Request): bigint {
-  return ((((request.action === VerdantResonance_actionAttune()) && (request.proximity <= 20n)) && (request.velocity <= 10n)) ? VerdantResonance_answerSanctuaryChorus() : VerdantResonance_judgeWetlandEchoLotusAwakenedTail(request));
+  return ((request.action === VerdantResonance_actionAttune()) ? ((request.proximity <= 20n) ? ((request.velocity <= 10n) ? VerdantResonance_answerSanctuaryChorus() : VerdantResonance_judgeWetlandEchoLotusAwakenedTail(request)) : VerdantResonance_judgeWetlandEchoLotusAwakenedTail(request)) : VerdantResonance_judgeWetlandEchoLotusAwakenedTail(request));
 }
 
 export function VerdantResonance_judgeWetlandEchoLotusDormant(request: VerdantResonance_Request): bigint {
@@ -6487,12 +6511,24 @@ export function VerdantResonance_judgeSanctuaryPulseFern(request: VerdantResonan
   return ((request.chorus === VerdantResonance_chorusAwakened()) ? VerdantResonance_judgeSanctuaryPulseFernAwakened(request) : VerdantResonance_judgeSanctuaryPulseFernDormant(request));
 }
 
+export function VerdantResonance_judgeSanctuaryEchoLotusAwakenedObserveTail(request: VerdantResonance_Request): bigint {
+  return ((request.proximity <= 25n) ? ((request.velocity <= 10n) ? VerdantResonance_answerSanctuaryChorus() : VerdantResonance_judgeSlowAmbient(request)) : VerdantResonance_judgeSlowAmbient(request));
+}
+
+export function VerdantResonance_judgeSanctuaryEchoLotusAwakenedObserveTwilight(request: VerdantResonance_Request): bigint {
+  return (((request.proximity <= 20n) && (request.velocity <= 10n)) ? VerdantResonance_answerNocturnalSymphony() : VerdantResonance_judgeSanctuaryEchoLotusAwakenedObserveTail(request));
+}
+
 export function VerdantResonance_judgeSanctuaryEchoLotusAwakenedObserve(request: VerdantResonance_Request): bigint {
-  return ((((request.atmosphere === VerdantResonance_atmosphereTwilight()) && (request.proximity <= 20n)) && (request.velocity <= 10n)) ? VerdantResonance_answerNocturnalSymphony() : (((request.proximity <= 25n) && (request.velocity <= 10n)) ? VerdantResonance_answerSanctuaryChorus() : VerdantResonance_judgeSlowAmbient(request)));
+  return ((request.atmosphere === VerdantResonance_atmosphereTwilight()) ? VerdantResonance_judgeSanctuaryEchoLotusAwakenedObserveTwilight(request) : VerdantResonance_judgeSanctuaryEchoLotusAwakenedObserveTail(request));
+}
+
+export function VerdantResonance_judgeSanctuaryEchoLotusAwakenedTouchTail(request: VerdantResonance_Request): bigint {
+  return ((((request.atmosphere === VerdantResonance_atmosphereTwilight()) && (request.proximity <= 20n)) && (request.velocity <= 10n)) ? VerdantResonance_answerNocturnalSymphony() : VerdantResonance_judgeSlowAmbient(request));
 }
 
 export function VerdantResonance_judgeSanctuaryEchoLotusAwakenedTouch(request: VerdantResonance_Request): bigint {
-  return ((((request.atmosphere === VerdantResonance_atmosphereTwilight()) && (request.proximity <= 20n)) && (request.velocity <= 10n)) ? VerdantResonance_answerNocturnalSymphony() : ((((request.atmosphere === VerdantResonance_atmosphereStarlight()) && (request.proximity <= 25n)) && (request.velocity <= 10n)) ? VerdantResonance_answerSanctuaryChorus() : VerdantResonance_judgeSlowAmbient(request)));
+  return ((request.atmosphere === VerdantResonance_atmosphereStarlight()) ? ((request.proximity <= 25n) ? ((request.velocity <= 10n) ? VerdantResonance_answerSanctuaryChorus() : VerdantResonance_judgeSlowAmbient(request)) : VerdantResonance_judgeSlowAmbient(request)) : VerdantResonance_judgeSanctuaryEchoLotusAwakenedTouchTail(request));
 }
 
 export function VerdantResonance_judgeSanctuaryEchoLotusAwakenedOtherAction(request: VerdantResonance_Request): bigint {
@@ -6567,20 +6603,24 @@ export function VerdantResonance_judgeSanctuaryPlants(request: VerdantResonance_
   return ((request.plant <= VerdantResonance_plantPulseFern()) ? VerdantResonance_judgeSanctuaryEarlyPlants(request) : VerdantResonance_judgeSanctuaryLatePlants(request));
 }
 
+export function VerdantResonance_judgeSanctuaryActiveTail(request: VerdantResonance_Request): bigint {
+  return ((request.chorus === VerdantResonance_chorusAwakened()) ? ((request.action === VerdantResonance_actionAttune()) ? ((request.proximity <= 20n) ? ((request.velocity <= 10n) ? VerdantResonance_answerSanctuaryChorus() : VerdantResonance_judgeSanctuaryPlants(request)) : VerdantResonance_judgeSanctuaryPlants(request)) : VerdantResonance_judgeSanctuaryPlants(request)) : VerdantResonance_judgeSanctuaryPlants(request));
+}
+
 export function VerdantResonance_judgeSanctuaryActive(request: VerdantResonance_Request): bigint {
-  return (((request.action === VerdantResonance_actionStillness()) && (request.velocity === 0n)) ? VerdantResonance_answerSereneRest() : (((((request.chorus === VerdantResonance_chorusAwakened()) && (request.action === VerdantResonance_actionAttune())) && (request.proximity <= 20n)) && (request.velocity <= 10n)) ? VerdantResonance_answerSanctuaryChorus() : VerdantResonance_judgeSanctuaryPlants(request)));
+  return ((request.action === VerdantResonance_actionStillness()) ? ((request.velocity === 0n) ? VerdantResonance_answerSereneRest() : VerdantResonance_judgeSanctuaryPlants(request)) : VerdantResonance_judgeSanctuaryActiveTail(request));
 }
 
 export function VerdantResonance_judgeSanctuaryEchoLotusAwakenedLowAction(request: VerdantResonance_Request): bigint {
   return ((request.action === VerdantResonance_actionObserve()) ? VerdantResonance_judgeSanctuaryEchoLotusAwakenedObserve(request) : VerdantResonance_judgeSanctuaryEchoLotusAwakenedTouch(request));
 }
 
-export function VerdantResonance_judgeSanctuaryGeneral(request: VerdantResonance_Request): bigint {
-  return ((request.action <= VerdantResonance_actionTouch()) ? VerdantResonance_judgeSanctuaryPlants(request) : VerdantResonance_judgeSanctuaryActive(request));
+export function VerdantResonance_judgeSanctuaryLowAction(request: VerdantResonance_Request): bigint {
+  return ((request.plant === VerdantResonance_plantEchoLotus()) ? ((request.chorus === VerdantResonance_chorusAwakened()) ? VerdantResonance_judgeSanctuaryEchoLotusAwakenedLowAction(request) : VerdantResonance_judgeSanctuaryPlants(request)) : VerdantResonance_judgeSanctuaryPlants(request));
 }
 
 export function VerdantResonance_judgeSanctuary(request: VerdantResonance_Request): bigint {
-  return ((((request.plant === VerdantResonance_plantEchoLotus()) && (request.chorus === VerdantResonance_chorusAwakened())) && (request.action <= VerdantResonance_actionTouch())) ? VerdantResonance_judgeSanctuaryEchoLotusAwakenedLowAction(request) : VerdantResonance_judgeSanctuaryGeneral(request));
+  return ((request.action <= VerdantResonance_actionTouch()) ? VerdantResonance_judgeSanctuaryLowAction(request) : VerdantResonance_judgeSanctuaryActive(request));
 }
 
 export function VerdantResonance_judgeOtherBiomeChimeLilyAwakened(request: VerdantResonance_Request): bigint {
@@ -6729,8 +6769,12 @@ export function VerdantResonanceProofs_breaksRootJudgeBusGate(request: VerdantRe
   return (!VerdantResonance_verifyJudgeCrossDomainBusGate(request));
 }
 
+export function VerdantResonanceProofs_breaksCompletePrismStaticClosure(probe: bigint): boolean {
+  return ((probe === 0n) && (!((((((Foundation_Neuromorphic_V1_Model_verifyEmergentEntitySynthesizesFacets(Foundation_Neuromorphic_V1_Model_weightInitial()) && Foundation_Ecology_V1_Model_verifyCompleteGranularSynthesisClosure(Foundation_Neuromorphic_V1_Model_weightInitial())) && Foundation_Botany_V1_Model_verifyHighDefinitionBMeshSynthesis(Foundation_Neuromorphic_V1_Model_weightInitial())) && Foundation_Articulation_V1_Model_verifyThreeJointKinematicHierarchy(Foundation_Neuromorphic_V1_Model_weightInitial())) && Foundation_Physics_V1_Model_verifyMaterialSynthesisCrossModalObstruction(Foundation_Neuromorphic_V1_Model_weightInitial())) && Foundation_Neuromorphic_V1_Model_verifyObserverHolisticWhyClosure(Foundation_Neuromorphic_V1_Model_weightInitial())) && Foundation_Cosmogenesis_V1_Model_verifyAlphaOmegaParametricClosure(1n, Foundation_Neuromorphic_V1_Model_weightInitial()))));
+}
+
 export function VerdantResonanceProofs_breaksCompletePrismModelClosure(request: VerdantResonance_Request): boolean {
-  return (!VerdantResonance_verifyCompletePrismModelClosure(request));
+  return ((((((VerdantResonanceProofs_breaksRootJudgeBusGate(request) || (Foundation_Ecology_V1_Model_stepAtomicRemineralizationFlux(Foundation_Neuromorphic_V1_Model_weightInitial()) <= Foundation_Ecology_V1_Model_stepEnvironmentalModalSynthesis(Foundation_Neuromorphic_V1_Model_weightInitial()))) || (Foundation_Botany_V1_Model_stepBMeshSubdivisionDensity(Foundation_Neuromorphic_V1_Model_weightInitial()) < 272n)) || (Foundation_Articulation_V1_Model_stepApicalCorollaGimbalMilli(Foundation_Neuromorphic_V1_Model_weightInitial()) <= Foundation_Articulation_V1_Model_stepMidCulmFlexureMilli(Foundation_Neuromorphic_V1_Model_weightInitial()))) || (Foundation_Physics_V1_Model_stepCrossModalAcousticShadowPermille(Foundation_Neuromorphic_V1_Model_weightInitial()) < 195n)) || (Foundation_Neuromorphic_V1_Model_stepWisdomPhenomenonModulation(Foundation_Neuromorphic_V1_Model_weightInitial()) <= 110n)) || (_natMul(Foundation_Cosmogenesis_V1_Model_cosmogenesisBasisPrime(), Foundation_Neuromorphic_V1_Model_weightInitial()) < 900n));
 }
 
 export function VerdantResonanceProofs_breaksInv001(request: VerdantResonance_Request): boolean {
@@ -7553,6 +7597,9 @@ export const PRISM_COMPILED_MODULES = {
     "verifyFourfoldObserverImmanence": Foundation_Cosmogenesis_V1_Model_verifyFourfoldObserverImmanence,
     "verifyAlphaOmegaParametricClosure": Foundation_Cosmogenesis_V1_Model_verifyAlphaOmegaParametricClosure,
     "verdantCosmogenesisStandard": Foundation_Cosmogenesis_V1_Model_verdantCosmogenesisStandard,
+    "breaksFoundationalRealmsAndDiversity": Foundation_Cosmogenesis_V1_Model_breaksFoundationalRealmsAndDiversity,
+    "breaksFoundationalAffectClosureRaw": Foundation_Cosmogenesis_V1_Model_breaksFoundationalAffectClosureRaw,
+    "breaksFourfoldImmanenceRaw": Foundation_Cosmogenesis_V1_Model_breaksFourfoldImmanenceRaw,
     "breaksAlphaOmegaParametricClosure": Foundation_Cosmogenesis_V1_Model_breaksAlphaOmegaParametricClosure,
     "breaksObserverExtrapolationAndImmanence": Foundation_Cosmogenesis_V1_Model_breaksObserverExtrapolationAndImmanence,
     "breaksObserverAffectAndPreferencesClosure": Foundation_Cosmogenesis_V1_Model_breaksObserverAffectAndPreferencesClosure,
@@ -7834,11 +7881,13 @@ export const PRISM_COMPILED_MODULES = {
     "judgeGroveChimeLilyAwakened": VerdantResonance_judgeGroveChimeLilyAwakened,
     "judgeGroveChimeLilyDormant": VerdantResonance_judgeGroveChimeLilyDormant,
     "judgeGroveChimeLily": VerdantResonance_judgeGroveChimeLily,
+    "judgeGrovePulseFernAwakenedObserveTail": VerdantResonance_judgeGrovePulseFernAwakenedObserveTail,
     "judgeGrovePulseFernAwakenedObserve": VerdantResonance_judgeGrovePulseFernAwakenedObserve,
     "judgeGrovePulseFernAwakenedOtherAction": VerdantResonance_judgeGrovePulseFernAwakenedOtherAction,
     "judgeGrovePulseFernAwakened": VerdantResonance_judgeGrovePulseFernAwakened,
     "judgeGrovePulseFernDormant": VerdantResonance_judgeGrovePulseFernDormant,
     "judgeGrovePulseFern": VerdantResonance_judgeGrovePulseFern,
+    "judgeGroveEchoLotusAwakenedObserveTail": VerdantResonance_judgeGroveEchoLotusAwakenedObserveTail,
     "judgeGroveEchoLotusAwakenedObserve": VerdantResonance_judgeGroveEchoLotusAwakenedObserve,
     "judgeGroveEchoLotusAwakenedOtherAction": VerdantResonance_judgeGroveEchoLotusAwakenedOtherAction,
     "judgeGroveEchoLotusAwakened": VerdantResonance_judgeGroveEchoLotusAwakened,
@@ -7857,7 +7906,7 @@ export const PRISM_COMPILED_MODULES = {
     "judgeGroveDeepPlants": VerdantResonance_judgeGroveDeepPlants,
     "judgeGroveLatePlants": VerdantResonance_judgeGroveLatePlants,
     "judgeGroveGeneral": VerdantResonance_judgeGroveGeneral,
-    "judgeGroveNonPulseObserve": VerdantResonance_judgeGroveNonPulseObserve,
+    "judgeGroveAwakenedObserve": VerdantResonance_judgeGroveAwakenedObserve,
     "judgeGrove": VerdantResonance_judgeGrove,
     "judgeCrystalChimeLilyAwakened": VerdantResonance_judgeCrystalChimeLilyAwakened,
     "judgeCrystalChimeLilyDormant": VerdantResonance_judgeCrystalChimeLilyDormant,
@@ -7865,6 +7914,7 @@ export const PRISM_COMPILED_MODULES = {
     "judgeCrystalPulseFernAwakened": VerdantResonance_judgeCrystalPulseFernAwakened,
     "judgeCrystalPulseFernDormant": VerdantResonance_judgeCrystalPulseFernDormant,
     "judgeCrystalPulseFern": VerdantResonance_judgeCrystalPulseFern,
+    "judgeCrystalEchoLotusAwakenedObserveTail": VerdantResonance_judgeCrystalEchoLotusAwakenedObserveTail,
     "judgeCrystalEchoLotusAwakenedObserve": VerdantResonance_judgeCrystalEchoLotusAwakenedObserve,
     "judgeCrystalEchoLotusAwakenedOtherAction": VerdantResonance_judgeCrystalEchoLotusAwakenedOtherAction,
     "judgeCrystalEchoLotusAwakened": VerdantResonance_judgeCrystalEchoLotusAwakened,
@@ -7913,7 +7963,10 @@ export const PRISM_COMPILED_MODULES = {
     "judgeSanctuaryPulseFernAwakened": VerdantResonance_judgeSanctuaryPulseFernAwakened,
     "judgeSanctuaryPulseFernDormant": VerdantResonance_judgeSanctuaryPulseFernDormant,
     "judgeSanctuaryPulseFern": VerdantResonance_judgeSanctuaryPulseFern,
+    "judgeSanctuaryEchoLotusAwakenedObserveTail": VerdantResonance_judgeSanctuaryEchoLotusAwakenedObserveTail,
+    "judgeSanctuaryEchoLotusAwakenedObserveTwilight": VerdantResonance_judgeSanctuaryEchoLotusAwakenedObserveTwilight,
     "judgeSanctuaryEchoLotusAwakenedObserve": VerdantResonance_judgeSanctuaryEchoLotusAwakenedObserve,
+    "judgeSanctuaryEchoLotusAwakenedTouchTail": VerdantResonance_judgeSanctuaryEchoLotusAwakenedTouchTail,
     "judgeSanctuaryEchoLotusAwakenedTouch": VerdantResonance_judgeSanctuaryEchoLotusAwakenedTouch,
     "judgeSanctuaryEchoLotusAwakenedOtherAction": VerdantResonance_judgeSanctuaryEchoLotusAwakenedOtherAction,
     "judgeSanctuaryEchoLotusAwakenedNonObserve": VerdantResonance_judgeSanctuaryEchoLotusAwakenedNonObserve,
@@ -7933,9 +7986,10 @@ export const PRISM_COMPILED_MODULES = {
     "judgeSanctuaryDeepPlants": VerdantResonance_judgeSanctuaryDeepPlants,
     "judgeSanctuaryLatePlants": VerdantResonance_judgeSanctuaryLatePlants,
     "judgeSanctuaryPlants": VerdantResonance_judgeSanctuaryPlants,
+    "judgeSanctuaryActiveTail": VerdantResonance_judgeSanctuaryActiveTail,
     "judgeSanctuaryActive": VerdantResonance_judgeSanctuaryActive,
     "judgeSanctuaryEchoLotusAwakenedLowAction": VerdantResonance_judgeSanctuaryEchoLotusAwakenedLowAction,
-    "judgeSanctuaryGeneral": VerdantResonance_judgeSanctuaryGeneral,
+    "judgeSanctuaryLowAction": VerdantResonance_judgeSanctuaryLowAction,
     "judgeSanctuary": VerdantResonance_judgeSanctuary,
     "judgeOtherBiomeChimeLilyAwakened": VerdantResonance_judgeOtherBiomeChimeLilyAwakened,
     "judgeOtherBiomeChimeLilyDormant": VerdantResonance_judgeOtherBiomeChimeLilyDormant,
@@ -7975,6 +8029,7 @@ export const PRISM_COMPILED_MODULES = {
   },
   "VerdantResonanceProofs": {
     "breaksRootJudgeBusGate": VerdantResonanceProofs_breaksRootJudgeBusGate,
+    "breaksCompletePrismStaticClosure": VerdantResonanceProofs_breaksCompletePrismStaticClosure,
     "breaksCompletePrismModelClosure": VerdantResonanceProofs_breaksCompletePrismModelClosure,
     "breaksInv001": VerdantResonanceProofs_breaksInv001,
     "breaksInv002": VerdantResonanceProofs_breaksInv002,
@@ -7998,12 +8053,12 @@ export const PRISM_COMPILED_MODULES = {
 export type PrismCompiledModuleName = keyof typeof PRISM_COMPILED_MODULES;
 
 export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
-  "sourceTreeDigestSha256": "18eb1d32a30fac743eb22645e1c610ca88c4696f0e63f73724214acd70ddf00d",
+  "sourceTreeDigestSha256": "8584cf288385cc902985a80016e5d7d6d0fab3048c5b307993a5f5f2fdece563",
   "moduleCount": 28,
   "inductiveCount": 2,
   "structureCount": 162,
-  "definitionCount": 1123,
-  "theoremCount": 180,
+  "definitionCount": 1134,
+  "theoremCount": 181,
   "modules": [
     {
       "moduleName": "Foundation.MetaModel.V1.Model",
@@ -8304,7 +8359,7 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       ],
       "inductiveCount": 0,
       "structureCount": 10,
-      "definitionCount": 42,
+      "definitionCount": 45,
       "theoremCount": 5
     },
     {
@@ -8359,7 +8414,7 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       ],
       "inductiveCount": 0,
       "structureCount": 1,
-      "definitionCount": 250,
+      "definitionCount": 257,
       "theoremCount": 0
     },
     {
@@ -8392,8 +8447,8 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       ],
       "inductiveCount": 0,
       "structureCount": 0,
-      "definitionCount": 18,
-      "theoremCount": 18
+      "definitionCount": 19,
+      "theoremCount": 19
     }
   ],
   "counterexamplePredicates": [
@@ -10157,6 +10212,47 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
     },
     {
       "moduleName": "Foundation.Cosmogenesis.V1.Model",
+      "name": "breaksFoundationalRealmsAndDiversity",
+      "parameters": [
+        {
+          "name": "alphaSeed",
+          "lexType": "Nat"
+        },
+        {
+          "name": "wBus",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "Foundation.Cosmogenesis.V1.Model",
+      "name": "breaksFoundationalAffectClosureRaw",
+      "parameters": [
+        {
+          "name": "wBus",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "Foundation.Cosmogenesis.V1.Model",
+      "name": "breaksFourfoldImmanenceRaw",
+      "parameters": [
+        {
+          "name": "alphaSeed",
+          "lexType": "Nat"
+        },
+        {
+          "name": "wBus",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "Foundation.Cosmogenesis.V1.Model",
       "name": "breaksAlphaOmegaParametricClosure",
       "parameters": [
         {
@@ -10270,6 +10366,17 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
         {
           "name": "request",
           "lexType": "VerdantResonance::Request"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "VerdantResonanceProofs",
+      "name": "breaksCompletePrismStaticClosure",
+      "parameters": [
+        {
+          "name": "probe",
+          "lexType": "Nat"
         }
       ],
       "resultType": "Bool"

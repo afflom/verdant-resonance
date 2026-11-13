@@ -25,14 +25,43 @@ import {
   certifiedWasmCore_conservatoryCurationDominates,
   certifiedWasmCore_conservatoryCurationLyapunovCost,
   certifiedWasmCore_dominates,
+  certifiedWasmCore_eulerPoincareBiasedCharacteristic,
+  certifiedWasmCore_evaluateGazeTargetInForwardCone,
+  certifiedWasmCore_gellMannNishijimaBiasedSixQ,
+  certifiedWasmCore_iupacPeriodOfZ,
   certifiedWasmCore_learnHebbianWeight,
   certifiedWasmCore_refineDomainWeightAutopoietic,
+  certifiedWasmCore_stepAcousticsBusModulation,
+  certifiedWasmCore_stepAlphaOmegaFieldPotential,
+  certifiedWasmCore_stepAnamnesisBusModulation,
+  certifiedWasmCore_stepArticulationBusModulation,
+  certifiedWasmCore_stepBotanyBusModulation,
+  certifiedWasmCore_stepBrandBusModulation,
+  certifiedWasmCore_stepChemistryBusModulation,
   certifiedWasmCore_stepCuratedConsonancePurityPermille,
+  certifiedWasmCore_stepDharmaBusModulation,
+  certifiedWasmCore_stepEarlyReflectionTapCount,
   certifiedWasmCore_stepEcologyBusModulation,
+  certifiedWasmCore_stepGraphicsBusModulation,
+  certifiedWasmCore_stepHumaneBusModulation,
+  certifiedWasmCore_stepInfrastructureBusModulation,
+  certifiedWasmCore_stepMathematicsBusModulation,
   certifiedWasmCore_stepMicroclimateIso9613ClarityPermille,
+  certifiedWasmCore_stepMorphogenesisBusModulation,
+  certifiedWasmCore_stepPhysicsBusModulation,
   certifiedWasmCore_stepPrimeLimitHarmonicCeiling,
+  certifiedWasmCore_stepRealizabilityBusModulation,
+  certifiedWasmCore_stepSoundtrackBusModulation,
+  certifiedWasmCore_stepSpatialAcousticsBusModulation,
+  certifiedWasmCore_stepTeleologyBusModulation,
+  certifiedWasmCore_stepThinFilmIridescenceSpanNm,
+  certifiedWasmCore_stepTriadicPlayerGameObserverCoherencePermille,
+  certifiedWasmCore_stepVedantaBusModulation,
+  certifiedWasmCore_stepWoodworthItdMicros,
   certifiedWasmCore_transferWeightCrossDomain,
   certifiedWasmCore_ulebLength,
+  certifiedWasmCore_verifyPassivePbrEnergyConservation,
+  certifiedWasmCoreCallCount,
   certifiedWasmDecideMint,
   certifiedWasmDispatchText,
   certifiedWasmFoundryRoute,
@@ -7371,10 +7400,10 @@ test('67. Universal Zero-Glue rust-core Auto-Codegen, 22-Root Certified Bundle &
   // 1. 22-Root Certified Bundle (`19` `#![no_std]` `rust-core` + `3` `rust-std`), Zero-Glue Wasm Exports
   assert.equal(CERTIFIED_PRODUCTION_MANIFEST.allKernelChecked, true);
   assert.equal(CERTIFIED_PRODUCTION_MANIFEST.allForbidUnsafeCode, true);
-  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.rustCoreNoStdRootCount, 19);
+  assert.ok(CERTIFIED_PRODUCTION_MANIFEST.rustCoreNoStdRootCount >= 19);
   assert.equal(CERTIFIED_PRODUCTION_MANIFEST.rustStdRootCount, 3);
-  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.roots.length, 22);
-  assert.equal(CERTIFIED_WASM_CORE_ROOT_NAMES.length, 19);
+  assert.ok(CERTIFIED_PRODUCTION_MANIFEST.roots.length >= 22);
+  assert.ok(CERTIFIED_WASM_CORE_ROOT_NAMES.length >= 19);
 
   for (const r of CERTIFIED_PRODUCTION_MANIFEST.roots) {
     assert.equal(r.certificationStatus, 'kernel-checked');
@@ -7504,4 +7533,168 @@ test('67. Universal Zero-Glue rust-core Auto-Codegen, 22-Root Certified Bundle &
   const repoCheck = syncOrCheckUorMechanizationArtifacts(process.cwd(), { write: false });
   assert.deepEqual(repoCheck.driftDetails, []);
   assert.ok(repoCheck.buildScenarioCount >= 67);
+});
+
+test('68. Zero Classical.choice Repository Closure, All-22-Domain no_std Certified Wasm & Unconditional Live Cutover', () => {
+  // 1. Pillar 1: Zero `Classical.choice` Across Every `.lex.tex` Module & Session Footprint (`maxClassicalChoiceCount === 0`)
+  const liftIngest = ingestProductCodebaseLiftRegister(process.cwd());
+  const ratchetState = measureHandwrittenAndAxiomRatchetState(process.cwd(), liftIngest.register);
+  assert.equal(ratchetState.classicalChoiceCount, 0);
+  const ratchetDoc = JSON.parse(fs.readFileSync('prism/handwritten-ratchet.json', 'utf8'));
+  assert.equal(ratchetDoc.maxClassicalChoiceCount, 0);
+  assert.ok(ratchetDoc.maxResidueFunctionCount < 100);
+  assert.ok(ratchetState.residueFunctionCount < 100);
+
+  const walkLexFiles = (dir: string): string[] =>
+    fs.readdirSync(dir, { withFileTypes: true }).flatMap((ent) =>
+      ent.isDirectory() ? walkLexFiles(`${dir}/${ent.name}`) : ent.name.endsWith('.lex.tex') ? [`${dir}/${ent.name}`] : [],
+    );
+  const allLexFiles = walkLexFiles('prism/src');
+  assert.ok(allLexFiles.length >= 25);
+  for (const lexPath of allLexFiles) {
+    assert.equal(/\bClassical\.choice\b/.test(fs.readFileSync(lexPath, 'utf8')), false, `Unexpected Classical.choice in ${lexPath}`);
+  }
+
+  // 2. Pillar 2: 50 Certified Production Roots (`47` `#![no_std]` `rust-core` + `3` `rust-std`) Across All 22 Domains
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.rustCoreNoStdRootCount, 47);
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.rustStdRootCount, 3);
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.roots.length, 50);
+  assert.equal(CERTIFIED_WASM_CORE_ROOT_NAMES.length, 47);
+
+  const coveredModules = new Set<string>(CERTIFIED_PRODUCTION_MANIFEST.roots.map((r) => r.moduleName));
+  const expected25Modules = [
+    'Foundation.Acoustics.V1.Model',
+    'Foundation.Anamnesis.V1.Model',
+    'Foundation.Articulation.V1.Model',
+    'Foundation.Botany.V1.Model',
+    'Foundation.Brand.V1.Model',
+    'Foundation.Chemistry.V1.Model',
+    'Foundation.Compression.V1.Model',
+    'Foundation.Cosmogenesis.V1.Model',
+    'Foundation.Dharma.V1.Model',
+    'Foundation.Ecology.V1.Model',
+    'Foundation.Graphics.V1.Model',
+    'Foundation.Humane.V1.Model',
+    'Foundation.Infrastructure.V1.Model',
+    'Foundation.Mathematics.V1.Model',
+    'Foundation.Mechanization.V1.Model',
+    'Foundation.MetaModel.V1.Model',
+    'Foundation.Morphogenesis.V1.Model',
+    'Foundation.Neuromorphic.V1.Model',
+    'Foundation.Physics.V1.Model',
+    'Foundation.Realizability.V1.Model',
+    'Foundation.Soundtrack.V1.Model',
+    'Foundation.SpatialAcoustics.V1.Model',
+    'Foundation.Teleology.V1.Model',
+    'Foundation.Vedanta.V1.Model',
+    'VerdantResonance',
+  ];
+  for (const modName of expected25Modules) {
+    assert.equal(coveredModules.has(modName), true, `Missing certified root for ${modName}`);
+  }
+
+  // Three-way parity (`CertifiedRustRunner.evalCoreRoot` CLI == `certifiedWasmCore_*` Wasm == `PRISM_COMPILED_MODULES` IR)
+  const runner = new CertifiedRustRunner(process.cwd());
+  const Chem = PRISM_COMPILED_MODULES['Foundation.Chemistry.V1.Model'];
+  const Phys = PRISM_COMPILED_MODULES['Foundation.Physics.V1.Model'];
+  const MathMod = PRISM_COMPILED_MODULES['Foundation.Mathematics.V1.Model'];
+  const Gfx = PRISM_COMPILED_MODULES['Foundation.Graphics.V1.Model'];
+  const Spat = PRISM_COMPILED_MODULES['Foundation.SpatialAcoustics.V1.Model'];
+  const Hum = PRISM_COMPILED_MODULES['Foundation.Humane.V1.Model'];
+  const Tel = PRISM_COMPILED_MODULES['Foundation.Teleology.V1.Model'];
+
+  for (const [z, expectedPeriod] of [[1, 1], [2, 1], [10, 2], [11, 3], [54, 5], [55, 6], [86, 6], [87, 7], [118, 7]] as const) {
+    assert.equal(Number(Chem.iupacPeriodOfZ(BigInt(z))), expectedPeriod);
+    assert.equal(Number(runner.evalCoreRoot('iupacPeriodOfZ', [z]).value), expectedPeriod);
+    assert.equal(certifiedWasmCore_iupacPeriodOfZ(z), expectedPeriod);
+  }
+  for (const [t3, y, expSixQ] of [[3, 7, 10], [1, 7, 4], [1, 3, 0], [3, 3, 6]] as const) {
+    assert.equal(Number(Phys.gellMannNishijimaBiasedSixQ(BigInt(t3), BigInt(y))), expSixQ);
+    assert.equal(Number(runner.evalCoreRoot('gellMannNishijimaBiasedSixQ', [t3, y]).value), expSixQ);
+    assert.equal(certifiedWasmCore_gellMannNishijimaBiasedSixQ(t3, y), expSixQ);
+  }
+  assert.equal(Number(MathMod.eulerPoincareBiasedCharacteristic(12n, 30n, 20n)), 18);
+  assert.equal(Number(runner.evalCoreRoot('eulerPoincareBiasedCharacteristic', [12, 30, 20]).value), 18);
+  assert.equal(certifiedWasmCore_eulerPoincareBiasedCharacteristic(12, 30, 20), 18);
+
+  assert.equal(Gfx.verifyPassivePbrEnergyConservation(320n, 180n, 100n), true);
+  assert.equal(runner.evalCoreRoot('verifyPassivePbrEnergyConservation', [320, 180, 100]).value, true);
+  assert.equal(certifiedWasmCore_verifyPassivePbrEnergyConservation(320, 180, 100), true);
+  assert.equal(certifiedWasmCore_verifyPassivePbrEnergyConservation(600, 500, 100), false);
+
+  for (const az of [0, 30, 90]) {
+    const irItd = Number(Spat.stepWoodworthItdMicros(BigInt(az)));
+    assert.equal(Number(runner.evalCoreRoot('stepWoodworthItdMicros', [az]).value), irItd);
+    assert.equal(certifiedWasmCore_stepWoodworthItdMicros(az), irItd);
+  }
+  assert.equal(
+    certifiedWasmCore_stepEarlyReflectionTapCount(16),
+    Number(Spat.stepEarlyReflectionTapCount(16n)),
+  );
+  assert.equal(certifiedWasmCore_evaluateGazeTargetInForwardCone(15, 8), Boolean(Hum.evaluateGazeTargetInForwardCone(15n, 8n)));
+  assert.equal(certifiedWasmCore_evaluateGazeTargetInForwardCone(75, 8), false);
+
+  const irTriadic = Number(Tel.stepTriadicPlayerGameObserverCoherencePermille(16n, 32n, 920n, 40n));
+  assert.equal(Number(runner.evalCoreRoot('stepTriadicPlayerGameObserverCoherencePermille', [16, 32, 920, 40]).value), irTriadic);
+  assert.equal(certifiedWasmCore_stepTriadicPlayerGameObserverCoherencePermille(16, 32, 920, 40), irTriadic);
+  assert.ok(irTriadic > SOLIPSISTIC_RULE30_CEILING_PERMILLE);
+
+  // Check remaining domain `#![no_std]` bus modulations execute cleanly in registers
+  assert.ok(certifiedWasmCore_stepAcousticsBusModulation(12) > certifiedWasmCore_stepAcousticsBusModulation(1));
+  assert.ok(certifiedWasmCore_stepAnamnesisBusModulation(12) > certifiedWasmCore_stepAnamnesisBusModulation(1));
+  assert.ok(certifiedWasmCore_stepArticulationBusModulation(12) > certifiedWasmCore_stepArticulationBusModulation(1));
+  assert.ok(certifiedWasmCore_stepBotanyBusModulation(12) > certifiedWasmCore_stepBotanyBusModulation(1));
+  assert.ok(certifiedWasmCore_stepThinFilmIridescenceSpanNm(16) > certifiedWasmCore_stepThinFilmIridescenceSpanNm(1));
+  assert.ok(certifiedWasmCore_stepBrandBusModulation(12) > certifiedWasmCore_stepBrandBusModulation(1));
+  assert.ok(certifiedWasmCore_stepChemistryBusModulation(12) > certifiedWasmCore_stepChemistryBusModulation(1));
+  assert.ok(certifiedWasmCore_stepAlphaOmegaFieldPotential(1, 12) > certifiedWasmCore_stepAlphaOmegaFieldPotential(1, 1));
+  assert.ok(certifiedWasmCore_stepDharmaBusModulation(12) > certifiedWasmCore_stepDharmaBusModulation(1));
+  assert.ok(certifiedWasmCore_stepGraphicsBusModulation(12) > certifiedWasmCore_stepGraphicsBusModulation(1));
+  assert.ok(certifiedWasmCore_stepHumaneBusModulation(12) > certifiedWasmCore_stepHumaneBusModulation(1));
+  assert.ok(certifiedWasmCore_stepInfrastructureBusModulation(12) > certifiedWasmCore_stepInfrastructureBusModulation(1));
+  assert.ok(certifiedWasmCore_stepMathematicsBusModulation(12) > certifiedWasmCore_stepMathematicsBusModulation(1));
+  assert.ok(certifiedWasmCore_stepMorphogenesisBusModulation(12) > certifiedWasmCore_stepMorphogenesisBusModulation(1));
+  assert.ok(certifiedWasmCore_stepPhysicsBusModulation(12) > certifiedWasmCore_stepPhysicsBusModulation(1));
+  assert.ok(certifiedWasmCore_stepRealizabilityBusModulation(12) > certifiedWasmCore_stepRealizabilityBusModulation(1));
+  assert.ok(certifiedWasmCore_stepSoundtrackBusModulation(12) > certifiedWasmCore_stepSoundtrackBusModulation(1));
+  assert.ok(certifiedWasmCore_stepSpatialAcousticsBusModulation(12) > certifiedWasmCore_stepSpatialAcousticsBusModulation(1));
+  assert.ok(certifiedWasmCore_stepTeleologyBusModulation(12) > certifiedWasmCore_stepTeleologyBusModulation(1));
+  assert.ok(certifiedWasmCore_stepVedantaBusModulation(12) > certifiedWasmCore_stepVedantaBusModulation(1));
+
+  // Verify residue collapse across soundscapeEngine, spectralColorEngine, standardModelEngine, teleologyEngine
+  assert.ok(liftIngest.register.summary.residueCount < 100);
+  const zeroResidueFiles = new Set([
+    'src/game/soundscapeEngine.ts',
+    'src/game/spectralColorEngine.ts',
+    'src/game/standardModelEngine.ts',
+    'src/game/teleologyEngine.ts',
+    'src/game/conservatoryCurationEngine.ts',
+    'src/game/autonomousObjectivesEngine.ts',
+  ]);
+  for (const row of liftIngest.register.rows) {
+    const file = row.functionPath.split('::')[0];
+    if (zeroResidueFiles.has(file) && row.status !== 'effect') {
+      assert.equal(row.status, 'lifted', `Expected ${row.functionPath} to be lifted`);
+    }
+  }
+
+  // 3. Pillar 3: Zero `isCertifiedWasmReady() ?` Fallbacks Across `src/game/*.ts` & Fail-Closed Live Boot Cutover
+  const gameFiles = fs.readdirSync('src/game').filter((f) => f.endsWith('.ts') && !f.endsWith('.test.ts') && !f.startsWith('generated'));
+  for (const gf of gameFiles) {
+    const src = fs.readFileSync(`src/game/${gf}`, 'utf8');
+    assert.equal(/isCertifiedWasmReady\(\)\s*\?/.test(src), false, `Unexpected Wasm fallback branch in src/game/${gf}`);
+  }
+  const mainTsx = fs.readFileSync('src/main.tsx', 'utf8');
+  assert.equal(/await\s+initCertifiedWasmRuntime/.test(mainTsx), true);
+  assert.equal(/import\('\.\/App\.tsx'\)/.test(mainTsx), true);
+  const gardenCanvasTsx = fs.readFileSync('src/components/GardenCanvas.tsx', 'utf8');
+  assert.equal(/NoCertifiedRoot/.test(gardenCanvasTsx), true);
+  const inspectorTsx = fs.readFileSync('src/components/PrismInspectorModal.tsx', 'utf8');
+  assert.equal(/certified-wasm-triadic-panel/.test(inspectorTsx), true);
+  assert.equal(/triadicPlayerGameObserverCoherencePermille/.test(inspectorTsx), true);
+
+  // Live engine invocations increment certified Wasm kernel call counter
+  const callsBefore = certifiedWasmCoreCallCount();
+  evaluatePrismRequest('meadow chime-lily attune dawn dormant 8 4');
+  assert.ok(certifiedWasmCoreCallCount() > callsBefore);
 });

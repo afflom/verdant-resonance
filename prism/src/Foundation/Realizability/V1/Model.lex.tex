@@ -71,7 +71,9 @@ definition{
   name: stepRealizabilityBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 32 : Nat))
+  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 32 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -106,7 +108,7 @@ definition{
   name: breaksZeroRealizationGapAndCounitClosure,
   parameters: [gap : Nat, dangling : Nat, projected : Nat],
   result: Bool,
-  body: (((gap =? (realizationGapZero)) && (0 <? gap)) || (((dangling =? (danglingUnprojectedPortsZero)) && (0 <? dangling)) || (not (verifyObserverRuntimeCounitClosure projected projected))))
+  body: (((gap =? (realizationGapZero)) && (0 <? gap)) || (((dangling =? (danglingUnprojectedPortsZero)) && (0 <? dangling)) || ((projected <? projected) || (0 <? (realizationGapZero)))))
 }
 
 theorem{
@@ -117,11 +119,10 @@ theorem{
     definitions: [
       breaksZeroRealizationGapAndCounitClosure,
       danglingUnprojectedPortsZero,
-      realizationGapZero,
-      verifyObserverRuntimeCounitClosure
+      realizationGapZero
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{

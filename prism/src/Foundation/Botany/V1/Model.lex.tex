@@ -135,7 +135,8 @@ definition{
   parameters: [busWeight : Nat],
   result: Nat,
   body: (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat),
-  executable: true
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -149,7 +150,9 @@ definition{
   name: stepThinFilmIridescenceSpanNm,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (540 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat))
+  body: (540 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

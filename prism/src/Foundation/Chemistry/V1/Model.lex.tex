@@ -75,7 +75,7 @@ structure{
 
 definition{name: verdantChemistryBasisPrime, parameters: [], result: Nat, body: 131}
 
-definition{name: iupacTotalElementCount, parameters: [], result: Nat, body: 118}
+definition{name: iupacTotalElementCount, parameters: [], result: Nat, body: 118, executable: true}
 
 definition{name: iupacPeriodCount, parameters: [], result: Nat, body: 7}
 
@@ -91,7 +91,8 @@ definition{
   name: clampAtomicNumberZ,
   parameters: [z : Nat],
   result: Nat,
-  body: (let span : Nat := (prim subtract (iupacTotalElementCount) 1 : Nat); (prim subtract (iupacTotalElementCount) (prim subtract span (prim subtract z 1 : Nat) : Nat) : Nat))
+  body: (let span : Nat := (prim subtract (iupacTotalElementCount) 1 : Nat); (prim subtract (iupacTotalElementCount) (prim subtract span (prim subtract z 1 : Nat) : Nat) : Nat)),
+  executable: true
 }
 
 definition{
@@ -105,21 +106,25 @@ definition{
   name: iupacPeriodLowHalf,
   parameters: [cz : Nat],
   result: Nat,
-  body: (if (cz <=? 10) then (if (cz <=? 2) then 1 else 2) else (if (cz <=? 18) then 3 else 4))
+  body: (if (cz <=? 10) then (if (cz <=? 2) then 1 else 2) else (if (cz <=? 18) then 3 else 4)),
+  executable: true
 }
 
 definition{
   name: iupacPeriodHighHalf,
   parameters: [cz : Nat],
   result: Nat,
-  body: (if (cz <=? 54) then 5 else (if (cz <=? 86) then 6 else 7))
+  body: (if (cz <=? 54) then 5 else (if (cz <=? 86) then 6 else 7)),
+  executable: true
 }
 
 definition{
   name: iupacPeriodOfZ,
   parameters: [z : Nat],
   result: Nat,
-  body: (let cz : Nat := (clampAtomicNumberZ z); (if (cz <=? 36) then (iupacPeriodLowHalf cz) else (iupacPeriodHighHalf cz)))
+  body: (let cz : Nat := (clampAtomicNumberZ z); (if (cz <=? 36) then (iupacPeriodLowHalf cz) else (iupacPeriodHighHalf cz))),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
@@ -147,7 +152,9 @@ definition{
   name: stepChemistryBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (940 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 22 : Nat))
+  body: (940 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 22 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -168,7 +175,7 @@ definition{
   name: breaksPauli118AndBravaisClosure,
   parameters: [z : Nat],
   result: Bool,
-  body: ((not (verifyPauli118PeriodicClosure)) || ((not (verifyFourteenBravaisClosure)) || (((iupacPeriodOfZ z) <? 1) || (7 <? (iupacPeriodOfZ z)))))
+  body: (let sCap : Nat := (pauliSubshellCapacity 0); (let pCap : Nat := (pauliSubshellCapacity 1); (let dCap : Nat := (pauliSubshellCapacity 2); (let fCap : Nat := (pauliSubshellCapacity 3); (let per2 : Nat := (sCap + pCap); (let per4 : Nat := ((sCap + dCap) + pCap); (let per6 : Nat := (((sCap + fCap) + dCap) + pCap); (let tot : Nat := ((((((sCap + per2) + per2) + per4) + per4) + per6) + per6); (let bravSum : Nat := ((((((1 + 2) + 4) + 2) + 1) + 1) + 3); (((tot <? (iupacTotalElementCount)) || ((iupacTotalElementCount) <? tot)) || (((bravSum <? (bravaisLatticeTotal)) || ((bravaisLatticeTotal) <? bravSum)) || (((iupacPeriodOfZ z) <? 1) || (7 <? (iupacPeriodOfZ z))))))))))))))
 }
 
 theorem{
@@ -184,12 +191,10 @@ theorem{
       iupacPeriodLowHalf,
       iupacPeriodOfZ,
       iupacTotalElementCount,
-      pauliSubshellCapacity,
-      verifyFourteenBravaisClosure,
-      verifyPauli118PeriodicClosure
+      pauliSubshellCapacity
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{

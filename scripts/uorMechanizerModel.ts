@@ -137,6 +137,9 @@ function findDeclarationBodyOpenBrace(source: string, sigStartIdx: number): numb
   let pDepth = 0;
   let angleDepth = 0;
   let bDepth = 0;
+  let seenParamsOpen = false;
+  let seenParamsClose = false;
+  let seenReturnColon = false;
   let quote: string | null = null;
   for (let i = sigStartIdx; i < source.length; i++) {
     const ch = source[i];
@@ -152,13 +155,27 @@ function findDeclarationBodyOpenBrace(source: string, sigStartIdx: number): numb
       quote = ch;
       continue;
     }
-    if (ch === '(') pDepth++;
-    else if (ch === ')') pDepth = Math.max(0, pDepth - 1);
-    else if (ch === '[') bDepth++;
+    if (ch === '(') {
+      pDepth++;
+      seenParamsOpen = true;
+    } else if (ch === ')') {
+      pDepth = Math.max(0, pDepth - 1);
+      if (seenParamsOpen && pDepth === 0) seenParamsClose = true;
+    } else if (ch === '[') bDepth++;
     else if (ch === ']') bDepth = Math.max(0, bDepth - 1);
     else if (ch === '<') angleDepth++;
     else if (ch === '>' && source[i - 1] !== '=') angleDepth = Math.max(0, angleDepth - 1);
-    else if (ch === '{' && pDepth === 0 && bDepth === 0 && angleDepth === 0) {
+    else if (seenParamsClose && pDepth === 0 && bDepth === 0 && angleDepth === 0 && ch === ':') {
+      seenReturnColon = true;
+    } else if (seenParamsClose && ch === '{' && pDepth === 0 && bDepth === 0 && angleDepth === 0) {
+      if (seenReturnColon) {
+        const closeIdx = findMatchingBraceEnd(source, i);
+        const tail = source.slice(closeIdx + 1, closeIdx + 120);
+        if (/^(?:\s|\[\]|\||&|\breadonly\b|\bnull\b|\bundefined\b)*\{/.test(tail)) {
+          i = closeIdx;
+          continue;
+        }
+      }
       return i;
     }
   }

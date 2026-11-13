@@ -734,10 +734,18 @@ definition{
 }
 
 definition{
+  name: judgeGrovePulseFernAwakenedObserveTail,
+  parameters: [request : Request],
+  result: Nat,
+  body: (if ((((project request atmosphere) =? (atmosphereDawn)) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10)) then (answerDawnArpeggio) else (if (((project request proximity) <=? 30) && (10 <=? (project request velocity))) then (answerRhythmicPulse) else (judgeSlowAmbient request))),
+  executable: true
+}
+
+definition{
   name: judgeGrovePulseFernAwakenedObserve,
   parameters: [request : Request],
   result: Nat,
-  body: (if ((((project request atmosphere) =? (atmosphereDawn)) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10)) then (answerDawnArpeggio) else (if (((project request proximity) <=? 30) && (10 <=? (project request velocity))) then (answerRhythmicPulse) else (if ((((project request atmosphere) =? (atmosphereGolden)) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8)) then (answerHarmonicBloom) else (judgeSlowAmbient request)))),
+  body: (if ((project request atmosphere) =? (atmosphereGolden)) then (if ((project request proximity) <=? 25) then (if ((project request velocity) <=? 8) then (answerHarmonicBloom) else (judgeGrovePulseFernAwakenedObserveTail request)) else (judgeGrovePulseFernAwakenedObserveTail request)) else (judgeGrovePulseFernAwakenedObserveTail request)),
   executable: true
 }
 
@@ -774,10 +782,18 @@ definition{
 }
 
 definition{
+  name: judgeGroveEchoLotusAwakenedObserveTail,
+  parameters: [request : Request],
+  result: Nat,
+  body: (if ((((project request atmosphere) =? (atmosphereTwilight)) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10)) then (answerNocturnalSymphony) else (judgeSlowAmbient request)),
+  executable: true
+}
+
+definition{
   name: judgeGroveEchoLotusAwakenedObserve,
   parameters: [request : Request],
   result: Nat,
-  body: (if ((((project request atmosphere) =? (atmosphereTwilight)) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10)) then (answerNocturnalSymphony) else (if ((((project request atmosphere) =? (atmosphereGolden)) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 8)) then (answerHarmonicBloom) else (judgeSlowAmbient request))),
+  body: (if ((project request atmosphere) =? (atmosphereGolden)) then (if ((project request proximity) <=? 25) then (if ((project request velocity) <=? 8) then (answerHarmonicBloom) else (judgeSlowAmbient request)) else (judgeSlowAmbient request)) else (judgeGroveEchoLotusAwakenedObserveTail request)),
   executable: true
 }
 
@@ -918,10 +934,10 @@ definition{
 }
 
 definition{
-  name: judgeGroveNonPulseObserve,
+  name: judgeGroveAwakenedObserve,
   parameters: [request : Request],
   result: Nat,
-  body: (if ((((project request plant) =? (plantEchoLotus)) && ((project request chorus) =? (chorusAwakened))) && ((project request action) =? (actionObserve))) then (judgeGroveEchoLotusAwakenedObserve request) else (judgeGroveGeneral request)),
+  body: (if ((project request plant) =? (plantPulseFern)) then (judgeGrovePulseFernAwakenedObserve request) else (if ((project request plant) =? (plantEchoLotus)) then (judgeGroveEchoLotusAwakenedObserve request) else (judgeGroveGeneral request))),
   executable: true
 }
 
@@ -929,7 +945,7 @@ definition{
   name: judgeGrove,
   parameters: [request : Request],
   result: Nat,
-  body: (if ((((project request plant) =? (plantPulseFern)) && ((project request chorus) =? (chorusAwakened))) && ((project request action) =? (actionObserve))) then (judgeGrovePulseFernAwakenedObserve request) else (judgeGroveNonPulseObserve request)),
+  body: (if ((project request chorus) =? (chorusAwakened)) then (if ((project request action) =? (actionObserve)) then (judgeGroveAwakenedObserve request) else (judgeGroveGeneral request)) else (judgeGroveGeneral request)),
   executable: true
 }
 
@@ -982,10 +998,18 @@ definition{
 }
 
 definition{
+  name: judgeCrystalEchoLotusAwakenedObserveTail,
+  parameters: [request : Request],
+  result: Nat,
+  body: (if ((((project request atmosphere) =? (atmosphereTwilight)) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10)) then (answerNocturnalSymphony) else (judgeSlowAmbient request)),
+  executable: true
+}
+
+definition{
   name: judgeCrystalEchoLotusAwakenedObserve,
   parameters: [request : Request],
   result: Nat,
-  body: (if ((((project request atmosphere) =? (atmosphereTwilight)) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10)) then (answerNocturnalSymphony) else (if ((((project request atmosphere) =? (atmosphereStarlight)) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10)) then (answerCrystallineChoir) else (judgeSlowAmbient request))),
+  body: (if ((project request atmosphere) =? (atmosphereStarlight)) then (if ((project request proximity) <=? 25) then (if ((project request velocity) <=? 10) then (answerCrystallineChoir) else (judgeSlowAmbient request)) else (judgeSlowAmbient request)) else (judgeCrystalEchoLotusAwakenedObserveTail request)),
   executable: true
 }
 
@@ -1129,7 +1153,7 @@ definition{
   name: judgeCrystal,
   parameters: [request : Request],
   result: Nat,
-  body: (if ((((project request plant) =? (plantEchoLotus)) && ((project request chorus) =? (chorusAwakened))) && ((project request action) =? (actionObserve))) then (judgeCrystalEchoLotusAwakenedObserve request) else (judgeCrystalGeneral request)),
+  body: (if ((project request plant) =? (plantEchoLotus)) then (if ((project request chorus) =? (chorusAwakened)) then (if ((project request action) =? (actionObserve)) then (judgeCrystalEchoLotusAwakenedObserve request) else (judgeCrystalGeneral request)) else (judgeCrystalGeneral request)) else (judgeCrystalGeneral request)),
   executable: true
 }
 
@@ -1193,7 +1217,7 @@ definition{
   name: judgeWetlandEchoLotusAwakened,
   parameters: [request : Request],
   result: Nat,
-  body: (if ((((project request action) =? (actionAttune)) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10)) then (answerSanctuaryChorus) else (judgeWetlandEchoLotusAwakenedTail request)),
+  body: (if ((project request action) =? (actionAttune)) then (if ((project request proximity) <=? 20) then (if ((project request velocity) <=? 10) then (answerSanctuaryChorus) else (judgeWetlandEchoLotusAwakenedTail request)) else (judgeWetlandEchoLotusAwakenedTail request)) else (judgeWetlandEchoLotusAwakenedTail request)),
   executable: true
 }
 
@@ -1366,10 +1390,34 @@ definition{
 }
 
 definition{
+  name: judgeSanctuaryEchoLotusAwakenedObserveTail,
+  parameters: [request : Request],
+  result: Nat,
+  body: (if ((project request proximity) <=? 25) then (if ((project request velocity) <=? 10) then (answerSanctuaryChorus) else (judgeSlowAmbient request)) else (judgeSlowAmbient request)),
+  executable: true
+}
+
+definition{
+  name: judgeSanctuaryEchoLotusAwakenedObserveTwilight,
+  parameters: [request : Request],
+  result: Nat,
+  body: (if (((project request proximity) <=? 20) && ((project request velocity) <=? 10)) then (answerNocturnalSymphony) else (judgeSanctuaryEchoLotusAwakenedObserveTail request)),
+  executable: true
+}
+
+definition{
   name: judgeSanctuaryEchoLotusAwakenedObserve,
   parameters: [request : Request],
   result: Nat,
-  body: (if ((((project request atmosphere) =? (atmosphereTwilight)) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10)) then (answerNocturnalSymphony) else (if (((project request proximity) <=? 25) && ((project request velocity) <=? 10)) then (answerSanctuaryChorus) else (judgeSlowAmbient request))),
+  body: (if ((project request atmosphere) =? (atmosphereTwilight)) then (judgeSanctuaryEchoLotusAwakenedObserveTwilight request) else (judgeSanctuaryEchoLotusAwakenedObserveTail request)),
+  executable: true
+}
+
+definition{
+  name: judgeSanctuaryEchoLotusAwakenedTouchTail,
+  parameters: [request : Request],
+  result: Nat,
+  body: (if ((((project request atmosphere) =? (atmosphereTwilight)) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10)) then (answerNocturnalSymphony) else (judgeSlowAmbient request)),
   executable: true
 }
 
@@ -1377,7 +1425,7 @@ definition{
   name: judgeSanctuaryEchoLotusAwakenedTouch,
   parameters: [request : Request],
   result: Nat,
-  body: (if ((((project request atmosphere) =? (atmosphereTwilight)) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10)) then (answerNocturnalSymphony) else (if ((((project request atmosphere) =? (atmosphereStarlight)) && ((project request proximity) <=? 25)) && ((project request velocity) <=? 10)) then (answerSanctuaryChorus) else (judgeSlowAmbient request))),
+  body: (if ((project request atmosphere) =? (atmosphereStarlight)) then (if ((project request proximity) <=? 25) then (if ((project request velocity) <=? 10) then (answerSanctuaryChorus) else (judgeSlowAmbient request)) else (judgeSlowAmbient request)) else (judgeSanctuaryEchoLotusAwakenedTouchTail request)),
   executable: true
 }
 
@@ -1526,10 +1574,18 @@ definition{
 }
 
 definition{
+  name: judgeSanctuaryActiveTail,
+  parameters: [request : Request],
+  result: Nat,
+  body: (if ((project request chorus) =? (chorusAwakened)) then (if ((project request action) =? (actionAttune)) then (if ((project request proximity) <=? 20) then (if ((project request velocity) <=? 10) then (answerSanctuaryChorus) else (judgeSanctuaryPlants request)) else (judgeSanctuaryPlants request)) else (judgeSanctuaryPlants request)) else (judgeSanctuaryPlants request)),
+  executable: true
+}
+
+definition{
   name: judgeSanctuaryActive,
   parameters: [request : Request],
   result: Nat,
-  body: (if (((project request action) =? (actionStillness)) && ((project request velocity) =? 0)) then (answerSereneRest) else (if (((((project request chorus) =? (chorusAwakened)) && ((project request action) =? (actionAttune))) && ((project request proximity) <=? 20)) && ((project request velocity) <=? 10)) then (answerSanctuaryChorus) else (judgeSanctuaryPlants request))),
+  body: (if ((project request action) =? (actionStillness)) then (if ((project request velocity) =? 0) then (answerSereneRest) else (judgeSanctuaryPlants request)) else (judgeSanctuaryActiveTail request)),
   executable: true
 }
 
@@ -1542,10 +1598,10 @@ definition{
 }
 
 definition{
-  name: judgeSanctuaryGeneral,
+  name: judgeSanctuaryLowAction,
   parameters: [request : Request],
   result: Nat,
-  body: (if ((project request action) <=? (actionTouch)) then (judgeSanctuaryPlants request) else (judgeSanctuaryActive request)),
+  body: (if ((project request plant) =? (plantEchoLotus)) then (if ((project request chorus) =? (chorusAwakened)) then (judgeSanctuaryEchoLotusAwakenedLowAction request) else (judgeSanctuaryPlants request)) else (judgeSanctuaryPlants request)),
   executable: true
 }
 
@@ -1553,7 +1609,7 @@ definition{
   name: judgeSanctuary,
   parameters: [request : Request],
   result: Nat,
-  body: (if ((((project request plant) =? (plantEchoLotus)) && ((project request chorus) =? (chorusAwakened))) && ((project request action) <=? (actionTouch))) then (judgeSanctuaryEchoLotusAwakenedLowAction request) else (judgeSanctuaryGeneral request)),
+  body: (if ((project request action) <=? (actionTouch)) then (judgeSanctuaryLowAction request) else (judgeSanctuaryActive request)),
   executable: true
 }
 

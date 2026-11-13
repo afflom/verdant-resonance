@@ -8,11 +8,13 @@ import {
   PLANT_SPECIES_CONFIGS,
   PlantSpeciesId,
   SOUND_OUTCOME_PROFILES,
+  SOLIPSISTIC_RULE30_CEILING_PERMILLE,
   SPECIES_ARTICULATION_PROFILES,
   SoundscapeOutcome,
   VERDANT_BRAND_STANDARD,
   VERDANT_TELEOLOGICAL_PHENOMENA,
   evaluateBiomeMasteryAndGuilds,
+  evaluateVerdantAutonomousKpis,
   evaluateVerdantTeleologySynthesis,
   GardenPlantInstance,
   getPlantLifecycleStage,
@@ -20,6 +22,11 @@ import {
   synthesizeParametricBiomeConfigs,
   synthesizeParametricSoundOutcomeProfiles,
 } from '../game/prismModel';
+import {
+  CERTIFIED_PRODUCTION_MANIFEST,
+  certifiedWasmCoreCallCount,
+  certifiedWasmTotalWork,
+} from '../game/generatedCertifiedWasmBridge';
 import { BotanicalSoundscapeEngine } from '../game/soundscapeEngine';
 import { LiveTelemetryState } from './GardenCanvas';
 import { PlantSpeciesIcon } from './BotanicalIcons';
@@ -71,6 +78,20 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
   const teleologyReport = evaluateVerdantTeleologySynthesis(
     telemetry.neuromorphic.lastActiveSynapticWeight,
   );
+  const kpiScorecard = evaluateVerdantAutonomousKpis({
+    busWeight: telemetry.neuromorphic.lastActiveSynapticWeight,
+    harmonyPct: telemetry.harmony,
+    velocityDm: telemetry.velocityDm,
+    isStillness:
+      telemetry.action === 'stillness' || telemetry.gestureHold.heldGesture === 'stillness',
+    hasFocalTarget: Boolean(telemetry.nearestPlant),
+    focalTargetAttuned: Boolean(telemetry.nearestPlant?.attuned),
+    nearestFeatureDistanceM: telemetry.distanceMeters,
+    restStepCount: telemetry.soundtrackScore.restStepCount,
+    activeVoiceCount: telemetry.environmentalLifecycle.activeStemsCount,
+    exploredBiomesCount: telemetry.exploredBiomes.length,
+  });
+  const rec = kpiScorecard.reconciliation;
 
   const speciesList = Object.values(PLANT_SPECIES_CONFIGS);
   const biomeList = Object.values(liveBiomeConfigs);
@@ -501,6 +522,68 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                   stillness, the garden deepens its color, geometry, and polyphonic voice on its
                   own—without menus to micromanage or timers to race against.
                 </p>
+              </div>
+
+              <div
+                data-testid="certified-wasm-triadic-panel"
+                className="rounded-xl border border-amber-300/25 bg-[#0a1a14] p-4 space-y-2.5"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="text-xs font-mono text-amber-200 uppercase tracking-wider">
+                    Certified #![no_std] Wasm Runtime &amp; Triadic Player–Game–Observer Coherence
+                  </div>
+                  <span className="px-2 py-0.5 rounded-md bg-emerald-900/70 border border-emerald-400/25 text-[11px] font-mono text-emerald-100">
+                    {CERTIFIED_PRODUCTION_MANIFEST.roots.length} Certified Roots (
+                    {CERTIFIED_PRODUCTION_MANIFEST.rustCoreNoStdRootCount} #![no_std] +{' '}
+                    {CERTIFIED_PRODUCTION_MANIFEST.rustStdRootCount} rust-std) · 0 Classical.choice
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs font-mono">
+                  <div className="rounded-lg bg-[#0d221a] border border-emerald-400/15 px-3 py-2">
+                    <div className="text-[10px] text-emerald-200/75 uppercase">
+                      Triadic Coherence
+                    </div>
+                    <div className="text-sm text-amber-200 font-semibold">
+                      {rec.triadicPlayerGameObserverCoherencePermille}‰
+                    </div>
+                    <div className="text-[10px] text-teal-200/80">
+                      Rule-30 ceiling: {SOLIPSISTIC_RULE30_CEILING_PERMILLE}‰
+                    </div>
+                  </div>
+                  <div className="rounded-lg bg-[#0d221a] border border-emerald-400/15 px-3 py-2">
+                    <div className="text-[10px] text-emerald-200/75 uppercase">
+                      Player Attention
+                    </div>
+                    <div className="text-sm text-emerald-100 font-semibold">
+                      {rec.playerAttentionPermille}‰
+                    </div>
+                    <div className="text-[10px] text-teal-200/80">
+                      Dissonance −{rec.dissonanceReductionPermille}‰
+                    </div>
+                  </div>
+                  <div className="rounded-lg bg-[#0d221a] border border-emerald-400/15 px-3 py-2">
+                    <div className="text-[10px] text-emerald-200/75 uppercase">
+                      # [no_std] Kernel Calls
+                    </div>
+                    <div className="text-sm text-emerald-100 font-semibold">
+                      {certifiedWasmCoreCallCount().toLocaleString()}
+                    </div>
+                    <div className="text-[10px] text-teal-200/80">
+                      Work: {certifiedWasmTotalWork().toString()}
+                    </div>
+                  </div>
+                  <div className="rounded-lg bg-[#0d221a] border border-emerald-400/15 px-3 py-2">
+                    <div className="text-[10px] text-emerald-200/75 uppercase">
+                      Healthy Quality
+                    </div>
+                    <div className="text-sm text-amber-100 font-semibold">
+                      {rec.healthyGratifyingQualityPermille}‰
+                    </div>
+                    <div className="text-[10px] text-teal-200/80">
+                      {kpiScorecard.satisfiedFacetKpiCount}/24 Facet KPIs
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">

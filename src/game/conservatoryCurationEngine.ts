@@ -26,12 +26,10 @@
  */
 
 import { GENERATED_PRISM_STANDARDS } from './generatedPrismConstants';
-import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
 import {
   certifiedWasmCore_conservatoryCurationDefect,
   certifiedWasmCore_conservatoryCurationDominates,
   certifiedWasmCore_conservatoryCurationLyapunovCost,
-  isCertifiedWasmReady,
 } from './generatedCertifiedWasmBridge';
 import {
   RULE30_SEED64,
@@ -41,8 +39,6 @@ import {
   stepRule30Ring64,
   type ClaimHonestyLevel as HonestyStanding,
 } from './parametricCompressionEngine';
-
-const _LexNeuroCuration = PRISM_COMPILED_MODULES['Foundation.Neuromorphic.V1.Model'];
 
 export type CurationBiomeId = 'meadow' | 'grove' | 'crystal' | 'wetland' | 'sanctuary';
 
@@ -322,7 +318,8 @@ function clampInt(value: number, lo: number, hi: number): number {
 export function computeConsolidatedMemoryRootKappa(
   memories: readonly ConsolidatedGardenMemory[],
 ): string {
-  if (memories.length === 0) return EMPTY_MEMORY_ROOT_KAPPA;
+  const slotCap = GENERATED_PRISM_STANDARDS.autonomousConservatoryCuration.consolidatedMemorySlotCap;
+  if (memories.length === 0 || slotCap <= 0) return EMPTY_MEMORY_ROOT_KAPPA;
   const canonical = memories
     .slice()
     .sort((a, b) => a.memoryId.localeCompare(b.memoryId))
@@ -341,59 +338,27 @@ export function createConservatoryCurationPoint(params: {
   readonly musicalProfile: CuratedMusicalProfile;
   readonly warmMemoryRootKappa?: string;
 }): ConservatoryCurationPoint {
+  const minHeadroomTenths = Math.max(34, GENERATED_PRISM_STANDARDS.psychoacousticIso226.zwickerBarkCriticalBandCount + 10);
   const physicalProfile: CuratedPhysicalProfile = {
     windHarmonyGainPermille: clampInt(params.physicalProfile.windHarmonyGainPermille, 850, 1250),
-    cymaticMeniscusGainPermille: clampInt(
-      params.physicalProfile.cymaticMeniscusGainPermille,
-      850,
-      1350,
-    ),
-    thinFilmIridescencePermille: clampInt(
-      params.physicalProfile.thinFilmIridescencePermille,
-      850,
-      1300,
-    ),
-    acousticHeadroomTargetDbTenths: clampInt(
-      params.physicalProfile.acousticHeadroomTargetDbTenths,
-      34,
-      68,
-    ),
+    cymaticMeniscusGainPermille: clampInt(params.physicalProfile.cymaticMeniscusGainPermille, 850, 1350),
+    thinFilmIridescencePermille: clampInt(params.physicalProfile.thinFilmIridescencePermille, 850, 1300),
+    acousticHeadroomTargetDbTenths: clampInt(params.physicalProfile.acousticHeadroomTargetDbTenths, minHeadroomTenths, 68),
   };
   const botanicalProfile: CuratedBotanicalProfile = {
-    kuramotoCouplingGainPermille: clampInt(
-      params.botanicalProfile.kuramotoCouplingGainPermille,
-      850,
-      1450,
-    ),
-    mycorrhizalGuildArcPermille: clampInt(
-      params.botanicalProfile.mycorrhizalGuildArcPermille,
-      800,
-      1400,
-    ),
-    corollaBloomGracePermille: clampInt(
-      params.botanicalProfile.corollaBloomGracePermille,
-      900,
-      1300,
-    ),
+    kuramotoCouplingGainPermille: clampInt(params.botanicalProfile.kuramotoCouplingGainPermille, 850, 1450),
+    mycorrhizalGuildArcPermille: clampInt(params.botanicalProfile.mycorrhizalGuildArcPermille, 800, 1400),
+    corollaBloomGracePermille: clampInt(params.botanicalProfile.corollaBloomGracePermille, 900, 1300),
     vascularTurgorPermille: clampInt(params.botanicalProfile.vascularTurgorPermille, 900, 1250),
   };
   const musicalProfile: CuratedMusicalProfile = {
     phraseHyperbarMode: params.musicalProfile.phraseHyperbarMode,
-    consonanceGravityPermille: clampInt(
-      params.musicalProfile.consonanceGravityPermille,
-      800,
-      1400,
-    ),
-    canonCounterpointPermille: clampInt(
-      params.musicalProfile.canonCounterpointPermille,
-      750,
-      1350,
-    ),
+    consonanceGravityPermille: clampInt(params.musicalProfile.consonanceGravityPermille, 800, 1400),
+    canonCounterpointPermille: clampInt(params.musicalProfile.canonCounterpointPermille, 750, 1350),
     spatialAntiphonyPermille: clampInt(params.musicalProfile.spatialAntiphonyPermille, 850, 1350),
     breathReleasePermille: clampInt(params.musicalProfile.breathReleasePermille, 900, 1350),
   };
   const warmMemoryRootKappa = params.warmMemoryRootKappa ?? EMPTY_MEMORY_ROOT_KAPPA;
-
   const canonical =
     `UORC-CONSERVATORY-POINT-v1|` +
     `phys:${physicalProfile.windHarmonyGainPermille},${physicalProfile.cymaticMeniscusGainPermille},${physicalProfile.thinFilmIridescencePermille},${physicalProfile.acousticHeadroomTargetDbTenths}|` +
@@ -401,13 +366,7 @@ export function createConservatoryCurationPoint(params: {
     `mus:${musicalProfile.phraseHyperbarMode},${musicalProfile.consonanceGravityPermille},${musicalProfile.canonCounterpointPermille},${musicalProfile.spatialAntiphonyPermille},${musicalProfile.breathReleasePermille}|` +
     `mem:${warmMemoryRootKappa}`;
 
-  return {
-    pointKappa: sha256Hex(canonical),
-    physicalProfile,
-    botanicalProfile,
-    musicalProfile,
-    warmMemoryRootKappa,
-  };
+  return { pointKappa: sha256Hex(canonical), physicalProfile, botanicalProfile, musicalProfile, warmMemoryRootKappa };
 }
 
 /**
@@ -423,9 +382,7 @@ export function computeConservatoryCurationDefect(params: {
   readonly maxMelodicLeap: number;
 }): number {
   const { floatingGapCount: f, staticOverlapCount: o, ahimsaViolationCount: a, restStepCount: r, maxMelodicLeap: m } = params;
-  return isCertifiedWasmReady()
-    ? certifiedWasmCore_conservatoryCurationDefect(Math.floor(f), Math.floor(o), Math.floor(a), Math.floor(r), Math.floor(m))
-    : Number(_LexNeuroCuration.conservatoryCurationDefect(toPrismNat(f), toPrismNat(o), toPrismNat(a), toPrismNat(r), toPrismNat(m)));
+  return certifiedWasmCore_conservatoryCurationDefect(Math.floor(f), Math.floor(o), Math.floor(a), Math.floor(r), Math.floor(m));
 }
 
 /** Exact runtime mirror of `Foundation.Neuromorphic.V1.Model::conservatoryCurationLyapunovCost`. */
@@ -434,10 +391,11 @@ export function computeConservatoryCurationLyapunovCost(
   botanicalDeficitPermille: number,
   musicalTensionPermille: number,
 ): number {
-  const [p, b, m] = [Math.round(physicalSurprisalPermille), Math.round(botanicalDeficitPermille), Math.round(musicalTensionPermille)];
-  return isCertifiedWasmReady()
-    ? certifiedWasmCore_conservatoryCurationLyapunovCost(p, b, m)
-    : Number(_LexNeuroCuration.conservatoryCurationLyapunovCost(toPrismNat(p), toPrismNat(b), toPrismNat(m)));
+  return certifiedWasmCore_conservatoryCurationLyapunovCost(
+    Math.round(physicalSurprisalPermille),
+    Math.round(botanicalDeficitPermille),
+    Math.round(musicalTensionPermille),
+  );
 }
 
 /** Exact runtime mirror of `Foundation.Neuromorphic.V1.Model::conservatoryCurationDominates`. */
@@ -445,11 +403,16 @@ export function conservatoryCurationDominates(
   cand: ConservatoryCurationEvaluation,
   inc: ConservatoryCurationEvaluation,
 ): boolean {
-  const [dA, pA, bA, mA] = [cand.defect, cand.physicalSurprisalPermille, cand.botanicalDeficitPermille, cand.musicalTensionPermille];
-  const [dB, pB, bB, mB] = [inc.defect, inc.physicalSurprisalPermille, inc.botanicalDeficitPermille, inc.musicalTensionPermille];
-  return isCertifiedWasmReady()
-    ? certifiedWasmCore_conservatoryCurationDominates(dA, pA, bA, mA, dB, pB, bB, mB)
-    : _LexNeuroCuration.conservatoryCurationDominates(toPrismNat(dA), toPrismNat(pA), toPrismNat(bA), toPrismNat(mA), toPrismNat(dB), toPrismNat(pB), toPrismNat(bB), toPrismNat(mB));
+  return certifiedWasmCore_conservatoryCurationDominates(
+    cand.defect,
+    cand.physicalSurprisalPermille,
+    cand.botanicalDeficitPermille,
+    cand.musicalTensionPermille,
+    inc.defect,
+    inc.physicalSurprisalPermille,
+    inc.botanicalDeficitPermille,
+    inc.musicalTensionPermille,
+  );
 }
 
 /**
@@ -462,13 +425,13 @@ export function evaluateGardenCurationCandidate(
   consolidatedMemoryCount = 0,
   baselineFloorLyapunovCost = 6200,
 ): ConservatoryCurationEvaluation {
-  const defect = computeConservatoryCurationDefect({
-    floatingGapCount: telemetry.floatingGapCount ?? 0,
-    staticOverlapCount: telemetry.staticOverlapCount ?? 0,
-    ahimsaViolationCount: telemetry.ahimsaViolationCount ?? 0,
-    restStepCount: telemetry.restStepCount,
-    maxMelodicLeap: telemetry.maxMelodicStepLeap,
-  });
+  const defect = certifiedWasmCore_conservatoryCurationDefect(
+    Math.floor(telemetry.floatingGapCount ?? 0),
+    Math.floor(telemetry.staticOverlapCount ?? 0),
+    Math.floor(telemetry.ahimsaViolationCount ?? 0),
+    Math.floor(telemetry.restStepCount),
+    Math.floor(telemetry.maxMelodicStepLeap),
+  );
 
   // 1. Physical Surprisal (0..1000 permille):
   // Measures psychoacoustic 24-Bark headroom margin, wind-monument equilibrium, and thin-film spectral match.
@@ -606,13 +569,14 @@ export function mintConsolidatedGardenMemory(params: {
   readonly consolidatedAtTick: number;
   readonly lyapunovCostAtConsolidation: number;
 }): ConsolidatedGardenMemory {
+  const hashBits = GENERATED_PRISM_STANDARDS.autonomousConservatoryCuration.contentHashBits;
   const r0 = Number(params.signatureRatios[0].toFixed(6));
   const r1 = Number(params.signatureRatios[1].toFixed(6));
   const r2 = Number(params.signatureRatios[2].toFixed(6));
   const canonical = `UORC-GARDEN-MEMORY-v1|${params.memoryId}|${params.kind}|${params.biome}|${r0},${r1},${r2}`;
   return {
     memoryId: params.memoryId,
-    memoryKappa: sha256Hex(canonical),
+    memoryKappa: sha256Hex(canonical).slice(0, hashBits >>> 2),
     kind: params.kind,
     title: params.title,
     biome: params.biome,

@@ -156,7 +156,7 @@ definition{name: verdantOptimizedModalityCount, parameters: [], result: Nat, bod
 
 definition{name: verdantBehindPlayerActivationsCount, parameters: [], result: Nat, body: 0}
 
-definition{name: verdantForwardFovHalfAngleDeg, parameters: [], result: Nat, body: 62}
+definition{name: verdantForwardFovHalfAngleDeg, parameters: [], result: Nat, body: 62, executable: true}
 
 definition{name: maxForwardHemisphereHalfAngleDeg, parameters: [], result: Nat, body: 90}
 
@@ -165,14 +165,17 @@ definition{
   parameters: [busWeight : Nat],
   result: Nat,
   body: (120 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 10 : Nat)),
-  executable: true
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: evaluateGazeTargetInForwardCone,
   parameters: [angleDeg : Nat, distMeters : Nat],
   result: Bool,
-  body: ((angleDeg <=? (verdantForwardFovHalfAngleDeg)) && (distMeters <=? 22))
+  body: ((angleDeg <=? (verdantForwardFovHalfAngleDeg)) && (distMeters <=? 22)),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{

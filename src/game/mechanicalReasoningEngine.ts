@@ -22,7 +22,6 @@ import {
   certifiedWasmFoundryRoute,
   certifiedWasmRule30Step,
   certifiedWasmSchedule,
-  isCertifiedWasmReady,
 } from './generatedCertifiedWasmBridge';
 import { sha256Hex } from './parametricCompressionEngine';
 
@@ -320,9 +319,7 @@ export function routeCodebaseFact(tags: readonly string[]): FoundryRoutingOutcom
       firstRoute = found;
       firstTag = rawTag;
     } else if (firstRoute.id !== found.id) {
-      const cls = isCertifiedWasmReady()
-        ? certifiedWasmFoundryRoute(mask)
-        : Number(CompiledMechanization.classifyFoundryTagMask(toPrismNat(mask)));
+      const cls = certifiedWasmFoundryRoute(mask);
       if (cls === Number(CompiledMechanization.routingRefusedAmbiguous())) {
         return {
           kind: 'refused-ambiguous',
@@ -333,9 +330,7 @@ export function routeCodebaseFact(tags: readonly string[]): FoundryRoutingOutcom
     }
   }
 
-  const cls = isCertifiedWasmReady()
-    ? certifiedWasmFoundryRoute(mask)
-    : Number(CompiledMechanization.classifyFoundryTagMask(toPrismNat(mask)));
+  const cls = certifiedWasmFoundryRoute(mask);
   if (cls !== Number(CompiledMechanization.routingAdmitted()) || !firstRoute) {
     return { kind: 'refused-unknown', unknownTag: tags[0] ?? '<invalid>', code: 'unknown-fact-tag' };
   }
@@ -501,9 +496,7 @@ export function admitLiftRegisterCandidate(
       if (!nextRow) continue; // Source changed -> new κ question, or function removed
       const oldClass = liftStatusToClassCode(oldRow.status);
       const nextClass = liftStatusToClassCode(nextRow.status);
-      const allowed = isCertifiedWasmReady()
-        ? certifiedWasmAdmitLift(true, oldClass, nextClass)
-        : CompiledMechanization.admitLiftKappaTransition(true, oldClass, nextClass);
+      const allowed = certifiedWasmAdmitLift(true, oldClass, nextClass);
       if (!allowed) {
         return {
           ok: false,
@@ -663,7 +656,7 @@ export function discoverRule30F2Relations(
   const orbit: bigint[] = [seedState64];
   for (let t = 0; t < count; t++) {
     const prev = orbit[orbit.length - 1];
-    orbit.push(isCertifiedWasmReady() ? certifiedWasmRule30Step(prev) : CompiledCompression.rule30Step(prev));
+    orbit.push(certifiedWasmRule30Step(prev));
   }
 
   const relations: DiscoveredF2Relation[] = [];
@@ -770,15 +763,7 @@ export function mintCanonicalHypotheses(
     const kappa = sha256KappaHex(`${CLAUSE_KAPPA_DOMAIN}\n${canonicalClause}\n`);
     const alreadyKnown = sessionKnown.has(kappa);
 
-    const decision = isCertifiedWasmReady()
-      ? certifiedWasmDecideMint(contradictory, alreadyKnown, remaining)
-      : Number(
-          CompiledMechanization.decideHypothesisMint(
-            contradictory,
-            alreadyKnown,
-            toPrismNat(remaining),
-          ),
-        );
+    const decision = certifiedWasmDecideMint(contradictory, alreadyKnown, remaining);
     remaining = Number(
       CompiledMechanization.remainingBudgetAfterMint(
         contradictory,
@@ -835,17 +820,11 @@ export function scheduleStrategiesByWeight(
   const byId = new Map<string, StrategyWeightEntry>(entries.map((e) => [e.strategyId, e]));
   const applicable = [...entries].map((e) => e.strategyId).sort((a, b) => a.localeCompare(b));
   const family = 'portfolio';
-  const orderedIds = isCertifiedWasmReady()
-    ? certifiedWasmSchedule(
-        entries.map((e) => ({ strategy: e.strategyId, family, value: e.weight })),
-        family,
-        applicable,
-      )
-    : CompiledMechanization.schedule(
-        entries.map((e) => ({ strategy: e.strategyId, family, value: toPrismNat(e.weight) })),
-        family,
-        applicable,
-      );
+  const orderedIds = certifiedWasmSchedule(
+    entries.map((e) => ({ strategy: e.strategyId, family, value: e.weight })),
+    family,
+    applicable,
+  );
   return orderedIds.map((id) => byId.get(id)!).filter(Boolean);
 }
 

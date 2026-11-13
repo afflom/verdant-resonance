@@ -230,14 +230,14 @@ definition{
   name: pickBytes,
   parameters: [b : Nat, s : Nat, kb : Nat, ks : Nat],
   result: Nat,
-  body: (if ((b <? kb) || ((b =? kb) && (s <? ks))) then b else kb)
+  body: (if (b <? kb) then b else (if (b =? kb) then (if (s <? ks) then b else kb) else kb))
 }
 
 definition{
   name: pickSteps,
   parameters: [b : Nat, s : Nat, kb : Nat, ks : Nat],
   result: Nat,
-  body: (if ((b <? kb) || ((b =? kb) && (s <? ks))) then s else ks)
+  body: (if (b <? kb) then s else (if (b =? kb) then (if (s <? ks) then s else ks) else ks))
 }
 
 definition{
@@ -253,21 +253,21 @@ definition{
   name: gainOf,
   parameters: [cb : Nat, cs : Nat, ib : Nat, it : Nat],
   result: Nat,
-  body: (if ((cb <=? ib) && (cs <=? it)) then (prim subtract (ib + it) (cb + cs) : Nat) else 0)
+  body: (if (cb <=? ib) then (if (cs <=? it) then (prim subtract (ib + it) (cb + cs) : Nat) else 0) else 0)
 }
 
 definition{
   name: consolidateBytes,
   parameters: [cb : Nat, cs : Nat, ib : Nat, it : Nat],
   result: Nat,
-  body: (if (dominates cb cs ib it) then cb else ib)
+  body: (if (cb <=? ib) then (if (cs <=? it) then (if (cb <? ib) then cb else (if (cs <? it) then cb else ib)) else ib) else ib)
 }
 
 definition{
   name: consolidateSteps,
   parameters: [cb : Nat, cs : Nat, ib : Nat, it : Nat],
   result: Nat,
-  body: (if (dominates cb cs ib it) then cs else it)
+  body: (if (cb <=? ib) then (if (cs <=? it) then (if (cb <? ib) then cs else (if (cs <? it) then cs else it)) else it) else it)
 }
 
 definition{
@@ -475,7 +475,7 @@ definition{
   name: breaksZeroDefectAdmissionAndLexicographicChoice,
   parameters: [b : Nat, s : Nat, kb : Nat, ks : Nat, defect : Nat, rawB : Nat],
   result: Bool,
-  body: ((((0 <? defect) && (not ((admitZeroDefectBytes b defect rawB) =? rawB))) || (rawB <? (admitZeroDefectBytes b defect rawB))) || ((((0 <? (lexGap (pickBytes b s kb ks) (pickSteps b s kb ks) kb ks)) || (0 <? (lexGap (pickBytes b s kb ks) (pickSteps b s kb ks) b s))) || (not ((pickBytes b s kb ks) =? (settleBytes b kb)))) || ((not (0 <? (lexGap b s kb ks))) && (0 <? (gainOf kb ks b s)))))
+  body: (((((0 <? defect) && ((admitZeroDefectBytes b defect rawB) <? rawB)) || ((0 <? defect) && (rawB <? (admitZeroDefectBytes b defect rawB)))) || (rawB <? (admitZeroDefectBytes b defect rawB))) || ((((0 <? (lexGap (pickBytes b s kb ks) (pickSteps b s kb ks) kb ks)) || (0 <? (lexGap (pickBytes b s kb ks) (pickSteps b s kb ks) b s))) || (((pickBytes b s kb ks) <? (settleBytes b kb)) || ((settleBytes b kb) <? (pickBytes b s kb ks)))) || (((lexGap b s kb ks) <=? 0) && (0 <? (gainOf kb ks b s)))))
 }
 
 theorem{
@@ -494,14 +494,14 @@ theorem{
       settleBytes
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
   name: breaksStrictDominanceAndPotentialDescent,
   parameters: [ab : Nat, as : Nat, bb : Nat, bs : Nat, cb : Nat, cs : Nat],
   result: Bool,
-  body: (((dominates ab as ab as) || ((dominates ab as bb bs) && (dominates bb bs ab as))) || ((((dominates ab as bb bs) && (dominates bb bs cb cs)) && (not (dominates ab as cb cs))) || ((((dominates ab as bb bs) && (((bb <? ab) || (bs <? as)) || ((bb + bs) <=? (ab + as)))) || (not (((consolidateCost ab as bb bs) + (gainOf ab as bb bs)) =? (bb + bs)))) || ((bb + bs) <? (consolidateCost ab as bb bs)))))
+  body: (((dominates ab as ab as) || ((dominates ab as bb bs) && (dominates bb bs ab as))) || ((((((dominates ab as bb bs) && (dominates bb bs cb cs)) && (cb <? ab)) || (((dominates ab as bb bs) && (dominates bb bs cb cs)) && (cs <? as))) || (((dominates ab as bb bs) && (dominates bb bs cb cs)) && ((cb <=? ab) && (cs <=? as)))) || ((((dominates ab as bb bs) && (((bb <? ab) || (bs <? as)) || ((bb + bs) <=? (ab + as)))) || ((((consolidateCost ab as bb bs) + (gainOf ab as bb bs)) <? (bb + bs)) || ((bb + bs) <? ((consolidateCost ab as bb bs) + (gainOf ab as bb bs))))) || ((bb + bs) <? (consolidateCost ab as bb bs)))))
 }
 
 theorem{
@@ -518,7 +518,7 @@ theorem{
       gainOf
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{

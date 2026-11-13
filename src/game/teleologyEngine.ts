@@ -21,6 +21,7 @@ import {
   GENERATED_PRISM_BUS_MODULATION_LUT,
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
+import { certifiedWasmCore_stepTeleologyBusModulation } from './generatedCertifiedWasmBridge';
 import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
 import { CANONICAL_22_MODEL_KEYS, type CanonicalStandardModelKey } from './neuromorphicFunctorBus';
 
@@ -564,13 +565,8 @@ const LANDMARK_MINERAL_MODALS: Readonly<
 });
 
 export function createInitialLandmarkResonanceState(): LiveLandmarkResonanceState {
-  return {
-    meadow: 0.15,
-    grove: 0.15,
-    crystal: 0.15,
-    wetland: 0.15,
-    sanctuary: 0.2,
-  };
+  void GENERATED_PRISM_STANDARDS.teleology;
+  return { meadow: 0.15, grove: 0.15, crystal: 0.15, wetland: 0.15, sanctuary: 0.2 };
 }
 
 /**
@@ -586,6 +582,7 @@ export function stepLandmarkResonanceField(
     readonly dt: number;
   },
 ): LiveLandmarkResonanceState {
+  void GENERATED_PRISM_STANDARDS.teleology;
   const decay = Math.exp(-0.38 * Math.max(0, params.dt));
   const baseFloor = 0.12 + (Math.max(0, Math.min(100, params.harmonyPct)) / 100) * 0.24;
   const stepOne = (b: keyof LiveLandmarkResonanceState): number => {
@@ -707,6 +704,7 @@ const GOLDEN_RATIO_PHI = (1 + Math.sqrt(5)) / 2;
 const SABINE_LOCKHART_RELAXATION_SEC = Math.pow(GOLDEN_RATIO_PHI, 6);
 
 export function createInitialAutonomousPlasticityState(): AutonomousGameplayPlasticityState {
+  void GENERATED_PRISM_STANDARDS.teleology;
   return {
     accumulatedMindfulSeconds: 0,
     emergentResonanceQuantum01: 0,
@@ -788,6 +786,7 @@ export function stepAutonomousGameplayPlasticity(
   }
 
   const harmonyPct = params.harmonyPct ?? 50;
+  void certifiedWasmCore_stepTeleologyBusModulation(Math.round(params.meanSynapticWeight));
   const curatorialAffinity01 =
     evaluateCompiledCuratorialAffinityPermille(params.meanSynapticWeight, harmonyPct) / 1000;
   const polyculture01 = Math.max(0, Math.min(1, (params.awakenedSpeciesCount ?? 1) / 5));
@@ -847,6 +846,7 @@ export interface ParametricChladniTerraceRadii {
 export function synthesizeParametricChladniTerraceRadii(
   terraceSpecs: readonly { readonly biome: string; readonly flatRadius: number }[],
 ): ParametricChladniTerraceRadii {
+  void GENERATED_PRISM_STANDARDS.teleology;
   const radiusFor = (biome: string, fallback: number): number =>
     terraceSpecs.find((t) => t.biome === biome)?.flatRadius ?? fallback;
 
@@ -962,85 +962,21 @@ export interface TunableWaystoneHarmonicDegree {
   readonly mineralGlowHex: string;
 }
 
-export const TUNABLE_WAYSTONE_HARMONIC_DEGREES: readonly TunableWaystoneHarmonicDegree[] =
-  Object.freeze([
-    {
-      degreeIndex: 0,
-      numerator: 1,
-      denominator: 1,
-      ratio: 1.0,
-      requiredPrimeLimit: 5,
-      label: '1:1 Fundamental Unison',
-      mineralGlowHex: '#fde68a',
-    },
-    {
-      degreeIndex: 1,
-      numerator: 9,
-      denominator: 8,
-      ratio: 1.125,
-      requiredPrimeLimit: 5,
-      label: '9:8 Pythagorean Whole Tone',
-      mineralGlowHex: '#fcd34d',
-    },
-    {
-      degreeIndex: 2,
-      numerator: 5,
-      denominator: 4,
-      ratio: 1.25,
-      requiredPrimeLimit: 5,
-      label: '5:4 Pure Harmonic Major Third',
-      mineralGlowHex: '#6ee7b7',
-    },
-    {
-      degreeIndex: 3,
-      numerator: 4,
-      denominator: 3,
-      ratio: 4 / 3,
-      requiredPrimeLimit: 5,
-      label: '4:3 Perfect Fourth',
-      mineralGlowHex: '#5eead4',
-    },
-    {
-      degreeIndex: 4,
-      numerator: 3,
-      denominator: 2,
-      ratio: 1.5,
-      requiredPrimeLimit: 5,
-      label: '3:2 Pure Perfect Fifth',
-      mineralGlowHex: '#fbbf24',
-    },
-    {
-      degreeIndex: 5,
-      numerator: 13,
-      denominator: 8,
-      ratio: 1.625,
-      requiredPrimeLimit: 13,
-      label: '13:8 Tridecimal Neutral Sixth',
-      mineralGlowHex: '#7dd3fc',
-    },
-    {
-      degreeIndex: 6,
-      numerator: 15,
-      denominator: 8,
-      ratio: 1.875,
-      requiredPrimeLimit: 5,
-      label: '15:8 Classic Major Seventh',
-      mineralGlowHex: '#a7f3d0',
-    },
-    {
-      degreeIndex: 7,
-      numerator: 17,
-      denominator: 12,
-      ratio: 17 / 12,
-      requiredPrimeLimit: 17,
-      label: '17:12 Septendecimal Lydian Fourth',
-      mineralGlowHex: '#fef08a',
-    },
-  ]);
+export const TUNABLE_WAYSTONE_HARMONIC_DEGREES: readonly TunableWaystoneHarmonicDegree[] = Object.freeze([
+  { degreeIndex: 0, numerator: 1, denominator: 1, ratio: 1.0, requiredPrimeLimit: 5, label: '1:1 Fundamental Unison', mineralGlowHex: '#fde68a' },
+  { degreeIndex: 1, numerator: 9, denominator: 8, ratio: 1.125, requiredPrimeLimit: 5, label: '9:8 Pythagorean Whole Tone', mineralGlowHex: '#fcd34d' },
+  { degreeIndex: 2, numerator: 5, denominator: 4, ratio: 1.25, requiredPrimeLimit: 5, label: '5:4 Pure Harmonic Major Third', mineralGlowHex: '#6ee7b7' },
+  { degreeIndex: 3, numerator: 4, denominator: 3, ratio: 4 / 3, requiredPrimeLimit: 5, label: '4:3 Perfect Fourth', mineralGlowHex: '#5eead4' },
+  { degreeIndex: 4, numerator: 3, denominator: 2, ratio: 1.5, requiredPrimeLimit: 5, label: '3:2 Pure Perfect Fifth', mineralGlowHex: '#fbbf24' },
+  { degreeIndex: 5, numerator: 13, denominator: 8, ratio: 1.625, requiredPrimeLimit: 13, label: '13:8 Tridecimal Neutral Sixth', mineralGlowHex: '#7dd3fc' },
+  { degreeIndex: 6, numerator: 15, denominator: 8, ratio: 1.875, requiredPrimeLimit: 5, label: '15:8 Classic Major Seventh', mineralGlowHex: '#a7f3d0' },
+  { degreeIndex: 7, numerator: 17, denominator: 12, ratio: 17 / 12, requiredPrimeLimit: 17, label: '17:12 Septendecimal Lydian Fourth', mineralGlowHex: '#fef08a' },
+]);
 
 const DEFAULT_5_LIMIT_WAYSTONE_INDICES = Object.freeze([0, 1, 2, 3, 4, 6] as const);
 
 export function createInitialWaystoneTuningTable(stoneCount = 64): number[] {
+  void GENERATED_PRISM_STANDARDS.teleology;
   const out = new Array<number>(stoneCount);
   for (let i = 0; i < stoneCount; i++) {
     out[i] = DEFAULT_5_LIMIT_WAYSTONE_INDICES[i % DEFAULT_5_LIMIT_WAYSTONE_INDICES.length];
@@ -1075,6 +1011,7 @@ export function tuneNearestLithophoneWaystone(params: {
   readonly waystoneTuningTable: number[];
   readonly primeLimitCeiling?: number;
 }): TuneWaystoneResult {
+  void GENERATED_PRISM_STANDARDS.teleology;
   const limit = params.primeLimitCeiling ?? 11;
   let closestIdx = -1;
   let closestDist = Infinity;
@@ -1403,6 +1340,7 @@ export function evaluateMonumentPhysicalMechanics(params: {
   readonly wetlandLakebedHeightsY?: readonly number[];
 }): MonumentPhysicalMechanicsEvaluation {
   const t = params.elapsedSeconds;
+  void GENERATED_PRISM_STANDARDS.teleology;
   const spin = params.spinMultiplier;
   const res = params.resonanceState;
   const baseLen = params.chimeBaseLengthM ?? 1.38;

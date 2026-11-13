@@ -315,7 +315,9 @@ definition{
   name: composeCoherentModelDepthScore,
   parameters: [ownDepthPpm : Nat, inboundPartnerSumPpm : Nat],
   result: Nat,
-  body: ((prim multiply 21 ownDepthPpm : Nat) + inboundPartnerSumPpm)
+  body: ((prim multiply 21 ownDepthPpm : Nat) + inboundPartnerSumPpm),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

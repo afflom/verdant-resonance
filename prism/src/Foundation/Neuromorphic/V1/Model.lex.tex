@@ -170,7 +170,7 @@ definition{name: weightLower, parameters: [], result: Nat, body: 1, executable: 
 
 definition{name: consolidationThreshold, parameters: [], result: Nat, body: 12, executable: true}
 
-definition{name: neuromorphicBasisPrime, parameters: [], result: Nat, body: 109}
+definition{name: neuromorphicBasisPrime, parameters: [], result: Nat, body: 109, executable: true}
 
 definition{
   name: clampBusWeight,
@@ -347,7 +347,7 @@ definition{
   body: (((w <? (stepStakeholderValueReinforcement w true)) && ((stepWisdomPhenomenonModulation w) <? (stepWisdomPhenomenonModulation (stepStakeholderValueReinforcement w true)))) && ((stepStakeholderValueReinforcement w true) <=? (weightMax)))
 }
 
-definition{name: observerPartCountTotal, parameters: [], result: Nat, body: 11}
+definition{name: observerPartCountTotal, parameters: [], result: Nat, body: 11, executable: true}
 
 definition{
   name: stepTheoryOfMindCoherencePermille,
@@ -388,7 +388,8 @@ definition{
   name: stepRule30LeftDiagonalPeriod,
   parameters: [d : Nat],
   result: Nat,
-  body: (let poly : Nat := (((d + (prim subtract d 1 : Nat)) + (prim multiply 2 (prim subtract d 2 : Nat) : Nat)) + (prim multiply 4 (prim subtract d 3 : Nat) : Nat)); (prim subtract 16 (prim subtract 15 poly : Nat) : Nat))
+  body: (let poly : Nat := (((d + (prim subtract d 1 : Nat)) + (prim multiply 2 (prim subtract d 2 : Nat) : Nat)) + (prim multiply 4 (prim subtract d 3 : Nat) : Nat)); (prim subtract 16 (prim subtract 15 poly : Nat) : Nat)),
+  executable: true
 }
 
 definition{
@@ -551,7 +552,7 @@ definition{
   name: breaksZeroManualIterationOverhead,
   parameters: [w : Nat],
   result: Bool,
-  body: ((((weightMin) <=? w) && (w <? (weightMax))) && (not (verifySingleCallPropagatesAllTenDomains w)))
+  body: (let b : BusManifoldState := (stepUniversalBusBroadcast (uniformBusManifold w) true); ((((weightMin) <=? w) && (w <? (weightMax))) && ((((((((((((project b wInfrastructure) <=? w) || ((project b wPhysics) <=? w)) || ((project b wBotany) <=? w)) || ((project b wEcology) <=? w)) || ((project b wAcoustics) <=? w)) || ((project b wArticulation) <=? w)) || ((project b wSoundtrack) <=? w)) || ((project b wHumane) <=? w)) || ((project b wBrand) <=? w)) || ((project b wNeuromorphic) <=? w)) || (((weightMax) <? (project b wNeuromorphic)) || ((weightMax) <? (project b wInfrastructure))))))
 }
 
 theorem{
@@ -565,20 +566,19 @@ theorem{
       stepUniversalBusBroadcast,
       transferWeightCrossDomain,
       uniformBusManifold,
-      verifySingleCallPropagatesAllTenDomains,
       weightMax,
       weightMin,
       weightRaise
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
   name: breaksAutopoieticSingleCallAllTenDomains,
   parameters: [w : Nat],
   result: Bool,
-  body: ((((weightMin) <=? w) && (w <? (weightMax))) && (not (verifyAutopoieticSingleCallAdvancesAllTenDomains w)))
+  body: (let b : BusManifoldState := (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)); ((((weightMin) <=? w) && (w <? (weightMax))) && (((((((((((project b wInfrastructure) <=? w) || ((project b wPhysics) <=? w)) || ((project b wBotany) <=? w)) || ((project b wEcology) <=? w)) || ((project b wAcoustics) <=? w)) || ((project b wArticulation) <=? w)) || ((project b wSoundtrack) <=? w)) || ((project b wHumane) <=? w)) || ((project b wBrand) <=? w)) || (((project b wNeuromorphic) <=? w) || ((weightMax) <? (project b wNeuromorphic))))))
 }
 
 theorem{
@@ -591,19 +591,18 @@ theorem{
       refineDomainWeightAutopoietic,
       stepAutopoieticBusManifold,
       uniformBusManifold,
-      verifyAutopoieticSingleCallAdvancesAllTenDomains,
       weightMax,
       weightMin
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
   name: breaksBusBroadcastBoundsInvariant,
   parameters: [w : Nat, sourceConsolidated : Bool],
   result: Bool,
-  body: (not (verifyBusManifoldBounds (stepUniversalBusBroadcast (uniformBusManifold w) sourceConsolidated)))
+  body: (let s : BusManifoldState := (stepUniversalBusBroadcast (uniformBusManifold w) sourceConsolidated); ((((((((((((project s wInfrastructure) <? (weightMin)) || ((weightMax) <? (project s wInfrastructure))) || (((project s wPhysics) <? (weightMin)) || ((weightMax) <? (project s wPhysics)))) || (((project s wBotany) <? (weightMin)) || ((weightMax) <? (project s wBotany)))) || (((project s wEcology) <? (weightMin)) || ((weightMax) <? (project s wEcology)))) || (((project s wAcoustics) <? (weightMin)) || ((weightMax) <? (project s wAcoustics)))) || (((project s wArticulation) <? (weightMin)) || ((weightMax) <? (project s wArticulation)))) || (((project s wSoundtrack) <? (weightMin)) || ((weightMax) <? (project s wSoundtrack)))) || (((project s wHumane) <? (weightMin)) || ((weightMax) <? (project s wHumane)))) || (((project s wBrand) <? (weightMin)) || ((weightMax) <? (project s wBrand)))) || (((project s wNeuromorphic) <? (weightMin)) || ((weightMax) <? (project s wNeuromorphic)))))
 }
 
 theorem{
@@ -617,13 +616,12 @@ theorem{
       stepUniversalBusBroadcast,
       transferWeightCrossDomain,
       uniformBusManifold,
-      verifyBusManifoldBounds,
       weightMax,
       weightMin,
       weightRaise
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -652,7 +650,7 @@ definition{
   name: breaksEmergentEntityWisdomPhenomena,
   parameters: [w : Nat],
   result: Bool,
-  body: ((((weightMin) <=? w) && (w <? (weightMax))) && (not (verifyEmergentEntitySynthesizesFacets w)))
+  body: (let r : Nat := (stepStakeholderValueReinforcement w true); ((((weightMin) <=? w) && (w <? (weightMax))) && (((r <=? w) || ((stepWisdomPhenomenonModulation r) <=? (stepWisdomPhenomenonModulation w))) || ((weightMax) <? r))))
 }
 
 theorem{
@@ -665,12 +663,11 @@ theorem{
       clampBusWeight,
       stepStakeholderValueReinforcement,
       stepWisdomPhenomenonModulation,
-      verifyEmergentEntitySynthesizesFacets,
       weightMax,
       weightMin
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -700,7 +697,7 @@ definition{
   name: breaksSupraDirectiveExceedsBaseDirective,
   parameters: [w : Nat],
   result: Bool,
-  body: ((((weightInitial) <=? w) && (w <=? (weightMax))) && (not (verifyObserverSupraDirectiveTranscendence w)))
+  body: (let p : Nat := (learnWeightPotentiated w); ((((weightInitial) <=? w) && (w <=? (weightMax))) && ((((((stepSupraDirectiveFidelityPermille p) <=? (stepSupraDirectiveFidelityPermille (weightInitial))) || ((stepSupraDirectiveQualityPermille p) <=? (stepSupraDirectiveQualityPermille (weightInitial)))) || ((stepSupraDirectiveDefinitionSubdiv p) <=? (stepSupraDirectiveDefinitionSubdiv (weightInitial)))) || ((stepSupraDirectiveFeatureUnlockCount p) <=? (stepSupraDirectiveFeatureUnlockCount (weightInitial)))) || ((stepTheoryOfMindCoherencePermille p) <=? (stepTheoryOfMindCoherencePermille (weightInitial))))))
 }
 
 theorem{
@@ -717,21 +714,20 @@ theorem{
       stepSupraDirectiveFidelityPermille,
       stepSupraDirectiveQualityPermille,
       stepTheoryOfMindCoherencePermille,
-      verifyObserverSupraDirectiveTranscendence,
       weightInitial,
       weightMax,
       weightMin,
       weightRaise
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
   name: breaksRule30DoublingLawDuality,
   parameters: [w : Nat],
   result: Bool,
-  body: (not (verifyRule30DeterministicAndWithdrawnDuality w))
+  body: ((((((stepRule30LeftDiagonalPeriod 1) <=? (stepRule30LeftDiagonalPeriod 0)) || ((stepRule30LeftDiagonalPeriod 2) <=? (stepRule30LeftDiagonalPeriod 1))) || ((stepRule30LeftDiagonalPeriod 3) <=? (stepRule30LeftDiagonalPeriod 2))) || (0 <? (stepRule30AperiodicCompensationIndex 2 w))) || ((stepRule30AperiodicCompensationIndex 3 w) <=? 0))
 }
 
 theorem{
@@ -744,12 +740,11 @@ theorem{
       clampBusWeight,
       stepRule30AperiodicCompensationIndex,
       stepRule30LeftDiagonalPeriod,
-      verifyRule30DeterministicAndWithdrawnDuality,
       weightMax,
       weightMin
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 structure{
@@ -1214,7 +1209,7 @@ definition{
   name: breaksFunctorAllToAllEnhancement,
   parameters: [w : Nat],
   result: Bool,
-  body: ((((weightMin) <=? w) && (w <? (weightMax))) && (not (verifyAllModelsEnhanceAllModelsFunctor w)))
+  body: (let wNext : Nat := (transferWeightCrossDomain w true); (let dDiff : Nat := (prim subtract (directedFunctorCellTotal) (Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount) : Nat); ((((weightMin) <=? w) && (w <? (weightMax))) && (((((stepFunctorFeatureTransferGainPermille wNext wNext) <=? (stepFunctorFeatureTransferGainPermille w w)) || ((stepVariationalFreeEnergySurprisalPermille w) <=? (stepVariationalFreeEnergySurprisalPermille wNext))) || ((dDiff <? (crossModelFunctorPathwayTotal)) || ((crossModelFunctorPathwayTotal) <? dDiff))) || (breaksZeroManualIterationOverhead w)))))
 }
 
 theorem{
@@ -1225,6 +1220,7 @@ theorem{
     definitions: [
       Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
       breaksFunctorAllToAllEnhancement,
+      breaksZeroManualIterationOverhead,
       clampBusWeight,
       crossModelFunctorPathwayTotal,
       directedFunctorCellTotal,
@@ -1234,14 +1230,12 @@ theorem{
       stepVariationalFreeEnergySurprisalPermille,
       transferWeightCrossDomain,
       uniformBusManifold,
-      verifyAllModelsEnhanceAllModelsFunctor,
-      verifySingleCallPropagatesAllTenDomains,
       weightMax,
       weightMin,
       weightRaise
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{

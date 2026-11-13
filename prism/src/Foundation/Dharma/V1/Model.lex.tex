@@ -141,7 +141,9 @@ definition{
   name: stepDharmaBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 32 : Nat))
+  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 32 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -176,7 +178,7 @@ definition{
   name: breaksAhimsaZeroViolenceAndYamaNiyamaAstangaClosure,
   parameters: [violent : Nat, dark : Nat],
   result: Bool,
-  body: ((((0 <? violent) || (0 <? dark)) && (verifyAhimsaAndYamaNiyamaAstangaClosure violent dark)) || (not (verifyAhimsaAndYamaNiyamaAstangaClosure 0 0)))
+  body: ((((0 <? violent) && (verifyAhimsaAndYamaNiyamaAstangaClosure violent dark)) || ((0 <? dark) && (verifyAhimsaAndYamaNiyamaAstangaClosure violent dark))) || (((((yamaObservanceTotal) + (niyamaObservanceTotal)) <? 10) || (10 <? ((yamaObservanceTotal) + (niyamaObservanceTotal)))) || ((((astangaLimbTotal) <? 8) || (8 <? (astangaLimbTotal))) || ((((purusarthaTotal) <? 4) || (4 <? (purusarthaTotal))) || (((brahmaviharaTotal) <? 4) || (4 <? (brahmaviharaTotal)))))))
 }
 
 theorem{
@@ -195,14 +197,14 @@ theorem{
       yamaObservanceTotal
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
   name: breaksPratityasamutpadaTwelveNidanaCausalClosure,
   parameters: [nidanas : Nat, acausal : Nat],
   result: Bool,
-  body: ((((nidanas <? 12) || ((12 <? nidanas) || (0 <? acausal))) && (verifyPratityasamutpadaTwelveLinkClosure nidanas acausal)) || (not (verifyPratityasamutpadaTwelveLinkClosure 12 0)))
+  body: ((((nidanas <? 12) && (verifyPratityasamutpadaTwelveLinkClosure nidanas acausal)) || (((12 <? nidanas) && (verifyPratityasamutpadaTwelveLinkClosure nidanas acausal)) || ((0 <? acausal) && (verifyPratityasamutpadaTwelveLinkClosure nidanas acausal)))) || (((pratityasamutpadaNidanaTotal) <? 12) || ((12 <? (pratityasamutpadaNidanaTotal)) || (0 <? (acausalOrphanPhenomenaZero)))))
 }
 
 theorem{
@@ -217,7 +219,7 @@ theorem{
       verifyPratityasamutpadaTwelveLinkClosure
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{

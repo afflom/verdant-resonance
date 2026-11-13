@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
+import { isCertifiedWasmReady } from '../game/generatedCertifiedWasmBridge';
 import {
   ATMOSPHERE_CONFIGS,
   AtmosphereId,
@@ -289,6 +290,11 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
   useEffect(() => {
     const container = mountRef.current;
     if (!container) return;
+    if (!isCertifiedWasmReady()) {
+      throw new Error(
+        'NoCertifiedRoot: certified WebAssembly runtime (verdant_certified_runtime.wasm) is required before starting the 60Hz conservatory loop.',
+      );
+    }
 
     // 1. Software-WebGL Guard & Resilient WebGL Context Initialization per Three.js skill
     const isSoftwareGl = (() => {

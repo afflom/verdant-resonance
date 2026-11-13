@@ -1,6 +1,9 @@
 import React from 'react';
 import {createRoot} from 'react-dom/client';
-import App from './App.tsx';
+import {
+  initCertifiedWasmRuntime,
+  isCertifiedWasmReady,
+} from './game/generatedCertifiedWasmBridge';
 import './index.css';
 
 interface ErrorBoundaryState {
@@ -40,8 +43,28 @@ class SanctuaryErrorBoundary extends React.Component<
   }
 }
 
-createRoot(document.getElementById('root')!).render(
-  <SanctuaryErrorBoundary>
-    <App />
-  </SanctuaryErrorBoundary>,
-);
+async function bootCertifiedConservatory(): Promise<void> {
+  const root = createRoot(document.getElementById('root')!);
+  const wasmUrl = `${import.meta.env.BASE_URL}wasm/verdant_certified_runtime.wasm`;
+  const ok = await initCertifiedWasmRuntime(wasmUrl);
+  if (!ok || !isCertifiedWasmReady()) {
+    root.render(
+      <div className="w-full h-full min-h-screen flex flex-col items-center justify-center bg-[#0b1612] text-emerald-50 p-6 text-center">
+        <h1 className="font-display text-3xl text-amber-200 mb-2">NoCertifiedRoot</h1>
+        <p className="text-sm text-emerald-200/80 max-w-md">
+          Certified WebAssembly runtime (verdant_certified_runtime.wasm) is required before mounting
+          the conservatory.
+        </p>
+      </div>,
+    );
+    return;
+  }
+  const {default: App} = await import('./App.tsx');
+  root.render(
+    <SanctuaryErrorBoundary>
+      <App />
+    </SanctuaryErrorBoundary>,
+  );
+}
+
+void bootCertifiedConservatory();

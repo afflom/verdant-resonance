@@ -2,6 +2,110 @@
   "roots": [
     {
       "package": {
+        "name": "verdant_acoustics_step_acoustics_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Acoustics.V1.Model.stepAcousticsBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_anamnesis_step_anamnesis_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Anamnesis.V1.Model.stepAnamnesisBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_articulation_step_articulation_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepArticulationBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_botany_step_botany_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Botany.V1.Model.stepBotanyBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_botany_step_thin_film_iridescence_span_nm",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Botany.V1.Model.stepThinFilmIridescenceSpanNm",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_brand_step_brand_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Brand.V1.Model.stepBrandBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_chemistry_iupac_period_of_z",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Chemistry.V1.Model.iupacPeriodOfZ",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_chemistry_step_chemistry_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Chemistry.V1.Model.stepChemistryBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_compression_dominates",
         "version": "0.1.0"
       },
@@ -41,6 +145,32 @@
     },
     {
       "package": {
+        "name": "verdant_cosmogenesis_step_alpha_omega_field_potential",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepAlphaOmegaFieldPotential",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_dharma_step_dharma_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepDharmaBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_ecology_step_ecology_bus_modulation",
         "version": "0.1.0"
       },
@@ -58,6 +188,97 @@
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepMicroclimateIso9613ClarityPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_graphics_step_graphics_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Graphics.V1.Model.stepGraphicsBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_graphics_verify_passive_pbr_energy_conservation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Graphics.V1.Model.verifyPassivePbrEnergyConservation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_humane_evaluate_gaze_target_in_forward_cone",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Humane.V1.Model.evaluateGazeTargetInForwardCone",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_humane_step_humane_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Humane.V1.Model.stepHumaneBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_infrastructure_step_infrastructure_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Infrastructure.V1.Model.stepInfrastructureBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mathematics_euler_poincare_biased_characteristic",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mathematics.V1.Model.eulerPoincareBiasedCharacteristic",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mathematics_step_mathematics_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mathematics.V1.Model.stepMathematicsBusModulation",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
@@ -127,6 +348,32 @@
         {
           "digest": "2ab7e98605c8c6366e8c9686eb3a5f253bce4be16d78c1a39bc60d9c50c3fa3a",
           "id": "rust-std"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_meta_model_compose_coherent_model_depth_score",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.MetaModel.V1.Model.composeCoherentModelDepthScore",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_morphogenesis_step_morphogenesis_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Morphogenesis.V1.Model.stepMorphogenesisBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
         }
       ]
     },
@@ -223,6 +470,45 @@
     },
     {
       "package": {
+        "name": "verdant_physics_gell_mann_nishijima_biased_six_q",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Physics.V1.Model.gellMannNishijimaBiasedSixQ",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_physics_step_physics_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Physics.V1.Model.stepPhysicsBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_realizability_step_realizability_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Realizability.V1.Model.stepRealizabilityBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_soundtrack_advance_lifecycle_stage",
         "version": "0.1.0"
       },
@@ -262,10 +548,88 @@
     },
     {
       "package": {
+        "name": "verdant_soundtrack_step_soundtrack_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Soundtrack.V1.Model.stepSoundtrackBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_spatial_acoustics_step_early_reflection_tap_count",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.SpatialAcoustics.V1.Model.stepEarlyReflectionTapCount",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_spatial_acoustics_step_spatial_acoustics_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.SpatialAcoustics.V1.Model.stepSpatialAcousticsBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_spatial_acoustics_step_woodworth_itd_micros",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.SpatialAcoustics.V1.Model.stepWoodworthItdMicros",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_teleology_step_teleology_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepTeleologyBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_teleology_step_triadic_player_game_observer_coher_fb9ce6",
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepTriadicPlayerGameObserverCoherencePermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_vedanta_step_vedanta_bus_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepVedantaBusModulation",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",

@@ -22,8 +22,8 @@
     "classicalChoiceCount": 67,
     "mechanizationClassicalChoiceCount": 1
   },
-  "maxHandwrittenGameNonCommentLines": 31698,
-  "maxResidueFunctionCount": 172,
-  "maxClassicalChoiceCount": 29,
+  "maxHandwrittenGameNonCommentLines": 31269,
+  "maxResidueFunctionCount": 70,
+  "maxClassicalChoiceCount": 0,
   "maxMechanizationClassicalChoiceCount": 0
 }

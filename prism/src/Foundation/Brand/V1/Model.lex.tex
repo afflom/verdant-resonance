@@ -167,7 +167,8 @@ definition{
   parameters: [busWeight : Nat],
   result: Nat,
   body: ((verdantSecondaryContrastTenths) + (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight)),
-  executable: true
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -253,7 +254,7 @@ definition{
   name: breaksParametricDisplayDesignClosure,
   parameters: [busWeight : Nat],
   result: Bool,
-  body: (not (verifyParametricDisplayDesignClosure busWeight))
+  body: (let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated busWeight); ((((stepBrandBusModulation busWeight) <? (wcagAaMinimumContrastTenths)) || ((synthesizeParametricDisplayHarmonizedContrastTenths busWeight) <? (wcagAaaMinimumContrastTenths))) || (((parametricOuterRadiusPx busWeight) <=? (parametricInnerRadiusPx busWeight)) || ((synthesizeParametricDisplayHarmonizedContrastTenths nextW) <? (synthesizeParametricDisplayHarmonizedContrastTenths busWeight)))))
 }
 
 theorem{
@@ -280,12 +281,11 @@ theorem{
       stepBrandBusModulation,
       synthesizeParametricDisplayHarmonizedContrastTenths,
       verdantSecondaryContrastTenths,
-      verifyParametricDisplayDesignClosure,
       wcagAaMinimumContrastTenths,
       wcagAaaMinimumContrastTenths
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 structure{

@@ -922,7 +922,7 @@ export function renderGeneratedCertifiedWasmBridgeSource(manifest: CertifiedProd
         .join(', ');
       const returnsBigInt = s.resultType === 'UInt64' || s.defName === 'rule30Step';
       const tsRet = s.resultType === 'Bool' ? 'boolean' : returnsBigInt ? 'bigint' : 'number';
-      const rawInvoke = `requireExports().core_${s.packageName}(${callArgs})`;
+      const rawInvoke = `(_certifiedCoreCallCount += 1, requireExports().core_${s.packageName}(${callArgs}))`;
       const wrappedBody =
         s.resultType === 'Bool'
           ? `return ${rawInvoke} !== 0;`
@@ -978,6 +978,7 @@ const _encoder = new TextEncoder();
 const _decoder = new TextDecoder('utf-8');
 let _wasmExports: CertifiedWasmExports | null = null;
 let _browserInitPromise: Promise<boolean> | null = null;
+let _certifiedCoreCallCount = 0;
 
 function tryInitSyncInNode(): CertifiedWasmExports | null {
   if (_wasmExports) return _wasmExports;
@@ -1051,7 +1052,12 @@ export function certifiedWasmTotalWork(): bigint {
   return requireExports().certified_total_work();
 }
 
+export function certifiedWasmCoreCallCount(): number {
+  return _certifiedCoreCallCount;
+}
+
 export function certifiedWasmRule30Step(state64: bigint): bigint {
+  _certifiedCoreCallCount += 1;
   return BigInt.asUintN(64, requireExports().certified_rule30_step(BigInt.asUintN(64, state64)));
 }
 
@@ -1060,6 +1066,7 @@ export function certifiedWasmAdmitLift(
   incumbentClass: number | bigint,
   candidateClass: number | bigint,
 ): boolean {
+  _certifiedCoreCallCount += 1;
   return (
     requireExports().certified_admit_lift(
       incumbentPresent ? 1 : 0,
@@ -1070,6 +1077,7 @@ export function certifiedWasmAdmitLift(
 }
 
 export function certifiedWasmFoundryRoute(tagMask: number | bigint): number {
+  _certifiedCoreCallCount += 1;
   return Number(requireExports().certified_foundry_route(BigInt(tagMask)));
 }
 
@@ -1078,6 +1086,7 @@ export function certifiedWasmDecideMint(
   knownKappa: boolean,
   remainingBudget: number | bigint,
 ): number {
+  _certifiedCoreCallCount += 1;
   return Number(
     requireExports().certified_decide_mint(
       contradictory ? 1 : 0,
@@ -1093,6 +1102,7 @@ export function certifiedWasmTriadicCoherencePermille(
   playerAttentionPermille: number | bigint,
   residualDissonancePermille: number | bigint,
 ): number {
+  _certifiedCoreCallCount += 1;
   return Number(
     requireExports().certified_triadic_coherence(
       BigInt(busWeight),
