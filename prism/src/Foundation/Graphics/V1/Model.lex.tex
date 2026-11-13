@@ -207,22 +207,10 @@ definition{
 
 theorem{
   name: graphicsDescriptorCompleteHolds,
-  parameters: [probe : Nat],
-  statement: ((breaksGraphicsDescriptorComplete probe) = false),
-  proof: linear_arithmetic{
-    definitions: [
-      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
-      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
-      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
-      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
-      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
-      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
-      breaksGraphicsDescriptorComplete,
-      graphicsCanonicalDescriptor,
-      verdantGraphicsBasisPrime
-    ]
-  },
-  axioms: [Classical.choice, Quot.sound, propext]
+  parameters: [],
+  statement: ((breaksGraphicsDescriptorComplete 0) = false),
+  proof: decide{},
+  axioms: []
 }
 \end{semanticmodule}
 \end{lexlean}

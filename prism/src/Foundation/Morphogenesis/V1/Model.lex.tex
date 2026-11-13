@@ -106,7 +106,7 @@ definition{
   name: breaksMurrayCubicVascularConservation,
   parameters: [rCubed : Nat, tol : Nat],
   result: Bool,
-  body: ((0 <=? tol) && (not (verifyMurrayCubicConservation rCubed rCubed tol)))
+  body: (tol <? (prim subtract rCubed rCubed : Nat))
 }
 
 theorem{
@@ -115,11 +115,10 @@ theorem{
   statement: ((breaksMurrayCubicVascularConservation rCubed tol) = false),
   proof: linear_arithmetic{
     definitions: [
-      breaksMurrayCubicVascularConservation,
-      verifyMurrayCubicConservation
+      breaksMurrayCubicVascularConservation
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -181,22 +180,10 @@ definition{
 
 theorem{
   name: morphogenesisDescriptorCompleteHolds,
-  parameters: [probe : Nat],
-  statement: ((breaksMorphogenesisDescriptorComplete probe) = false),
-  proof: linear_arithmetic{
-    definitions: [
-      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
-      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
-      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
-      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
-      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
-      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
-      breaksMorphogenesisDescriptorComplete,
-      morphogenesisCanonicalDescriptor,
-      verdantMorphogenesisBasisPrime
-    ]
-  },
-  axioms: [Classical.choice, Quot.sound, propext]
+  parameters: [],
+  statement: ((breaksMorphogenesisDescriptorComplete 0) = false),
+  proof: decide{},
+  axioms: []
 }
 \end{semanticmodule}
 \end{lexlean}

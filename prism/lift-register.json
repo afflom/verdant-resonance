@@ -3,11 +3,11 @@
   "domain": "verdant-resonance/function/1",
   "summary": {
     "totalFunctions": 388,
-    "liftedCount": 111,
-    "residueCount": 241,
+    "liftedCount": 180,
+    "residueCount": 172,
     "foreignCount": 31,
     "effectCount": 5,
-    "unliftedOpenDistance": 277
+    "unliftedOpenDistance": 208
   },
   "rows": [
     {
@@ -236,18 +236,18 @@
       "detail": "Pure TypeScript host projection in src/game/autonomousObjectivesEngine.ts outside current LexLean Nat/Bytes floor"
     },
     {
-      "kappa": "5f8a04026668cf5f1d6c03802d7ea3c6f82bc1bec771725b2bcab04898cfd9f0",
+      "kappa": "ce820edaf21a55fbca4a125aa1f736f2cd48d4f921385a7ba1355e63757d261f",
       "functionPath": "src/game/conservatoryCurationEngine.ts::computeConservatoryCurationDefect",
       "routeId": "VR-R04",
       "status": "lifted",
-      "definition": "Foundation.Compression.V1.Model (GENERATED_PRISM_STANDARDS)"
+      "definition": "Foundation.Compression.V1.Model (certifiedWasmCore_conservatoryCurationDefect)"
     },
     {
-      "kappa": "2a4ec8dcab2e0da1bc92d2315ac8e8f2eebc4273277cddd21c0364194a302acb",
+      "kappa": "90a430eb9777075978d4893ed95316b291d19cc5f9891cf4830a4823891de957",
       "functionPath": "src/game/conservatoryCurationEngine.ts::computeConservatoryCurationLyapunovCost",
       "routeId": "VR-R04",
       "status": "lifted",
-      "definition": "Foundation.Compression.V1.Model (GENERATED_PRISM_STANDARDS)"
+      "definition": "Foundation.Compression.V1.Model (certifiedWasmCore_conservatoryCurationLyapunovCost)"
     },
     {
       "kappa": "bb207c1009c6a5210ecdf9beaf639257e6931e3092d721c02d5ebfb20ad549b6",
@@ -258,12 +258,11 @@
       "detail": "Pure TypeScript host projection in src/game/conservatoryCurationEngine.ts outside current LexLean Nat/Bytes floor"
     },
     {
-      "kappa": "3eefd53ad177b050bfc817fbd85d7442ac58318d67bb986391ee7aa2b3057396",
+      "kappa": "c258cd23c6f4ef0906a3ba9f2ad610f2fd65e6baedce1d3f11ae43255b8aec8b",
       "functionPath": "src/game/conservatoryCurationEngine.ts::conservatoryCurationDominates",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/conservatoryCurationEngine.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (certifiedWasmCore_conservatoryCurationDominates)"
     },
     {
       "kappa": "5e73dfb50d08647ef8c9d51414d828d8015952d33e7023b1b78e3b32837ec198",
@@ -398,11 +397,11 @@
       "definition": "Foundation.Mechanization.V1.Model (CompiledMechanization.admitEpistemicClaim)"
     },
     {
-      "kappa": "f7ac62cbf98a7c6f693741b15639adafad9aa84ad525db80061a6b77601f2b20",
+      "kappa": "d24dd0c2841d76ad2dccab49324c2c705d0f3c345b47e8bd64b946df956862f6",
       "functionPath": "src/game/neuromorphicFunctorBus.ts::evaluateHolisticObserverStandardModelContext",
       "routeId": "VR-R04",
       "status": "lifted",
-      "definition": "Foundation.Neuromorphic.V1.Model (GENERATED_CANONICAL_STANDARD_MODELS)"
+      "definition": "Foundation.Neuromorphic.V1.Model (certifiedWasmCore_stepPrimeLimitHarmonicCeiling)"
     },
     {
       "kappa": "de93adf0fd3042d655e61e4d3af07be0adfd2d1b3af4505d890fb35b3ad03124",
@@ -451,19 +450,18 @@
       "definition": "Foundation.Compression.V1.Model (CompiledCompression.loserWeight)"
     },
     {
-      "kappa": "327c79612fc45d16e184b0d02d53e5b91cf69a8fd2fcc23d72b2ef6ec497a75e",
+      "kappa": "7b50ee6e2dfd5460799ef49258b7542d17f7f3ef5c27c47d2a90d957a9cf3238",
       "functionPath": "src/game/parametricCompressionEngine.ts::computeLyapunovCost",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (CompiledCompression.consolidateCost)"
     },
     {
-      "kappa": "6850e1e426f8f8be381b40e0d1918ca1a879b78f3b4c2bf6ec0edab5bfe14d14",
+      "kappa": "592b8fdaef9b783e8da2e681676a41c77c8dfa46a2d634c6e95715ec1c0698d8",
       "functionPath": "src/game/parametricCompressionEngine.ts::computeUleb128Length",
       "routeId": "VR-R04",
       "status": "lifted",
-      "definition": "Foundation.Compression.V1.Model (CompiledCompression.ulebLength)"
+      "definition": "Foundation.Compression.V1.Model (certifiedWasmCore_ulebLength)"
     },
     {
       "kappa": "8a879a9cdd88ccf6d53fb74a588b3e18fc54a57164cab68808e708b69b70b9f1",
@@ -505,7 +503,7 @@
       "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
     },
     {
-      "kappa": "4c6e7407d75da15b04e67438bf751db72b1ba7d7819f0e3a61e31dc476579eab",
+      "kappa": "23e778a3129a0927055ec46979447d7d70a2f1cfa9ee1e1b4701a936e208a47c",
       "functionPath": "src/game/parametricCompressionEngine.ts::decodeUleb128",
       "routeId": "VR-R04",
       "status": "residue",
@@ -613,12 +611,11 @@
       "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
     },
     {
-      "kappa": "2a3e0a6b5c6060b6c9ce4c2392f1e0851686f9d26b5404b64fada3bd03055221",
+      "kappa": "1e02579ea4199c173f3b1b50c4fb56e39ef0aa1e5d7cc0cc2e16203eb5fedd96",
       "functionPath": "src/game/parametricCompressionEngine.ts::pickLexicographicBest",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (CompiledCompression.pickBytes)"
     },
     {
       "kappa": "671eec302dab124d93a12760babb49511c65c153be7122318c73bf77fbef51b8",
@@ -673,11 +670,11 @@
       "definition": "Foundation.Compression.V1.Model (certifiedWasmRule30Step)"
     },
     {
-      "kappa": "2eb680bcac9221db3176ad1d7ded97562a8304713f4c58649dce4651b3644ed4",
+      "kappa": "0d031a777e7ddb5c13c8217c53ce90b1ddafebf8b79dd201abe581b48aea7062",
       "functionPath": "src/game/parametricCompressionEngine.ts::strictlyDominates",
       "routeId": "VR-R04",
       "status": "lifted",
-      "definition": "Foundation.Compression.V1.Model (CompiledCompression.dominates)"
+      "definition": "Foundation.Compression.V1.Model (certifiedWasmCore_dominates)"
     },
     {
       "kappa": "5c7a7f5c6005ebff7cc9425eecbfc4238078f25fd7d370b32921a35fca16f5d3",
@@ -696,12 +693,11 @@
       "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
     },
     {
-      "kappa": "968317a52099b065996d361935e8ef6e09d52c61291a2da314a9b411cf4d95c2",
+      "kappa": "97e3607341cc8938adac363b84a489761f923a4abd81638c418e212b2072cb99",
       "functionPath": "src/game/prismModel.ts::advancePlantLifecycle",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (certifiedWasmCore_advanceLifecycleStage)"
     },
     {
       "kappa": "66ef5ea9b379368dbd55da21fe22c7ff0d6892289498a2a7ff5e3baad9c92516",
@@ -731,17 +727,15 @@
       "kappa": "1fb96aa0c1f21dea9f19a15d9751180614435f7010c5ba21dbc91b4564340e54",
       "functionPath": "src/game/prismModel.ts::clampAlphaSeed",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.clampAlphaSeed)"
     },
     {
-      "kappa": "1d1e10a270b122c27297d9b06cdc5dd730545a2e0694c79241a9679db8330cdc",
+      "kappa": "216fb1f122a8748452ef97f4c848cd239622875f5786d9785093855295aad840",
       "functionPath": "src/game/prismModel.ts::clampPrismBusWeight",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (certifiedWasmCore_clampBusWeight)"
     },
     {
       "kappa": "193ff741433bcf97896f825b7ead0180638a3964625f2f2f1cbeef624684894d",
@@ -1261,17 +1255,15 @@
       "kappa": "71e433af1317cbc6eb452863465f08c37feb2b05fed9c7cebfc777db1f08cf4b",
       "functionPath": "src/game/prismModel.ts::extrapolateHighestResolutionPermille",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.extrapolateHighestResolutionPermille)"
     },
     {
       "kappa": "7308f47b5d12629d5e0335cd679560391bb870539928723b55b6f5289564eccc",
       "functionPath": "src/game/prismModel.ts::extrapolateHighestResolutionSubdiv",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.extrapolateHighestResolutionSubdiv)"
     },
     {
       "kappa": "0b2ea5c0953f618a702a10e5cab4e18b5f605cba44a55ef9ebd7ba3c1328924c",
@@ -1415,12 +1407,11 @@
       "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
     },
     {
-      "kappa": "0d9a3c007d1f9219aca2a9b33b3295e0655b5d642a0c84be1bcdb297dabbc809",
+      "kappa": "256b1de6e8378089a6aa64bc85a475691cbd70af5d82bceb9a39880ede93f4b7",
       "functionPath": "src/game/prismModel.ts::learnHebbianWeight",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (certifiedWasmCore_learnHebbianWeight)"
     },
     {
       "kappa": "ef24106b10a501ddbfa4f9596530d2738ef57a7552beff9b2ede583a08b9b3fd",
@@ -1438,12 +1429,11 @@
       "definition": "VerdantResonance::formalProjectionTable"
     },
     {
-      "kappa": "7d2f8b3c15f9b0fea6744de80b6f385f3c21f869ac970b77b03671240588b1a1",
+      "kappa": "96adfe3024d370fc9bfa1d499d11465fe9d58245e1fa65771335b180653868ae",
       "functionPath": "src/game/prismModel.ts::refineDomainWeightAutopoietic",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (certifiedWasmCore_refineDomainWeightAutopoietic)"
     },
     {
       "kappa": "fed8af2109c24aa6bc4f32358b005c66258f44cf4bf0f2513cc82ae39af18a21",
@@ -1508,152 +1498,134 @@
       "kappa": "e72bbc1df6419000e49c060fff3d676294ecfa8e1270f1ef7864c6c047c5a6fd",
       "functionPath": "src/game/prismModel.ts::stepAcousticsBusModulation",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexAcoustics.stepAcousticsBusModulation)"
     },
     {
-      "kappa": "752fbb3401d2244fa36ba32c3b0c16195640845cf550a079cb877dc6ddfe8637",
+      "kappa": "093bba7c800c4babecc137fd3830ae133e69adf1435bea78af5b8f95a90dcd8f",
       "functionPath": "src/game/prismModel.ts::stepAlphaOmegaFieldPotential",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.stepAlphaOmegaFieldPotential)"
     },
     {
       "kappa": "310932c924099381abd5c9115b5104b956ff956bd767e47f482fd9a9aed9dc3b",
       "functionPath": "src/game/prismModel.ts::stepApicalCorollaGimbalMilli",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexArtic.stepApicalCorollaGimbalMilli)"
     },
     {
       "kappa": "5b48b19182f22578b4a89169703f8e817edae5fac8ef573727010441afb9775a",
       "functionPath": "src/game/prismModel.ts::stepArticulationBusModulation",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexArtic.stepArticulationBusModulation)"
     },
     {
       "kappa": "36703878f42501ded33d05d799a65510eeb048c3543799a8509942850a0ccaf2",
       "functionPath": "src/game/prismModel.ts::stepAtomicRemineralizationFlux",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexEcology.stepAtomicRemineralizationFlux)"
     },
     {
       "kappa": "9cdd067223a871b460e282c3ca7c462ce2637a5a0d45560fc54ce696629dd4cd",
       "functionPath": "src/game/prismModel.ts::stepAtomicValenceActivity",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexEcology.stepAtomicValenceActivity)"
     },
     {
-      "kappa": "f7d0294a40e0117e0d8dd2123981b2b2bd0be0c46208ffbbcbfcdbfc8521874f",
+      "kappa": "72ef2937537ba23416eceac2217828abb8fffcf94ecaab7c5c788f3e994a870c",
       "functionPath": "src/game/prismModel.ts::stepAutopoieticBusManifold",
       "routeId": "VR-R04",
       "status": "lifted",
-      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+      "definition": "VerdantResonance (_LexNeuro.stepAutopoieticBusManifold)"
     },
     {
       "kappa": "22a1963dc7519c3ded06dff96b0e4b89494c635bda2bc1fb8650687199e0b41a",
       "functionPath": "src/game/prismModel.ts::stepBasalJointTorqueMilli",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexArtic.stepBasalJointTorqueMilli)"
     },
     {
       "kappa": "17e1da1281497e4f10fd4c35bde43103788352dee4a1193455fba9c79f3f22af",
       "functionPath": "src/game/prismModel.ts::stepBMeshSubdivisionDensity",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexBotany.stepBMeshSubdivisionDensity)"
     },
     {
       "kappa": "fe54e9be058c99ff23b755c07f71e58ec05efb950d20b7c7926cc69ea777415a",
       "functionPath": "src/game/prismModel.ts::stepBotanyBusModulation",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexBotany.stepBotanyBusModulation)"
     },
     {
       "kappa": "b57fd5d83bd63c3158b5edc1cbe3e0fed650039d8be6d57ac4cdfbc55f418593",
       "functionPath": "src/game/prismModel.ts::stepBrandBusModulation",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexBrand.stepBrandBusModulation)"
     },
     {
       "kappa": "9a1e2fdff9007c906b43ee0a04c0912fc6cac7dab523870c413f612c8171b4e0",
       "functionPath": "src/game/prismModel.ts::stepCompoundManifestation",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexEcology.stepCompoundManifestation)"
     },
     {
       "kappa": "65d0c79507e9cea73d634cb218de77f1103a4bcc642965f0dd691b4d67c07ec9",
       "functionPath": "src/game/prismModel.ts::stepCrossModalAcousticShadowPermille",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexPhys.stepCrossModalAcousticShadowPermille)"
     },
     {
       "kappa": "d81206699dfa623b224ae1ece7d9d4279b3e18487a1a4b3ba4b89e6bb4e84af6",
       "functionPath": "src/game/prismModel.ts::stepCrossModalPhaseObstructionPermille",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexPhys.stepCrossModalPhaseObstructionPermille)"
     },
     {
-      "kappa": "7b6a35027355d5351aabb61f2e3b3624a4587d7b2541063c0132fcb9a13d73ba",
+      "kappa": "6b6a1b18a070dacb3af127c70d55ebdaed2169ad6f79f29a2d564f574ea51045",
       "functionPath": "src/game/prismModel.ts::stepEcologyBusModulation",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (certifiedWasmCore_stepEcologyBusModulation)"
     },
     {
       "kappa": "986a35675fc366b8fc716fdbaadcef1fe97f2c6c0c76e90a3bf2a79fe5be81a2",
       "functionPath": "src/game/prismModel.ts::stepEnvironmentalModalSynthesis",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexEcology.stepEnvironmentalModalSynthesis)"
     },
     {
       "kappa": "f48786661de5d63e1251615a98a5380219a80acbec5a05490cc106204b5667bd",
       "functionPath": "src/game/prismModel.ts::stepFoundationalAffectValenceLutPermille",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.stepFoundationalAffectValencePermille)"
     },
     {
       "kappa": "037392d55f13febd65b45c2a3c4ce62cbaf525ef1b14a4e30d39037cd0734755",
       "functionPath": "src/game/prismModel.ts::stepFoundationalChaosLutPermille",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.stepFoundationalChaosPermille)"
     },
     {
       "kappa": "a8d660448f292dd764ca5958562d95cfb4dbb8d7020273f88001bcbc26312dae",
       "functionPath": "src/game/prismModel.ts::stepFoundationalHarmonyLutPermille",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.stepFoundationalHarmonyPermille)"
     },
     {
       "kappa": "8ff022e757f07763821bfe62f2204302ce30c977fa3ffd00a974d460d01458e6",
@@ -1667,25 +1639,22 @@
       "kappa": "594bbf655121ab6d73d40db42aa980f008c792a2db9e7af486603573b5d46897",
       "functionPath": "src/game/prismModel.ts::stepHumaneBusModulation",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexHumane.stepHumaneBusModulation)"
     },
     {
       "kappa": "0ad5c5ddd938d982b75e2dcf10005e7d7d18819f62962719c33f266a4b5b590e",
       "functionPath": "src/game/prismModel.ts::stepInfrastructureBusModulation",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexInfra.stepInfrastructureBusModulation)"
     },
     {
       "kappa": "f99945b47c19a53d9eafb22060fc6b91d4869924e073641e9a2b473980639c90",
       "functionPath": "src/game/prismModel.ts::stepJudgeBusManifold",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.stepUniversalBusBroadcast)"
     },
     {
       "kappa": "06b27ecde0b7befd660736f413a65ac830ee43cd2fb2b6619f676ebeb47006db",
@@ -1699,80 +1668,71 @@
       "kappa": "0f7e3b6150676f7b49b0067e82240b6b8360acaab7a48f30a5e4deba7b65a855",
       "functionPath": "src/game/prismModel.ts::stepMacromolecularPolymerization",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexEcology.stepMacromolecularPolymerization)"
     },
     {
       "kappa": "d03d51962659953390676ea3fa516363963413256b00e2385fbe33b535c886e8",
       "functionPath": "src/game/prismModel.ts::stepMidCulmFlexureMilli",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexArtic.stepMidCulmFlexureMilli)"
     },
     {
       "kappa": "c754b66c163712169b9bcdca5a5f0b615e58a97f46ae36a94c9495bd1740b0c2",
       "functionPath": "src/game/prismModel.ts::stepMolecularBondCoherence",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexEcology.stepMolecularBondCoherence)"
     },
     {
-      "kappa": "1a158ad2a54cc4b71635d91222c5ea0b880eb71834dde2016ebfd97b45a6945e",
+      "kappa": "8f730fae81540a55c0f12d0ff6354c90e44aafa47ce1cec72e011839eaaf8cfd",
       "functionPath": "src/game/prismModel.ts::stepParametricInorganicScalePermille",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.synthesizeParametricInorganicScalePermille)"
     },
     {
-      "kappa": "e0d8d88a3da74f7c782b057d06fc7959c7b9d6a8b93df02636b7528c66b60f55",
+      "kappa": "ef4cc00bc04663b5e402b30cfd31ed8372bfdfc59a9f28d0b251cb559476694b",
       "functionPath": "src/game/prismModel.ts::stepParametricOrganicVitalityPermille",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.synthesizeParametricOrganicVitalityPermille)"
     },
     {
-      "kappa": "31492282081c1733d664a16344bb2b06fe0834f8acef6f1c48613a16ef0d4495",
+      "kappa": "aa2afb257876b4855439a96667179f834e6878e9ca4e0e8987254f394fb9ff74",
       "functionPath": "src/game/prismModel.ts::stepParametricPlayerEmbodimentPermille",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.synthesizeParametricPlayerEmbodimentPermille)"
     },
     {
       "kappa": "14d1a00f9fc1b710567854cf76d9bfd976e56ef09b274d2310c36306e79c132e",
       "functionPath": "src/game/prismModel.ts::stepPartDifferentiationNicheIndex",
       "routeId": "VR-R04",
       "status": "lifted",
-      "definition": "VerdantResonance (GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS)"
+      "definition": "VerdantResonance (_LexCosmo.stepPartDifferentiationNicheIndex)"
     },
     {
       "kappa": "6b885703399f4582deddc70ae8aaba5f646ce699c79e946e3cb29237f8efc6f4",
       "functionPath": "src/game/prismModel.ts::stepPhysicsBusModulation",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexPhys.stepPhysicsBusModulation)"
     },
     {
       "kappa": "b7c68a3f7d8137ead39d51bc513d4b77d2e359e7848069816c8b7b3d0ee0eb6b",
       "functionPath": "src/game/prismModel.ts::stepRule30AperiodicCompensationIndex",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.stepRule30AperiodicCompensationIndex)"
     },
     {
       "kappa": "4852555ed78a10ec3a3cbbe28655fa6749ddef0c671de40715b463817ac824f0",
       "functionPath": "src/game/prismModel.ts::stepRule30LeftDiagonalPeriod",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.stepRule30LeftDiagonalPeriod)"
     },
     {
       "kappa": "675db662fd20c1057608e0c2cb2164613134536f28b7ad053ad517f6ab679e94",
@@ -1786,9 +1746,8 @@
       "kappa": "d21178fe153a64c0b809b188be8d102143d9e7bf710dbcfc7715cf5baffcc0cd",
       "functionPath": "src/game/prismModel.ts::stepSoundtrackBusModulation",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexSound.stepSoundtrackBusModulation)"
     },
     {
       "kappa": "b5a55e018083162dd7bea93e59a4856569dce57ec327dcfa200b4dbc121f76eb",
@@ -1799,44 +1758,39 @@
       "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
     },
     {
-      "kappa": "73102cb337c5c943d01a08e28a9b54ca40127cf22aee1203ee698667cd7c7a53",
+      "kappa": "302c0d0549951e7afe77cb087301a983eeabf5e0b90468c06d03eb7e453b48f3",
       "functionPath": "src/game/prismModel.ts::stepStakeholderValueReinforcement",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.stepStakeholderValueReinforcement)"
     },
     {
       "kappa": "48c16b6f922395ae59add75d251a68a27957fddfbb9b42c291847739947c4370",
       "functionPath": "src/game/prismModel.ts::stepSupraDirectiveDefinitionSubdiv",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.stepSupraDirectiveDefinitionSubdiv)"
     },
     {
       "kappa": "cff502398e249aef26f4fce11e5ecee13f783cd10945ab3d26848616df41fcab",
       "functionPath": "src/game/prismModel.ts::stepSupraDirectiveFeatureUnlockCount",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.stepSupraDirectiveFeatureUnlockCount)"
     },
     {
       "kappa": "5a34fdf40ee65d2fdaa6f96d733923c6213372977bf8c8b68a4ddc1bc25f8b99",
       "functionPath": "src/game/prismModel.ts::stepSupraDirectiveFidelityPermille",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.stepSupraDirectiveFidelityPermille)"
     },
     {
       "kappa": "dcb76cc15b8b802def10dc5c3243d9c299ad890f0d8bdbf842a64b6031e710cc",
       "functionPath": "src/game/prismModel.ts::stepSupraDirectiveQualityPermille",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.stepSupraDirectiveQualityPermille)"
     },
     {
       "kappa": "8804c453d635ec24fe2b0295a8df936f20972f085bda5e126c3f1fe790eb93c9",
@@ -1849,33 +1803,29 @@
       "kappa": "2d757f82aed0126c64b3707d818127c6547b4e37678154fc2fc89f0c16b4a7b7",
       "functionPath": "src/game/prismModel.ts::stepTheoryOfMindCoherencePermille",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.stepTheoryOfMindCoherencePermille)"
     },
     {
       "kappa": "0f87c7fa5d8881a3a2c0d6c5c56fcd679793c0be7e88e8132e5ed9a27f38481c",
       "functionPath": "src/game/prismModel.ts::stepThinFilmIridescenceSpanNm",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexBotany.stepThinFilmIridescenceSpanNm)"
     },
     {
-      "kappa": "d43dbc8f52a32aba688ab49880965350ebefe65ee833945dfd12cf3ebab995ff",
+      "kappa": "11546e6a28b2431f904371471cc2b42fbb40a3c3e45a1c5392bf2859a64b4b69",
       "functionPath": "src/game/prismModel.ts::stepUniversalBusBroadcastManifold",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.stepUniversalBusBroadcast)"
     },
     {
       "kappa": "43427a80406eb9b3ad8878901f562aa44a56cf6987915369a4073d1e81a26cbb",
       "functionPath": "src/game/prismModel.ts::stepWisdomPhenomenonModulation",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.stepWisdomPhenomenonModulation)"
     },
     {
       "kappa": "1522750ebe41f7ed2570c1b61acbbf019426d6dd6fcf1a5581174704ce30983b",
@@ -1965,20 +1915,18 @@
       "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
     },
     {
-      "kappa": "e7f88fa217f0776c4b66f0656067cc4d0af24b63fc72380b984586ab0eab32d2",
+      "kappa": "983826d0776bcdc34ad9113471c0e16cf9d24dbca5083ae8d0ae55fa21964452",
       "functionPath": "src/game/prismModel.ts::synthesizeParametricCanonicalSeed",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.synthesizeParametricCanonicalSeed)"
     },
     {
-      "kappa": "ad3ba6dad7b5adb3577e453cdcfb6d0ffae2943da95fcbe2b27ad84a6a53c561",
+      "kappa": "97c8e4f4141ded68faac56fa7f907efb68355c6f79504081302c834c150a2f1f",
       "functionPath": "src/game/prismModel.ts::synthesizeParametricConcertPitchHz",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.synthesizeParametricConcertPitchCentiHz)"
     },
     {
       "kappa": "ac9961bf3bc80f6ff86de7158b59f234935f2014faae41d911887db4e5fd87eb",
@@ -2059,20 +2007,18 @@
       "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
     },
     {
-      "kappa": "5e2669ed1a0d341fdfb5a3f549d92b3bf8838c1457edf3e0184a0c514ada4528",
+      "kappa": "00fd763849c93a27797a44b77599aceb77506a9e88c4c9d9f283f74a5a683768",
       "functionPath": "src/game/prismModel.ts::transferWeightCrossDomain",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (certifiedWasmCore_transferWeightCrossDomain)"
     },
     {
       "kappa": "c266ef238ceff37d75cab6d9061806fe3e6b46c1b015780eeb178a0ac4e2f5ce",
       "functionPath": "src/game/prismModel.ts::uniformJudgeBusManifold",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.uniformBusManifold)"
     },
     {
       "kappa": "471eb105338ed0fde3270728bb8b0a3b120abeee4929adb461f61370ad18fe65",
@@ -2082,44 +2028,39 @@
       "definition": "VerdantResonance::formalProjectionTable"
     },
     {
-      "kappa": "65c4aa3b7b66f96d73b2c739d8b1c508f23e558576ca68a8815c7fabb58b2968",
+      "kappa": "85df0eed52f52063b96c7a2a7eec8c0d83539a286a0d128b723c10c88b4a7061",
       "functionPath": "src/game/prismModel.ts::verifyAlphaOmegaParametricClosure",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.verifyAlphaOmegaParametricClosure)"
     },
     {
       "kappa": "527f4a32b112c94d495bac663531f8876f207724ef18e7b778aca9fd34078789",
       "functionPath": "src/game/prismModel.ts::verifyAutopoieticSingleCallAdvancesAllTenDomains",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.verifyAutopoieticSingleCallAdvancesAllTenDomains)"
     },
     {
       "kappa": "07dc1001517f7fd9f1500c63efa508ba3f1690f0eeb7a59b6b502a0141283647",
       "functionPath": "src/game/prismModel.ts::verifyBusModulationsFromState",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexVerdant.verifyBusModulationsFromState)"
     },
     {
       "kappa": "61a5e37b87638b05fe87e449c646985b6a350b138bb99ef351af187d39d98c23",
       "functionPath": "src/game/prismModel.ts::verifyClosedLoopMatterConservation",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexEcology.verifyClosedLoopMatterConservation)"
     },
     {
       "kappa": "d51450d0c37644d62288b8b5543858127e1e64040cf8bf7b3d730cb644d71a23",
       "functionPath": "src/game/prismModel.ts::verifyCompleteGranularSynthesisClosure",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexEcology.verifyCompleteGranularSynthesisClosure)"
     },
     {
       "kappa": "a127ab30c1741ffc449b1d274ad9dfa80285767874f810e918715d5eefdbb9db",
@@ -2133,25 +2074,22 @@
       "kappa": "01f4bfd3b292954be56248a72929c13566f00ad3dc57f3cf640ea8c1fb8bf806",
       "functionPath": "src/game/prismModel.ts::verifyEmergentEntitySynthesizesFacets",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.verifyEmergentEntitySynthesizesFacets)"
     },
     {
       "kappa": "15afca62e34577f5283cf8389f70d80eb9737311cb25eac4c3654ad7c6a636f0",
       "functionPath": "src/game/prismModel.ts::verifyGranularAtomicToEnvironmentalChain",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexEcology.verifyGranularAtomicToEnvironmentalChain)"
     },
     {
       "kappa": "5dbc4e9af3a7f003e29abd95f0c4c843764e254822c3509fb843f48c0d3ef41a",
       "functionPath": "src/game/prismModel.ts::verifyHighDefinitionBMeshSynthesis",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexBotany.verifyHighDefinitionBMeshSynthesis)"
     },
     {
       "kappa": "d5232b01405db20e75f67f8ae944b237852e2c12561ac27271370c09a7fc3f7f",
@@ -2172,33 +2110,29 @@
       "kappa": "a2dabe498d0d7fef729a726db52664956614a35bef697fa23376264c024bf738",
       "functionPath": "src/game/prismModel.ts::verifyMaterialSynthesisCrossModalObstruction",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexPhys.verifyMaterialSynthesisCrossModalObstruction)"
     },
     {
-      "kappa": "c773293667ca8699841b5664b591f316f7018cd3704b6faffbe0b2a63408370a",
+      "kappa": "4faec33fa67e8124b5da4e6a8d12e21d077bd1073ce60ebf4ebacf1eec4d7ba1",
       "functionPath": "src/game/prismModel.ts::verifyObserverCreatesAllThreeRealms",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexCosmo.verifyObserverCreatesAllThreeRealms)"
     },
     {
       "kappa": "7064eea63ba74b8a5e4c51254b4c2282c4fb2251fb0270207f8d2d85aa44d35a",
       "functionPath": "src/game/prismModel.ts::verifyObserverHolisticWhyClosure",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.verifyObserverHolisticWhyClosure)"
     },
     {
       "kappa": "d70c929467e883a8f1a58ce54a4e7ece69833b4f5243a46f517770e44b739542",
       "functionPath": "src/game/prismModel.ts::verifyObserverSupraDirectiveTranscendence",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.verifyObserverSupraDirectiveTranscendence)"
     },
     {
       "kappa": "d21774961aca5202ba2b142d74dc05d1c7f20436eed859a4c9fe600947eda05f",
@@ -2219,17 +2153,15 @@
       "kappa": "fc88e2dfdf6933fe7d34d5b342e5bb10730096d91ce4d47c95d041dca4a5deb3",
       "functionPath": "src/game/prismModel.ts::verifyRule30DeterministicAndWithdrawnDuality",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.verifyRule30DeterministicAndWithdrawnDuality)"
     },
     {
       "kappa": "84542627e633366ef4443a12b67904ac6d0ddaaa79ca212e8f0217d68f180212",
       "functionPath": "src/game/prismModel.ts::verifySingleCallPropagatesAllTenDomains",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexNeuro.verifySingleCallPropagatesAllTenDomains)"
     },
     {
       "kappa": "913e435dfce7373c599e2a8ce6498fcf84d2bb86d530184b03a5f96ece8699e7",
@@ -2243,9 +2175,8 @@
       "kappa": "8d5a23ba4a92306bba540699a5d99b8b7e8b1dadc2eba453fe1d7560051b5b88",
       "functionPath": "src/game/prismModel.ts::verifyThreeJointKinematicHierarchy",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "VerdantResonance (_LexArtic.verifyThreeJointKinematicHierarchy)"
     },
     {
       "kappa": "36c56520722294173b98ead6be9190c9cfb282d191eaf2444f5afe9e0897fcf9",

@@ -1021,6 +1021,8 @@ export interface ProductionRootDescriptor {
   readonly version: string;
   readonly targets: ReadonlyArray<{ readonly id: string; readonly digest: string }>;
   readonly effects: ReadonlyArray<string>;
+  readonly parameters: ReadonlyArray<{ readonly name: string; readonly type: string }>;
+  readonly resultType: string;
 }
 
 function toSnakeCaseIdent(input: string): string {
@@ -1337,6 +1339,8 @@ export function extractProductionRootCatalog(prismDir: string): {
         version,
         targets,
         effects: [...def.production.effects],
+        parameters: def.parameters.map((p) => ({ name: p.name, type: stripOuterParens(p.type) })),
+        resultType: stripOuterParens(def.resultType),
       });
     }
   }

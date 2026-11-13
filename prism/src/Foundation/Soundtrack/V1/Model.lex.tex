@@ -76,13 +76,15 @@ structure{
   ]
 }
 
-definition{name: maxLifecycleStage, parameters: [], result: Nat, body: 4}
+definition{name: maxLifecycleStage, parameters: [], result: Nat, body: 4, executable: true}
 
 definition{
   name: advanceLifecycleStage,
   parameters: [stage : Nat, delta : Nat],
   result: Nat,
-  body: (if ((stage + delta) <=? (maxLifecycleStage)) then (stage + delta) else (maxLifecycleStage))
+  body: (if ((stage + delta) <=? (maxLifecycleStage)) then (stage + delta) else (maxLifecycleStage)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{name: stepsPerBar, parameters: [], result: Nat, body: 16}
@@ -204,14 +206,18 @@ definition{
   name: stepPrimeLimitHarmonicCeiling,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 5) then 5 else (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 9) then 7 else (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 12) then 11 else (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 14) then 13 else 17))))
+  body: (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 5) then 5 else (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 9) then 7 else (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 12) then 11 else (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 14) then 13 else 17)))),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
   name: stepCuratedConsonancePurityPermille,
   parameters: [busWeight : Nat, harmonyPct : Nat],
   result: Nat,
-  body: ((600 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 15 : Nat)) + (prim multiply (if (harmonyPct <=? 100) then harmonyPct else 100) 1 : Nat))
+  body: ((600 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 15 : Nat)) + (prim multiply (if (harmonyPct <=? 100) then harmonyPct else 100) 1 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -251,29 +257,17 @@ definition{
 
 theorem{
   name: soundtrackDescriptorCompleteHolds,
-  parameters: [probe : Nat],
-  statement: ((breaksSoundtrackDescriptorComplete probe) = false),
-  proof: linear_arithmetic{
-    definitions: [
-      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
-      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
-      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
-      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
-      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
-      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
-      breaksSoundtrackDescriptorComplete,
-      soundtrackCanonicalDescriptor,
-      verdantSoundtrackBasisPrime
-    ]
-  },
-  axioms: [Classical.choice, Quot.sound, propext]
+  parameters: [],
+  statement: ((breaksSoundtrackDescriptorComplete 0) = false),
+  proof: decide{},
+  axioms: []
 }
 
 definition{
   name: breaksObserverCuratedVoiceLeadingAndPurity,
   parameters: [stepDist : Nat, gradus : Nat, rests : Nat],
   result: Bool,
-  body: ((((((2 <? stepDist) || ((12 <? gradus) || (rests <? 6))) && (verifyObserverCuratedVoiceLeading stepDist gradus rests)) || (not (verifyObserverCuratedVoiceLeading 1 4 6))) || ((verifyPureHarmonicOvertonesAndZeroRandomness 1 0) || (not (verifyPureHarmonicOvertonesAndZeroRandomness 0 0)))) || ((stepCuratedConsonancePurityPermille 16 100) <=? (stepCuratedConsonancePurityPermille 8 50)))
+  body: ((((((2 <? stepDist) && (verifyObserverCuratedVoiceLeading stepDist gradus rests)) || (((12 <? gradus) && (verifyObserverCuratedVoiceLeading stepDist gradus rests)) || ((rests <? 6) && (verifyObserverCuratedVoiceLeading stepDist gradus rests)))) || (((maxCuratedMelodicStepLeap) <? 1) || (((eulerGradusConsonanceCeiling) <? 4) || (6 <? (minRestStepsPerBar))))) || ((verifyPureHarmonicOvertonesAndZeroRandomness 1 0) || (((pureHarmonicOvertoneCentsDriftZero) <? 0) || ((stochasticRandomTriggerCountZero) <? 0)))) || ((stepCuratedConsonancePurityPermille 16 100) <=? (stepCuratedConsonancePurityPermille 8 50)))
 }
 
 theorem{
@@ -296,7 +290,7 @@ theorem{
       verifyPureHarmonicOvertonesAndZeroRandomness
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{

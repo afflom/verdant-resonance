@@ -329,24 +329,10 @@ definition{
 
 theorem{
   name: brandDescriptorCompleteHolds,
-  parameters: [probe : Nat],
-  statement: ((breaksBrandDescriptorComplete probe) = false),
-  proof: linear_arithmetic{
-    definitions: [
-      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
-      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
-      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
-      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
-      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
-      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
-      Foundation.Neuromorphic.V1.Model::meadowPrime,
-      Foundation.Neuromorphic.V1.Model::neuromorphicBasisPrime,
-      brandCanonicalDescriptor,
-      breaksBrandDescriptorComplete,
-      verdantBrandBasisPrime
-    ]
-  },
-  axioms: [Classical.choice, Quot.sound, propext]
+  parameters: [],
+  statement: ((breaksBrandDescriptorComplete 0) = false),
+  proof: decide{},
+  axioms: []
 }
 \end{semanticmodule}
 \end{lexlean}

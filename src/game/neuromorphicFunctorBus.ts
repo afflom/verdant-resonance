@@ -32,6 +32,11 @@ import {
   type SiDimensionVector,
 } from './standardModelEngine';
 import {
+  certifiedWasmCore_stepPrimeLimitHarmonicCeiling,
+  isCertifiedWasmReady,
+} from './generatedCertifiedWasmBridge';
+import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
+import {
   synthesizeVerdantW3CDesignTokens,
   type VerdantW3CDesignTokenSuite,
 } from './spectralColorEngine';
@@ -734,16 +739,10 @@ export function evaluateHolisticObserverStandardModelContext(params: {
   const barkMaskingHeadroomDb = Number((3.35 + dAco01 * 2.25).toFixed(4));
   const chladniModalPartialsPerVoice = Math.max(4, Math.min(16, Math.round(4 + dAco01 * 12)));
   const earlyReflectionTapCount = Math.max(19, Math.min(64, Math.round(19 + dSpAco01 * 45)));
-  const primeLimitHarmonicCeiling: 5 | 7 | 11 | 13 | 17 =
-    dSndEffW >= 15.0
-      ? 17
-      : dSndEffW >= 13.0
-        ? 13
-        : dSndEffW >= 10.0
-          ? 11
-          : dSndEffW >= 6.0
-            ? 7
-            : 5;
+  const sndWFloor = Math.max(1, Math.floor(dSndEffW));
+  const primeLimitHarmonicCeiling = (isCertifiedWasmReady()
+    ? certifiedWasmCore_stepPrimeLimitHarmonicCeiling(sndWFloor)
+    : Number(PRISM_COMPILED_MODULES['Foundation.Soundtrack.V1.Model'].stepPrimeLimitHarmonicCeiling(toPrismNat(sndWFloor)))) as 5 | 7 | 11 | 13 | 17;
   const fvcbRubiscoAssimilationMultiplier = Number(
     (1.0 + ((1 + dBot01 * 15 + (1 + dChem01 * 15)) / 32) * 0.36).toFixed(5),
   );

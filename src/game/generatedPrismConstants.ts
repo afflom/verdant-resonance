@@ -51,7 +51,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Mathematics (Peano/ZFC, UOR Primes, Clifford Cl(0,6), Riemannian DEC)",
     "sourceModule": "Foundation.Mathematics.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Mathematics/V1/Model.lex.tex",
-    "sourceSha256": "28f0e1f70a79e166a420c69626cfa1a7e8c0e3f188f9fe28cf76250bf816aae3",
+    "sourceSha256": "24c167c434281cec2743a97b61ab8606120bf7046bf00903702eb0001553b132",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -168,7 +168,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Physics (BIPM SI 2019 + SU(3)xSU(2)xU(1) 17-Field SM + Continuum)",
     "sourceModule": "Foundation.Physics.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Physics/V1/Model.lex.tex",
-    "sourceSha256": "72996704c841280ee4490bcdf1e29d66eabc88e35b1a9e79e69b8bb118e98e59",
+    "sourceSha256": "60a05709fa879f4cd8f88fc248b805c4276104945f026a6dd80767817605ed2d",
     "unbiasedSiExponents": {
       "s": -2,
       "m": 1,
@@ -285,7 +285,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Chemistry (118-Element IUPAC Periodic Table + 14 Bravais Lattices)",
     "sourceModule": "Foundation.Chemistry.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Chemistry/V1/Model.lex.tex",
-    "sourceSha256": "1029bc4cab2808599ca140e944e70e3185dc70430ff67f4392b4331df8e34791",
+    "sourceSha256": "a41b71ce673f9d3edf7a743f1aa2224a2fc5215a66df5ef63fe7155a0fb86a96",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -402,7 +402,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Botany (Farquhar-von Caemmerer-Berry C3 + Lockhart Turgor + Phyllotaxis)",
     "sourceModule": "Foundation.Botany.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Botany/V1/Model.lex.tex",
-    "sourceSha256": "9c5d0b389f90176e09cd0e4af22831654cd9fe99e4c4f69394078c32ad854ddf",
+    "sourceSha256": "acb048dee58a4864fd1a734074aed3934f26ee1ec03e1d8fa0efad407942f3cd",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -519,7 +519,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Ecology (Closed-Loop C-H-O-N-P-S-Si-Ca-Mg-Fe Biogeochemical Conservation)",
     "sourceModule": "Foundation.Ecology.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Ecology/V1/Model.lex.tex",
-    "sourceSha256": "5cff50059ad84e48eacc56d699f896b550f9725263d63453fb08399e17ff509e",
+    "sourceSha256": "3976ea132667ac120d2aa0bd4b268fb3caa9df9be0bd856d979d242867b47ed1",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -636,7 +636,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Acoustics (ISO 226:2023 Loudness + 24-Bark Masking + Chladni Eigenmodes)",
     "sourceModule": "Foundation.Acoustics.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Acoustics/V1/Model.lex.tex",
-    "sourceSha256": "1a57a348f3fc4eccd04d59e3866294be7390ca85efe3e8c4457fc560fe5aaa62",
+    "sourceSha256": "e45cad47fe2709304d8bd67b844b9a46b607978b301f0903c1a684a10ec812cc",
     "unbiasedSiExponents": {
       "s": -1,
       "m": -1,
@@ -753,7 +753,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Articulation (Euler-Lagrange 3-Joint Botanical Kinematics + ADSR)",
     "sourceModule": "Foundation.Articulation.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Articulation/V1/Model.lex.tex",
-    "sourceSha256": "bd39aeb3e590b1d0254004423a792fed2999852f76f98479b8b4b832541e6891",
+    "sourceSha256": "b677c8118a8cb879409a99e849d5f4991bae7389721d21fd5bb90e19c620b851",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -870,7 +870,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Soundtrack (17-Limit Just Intonation Tonnetz + 4-Bar Hypermeter Parsimony)",
     "sourceModule": "Foundation.Soundtrack.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Soundtrack/V1/Model.lex.tex",
-    "sourceSha256": "3b61632f1873e1ccfc0ea424ed06065def120496d03e3778fcb47418c2e05865",
+    "sourceSha256": "83865811aa6e36768f40ecc640a22320d9242686d9bc660927114a9870a8b1e2",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 0,
@@ -987,7 +987,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Graphics (380-780nm CIE 1931 -> OKLCH + glTF 2.0 GGX/Airy PBR + 2-Manifold B-Mesh)",
     "sourceModule": "Foundation.Graphics.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Graphics/V1/Model.lex.tex",
-    "sourceSha256": "00a204b5b2548d0e4fcc098280fc021ad260ceaa2cb94018b5cbf65463c9dd7a",
+    "sourceSha256": "3d67085c957add0276ed5906c59a449acb5776f7b24bdb509c11354ead5b8cbe",
     "unbiasedSiExponents": {
       "s": -3,
       "m": -2,
@@ -1104,7 +1104,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Brand & Design (W3C Design Tokens + OKLCH Gamut + WCAG 2.2 AAA + APCA)",
     "sourceModule": "Foundation.Brand.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Brand/V1/Model.lex.tex",
-    "sourceSha256": "7c79afd638202962680da1f1e9c073412bc8a83ef94a953b04978795d5ad89ef",
+    "sourceSha256": "980c2ffbe4082786e4034f7fe8fb4c6e1519e7395537ae2754bfa17171afd7a3",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 1,
@@ -1221,7 +1221,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Humane Ergonomics (ISO 9241-110/210 + Fitts/Hick-Hyman + Zero Dark Patterns)",
     "sourceModule": "Foundation.Humane.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Humane/V1/Model.lex.tex",
-    "sourceSha256": "2b46af4c7a880d2f5a3c92b8eb963c5d65ffe210bba2a4d32cf65a1bdf44567e",
+    "sourceSha256": "f6b4c5aa9669b2d1585e52906f1c02077082ffada84fdad9c3aef98d423c13d3",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -1338,7 +1338,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Infrastructure (ISO/IEC/IEEE 42010 + ISO 25010 + Zero-GC Real-Time Arenas)",
     "sourceModule": "Foundation.Infrastructure.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Infrastructure/V1/Model.lex.tex",
-    "sourceSha256": "e9af6753e797e5104b1a3bc86e6cce8a90961b5bf99484117b0ae316cf211513",
+    "sourceSha256": "a1931e26bbc94261c7e4140793b0c6a42cf1bbdb3dacb1bf96db12df4f5d708a",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 0,
@@ -1455,7 +1455,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Neuromorphic Bus (22x22 Inherent Gameplay Functor Matrix + uorc/ncm-plasticity/1 + STDP + Active Inference)",
     "sourceModule": "Foundation.Neuromorphic.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Neuromorphic/V1/Model.lex.tex",
-    "sourceSha256": "2dae9c1141b0ab1c0a1f8ca95eec3dbacc6f802eee09f25bee17d4de9230bcae",
+    "sourceSha256": "3e0d991f4dfab27bf0608ce9e2aed0241c1d24583363476350c60bcbffbfb3e7",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 0,
@@ -1572,7 +1572,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Holistic Observer & Cosmogenesis (Complete 22x11 Context = 242 Cells + Alpha-Omega)",
     "sourceModule": "Foundation.Cosmogenesis.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Cosmogenesis/V1/Model.lex.tex",
-    "sourceSha256": "dadc1c004197bc583dfa34bb363ef7598622f08a07cf3ff115177f132c96fdac",
+    "sourceSha256": "fb2d0cf6fad5c4e5576df23b3d2b11ff788875f15c6d34dc50a117e63b5138e6",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -1689,7 +1689,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Realizability (Spec-to-Runtime Galois Adjunction + Non-Zero Sensitivity + Zero-Stub Oracle)",
     "sourceModule": "Foundation.Realizability.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Realizability/V1/Model.lex.tex",
-    "sourceSha256": "ddb67026c3ba558b28bbb5c43b96def30667de1536244e202a9ce058ac1d6ce7",
+    "sourceSha256": "7a2e75ac824e547e6ef0f075b75265882cc29df82476f269fc59bc16b0fe21d1",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -1806,7 +1806,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Morphogenesis (Parametric L-System Ontogeny + Murray r^3 Vascular Law + Turing Phyllotaxis)",
     "sourceModule": "Foundation.Morphogenesis.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Morphogenesis/V1/Model.lex.tex",
-    "sourceSha256": "9c7efe10ada2a24ee8b0beff2577209ebf6c65daeb9414bbc115aa870136aa39",
+    "sourceSha256": "9c5e301ab19cd00932beae34faf3bd027fda1401ee59e67f8d949e102f815a7b",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -1923,7 +1923,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Spatial Acoustics (ISO 3382 Image-Source Impulse + Z=rho*c Absorption + 3D Woodworth HRTF)",
     "sourceModule": "Foundation.SpatialAcoustics.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/SpatialAcoustics/V1/Model.lex.tex",
-    "sourceSha256": "7b9a15507aa03e99559b9f3cb9138d2e729dec5a699d307c4b9659306ecdb3b6",
+    "sourceSha256": "0d53c276290441e226b17f6cbbcbeececf437bfdb2fee57a3627f01dff8850ff",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -2040,7 +2040,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Anamnesis (Content-Addressed Merkle State-DAG Persistence + Modular Cold-Load Delivery)",
     "sourceModule": "Foundation.Anamnesis.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Anamnesis/V1/Model.lex.tex",
-    "sourceSha256": "2375b5b877bf000c361ceeb2c38bf792b65a56b9a6999dc62399c9fb0c0f6253",
+    "sourceSha256": "5b3e8dd88fbc10746c4fcc3678d87eb3aa5a4afd625be933628fbf62d5152c3d",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -2157,7 +2157,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Teleology (Requirement-Grounded Environmental Synthesis + Interactive Landmarks + Inherent Plasticity)",
     "sourceModule": "Foundation.Teleology.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Teleology/V1/Model.lex.tex",
-    "sourceSha256": "a8f32633105015a7e372251d795abce6e6cd77ff118098da3d10d5312319106f",
+    "sourceSha256": "c63f7e5ac432d3968a910ef822724888697ef31649c99dbffb354c3842addba9",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -2274,7 +2274,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Vedanta (Advaita Non-Duality, 4 Mahavakyas, Turiya Pranava, 5 Panca-Kosas, Conserved Triguna & Pancikarana)",
     "sourceModule": "Foundation.Vedanta.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Vedanta/V1/Model.lex.tex",
-    "sourceSha256": "126f264da89dd3696db87631324c7c5eed02f4f1a7dbf9e437f59b9d8b67e98c",
+    "sourceSha256": "031bc1c15d902974892507cb4a379b0d3e97324bd8893fe7d582412a498a5e9e",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -2391,7 +2391,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Dharma (Rta Cosmic Order, Structural Ahimsa, 8-Limb Astanga, 12-Nidana Pratityasamutpada & Lokasangraha)",
     "sourceModule": "Foundation.Dharma.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Dharma/V1/Model.lex.tex",
-    "sourceSha256": "d6a0697617d8970ab7e330b5d30953e9c49ddc5c140e768843ef330495ea9dc3",
+    "sourceSha256": "0a7a57212dbc5bc19bf1f863ba2ab20781e0e0ea8faf7e86436e3cd26db37568",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -2508,7 +2508,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Parametric Compression (UORC kappa-Named Codec Points, Warm States, Saturating Cap Ledger & 64-Cell Rule-30 Portfolio)",
     "sourceModule": "Foundation.Compression.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Compression/V1/Model.lex.tex",
-    "sourceSha256": "8da407c79a60a30ade9563559ec071a028c242518a80ab34e8f4fff37d303d68",
+    "sourceSha256": "80c1a983f02682e3fc355b2aedeb5e578f7f357ab1c6a78270465aaf1e196477",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -10791,10 +10791,7 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "infrastructureDescriptorCompleteHolds"
   ],
   "Foundation.Mathematics.V1.Model": [
-    "eulerPoincareSphereAndTorusHold",
-    "exteriorDerivativeNilpotencyHolds",
-    "mathematicsNeuromorphicCouplingHolds",
-    "mathematicsDescriptorCompleteHolds"
+    "eulerPoincareSphereAndTorusHold"
   ],
   "Foundation.Mechanization.V1.Model": [
     "foundryRouterAndLiftVectorsHold",

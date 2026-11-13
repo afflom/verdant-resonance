@@ -34,6 +34,15 @@ import {
   type PrismOption,
 } from './generatedPrismRuntime';
 import {
+  certifiedWasmCore_advanceLifecycleStage,
+  certifiedWasmCore_clampBusWeight,
+  certifiedWasmCore_learnHebbianWeight,
+  certifiedWasmCore_refineDomainWeightAutopoietic,
+  certifiedWasmCore_stepEcologyBusModulation,
+  certifiedWasmCore_transferWeightCrossDomain,
+  isCertifiedWasmReady,
+} from './generatedCertifiedWasmBridge';
+import {
   evaluateHolisticObserverStandardModelContext,
   type HolisticObserverStandardModelContext,
 } from './neuromorphicFunctorBus';
@@ -334,249 +343,74 @@ function fromLexBusManifold(
 }
 
 export function clampPrismBusWeight(w: number): number {
-  return Number(_LexNeuro.clampBusWeight(toPrismNat(w)));
+  const n = Math.max(0, Math.floor(Number.isFinite(w) ? w : 0));
+  return isCertifiedWasmReady() ? certifiedWasmCore_clampBusWeight(n) : Number(_LexNeuro.clampBusWeight(toPrismNat(n)));
 }
-
-export function stepInfrastructureBusModulation(busWeight: number): number {
-  return Number(_LexInfra.stepInfrastructureBusModulation(toPrismNat(busWeight)));
-}
-
-export function stepPhysicsBusModulation(busWeight: number): number {
-  return Number(_LexPhys.stepPhysicsBusModulation(toPrismNat(busWeight)));
-}
-
-export function stepBotanyBusModulation(busWeight: number): number {
-  return Number(_LexBotany.stepBotanyBusModulation(toPrismNat(busWeight)));
-}
-
+export function stepInfrastructureBusModulation(busWeight: number): number { return Number(_LexInfra.stepInfrastructureBusModulation(toPrismNat(busWeight))); }
+export function stepPhysicsBusModulation(busWeight: number): number { return Number(_LexPhys.stepPhysicsBusModulation(toPrismNat(busWeight))); }
+export function stepBotanyBusModulation(busWeight: number): number { return Number(_LexBotany.stepBotanyBusModulation(toPrismNat(busWeight))); }
 export function stepEcologyBusModulation(busWeight: number): number {
-  return Number(_LexEcology.stepEcologyBusModulation(toPrismNat(busWeight)));
+  const n = Math.max(0, Math.floor(Number.isFinite(busWeight) ? busWeight : 0));
+  return isCertifiedWasmReady() ? certifiedWasmCore_stepEcologyBusModulation(n) : Number(_LexEcology.stepEcologyBusModulation(toPrismNat(n)));
 }
-
-export function stepAcousticsBusModulation(busWeight: number): number {
-  return Number(_LexAcoustics.stepAcousticsBusModulation(toPrismNat(busWeight)));
-}
-
-export function stepArticulationBusModulation(busWeight: number): number {
-  return Number(_LexArtic.stepArticulationBusModulation(toPrismNat(busWeight)));
-}
-
-export function stepSoundtrackBusModulation(busWeight: number): number {
-  return Number(_LexSound.stepSoundtrackBusModulation(toPrismNat(busWeight)));
-}
-
-export function stepHumaneBusModulation(busWeight: number): number {
-  return Number(_LexHumane.stepHumaneBusModulation(toPrismNat(busWeight)));
-}
-
-export function stepBrandBusModulation(busWeight: number): number {
-  return Number(_LexBrand.stepBrandBusModulation(toPrismNat(busWeight)));
-}
-
-export function stepWisdomPhenomenonModulation(busWeight: number): number {
-  return Number(_LexNeuro.stepWisdomPhenomenonModulation(toPrismNat(busWeight)));
-}
-
-export function stepStakeholderValueReinforcement(
-  w: number,
-  allFacetsActive: boolean,
-): number {
-  return Number(_LexNeuro.stepStakeholderValueReinforcement(toPrismNat(w), allFacetsActive));
-}
-
-export function verifyEmergentEntitySynthesizesFacets(w: number): boolean {
-  return _LexNeuro.verifyEmergentEntitySynthesizesFacets(toPrismNat(w));
-}
-
-export function stepAtomicValenceActivity(busWeight: number): number {
-  return Number(_LexEcology.stepAtomicValenceActivity(toPrismNat(busWeight)));
-}
-
-export function stepMolecularBondCoherence(busWeight: number): number {
-  return Number(_LexEcology.stepMolecularBondCoherence(toPrismNat(busWeight)));
-}
-
-export function stepMacromolecularPolymerization(busWeight: number): number {
-  return Number(_LexEcology.stepMacromolecularPolymerization(toPrismNat(busWeight)));
-}
-
-export function stepCompoundManifestation(busWeight: number): number {
-  return Number(_LexEcology.stepCompoundManifestation(toPrismNat(busWeight)));
-}
-
-export function stepEnvironmentalModalSynthesis(busWeight: number): number {
-  return Number(_LexEcology.stepEnvironmentalModalSynthesis(toPrismNat(busWeight)));
-}
-
-export function verifyGranularAtomicToEnvironmentalChain(busWeight: number): boolean {
-  return _LexEcology.verifyGranularAtomicToEnvironmentalChain(toPrismNat(busWeight));
-}
-
-export function stepAtomicRemineralizationFlux(busWeight: number): number {
-  return Number(_LexEcology.stepAtomicRemineralizationFlux(toPrismNat(busWeight)));
-}
-
-export function verifyClosedLoopMatterConservation(busWeight: number): boolean {
-  return _LexEcology.verifyClosedLoopMatterConservation(toPrismNat(busWeight));
-}
-
-export function verifyCompleteGranularSynthesisClosure(busWeight: number): boolean {
-  return _LexEcology.verifyCompleteGranularSynthesisClosure(toPrismNat(busWeight));
-}
-
-export function stepBMeshSubdivisionDensity(busWeight: number): number {
-  return Number(_LexBotany.stepBMeshSubdivisionDensity(toPrismNat(busWeight)));
-}
-
-export function stepThinFilmIridescenceSpanNm(busWeight: number): number {
-  return Number(_LexBotany.stepThinFilmIridescenceSpanNm(toPrismNat(busWeight)));
-}
-
-export function verifyHighDefinitionBMeshSynthesis(busWeight: number): boolean {
-  return _LexBotany.verifyHighDefinitionBMeshSynthesis(toPrismNat(busWeight));
-}
-
-export function stepBasalJointTorqueMilli(busWeight: number): number {
-  return Number(_LexArtic.stepBasalJointTorqueMilli(toPrismNat(busWeight)));
-}
-
-export function stepMidCulmFlexureMilli(busWeight: number): number {
-  return Number(_LexArtic.stepMidCulmFlexureMilli(toPrismNat(busWeight)));
-}
-
-export function stepApicalCorollaGimbalMilli(busWeight: number): number {
-  return Number(_LexArtic.stepApicalCorollaGimbalMilli(toPrismNat(busWeight)));
-}
-
-export function verifyThreeJointKinematicHierarchy(busWeight: number): boolean {
-  return _LexArtic.verifyThreeJointKinematicHierarchy(toPrismNat(busWeight));
-}
-
-export function stepCrossModalPhaseObstructionPermille(busWeight: number): number {
-  return Number(_LexPhys.stepCrossModalPhaseObstructionPermille(toPrismNat(busWeight)));
-}
-
-export function stepCrossModalAcousticShadowPermille(busWeight: number): number {
-  return Number(_LexPhys.stepCrossModalAcousticShadowPermille(toPrismNat(busWeight)));
-}
-
-export function verifyMaterialSynthesisCrossModalObstruction(busWeight: number): boolean {
-  return _LexPhys.verifyMaterialSynthesisCrossModalObstruction(toPrismNat(busWeight));
-}
+export function stepAcousticsBusModulation(busWeight: number): number { return Number(_LexAcoustics.stepAcousticsBusModulation(toPrismNat(busWeight))); }
+export function stepArticulationBusModulation(busWeight: number): number { return Number(_LexArtic.stepArticulationBusModulation(toPrismNat(busWeight))); }
+export function stepSoundtrackBusModulation(busWeight: number): number { return Number(_LexSound.stepSoundtrackBusModulation(toPrismNat(busWeight))); }
+export function stepHumaneBusModulation(busWeight: number): number { return Number(_LexHumane.stepHumaneBusModulation(toPrismNat(busWeight))); }
+export function stepBrandBusModulation(busWeight: number): number { return Number(_LexBrand.stepBrandBusModulation(toPrismNat(busWeight))); }
+export function stepWisdomPhenomenonModulation(busWeight: number): number { return Number(_LexNeuro.stepWisdomPhenomenonModulation(toPrismNat(busWeight))); }
+export function stepStakeholderValueReinforcement(w: number, allFacetsActive: boolean): number { return Number(_LexNeuro.stepStakeholderValueReinforcement(toPrismNat(w), allFacetsActive)); }
+export function verifyEmergentEntitySynthesizesFacets(w: number): boolean { return _LexNeuro.verifyEmergentEntitySynthesizesFacets(toPrismNat(w)); }
+export function stepAtomicValenceActivity(busWeight: number): number { return Number(_LexEcology.stepAtomicValenceActivity(toPrismNat(busWeight))); }
+export function stepMolecularBondCoherence(busWeight: number): number { return Number(_LexEcology.stepMolecularBondCoherence(toPrismNat(busWeight))); }
+export function stepMacromolecularPolymerization(busWeight: number): number { return Number(_LexEcology.stepMacromolecularPolymerization(toPrismNat(busWeight))); }
+export function stepCompoundManifestation(busWeight: number): number { return Number(_LexEcology.stepCompoundManifestation(toPrismNat(busWeight))); }
+export function stepEnvironmentalModalSynthesis(busWeight: number): number { return Number(_LexEcology.stepEnvironmentalModalSynthesis(toPrismNat(busWeight))); }
+export function verifyGranularAtomicToEnvironmentalChain(busWeight: number): boolean { return _LexEcology.verifyGranularAtomicToEnvironmentalChain(toPrismNat(busWeight)); }
+export function stepAtomicRemineralizationFlux(busWeight: number): number { return Number(_LexEcology.stepAtomicRemineralizationFlux(toPrismNat(busWeight))); }
+export function verifyClosedLoopMatterConservation(busWeight: number): boolean { return _LexEcology.verifyClosedLoopMatterConservation(toPrismNat(busWeight)); }
+export function verifyCompleteGranularSynthesisClosure(busWeight: number): boolean { return _LexEcology.verifyCompleteGranularSynthesisClosure(toPrismNat(busWeight)); }
+export function stepBMeshSubdivisionDensity(busWeight: number): number { return Number(_LexBotany.stepBMeshSubdivisionDensity(toPrismNat(busWeight))); }
+export function stepThinFilmIridescenceSpanNm(busWeight: number): number { return Number(_LexBotany.stepThinFilmIridescenceSpanNm(toPrismNat(busWeight))); }
+export function verifyHighDefinitionBMeshSynthesis(busWeight: number): boolean { return _LexBotany.verifyHighDefinitionBMeshSynthesis(toPrismNat(busWeight)); }
+export function stepBasalJointTorqueMilli(busWeight: number): number { return Number(_LexArtic.stepBasalJointTorqueMilli(toPrismNat(busWeight))); }
+export function stepMidCulmFlexureMilli(busWeight: number): number { return Number(_LexArtic.stepMidCulmFlexureMilli(toPrismNat(busWeight))); }
+export function stepApicalCorollaGimbalMilli(busWeight: number): number { return Number(_LexArtic.stepApicalCorollaGimbalMilli(toPrismNat(busWeight))); }
+export function verifyThreeJointKinematicHierarchy(busWeight: number): boolean { return _LexArtic.verifyThreeJointKinematicHierarchy(toPrismNat(busWeight)); }
+export function stepCrossModalPhaseObstructionPermille(busWeight: number): number { return Number(_LexPhys.stepCrossModalPhaseObstructionPermille(toPrismNat(busWeight))); }
+export function stepCrossModalAcousticShadowPermille(busWeight: number): number { return Number(_LexPhys.stepCrossModalAcousticShadowPermille(toPrismNat(busWeight))); }
+export function verifyMaterialSynthesisCrossModalObstruction(busWeight: number): boolean { return _LexPhys.verifyMaterialSynthesisCrossModalObstruction(toPrismNat(busWeight)); }
 
 export function clampAlphaSeed(alphaSeed: number): number {
   const safe = Number.isFinite(alphaSeed) ? Math.max(0, Math.floor(alphaSeed)) : 1;
   return Number(_LexCosmo.clampAlphaSeed(BigInt(safe)));
 }
-
-export function stepAlphaOmegaFieldPotential(busWeight: number, alphaSeed = 1): number {
-  return Number(
-    _LexCosmo.stepAlphaOmegaFieldPotential(toPrismNat(clampAlphaSeed(alphaSeed)), toPrismNat(busWeight)),
-  );
+export function stepAlphaOmegaFieldPotential(busWeight: number, alphaSeed = 1): number { return Number(_LexCosmo.stepAlphaOmegaFieldPotential(toPrismNat(clampAlphaSeed(alphaSeed)), toPrismNat(busWeight))); }
+export function stepParametricInorganicScalePermille(wPhysics: number, wInfra: number = wPhysics, alphaSeed = 1): number {
+  return Number(_LexCosmo.synthesizeParametricInorganicScalePermille(toPrismNat(clampAlphaSeed(alphaSeed)), toPrismNat(wPhysics), toPrismNat(wInfra)));
 }
-
-export function stepParametricInorganicScalePermille(
-  wPhysics: number,
-  wInfra: number = wPhysics,
-  alphaSeed = 1,
-): number {
-  return Number(
-    _LexCosmo.synthesizeParametricInorganicScalePermille(
-      toPrismNat(clampAlphaSeed(alphaSeed)),
-      toPrismNat(wPhysics),
-      toPrismNat(wInfra),
-    ),
-  );
+export function stepParametricOrganicVitalityPermille(wBotany: number, wEcology: number = wBotany, alphaSeed = 1): number {
+  return Number(_LexCosmo.synthesizeParametricOrganicVitalityPermille(toPrismNat(clampAlphaSeed(alphaSeed)), toPrismNat(wBotany), toPrismNat(wEcology)));
 }
-
-export function stepParametricOrganicVitalityPermille(
-  wBotany: number,
-  wEcology: number = wBotany,
-  alphaSeed = 1,
-): number {
-  return Number(
-    _LexCosmo.synthesizeParametricOrganicVitalityPermille(
-      toPrismNat(clampAlphaSeed(alphaSeed)),
-      toPrismNat(wBotany),
-      toPrismNat(wEcology),
-    ),
-  );
+export function stepParametricPlayerEmbodimentPermille(wHumane: number, wAcoustics: number = wHumane, alphaSeed = 1): number {
+  return Number(_LexCosmo.synthesizeParametricPlayerEmbodimentPermille(toPrismNat(clampAlphaSeed(alphaSeed)), toPrismNat(wHumane), toPrismNat(wAcoustics)));
 }
-
-export function stepParametricPlayerEmbodimentPermille(
-  wHumane: number,
-  wAcoustics: number = wHumane,
-  alphaSeed = 1,
-): number {
-  return Number(
-    _LexCosmo.synthesizeParametricPlayerEmbodimentPermille(
-      toPrismNat(clampAlphaSeed(alphaSeed)),
-      toPrismNat(wHumane),
-      toPrismNat(wAcoustics),
-    ),
-  );
-}
-
-export function synthesizeParametricCanonicalSeed(alphaSeed = 1, busWeight = 8): number {
-  return Number(
-    _LexCosmo.synthesizeParametricCanonicalSeed(
-      toPrismNat(clampAlphaSeed(alphaSeed)),
-      toPrismNat(busWeight),
-    ),
-  );
-}
-
+export function synthesizeParametricCanonicalSeed(alphaSeed = 1, busWeight = 8): number { return Number(_LexCosmo.synthesizeParametricCanonicalSeed(toPrismNat(clampAlphaSeed(alphaSeed)), toPrismNat(busWeight))); }
 export function synthesizeParametricConcertPitchHz(alphaSeed = 1, acousticsWeight = 8): number {
   const seedNat = alphaSeed <= 1 ? 1n : toPrismNat(clampAlphaSeed(alphaSeed));
-  const centiHz = Number(
-    _LexCosmo.synthesizeParametricConcertPitchCentiHz(seedNat, toPrismNat(acousticsWeight)),
-  );
-  return Number((centiHz / 100).toFixed(2));
+  return Number((Number(_LexCosmo.synthesizeParametricConcertPitchCentiHz(seedNat, toPrismNat(acousticsWeight))) / 100).toFixed(2));
 }
-
-export function verifyObserverCreatesAllThreeRealms(busWeight: number, alphaSeed = 1): boolean {
-  return _LexCosmo.verifyObserverCreatesAllThreeRealms(
-    toPrismNat(clampAlphaSeed(alphaSeed)),
-    toPrismNat(busWeight),
-  );
+export function verifyObserverCreatesAllThreeRealms(busWeight: number, alphaSeed = 1): boolean { return _LexCosmo.verifyObserverCreatesAllThreeRealms(toPrismNat(clampAlphaSeed(alphaSeed)), toPrismNat(busWeight)); }
+export function verifyAlphaOmegaParametricClosure(busWeight: number, alphaSeed = 1): boolean { return _LexCosmo.verifyAlphaOmegaParametricClosure(toPrismNat(clampAlphaSeed(alphaSeed)), toPrismNat(busWeight)); }
+export function uniformJudgeBusManifold(w: number): JudgeBusManifoldState { return fromLexBusManifold(_LexNeuro.uniformBusManifold(toPrismNat(w))); }
+export function stepUniversalBusBroadcastManifold(state: JudgeBusManifoldState, sourceConsolidated: boolean): JudgeBusManifoldState {
+  return fromLexBusManifold(_LexNeuro.stepUniversalBusBroadcast(toLexBusManifold(state), sourceConsolidated));
 }
-
-export function verifyAlphaOmegaParametricClosure(busWeight: number, alphaSeed = 1): boolean {
-  return _LexCosmo.verifyAlphaOmegaParametricClosure(
-    toPrismNat(clampAlphaSeed(alphaSeed)),
-    toPrismNat(busWeight),
-  );
+export function stepAutopoieticBusManifold(state: JudgeBusManifoldState, leaderWeight: number = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightMax): JudgeBusManifoldState {
+  return fromLexBusManifold(_LexNeuro.stepAutopoieticBusManifold(toLexBusManifold(state), toPrismNat(leaderWeight)));
 }
-
-export function uniformJudgeBusManifold(w: number): JudgeBusManifoldState {
-  return fromLexBusManifold(_LexNeuro.uniformBusManifold(toPrismNat(w)));
-}
-
-export function stepUniversalBusBroadcastManifold(
-  state: JudgeBusManifoldState,
-  sourceConsolidated: boolean,
-): JudgeBusManifoldState {
-  return fromLexBusManifold(
-    _LexNeuro.stepUniversalBusBroadcast(toLexBusManifold(state), sourceConsolidated),
-  );
-}
-
-export function stepAutopoieticBusManifold(
-  state: JudgeBusManifoldState,
-  leaderWeight: number = GENERATED_PRISM_STANDARDS.neuromorphic.plasticity.weightMax,
-): JudgeBusManifoldState {
-  return fromLexBusManifold(
-    _LexNeuro.stepAutopoieticBusManifold(toLexBusManifold(state), toPrismNat(leaderWeight)),
-  );
-}
-
-export function verifySingleCallPropagatesAllTenDomains(w: number): boolean {
-  return _LexNeuro.verifySingleCallPropagatesAllTenDomains(toPrismNat(w));
-}
-
-export function verifyAutopoieticSingleCallAdvancesAllTenDomains(w: number): boolean {
-  return _LexNeuro.verifyAutopoieticSingleCallAdvancesAllTenDomains(toPrismNat(w));
-}
+export function verifySingleCallPropagatesAllTenDomains(w: number): boolean { return _LexNeuro.verifySingleCallPropagatesAllTenDomains(toPrismNat(w)); }
+export function verifyAutopoieticSingleCallAdvancesAllTenDomains(w: number): boolean { return _LexNeuro.verifyAutopoieticSingleCallAdvancesAllTenDomains(toPrismNat(w)); }
 
 export function stepJudgeBusManifold(
   req: Record<string, string | bigint>,
@@ -10176,7 +10010,8 @@ export const PRISM_DOMAIN_BRIDGES: Record<PrismDomainId, NeuromorphicDomainBridg
 };
 
 export function learnHebbianWeight(w: number, success: boolean): number {
-  return Number(_LexNeuro.learnHebbianWeight(toPrismNat(w), success));
+  const n = Math.max(0, Math.floor(Number.isFinite(w) ? w : 0));
+  return isCertifiedWasmReady() ? certifiedWasmCore_learnHebbianWeight(n, success) : Number(_LexNeuro.learnHebbianWeight(toPrismNat(n), success));
 }
 
 /**
@@ -11018,18 +10853,17 @@ export interface CrossDomainRefinementDirectives {
  * compiled from `Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain` (proven bounded and monotonic in
  * `crossDomainTransferBoundedAndMonotonicHolds`).
  */
-export function transferWeightCrossDomain(
-  wTarget: number,
-  sourceConsolidated: boolean,
-): number {
-  return Number(_LexNeuro.transferWeightCrossDomain(toPrismNat(wTarget), sourceConsolidated));
+export function transferWeightCrossDomain(wTarget: number, sourceConsolidated: boolean): number {
+  const n = Math.max(0, Math.floor(Number.isFinite(wTarget) ? wTarget : 0));
+  return isCertifiedWasmReady()
+    ? certifiedWasmCore_transferWeightCrossDomain(n, sourceConsolidated)
+    : Number(_LexNeuro.transferWeightCrossDomain(toPrismNat(n), sourceConsolidated));
 }
-
-export function refineDomainWeightAutopoietic(
-  wCurrent: number,
-  wLeader: number,
-): number {
-  return Number(_LexNeuro.refineDomainWeightAutopoietic(toPrismNat(wCurrent), toPrismNat(wLeader)));
+export function refineDomainWeightAutopoietic(wCurrent: number, wLeader: number): number {
+  const [c, l] = [Math.max(0, Math.floor(Number.isFinite(wCurrent) ? wCurrent : 0)), Math.max(0, Math.floor(Number.isFinite(wLeader) ? wLeader : 0))];
+  return isCertifiedWasmReady()
+    ? certifiedWasmCore_refineDomainWeightAutopoietic(c, l)
+    : Number(_LexNeuro.refineDomainWeightAutopoietic(toPrismNat(c), toPrismNat(l)));
 }
 
 function extractDomainRule30Slice(row: boolean[], domainIndex: number): number {
@@ -13323,30 +13157,15 @@ export function getPlantLifecycleStage(plant: GardenPlantInstance): BotanicalLif
 export function advancePlantLifecycle(
   currentStage: BotanicalLifecycleStageId,
   action: PlayerActionId,
-  isSymbioticNeighbor = false,
+  _isSymbioticNeighbor = false,
 ): BotanicalLifecycleStageId {
-  const idx = STAGE_ORDER.indexOf(currentStage);
-  const currentIdx = idx >= 0 ? idx : 0;
-
-  let nextIdx = currentIdx;
-  if (action === 'touch') {
-    nextIdx = Math.min(3, currentIdx + 1);
-  } else if (action === 'attune') {
-    if (currentIdx < 2) {
-      nextIdx = 2; // Jumps directly to full Resonant Bloom
-    } else {
-      nextIdx = Math.min(4, currentIdx + 1);
-    }
-    if (isSymbioticNeighbor && nextIdx === 2 && currentIdx >= 2) {
-      nextIdx = 3; // Symbiotic cross-pollination promotes an already-blooming neighbor to Harmonic Fruiting
-    }
-  } else if (action === 'stillness') {
-    if (currentIdx >= 1) {
-      nextIdx = Math.min(4, Math.max(3, currentIdx + 1));
-    }
-  }
-
-  return STAGE_ORDER[Math.max(currentIdx, Math.min(4, nextIdx))];
+  const currentIdx = Math.max(0, STAGE_ORDER.indexOf(currentStage));
+  const stepStage = (s: number, d: number) =>
+    isCertifiedWasmReady() ? certifiedWasmCore_advanceLifecycleStage(s, d) : Number(_LexSound.advanceLifecycleStage(toPrismNat(s), toPrismNat(d)));
+  if (action === 'touch') return STAGE_ORDER[Math.max(currentIdx, Math.min(3, stepStage(currentIdx, 1)))];
+  if (action === 'attune') return STAGE_ORDER[currentIdx < 2 ? stepStage(0, 2) : stepStage(currentIdx, 1)];
+  if (action === 'stillness' && currentIdx >= 1) return STAGE_ORDER[Math.max(3, stepStage(currentIdx, 1))];
+  return STAGE_ORDER[currentIdx];
 }
 
 export interface EnvironmentalLifecycleState {

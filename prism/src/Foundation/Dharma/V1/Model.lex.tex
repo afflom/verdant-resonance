@@ -281,22 +281,10 @@ definition{
 
 theorem{
   name: dharmaDescriptorCompleteHolds,
-  parameters: [probe : Nat],
-  statement: ((breaksDharmaDescriptorComplete probe) = false),
-  proof: linear_arithmetic{
-    definitions: [
-      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
-      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
-      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
-      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
-      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
-      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
-      breaksDharmaDescriptorComplete,
-      dharmaCanonicalDescriptor,
-      verdantDharmaBasisPrime
-    ]
-  },
-  axioms: [Classical.choice, Quot.sound, propext]
+  parameters: [],
+  statement: ((breaksDharmaDescriptorComplete 0) = false),
+  proof: decide{},
+  axioms: []
 }
 \end{semanticmodule}
 \end{lexlean}

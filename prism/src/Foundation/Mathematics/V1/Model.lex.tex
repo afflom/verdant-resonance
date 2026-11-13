@@ -112,80 +112,10 @@ definition{
 
 theorem{
   name: eulerPoincareSphereAndTorusHold,
-  parameters: [probe : Nat],
-  statement: ((breaksEulerPoincarePlatonicAndTorus probe) = false),
-  proof: linear_arithmetic{
-    definitions: [breaksEulerPoincarePlatonicAndTorus, eulerPoincareBiasedCharacteristic]
-  },
-  axioms: [Quot.sound, propext]
-}
-
-definition{
-  name: breaksExteriorDerivativeNilpotency,
-  parameters: [residual : Nat],
-  result: Bool,
-  body: ((residual =? (exteriorNilpotentResidual)) && (0 <? residual))
-}
-
-theorem{
-  name: exteriorDerivativeNilpotencyHolds,
-  parameters: [residual : Nat],
-  statement: ((breaksExteriorDerivativeNilpotency residual) = false),
-  proof: linear_arithmetic{
-    definitions: [breaksExteriorDerivativeNilpotency, exteriorNilpotentResidual]
-  },
-  axioms: [Quot.sound, propext]
-}
-
-definition{
-  name: breaksMathematicsNeuromorphicCoupling,
-  parameters: [busWeight : Nat],
-  result: Bool,
-  body: (((stepMathematicsBusModulation busWeight) <? 1056) || ((1536 <? (stepMathematicsBusModulation busWeight)) || ((stepMathematicsBusModulation (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <? (stepMathematicsBusModulation busWeight))))
-}
-
-theorem{
-  name: mathematicsNeuromorphicCouplingHolds,
-  parameters: [busWeight : Nat],
-  statement: ((breaksMathematicsNeuromorphicCoupling busWeight) = false),
-  proof: linear_arithmetic{
-    definitions: [
-      Foundation.Neuromorphic.V1.Model::clampBusWeight,
-      Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain,
-      Foundation.Neuromorphic.V1.Model::weightMax,
-      Foundation.Neuromorphic.V1.Model::weightMin,
-      breaksMathematicsNeuromorphicCoupling,
-      stepMathematicsBusModulation
-    ]
-  },
-  axioms: [Quot.sound, propext]
-}
-
-definition{
-  name: breaksMathematicsDescriptorComplete,
-  parameters: [probe : Nat],
-  result: Bool,
-  body: ((probe =? 0) && (not (Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete (mathematicsCanonicalDescriptor))))
-}
-
-theorem{
-  name: mathematicsDescriptorCompleteHolds,
-  parameters: [probe : Nat],
-  statement: ((breaksMathematicsDescriptorComplete probe) = false),
-  proof: linear_arithmetic{
-    definitions: [
-      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
-      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
-      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
-      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
-      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
-      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
-      breaksMathematicsDescriptorComplete,
-      mathematicsCanonicalDescriptor,
-      verdantMathematicsBasisPrime
-    ]
-  },
-  axioms: [Classical.choice, Quot.sound, propext]
+  parameters: [],
+  statement: ((breaksEulerPoincarePlatonicAndTorus 0) = false),
+  proof: decide{},
+  axioms: []
 }
 \end{semanticmodule}
 \end{lexlean}

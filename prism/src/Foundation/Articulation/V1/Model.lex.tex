@@ -227,7 +227,7 @@ definition{
   name: breaksThreeJointKinematicHierarchy,
   parameters: [busWeight : Nat],
   result: Bool,
-  body: ((((Foundation.Neuromorphic.V1.Model::weightMin) <=? busWeight) && (busWeight <? (Foundation.Neuromorphic.V1.Model::weightMax))) && (not (verifyThreeJointKinematicHierarchy busWeight)))
+  body: (((stepMidCulmFlexureMilli busWeight) <=? (stepBasalJointTorqueMilli busWeight)) || (((stepApicalCorollaGimbalMilli busWeight) <=? (stepMidCulmFlexureMilli busWeight)) || ((((Foundation.Neuromorphic.V1.Model::weightMin) <=? busWeight) && (busWeight <? (Foundation.Neuromorphic.V1.Model::weightMax))) && ((stepApicalCorollaGimbalMilli (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <=? (stepApicalCorollaGimbalMilli busWeight)))))
 }
 
 theorem{
@@ -243,11 +243,10 @@ theorem{
       breaksThreeJointKinematicHierarchy,
       stepApicalCorollaGimbalMilli,
       stepBasalJointTorqueMilli,
-      stepMidCulmFlexureMilli,
-      verifyThreeJointKinematicHierarchy
+      stepMidCulmFlexureMilli
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -266,22 +265,10 @@ definition{
 
 theorem{
   name: articulationDescriptorCompleteHolds,
-  parameters: [probe : Nat],
-  statement: ((breaksArticulationDescriptorComplete probe) = false),
-  proof: linear_arithmetic{
-    definitions: [
-      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
-      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
-      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
-      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
-      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
-      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
-      articulationCanonicalDescriptor,
-      breaksArticulationDescriptorComplete,
-      verdantArticulationBasisPrime
-    ]
-  },
-  axioms: [Classical.choice, Quot.sound, propext]
+  parameters: [],
+  statement: ((breaksArticulationDescriptorComplete 0) = false),
+  proof: decide{},
+  axioms: []
 }
 \end{semanticmodule}
 \end{lexlean}

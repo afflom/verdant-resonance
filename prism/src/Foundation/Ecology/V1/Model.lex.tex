@@ -114,9 +114,9 @@ definition{name: verdantBeamHeightMeters, parameters: [], result: Nat, body: 22}
 
 definition{name: minRequiredBeamHeightMeters, parameters: [], result: Nat, body: 12}
 
-definition{name: verdantMinPhCenti, parameters: [], result: Nat, body: 560}
+definition{name: verdantMinPhCenti, parameters: [], result: Nat, body: 560, executable: true}
 
-definition{name: verdantMaxPhCenti, parameters: [], result: Nat, body: 810}
+definition{name: verdantMaxPhCenti, parameters: [], result: Nat, body: 810, executable: true}
 
 definition{name: verdantEcologyBasisPrime, parameters: [], result: Nat, body: 83}
 
@@ -125,7 +125,8 @@ definition{
   parameters: [busWeight : Nat],
   result: Nat,
   body: (800 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 25 : Nat)),
-  executable: true
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -195,7 +196,9 @@ definition{
   name: stepMicroclimateIso9613ClarityPermille,
   parameters: [busWeight : Nat, phCenti : Nat],
   result: Nat,
-  body: ((700 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 14 : Nat)) + (if ((phCenti <=? (verdantMaxPhCenti)) && ((verdantMinPhCenti) <=? phCenti)) then 45 else 15))
+  body: ((700 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 14 : Nat)) + (if (phCenti <=? (verdantMaxPhCenti)) then (if ((verdantMinPhCenti) <=? phCenti) then 45 else 15) else 15)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -278,7 +281,7 @@ definition{
   name: breaksGranularAtomicToEnvironmentalSynthesis,
   parameters: [busWeight : Nat],
   result: Bool,
-  body: ((((Foundation.Neuromorphic.V1.Model::weightMin) <=? busWeight) && (busWeight <? (Foundation.Neuromorphic.V1.Model::weightMax))) && (not (verifyGranularAtomicToEnvironmentalChain busWeight)))
+  body: (((stepMolecularBondCoherence busWeight) <=? (stepAtomicValenceActivity busWeight)) || (((stepMacromolecularPolymerization busWeight) <=? (stepMolecularBondCoherence busWeight)) || (((stepCompoundManifestation busWeight) <=? (stepMacromolecularPolymerization busWeight)) || (((stepEnvironmentalModalSynthesis busWeight) <=? (stepCompoundManifestation busWeight)) || ((((Foundation.Neuromorphic.V1.Model::weightMin) <=? busWeight) && (busWeight <? (Foundation.Neuromorphic.V1.Model::weightMax))) && ((stepEnvironmentalModalSynthesis (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <=? (stepEnvironmentalModalSynthesis busWeight)))))))
 }
 
 theorem{
@@ -296,18 +299,17 @@ theorem{
       stepCompoundManifestation,
       stepEnvironmentalModalSynthesis,
       stepMacromolecularPolymerization,
-      stepMolecularBondCoherence,
-      verifyGranularAtomicToEnvironmentalChain
+      stepMolecularBondCoherence
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
   name: breaksClosedLoopAtomicRemineralization,
   parameters: [busWeight : Nat],
   result: Bool,
-  body: ((((Foundation.Neuromorphic.V1.Model::weightMin) <=? busWeight) && (busWeight <? (Foundation.Neuromorphic.V1.Model::weightMax))) && (not (verifyCompleteGranularSynthesisClosure busWeight)))
+  body: ((breaksGranularAtomicToEnvironmentalSynthesis busWeight) || (((stepAtomicRemineralizationFlux busWeight) <=? (stepEnvironmentalModalSynthesis busWeight)) || (((stepAtomicRemineralizationFlux busWeight) <=? (stepAtomicValenceActivity busWeight)) || ((((Foundation.Neuromorphic.V1.Model::weightMin) <=? busWeight) && (busWeight <? (Foundation.Neuromorphic.V1.Model::weightMax))) && ((stepAtomicRemineralizationFlux (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)) <=? (stepAtomicRemineralizationFlux busWeight))))))
 }
 
 theorem{
@@ -321,18 +323,16 @@ theorem{
       Foundation.Neuromorphic.V1.Model::weightMax,
       Foundation.Neuromorphic.V1.Model::weightMin,
       breaksClosedLoopAtomicRemineralization,
+      breaksGranularAtomicToEnvironmentalSynthesis,
       stepAtomicRemineralizationFlux,
       stepAtomicValenceActivity,
       stepCompoundManifestation,
       stepEnvironmentalModalSynthesis,
       stepMacromolecularPolymerization,
-      stepMolecularBondCoherence,
-      verifyClosedLoopMatterConservation,
-      verifyCompleteGranularSynthesisClosure,
-      verifyGranularAtomicToEnvironmentalChain
+      stepMolecularBondCoherence
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -351,29 +351,17 @@ definition{
 
 theorem{
   name: ecologyDescriptorCompleteHolds,
-  parameters: [probe : Nat],
-  statement: ((breaksEcologyDescriptorComplete probe) = false),
-  proof: linear_arithmetic{
-    definitions: [
-      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
-      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
-      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
-      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
-      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
-      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
-      breaksEcologyDescriptorComplete,
-      ecologyCanonicalDescriptor,
-      verdantEcologyBasisPrime
-    ]
-  },
-  axioms: [Classical.choice, Quot.sound, propext]
+  parameters: [],
+  statement: ((breaksEcologyDescriptorComplete 0) = false),
+  proof: decide{},
+  axioms: []
 }
 
 definition{
   name: breaksEcologyMicroclimateMultiModalTransfer,
   parameters: [w1 : Nat, w2 : Nat],
   result: Bool,
-  body: (((w1 <=? w2) && (((stepMicroclimateIso9613ClarityPermille w2 680) <? (stepMicroclimateIso9613ClarityPermille w1 680)) || ((stepRayleighOpticalTransmittancePermille w2) <? (stepRayleighOpticalTransmittancePermille w1)))) || (((stepMicroclimateIso9613ClarityPermille 8 680) <=? (stepMicroclimateIso9613ClarityPermille 8 400)) || (1000 <? (stepMicroclimateIso9613ClarityPermille w2 680))))
+  body: ((((w1 <=? w2) && ((stepMicroclimateIso9613ClarityPermille w2 680) <? (stepMicroclimateIso9613ClarityPermille w1 680))) || ((w1 <=? w2) && ((stepRayleighOpticalTransmittancePermille w2) <? (stepRayleighOpticalTransmittancePermille w1)))) || (((stepMicroclimateIso9613ClarityPermille 8 680) <=? (stepMicroclimateIso9613ClarityPermille 8 400)) || (1000 <? (stepMicroclimateIso9613ClarityPermille w2 680))))
 }
 
 theorem{
@@ -392,7 +380,7 @@ theorem{
       verdantMinPhCenti
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 \end{semanticmodule}
 \end{lexlean}

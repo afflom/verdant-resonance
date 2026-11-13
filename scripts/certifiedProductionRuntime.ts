@@ -31,6 +31,8 @@ export class NoCertifiedRootError extends Error {
 
 export interface CertifiedRootArtifactSummary {
   readonly root: string;
+  readonly moduleName: string;
+  readonly defName: string;
   readonly packageName: string;
   readonly targetId: string;
   readonly targetDigest: string;
@@ -42,8 +44,20 @@ export interface CertifiedRootArtifactSummary {
   readonly returnsResultOverflow: boolean;
   readonly forbidsUnsafeCode: boolean;
   readonly isNoStd: boolean;
+  readonly parameters: ReadonlyArray<{ readonly name: string; readonly type: string }>;
+  readonly resultType: string;
   readonly weightAdtIdent?: string;
   readonly outcomeAdtIdent?: string;
+}
+
+const SCALAR_CORE_TYPES = new Set(['Nat', 'Bool', 'UInt8', 'UInt16', 'UInt32', 'UInt64']);
+
+export function isAutoCodegenScalarCoreRoot(s: CertifiedRootArtifactSummary): boolean {
+  return (
+    s.targetId === 'rust-core' &&
+    SCALAR_CORE_TYPES.has(s.resultType) &&
+    s.parameters.every((p) => SCALAR_CORE_TYPES.has(p.type))
+  );
 }
 
 export interface CertifiedProductionManifest {
@@ -207,6 +221,8 @@ export function inspectCertifiedBundleSummaries(
 
     summaries.push({
       root: desc.root,
+      moduleName: desc.moduleName,
+      defName: desc.defName,
       packageName: desc.packageName,
       targetId,
       targetDigest: String(out.target?.digest ?? desc.targets[0].digest),
@@ -218,6 +234,8 @@ export function inspectCertifiedBundleSummaries(
       returnsResultOverflow,
       forbidsUnsafeCode: shape.forbidsUnsafeCode,
       isNoStd: shape.isNoStd,
+      parameters: desc.parameters,
+      resultType: desc.resultType,
       weightAdtIdent: shape.weightAdtIdent,
       outcomeAdtIdent: shape.outcomeAdtIdent,
     });
@@ -250,6 +268,56 @@ function renderRustCallExpr(
     return `match ${pkgName}::run(${argsCode}) { Ok(v) => v, Err(_) => return ${errExpr} }`;
   }
   return `${pkgName}::run(${argsCode})`;
+}
+
+function rustScalarType(lexType: string): string {
+  if (lexType === 'Bool') return 'bool';
+  if (lexType === 'UInt8') return 'u8';
+  if (lexType === 'UInt16') return 'u16';
+  if (lexType === 'UInt32') return 'u32';
+  return 'u64';
+}
+
+function wasmExternScalarType(lexType: string): 'u32' | 'u64' {
+  if (lexType === 'Bool' || lexType === 'UInt8' || lexType === 'UInt16' || lexType === 'UInt32') {
+    return 'u32';
+  }
+  return 'u64';
+}
+
+function renderEvalCoreMatchArms(summaries: ReadonlyArray<CertifiedRootArtifactSummary>): string {
+  return summaries
+    .filter(isAutoCodegenScalarCoreRoot)
+    .map((s) => {
+      const parseLines = s.parameters
+        .map((p, idx) => {
+          const argIdx = idx + 2;
+          if (p.type === 'Bool') {
+            return `                let p${idx} = parse_bool_arg(args.get(${argIdx}), ${JSON.stringify(p.name)})?;`;
+          }
+          const rTy = rustScalarType(p.type);
+          const castSuffix = rTy === 'u64' ? '' : ` as ${rTy}`;
+          return `                let p${idx} = parse_u64_arg(args.get(${argIdx}), ${JSON.stringify(p.name)})?${castSuffix};`;
+        })
+        .join('\n');
+      const callArgs = s.parameters.map((_, idx) => `p${idx}`).join(', ');
+      const callExpr = renderRustCallExpr(
+        s.packageName,
+        callArgs,
+        s.returnsResultOverflow,
+        `Err(${JSON.stringify(`overflow in ${s.defName}`)}.to_string())`,
+      );
+      const valFmt =
+        s.resultType === 'Bool' ? `{res}` : `\\"{res}\\"`;
+      return `                ${JSON.stringify(s.root)} | ${JSON.stringify(s.packageName)} | ${JSON.stringify(s.defName)} => {
+${parseLines}
+                let w0 = total_work();
+                let res = ${callExpr};
+                let w1 = total_work();
+                Ok(format!("{{\\"root\\":{},\\"value\\":${valFmt},\\"work\\":{}}}", json_escape(${JSON.stringify(s.root)}), w1 - w0))
+            }`;
+    })
+    .join('\n');
 }
 
 function renderNativeHarnessRustMain(
@@ -330,6 +398,15 @@ fn json_escape(s: &str) -> String {
 fn parse_u64_arg(arg: Option<&String>, label: &str) -> Result<u64, String> {
     let raw = arg.ok_or_else(|| format!("missing {label}"))?;
     raw.parse::<u64>().map_err(|_| format!("invalid u64 for {label}: {raw}"))
+}
+
+fn parse_bool_arg(arg: Option<&String>, label: &str) -> Result<bool, String> {
+    let raw = arg.ok_or_else(|| format!("missing {label}"))?;
+    match raw.as_str() {
+        "1" | "true" => Ok(true),
+        "0" | "false" => Ok(false),
+        _ => Err(format!("invalid bool for {label}: {raw}")),
+    }
 }
 
 fn fail(msg: &str) -> ! {
@@ -520,6 +597,13 @@ fn run_cmd() -> Result<String, String> {
                 out_strs.join(","),
                 w1 - w0
             ))
+        }
+        "eval-core" => {
+            let selector = args.get(1).map(|s| s.as_str()).unwrap_or("");
+            match selector {
+${renderEvalCoreMatchArms(summaries)}
+                unknown => Err(format!("unknown scalar rust-core root: {unknown}")),
+            }
         }
         other => Err(format!("unknown certified command: {other}")),
     }
@@ -764,10 +848,93 @@ pub extern "C" fn certified_schedule() -> u32 {
     }
     set_output_bytes(out_items.join(",").as_bytes())
 }
+
+${summaries
+  .filter(isAutoCodegenScalarCoreRoot)
+  .map((s) => {
+    const fnParams = s.parameters
+      .map((p, idx) => `p${idx}: ${wasmExternScalarType(p.type)}`)
+      .join(', ');
+    const retTy = wasmExternScalarType(s.resultType);
+    const callArgs = s.parameters
+      .map((p, idx) => {
+        if (p.type === 'Bool') return `p${idx} != 0`;
+        const rTy = rustScalarType(p.type);
+        return rTy === wasmExternScalarType(p.type) ? `p${idx}` : `p${idx} as ${rTy}`;
+      })
+      .join(', ');
+    const rawCall = renderRustCallExpr(s.packageName, callArgs, s.returnsResultOverflow, '0');
+    const bodyExpr =
+      s.resultType === 'Bool'
+        ? `u32::from(${rawCall})`
+        : retTy === rustScalarType(s.resultType)
+          ? rawCall
+          : `(${rawCall}) as ${retTy}`;
+    return `#[no_mangle]\npub extern "C" fn core_${s.packageName}(${fnParams}) -> ${retTy} {\n    ${bodyExpr}\n}`;
+  })
+  .join('\n\n')}
 `;
 }
 
+const TS_PARAM_RESERVED = new Set([
+  'break', 'case', 'catch', 'class', 'const', 'continue', 'debugger', 'default', 'delete', 'do',
+  'else', 'enum', 'export', 'extends', 'false', 'finally', 'for', 'function', 'if', 'in',
+  'instanceof', 'new', 'null', 'return', 'super', 'switch', 'this', 'throw', 'true', 'try',
+  'typeof', 'var', 'void', 'while', 'with', 'yield',
+]);
+
 export function renderGeneratedCertifiedWasmBridgeSource(manifest: CertifiedProductionManifest): string {
+  const autoCoreRoots = manifest.roots.filter(isAutoCodegenScalarCoreRoot);
+  const autoExportSigs = autoCoreRoots
+    .map((s) => {
+      const ps = s.parameters
+        .map((p, idx) => {
+          const wTy = wasmExternScalarType(p.type) === 'u32' ? 'number' : 'bigint';
+          return `p${idx}: ${wTy}`;
+        })
+        .join(', ');
+      const rTy = wasmExternScalarType(s.resultType) === 'u32' ? 'number' : 'bigint';
+      return `  core_${s.packageName}(${ps}): ${rTy};`;
+    })
+    .join('\n');
+
+  const autoTsWrappers = autoCoreRoots
+    .map((s) => {
+      const tsParams = s.parameters
+        .map((p, idx) => {
+          const safeName = TS_PARAM_RESERVED.has(p.name) ? `arg_${p.name}_${idx}` : p.name;
+          const tsTy =
+            p.type === 'Bool'
+              ? 'boolean'
+              : p.type === 'UInt64'
+                ? 'bigint'
+                : 'number | bigint';
+          return `${safeName}: ${tsTy}`;
+        })
+        .join(', ');
+      const callArgs = s.parameters
+        .map((p, idx) => {
+          const safeName = TS_PARAM_RESERVED.has(p.name) ? `arg_${p.name}_${idx}` : p.name;
+          if (p.type === 'Bool') return `${safeName} ? 1 : 0`;
+          if (wasmExternScalarType(p.type) === 'u32') return `Number(_toU64Arg(${safeName})) >>> 0`;
+          return `_toU64Arg(${safeName})`;
+        })
+        .join(', ');
+      const returnsBigInt = s.resultType === 'UInt64' || s.defName === 'rule30Step';
+      const tsRet = s.resultType === 'Bool' ? 'boolean' : returnsBigInt ? 'bigint' : 'number';
+      const rawInvoke = `requireExports().core_${s.packageName}(${callArgs})`;
+      const wrappedBody =
+        s.resultType === 'Bool'
+          ? `return ${rawInvoke} !== 0;`
+          : returnsBigInt
+            ? `return BigInt.asUintN(64, ${rawInvoke});`
+            : wasmExternScalarType(s.resultType) === 'u32'
+              ? `return ${rawInvoke} >>> 0;`
+              : `return Number(BigInt.asUintN(64, ${rawInvoke}));`;
+      return `export function certifiedWasmCore_${s.defName}(${tsParams}): ${tsRet} {\n  ${wrappedBody}\n}`;
+    })
+    .join('\n\n');
+
   return `// AUTO-GENERATED BY \`scripts/certifiedProductionRuntime.ts\` FROM KERNEL-CHECKED \`lexlean production\` RUST CRATES.
 // DO NOT EDIT BY HAND — THIS BRIDGE LOADS \`public/wasm/verdant_certified_runtime.wasm\` COMPILED FROM CERTIFIED RUST.
 
@@ -802,6 +969,7 @@ interface CertifiedWasmExports {
   certified_dispatch(): number;
   certified_learn_all(): number;
   certified_schedule(): number;
+${autoExportSigs}
 }
 
 export const CERTIFIED_PRODUCTION_MANIFEST = ${JSON.stringify(manifest, null, 2)} as const;
@@ -973,6 +1141,16 @@ export function certifiedWasmSchedule(
   const out = readWasmOutputUtf8(exp);
   return out ? out.split(',') : [];
 }
+
+function _toU64Arg(value: number | bigint): bigint {
+  if (typeof value === 'bigint') return value <= 0n ? 0n : BigInt.asUintN(64, value);
+  if (!Number.isFinite(value) || value <= 0) return 0n;
+  return BigInt.asUintN(64, BigInt(Math.round(value)));
+}
+
+export const CERTIFIED_WASM_CORE_ROOT_NAMES = ${JSON.stringify(autoCoreRoots.map((r) => r.defName))} as const;
+
+${autoTsWrappers}
 `;
 }
 
@@ -1323,6 +1501,19 @@ export class CertifiedRustRunner {
     const wSpec = weights.map((w) => `${w.strategy}|${w.family}|${Math.floor(w.value)}`).join(';');
     return this.invokeJson(['schedule', wSpec, family, applicable.join(',')]);
   }
+
+  evalCoreRoot(
+    selector: string,
+    args: ReadonlyArray<number | bigint | boolean>,
+  ): { root: string; value: string | boolean; work: number } {
+    const serialized = args.map((a) => {
+      if (typeof a === 'boolean') return a ? '1' : '0';
+      if (typeof a === 'bigint') return (a <= 0n ? 0n : BigInt.asUintN(64, a)).toString();
+      if (!Number.isFinite(a) || a <= 0) return '0';
+      return BigInt.asUintN(64, BigInt(Math.round(a))).toString();
+    });
+    return this.invokeJson(['eval-core', selector, ...serialized]);
+  }
 }
 
 export interface CertifiedEngineStageResult {
@@ -1404,10 +1595,11 @@ export async function runCertifiedEngineTick(
       const noStdCount = rootSummaries.filter((s) => s.targetId === 'rust-core' && s.isNoStd).length;
       const stdCount = rootSummaries.filter((s) => s.targetId === 'rust-std').length;
       const ok =
-        rootSummaries.length === 8 &&
+        rootSummaries.length === catalogRoots.length &&
+        rootSummaries.length >= 8 &&
         rootSummaries.every((s) => s.certificationStatus === 'kernel-checked' && s.forbidsUnsafeCode) &&
-        noStdCount === 5 &&
-        stdCount === 3;
+        noStdCount >= 5 &&
+        stdCount >= 3;
       if (!ok) {
         throw new NoCertifiedRootError('Certified bundle failed kernel-checked / forbid(unsafe_code) audit');
       }

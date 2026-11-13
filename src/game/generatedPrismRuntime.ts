@@ -2578,18 +2578,6 @@ export function Foundation_Mathematics_V1_Model_breaksEulerPoincarePlatonicAndTo
   return (() => { const ico = Foundation_Mathematics_V1_Model_eulerPoincareBiasedCharacteristic(12n, 30n, 20n); const tor = Foundation_Mathematics_V1_Model_eulerPoincareBiasedCharacteristic(16n, 32n, 16n); return ((probe <= 0n) && (((ico < 18n) || (18n < ico)) || ((tor < 16n) || (16n < tor)))); })();
 }
 
-export function Foundation_Mathematics_V1_Model_breaksExteriorDerivativeNilpotency(residual: bigint): boolean {
-  return ((residual === Foundation_Mathematics_V1_Model_exteriorNilpotentResidual()) && (0n < residual));
-}
-
-export function Foundation_Mathematics_V1_Model_breaksMathematicsNeuromorphicCoupling(busWeight: bigint): boolean {
-  return ((Foundation_Mathematics_V1_Model_stepMathematicsBusModulation(busWeight) < 1056n) || ((1536n < Foundation_Mathematics_V1_Model_stepMathematicsBusModulation(busWeight)) || (Foundation_Mathematics_V1_Model_stepMathematicsBusModulation(Foundation_Neuromorphic_V1_Model_transferWeightCrossDomain(busWeight, true)) < Foundation_Mathematics_V1_Model_stepMathematicsBusModulation(busWeight))));
-}
-
-export function Foundation_Mathematics_V1_Model_breaksMathematicsDescriptorComplete(probe: bigint): boolean {
-  return ((probe === 0n) && (!Foundation_MetaModel_V1_Model_verifyCanonicalModelDescriptorComplete(Foundation_Mathematics_V1_Model_mathematicsCanonicalDescriptor())));
-}
-
 let _c_Foundation_Physics_V1_Model_verdantWadingSpeedPct: bigint | undefined;
 export function Foundation_Physics_V1_Model_verdantWadingSpeedPct(): bigint {
   return _c_Foundation_Physics_V1_Model_verdantWadingSpeedPct !== undefined ? _c_Foundation_Physics_V1_Model_verdantWadingSpeedPct : (_c_Foundation_Physics_V1_Model_verdantWadingSpeedPct = 76n);
@@ -3007,7 +2995,7 @@ export function Foundation_Anamnesis_V1_Model_verdantAnamnesisStandard(): Founda
 }
 
 export function Foundation_Anamnesis_V1_Model_breaksLosslessMerkleRoundTripAndChunkBudget(digest: bigint, drift: bigint): boolean {
-  return (((drift === Foundation_Anamnesis_V1_Model_persistenceRoundTripDriftZero()) && (0n < drift)) || ((!Foundation_Anamnesis_V1_Model_verifyLosslessMerkleRoundTrip(digest, digest)) || (!Foundation_Anamnesis_V1_Model_verifyModularColdLoadChunkGate(340n, 3n))));
+  return (((drift === Foundation_Anamnesis_V1_Model_persistenceRoundTripDriftZero()) && (0n < drift)) || (((digest < digest) || (Foundation_Anamnesis_V1_Model_persistenceRoundTripDriftZero() < 0n)) || (Foundation_Anamnesis_V1_Model_maxInitialAppChunkKb() < 340n)));
 }
 
 export function Foundation_Anamnesis_V1_Model_breaksConsolidatedMemoryHorizonMonotonic(busWeight: bigint): boolean {
@@ -3085,7 +3073,7 @@ export function Foundation_Articulation_V1_Model_breaksArticulationNeuromorphicC
 }
 
 export function Foundation_Articulation_V1_Model_breaksThreeJointKinematicHierarchy(busWeight: bigint): boolean {
-  return (((Foundation_Neuromorphic_V1_Model_weightMin() <= busWeight) && (busWeight < Foundation_Neuromorphic_V1_Model_weightMax())) && (!Foundation_Articulation_V1_Model_verifyThreeJointKinematicHierarchy(busWeight)));
+  return ((Foundation_Articulation_V1_Model_stepMidCulmFlexureMilli(busWeight) <= Foundation_Articulation_V1_Model_stepBasalJointTorqueMilli(busWeight)) || ((Foundation_Articulation_V1_Model_stepApicalCorollaGimbalMilli(busWeight) <= Foundation_Articulation_V1_Model_stepMidCulmFlexureMilli(busWeight)) || (((Foundation_Neuromorphic_V1_Model_weightMin() <= busWeight) && (busWeight < Foundation_Neuromorphic_V1_Model_weightMax())) && (Foundation_Articulation_V1_Model_stepApicalCorollaGimbalMilli(Foundation_Neuromorphic_V1_Model_transferWeightCrossDomain(busWeight, true)) <= Foundation_Articulation_V1_Model_stepApicalCorollaGimbalMilli(busWeight)))));
 }
 
 let _c_Foundation_Articulation_V1_Model_articulationCanonicalDescriptor: Foundation_MetaModel_V1_Model_CanonicalStandardModelDescriptor | undefined;
@@ -3283,7 +3271,7 @@ export function Foundation_Botany_V1_Model_breaksBotanyNeuromorphicCoupling(busW
 }
 
 export function Foundation_Botany_V1_Model_breaksHighDefinitionBMeshSynthesis(busWeight: bigint): boolean {
-  return (((Foundation_Neuromorphic_V1_Model_weightMin() <= busWeight) && (busWeight < Foundation_Neuromorphic_V1_Model_weightMax())) && (!Foundation_Botany_V1_Model_verifyHighDefinitionBMeshSynthesis(busWeight)));
+  return ((Foundation_Botany_V1_Model_stepBMeshSubdivisionDensity(busWeight) < 272n) || ((Foundation_Botany_V1_Model_stepThinFilmIridescenceSpanNm(busWeight) <= Foundation_Botany_V1_Model_stepBMeshSubdivisionDensity(busWeight)) || (((Foundation_Neuromorphic_V1_Model_weightMin() <= busWeight) && (busWeight < Foundation_Neuromorphic_V1_Model_weightMax())) && (Foundation_Botany_V1_Model_stepBMeshSubdivisionDensity(Foundation_Neuromorphic_V1_Model_transferWeightCrossDomain(busWeight, true)) <= Foundation_Botany_V1_Model_stepBMeshSubdivisionDensity(busWeight)))));
 }
 
 let _c_Foundation_Botany_V1_Model_verdantFvcbBiochemistryStandard: Foundation_Botany_V1_Model_FvcbPhotosynthesisAndBioluminescenceSpec | undefined;
@@ -3880,7 +3868,7 @@ export function Foundation_Ecology_V1_Model_verifyCompleteGranularSynthesisClosu
 }
 
 export function Foundation_Ecology_V1_Model_stepMicroclimateIso9613ClarityPermille(busWeight: bigint, phCenti: bigint): bigint {
-  return ((700n + _natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 14n)) + (((phCenti <= Foundation_Ecology_V1_Model_verdantMaxPhCenti()) && (Foundation_Ecology_V1_Model_verdantMinPhCenti() <= phCenti)) ? 45n : 15n));
+  return ((700n + _natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 14n)) + ((phCenti <= Foundation_Ecology_V1_Model_verdantMaxPhCenti()) ? ((Foundation_Ecology_V1_Model_verdantMinPhCenti() <= phCenti) ? 45n : 15n) : 15n));
 }
 
 export function Foundation_Ecology_V1_Model_stepRayleighOpticalTransmittancePermille(busWeight: bigint): bigint {
@@ -3905,11 +3893,11 @@ export function Foundation_Ecology_V1_Model_breaksEcologyNeuromorphicCoupling(bu
 }
 
 export function Foundation_Ecology_V1_Model_breaksGranularAtomicToEnvironmentalSynthesis(busWeight: bigint): boolean {
-  return (((Foundation_Neuromorphic_V1_Model_weightMin() <= busWeight) && (busWeight < Foundation_Neuromorphic_V1_Model_weightMax())) && (!Foundation_Ecology_V1_Model_verifyGranularAtomicToEnvironmentalChain(busWeight)));
+  return ((Foundation_Ecology_V1_Model_stepMolecularBondCoherence(busWeight) <= Foundation_Ecology_V1_Model_stepAtomicValenceActivity(busWeight)) || ((Foundation_Ecology_V1_Model_stepMacromolecularPolymerization(busWeight) <= Foundation_Ecology_V1_Model_stepMolecularBondCoherence(busWeight)) || ((Foundation_Ecology_V1_Model_stepCompoundManifestation(busWeight) <= Foundation_Ecology_V1_Model_stepMacromolecularPolymerization(busWeight)) || ((Foundation_Ecology_V1_Model_stepEnvironmentalModalSynthesis(busWeight) <= Foundation_Ecology_V1_Model_stepCompoundManifestation(busWeight)) || (((Foundation_Neuromorphic_V1_Model_weightMin() <= busWeight) && (busWeight < Foundation_Neuromorphic_V1_Model_weightMax())) && (Foundation_Ecology_V1_Model_stepEnvironmentalModalSynthesis(Foundation_Neuromorphic_V1_Model_transferWeightCrossDomain(busWeight, true)) <= Foundation_Ecology_V1_Model_stepEnvironmentalModalSynthesis(busWeight)))))));
 }
 
 export function Foundation_Ecology_V1_Model_breaksClosedLoopAtomicRemineralization(busWeight: bigint): boolean {
-  return (((Foundation_Neuromorphic_V1_Model_weightMin() <= busWeight) && (busWeight < Foundation_Neuromorphic_V1_Model_weightMax())) && (!Foundation_Ecology_V1_Model_verifyCompleteGranularSynthesisClosure(busWeight)));
+  return (Foundation_Ecology_V1_Model_breaksGranularAtomicToEnvironmentalSynthesis(busWeight) || ((Foundation_Ecology_V1_Model_stepAtomicRemineralizationFlux(busWeight) <= Foundation_Ecology_V1_Model_stepEnvironmentalModalSynthesis(busWeight)) || ((Foundation_Ecology_V1_Model_stepAtomicRemineralizationFlux(busWeight) <= Foundation_Ecology_V1_Model_stepAtomicValenceActivity(busWeight)) || (((Foundation_Neuromorphic_V1_Model_weightMin() <= busWeight) && (busWeight < Foundation_Neuromorphic_V1_Model_weightMax())) && (Foundation_Ecology_V1_Model_stepAtomicRemineralizationFlux(Foundation_Neuromorphic_V1_Model_transferWeightCrossDomain(busWeight, true)) <= Foundation_Ecology_V1_Model_stepAtomicRemineralizationFlux(busWeight))))));
 }
 
 let _c_Foundation_Ecology_V1_Model_ecologyCanonicalDescriptor: Foundation_MetaModel_V1_Model_CanonicalStandardModelDescriptor | undefined;
@@ -3922,7 +3910,7 @@ export function Foundation_Ecology_V1_Model_breaksEcologyDescriptorComplete(prob
 }
 
 export function Foundation_Ecology_V1_Model_breaksEcologyMicroclimateMultiModalTransfer(w1: bigint, w2: bigint): boolean {
-  return (((w1 <= w2) && ((Foundation_Ecology_V1_Model_stepMicroclimateIso9613ClarityPermille(w2, 680n) < Foundation_Ecology_V1_Model_stepMicroclimateIso9613ClarityPermille(w1, 680n)) || (Foundation_Ecology_V1_Model_stepRayleighOpticalTransmittancePermille(w2) < Foundation_Ecology_V1_Model_stepRayleighOpticalTransmittancePermille(w1)))) || ((Foundation_Ecology_V1_Model_stepMicroclimateIso9613ClarityPermille(8n, 680n) <= Foundation_Ecology_V1_Model_stepMicroclimateIso9613ClarityPermille(8n, 400n)) || (1000n < Foundation_Ecology_V1_Model_stepMicroclimateIso9613ClarityPermille(w2, 680n))));
+  return ((((w1 <= w2) && (Foundation_Ecology_V1_Model_stepMicroclimateIso9613ClarityPermille(w2, 680n) < Foundation_Ecology_V1_Model_stepMicroclimateIso9613ClarityPermille(w1, 680n))) || ((w1 <= w2) && (Foundation_Ecology_V1_Model_stepRayleighOpticalTransmittancePermille(w2) < Foundation_Ecology_V1_Model_stepRayleighOpticalTransmittancePermille(w1)))) || ((Foundation_Ecology_V1_Model_stepMicroclimateIso9613ClarityPermille(8n, 680n) <= Foundation_Ecology_V1_Model_stepMicroclimateIso9613ClarityPermille(8n, 400n)) || (1000n < Foundation_Ecology_V1_Model_stepMicroclimateIso9613ClarityPermille(w2, 680n))));
 }
 
 let _c_Foundation_Soundtrack_V1_Model_maxLifecycleStage: bigint | undefined;
@@ -4031,7 +4019,7 @@ export function Foundation_Soundtrack_V1_Model_breaksSoundtrackDescriptorComplet
 }
 
 export function Foundation_Soundtrack_V1_Model_breaksObserverCuratedVoiceLeadingAndPurity(stepDist: bigint, gradus: bigint, rests: bigint): boolean {
-  return ((((((2n < stepDist) || ((12n < gradus) || (rests < 6n))) && Foundation_Soundtrack_V1_Model_verifyObserverCuratedVoiceLeading(stepDist, gradus, rests)) || (!Foundation_Soundtrack_V1_Model_verifyObserverCuratedVoiceLeading(1n, 4n, 6n))) || (Foundation_Soundtrack_V1_Model_verifyPureHarmonicOvertonesAndZeroRandomness(1n, 0n) || (!Foundation_Soundtrack_V1_Model_verifyPureHarmonicOvertonesAndZeroRandomness(0n, 0n)))) || (Foundation_Soundtrack_V1_Model_stepCuratedConsonancePurityPermille(16n, 100n) <= Foundation_Soundtrack_V1_Model_stepCuratedConsonancePurityPermille(8n, 50n)));
+  return ((((((2n < stepDist) && Foundation_Soundtrack_V1_Model_verifyObserverCuratedVoiceLeading(stepDist, gradus, rests)) || (((12n < gradus) && Foundation_Soundtrack_V1_Model_verifyObserverCuratedVoiceLeading(stepDist, gradus, rests)) || ((rests < 6n) && Foundation_Soundtrack_V1_Model_verifyObserverCuratedVoiceLeading(stepDist, gradus, rests)))) || ((Foundation_Soundtrack_V1_Model_maxCuratedMelodicStepLeap() < 1n) || ((Foundation_Soundtrack_V1_Model_eulerGradusConsonanceCeiling() < 4n) || (6n < Foundation_Soundtrack_V1_Model_minRestStepsPerBar())))) || (Foundation_Soundtrack_V1_Model_verifyPureHarmonicOvertonesAndZeroRandomness(1n, 0n) || ((Foundation_Soundtrack_V1_Model_pureHarmonicOvertoneCentsDriftZero() < 0n) || (Foundation_Soundtrack_V1_Model_stochasticRandomTriggerCountZero() < 0n)))) || (Foundation_Soundtrack_V1_Model_stepCuratedConsonancePurityPermille(16n, 100n) <= Foundation_Soundtrack_V1_Model_stepCuratedConsonancePurityPermille(8n, 50n)));
 }
 
 export function Foundation_Soundtrack_V1_Model_breaksPrimeLimitHarmonicCeilingMonotonic(w1: bigint, w2: bigint): boolean {
@@ -4278,7 +4266,7 @@ export function Foundation_Morphogenesis_V1_Model_verdantMorphogenesisStandard()
 }
 
 export function Foundation_Morphogenesis_V1_Model_breaksMurrayCubicVascularConservation(rCubed: bigint, tol: bigint): boolean {
-  return ((0n <= tol) && (!Foundation_Morphogenesis_V1_Model_verifyMurrayCubicConservation(rCubed, rCubed, tol)));
+  return (tol < _natSub(rCubed, rCubed));
 }
 
 export function Foundation_Morphogenesis_V1_Model_breaksLSystemTopologicalGrowthMonotonic(baseOrgans: bigint, stageIdx: bigint, busWeight: bigint): boolean {
@@ -4692,7 +4680,7 @@ export function Foundation_Vedanta_V1_Model_verdantVedantaStandard(): Foundation
 }
 
 export function Foundation_Vedanta_V1_Model_breaksTrigunaExactConservationThousandPermille(busWeight: bigint, harmonyPct: bigint, velocityDm: bigint): boolean {
-  return (!Foundation_Vedanta_V1_Model_verifyTrigunaConservationLaw(busWeight, harmonyPct, velocityDm));
+  return (() => { const s = Foundation_Vedanta_V1_Model_stepSattvaClarityPermille(busWeight, harmonyPct, velocityDm); const r = Foundation_Vedanta_V1_Model_stepRajasActivityPermille(velocityDm); const t = Foundation_Vedanta_V1_Model_stepTamasGroundingPermille(busWeight, harmonyPct, velocityDm); return ((Foundation_Vedanta_V1_Model_trigunaConservationUnitPermille() < ((s + r) + t)) || ((((s + r) + t) < Foundation_Vedanta_V1_Model_trigunaConservationUnitPermille()) || ((s < 236n) || ((r < 60n) || (t < 44n))))); })();
 }
 
 export function Foundation_Vedanta_V1_Model_breaksPancaKosaMahavakyaAndPancikaranaClosure(probe: bigint): boolean {
@@ -6998,9 +6986,6 @@ export const PRISM_COMPILED_MODULES = {
     "mathematicsCanonicalDescriptor": Foundation_Mathematics_V1_Model_mathematicsCanonicalDescriptor,
     "verdantMathematicsStandard": Foundation_Mathematics_V1_Model_verdantMathematicsStandard,
     "breaksEulerPoincarePlatonicAndTorus": Foundation_Mathematics_V1_Model_breaksEulerPoincarePlatonicAndTorus,
-    "breaksExteriorDerivativeNilpotency": Foundation_Mathematics_V1_Model_breaksExteriorDerivativeNilpotency,
-    "breaksMathematicsNeuromorphicCoupling": Foundation_Mathematics_V1_Model_breaksMathematicsNeuromorphicCoupling,
-    "breaksMathematicsDescriptorComplete": Foundation_Mathematics_V1_Model_breaksMathematicsDescriptorComplete,
   },
   "Foundation.Physics.V1.Model": {
     "verdantWadingSpeedPct": Foundation_Physics_V1_Model_verdantWadingSpeedPct,
@@ -8013,12 +7998,12 @@ export const PRISM_COMPILED_MODULES = {
 export type PrismCompiledModuleName = keyof typeof PRISM_COMPILED_MODULES;
 
 export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
-  "sourceTreeDigestSha256": "b5244113c72b8218b084ccaa8694590b48e58391f22f9701b3b9c861db8ae2b6",
+  "sourceTreeDigestSha256": "18eb1d32a30fac743eb22645e1c610ca88c4696f0e63f73724214acd70ddf00d",
   "moduleCount": 28,
   "inductiveCount": 2,
   "structureCount": 162,
-  "definitionCount": 1126,
-  "theoremCount": 183,
+  "definitionCount": 1123,
+  "theoremCount": 180,
   "modules": [
     {
       "moduleName": "Foundation.MetaModel.V1.Model",
@@ -8046,8 +8031,8 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       ],
       "inductiveCount": 0,
       "structureCount": 4,
-      "definitionCount": 15,
-      "theoremCount": 4
+      "definitionCount": 12,
+      "theoremCount": 1
     },
     {
       "moduleName": "Foundation.Physics.V1.Model",
@@ -8772,39 +8757,6 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
     {
       "moduleName": "Foundation.Mathematics.V1.Model",
       "name": "breaksEulerPoincarePlatonicAndTorus",
-      "parameters": [
-        {
-          "name": "probe",
-          "lexType": "Nat"
-        }
-      ],
-      "resultType": "Bool"
-    },
-    {
-      "moduleName": "Foundation.Mathematics.V1.Model",
-      "name": "breaksExteriorDerivativeNilpotency",
-      "parameters": [
-        {
-          "name": "residual",
-          "lexType": "Nat"
-        }
-      ],
-      "resultType": "Bool"
-    },
-    {
-      "moduleName": "Foundation.Mathematics.V1.Model",
-      "name": "breaksMathematicsNeuromorphicCoupling",
-      "parameters": [
-        {
-          "name": "busWeight",
-          "lexType": "Nat"
-        }
-      ],
-      "resultType": "Bool"
-    },
-    {
-      "moduleName": "Foundation.Mathematics.V1.Model",
-      "name": "breaksMathematicsDescriptorComplete",
       "parameters": [
         {
           "name": "probe",

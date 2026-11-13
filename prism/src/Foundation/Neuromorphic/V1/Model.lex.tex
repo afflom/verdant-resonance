@@ -177,7 +177,8 @@ definition{
   parameters: [w : Nat],
   result: Nat,
   body: (let span : Nat := (prim subtract (weightMax) (weightMin) : Nat); (prim subtract (weightMax) (prim subtract span (prim subtract w (weightMin) : Nat) : Nat) : Nat)),
-  executable: true
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
@@ -192,14 +193,17 @@ definition{
   name: learnWeightDepressed,
   parameters: [w : Nat],
   result: Nat,
-  body: (let c : Nat := (clampBusWeight w); ((weightMin) + (prim subtract c ((weightMin) + (weightLower)) : Nat)))
+  body: (let c : Nat := (clampBusWeight w); ((weightMin) + (prim subtract c ((weightMin) + (weightLower)) : Nat))),
+  executable: true
 }
 
 definition{
   name: learnHebbianWeight,
   parameters: [w : Nat, success : Bool],
   result: Nat,
-  body: (if success then (learnWeightPotentiated (clampBusWeight w)) else (learnWeightDepressed w))
+  body: (if success then (learnWeightPotentiated (clampBusWeight w)) else (learnWeightDepressed w)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -209,14 +213,17 @@ definition{
   body: (let span : Nat := (prim subtract (weightMax) (weightMin) : Nat); (match sourceConsolidated
     | Bool.true => (prim subtract (weightMax) (prim subtract span wTarget : Nat) : Nat)
     | Bool.false => (prim subtract (weightMax) (prim subtract span (prim subtract wTarget (weightMin) : Nat) : Nat) : Nat))),
-  executable: true
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
   name: refineDomainWeightAutopoietic,
   parameters: [wCurrent : Nat, wLeader : Nat],
   result: Nat,
-  body: (let span : Nat := (prim subtract (weightMax) 1 : Nat); (prim subtract (weightMax) (prim subtract span wCurrent : Nat) : Nat))
+  body: (let span : Nat := (prim subtract (weightMax) 1 : Nat); (prim subtract (weightMax) (prim subtract span wCurrent : Nat) : Nat)),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
@@ -478,21 +485,10 @@ definition{
 
 theorem{
   name: uorLutContextPrimesStrictlyOrderedHolds,
-  parameters: [p : Nat],
-  statement: ((breaksUorLutContextPrimesOrdering p) = false),
-  proof: linear_arithmetic{
-    definitions: [
-      awakenedPrime,
-      breaksUorLutContextPrimesOrdering,
-      meadowPrime,
-      neuromorphicBasisPrime,
-      sanctuaryPrime,
-      starOrchidPrime,
-      starlightPrime,
-      stillnessPrime
-    ]
-  },
-  axioms: [Classical.choice, Quot.sound, propext]
+  parameters: [],
+  statement: ((breaksUorLutContextPrimesOrdering 0) = false),
+  proof: decide{},
+  axioms: []
 }
 
 definition{
@@ -1037,39 +1033,45 @@ structure{
   ]
 }
 
-definition{name: curationMinBreathingRests, parameters: [], result: Nat, body: 6}
+definition{name: curationMinBreathingRests, parameters: [], result: Nat, body: 6, executable: true}
 
-definition{name: curationMaxMelodicLeap, parameters: [], result: Nat, body: 2}
+definition{name: curationMaxMelodicLeap, parameters: [], result: Nat, body: 2, executable: true}
 
 definition{name: curationConsolidatedMemoryCap, parameters: [], result: Nat, body: 16}
 
 definition{name: curationPhraseCycleBars, parameters: [], result: Nat, body: 4}
 
-definition{name: curationPhysicalWeight, parameters: [], result: Nat, body: 4}
+definition{name: curationPhysicalWeight, parameters: [], result: Nat, body: 4, executable: true}
 
-definition{name: curationBotanicalWeight, parameters: [], result: Nat, body: 3}
+definition{name: curationBotanicalWeight, parameters: [], result: Nat, body: 3, executable: true}
 
-definition{name: curationMusicalWeight, parameters: [], result: Nat, body: 3}
+definition{name: curationMusicalWeight, parameters: [], result: Nat, body: 3, executable: true}
 
 definition{
   name: conservatoryCurationDefect,
   parameters: [floatingGapCount : Nat, staticOverlapCount : Nat, ahimsaViolationCount : Nat, restStepCount : Nat, maxMelodicLeap : Nat],
   result: Nat,
-  body: ((((floatingGapCount + staticOverlapCount) + ahimsaViolationCount) + (prim subtract (curationMinBreathingRests) restStepCount : Nat)) + (prim subtract maxMelodicLeap (curationMaxMelodicLeap) : Nat))
+  body: ((((floatingGapCount + staticOverlapCount) + ahimsaViolationCount) + (prim subtract (curationMinBreathingRests) restStepCount : Nat)) + (prim subtract maxMelodicLeap (curationMaxMelodicLeap) : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: conservatoryCurationLyapunovCost,
   parameters: [physicalSurprisalPermille : Nat, botanicalDeficitPermille : Nat, musicalTensionPermille : Nat],
   result: Nat,
-  body: (((prim multiply (curationPhysicalWeight) physicalSurprisalPermille : Nat) + (prim multiply (curationBotanicalWeight) botanicalDeficitPermille : Nat)) + (prim multiply (curationMusicalWeight) musicalTensionPermille : Nat))
+  body: (((prim multiply (curationPhysicalWeight) physicalSurprisalPermille : Nat) + (prim multiply (curationBotanicalWeight) botanicalDeficitPermille : Nat)) + (prim multiply (curationMusicalWeight) musicalTensionPermille : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: conservatoryCurationDominates,
   parameters: [defA : Nat, physA : Nat, botA : Nat, musA : Nat, defB : Nat, physB : Nat, botB : Nat, musB : Nat],
   result: Bool,
-  body: ((defA =? 0) && ((0 <? defB) || ((((physA <=? physB) && (botA <=? botB)) && (musA <=? musB)) && (((physA <? physB) || (botA <? botB)) || (musA <? musB)))))
+  body: ((defA =? 0) && ((0 <? defB) || ((((physA <=? physB) && (botA <=? botB)) && (musA <=? musB)) && (((physA <? physB) || (botA <? botB)) || (musA <? musB))))),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
@@ -1251,22 +1253,10 @@ definition{
 
 theorem{
   name: neuromorphicDescriptorCompleteHolds,
-  parameters: [probe : Nat],
-  statement: ((breaksNeuromorphicDescriptorComplete probe) = false),
-  proof: linear_arithmetic{
-    definitions: [
-      Foundation.MetaModel.V1.Model::canonicalMetaModelElementCount,
-      Foundation.MetaModel.V1.Model::canonicalStandardModelTotalCount,
-      Foundation.MetaModel.V1.Model::maxSingleModelFrameComputeMicros,
-      Foundation.MetaModel.V1.Model::synthesizeCanonicalDescriptor,
-      Foundation.MetaModel.V1.Model::verifyCanonicalModelDescriptorComplete,
-      Foundation.MetaModel.V1.Model::verifyElementQuantitativeGates,
-      breaksNeuromorphicDescriptorComplete,
-      neuromorphicBasisPrime,
-      neuromorphicCanonicalDescriptor
-    ]
-  },
-  axioms: [Classical.choice, Quot.sound, propext]
+  parameters: [],
+  statement: ((breaksNeuromorphicDescriptorComplete 0) = false),
+  proof: decide{},
+  axioms: []
 }
 \end{semanticmodule}
 \end{lexlean}

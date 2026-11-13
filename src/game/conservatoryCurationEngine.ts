@@ -26,6 +26,13 @@
  */
 
 import { GENERATED_PRISM_STANDARDS } from './generatedPrismConstants';
+import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
+import {
+  certifiedWasmCore_conservatoryCurationDefect,
+  certifiedWasmCore_conservatoryCurationDominates,
+  certifiedWasmCore_conservatoryCurationLyapunovCost,
+  isCertifiedWasmReady,
+} from './generatedCertifiedWasmBridge';
 import {
   RULE30_SEED64,
   excessOverThreshold as computeExcessOver,
@@ -34,6 +41,8 @@ import {
   stepRule30Ring64,
   type ClaimHonestyLevel as HonestyStanding,
 } from './parametricCompressionEngine';
+
+const _LexNeuroCuration = PRISM_COMPILED_MODULES['Foundation.Neuromorphic.V1.Model'];
 
 export type CurationBiomeId = 'meadow' | 'grove' | 'crystal' | 'wetland' | 'sanctuary';
 
@@ -413,61 +422,34 @@ export function computeConservatoryCurationDefect(params: {
   readonly restStepCount: number;
   readonly maxMelodicLeap: number;
 }): number {
-  const minRests =
-    GENERATED_PRISM_STANDARDS.autonomousConservatoryCuration?.minBreathingRestSteps ?? 6;
-  const maxLeap =
-    GENERATED_PRISM_STANDARDS.autonomousConservatoryCuration?.maxStepwiseMelodicLeap ?? 2;
-
-  const floating = Math.max(0, Math.floor(params.floatingGapCount));
-  const overlap = Math.max(0, Math.floor(params.staticOverlapCount));
-  const ahimsa = Math.max(0, Math.floor(params.ahimsaViolationCount));
-  const restLack = computeLackUnder(minRests, Math.max(0, Math.floor(params.restStepCount)));
-  const leapExcess = computeExcessOver(maxLeap, Math.max(0, Math.floor(params.maxMelodicLeap)));
-
-  return floating + overlap + ahimsa + restLack + leapExcess;
+  const { floatingGapCount: f, staticOverlapCount: o, ahimsaViolationCount: a, restStepCount: r, maxMelodicLeap: m } = params;
+  return isCertifiedWasmReady()
+    ? certifiedWasmCore_conservatoryCurationDefect(Math.floor(f), Math.floor(o), Math.floor(a), Math.floor(r), Math.floor(m))
+    : Number(_LexNeuroCuration.conservatoryCurationDefect(toPrismNat(f), toPrismNat(o), toPrismNat(a), toPrismNat(r), toPrismNat(m)));
 }
 
-/**
- * Exact runtime mirror of `Foundation.Neuromorphic.V1.Model::conservatoryCurationLyapunovCost`:
- * `4 * physicalSurprisalPermille + 3 * botanicalDeficitPermille + 3 * musicalTensionPermille`.
- */
+/** Exact runtime mirror of `Foundation.Neuromorphic.V1.Model::conservatoryCurationLyapunovCost`. */
 export function computeConservatoryCurationLyapunovCost(
   physicalSurprisalPermille: number,
   botanicalDeficitPermille: number,
   musicalTensionPermille: number,
 ): number {
-  const wPhys = GENERATED_PRISM_STANDARDS.autonomousConservatoryCuration?.physicalWeightFactor ?? 4;
-  const wBot = GENERATED_PRISM_STANDARDS.autonomousConservatoryCuration?.botanicalWeightFactor ?? 3;
-  const wMus = GENERATED_PRISM_STANDARDS.autonomousConservatoryCuration?.musicalWeightFactor ?? 3;
-
-  return (
-    wPhys * Math.max(0, Math.round(physicalSurprisalPermille)) +
-    wBot * Math.max(0, Math.round(botanicalDeficitPermille)) +
-    wMus * Math.max(0, Math.round(musicalTensionPermille))
-  );
+  const [p, b, m] = [Math.round(physicalSurprisalPermille), Math.round(botanicalDeficitPermille), Math.round(musicalTensionPermille)];
+  return isCertifiedWasmReady()
+    ? certifiedWasmCore_conservatoryCurationLyapunovCost(p, b, m)
+    : Number(_LexNeuroCuration.conservatoryCurationLyapunovCost(toPrismNat(p), toPrismNat(b), toPrismNat(m)));
 }
 
-/**
- * Exact runtime mirror of `Foundation.Neuromorphic.V1.Model::conservatoryCurationDominates`:
- * Candidate `cand` strictly dominates incumbent `inc` iff `cand.defect === 0` and either
- * `inc.defect > 0` or `cand` is `<=` on all 3 domain objectives and strictly `<` on at least one.
- * Provably implies `cand.lyapunovCost < inc.lyapunovCost` (`conservatoryCurationDominanceAndLyapunovHold`).
- */
+/** Exact runtime mirror of `Foundation.Neuromorphic.V1.Model::conservatoryCurationDominates`. */
 export function conservatoryCurationDominates(
   cand: ConservatoryCurationEvaluation,
   inc: ConservatoryCurationEvaluation,
 ): boolean {
-  if (cand.defect !== 0) return false;
-  if (inc.defect > 0) return true;
-  const leAll =
-    cand.physicalSurprisalPermille <= inc.physicalSurprisalPermille &&
-    cand.botanicalDeficitPermille <= inc.botanicalDeficitPermille &&
-    cand.musicalTensionPermille <= inc.musicalTensionPermille;
-  const ltSome =
-    cand.physicalSurprisalPermille < inc.physicalSurprisalPermille ||
-    cand.botanicalDeficitPermille < inc.botanicalDeficitPermille ||
-    cand.musicalTensionPermille < inc.musicalTensionPermille;
-  return leAll && ltSome;
+  const [dA, pA, bA, mA] = [cand.defect, cand.physicalSurprisalPermille, cand.botanicalDeficitPermille, cand.musicalTensionPermille];
+  const [dB, pB, bB, mB] = [inc.defect, inc.physicalSurprisalPermille, inc.botanicalDeficitPermille, inc.musicalTensionPermille];
+  return isCertifiedWasmReady()
+    ? certifiedWasmCore_conservatoryCurationDominates(dA, pA, bA, mA, dB, pB, bB, mB)
+    : _LexNeuroCuration.conservatoryCurationDominates(toPrismNat(dA), toPrismNat(pA), toPrismNat(bA), toPrismNat(mA), toPrismNat(dB), toPrismNat(pB), toPrismNat(bB), toPrismNat(mB));
 }
 
 /**

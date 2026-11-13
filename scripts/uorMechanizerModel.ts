@@ -297,7 +297,7 @@ function classifyFunctionRouteAndLift(fn: ExtractedTsFunction): {
   // 3. Pure functions delegating directly to compiled LexLean definitions or AST-extracted formal tables (`lifted`)
   const lexModule = FILE_LEXLEAN_BINDING[fn.relPath] ?? 'VerdantResonance';
   const compiledCallMatch = body.match(
-    /\b(certifiedWasm[A-Za-z0-9_]+|Compiled[A-Za-z0-9_]+\.[A-Za-z0-9_]+|PRISM_COMPILED_MODULES\[[^\]]+\]\.[A-Za-z0-9_]+|dispatchPrismTextRequest|decodePrismTextRequest)\b/,
+    /\b(certifiedWasm[A-Za-z0-9_]+|(?:Compiled[A-Za-z0-9_]+|_Lex[A-Z][A-Za-z0-9_]*)\.[A-Za-z0-9_]+|PRISM_COMPILED_MODULES\[[^\]]+\]\.[A-Za-z0-9_]+|dispatchPrismTextRequest|decodePrismTextRequest)\b/,
   );
   if (compiledCallMatch) {
     return {

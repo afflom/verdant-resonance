@@ -1,22 +1,60 @@
 spec = "prismpm/runtime-roots/1"
-lean_modules = ["PrismVerdantResonance.Foundation.Compression.V1.Model", "PrismVerdantResonance.Foundation.Mechanization.V1.Model", "PrismVerdantResonance.Foundation.Teleology.V1.Model", "PrismVerdantResonance.VerdantResonance"]
+lean_modules = ["PrismVerdantResonance.Foundation.Compression.V1.Model", "PrismVerdantResonance.Foundation.Ecology.V1.Model", "PrismVerdantResonance.Foundation.Mechanization.V1.Model", "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model", "PrismVerdantResonance.Foundation.Soundtrack.V1.Model", "PrismVerdantResonance.Foundation.Teleology.V1.Model", "PrismVerdantResonance.VerdantResonance"]
 ir_module = "PrismVerdantResonance"
 roots = [
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.dominates",
   "PrismVerdantResonance.Foundation.Compression.V1.Model.rule30Step",
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.ulebLength",
+  "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepEcologyBusModulation",
+  "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepMicroclimateIso9613ClarityPermille",
   "PrismVerdantResonance.Foundation.Mechanization.V1.Model.admitLiftKappaTransition",
   "PrismVerdantResonance.Foundation.Mechanization.V1.Model.classifyFoundryTagMask",
   "PrismVerdantResonance.Foundation.Mechanization.V1.Model.decideHypothesisMint",
   "PrismVerdantResonance.Foundation.Mechanization.V1.Model.learnAll",
   "PrismVerdantResonance.Foundation.Mechanization.V1.Model.schedule",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.clampBusWeight",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.conservatoryCurationDefect",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.conservatoryCurationDominates",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.conservatoryCurationLyapunovCost",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.learnHebbianWeight",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.refineDomainWeightAutopoietic",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.transferWeightCrossDomain",
+  "PrismVerdantResonance.Foundation.Soundtrack.V1.Model.advanceLifecycleStage",
+  "PrismVerdantResonance.Foundation.Soundtrack.V1.Model.stepCuratedConsonancePurityPermille",
+  "PrismVerdantResonance.Foundation.Soundtrack.V1.Model.stepPrimeLimitHarmonicCeiling",
   "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepTriadicPlayerGameObserverCoherencePermille",
   "PrismVerdantResonance.VerdantResonance.dispatch",
 ]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.dominates"
+package = "verdant_compression_dominates"
+targets = ["rust-core"]
+effects = []
 
 [[root]]
 name = "PrismVerdantResonance.Foundation.Compression.V1.Model.rule30Step"
 package = "verdant_compression_rule30_step"
 targets = ["rust-core"]
 effects = ["overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.ulebLength"
+package = "verdant_compression_uleb_length"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepEcologyBusModulation"
+package = "verdant_ecology_step_ecology_bus_modulation"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepMicroclimateIso9613ClarityPermille"
+package = "verdant_ecology_step_microclimate_iso9613_clarity_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
 
 [[root]]
 name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.admitLiftKappaTransition"
@@ -47,6 +85,66 @@ name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.schedule"
 package = "verdant_mechanization_schedule"
 targets = ["rust-std"]
 effects = ["allocation", "overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.clampBusWeight"
+package = "verdant_neuromorphic_clamp_bus_weight"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.conservatoryCurationDefect"
+package = "verdant_neuromorphic_conservatory_curation_defect"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.conservatoryCurationDominates"
+package = "verdant_neuromorphic_conservatory_curation_dominates"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.conservatoryCurationLyapunovCost"
+package = "verdant_neuromorphic_conservatory_curation_lyapunov_cost"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.learnHebbianWeight"
+package = "verdant_neuromorphic_learn_hebbian_weight"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.refineDomainWeightAutopoietic"
+package = "verdant_neuromorphic_refine_domain_weight_autopoietic"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.transferWeightCrossDomain"
+package = "verdant_neuromorphic_transfer_weight_cross_domain"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Soundtrack.V1.Model.advanceLifecycleStage"
+package = "verdant_soundtrack_advance_lifecycle_stage"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Soundtrack.V1.Model.stepCuratedConsonancePurityPermille"
+package = "verdant_soundtrack_step_curated_consonance_purity_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Soundtrack.V1.Model.stepPrimeLimitHarmonicCeiling"
+package = "verdant_soundtrack_step_prime_limit_harmonic_ceiling"
+targets = ["rust-core"]
+effects = []
 
 [[root]]
 name = "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepTriadicPlayerGameObserverCoherencePermille"

@@ -32,36 +32,96 @@ interface CertifiedWasmExports {
   certified_dispatch(): number;
   certified_learn_all(): number;
   certified_schedule(): number;
+  core_verdant_compression_dominates(p0: bigint, p1: bigint, p2: bigint, p3: bigint): number;
+  core_verdant_compression_rule30_step(p0: bigint): bigint;
+  core_verdant_compression_uleb_length(p0: bigint): bigint;
+  core_verdant_ecology_step_ecology_bus_modulation(p0: bigint): bigint;
+  core_verdant_ecology_step_microclimate_iso9613_clarity_permille(p0: bigint, p1: bigint): bigint;
+  core_verdant_mechanization_admit_lift_kappa_transition(p0: number, p1: bigint, p2: bigint): number;
+  core_verdant_mechanization_classify_foundry_tag_mask(p0: bigint): bigint;
+  core_verdant_mechanization_decide_hypothesis_mint(p0: number, p1: number, p2: bigint): bigint;
+  core_verdant_neuromorphic_clamp_bus_weight(p0: bigint): bigint;
+  core_verdant_neuromorphic_conservatory_curation_defect(p0: bigint, p1: bigint, p2: bigint, p3: bigint, p4: bigint): bigint;
+  core_verdant_neuromorphic_conservatory_curation_dominates(p0: bigint, p1: bigint, p2: bigint, p3: bigint, p4: bigint, p5: bigint, p6: bigint, p7: bigint): number;
+  core_verdant_neuromorphic_conservatory_curation_lyapunov_cost(p0: bigint, p1: bigint, p2: bigint): bigint;
+  core_verdant_neuromorphic_learn_hebbian_weight(p0: bigint, p1: number): bigint;
+  core_verdant_neuromorphic_refine_domain_weight_autopoietic(p0: bigint, p1: bigint): bigint;
+  core_verdant_neuromorphic_transfer_weight_cross_domain(p0: bigint, p1: number): bigint;
+  core_verdant_soundtrack_advance_lifecycle_stage(p0: bigint, p1: bigint): bigint;
+  core_verdant_soundtrack_step_curated_consonance_purity_permille(p0: bigint, p1: bigint): bigint;
+  core_verdant_soundtrack_step_prime_limit_harmonic_ceiling(p0: bigint): bigint;
+  core_verdant_teleology_step_triadic_player_game_observer_coher_fb9ce6(p0: bigint, p1: bigint, p2: bigint, p3: bigint): bigint;
 }
 
 export const CERTIFIED_PRODUCTION_MANIFEST = {
   "schema": "verdant-resonance/certified-production-manifest/1",
-  "bundleResultId": "b5b14c586f7b2964283024c19ebe2ab93aa9a5052284225f792cec0596866676",
-  "semanticId": "a1e30bdbdba5f17a1510677344d41d2ac1fe4afdc6b8cad2e8eee297ff4335a1",
-  "attestationId": "bdd79e2541c8a9c285930016ebc2c05f6c134f269a799d069091b1998d93dffa",
+  "bundleResultId": "21e15fab6dcddac8e55aec6791106dc9f32f062539eaf6df2b4a4e7cee69b569",
+  "semanticId": "a2f3ac6e0e7f387e0c041cf1ac52181da33f782f02a789b4c1c65aa813f61ec2",
+  "attestationId": "9e30a60fc6a9b00dfd4673f7a05f6c73572833d2fdcfaaf72c5be0c6d6cf7958",
   "compilerSemanticsDigest": "5262e5b4c8b5668ae7066ad686757a6bb7f80c941d515fb9d586894fbc7de69a",
   "sdkImageRef": "ghcr.io/uor-foundation/prismpm-sdk-candidate@sha256:cd3b47d7a370c4a26b8285f5e9c3bb15e639973c55505c3809ddbe55352fea58",
-  "requestSha256": "14adf26a2cc2e6acd6d38f60ae640c6755a97372e7ff755454c94941a4134a46",
+  "requestSha256": "6cb26ccc06f8f92a0217b0cf36d5c823b44e54eeb32d9a2ca554f43492581d0f",
   "wasmRelativePath": "public/wasm/verdant_certified_runtime.wasm",
-  "wasmBytes": 56584,
-  "wasmSha256": "e4d8bed95a6dd58d0d0e2448e8c02a3fc81c0ab38cc06c984126209790f05683",
+  "wasmBytes": 58491,
+  "wasmSha256": "b54ae7480accd335b233555eb4458ad4621ea9182e37e7224f1ff039dc31470f",
   "allKernelChecked": true,
   "allForbidUnsafeCode": true,
-  "rustCoreNoStdRootCount": 5,
+  "rustCoreNoStdRootCount": 19,
   "rustStdRootCount": 3,
   "roots": [
     {
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.dominates",
+      "moduleName": "Foundation.Compression.V1.Model",
+      "defName": "dominates",
+      "packageName": "verdant_compression_dominates",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "fcd36b547ab8c71781c00b789720f36c6d96e623e446e9ad45da0b6fa7ff4f9e",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R1.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R1.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R1/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R1/Compose/RustCore.lex.tex"
+      ],
+      "effects": [],
+      "returnsResultOverflow": false,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "cb",
+          "type": "Nat"
+        },
+        {
+          "name": "cs",
+          "type": "Nat"
+        },
+        {
+          "name": "ib",
+          "type": "Nat"
+        },
+        {
+          "name": "it",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
       "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.rule30Step",
+      "moduleName": "Foundation.Compression.V1.Model",
+      "defName": "rule30Step",
       "packageName": "verdant_compression_rule30_step",
       "targetId": "rust-core",
       "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
       "artifactDigest": "56020c73cabc59bd66a7d8c2cff6e4a2e0c9525b5577c23d3598ae61fb7b8ea6",
       "certificationStatus": "kernel-checked",
-      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R0.Compose.RustCore.root",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R2.Compose.RustCore.root",
       "certificateFiles": [
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R0.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R0/RustCore.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R0/Compose/RustCore.lex.tex"
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R2.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R2/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R2/Compose/RustCore.lex.tex"
       ],
       "effects": [
         "overflow",
@@ -69,76 +129,217 @@ export const CERTIFIED_PRODUCTION_MANIFEST = {
       ],
       "returnsResultOverflow": true,
       "forbidsUnsafeCode": true,
-      "isNoStd": true
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "s",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.ulebLength",
+      "moduleName": "Foundation.Compression.V1.Model",
+      "defName": "ulebLength",
+      "packageName": "verdant_compression_uleb_length",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "a5721288f67a8ef1098693c8abce5710782956fafa380f2bcb2ab17bc54b47e6",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R0.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R0.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R0/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R0/Compose/RustCore.lex.tex"
+      ],
+      "effects": [],
+      "returnsResultOverflow": false,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "n",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepEcologyBusModulation",
+      "moduleName": "Foundation.Ecology.V1.Model",
+      "defName": "stepEcologyBusModulation",
+      "packageName": "verdant_ecology_step_ecology_bus_modulation",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "0977d4c0316ae1b3b857298c10bc09f154f50e555b37bcb9d2a168407e22bb98",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R3.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R3.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R3/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R3/Compose/RustCore.lex.tex"
+      ],
+      "effects": [
+        "overflow"
+      ],
+      "returnsResultOverflow": true,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "busWeight",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepMicroclimateIso9613ClarityPermille",
+      "moduleName": "Foundation.Ecology.V1.Model",
+      "defName": "stepMicroclimateIso9613ClarityPermille",
+      "packageName": "verdant_ecology_step_microclimate_iso9613_clarity_permille",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "acc7d75744672632ee2105a208bcd9c24fb9b74ec26f1bd350da66fb0ea5b9f5",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R4.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R4.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R4/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R4/Compose/RustCore.lex.tex"
+      ],
+      "effects": [
+        "overflow"
+      ],
+      "returnsResultOverflow": true,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "busWeight",
+          "type": "Nat"
+        },
+        {
+          "name": "phCenti",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
     },
     {
       "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.admitLiftKappaTransition",
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "defName": "admitLiftKappaTransition",
       "packageName": "verdant_mechanization_admit_lift_kappa_transition",
       "targetId": "rust-core",
       "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
       "artifactDigest": "fcb8895f21666cba0f3ee4a3172be4de4a895177915161e9ccb8070e88dbfb64",
       "certificationStatus": "kernel-checked",
-      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R2.Compose.RustCore.root",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R6.Compose.RustCore.root",
       "certificateFiles": [
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R2.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R2/RustCore.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R2/Compose/RustCore.lex.tex"
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R6.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R6/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R6/Compose/RustCore.lex.tex"
       ],
       "effects": [],
       "returnsResultOverflow": false,
       "forbidsUnsafeCode": true,
-      "isNoStd": true
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "incumbentPresent",
+          "type": "Bool"
+        },
+        {
+          "name": "incumbentClass",
+          "type": "Nat"
+        },
+        {
+          "name": "candidateClass",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Bool"
     },
     {
       "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.classifyFoundryTagMask",
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "defName": "classifyFoundryTagMask",
       "packageName": "verdant_mechanization_classify_foundry_tag_mask",
       "targetId": "rust-core",
       "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
       "artifactDigest": "81e9cd5d677fac5e50a9a15ef1696c47456f273412ecb9936e5fdc30536fb9e4",
       "certificationStatus": "kernel-checked",
-      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R1.Compose.RustCore.root",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R5.Compose.RustCore.root",
       "certificateFiles": [
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R1.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R1/RustCore.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R1/Compose/RustCore.lex.tex"
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R5.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R5/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R5/Compose/RustCore.lex.tex"
       ],
       "effects": [
         "overflow"
       ],
       "returnsResultOverflow": true,
       "forbidsUnsafeCode": true,
-      "isNoStd": true
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "tagMask",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
     },
     {
       "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.decideHypothesisMint",
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "defName": "decideHypothesisMint",
       "packageName": "verdant_mechanization_decide_hypothesis_mint",
       "targetId": "rust-core",
       "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
       "artifactDigest": "e72b8fadf757e3ab712e6eeb37b7f8412a38c64b68a6a958528b6576df746cf6",
       "certificationStatus": "kernel-checked",
-      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R3.Compose.RustCore.root",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R7.Compose.RustCore.root",
       "certificateFiles": [
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R3.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R3/RustCore.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R3/Compose/RustCore.lex.tex"
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R7.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R7/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R7/Compose/RustCore.lex.tex"
       ],
       "effects": [],
       "returnsResultOverflow": false,
       "forbidsUnsafeCode": true,
-      "isNoStd": true
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "contradictoryClause",
+          "type": "Bool"
+        },
+        {
+          "name": "knownKappa",
+          "type": "Bool"
+        },
+        {
+          "name": "remainingBudget",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
     },
     {
       "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.learnAll",
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "defName": "learnAll",
       "packageName": "verdant_mechanization_learn_all",
       "targetId": "rust-std",
       "targetDigest": "2ab7e98605c8c6366e8c9686eb3a5f253bce4be16d78c1a39bc60d9c50c3fa3a",
       "artifactDigest": "ff46154d9320cc258fa1deac6f5a49bca1c11a43f737e92b6cdf6d6cf76d1699",
       "certificationStatus": "kernel-checked",
-      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R4.Compose.RustStd.root",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R8.Compose.RustStd.root",
       "certificateFiles": [
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R4.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R4/RustStd.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R4/Compose/RustStd.lex.tex"
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R8.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R8/RustStd.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R8/Compose/RustStd.lex.tex"
       ],
       "effects": [
         "allocation",
@@ -148,21 +349,34 @@ export const CERTIFIED_PRODUCTION_MANIFEST = {
       "returnsResultOverflow": true,
       "forbidsUnsafeCode": true,
       "isNoStd": false,
+      "parameters": [
+        {
+          "name": "table",
+          "type": "List Weight"
+        },
+        {
+          "name": "outcomes",
+          "type": "List Outcome"
+        }
+      ],
+      "resultType": "List Weight",
       "weightAdtIdent": "Adt0",
       "outcomeAdtIdent": "Adt1"
     },
     {
       "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.schedule",
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "defName": "schedule",
       "packageName": "verdant_mechanization_schedule",
       "targetId": "rust-std",
       "targetDigest": "2ab7e98605c8c6366e8c9686eb3a5f253bce4be16d78c1a39bc60d9c50c3fa3a",
       "artifactDigest": "90a3c9e56e6c8289893b22fdc06fd3c9d2ba8ae8ecde093324deae54aa268d2a",
       "certificationStatus": "kernel-checked",
-      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R5.Compose.RustStd.root",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R9.Compose.RustStd.root",
       "certificateFiles": [
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R5.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R5/RustStd.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R5/Compose/RustStd.lex.tex"
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R9.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R9/RustStd.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R9/Compose/RustStd.lex.tex"
       ],
       "effects": [
         "allocation",
@@ -171,40 +385,430 @@ export const CERTIFIED_PRODUCTION_MANIFEST = {
       "returnsResultOverflow": false,
       "forbidsUnsafeCode": true,
       "isNoStd": false,
+      "parameters": [
+        {
+          "name": "table",
+          "type": "List Weight"
+        },
+        {
+          "name": "family",
+          "type": "String"
+        },
+        {
+          "name": "applicable",
+          "type": "List String"
+        }
+      ],
+      "resultType": "List String",
       "weightAdtIdent": "Adt0"
     },
     {
-      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepTriadicPlayerGameObserverCoherencePermille",
-      "packageName": "verdant_teleology_step_triadic_player_game_observer_coher_fb9ce6",
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.clampBusWeight",
+      "moduleName": "Foundation.Neuromorphic.V1.Model",
+      "defName": "clampBusWeight",
+      "packageName": "verdant_neuromorphic_clamp_bus_weight",
       "targetId": "rust-core",
       "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
-      "artifactDigest": "286d49396d5436164b10558133ba76ca0332e9b5d051e2a4611c5fdc36c48a60",
+      "artifactDigest": "5c1e360d9a4abb98f23d445719434fc14f41debcab56cc60bfad529e5ac8c969",
       "certificationStatus": "kernel-checked",
-      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R6.Compose.RustCore.root",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R10.Compose.RustCore.root",
       "certificateFiles": [
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R6.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R6/RustCore.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R6/Compose/RustCore.lex.tex"
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R10.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R10/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R10/Compose/RustCore.lex.tex"
+      ],
+      "effects": [],
+      "returnsResultOverflow": false,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "w",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.conservatoryCurationDefect",
+      "moduleName": "Foundation.Neuromorphic.V1.Model",
+      "defName": "conservatoryCurationDefect",
+      "packageName": "verdant_neuromorphic_conservatory_curation_defect",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "847e5172b8a3a17546990bdf08eb7f66192a1ba337090dd906f05b20f4158905",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R14.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R14.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R14/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R14/Compose/RustCore.lex.tex"
       ],
       "effects": [
         "overflow"
       ],
       "returnsResultOverflow": true,
       "forbidsUnsafeCode": true,
-      "isNoStd": true
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "floatingGapCount",
+          "type": "Nat"
+        },
+        {
+          "name": "staticOverlapCount",
+          "type": "Nat"
+        },
+        {
+          "name": "ahimsaViolationCount",
+          "type": "Nat"
+        },
+        {
+          "name": "restStepCount",
+          "type": "Nat"
+        },
+        {
+          "name": "maxMelodicLeap",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.conservatoryCurationDominates",
+      "moduleName": "Foundation.Neuromorphic.V1.Model",
+      "defName": "conservatoryCurationDominates",
+      "packageName": "verdant_neuromorphic_conservatory_curation_dominates",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "0f5c67bbca155df22918699d7b744085997d0c60bb4ab9907df90576bc54d5ed",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R16.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R16.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R16/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R16/Compose/RustCore.lex.tex"
+      ],
+      "effects": [],
+      "returnsResultOverflow": false,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "defA",
+          "type": "Nat"
+        },
+        {
+          "name": "physA",
+          "type": "Nat"
+        },
+        {
+          "name": "botA",
+          "type": "Nat"
+        },
+        {
+          "name": "musA",
+          "type": "Nat"
+        },
+        {
+          "name": "defB",
+          "type": "Nat"
+        },
+        {
+          "name": "physB",
+          "type": "Nat"
+        },
+        {
+          "name": "botB",
+          "type": "Nat"
+        },
+        {
+          "name": "musB",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.conservatoryCurationLyapunovCost",
+      "moduleName": "Foundation.Neuromorphic.V1.Model",
+      "defName": "conservatoryCurationLyapunovCost",
+      "packageName": "verdant_neuromorphic_conservatory_curation_lyapunov_cost",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "af3e3b7e0024ab04902ec8dd941eb4476dfaef62596ee95e2977b67f79d208ea",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R15.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R15.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R15/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R15/Compose/RustCore.lex.tex"
+      ],
+      "effects": [
+        "overflow"
+      ],
+      "returnsResultOverflow": true,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "physicalSurprisalPermille",
+          "type": "Nat"
+        },
+        {
+          "name": "botanicalDeficitPermille",
+          "type": "Nat"
+        },
+        {
+          "name": "musicalTensionPermille",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.learnHebbianWeight",
+      "moduleName": "Foundation.Neuromorphic.V1.Model",
+      "defName": "learnHebbianWeight",
+      "packageName": "verdant_neuromorphic_learn_hebbian_weight",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "777f0149272630fff2cb0efb2bd0b6dec5fa2951b216e19046fd9dba4fa67202",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R11.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R11.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R11/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R11/Compose/RustCore.lex.tex"
+      ],
+      "effects": [
+        "overflow"
+      ],
+      "returnsResultOverflow": true,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "w",
+          "type": "Nat"
+        },
+        {
+          "name": "success",
+          "type": "Bool"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.refineDomainWeightAutopoietic",
+      "moduleName": "Foundation.Neuromorphic.V1.Model",
+      "defName": "refineDomainWeightAutopoietic",
+      "packageName": "verdant_neuromorphic_refine_domain_weight_autopoietic",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "f1d155fa277fc97a1edc202187466dbbcd860498cc723ae7a1fa9e178d9902c8",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R13.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R13.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R13/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R13/Compose/RustCore.lex.tex"
+      ],
+      "effects": [],
+      "returnsResultOverflow": false,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "wCurrent",
+          "type": "Nat"
+        },
+        {
+          "name": "wLeader",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.transferWeightCrossDomain",
+      "moduleName": "Foundation.Neuromorphic.V1.Model",
+      "defName": "transferWeightCrossDomain",
+      "packageName": "verdant_neuromorphic_transfer_weight_cross_domain",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "eb985b1ba6f7e8dd93e4e583646eeced157055429dfe10f1128506793dd58585",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R12.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R12.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R12/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R12/Compose/RustCore.lex.tex"
+      ],
+      "effects": [],
+      "returnsResultOverflow": false,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "wTarget",
+          "type": "Nat"
+        },
+        {
+          "name": "sourceConsolidated",
+          "type": "Bool"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Soundtrack.V1.Model.advanceLifecycleStage",
+      "moduleName": "Foundation.Soundtrack.V1.Model",
+      "defName": "advanceLifecycleStage",
+      "packageName": "verdant_soundtrack_advance_lifecycle_stage",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "5bae16c063238fe9fcbe1eedccf5f4e3664e89c512e430b62326869b358e6c08",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R17.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R17.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R17/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R17/Compose/RustCore.lex.tex"
+      ],
+      "effects": [
+        "overflow"
+      ],
+      "returnsResultOverflow": true,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "stage",
+          "type": "Nat"
+        },
+        {
+          "name": "delta",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Soundtrack.V1.Model.stepCuratedConsonancePurityPermille",
+      "moduleName": "Foundation.Soundtrack.V1.Model",
+      "defName": "stepCuratedConsonancePurityPermille",
+      "packageName": "verdant_soundtrack_step_curated_consonance_purity_permille",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "9d67a43d0638d9f935231ae7f18069222f886713a96fb53ff92782f3659a6d2e",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R19.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R19.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R19/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R19/Compose/RustCore.lex.tex"
+      ],
+      "effects": [
+        "overflow"
+      ],
+      "returnsResultOverflow": true,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "busWeight",
+          "type": "Nat"
+        },
+        {
+          "name": "harmonyPct",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Soundtrack.V1.Model.stepPrimeLimitHarmonicCeiling",
+      "moduleName": "Foundation.Soundtrack.V1.Model",
+      "defName": "stepPrimeLimitHarmonicCeiling",
+      "packageName": "verdant_soundtrack_step_prime_limit_harmonic_ceiling",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "cb9cdd17e3ce59113bc35a44635a419918db215da617d3d969f8b6d2964f72ef",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R18.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R18.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R18/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R18/Compose/RustCore.lex.tex"
+      ],
+      "effects": [],
+      "returnsResultOverflow": false,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "busWeight",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepTriadicPlayerGameObserverCoherencePermille",
+      "moduleName": "Foundation.Teleology.V1.Model",
+      "defName": "stepTriadicPlayerGameObserverCoherencePermille",
+      "packageName": "verdant_teleology_step_triadic_player_game_observer_coher_fb9ce6",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "286d49396d5436164b10558133ba76ca0332e9b5d051e2a4611c5fdc36c48a60",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R20.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R20.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R20/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R20/Compose/RustCore.lex.tex"
+      ],
+      "effects": [
+        "overflow"
+      ],
+      "returnsResultOverflow": true,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true,
+      "parameters": [
+        {
+          "name": "busWeight",
+          "type": "Nat"
+        },
+        {
+          "name": "rule30Entropy",
+          "type": "Nat"
+        },
+        {
+          "name": "playerAttentionPermille",
+          "type": "Nat"
+        },
+        {
+          "name": "residualDissonancePermille",
+          "type": "Nat"
+        }
+      ],
+      "resultType": "Nat"
     },
     {
       "root": "PrismVerdantResonance.VerdantResonance.dispatch",
+      "moduleName": "VerdantResonance",
+      "defName": "dispatch",
       "packageName": "verdant_resonance_dispatch",
       "targetId": "rust-std",
       "targetDigest": "2ab7e98605c8c6366e8c9686eb3a5f253bce4be16d78c1a39bc60d9c50c3fa3a",
       "artifactDigest": "36b61063d67d1cb37036e7f94941e28cbcb922006f1075bfb067c353a9a25bbf",
       "certificationStatus": "kernel-checked",
-      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R7.Compose.RustStd.root",
+      "theoremName": "LexLeanPreserve.Ca2f3ac6e0e7f387e0c041cf1ac52181d.R21.Compose.RustStd.root",
       "certificateFiles": [
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R7.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R7/RustStd.lex.tex",
-        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R7/Compose/RustStd.lex.tex"
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R21.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R21/RustStd.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca2f3ac6e0e7f387e0c041cf1ac52181d/R21/Compose/RustStd.lex.tex"
       ],
       "effects": [
         "allocation",
@@ -212,7 +816,14 @@ export const CERTIFIED_PRODUCTION_MANIFEST = {
       ],
       "returnsResultOverflow": true,
       "forbidsUnsafeCode": true,
-      "isNoStd": false
+      "isNoStd": false,
+      "parameters": [
+        {
+          "name": "value",
+          "type": "Bytes"
+        }
+      ],
+      "resultType": "Bytes"
     }
   ]
 } as const;
@@ -383,4 +994,88 @@ export function certifiedWasmSchedule(
   exp.certified_schedule();
   const out = readWasmOutputUtf8(exp);
   return out ? out.split(',') : [];
+}
+
+function _toU64Arg(value: number | bigint): bigint {
+  if (typeof value === 'bigint') return value <= 0n ? 0n : BigInt.asUintN(64, value);
+  if (!Number.isFinite(value) || value <= 0) return 0n;
+  return BigInt.asUintN(64, BigInt(Math.round(value)));
+}
+
+export const CERTIFIED_WASM_CORE_ROOT_NAMES = ["dominates","rule30Step","ulebLength","stepEcologyBusModulation","stepMicroclimateIso9613ClarityPermille","admitLiftKappaTransition","classifyFoundryTagMask","decideHypothesisMint","clampBusWeight","conservatoryCurationDefect","conservatoryCurationDominates","conservatoryCurationLyapunovCost","learnHebbianWeight","refineDomainWeightAutopoietic","transferWeightCrossDomain","advanceLifecycleStage","stepCuratedConsonancePurityPermille","stepPrimeLimitHarmonicCeiling","stepTriadicPlayerGameObserverCoherencePermille"] as const;
+
+export function certifiedWasmCore_dominates(cb: number | bigint, cs: number | bigint, ib: number | bigint, it: number | bigint): boolean {
+  return requireExports().core_verdant_compression_dominates(_toU64Arg(cb), _toU64Arg(cs), _toU64Arg(ib), _toU64Arg(it)) !== 0;
+}
+
+export function certifiedWasmCore_rule30Step(s: number | bigint): bigint {
+  return BigInt.asUintN(64, requireExports().core_verdant_compression_rule30_step(_toU64Arg(s)));
+}
+
+export function certifiedWasmCore_ulebLength(n: number | bigint): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_compression_uleb_length(_toU64Arg(n))));
+}
+
+export function certifiedWasmCore_stepEcologyBusModulation(busWeight: number | bigint): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_ecology_step_ecology_bus_modulation(_toU64Arg(busWeight))));
+}
+
+export function certifiedWasmCore_stepMicroclimateIso9613ClarityPermille(busWeight: number | bigint, phCenti: number | bigint): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_ecology_step_microclimate_iso9613_clarity_permille(_toU64Arg(busWeight), _toU64Arg(phCenti))));
+}
+
+export function certifiedWasmCore_admitLiftKappaTransition(incumbentPresent: boolean, incumbentClass: number | bigint, candidateClass: number | bigint): boolean {
+  return requireExports().core_verdant_mechanization_admit_lift_kappa_transition(incumbentPresent ? 1 : 0, _toU64Arg(incumbentClass), _toU64Arg(candidateClass)) !== 0;
+}
+
+export function certifiedWasmCore_classifyFoundryTagMask(tagMask: number | bigint): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_mechanization_classify_foundry_tag_mask(_toU64Arg(tagMask))));
+}
+
+export function certifiedWasmCore_decideHypothesisMint(contradictoryClause: boolean, knownKappa: boolean, remainingBudget: number | bigint): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_mechanization_decide_hypothesis_mint(contradictoryClause ? 1 : 0, knownKappa ? 1 : 0, _toU64Arg(remainingBudget))));
+}
+
+export function certifiedWasmCore_clampBusWeight(w: number | bigint): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_neuromorphic_clamp_bus_weight(_toU64Arg(w))));
+}
+
+export function certifiedWasmCore_conservatoryCurationDefect(floatingGapCount: number | bigint, staticOverlapCount: number | bigint, ahimsaViolationCount: number | bigint, restStepCount: number | bigint, maxMelodicLeap: number | bigint): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_neuromorphic_conservatory_curation_defect(_toU64Arg(floatingGapCount), _toU64Arg(staticOverlapCount), _toU64Arg(ahimsaViolationCount), _toU64Arg(restStepCount), _toU64Arg(maxMelodicLeap))));
+}
+
+export function certifiedWasmCore_conservatoryCurationDominates(defA: number | bigint, physA: number | bigint, botA: number | bigint, musA: number | bigint, defB: number | bigint, physB: number | bigint, botB: number | bigint, musB: number | bigint): boolean {
+  return requireExports().core_verdant_neuromorphic_conservatory_curation_dominates(_toU64Arg(defA), _toU64Arg(physA), _toU64Arg(botA), _toU64Arg(musA), _toU64Arg(defB), _toU64Arg(physB), _toU64Arg(botB), _toU64Arg(musB)) !== 0;
+}
+
+export function certifiedWasmCore_conservatoryCurationLyapunovCost(physicalSurprisalPermille: number | bigint, botanicalDeficitPermille: number | bigint, musicalTensionPermille: number | bigint): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_neuromorphic_conservatory_curation_lyapunov_cost(_toU64Arg(physicalSurprisalPermille), _toU64Arg(botanicalDeficitPermille), _toU64Arg(musicalTensionPermille))));
+}
+
+export function certifiedWasmCore_learnHebbianWeight(w: number | bigint, success: boolean): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_neuromorphic_learn_hebbian_weight(_toU64Arg(w), success ? 1 : 0)));
+}
+
+export function certifiedWasmCore_refineDomainWeightAutopoietic(wCurrent: number | bigint, wLeader: number | bigint): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_neuromorphic_refine_domain_weight_autopoietic(_toU64Arg(wCurrent), _toU64Arg(wLeader))));
+}
+
+export function certifiedWasmCore_transferWeightCrossDomain(wTarget: number | bigint, sourceConsolidated: boolean): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_neuromorphic_transfer_weight_cross_domain(_toU64Arg(wTarget), sourceConsolidated ? 1 : 0)));
+}
+
+export function certifiedWasmCore_advanceLifecycleStage(stage: number | bigint, delta: number | bigint): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_soundtrack_advance_lifecycle_stage(_toU64Arg(stage), _toU64Arg(delta))));
+}
+
+export function certifiedWasmCore_stepCuratedConsonancePurityPermille(busWeight: number | bigint, harmonyPct: number | bigint): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_soundtrack_step_curated_consonance_purity_permille(_toU64Arg(busWeight), _toU64Arg(harmonyPct))));
+}
+
+export function certifiedWasmCore_stepPrimeLimitHarmonicCeiling(busWeight: number | bigint): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_soundtrack_step_prime_limit_harmonic_ceiling(_toU64Arg(busWeight))));
+}
+
+export function certifiedWasmCore_stepTriadicPlayerGameObserverCoherencePermille(busWeight: number | bigint, rule30Entropy: number | bigint, playerAttentionPermille: number | bigint, residualDissonancePermille: number | bigint): number {
+  return Number(BigInt.asUintN(64, requireExports().core_verdant_teleology_step_triadic_player_game_observer_coher_fb9ce6(_toU64Arg(busWeight), _toU64Arg(rule30Entropy), _toU64Arg(playerAttentionPermille), _toU64Arg(residualDissonancePermille))));
 }

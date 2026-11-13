@@ -31,7 +31,12 @@ import {
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
 import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
-import { certifiedWasmRule30Step, isCertifiedWasmReady } from './generatedCertifiedWasmBridge';
+import {
+  certifiedWasmCore_dominates,
+  certifiedWasmCore_ulebLength,
+  certifiedWasmRule30Step,
+  isCertifiedWasmReady,
+} from './generatedCertifiedWasmBridge';
 
 const CompiledCompression = PRISM_COMPILED_MODULES['Foundation.Compression.V1.Model'];
 const CompiledNeuro = PRISM_COMPILED_MODULES['Foundation.Neuromorphic.V1.Model'];
@@ -239,27 +244,15 @@ export function encodeUleb128(value: number | bigint): Uint8Array {
 export function computeUleb128Length(value: number | bigint): number {
   const raw = typeof value === 'bigint' ? value : BigInt(Math.max(0, Math.floor(value)));
   const clamped = raw < 0n ? 0n : raw > U64_MAX_BIGINT ? U64_MAX_BIGINT : raw;
-  return Number(CompiledCompression.ulebLength(clamped));
+  return isCertifiedWasmReady() ? certifiedWasmCore_ulebLength(clamped) : Number(CompiledCompression.ulebLength(clamped));
 }
 
-/**
- * Decodes a shortest canonical `U64` ULEB128 varint at `offset`.
- * Rejects truncated varints (`VarintTruncated`), non-shortest trailing zero groups (`VarintNonCanonical`),
- * and `>= 2^64` or `> 10`-byte sequences (`VarintOverflow`).
- */
 export function decodeUleb128(
   buffer: Uint8Array,
   offset = 0,
 ): UorcResult<{ readonly value: bigint; readonly nextOffset: number; readonly byteLength: number }> {
   if (offset >= buffer.length) {
-    return {
-      ok: false,
-      error: {
-        code: 'VarintTruncated',
-        message: 'Unexpected end of buffer while reading ULEB128 varint',
-        byteOffset: offset,
-      },
-    };
+    return { ok: false, error: { code: 'VarintTruncated', message: 'Unexpected end of buffer while reading ULEB128 varint', byteOffset: offset } };
   }
 
   let result = 0n;
@@ -267,65 +260,27 @@ export function decodeUleb128(
   for (let count = 0; count < ULEB64_MAX_BYTES; count++) {
     const idx = offset + count;
     if (idx >= buffer.length) {
-      return {
-        ok: false,
-        error: {
-          code: 'VarintTruncated',
-          message: `Truncated ULEB128 continuation chain at byte ${idx}`,
-          byteOffset: idx,
-        },
-      };
+      return { ok: false, error: { code: 'VarintTruncated', message: `Truncated ULEB128 continuation chain at byte ${idx}`, byteOffset: idx } };
     }
     const byte = buffer[idx];
     const low7 = byte & 0x7f;
     const hasMore = (byte & 0x80) !== 0;
 
-    // On the 10th byte (shift === 63), only bit 0 (value 0 or 1) fits in U64, and continuation bit must be 0
     if (count === 9 && (hasMore || low7 > 1)) {
-      return {
-        ok: false,
-        error: {
-          code: 'VarintOverflow',
-          message: 'ULEB128 varint exceeds U64::MAX (2^64 - 1)',
-          byteOffset: offset,
-        },
-      };
+      return { ok: false, error: { code: 'VarintOverflow', message: 'ULEB128 varint exceeds U64::MAX (2^64 - 1)', byteOffset: offset } };
     }
-
-    // Shortest-form canon: a multi-byte varint must never terminate with a zero 7-bit group
     if (!hasMore && count > 0 && low7 === 0) {
-      return {
-        ok: false,
-        error: {
-          code: 'VarintNonCanonical',
-          message: 'Non-canonical overlong ULEB128 encoding (trailing zero 7-bit group)',
-          byteOffset: offset,
-        },
-      };
+      return { ok: false, error: { code: 'VarintNonCanonical', message: 'Non-canonical overlong ULEB128 encoding (trailing zero 7-bit group)', byteOffset: offset } };
     }
 
     result |= BigInt(low7) << shift;
     if (!hasMore) {
-      return {
-        ok: true,
-        value: {
-          value: result,
-          nextOffset: idx + 1,
-          byteLength: count + 1,
-        },
-      };
+      return { ok: true, value: { value: result, nextOffset: idx + 1, byteLength: count + 1 } };
     }
     shift += 7n;
   }
 
-  return {
-    ok: false,
-    error: {
-      code: 'VarintOverflow',
-      message: 'ULEB128 varint exceeded 10 bytes',
-      byteOffset: offset,
-    },
-  };
+  return { ok: false, error: { code: 'VarintOverflow', message: 'ULEB128 varint exceeded 10 bytes', byteOffset: offset } };
 }
 
 // ============================================================================
@@ -568,23 +523,20 @@ export interface PerformancePair {
 
 /** Strict partial order `dominates(cand, inc)` mechanized from `Foundation.Compression.V1.Model::dominates`. */
 export function strictlyDominates(cand: PerformancePair, inc: PerformancePair): boolean {
-  return CompiledCompression.dominates(
-    toPrismNat(cand.bytes),
-    toPrismNat(cand.decodeSteps),
-    toPrismNat(inc.bytes),
-    toPrismNat(inc.decodeSteps),
-  );
+  return isCertifiedWasmReady()
+    ? certifiedWasmCore_dominates(Math.floor(cand.bytes), Math.floor(cand.decodeSteps), Math.floor(inc.bytes), Math.floor(inc.decodeSteps))
+    : CompiledCompression.dominates(toPrismNat(cand.bytes), toPrismNat(cand.decodeSteps), toPrismNat(inc.bytes), toPrismNat(inc.decodeSteps));
 }
 
 /** Lexicographic choice (`bytes`, then `decodeSteps`) from `Foundation.Compression.V1.Model::pickBytes/pickSteps`. */
 export function pickLexicographicBest<T extends PerformancePair>(cand: T, inc: T): T {
-  if (cand.bytes < inc.bytes) return cand;
-  if (cand.bytes > inc.bytes) return inc;
-  return cand.decodeSteps < inc.decodeSteps ? cand : inc;
+  const bestBytes = Number(CompiledCompression.pickBytes(toPrismNat(cand.bytes), toPrismNat(cand.decodeSteps), toPrismNat(inc.bytes), toPrismNat(inc.decodeSteps)));
+  const bestSteps = Number(CompiledCompression.pickSteps(toPrismNat(cand.bytes), toPrismNat(cand.decodeSteps), toPrismNat(inc.bytes), toPrismNat(inc.decodeSteps)));
+  return cand.bytes === bestBytes && cand.decodeSteps === bestSteps && (cand.bytes < inc.bytes || (cand.bytes === inc.bytes && cand.decodeSteps < inc.decodeSteps)) ? cand : inc;
 }
 
 export function computeLyapunovCost(p: PerformancePair): number {
-  return p.bytes + p.decodeSteps;
+  return Number(CompiledCompression.consolidateCost(toPrismNat(p.bytes), toPrismNat(p.decodeSteps), toPrismNat(p.bytes), toPrismNat(p.decodeSteps)));
 }
 
 // ============================================================================
