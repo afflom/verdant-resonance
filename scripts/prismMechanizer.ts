@@ -47,6 +47,11 @@ export interface LexParamDecl {
   type: string;
 }
 
+export interface LexProductionDecl {
+  effects: string[];
+  targets: string[];
+}
+
 export interface LexFullDefinition {
   moduleName: string;
   name: string;
@@ -54,6 +59,8 @@ export interface LexFullDefinition {
   resultType: string;
   bodyRaw: string;
   recursiveArgument?: string;
+  executable?: boolean;
+  production?: LexProductionDecl;
 }
 
 export interface LexFullTheorem {
@@ -306,6 +313,28 @@ export function parseFullLexModule(filePath: string): FullLexModule {
       const resultType = extractTopLevelBlockField(content, 'result') ?? 'Nat';
       const bodyRaw = extractTopLevelBlockField(content, 'body') ?? '';
       const recursiveArgument = extractTopLevelBlockField(content, 'recursive_argument') ?? undefined;
+      const executableRaw = extractTopLevelBlockField(content, 'executable');
+      const executable = executableRaw === 'true';
+      const productionRaw = extractTopLevelBlockField(content, 'production');
+      let production: LexProductionDecl | undefined;
+      if (productionRaw) {
+        const pTrimmed = productionRaw.trim();
+        const pInner =
+          pTrimmed.startsWith('{') && pTrimmed.endsWith('}')
+            ? pTrimmed.slice(1, -1).trim()
+            : pTrimmed;
+        const parseBracketTokens = (raw: string | null): string[] => {
+          if (!raw) return [];
+          const t = raw.trim();
+          const inside = t.startsWith('[') && t.endsWith(']') ? t.slice(1, -1).trim() : t;
+          if (!inside) return [];
+          return splitTopLevelCommaList(inside).map((s) => s.trim()).filter(Boolean);
+        };
+        production = {
+          effects: parseBracketTokens(extractTopLevelBlockField(pInner, 'effects')),
+          targets: parseBracketTokens(extractTopLevelBlockField(pInner, 'targets')),
+        };
+      }
       definitions.set(name, {
         moduleName,
         name,
@@ -313,6 +342,8 @@ export function parseFullLexModule(filePath: string): FullLexModule {
         resultType,
         bodyRaw,
         recursiveArgument,
+        executable,
+        production,
       });
     } else if (kind === 'theorem') {
       const parameters = parseParamList(extractTopLevelBlockField(content, 'parameters'));
@@ -752,6 +783,31 @@ function compileLexExprToTs(
       return `(${scrutineeCode} ? ${trueCode} : ${falseCode})`;
     }
 
+    // List match: List.nil / List.cons head tail
+    const nilArm = arms.find((a) => a.pat === 'List.nil');
+    const consArm = arms.find((a) => a.pat.startsWith('List.cons '));
+    if (nilArm && consArm) {
+      const bindParts = tokenizeTopLevelExpr(consArm.pat.slice('List.cons '.length).trim());
+      const headRaw = bindParts[0];
+      const tailRaw = bindParts[1];
+      const headIdent = `${safeLocalIdent(headRaw)}_${ctx.nextTempId()}`;
+      const tailIdent = `${safeLocalIdent(tailRaw)}_${ctx.nextTempId()}`;
+      const nilCode = compileLexExprToTs(nilArm.bodyRaw, ctx, localEnv, usedLocals);
+      const armUsed = new Set<string>();
+      const consCode = compileLexExprToTs(
+        consArm.bodyRaw,
+        ctx,
+        { ...localEnv, [headRaw]: headIdent, [tailRaw]: tailIdent },
+        armUsed,
+      );
+      for (const u of armUsed) {
+        if (u !== headIdent && u !== tailIdent) usedLocals.add(u);
+      }
+      const headDecl = armUsed.has(headIdent) ? headIdent : `_${headIdent}`;
+      const tailDecl = armUsed.has(tailIdent) ? tailIdent : `_${tailIdent}`;
+      return `((${scrutVar}) => ${scrutVar}.length === 0 ? ${nilCode} : ((${headDecl}, ${tailDecl}) => ${consCode})(${scrutVar}[0], ${scrutVar}.slice(1)))(${scrutineeCode})`;
+    }
+
     throw new Error(`Unsupported match arms in ${ctx.currentModule}: ${expr}`);
   }
 
@@ -790,6 +846,9 @@ function compileLexExprToTs(
         }
         const left = compileLexExprToTs(leftRaw, ctx, localEnv, usedLocals);
         const right = compileLexExprToTs(rightRaw, ctx, localEnv, usedLocals);
+        if (lexOp === '=?' && /^\d+n$/.test(left) && /^\d+n$/.test(right)) {
+          return left === right ? 'true' : 'false';
+        }
         return `(${left} ${tsOp} ${right})`;
       }
     }
@@ -884,7 +943,7 @@ function compileLexExprToTs(
       case 'slice':
         return `_bytesSlice(${args[0]}, ${args[1]}, ${args[2]})`;
       case 'append':
-        return `_bytesAppend(${args[0]}, ${args[1]})`;
+        return `_seqAppend(${args[0]}, ${args[1]})`;
       case 'compare_bytes':
         return `_bytesCmp(${args[0]}, ${args[1]})`;
       default:
@@ -948,14 +1007,395 @@ export function computePrismSourceDigest(prismDir: string): string {
   return hash.digest('hex');
 }
 
+export const LEXLEAN_PRODUCTION_TARGET_DIGESTS: Readonly<Record<string, string>> = {
+  'rust-core': '56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0',
+  'rust-std': '2ab7e98605c8c6366e8c9686eb3a5f253bce4be16d78c1a39bc60d9c50c3fa3a',
+};
+
+export interface ProductionRootDescriptor {
+  readonly root: string;
+  readonly moduleName: string;
+  readonly leanModuleName: string;
+  readonly defName: string;
+  readonly packageName: string;
+  readonly version: string;
+  readonly targets: ReadonlyArray<{ readonly id: string; readonly digest: string }>;
+  readonly effects: ReadonlyArray<string>;
+}
+
+function toSnakeCaseIdent(input: string): string {
+  return input
+    .replace(/\./g, '_')
+    .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2')
+    .toLowerCase();
+}
+
+export function deriveProductionCrateName(moduleName: string, defName: string): string {
+  const shortMod = moduleName.replace(/^Foundation\./, '').replace(/\.V\d+\.Model$/, '');
+  const modSnake = toSnakeCaseIdent(shortMod);
+  const defSnake = toSnakeCaseIdent(defName);
+  const prefix = modSnake.startsWith('verdant_') ? modSnake : `verdant_${modSnake}`;
+  const raw = `${prefix}_${defSnake}`;
+  if (raw.length <= 64) return raw;
+  const suffix = crypto.createHash('sha256').update(`${moduleName}::${defName}`, 'utf8').digest('hex').slice(0, 6);
+  return `${raw.slice(0, 57).replace(/_+$/, '')}_${suffix}`;
+}
+
+function collectExprDefinitionCalls(
+  exprRaw: string,
+  currentModule: string,
+  moduleMap: Map<string, FullLexModule>,
+  localNames: Set<string>,
+  out: Array<{ moduleName: string; defName: string }>,
+): void {
+  const expr = stripOuterParens(exprRaw);
+  if (
+    !expr ||
+    expr === 'true' ||
+    expr === 'false' ||
+    /^\d+$/.test(expr) ||
+    /^0x[0-9a-fA-F]*$/.test(expr) ||
+    (expr.startsWith('"') && expr.endsWith('"')) ||
+    /^(\d+)\s*:\s*UInt\d+$/.test(expr) ||
+    localNames.has(expr)
+  ) {
+    return;
+  }
+
+  if (expr.startsWith('let ')) {
+    let cursor = expr;
+    const scoped = new Set(localNames);
+    while (cursor.startsWith('let ')) {
+      const assignIdx = cursor.indexOf(':=');
+      if (assignIdx === -1) break;
+      const rawVarName = cursor.slice(4, assignIdx).trim().split(':')[0].trim();
+      let pDepth = 0;
+      let bDepth = 0;
+      let cDepth = 0;
+      let inStr = false;
+      let semiIdx = -1;
+      for (let i = assignIdx + 2; i < cursor.length; i++) {
+        const ch = cursor[i];
+        if (ch === '"' && cursor[i - 1] !== '\\') inStr = !inStr;
+        if (inStr) continue;
+        if (ch === '(') pDepth++;
+        else if (ch === ')') pDepth--;
+        else if (ch === '[') bDepth++;
+        else if (ch === ']') bDepth--;
+        else if (ch === '{') cDepth++;
+        else if (ch === '}') cDepth--;
+        else if (ch === ';' && pDepth === 0 && bDepth === 0 && cDepth === 0) {
+          semiIdx = i;
+          break;
+        }
+      }
+      if (semiIdx === -1) break;
+      collectExprDefinitionCalls(
+        cursor.slice(assignIdx + 2, semiIdx).trim(),
+        currentModule,
+        moduleMap,
+        scoped,
+        out,
+      );
+      scoped.add(rawVarName);
+      cursor = stripOuterParens(cursor.slice(semiIdx + 1).trim());
+    }
+    collectExprDefinitionCalls(cursor, currentModule, moduleMap, scoped, out);
+    return;
+  }
+
+  if (expr.startsWith('record ')) {
+    const braceStart = expr.indexOf('{');
+    const { content } = findBalancedDelimiter(expr, braceStart, '{', '}');
+    for (const f of splitTopLevelCommaList(content)) {
+      const eqIdx = f.indexOf(':=');
+      if (eqIdx !== -1) {
+        collectExprDefinitionCalls(f.slice(eqIdx + 2).trim(), currentModule, moduleMap, localNames, out);
+      }
+    }
+    return;
+  }
+
+  if (expr.startsWith('if ') || expr.startsWith('if\n') || expr.startsWith('if\t')) {
+    const thenMatch = findKeywordAtTopLevel(expr, 'then', 2);
+    if (!thenMatch) return;
+    const elseMatch = findKeywordAtTopLevel(expr, 'else', thenMatch.index + thenMatch.length);
+    if (!elseMatch) return;
+    collectExprDefinitionCalls(expr.slice(2, thenMatch.index).trim(), currentModule, moduleMap, localNames, out);
+    collectExprDefinitionCalls(
+      expr.slice(thenMatch.index + thenMatch.length, elseMatch.index).trim(),
+      currentModule,
+      moduleMap,
+      localNames,
+      out,
+    );
+    collectExprDefinitionCalls(
+      expr.slice(elseMatch.index + elseMatch.length).trim(),
+      currentModule,
+      moduleMap,
+      localNames,
+      out,
+    );
+    return;
+  }
+
+  if (expr.startsWith('match ')) {
+    let pDepth = 0;
+    let bDepth = 0;
+    let cDepth = 0;
+    let inStr = false;
+    const armIndices: number[] = [];
+    for (let i = 6; i < expr.length; i++) {
+      const ch = expr[i];
+      if (ch === '"' && expr[i - 1] !== '\\') inStr = !inStr;
+      if (inStr) continue;
+      if (ch === '(') pDepth++;
+      else if (ch === ')') pDepth--;
+      else if (ch === '[') bDepth++;
+      else if (ch === ']') bDepth--;
+      else if (ch === '{') cDepth++;
+      else if (ch === '}') cDepth--;
+      else if (ch === '|' && pDepth === 0 && bDepth === 0 && cDepth === 0) armIndices.push(i);
+    }
+    if (armIndices.length > 0) {
+      collectExprDefinitionCalls(expr.slice(6, armIndices[0]).trim(), currentModule, moduleMap, localNames, out);
+      for (let a = 0; a < armIndices.length; a++) {
+        const end = a + 1 < armIndices.length ? armIndices[a + 1] : expr.length;
+        const armText = expr.slice(armIndices[a] + 1, end).trim();
+        const arrowIdx = armText.indexOf('=>');
+        if (arrowIdx === -1) continue;
+        const pat = armText.slice(0, arrowIdx).trim();
+        const bodyRaw = armText.slice(arrowIdx + 2).trim();
+        const armLocals = new Set(localNames);
+        if (pat.startsWith('Option.some ')) {
+          armLocals.add(pat.slice('Option.some '.length).trim());
+        } else if (pat.startsWith('Nat.succ ')) {
+          armLocals.add(pat.slice('Nat.succ '.length).trim());
+        } else if (pat.startsWith('List.cons ')) {
+          for (const b of tokenizeTopLevelExpr(pat.slice('List.cons '.length).trim())) {
+            armLocals.add(b);
+          }
+        }
+        collectExprDefinitionCalls(bodyRaw, currentModule, moduleMap, armLocals, out);
+      }
+    }
+    return;
+  }
+
+  for (const lexOp of ['||', '&&', '<=?', '<?', '=?', '+']) {
+    let pDepth = 0;
+    let bDepth = 0;
+    let cDepth = 0;
+    let inStr = false;
+    const token = ` ${lexOp} `;
+    for (let i = 0; i < expr.length; i++) {
+      const ch = expr[i];
+      if (ch === '"' && expr[i - 1] !== '\\') inStr = !inStr;
+      if (inStr) continue;
+      if (ch === '(') pDepth++;
+      else if (ch === ')') pDepth--;
+      else if (ch === '[') bDepth++;
+      else if (ch === ']') bDepth--;
+      else if (ch === '{') cDepth++;
+      else if (ch === '}') cDepth--;
+      if (pDepth === 0 && bDepth === 0 && cDepth === 0 && expr.slice(i, i + token.length) === token) {
+        collectExprDefinitionCalls(expr.slice(0, i).trim(), currentModule, moduleMap, localNames, out);
+        collectExprDefinitionCalls(
+          expr.slice(i + token.length).trim(),
+          currentModule,
+          moduleMap,
+          localNames,
+          out,
+        );
+        return;
+      }
+    }
+  }
+
+  const tokens = tokenizeTopLevelExpr(expr);
+  if (tokens.length === 0) return;
+  if (tokens[0] === 'not') {
+    collectExprDefinitionCalls(tokens.slice(1).join(' '), currentModule, moduleMap, localNames, out);
+    return;
+  }
+  if (tokens[0] === 'project') {
+    collectExprDefinitionCalls(tokens[1], currentModule, moduleMap, localNames, out);
+    return;
+  }
+  if (tokens[0] === 'ctor') {
+    if (tokens[1] === 'Option.some' && tokens[3]) {
+      collectExprDefinitionCalls(tokens[3], currentModule, moduleMap, localNames, out);
+    }
+    return;
+  }
+  if (tokens[0] === 'nil') return;
+  if (tokens[0] === 'cons') {
+    collectExprDefinitionCalls(tokens[1], currentModule, moduleMap, localNames, out);
+    collectExprDefinitionCalls(tokens[2], currentModule, moduleMap, localNames, out);
+    return;
+  }
+  if (tokens[0] === 'prim') {
+    const colonIdx = tokens.indexOf(':');
+    const argTokens = colonIdx === -1 ? tokens.slice(2) : tokens.slice(2, colonIdx);
+    for (const a of argTokens) {
+      collectExprDefinitionCalls(a, currentModule, moduleMap, localNames, out);
+    }
+    return;
+  }
+
+  const fnToken = tokens[0];
+  let targetModule = currentModule;
+  let defName = fnToken;
+  if (fnToken.includes('::')) {
+    const parts = fnToken.split('::');
+    targetModule = parts[0];
+    defName = parts[1];
+  }
+  if (moduleMap.get(targetModule)?.definitions.has(defName)) {
+    out.push({ moduleName: targetModule, defName });
+  }
+  for (const argTok of tokens.slice(1)) {
+    collectExprDefinitionCalls(argTok, currentModule, moduleMap, localNames, out);
+  }
+}
+
+export function verifyExecutableClosure(
+  orderedModules: FullLexModule[],
+  moduleMap: Map<string, FullLexModule>,
+): void {
+  const violations: string[] = [];
+  for (const mod of orderedModules) {
+    for (const [defName, def] of mod.definitions.entries()) {
+      if (def.production && !def.executable) {
+        violations.push(
+          `${mod.moduleName}::${defName} declares 'production' without 'executable: true'`,
+        );
+      }
+      if (!def.executable) continue;
+      const locals = new Set(def.parameters.map((p) => p.name));
+      const callees: Array<{ moduleName: string; defName: string }> = [];
+      collectExprDefinitionCalls(def.bodyRaw, mod.moduleName, moduleMap, locals, callees);
+      for (const callee of callees) {
+        const targetDef = moduleMap.get(callee.moduleName)?.definitions.get(callee.defName);
+        if (targetDef && !targetDef.executable) {
+          violations.push(
+            `${mod.moduleName}::${defName} (executable: true) calls non-executable ${callee.moduleName}::${callee.defName}`,
+          );
+        }
+      }
+    }
+  }
+  if (violations.length > 0) {
+    throw new Error(
+      `LLT4001 Executable Closure Violation (${violations.length}):\n  - ${violations.join('\n  - ')}`,
+    );
+  }
+}
+
+function readLexLeanModulePrefix(prismDir: string): { modulePrefix: string; version: string } {
+  const lexleanTomlPath = path.join(prismDir, 'lexlean.toml');
+  const prismTomlPath = path.join(prismDir, 'prism.toml');
+  let modulePrefix = 'PrismVerdantResonance';
+  let version = '0.1.0';
+  if (fs.existsSync(lexleanTomlPath)) {
+    const m = /module_prefix\s*=\s*"([^"]+)"/.exec(fs.readFileSync(lexleanTomlPath, 'utf8'));
+    if (m) modulePrefix = m[1];
+  }
+  if (fs.existsSync(prismTomlPath)) {
+    const v = /version\s*=\s*"([^"]+)"/.exec(fs.readFileSync(prismTomlPath, 'utf8'));
+    if (v) version = v[1];
+  }
+  return { modulePrefix, version };
+}
+
+export function extractProductionRootCatalog(prismDir: string): {
+  modulePrefix: string;
+  roots: ProductionRootDescriptor[];
+} {
+  const { modulePrefix, version } = readLexLeanModulePrefix(prismDir);
+  const orderedModules = loadFullPrismModuleGraph(path.join(prismDir, 'src'));
+  const roots: ProductionRootDescriptor[] = [];
+  for (const mod of orderedModules) {
+    for (const [defName, def] of mod.definitions.entries()) {
+      if (!def.production) continue;
+      const leanModuleName = `${modulePrefix}.${mod.moduleName}`;
+      const root = `${leanModuleName}.${defName}`;
+      const targets = def.production.targets.map((id) => {
+        const digest = LEXLEAN_PRODUCTION_TARGET_DIGESTS[id];
+        if (!digest) {
+          throw new Error(`Unknown lexlean production target '${id}' on ${root}`);
+        }
+        return { digest, id };
+      });
+      roots.push({
+        root,
+        moduleName: mod.moduleName,
+        leanModuleName,
+        defName,
+        packageName: deriveProductionCrateName(mod.moduleName, defName),
+        version,
+        targets,
+        effects: [...def.production.effects],
+      });
+    }
+  }
+  roots.sort((a, b) => a.root.localeCompare(b.root));
+  return { modulePrefix, roots };
+}
+
+export function renderProductionRequestJson(prismDir: string): string {
+  const { roots } = extractProductionRootCatalog(prismDir);
+  const payload = {
+    roots: roots.map((r) => ({
+      package: {
+        name: r.packageName,
+        version: r.version,
+      },
+      root: r.root,
+      targets: r.targets.map((t) => ({
+        digest: t.digest,
+        id: t.id,
+      })),
+    })),
+    spec: 'lexlean/production-request/1',
+  };
+  return `${JSON.stringify(payload, null, 2)}\n`;
+}
+
+export function renderRuntimeRootsToml(prismDir: string): string {
+  const { modulePrefix, roots } = extractProductionRootCatalog(prismDir);
+  const leanModules = [...new Set(roots.map((r) => r.leanModuleName))];
+  const lines: string[] = [
+    'spec = "prismpm/runtime-roots/1"',
+    `lean_modules = [${leanModules.map((m) => JSON.stringify(m)).join(', ')}]`,
+    `ir_module = ${JSON.stringify(modulePrefix)}`,
+    'roots = [',
+    ...roots.map((r) => `  ${JSON.stringify(r.root)},`),
+    ']',
+  ];
+  for (const r of roots) {
+    lines.push(
+      '',
+      '[[root]]',
+      `name = ${JSON.stringify(r.root)}`,
+      `package = ${JSON.stringify(r.packageName)}`,
+      `targets = [${r.targets.map((t) => JSON.stringify(t.id)).join(', ')}]`,
+      `effects = [${r.effects.map((e) => JSON.stringify(e)).join(', ')}]`,
+    );
+  }
+  return `${lines.join('\n')}\n`;
+}
+
 export function renderGeneratedPrismRuntimeSource(prismDir: string): string {
   const prismSrcDir = path.join(prismDir, 'src');
   const orderedModules = loadFullPrismModuleGraph(prismSrcDir);
   const moduleMap = new Map<string, FullLexModule>(orderedModules.map((m) => [m.moduleName, m]));
 
-  // Verify Foundation purity on every compile
+  // Verify Foundation purity and transitive executable closure on every compile
   const legacyModules = loadAllPrismModules(prismSrcDir);
   verifyNoUnprovedTrueLiteralsInFoundationModules(legacyModules);
+  verifyExecutableClosure(orderedModules, moduleMap);
 
   const sourceTreeDigestSha256 = computePrismSourceDigest(prismDir);
 
@@ -1140,11 +1580,20 @@ function _natRem(a: bigint, b: bigint, fallback = 0n): bigint {
   return b === 0n ? fallback : a % b;
 }
 
-function _bytesAppend(left: Uint8Array, right: Uint8Array): Uint8Array {
-  const out = new Uint8Array(left.length + right.length);
-  out.set(left, 0);
-  out.set(right, left.length);
-  return out;
+function _seqAppend(left: Uint8Array, right: Uint8Array): Uint8Array;
+function _seqAppend<T>(left: ReadonlyArray<T>, right: ReadonlyArray<T>): ReadonlyArray<T>;
+function _seqAppend(left: string, right: string): string;
+function _seqAppend(left: unknown, right: unknown): unknown {
+  if (left instanceof Uint8Array && right instanceof Uint8Array) {
+    const out = new Uint8Array(left.length + right.length);
+    out.set(left, 0);
+    out.set(right, left.length);
+    return out;
+  }
+  if (Array.isArray(left) && Array.isArray(right)) {
+    return [...left, ...right];
+  }
+  return String(left) + String(right);
 }
 
 function _bytesIndex(value: Uint8Array, offset: bigint): PrismOption<bigint> {
@@ -1175,6 +1624,7 @@ function _bytesCmp(left: Uint8Array, right: Uint8Array): PrismOrdering {
 }
 
 function _valEq(a: unknown, b: unknown): boolean {
+  if (a === b) return true;
   if (a instanceof Uint8Array && b instanceof Uint8Array) {
     if (a.length !== b.length) return false;
     for (let i = 0; i < a.length; i++) {
@@ -1182,7 +1632,24 @@ function _valEq(a: unknown, b: unknown): boolean {
     }
     return true;
   }
-  return a === b;
+  if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+      if (!_valEq(a[i], b[i])) return false;
+    }
+    return true;
+  }
+  if (a && b && typeof a === 'object' && typeof b === 'object') {
+    const keysA = Object.keys(a as Record<string, unknown>);
+    const keysB = Object.keys(b as Record<string, unknown>);
+    if (keysA.length !== keysB.length) return false;
+    for (const k of keysA) {
+      if (!Object.prototype.hasOwnProperty.call(b, k)) return false;
+      if (!_valEq((a as Record<string, unknown>)[k], (b as Record<string, unknown>)[k])) return false;
+    }
+    return true;
+  }
+  return false;
 }
 
 // ============================================================================
@@ -1562,6 +2029,8 @@ interface MechanizerCacheState {
   constantsSha256: string;
   runtimeSha256: string;
   specMdSha256: string;
+  productionRequestSha256: string;
+  runtimeRootsTomlSha256: string;
   updatedAtIso: string;
 }
 
@@ -1605,6 +2074,8 @@ export function ensurePrismMechanizedArtifacts(
   const prismDir = path.join(projectRoot, 'prism');
   const prismSrcDir = path.join(prismDir, 'src');
   const specMdPath = path.join(prismDir, 'SPEC.md');
+  const productionRequestPath = path.join(prismDir, 'production', 'request.json');
+  const runtimeRootsTomlPath = path.join(prismDir, 'model', 'runtime-roots.toml');
   const constantsOutPath = path.join(projectRoot, 'src', 'game', 'generatedPrismConstants.ts');
   const runtimeOutPath = path.join(projectRoot, 'src', 'game', 'generatedPrismRuntime.ts');
   const cachePath = path.join(
@@ -1622,7 +2093,9 @@ export function ensurePrismMechanizedArtifacts(
         cached.inputDigestSha256 === currentInputDigest &&
         sha256OfFile(constantsOutPath) === cached.constantsSha256 &&
         sha256OfFile(runtimeOutPath) === cached.runtimeSha256 &&
-        sha256OfFile(specMdPath) === cached.specMdSha256
+        sha256OfFile(specMdPath) === cached.specMdSha256 &&
+        (sha256OfFile(productionRequestPath) ?? '') === cached.productionRequestSha256 &&
+        (sha256OfFile(runtimeRootsTomlPath) ?? '') === cached.runtimeRootsTomlSha256
       ) {
         return {
           fromCache: true,
@@ -1660,6 +2133,9 @@ export function ensurePrismMechanizedArtifacts(
     inMemoryCompiledModules = undefined;
   }
   const expectedConstants = renderGeneratedPrismConstantsSource(prismSrcDir, inMemoryCompiledModules);
+  const { roots: prodRoots } = extractProductionRootCatalog(prismDir);
+  const expectedProdRequest = prodRoots.length > 0 ? renderProductionRequestJson(prismDir) : null;
+  const expectedRuntimeRoots = prodRoots.length > 0 ? renderRuntimeRootsToml(prismDir) : null;
 
   if (options.checkOnly) {
     const currentConstants = fs.existsSync(constantsOutPath)
@@ -1680,6 +2156,26 @@ export function ensurePrismMechanizedArtifacts(
         'src/game/generatedPrismRuntime.ts is out of date with prism/src/**/*.lex.tex',
       );
     }
+    if (expectedProdRequest !== null) {
+      const currentReq = fs.existsSync(productionRequestPath)
+        ? fs.readFileSync(productionRequestPath, 'utf8')
+        : '';
+      if (currentReq !== expectedProdRequest) {
+        specReport.driftDetails.push(
+          'prism/production/request.json drifted from LexLean production root declarations',
+        );
+      }
+    }
+    if (expectedRuntimeRoots !== null) {
+      const currentRootsToml = fs.existsSync(runtimeRootsTomlPath)
+        ? fs.readFileSync(runtimeRootsTomlPath, 'utf8')
+        : '';
+      if (currentRootsToml !== expectedRuntimeRoots) {
+        specReport.driftDetails.push(
+          'prism/model/runtime-roots.toml drifted from LexLean production root declarations',
+        );
+      }
+    }
     return {
       fromCache: false,
       durationMs: Number((performance.now() - t0).toFixed(2)),
@@ -1692,6 +2188,14 @@ export function ensurePrismMechanizedArtifacts(
 
   const constantsChanged = writeFileIfChanged(constantsOutPath, expectedConstants);
   const runtimeChanged = writeFileIfChanged(runtimeOutPath, expectedRuntime);
+  if (expectedProdRequest !== null) {
+    fs.mkdirSync(path.dirname(productionRequestPath), { recursive: true });
+    writeFileIfChanged(productionRequestPath, expectedProdRequest);
+  }
+  if (expectedRuntimeRoots !== null) {
+    fs.mkdirSync(path.dirname(runtimeRootsTomlPath), { recursive: true });
+    writeFileIfChanged(runtimeRootsTomlPath, expectedRuntimeRoots);
+  }
   const finalInputDigest = computeFullPipelineInputDigest(projectRoot);
 
   const nextCache: MechanizerCacheState = {
@@ -1699,6 +2203,8 @@ export function ensurePrismMechanizedArtifacts(
     constantsSha256: sha256OfString(expectedConstants),
     runtimeSha256: sha256OfString(expectedRuntime),
     specMdSha256: sha256OfFile(specMdPath) ?? '',
+    productionRequestSha256: sha256OfFile(productionRequestPath) ?? '',
+    runtimeRootsTomlSha256: sha256OfFile(runtimeRootsTomlPath) ?? '',
     updatedAtIso: new Date().toISOString(),
   };
   try {

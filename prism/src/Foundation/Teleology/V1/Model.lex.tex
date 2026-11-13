@@ -118,7 +118,8 @@ definition{
   name: clampTeleologyPermille,
   parameters: [value : Nat],
   result: Nat,
-  body: (if (value <=? 1000) then value else 1000)
+  body: (if (value <=? 1000) then value else 1000),
+  executable: true
 }
 
 definition{
@@ -146,7 +147,9 @@ definition{
   name: stepTriadicPlayerGameObserverCoherencePermille,
   parameters: [busWeight : Nat, rule30Entropy : Nat, playerAttentionPermille : Nat, residualDissonancePermille : Nat],
   result: Nat,
-  body: (let internalBase : Nat := ((468 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 16 : Nat)) + (if (rule30Entropy <=? 36) then rule30Entropy else 36)); (let playerBridge : Nat := (prim quotient (prim multiply (clampTeleologyPermille playerAttentionPermille) 240 : Nat) 1000 0 : Nat); (let dissonanceDrag : Nat := (prim quotient (clampTeleologyPermille residualDissonancePermille) 2 0 : Nat); (prim subtract (internalBase + playerBridge) dissonanceDrag : Nat))))
+  body: (let internalBase : Nat := ((468 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 16 : Nat)) + (if (rule30Entropy <=? 36) then rule30Entropy else 36)); (let playerBridge : Nat := (prim quotient (prim multiply (clampTeleologyPermille playerAttentionPermille) 240 : Nat) 1000 0 : Nat); (let dissonanceDrag : Nat := (prim quotient (clampTeleologyPermille residualDissonancePermille) 2 0 : Nat); (prim subtract (internalBase + playerBridge) dissonanceDrag : Nat)))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

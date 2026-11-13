@@ -19,14 +19,14 @@ kind = "path"
 path = "language/prism.arch"
 
 [limits]
-max_file_bytes = 4194304
-max_total_source_bytes = 67108864
-max_primitive_atoms = 2000000
-max_token_lattice_edges = 4000000
-max_parse_states = 4000000
-max_ir_nodes = 2000000
+max_file_bytes = 16777216
+max_total_source_bytes = 134217728
+max_primitive_atoms = 8000000
+max_token_lattice_edges = 16000000
+max_parse_states = 16000000
+max_ir_nodes = 8000000
 max_scope_depth = 1024
 max_import_depth = 128
 max_diagnostics = 256
-max_child_output_bytes = 16777216
-child_timeout_ms = 300000
+max_child_output_bytes = 33554432
+child_timeout_ms = 600000

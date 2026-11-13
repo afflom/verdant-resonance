@@ -122,7 +122,8 @@ definition{
   name: stepArticulationBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (900 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat))
+  body: (900 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat)),
+  executable: true
 }
 
 definition{

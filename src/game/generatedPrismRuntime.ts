@@ -53,11 +53,20 @@ function _natRem(a: bigint, b: bigint, fallback = 0n): bigint {
   return b === 0n ? fallback : a % b;
 }
 
-function _bytesAppend(left: Uint8Array, right: Uint8Array): Uint8Array {
-  const out = new Uint8Array(left.length + right.length);
-  out.set(left, 0);
-  out.set(right, left.length);
-  return out;
+function _seqAppend(left: Uint8Array, right: Uint8Array): Uint8Array;
+function _seqAppend<T>(left: ReadonlyArray<T>, right: ReadonlyArray<T>): ReadonlyArray<T>;
+function _seqAppend(left: string, right: string): string;
+function _seqAppend(left: unknown, right: unknown): unknown {
+  if (left instanceof Uint8Array && right instanceof Uint8Array) {
+    const out = new Uint8Array(left.length + right.length);
+    out.set(left, 0);
+    out.set(right, left.length);
+    return out;
+  }
+  if (Array.isArray(left) && Array.isArray(right)) {
+    return [...left, ...right];
+  }
+  return String(left) + String(right);
 }
 
 function _bytesIndex(value: Uint8Array, offset: bigint): PrismOption<bigint> {
@@ -88,6 +97,7 @@ function _bytesCmp(left: Uint8Array, right: Uint8Array): PrismOrdering {
 }
 
 function _valEq(a: unknown, b: unknown): boolean {
+  if (a === b) return true;
   if (a instanceof Uint8Array && b instanceof Uint8Array) {
     if (a.length !== b.length) return false;
     for (let i = 0; i < a.length; i++) {
@@ -95,7 +105,24 @@ function _valEq(a: unknown, b: unknown): boolean {
     }
     return true;
   }
-  return a === b;
+  if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+      if (!_valEq(a[i], b[i])) return false;
+    }
+    return true;
+  }
+  if (a && b && typeof a === 'object' && typeof b === 'object') {
+    const keysA = Object.keys(a as Record<string, unknown>);
+    const keysB = Object.keys(b as Record<string, unknown>);
+    if (keysA.length !== keysB.length) return false;
+    for (const k of keysA) {
+      if (!Object.prototype.hasOwnProperty.call(b, k)) return false;
+      if (!_valEq((a as Record<string, unknown>)[k], (b as Record<string, unknown>)[k])) return false;
+    }
+    return true;
+  }
+  return false;
 }
 
 // ============================================================================
@@ -1699,6 +1726,45 @@ export interface Foundation_Mechanization_V1_Model_MechanizationStandardModel {
   readonly epistemicHonestyAndConformance: Foundation_Mechanization_V1_Model_EpistemicHonestyAndConformanceSpec;
   readonly peirceTriadicEngine: Foundation_Mechanization_V1_Model_PeirceAbductionDeductionInductionSpec;
   readonly harmanOooObserver: Foundation_Mechanization_V1_Model_HarmanObjectOrientedObserverSpec;
+}
+
+export interface Foundation_Mechanization_V1_Model_Trigger {
+  readonly event: string;
+  readonly value: string;
+}
+
+export interface Foundation_Mechanization_V1_Model_Permission {
+  readonly scope: string;
+  readonly access: string;
+}
+
+export interface Foundation_Mechanization_V1_Model_Stage {
+  readonly id: string;
+  readonly budget: bigint;
+  readonly gate: boolean;
+}
+
+export interface Foundation_Mechanization_V1_Model_CacheFamily {
+  readonly id: string;
+  readonly path: string;
+}
+
+export interface Foundation_Mechanization_V1_Model_Strategy {
+  readonly id: string;
+  readonly template: string;
+  readonly digest: string;
+}
+
+export interface Foundation_Mechanization_V1_Model_Weight {
+  readonly strategy: string;
+  readonly family: string;
+  readonly value: bigint;
+}
+
+export interface Foundation_Mechanization_V1_Model_Outcome {
+  readonly strategy: string;
+  readonly family: string;
+  readonly success: boolean;
 }
 
 export interface Foundation_View_Text_V1_Model_TextView {
@@ -3403,7 +3469,7 @@ export function Foundation_Brand_V1_Model_breaksBrandDescriptorComplete(probe: b
 }
 
 export function Foundation_Bytes_appendBytes(left: PrismBytes, right: PrismBytes): PrismBytes {
-  return _bytesAppend(left, right);
+  return _seqAppend(left, right);
 }
 
 export function Foundation_Bytes_byteLength(value: PrismBytes): bigint {
@@ -3652,7 +3718,7 @@ const _memo_Foundation_Compression_V1_Model_pow2 = new Map<bigint, bigint>();
 export function Foundation_Compression_V1_Model_pow2(n: bigint): bigint {
   const hit = _memo_Foundation_Compression_V1_Model_pow2.get(n);
   if (hit !== undefined) return hit;
-  const val = ((_m0) => _m0 <= 0n ? 1n : ((k_1) => ((_dup2) => (_dup2 + _dup2))(Foundation_Compression_V1_Model_pow2(k_1)))(_m0 - 1n))(n);
+  const val = ((_m0) => _m0 <= 0n ? 1n : ((k_1) => (() => { const half = Foundation_Compression_V1_Model_pow2(k_1); return ((_dup2) => (_dup2 + _dup2))(half); })())(_m0 - 1n))(n);
   _memo_Foundation_Compression_V1_Model_pow2.set(n, val);
   return val;
 }
@@ -5087,8 +5153,12 @@ export function Foundation_Mechanization_V1_Model_liftResidueTargetZero(): bigin
   return _c_Foundation_Mechanization_V1_Model_liftResidueTargetZero !== undefined ? _c_Foundation_Mechanization_V1_Model_liftResidueTargetZero : (_c_Foundation_Mechanization_V1_Model_liftResidueTargetZero = 0n);
 }
 
+export function Foundation_Mechanization_V1_Model_admitLiftKappaTransitionScore(incumbentPresent: boolean, incumbentClass: bigint, candidateClass: bigint): bigint {
+  return ((candidateClass < Foundation_Mechanization_V1_Model_liftClassTotal()) ? (incumbentPresent ? ((incumbentClass === Foundation_Mechanization_V1_Model_liftClassLifted()) ? ((candidateClass === Foundation_Mechanization_V1_Model_liftClassLifted()) ? 1n : 0n) : 1n) : 1n) : 0n);
+}
+
 export function Foundation_Mechanization_V1_Model_admitLiftKappaTransition(incumbentPresent: boolean, incumbentClass: bigint, candidateClass: bigint): boolean {
-  return ((candidateClass < Foundation_Mechanization_V1_Model_liftClassTotal()) && (!((incumbentPresent && (incumbentClass === Foundation_Mechanization_V1_Model_liftClassLifted())) && (!(candidateClass === Foundation_Mechanization_V1_Model_liftClassLifted())))));
+  return (Foundation_Mechanization_V1_Model_admitLiftKappaTransitionScore(incumbentPresent, incumbentClass, candidateClass) === 1n);
 }
 
 export function Foundation_Mechanization_V1_Model_unliftedOpenDistance(residueCount: bigint, foreignCount: bigint, effectCount: bigint): bigint {
@@ -5245,12 +5315,12 @@ export function Foundation_Mechanization_V1_Model_schedulePairSecondWeight(wA: b
   return ((wA < wB) ? wA : wB);
 }
 
-export function Foundation_Mechanization_V1_Model_reserveHomeostasisGateShare(totalTickBudget: bigint, gateMinimum: bigint): bigint {
-  return ((totalTickBudget <= gateMinimum) ? totalTickBudget : gateMinimum);
+export function Foundation_Mechanization_V1_Model_reserveHomeostasisGateShare(totalTickBudget: bigint, minGateShare: bigint): bigint {
+  return ((totalTickBudget <= minGateShare) ? totalTickBudget : minGateShare);
 }
 
-export function Foundation_Mechanization_V1_Model_deductiveSearchShareAfterGate(totalTickBudget: bigint, gateMinimum: bigint): bigint {
-  return _natSub(totalTickBudget, Foundation_Mechanization_V1_Model_reserveHomeostasisGateShare(totalTickBudget, gateMinimum));
+export function Foundation_Mechanization_V1_Model_deductiveSearchShareAfterGate(totalTickBudget: bigint, minGateShare: bigint): bigint {
+  return _natSub(totalTickBudget, Foundation_Mechanization_V1_Model_reserveHomeostasisGateShare(totalTickBudget, minGateShare));
 }
 
 let _c_Foundation_Mechanization_V1_Model_oooPoleSensualQuality: bigint | undefined;
@@ -5335,7 +5405,7 @@ export function Foundation_Mechanization_V1_Model_verifyPeirceCycleAndOooObserve
 }
 
 export function Foundation_Mechanization_V1_Model_breaksMonotonicLiftRatchetAndOpenDistance(incumbentClass: bigint, candidateClass: bigint): boolean {
-  return (((incumbentClass === Foundation_Mechanization_V1_Model_liftClassLifted()) && ((!(candidateClass === Foundation_Mechanization_V1_Model_liftClassLifted())) && Foundation_Mechanization_V1_Model_admitLiftKappaTransition(true, incumbentClass, candidateClass))) || ((Foundation_Mechanization_V1_Model_liftClassTotal() <= candidateClass) && Foundation_Mechanization_V1_Model_admitLiftKappaTransition(false, incumbentClass, candidateClass)));
+  return (((incumbentClass === Foundation_Mechanization_V1_Model_liftClassLifted()) && ((Foundation_Mechanization_V1_Model_liftClassLifted() < candidateClass) && Foundation_Mechanization_V1_Model_admitLiftKappaTransition(true, incumbentClass, candidateClass))) || ((Foundation_Mechanization_V1_Model_liftClassTotal() <= candidateClass) && Foundation_Mechanization_V1_Model_admitLiftKappaTransition(false, incumbentClass, candidateClass)));
 }
 
 export function Foundation_Mechanization_V1_Model_breaksSchedulePermutationAndWeightBounds(wA: bigint, wB: bigint): boolean {
@@ -5354,6 +5424,279 @@ export function Foundation_Mechanization_V1_Model_mechanizationStandardModel(): 
 let _c_Foundation_Mechanization_V1_Model_verifyUnifiedMechanizationModelCoherence: boolean | undefined;
 export function Foundation_Mechanization_V1_Model_verifyUnifiedMechanizationModelCoherence(): boolean {
   return _c_Foundation_Mechanization_V1_Model_verifyUnifiedMechanizationModelCoherence !== undefined ? _c_Foundation_Mechanization_V1_Model_verifyUnifiedMechanizationModelCoherence : (_c_Foundation_Mechanization_V1_Model_verifyUnifiedMechanizationModelCoherence = ((Foundation_Mechanization_V1_Model_verifyFoundryRouterAndLiftVectors() && Foundation_Mechanization_V1_Model_verifyEpistemicHonestyAndConformanceVectors()) && (Foundation_Mechanization_V1_Model_verifyPeirceCycleAndOooObserverVectors() && (Foundation_Mechanization_V1_Model_mechanizationStandardModel().coherentClassicalModelCount === 6n))));
+}
+
+export function Foundation_Mechanization_V1_Model_memberString(value: string, values: ReadonlyArray<string>): boolean {
+  return ((_m0) => _m0.length === 0 ? false : ((head_1, tail_2) => (_valEq(value, head_1) ? true : Foundation_Mechanization_V1_Model_memberString(value, tail_2)))(_m0[0], _m0.slice(1)))(values);
+}
+
+export function Foundation_Mechanization_V1_Model_allMembers(values: ReadonlyArray<string>, ids: ReadonlyArray<string>): boolean {
+  return ((_m0) => _m0.length === 0 ? true : ((head_1, tail_2) => (Foundation_Mechanization_V1_Model_memberString(head_1, ids) ? Foundation_Mechanization_V1_Model_allMembers(tail_2, ids) : false))(_m0[0], _m0.slice(1)))(values);
+}
+
+let _c_Foundation_Mechanization_V1_Model_workflowName: string | undefined;
+export function Foundation_Mechanization_V1_Model_workflowName(): string {
+  return _c_Foundation_Mechanization_V1_Model_workflowName !== undefined ? _c_Foundation_Mechanization_V1_Model_workflowName : (_c_Foundation_Mechanization_V1_Model_workflowName = "Verdant Engine");
+}
+
+let _c_Foundation_Mechanization_V1_Model_workflowFile: string | undefined;
+export function Foundation_Mechanization_V1_Model_workflowFile(): string {
+  return _c_Foundation_Mechanization_V1_Model_workflowFile !== undefined ? _c_Foundation_Mechanization_V1_Model_workflowFile : (_c_Foundation_Mechanization_V1_Model_workflowFile = ".github/workflows/engine.yml");
+}
+
+let _c_Foundation_Mechanization_V1_Model_repository: string | undefined;
+export function Foundation_Mechanization_V1_Model_repository(): string {
+  return _c_Foundation_Mechanization_V1_Model_repository !== undefined ? _c_Foundation_Mechanization_V1_Model_repository : (_c_Foundation_Mechanization_V1_Model_repository = "afflom/verdant-resonance");
+}
+
+let _c_Foundation_Mechanization_V1_Model_runsOn: string | undefined;
+export function Foundation_Mechanization_V1_Model_runsOn(): string {
+  return _c_Foundation_Mechanization_V1_Model_runsOn !== undefined ? _c_Foundation_Mechanization_V1_Model_runsOn : (_c_Foundation_Mechanization_V1_Model_runsOn = "ubuntu-24.04");
+}
+
+let _c_Foundation_Mechanization_V1_Model_timeoutMinutes: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_timeoutMinutes(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_timeoutMinutes !== undefined ? _c_Foundation_Mechanization_V1_Model_timeoutMinutes : (_c_Foundation_Mechanization_V1_Model_timeoutMinutes = 45n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_setupMinutes: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_setupMinutes(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_setupMinutes !== undefined ? _c_Foundation_Mechanization_V1_Model_setupMinutes : (_c_Foundation_Mechanization_V1_Model_setupMinutes = 10n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_tickBudget: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_tickBudget(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_tickBudget !== undefined ? _c_Foundation_Mechanization_V1_Model_tickBudget : (_c_Foundation_Mechanization_V1_Model_tickBudget = 35n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_gateMinimum: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_gateMinimum(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_gateMinimum !== undefined ? _c_Foundation_Mechanization_V1_Model_gateMinimum : (_c_Foundation_Mechanization_V1_Model_gateMinimum = 8n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_cronMinutes: ReadonlyArray<bigint> | undefined;
+export function Foundation_Mechanization_V1_Model_cronMinutes(): ReadonlyArray<bigint> {
+  return _c_Foundation_Mechanization_V1_Model_cronMinutes !== undefined ? _c_Foundation_Mechanization_V1_Model_cronMinutes : (_c_Foundation_Mechanization_V1_Model_cronMinutes = ([17n, 47n] as ReadonlyArray<bigint>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_concurrencyGroups: ReadonlyArray<string> | undefined;
+export function Foundation_Mechanization_V1_Model_concurrencyGroups(): ReadonlyArray<string> {
+  return _c_Foundation_Mechanization_V1_Model_concurrencyGroups !== undefined ? _c_Foundation_Mechanization_V1_Model_concurrencyGroups : (_c_Foundation_Mechanization_V1_Model_concurrencyGroups = (["verdant-engine"] as ReadonlyArray<string>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_cancelInProgress: boolean | undefined;
+export function Foundation_Mechanization_V1_Model_cancelInProgress(): boolean {
+  return _c_Foundation_Mechanization_V1_Model_cancelInProgress !== undefined ? _c_Foundation_Mechanization_V1_Model_cancelInProgress : (_c_Foundation_Mechanization_V1_Model_cancelInProgress = false);
+}
+
+let _c_Foundation_Mechanization_V1_Model_killSwitch: string | undefined;
+export function Foundation_Mechanization_V1_Model_killSwitch(): string {
+  return _c_Foundation_Mechanization_V1_Model_killSwitch !== undefined ? _c_Foundation_Mechanization_V1_Model_killSwitch : (_c_Foundation_Mechanization_V1_Model_killSwitch = "VERDANT_ENGINE");
+}
+
+let _c_Foundation_Mechanization_V1_Model_secrets: ReadonlyArray<string> | undefined;
+export function Foundation_Mechanization_V1_Model_secrets(): ReadonlyArray<string> {
+  return _c_Foundation_Mechanization_V1_Model_secrets !== undefined ? _c_Foundation_Mechanization_V1_Model_secrets : (_c_Foundation_Mechanization_V1_Model_secrets = (["GITHUB_TOKEN"] as ReadonlyArray<string>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_permissions: ReadonlyArray<Foundation_Mechanization_V1_Model_Permission> | undefined;
+export function Foundation_Mechanization_V1_Model_permissions(): ReadonlyArray<Foundation_Mechanization_V1_Model_Permission> {
+  return _c_Foundation_Mechanization_V1_Model_permissions !== undefined ? _c_Foundation_Mechanization_V1_Model_permissions : (_c_Foundation_Mechanization_V1_Model_permissions = ([({ scope: "contents", access: "write" } as Foundation_Mechanization_V1_Model_Permission), ({ scope: "actions", access: "write" } as Foundation_Mechanization_V1_Model_Permission)] as ReadonlyArray<Foundation_Mechanization_V1_Model_Permission>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_triggers: ReadonlyArray<Foundation_Mechanization_V1_Model_Trigger> | undefined;
+export function Foundation_Mechanization_V1_Model_triggers(): ReadonlyArray<Foundation_Mechanization_V1_Model_Trigger> {
+  return _c_Foundation_Mechanization_V1_Model_triggers !== undefined ? _c_Foundation_Mechanization_V1_Model_triggers : (_c_Foundation_Mechanization_V1_Model_triggers = ([({ event: "schedule", value: "17,47 * * * *" } as Foundation_Mechanization_V1_Model_Trigger), ({ event: "workflow_dispatch", value: "manual" } as Foundation_Mechanization_V1_Model_Trigger), ({ event: "push", value: "main" } as Foundation_Mechanization_V1_Model_Trigger)] as ReadonlyArray<Foundation_Mechanization_V1_Model_Trigger>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_pushPaths: ReadonlyArray<string> | undefined;
+export function Foundation_Mechanization_V1_Model_pushPaths(): ReadonlyArray<string> {
+  return _c_Foundation_Mechanization_V1_Model_pushPaths !== undefined ? _c_Foundation_Mechanization_V1_Model_pushPaths : (_c_Foundation_Mechanization_V1_Model_pushPaths = (["prism/src/**", "prism/spec.json", "prism/production/request.json", "prism/handwritten-ratchet.json", "scripts/**", "src/game/**", "package.json", ".github/workflows/engine.yml"] as ReadonlyArray<string>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_actionsUsed: ReadonlyArray<string> | undefined;
+export function Foundation_Mechanization_V1_Model_actionsUsed(): ReadonlyArray<string> {
+  return _c_Foundation_Mechanization_V1_Model_actionsUsed !== undefined ? _c_Foundation_Mechanization_V1_Model_actionsUsed : (_c_Foundation_Mechanization_V1_Model_actionsUsed = (["actions/checkout@v4", "actions/setup-node@v4", "actions/cache@v4", "dtolnay/rust-toolchain@stable"] as ReadonlyArray<string>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_actionsAllowed: ReadonlyArray<string> | undefined;
+export function Foundation_Mechanization_V1_Model_actionsAllowed(): ReadonlyArray<string> {
+  return _c_Foundation_Mechanization_V1_Model_actionsAllowed !== undefined ? _c_Foundation_Mechanization_V1_Model_actionsAllowed : (_c_Foundation_Mechanization_V1_Model_actionsAllowed = (["actions/checkout@v4", "actions/setup-node@v4", "actions/cache@v4", "actions/upload-artifact@v4", "actions/upload-pages-artifact@v3", "actions/deploy-pages@v4", "dtolnay/rust-toolchain@stable"] as ReadonlyArray<string>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_stages: ReadonlyArray<Foundation_Mechanization_V1_Model_Stage> | undefined;
+export function Foundation_Mechanization_V1_Model_stages(): ReadonlyArray<Foundation_Mechanization_V1_Model_Stage> {
+  return _c_Foundation_Mechanization_V1_Model_stages !== undefined ? _c_Foundation_Mechanization_V1_Model_stages : (_c_Foundation_Mechanization_V1_Model_stages = ([({ id: "verify-bundle", budget: 5n, gate: false } as Foundation_Mechanization_V1_Model_Stage), ({ id: "rule30-discovery", budget: 5n, gate: false } as Foundation_Mechanization_V1_Model_Stage), ({ id: "ratchet-audit", budget: 5n, gate: false } as Foundation_Mechanization_V1_Model_Stage), ({ id: "teleology-coherence", budget: 5n, gate: false } as Foundation_Mechanization_V1_Model_Stage), ({ id: "portfolio-learning", budget: 5n, gate: false } as Foundation_Mechanization_V1_Model_Stage), ({ id: "gate", budget: 10n, gate: true } as Foundation_Mechanization_V1_Model_Stage)] as ReadonlyArray<Foundation_Mechanization_V1_Model_Stage>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_caches: ReadonlyArray<Foundation_Mechanization_V1_Model_CacheFamily> | undefined;
+export function Foundation_Mechanization_V1_Model_caches(): ReadonlyArray<Foundation_Mechanization_V1_Model_CacheFamily> {
+  return _c_Foundation_Mechanization_V1_Model_caches !== undefined ? _c_Foundation_Mechanization_V1_Model_caches : (_c_Foundation_Mechanization_V1_Model_caches = ([({ id: "cargo", path: "prism/.lexlean/harness/target\\nprism/.lexlean/wasm-guest/target" } as Foundation_Mechanization_V1_Model_CacheFamily), ({ id: "production", path: "prism/.lexlean/production" } as Foundation_Mechanization_V1_Model_CacheFamily), ({ id: "lake", path: "prism/.lake" } as Foundation_Mechanization_V1_Model_CacheFamily), ({ id: "mechanizer", path: "node_modules/.cache" } as Foundation_Mechanization_V1_Model_CacheFamily)] as ReadonlyArray<Foundation_Mechanization_V1_Model_CacheFamily>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_portfolio: ReadonlyArray<Foundation_Mechanization_V1_Model_Strategy> | undefined;
+export function Foundation_Mechanization_V1_Model_portfolio(): ReadonlyArray<Foundation_Mechanization_V1_Model_Strategy> {
+  return _c_Foundation_Mechanization_V1_Model_portfolio !== undefined ? _c_Foundation_Mechanization_V1_Model_portfolio : (_c_Foundation_Mechanization_V1_Model_portfolio = ([({ id: "library-rewrite", template: "library-rewrite.lean.tmpl", digest: "sha256:7a7daaffa8216ed54c33d348240700c78235419661616af3f05c08b1b2e44693" } as Foundation_Mechanization_V1_Model_Strategy), ({ id: "step-induction", template: "step-induction.lean.tmpl", digest: "sha256:f57700ca05d53e84bedb354c9dd6a1988528935580258cf9313a43dbca06e53f" } as Foundation_Mechanization_V1_Model_Strategy), ({ id: "period-reduction", template: "period-reduction.lean.tmpl", digest: "sha256:f9bf7d3cbe1bb2236e43f1c83b9466ec2dfc892753c737f409d9d62ae3272a59" } as Foundation_Mechanization_V1_Model_Strategy), ({ id: "counterexample", template: "counterexample.lean.tmpl", digest: "sha256:32690643eb2aca6e89663e989a822acbd162ede4e1bbfdb873ff75a37de30d7d" } as Foundation_Mechanization_V1_Model_Strategy)] as ReadonlyArray<Foundation_Mechanization_V1_Model_Strategy>));
+}
+
+export function Foundation_Mechanization_V1_Model_strategyIdsOf(xs: ReadonlyArray<Foundation_Mechanization_V1_Model_Strategy>): ReadonlyArray<string> {
+  return ((_m0) => _m0.length === 0 ? ([] as ReadonlyArray<string>) : ((head_1, tail_2) => [head_1.id, ...Foundation_Mechanization_V1_Model_strategyIdsOf(tail_2)])(_m0[0], _m0.slice(1)))(xs);
+}
+
+export function Foundation_Mechanization_V1_Model_digestsOf(xs: ReadonlyArray<Foundation_Mechanization_V1_Model_Strategy>): ReadonlyArray<string> {
+  return ((_m0) => _m0.length === 0 ? ([] as ReadonlyArray<string>) : ((head_1, tail_2) => [head_1.digest, ...Foundation_Mechanization_V1_Model_digestsOf(tail_2)])(_m0[0], _m0.slice(1)))(xs);
+}
+
+export function Foundation_Mechanization_V1_Model_stageIdsOf(xs: ReadonlyArray<Foundation_Mechanization_V1_Model_Stage>): ReadonlyArray<string> {
+  return ((_m0) => _m0.length === 0 ? ([] as ReadonlyArray<string>) : ((head_1, tail_2) => [head_1.id, ...Foundation_Mechanization_V1_Model_stageIdsOf(tail_2)])(_m0[0], _m0.slice(1)))(xs);
+}
+
+export function Foundation_Mechanization_V1_Model_cacheIdsOf(xs: ReadonlyArray<Foundation_Mechanization_V1_Model_CacheFamily>): ReadonlyArray<string> {
+  return ((_m0) => _m0.length === 0 ? ([] as ReadonlyArray<string>) : ((head_1, tail_2) => [head_1.id, ...Foundation_Mechanization_V1_Model_cacheIdsOf(tail_2)])(_m0[0], _m0.slice(1)))(xs);
+}
+
+export function Foundation_Mechanization_V1_Model_budgetSum(xs: ReadonlyArray<Foundation_Mechanization_V1_Model_Stage>): bigint {
+  return ((_m0) => _m0.length === 0 ? 0n : ((head_1, tail_2) => (head_1.budget + Foundation_Mechanization_V1_Model_budgetSum(tail_2)))(_m0[0], _m0.slice(1)))(xs);
+}
+
+export function Foundation_Mechanization_V1_Model_gateShare(xs: ReadonlyArray<Foundation_Mechanization_V1_Model_Stage>): bigint {
+  return ((_m0) => _m0.length === 0 ? 0n : ((head_1, tail_2) => ((head_1.gate ? head_1.budget : 0n) + Foundation_Mechanization_V1_Model_gateShare(tail_2)))(_m0[0], _m0.slice(1)))(xs);
+}
+
+export function Foundation_Mechanization_V1_Model_permissionsWrite(xs: ReadonlyArray<Foundation_Mechanization_V1_Model_Permission>): boolean {
+  return ((_m0) => _m0.length === 0 ? true : ((head_1, tail_2) => ((Foundation_Mechanization_V1_Model_memberString(head_1.scope, (["contents", "actions"] as ReadonlyArray<string>)) && _valEq(head_1.access, "write")) && Foundation_Mechanization_V1_Model_permissionsWrite(tail_2)))(_m0[0], _m0.slice(1)))(xs);
+}
+
+export function Foundation_Mechanization_V1_Model_offTheHour(xs: ReadonlyArray<bigint>): boolean {
+  return ((_m0) => _m0.length === 0 ? true : ((head_1, tail_2) => (((0n < head_1) && (head_1 < 60n)) && Foundation_Mechanization_V1_Model_offTheHour(tail_2)))(_m0[0], _m0.slice(1)))(xs);
+}
+
+export function Foundation_Mechanization_V1_Model_thirtyApart(xs: ReadonlyArray<bigint>): boolean {
+  return ((_m0) => _m0.length === 0 ? false : ((head_1, tail_2) => ((_m3) => _m3.length === 0 ? false : ((later_4, more_5) => ((later_4 === (head_1 + 30n)) && (BigInt(more_5.length) === 0n)))(_m3[0], _m3.slice(1)))(tail_2))(_m0[0], _m0.slice(1)))(xs);
+}
+
+export function Foundation_Mechanization_V1_Model_distinctStrings(values: ReadonlyArray<string>): boolean {
+  return ((_m0) => _m0.length === 0 ? true : ((head_1, tail_2) => ((!Foundation_Mechanization_V1_Model_memberString(head_1, tail_2)) && Foundation_Mechanization_V1_Model_distinctStrings(tail_2)))(_m0[0], _m0.slice(1)))(values);
+}
+
+export function Foundation_Mechanization_V1_Model_allNonEmpty(values: ReadonlyArray<string>): boolean {
+  return ((_m0) => _m0.length === 0 ? true : ((head_1, tail_2) => ((!_valEq(head_1, "")) && Foundation_Mechanization_V1_Model_allNonEmpty(tail_2)))(_m0[0], _m0.slice(1)))(values);
+}
+
+export function Foundation_Mechanization_V1_Model_learn(w: bigint, success: boolean): bigint {
+  return (success ? (((w + 2n) <= 16n) ? (w + 2n) : 16n) : ((2n <= w) ? _natSub(w, 1n) : 1n));
+}
+
+export function Foundation_Mechanization_V1_Model_weightOf(strategy: string, family: string, table: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>): bigint {
+  return ((_m0) => _m0.length === 0 ? 8n : ((head_1, tail_2) => ((_valEq(head_1.strategy, strategy) && _valEq(head_1.family, family)) ? head_1.value : Foundation_Mechanization_V1_Model_weightOf(strategy, family, tail_2)))(_m0[0], _m0.slice(1)))(table);
+}
+
+export function Foundation_Mechanization_V1_Model_updateWeight(table: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>, strategy: string, family: string, success: boolean): ReadonlyArray<Foundation_Mechanization_V1_Model_Weight> {
+  return ((_m0) => _m0.length === 0 ? ([({ strategy: strategy, family: family, value: Foundation_Mechanization_V1_Model_learn(8n, success) } as Foundation_Mechanization_V1_Model_Weight)] as ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>) : ((head_1, tail_2) => ((_valEq(head_1.strategy, strategy) && _valEq(head_1.family, family)) ? [({ strategy: strategy, family: family, value: Foundation_Mechanization_V1_Model_learn(head_1.value, success) } as Foundation_Mechanization_V1_Model_Weight), ...tail_2] : [head_1, ...Foundation_Mechanization_V1_Model_updateWeight(tail_2, strategy, family, success)]))(_m0[0], _m0.slice(1)))(table);
+}
+
+export function Foundation_Mechanization_V1_Model_learnAll(table: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>, outcomes: ReadonlyArray<Foundation_Mechanization_V1_Model_Outcome>): ReadonlyArray<Foundation_Mechanization_V1_Model_Weight> {
+  return ((_m0) => _m0.length === 0 ? table : ((head_1, tail_2) => Foundation_Mechanization_V1_Model_learnAll(Foundation_Mechanization_V1_Model_updateWeight(table, head_1.strategy, head_1.family, head_1.success), tail_2))(_m0[0], _m0.slice(1)))(outcomes);
+}
+
+export function Foundation_Mechanization_V1_Model_insertByWeight(family: string, table: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>, x: string, ordered: ReadonlyArray<string>): ReadonlyArray<string> {
+  return ((_m0) => _m0.length === 0 ? ([x] as ReadonlyArray<string>) : ((head_1, tail_2) => ((Foundation_Mechanization_V1_Model_weightOf(head_1, family, table) < Foundation_Mechanization_V1_Model_weightOf(x, family, table)) ? [x, head_1, ...tail_2] : [head_1, ...Foundation_Mechanization_V1_Model_insertByWeight(family, table, x, tail_2)]))(_m0[0], _m0.slice(1)))(ordered);
+}
+
+export function Foundation_Mechanization_V1_Model_scheduleFrom(family: string, table: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>, pending: ReadonlyArray<string>, ordered: ReadonlyArray<string>): ReadonlyArray<string> {
+  return ((_m0) => _m0.length === 0 ? ordered : ((head_1, tail_2) => Foundation_Mechanization_V1_Model_scheduleFrom(family, table, tail_2, Foundation_Mechanization_V1_Model_insertByWeight(family, table, head_1, ordered)))(_m0[0], _m0.slice(1)))(pending);
+}
+
+export function Foundation_Mechanization_V1_Model_schedule(table: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>, family: string, applicable: ReadonlyArray<string>): ReadonlyArray<string> {
+  return Foundation_Mechanization_V1_Model_scheduleFrom(family, table, applicable, ([] as ReadonlyArray<string>));
+}
+
+export function Foundation_Mechanization_V1_Model_inBounds(w: bigint): boolean {
+  return ((1n <= w) && (w <= 16n));
+}
+
+const _memo_Foundation_Mechanization_V1_Model_learnBoundedUpTo = new Map<bigint, boolean>();
+export function Foundation_Mechanization_V1_Model_learnBoundedUpTo(k: bigint): boolean {
+  const hit = _memo_Foundation_Mechanization_V1_Model_learnBoundedUpTo.get(k);
+  if (hit !== undefined) return hit;
+  const val = ((_m0) => _m0 <= 0n ? (Foundation_Mechanization_V1_Model_inBounds(0n) ? (Foundation_Mechanization_V1_Model_inBounds(Foundation_Mechanization_V1_Model_learn(0n, true)) && Foundation_Mechanization_V1_Model_inBounds(Foundation_Mechanization_V1_Model_learn(0n, false))) : true) : ((j_1) => ((Foundation_Mechanization_V1_Model_inBounds((j_1 + 1n)) ? (Foundation_Mechanization_V1_Model_inBounds(Foundation_Mechanization_V1_Model_learn((j_1 + 1n), true)) && Foundation_Mechanization_V1_Model_inBounds(Foundation_Mechanization_V1_Model_learn((j_1 + 1n), false))) : true) && Foundation_Mechanization_V1_Model_learnBoundedUpTo(j_1)))(_m0 - 1n))(k);
+  _memo_Foundation_Mechanization_V1_Model_learnBoundedUpTo.set(k, val);
+  return val;
+}
+
+export function Foundation_Mechanization_V1_Model_weightsBounded(table: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>): boolean {
+  return ((_m0) => _m0.length === 0 ? true : ((head_1, tail_2) => (Foundation_Mechanization_V1_Model_inBounds(head_1.value) && Foundation_Mechanization_V1_Model_weightsBounded(tail_2)))(_m0[0], _m0.slice(1)))(table);
+}
+
+export function Foundation_Mechanization_V1_Model_countString(value: string, values: ReadonlyArray<string>): bigint {
+  return ((_m0) => _m0.length === 0 ? 0n : ((head_1, tail_2) => ((_valEq(value, head_1) ? 1n : 0n) + Foundation_Mechanization_V1_Model_countString(value, tail_2)))(_m0[0], _m0.slice(1)))(values);
+}
+
+export function Foundation_Mechanization_V1_Model_sameCounts(probe: ReadonlyArray<string>, xs: ReadonlyArray<string>, ys: ReadonlyArray<string>): boolean {
+  return ((_m0) => _m0.length === 0 ? true : ((head_1, tail_2) => ((Foundation_Mechanization_V1_Model_countString(head_1, xs) === Foundation_Mechanization_V1_Model_countString(head_1, ys)) && Foundation_Mechanization_V1_Model_sameCounts(tail_2, xs, ys)))(_m0[0], _m0.slice(1)))(probe);
+}
+
+export function Foundation_Mechanization_V1_Model_isPermutation(xs: ReadonlyArray<string>, ys: ReadonlyArray<string>): boolean {
+  return ((BigInt(xs.length) === BigInt(ys.length)) && (Foundation_Mechanization_V1_Model_sameCounts(xs, xs, ys) && Foundation_Mechanization_V1_Model_sameCounts(ys, xs, ys)));
+}
+
+export function Foundation_Mechanization_V1_Model_byWeight(table: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>, family: string, ordered: ReadonlyArray<string>): boolean {
+  return ((_m0) => _m0.length === 0 ? true : ((head_1, tail_2) => ((_m3) => _m3.length === 0 ? true : ((later_4, _more_5) => ((Foundation_Mechanization_V1_Model_weightOf(later_4, family, table) <= Foundation_Mechanization_V1_Model_weightOf(head_1, family, table)) && Foundation_Mechanization_V1_Model_byWeight(table, family, tail_2)))(_m3[0], _m3.slice(1)))(tail_2))(_m0[0], _m0.slice(1)))(ordered);
+}
+
+export function Foundation_Mechanization_V1_Model_scheduleSound(table: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>, family: string, applicable: ReadonlyArray<string>): boolean {
+  return (Foundation_Mechanization_V1_Model_isPermutation(Foundation_Mechanization_V1_Model_schedule(table, family, applicable), applicable) && Foundation_Mechanization_V1_Model_byWeight(table, family, Foundation_Mechanization_V1_Model_schedule(table, family, applicable)));
+}
+
+export function Foundation_Mechanization_V1_Model_soundForSubsets(table: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>, family: string, subsets: ReadonlyArray<ReadonlyArray<string>>): boolean {
+  return ((_m0) => _m0.length === 0 ? true : ((head_1, tail_2) => (Foundation_Mechanization_V1_Model_scheduleSound(table, family, head_1) && Foundation_Mechanization_V1_Model_soundForSubsets(table, family, tail_2)))(_m0[0], _m0.slice(1)))(subsets);
+}
+
+export function Foundation_Mechanization_V1_Model_soundForFamilies(table: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>, families: ReadonlyArray<string>, subsets: ReadonlyArray<ReadonlyArray<string>>): boolean {
+  return ((_m0) => _m0.length === 0 ? true : ((head_1, tail_2) => (Foundation_Mechanization_V1_Model_soundForSubsets(table, head_1, subsets) && Foundation_Mechanization_V1_Model_soundForFamilies(table, tail_2, subsets)))(_m0[0], _m0.slice(1)))(families);
+}
+
+let _c_Foundation_Mechanization_V1_Model_initialWeights: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight> | undefined;
+export function Foundation_Mechanization_V1_Model_initialWeights(): ReadonlyArray<Foundation_Mechanization_V1_Model_Weight> {
+  return _c_Foundation_Mechanization_V1_Model_initialWeights !== undefined ? _c_Foundation_Mechanization_V1_Model_initialWeights : (_c_Foundation_Mechanization_V1_Model_initialWeights = ([({ strategy: "library-rewrite", family: "rule30-orbit", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "library-rewrite", family: "teleology-coherence", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "library-rewrite", family: "botanical-judge", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "library-rewrite", family: "lift-ratchet", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "step-induction", family: "rule30-orbit", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "step-induction", family: "teleology-coherence", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "step-induction", family: "botanical-judge", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "step-induction", family: "lift-ratchet", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "period-reduction", family: "rule30-orbit", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "period-reduction", family: "teleology-coherence", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "period-reduction", family: "botanical-judge", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "period-reduction", family: "lift-ratchet", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "counterexample", family: "rule30-orbit", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "counterexample", family: "teleology-coherence", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "counterexample", family: "botanical-judge", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "counterexample", family: "lift-ratchet", value: 8n } as Foundation_Mechanization_V1_Model_Weight)] as ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_fixtureOutcomes: ReadonlyArray<Foundation_Mechanization_V1_Model_Outcome> | undefined;
+export function Foundation_Mechanization_V1_Model_fixtureOutcomes(): ReadonlyArray<Foundation_Mechanization_V1_Model_Outcome> {
+  return _c_Foundation_Mechanization_V1_Model_fixtureOutcomes !== undefined ? _c_Foundation_Mechanization_V1_Model_fixtureOutcomes : (_c_Foundation_Mechanization_V1_Model_fixtureOutcomes = ([({ strategy: "step-induction", family: "rule30-orbit", success: true } as Foundation_Mechanization_V1_Model_Outcome), ({ strategy: "library-rewrite", family: "rule30-orbit", success: false } as Foundation_Mechanization_V1_Model_Outcome), ({ strategy: "library-rewrite", family: "rule30-orbit", success: false } as Foundation_Mechanization_V1_Model_Outcome), ({ strategy: "period-reduction", family: "teleology-coherence", success: true } as Foundation_Mechanization_V1_Model_Outcome), ({ strategy: "step-induction", family: "teleology-coherence", success: false } as Foundation_Mechanization_V1_Model_Outcome), ({ strategy: "counterexample", family: "lift-ratchet", success: false } as Foundation_Mechanization_V1_Model_Outcome)] as ReadonlyArray<Foundation_Mechanization_V1_Model_Outcome>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_fixtureLearned: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight> | undefined;
+export function Foundation_Mechanization_V1_Model_fixtureLearned(): ReadonlyArray<Foundation_Mechanization_V1_Model_Weight> {
+  return _c_Foundation_Mechanization_V1_Model_fixtureLearned !== undefined ? _c_Foundation_Mechanization_V1_Model_fixtureLearned : (_c_Foundation_Mechanization_V1_Model_fixtureLearned = ([({ strategy: "library-rewrite", family: "rule30-orbit", value: 6n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "library-rewrite", family: "teleology-coherence", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "library-rewrite", family: "botanical-judge", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "library-rewrite", family: "lift-ratchet", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "step-induction", family: "rule30-orbit", value: 10n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "step-induction", family: "teleology-coherence", value: 7n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "step-induction", family: "botanical-judge", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "step-induction", family: "lift-ratchet", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "period-reduction", family: "rule30-orbit", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "period-reduction", family: "teleology-coherence", value: 10n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "period-reduction", family: "botanical-judge", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "period-reduction", family: "lift-ratchet", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "counterexample", family: "rule30-orbit", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "counterexample", family: "teleology-coherence", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "counterexample", family: "botanical-judge", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "counterexample", family: "lift-ratchet", value: 7n } as Foundation_Mechanization_V1_Model_Weight)] as ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_committedWeights: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight> | undefined;
+export function Foundation_Mechanization_V1_Model_committedWeights(): ReadonlyArray<Foundation_Mechanization_V1_Model_Weight> {
+  return _c_Foundation_Mechanization_V1_Model_committedWeights !== undefined ? _c_Foundation_Mechanization_V1_Model_committedWeights : (_c_Foundation_Mechanization_V1_Model_committedWeights = ([({ strategy: "library-rewrite", family: "rule30-orbit", value: 9n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "library-rewrite", family: "teleology-coherence", value: 12n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "library-rewrite", family: "botanical-judge", value: 15n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "library-rewrite", family: "lift-ratchet", value: 11n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "step-induction", family: "rule30-orbit", value: 16n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "step-induction", family: "teleology-coherence", value: 14n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "step-induction", family: "botanical-judge", value: 10n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "step-induction", family: "lift-ratchet", value: 13n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "period-reduction", family: "rule30-orbit", value: 12n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "period-reduction", family: "teleology-coherence", value: 10n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "period-reduction", family: "botanical-judge", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "period-reduction", family: "lift-ratchet", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "counterexample", family: "rule30-orbit", value: 6n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "counterexample", family: "teleology-coherence", value: 8n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "counterexample", family: "botanical-judge", value: 7n } as Foundation_Mechanization_V1_Model_Weight), ({ strategy: "counterexample", family: "lift-ratchet", value: 10n } as Foundation_Mechanization_V1_Model_Weight)] as ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_strategyIds: ReadonlyArray<string> | undefined;
+export function Foundation_Mechanization_V1_Model_strategyIds(): ReadonlyArray<string> {
+  return _c_Foundation_Mechanization_V1_Model_strategyIds !== undefined ? _c_Foundation_Mechanization_V1_Model_strategyIds : (_c_Foundation_Mechanization_V1_Model_strategyIds = (["library-rewrite", "step-induction", "period-reduction", "counterexample"] as ReadonlyArray<string>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_familyIds: ReadonlyArray<string> | undefined;
+export function Foundation_Mechanization_V1_Model_familyIds(): ReadonlyArray<string> {
+  return _c_Foundation_Mechanization_V1_Model_familyIds !== undefined ? _c_Foundation_Mechanization_V1_Model_familyIds : (_c_Foundation_Mechanization_V1_Model_familyIds = (["rule30-orbit", "teleology-coherence", "botanical-judge", "lift-ratchet"] as ReadonlyArray<string>));
+}
+
+let _c_Foundation_Mechanization_V1_Model_portfolioSubsets: ReadonlyArray<ReadonlyArray<string>> | undefined;
+export function Foundation_Mechanization_V1_Model_portfolioSubsets(): ReadonlyArray<ReadonlyArray<string>> {
+  return _c_Foundation_Mechanization_V1_Model_portfolioSubsets !== undefined ? _c_Foundation_Mechanization_V1_Model_portfolioSubsets : (_c_Foundation_Mechanization_V1_Model_portfolioSubsets = ([([] as ReadonlyArray<string>), (["library-rewrite"] as ReadonlyArray<string>), (["step-induction"] as ReadonlyArray<string>), (["library-rewrite", "step-induction"] as ReadonlyArray<string>), (["period-reduction"] as ReadonlyArray<string>), (["library-rewrite", "period-reduction"] as ReadonlyArray<string>), (["step-induction", "period-reduction"] as ReadonlyArray<string>), (["library-rewrite", "step-induction", "period-reduction"] as ReadonlyArray<string>), (["counterexample"] as ReadonlyArray<string>), (["library-rewrite", "counterexample"] as ReadonlyArray<string>), (["step-induction", "counterexample"] as ReadonlyArray<string>), (["library-rewrite", "step-induction", "counterexample"] as ReadonlyArray<string>), (["period-reduction", "counterexample"] as ReadonlyArray<string>), (["library-rewrite", "period-reduction", "counterexample"] as ReadonlyArray<string>), (["step-induction", "period-reduction", "counterexample"] as ReadonlyArray<string>), (["library-rewrite", "step-induction", "period-reduction", "counterexample"] as ReadonlyArray<string>)] as ReadonlyArray<ReadonlyArray<string>>));
+}
+
+export function Foundation_Mechanization_V1_Model_sameWeights(xs: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>, ys: ReadonlyArray<Foundation_Mechanization_V1_Model_Weight>): boolean {
+  return ((_m0) => _m0.length === 0 ? (BigInt(ys.length) === 0n) : ((head_1, tail_2) => ((_m3) => _m3.length === 0 ? false : ((y_4, rest_5) => ((_valEq(head_1.strategy, y_4.strategy) && _valEq(head_1.family, y_4.family)) && ((head_1.value === y_4.value) && Foundation_Mechanization_V1_Model_sameWeights(tail_2, rest_5))))(_m3[0], _m3.slice(1)))(ys))(_m0[0], _m0.slice(1)))(xs);
+}
+
+export function Foundation_Mechanization_V1_Model_sameStrings(xs: ReadonlyArray<string>, ys: ReadonlyArray<string>): boolean {
+  return ((_m0) => _m0.length === 0 ? (BigInt(ys.length) === 0n) : ((head_1, tail_2) => ((_m3) => _m3.length === 0 ? false : ((y_4, rest_5) => (_valEq(head_1, y_4) && Foundation_Mechanization_V1_Model_sameStrings(tail_2, rest_5)))(_m3[0], _m3.slice(1)))(ys))(_m0[0], _m0.slice(1)))(xs);
 }
 
 let _c_Foundation_View_Text_V1_Model_textApplicationProfile: string | undefined;
@@ -7270,6 +7613,7 @@ export const PRISM_COMPILED_MODULES = {
     "liftClassEffect": Foundation_Mechanization_V1_Model_liftClassEffect,
     "liftClassTotal": Foundation_Mechanization_V1_Model_liftClassTotal,
     "liftResidueTargetZero": Foundation_Mechanization_V1_Model_liftResidueTargetZero,
+    "admitLiftKappaTransitionScore": Foundation_Mechanization_V1_Model_admitLiftKappaTransitionScore,
     "admitLiftKappaTransition": Foundation_Mechanization_V1_Model_admitLiftKappaTransition,
     "unliftedOpenDistance": Foundation_Mechanization_V1_Model_unliftedOpenDistance,
     "unliftedExcessOverFloor": Foundation_Mechanization_V1_Model_unliftedExcessOverFloor,
@@ -7328,6 +7672,66 @@ export const PRISM_COMPILED_MODULES = {
     "breaksHomeostasisPartitionAndOooGaugeInvariance": Foundation_Mechanization_V1_Model_breaksHomeostasisPartitionAndOooGaugeInvariance,
     "mechanizationStandardModel": Foundation_Mechanization_V1_Model_mechanizationStandardModel,
     "verifyUnifiedMechanizationModelCoherence": Foundation_Mechanization_V1_Model_verifyUnifiedMechanizationModelCoherence,
+    "memberString": Foundation_Mechanization_V1_Model_memberString,
+    "allMembers": Foundation_Mechanization_V1_Model_allMembers,
+    "workflowName": Foundation_Mechanization_V1_Model_workflowName,
+    "workflowFile": Foundation_Mechanization_V1_Model_workflowFile,
+    "repository": Foundation_Mechanization_V1_Model_repository,
+    "runsOn": Foundation_Mechanization_V1_Model_runsOn,
+    "timeoutMinutes": Foundation_Mechanization_V1_Model_timeoutMinutes,
+    "setupMinutes": Foundation_Mechanization_V1_Model_setupMinutes,
+    "tickBudget": Foundation_Mechanization_V1_Model_tickBudget,
+    "gateMinimum": Foundation_Mechanization_V1_Model_gateMinimum,
+    "cronMinutes": Foundation_Mechanization_V1_Model_cronMinutes,
+    "concurrencyGroups": Foundation_Mechanization_V1_Model_concurrencyGroups,
+    "cancelInProgress": Foundation_Mechanization_V1_Model_cancelInProgress,
+    "killSwitch": Foundation_Mechanization_V1_Model_killSwitch,
+    "secrets": Foundation_Mechanization_V1_Model_secrets,
+    "permissions": Foundation_Mechanization_V1_Model_permissions,
+    "triggers": Foundation_Mechanization_V1_Model_triggers,
+    "pushPaths": Foundation_Mechanization_V1_Model_pushPaths,
+    "actionsUsed": Foundation_Mechanization_V1_Model_actionsUsed,
+    "actionsAllowed": Foundation_Mechanization_V1_Model_actionsAllowed,
+    "stages": Foundation_Mechanization_V1_Model_stages,
+    "caches": Foundation_Mechanization_V1_Model_caches,
+    "portfolio": Foundation_Mechanization_V1_Model_portfolio,
+    "strategyIdsOf": Foundation_Mechanization_V1_Model_strategyIdsOf,
+    "digestsOf": Foundation_Mechanization_V1_Model_digestsOf,
+    "stageIdsOf": Foundation_Mechanization_V1_Model_stageIdsOf,
+    "cacheIdsOf": Foundation_Mechanization_V1_Model_cacheIdsOf,
+    "budgetSum": Foundation_Mechanization_V1_Model_budgetSum,
+    "gateShare": Foundation_Mechanization_V1_Model_gateShare,
+    "permissionsWrite": Foundation_Mechanization_V1_Model_permissionsWrite,
+    "offTheHour": Foundation_Mechanization_V1_Model_offTheHour,
+    "thirtyApart": Foundation_Mechanization_V1_Model_thirtyApart,
+    "distinctStrings": Foundation_Mechanization_V1_Model_distinctStrings,
+    "allNonEmpty": Foundation_Mechanization_V1_Model_allNonEmpty,
+    "learn": Foundation_Mechanization_V1_Model_learn,
+    "weightOf": Foundation_Mechanization_V1_Model_weightOf,
+    "updateWeight": Foundation_Mechanization_V1_Model_updateWeight,
+    "learnAll": Foundation_Mechanization_V1_Model_learnAll,
+    "insertByWeight": Foundation_Mechanization_V1_Model_insertByWeight,
+    "scheduleFrom": Foundation_Mechanization_V1_Model_scheduleFrom,
+    "schedule": Foundation_Mechanization_V1_Model_schedule,
+    "inBounds": Foundation_Mechanization_V1_Model_inBounds,
+    "learnBoundedUpTo": Foundation_Mechanization_V1_Model_learnBoundedUpTo,
+    "weightsBounded": Foundation_Mechanization_V1_Model_weightsBounded,
+    "countString": Foundation_Mechanization_V1_Model_countString,
+    "sameCounts": Foundation_Mechanization_V1_Model_sameCounts,
+    "isPermutation": Foundation_Mechanization_V1_Model_isPermutation,
+    "byWeight": Foundation_Mechanization_V1_Model_byWeight,
+    "scheduleSound": Foundation_Mechanization_V1_Model_scheduleSound,
+    "soundForSubsets": Foundation_Mechanization_V1_Model_soundForSubsets,
+    "soundForFamilies": Foundation_Mechanization_V1_Model_soundForFamilies,
+    "initialWeights": Foundation_Mechanization_V1_Model_initialWeights,
+    "fixtureOutcomes": Foundation_Mechanization_V1_Model_fixtureOutcomes,
+    "fixtureLearned": Foundation_Mechanization_V1_Model_fixtureLearned,
+    "committedWeights": Foundation_Mechanization_V1_Model_committedWeights,
+    "strategyIds": Foundation_Mechanization_V1_Model_strategyIds,
+    "familyIds": Foundation_Mechanization_V1_Model_familyIds,
+    "portfolioSubsets": Foundation_Mechanization_V1_Model_portfolioSubsets,
+    "sameWeights": Foundation_Mechanization_V1_Model_sameWeights,
+    "sameStrings": Foundation_Mechanization_V1_Model_sameStrings,
   },
   "Foundation.View.Text.V1.Model": {
     "textApplicationProfile": Foundation_View_Text_V1_Model_textApplicationProfile,
@@ -7609,12 +8013,12 @@ export const PRISM_COMPILED_MODULES = {
 export type PrismCompiledModuleName = keyof typeof PRISM_COMPILED_MODULES;
 
 export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
-  "sourceTreeDigestSha256": "a83f8a285b35c36e9b816683bcc65ca081f84dda02b9839c6ed88da5aaf28080",
+  "sourceTreeDigestSha256": "b5244113c72b8218b084ccaa8694590b48e58391f22f9701b3b9c861db8ae2b6",
   "moduleCount": 28,
   "inductiveCount": 2,
-  "structureCount": 155,
-  "definitionCount": 1065,
-  "theoremCount": 163,
+  "structureCount": 162,
+  "definitionCount": 1126,
+  "theoremCount": 183,
   "modules": [
     {
       "moduleName": "Foundation.MetaModel.V1.Model",
@@ -7926,9 +8330,9 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
         "Foundation.Compression.V1.Model"
       ],
       "inductiveCount": 0,
-      "structureCount": 5,
-      "definitionCount": 87,
-      "theoremCount": 7
+      "structureCount": 12,
+      "definitionCount": 148,
+      "theoremCount": 27
     },
     {
       "moduleName": "Foundation.View.Text.V1.Model",

@@ -44,6 +44,7 @@ import {
   synthesizeVerdantW3CDesignTokens,
 } from './game/prismModel';
 import { BotanicalSoundscapeEngine } from './game/soundscapeEngine';
+import { initCertifiedWasmRuntime } from './game/generatedCertifiedWasmBridge';
 import {
   GameState,
   GardenCanvas,
@@ -198,6 +199,10 @@ export default function App() {
       witnessCommunion: initialWitnessCommunion,
     };
   });
+
+  useEffect(() => {
+    void initCertifiedWasmRuntime();
+  }, []);
 
   useEffect(() => {
     soundEngine.setMuted(isMuted);

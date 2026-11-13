@@ -1,0 +1,29 @@
+{
+  "schema": "verdant-resonance/handwritten-ratchet/1",
+  "allowedHandwrittenGameFiles": [
+    "src/game/anamnesisEngine.ts",
+    "src/game/autonomousObjectivesEngine.ts",
+    "src/game/conservatoryCurationEngine.ts",
+    "src/game/mechanicalReasoningEngine.ts",
+    "src/game/neuromorphicFunctorBus.ts",
+    "src/game/parametricCompressionEngine.ts",
+    "src/game/prismModel.ts",
+    "src/game/proceduralMeshEngine.ts",
+    "src/game/realizabilityEngine.ts",
+    "src/game/soundscapeEngine.ts",
+    "src/game/spectralColorEngine.ts",
+    "src/game/standardModelEngine.ts",
+    "src/game/teleologyEngine.ts",
+    "src/game/vedantaDharmaEngine.ts"
+  ],
+  "baselineAtCommit05e151c": {
+    "handwrittenGameNonCommentLines": 31915,
+    "residueFunctionCount": 246,
+    "classicalChoiceCount": 67,
+    "mechanizationClassicalChoiceCount": 1
+  },
+  "maxHandwrittenGameNonCommentLines": 31881,
+  "maxResidueFunctionCount": 241,
+  "maxClassicalChoiceCount": 66,
+  "maxMechanizationClassicalChoiceCount": 0
+}

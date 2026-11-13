@@ -134,7 +134,8 @@ definition{
   name: stepBotanyBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat)
+  body: (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat),
+  executable: true
 }
 
 definition{

@@ -98,7 +98,8 @@ definition{
   name: stepAcousticsBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (900 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 15 : Nat))
+  body: (900 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 15 : Nat)),
+  executable: true
 }
 
 definition{

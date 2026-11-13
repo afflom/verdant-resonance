@@ -123,7 +123,8 @@ definition{
   name: verdantSecondaryContrastTenths,
   parameters: [],
   result: Nat,
-  body: (prim multiply (Foundation.Neuromorphic.V1.Model::consolidationThreshold) (Foundation.Neuromorphic.V1.Model::wetlandPrime) : Nat)
+  body: (prim multiply (Foundation.Neuromorphic.V1.Model::consolidationThreshold) (Foundation.Neuromorphic.V1.Model::wetlandPrime) : Nat),
+  executable: true
 }
 
 definition{
@@ -165,7 +166,8 @@ definition{
   name: stepBrandBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: ((verdantSecondaryContrastTenths) + (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight))
+  body: ((verdantSecondaryContrastTenths) + (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight)),
+  executable: true
 }
 
 definition{

@@ -124,7 +124,8 @@ definition{
   name: stepEcologyBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (800 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 25 : Nat))
+  body: (800 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 25 : Nat)),
+  executable: true
 }
 
 definition{

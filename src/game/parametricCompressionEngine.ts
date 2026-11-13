@@ -31,6 +31,7 @@ import {
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
 import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
+import { certifiedWasmRule30Step, isCertifiedWasmReady } from './generatedCertifiedWasmBridge';
 
 const CompiledCompression = PRISM_COMPILED_MODULES['Foundation.Compression.V1.Model'];
 const CompiledNeuro = PRISM_COMPILED_MODULES['Foundation.Neuromorphic.V1.Model'];
@@ -1816,9 +1817,8 @@ export const RULE30_STEP_ONE64 = 9223372036854775811n;
  */
 export function stepPureRule30Ring64(state64: bigint): bigint {
   const s = state64 & RULE30_MASK64;
-  const left = ((s >> 1n) | (s << 63n)) & RULE30_MASK64;
-  const right = ((s << 1n) | (s >> 63n)) & RULE30_MASK64;
-  return (left ^ (s | right)) & RULE30_MASK64;
+  if (s === 0n) return 0n;
+  return isCertifiedWasmReady() ? certifiedWasmRule30Step(s) : CompiledCompression.rule30Step(s);
 }
 
 /**
@@ -1830,8 +1830,7 @@ export function stepPureRule30Ring64(state64: bigint): bigint {
  */
 export function stepRule30Ring64(state64: bigint): bigint {
   const s = state64 & RULE30_MASK64;
-  const effective = s === 0n ? RULE30_SEED64 : s;
-  return stepPureRule30Ring64(effective);
+  return isCertifiedWasmReady() ? certifiedWasmRule30Step(s) : CompiledCompression.rule30Step(s);
 }
 
 export type PortfolioGeneratorKind =

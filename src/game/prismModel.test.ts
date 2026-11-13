@@ -5,8 +5,28 @@ import { ensurePrismMechanizedArtifacts } from '../../scripts/prismMechanizer';
 import { runMechanizedContractSweep } from '../../scripts/prismCli';
 import {
   ingestProductCodebaseLiftRegister,
+  measureHandwrittenAndAxiomRatchetState,
+  renderEngineWorkflowYamlFromLexLean,
   syncOrCheckUorMechanizationArtifacts,
+  verifyHandwrittenAndAxiomRatchet,
 } from '../../scripts/uorMechanizerModel';
+import {
+  CertifiedRustRunner,
+  NoCertifiedRootError,
+  runCertifiedEngineTick,
+} from '../../scripts/certifiedProductionRuntime';
+import {
+  CERTIFIED_PRODUCTION_MANIFEST,
+  certifiedWasmAdmitLift,
+  certifiedWasmDecideMint,
+  certifiedWasmDispatchText,
+  certifiedWasmFoundryRoute,
+  certifiedWasmLearnAll,
+  certifiedWasmRule30Step,
+  certifiedWasmSchedule,
+  certifiedWasmTotalWork,
+  certifiedWasmTriadicCoherencePermille,
+} from './generatedCertifiedWasmBridge';
 import {
   admitLiftRegisterCandidate,
   COHERENT_CLASSICAL_REASONING_MODELS,
@@ -6911,7 +6931,8 @@ test('65. Unified UORust + UORC + Rule-30 Mechanical Reasoning Model: Foundry Ro
   assert.equal(VERDANT_MECHANIZATION_BASIS_PRIME, 193);
   assert.equal(COHERENT_CLASSICAL_REASONING_MODELS.length, 6);
   const mechTheorems = GENERATED_PRISM_THEOREMS_BY_MODULE['Foundation.Mechanization.V1.Model'];
-  assert.deepEqual(mechTheorems, [
+  assert.equal(mechTheorems.length, 27);
+  assert.deepEqual(mechTheorems.slice(0, 7), [
     'foundryRouterAndLiftVectorsHold',
     'epistemicHonestyAndConformanceVectorsHold',
     'peirceCycleAndOooObserverVectorsHold',
@@ -7024,10 +7045,10 @@ test('65. Unified UORust + UORC + Rule-30 Mechanical Reasoning Model: Foundry Ro
     assert.equal(badSomeTrue.admitted, false, `R2 must reject '${word}' on some-true claim`);
   }
 
-  // Verify live repository `prism/lift-register.json` & `CONFORMANCE.md` zero-drift and 65/65/65 bijection
+  // Verify live repository `prism/lift-register.json` & `CONFORMANCE.md` zero-drift and 66/66/66 bijection
   const repoCheck = syncOrCheckUorMechanizationArtifacts(process.cwd(), { write: false });
   assert.deepEqual(repoCheck.driftDetails, []);
-  assert.equal(repoCheck.buildScenarioCount, 65);
+  assert.equal(repoCheck.buildScenarioCount, 66);
   assert.equal(repoCheck.authoritiesCount, 10);
   assert.equal(repoCheck.openClaimsCount, 4);
 
@@ -7167,4 +7188,166 @@ test('65. Unified UORust + UORC + Rule-30 Mechanical Reasoning Model: Foundry Ro
       baseOoo.sensualQualityIds.map((id) => id + 13),
     );
   }
+});
+
+test('66. Rule-30 Precision & Beyond: Certified LexLean Production Rust + Wasm Runtime, Zero-Choice Mechanization, Multi-Axis Shrink-Only Ratchet & Modeled CI Engine Tick', async () => {
+  // 1. Zero-Duplication Root Projection & Certified Bundle Manifest (`5` `#![no_std]` `rust-core` + `3` `rust-std`)
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.schema, 'verdant-resonance/certified-production-manifest/1');
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.allKernelChecked, true);
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.allForbidUnsafeCode, true);
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.rustCoreNoStdRootCount, 5);
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.rustStdRootCount, 3);
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.roots.length, 8);
+  assert.ok(CERTIFIED_PRODUCTION_MANIFEST.wasmBytes > 10_000 && CERTIFIED_PRODUCTION_MANIFEST.wasmBytes < 200_000);
+  for (const r of CERTIFIED_PRODUCTION_MANIFEST.roots) {
+    assert.equal(r.certificationStatus, 'kernel-checked');
+    assert.equal(r.forbidsUnsafeCode, true);
+    assert.ok(r.certificateFiles.length >= 3, `Expected roles a/b/e certificates for ${r.root}`);
+  }
+
+  // Zero `Classical.choice` in `Foundation.Mechanization.V1.Model.lex.tex`
+  const mechLexSrc = fs.readFileSync('prism/src/Foundation/Mechanization/V1/Model.lex.tex', 'utf8');
+  assert.equal(/\bClassical\.choice\b/.test(mechLexSrc), false);
+
+  // 2. Fail-Closed `NoCertifiedRootError` (never falls back to uncertified JS when bundle is absent)
+  assert.throws(
+    () => new CertifiedRustRunner(process.cwd(), { productionRoot: '/nonexistent/certified/bundle' }),
+    (err: unknown) => err instanceof NoCertifiedRootError,
+  );
+  await assert.rejects(
+    () => runCertifiedEngineTick(process.cwd(), { productionRoot: '/nonexistent/certified/bundle' }),
+    (err: unknown) => err instanceof NoCertifiedRootError,
+  );
+
+  // 3. Three-Way Bit-Exact Parity (`CertifiedRustRunner` CLI == Certified Wasm == Compiled LexLean IR) + `work()` Telemetry
+  const runner = new CertifiedRustRunner(process.cwd());
+  const Mech = PRISM_COMPILED_MODULES['Foundation.Mechanization.V1.Model'];
+  const Comp = PRISM_COMPILED_MODULES['Foundation.Compression.V1.Model'];
+  const Tele = PRISM_COMPILED_MODULES['Foundation.Teleology.V1.Model'];
+
+  const workBefore = certifiedWasmTotalWork();
+  for (const seed of [0n, 1n, Comp.rule30Seed64()]) {
+    const cliR30 = runner.rule30Step(seed).nextState;
+    const wasmR30 = certifiedWasmRule30Step(seed);
+    const irR30 = Comp.rule30Step(seed);
+    assert.equal(cliR30, irR30);
+    assert.equal(wasmR30, irR30);
+  }
+
+  for (const mask of [0, 1, 3, 8, 512, 2048]) {
+    const cliRoute = runner.foundryRoute(mask).classification;
+    const wasmRoute = certifiedWasmFoundryRoute(mask);
+    const irRoute = Number(Mech.classifyFoundryTagMask(BigInt(mask)));
+    assert.equal(cliRoute, irRoute);
+    assert.equal(wasmRoute, irRoute);
+  }
+
+  for (const [present, inc, cand] of [
+    [true, 0, 1],
+    [true, 0, 0],
+    [true, 1, 0],
+    [false, 0, 4],
+  ] as const) {
+    assert.equal(runner.admitLift(present, inc, cand).admitted, Mech.admitLiftKappaTransition(present, BigInt(inc), BigInt(cand)));
+    assert.equal(certifiedWasmAdmitLift(present, inc, cand), Mech.admitLiftKappaTransition(present, BigInt(inc), BigInt(cand)));
+  }
+
+  assert.equal(runner.decideMint(false, false, 16).outcome, Number(Mech.decideHypothesisMint(false, false, 16n)));
+  assert.equal(certifiedWasmDecideMint(false, true, 16), Number(Mech.decideHypothesisMint(false, true, 16n)));
+
+  const cliCoh = runner.triadicCoherence(15, 48, 920, 40).coherencePermille;
+  const wasmCoh = certifiedWasmTriadicCoherencePermille(15, 48, 920, 40);
+  const irCoh = Number(Tele.stepTriadicPlayerGameObserverCoherencePermille(15n, 48n, 920n, 40n));
+  assert.equal(cliCoh, irCoh);
+  assert.equal(wasmCoh, irCoh);
+
+  const sampleReq = 'meadow chime-lily observe dawn dormant 15 5';
+  assert.equal(runner.dispatchText(sampleReq).responseUtf8, dispatchPrismTextRequest(sampleReq));
+  assert.equal(certifiedWasmDispatchText(sampleReq), dispatchPrismTextRequest(sampleReq));
+
+  const initWeights = (Mech.initialWeights() as ReadonlyArray<any>).map((w) => ({
+    strategy: String(w.strategy),
+    family: String(w.family),
+    value: Number(w.value),
+  }));
+  const outcomes = (Mech.fixtureOutcomes() as ReadonlyArray<any>).map((o) => ({
+    strategy: String(o.strategy),
+    family: String(o.family),
+    success: Boolean(o.success),
+  }));
+  const expectedLearned = (Mech.fixtureLearned() as ReadonlyArray<any>).map((w) => ({
+    strategy: String(w.strategy),
+    family: String(w.family),
+    value: Number(w.value),
+  }));
+  assert.deepEqual(runner.learnAll(initWeights, outcomes).weights, expectedLearned);
+  assert.deepEqual(certifiedWasmLearnAll(initWeights, outcomes), expectedLearned);
+
+  const committed = (Mech.committedWeights() as ReadonlyArray<any>).map((w) => ({
+    strategy: String(w.strategy),
+    family: String(w.family),
+    value: Number(w.value),
+  }));
+  const appStrats = ['library-rewrite', 'step-induction', 'period-reduction', 'counterexample'];
+  assert.deepEqual(
+    runner.schedule(committed, 'rule30-orbit', appStrats).scheduled,
+    certifiedWasmSchedule(committed, 'rule30-orbit', appStrats),
+  );
+  assert.ok(certifiedWasmTotalWork() > workBefore, 'Certified Wasm work() counter must advance strictly');
+
+  // 4. Multi-Axis Shrink-Only Ratchet & Planted-Defect Refusals (`prism/handwritten-ratchet.json`)
+  const ratchetDoc = JSON.parse(fs.readFileSync('prism/handwritten-ratchet.json', 'utf8'));
+  const { register } = ingestProductCodebaseLiftRegister(process.cwd());
+  const liveMeasured = measureHandwrittenAndAxiomRatchetState(process.cwd(), register);
+  assert.equal(verifyHandwrittenAndAxiomRatchet(ratchetDoc, liveMeasured).ok, true);
+  // Strictly improved beyond `05e151c` baseline on every single axis
+  assert.ok(liveMeasured.handwrittenGameNonCommentLines < ratchetDoc.baselineAtCommit05e151c.handwrittenGameNonCommentLines);
+  assert.ok(liveMeasured.residueFunctionCount < ratchetDoc.baselineAtCommit05e151c.residueFunctionCount);
+  assert.ok(liveMeasured.classicalChoiceCount < ratchetDoc.baselineAtCommit05e151c.classicalChoiceCount);
+  assert.equal(liveMeasured.mechanizationClassicalChoiceCount, 0);
+
+  // Planted defect A: unratcheted new hand-written `.ts` file in `src/game/`
+  assert.equal(
+    verifyHandwrittenAndAxiomRatchet(ratchetDoc, {
+      ...liveMeasured,
+      handwrittenGameFiles: [...liveMeasured.handwrittenGameFiles, 'src/game/extraHandwritten.ts'],
+    }).ok,
+    false,
+  );
+  // Planted defect B: hand-written LOC growth above ceiling
+  assert.equal(
+    verifyHandwrittenAndAxiomRatchet(ratchetDoc, {
+      ...liveMeasured,
+      handwrittenGameNonCommentLines: ratchetDoc.maxHandwrittenGameNonCommentLines + 1,
+    }).ok,
+    false,
+  );
+  // Planted defect C: unlifted residue count growth above ceiling
+  assert.equal(
+    verifyHandwrittenAndAxiomRatchet(ratchetDoc, {
+      ...liveMeasured,
+      residueFunctionCount: ratchetDoc.maxResidueFunctionCount + 1,
+    }).ok,
+    false,
+  );
+  // Planted defect D: re-introducing `Classical.choice` in `Foundation.Mechanization.V1.Model`
+  assert.equal(
+    verifyHandwrittenAndAxiomRatchet(ratchetDoc, {
+      ...liveMeasured,
+      mechanizationClassicalChoiceCount: 1,
+    }).ok,
+    false,
+  );
+
+  // 5. LexLean-Modeled `.github/workflows/engine.yml` Byte Parity & Certified 6-Stage Engine Tick
+  const committedWorkflow = fs.readFileSync('.github/workflows/engine.yml', 'utf8');
+  assert.equal(committedWorkflow, renderEngineWorkflowYamlFromLexLean());
+
+  const tickReport = await runCertifiedEngineTick(process.cwd());
+  assert.equal(tickReport.allPassed, true);
+  assert.equal(tickReport.stages.length, 6);
+  assert.equal(tickReport.tickBudgetMinutes, 35);
+  assert.equal(tickReport.gateShareMinutes, 10);
+  assert.ok(tickReport.gateShareMinutes >= tickReport.gateMinimumMinutes);
+  assert.ok(tickReport.totalCertifiedWorkUnits > 8000);
 });

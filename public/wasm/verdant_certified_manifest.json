@@ -1,0 +1,182 @@
+{
+  "schema": "verdant-resonance/certified-production-manifest/1",
+  "bundleResultId": "b5b14c586f7b2964283024c19ebe2ab93aa9a5052284225f792cec0596866676",
+  "semanticId": "a1e30bdbdba5f17a1510677344d41d2ac1fe4afdc6b8cad2e8eee297ff4335a1",
+  "attestationId": "bdd79e2541c8a9c285930016ebc2c05f6c134f269a799d069091b1998d93dffa",
+  "compilerSemanticsDigest": "5262e5b4c8b5668ae7066ad686757a6bb7f80c941d515fb9d586894fbc7de69a",
+  "sdkImageRef": "ghcr.io/uor-foundation/prismpm-sdk-candidate@sha256:cd3b47d7a370c4a26b8285f5e9c3bb15e639973c55505c3809ddbe55352fea58",
+  "requestSha256": "14adf26a2cc2e6acd6d38f60ae640c6755a97372e7ff755454c94941a4134a46",
+  "wasmRelativePath": "public/wasm/verdant_certified_runtime.wasm",
+  "wasmBytes": 56584,
+  "wasmSha256": "e4d8bed95a6dd58d0d0e2448e8c02a3fc81c0ab38cc06c984126209790f05683",
+  "allKernelChecked": true,
+  "allForbidUnsafeCode": true,
+  "rustCoreNoStdRootCount": 5,
+  "rustStdRootCount": 3,
+  "roots": [
+    {
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.rule30Step",
+      "packageName": "verdant_compression_rule30_step",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "56020c73cabc59bd66a7d8c2cff6e4a2e0c9525b5577c23d3598ae61fb7b8ea6",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R0.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R0.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R0/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R0/Compose/RustCore.lex.tex"
+      ],
+      "effects": [
+        "overflow",
+        "recursion"
+      ],
+      "returnsResultOverflow": true,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.admitLiftKappaTransition",
+      "packageName": "verdant_mechanization_admit_lift_kappa_transition",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "fcb8895f21666cba0f3ee4a3172be4de4a895177915161e9ccb8070e88dbfb64",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R2.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R2.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R2/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R2/Compose/RustCore.lex.tex"
+      ],
+      "effects": [],
+      "returnsResultOverflow": false,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.classifyFoundryTagMask",
+      "packageName": "verdant_mechanization_classify_foundry_tag_mask",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "81e9cd5d677fac5e50a9a15ef1696c47456f273412ecb9936e5fdc30536fb9e4",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R1.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R1.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R1/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R1/Compose/RustCore.lex.tex"
+      ],
+      "effects": [
+        "overflow"
+      ],
+      "returnsResultOverflow": true,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.decideHypothesisMint",
+      "packageName": "verdant_mechanization_decide_hypothesis_mint",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "e72b8fadf757e3ab712e6eeb37b7f8412a38c64b68a6a958528b6576df746cf6",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R3.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R3.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R3/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R3/Compose/RustCore.lex.tex"
+      ],
+      "effects": [],
+      "returnsResultOverflow": false,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.learnAll",
+      "packageName": "verdant_mechanization_learn_all",
+      "targetId": "rust-std",
+      "targetDigest": "2ab7e98605c8c6366e8c9686eb3a5f253bce4be16d78c1a39bc60d9c50c3fa3a",
+      "artifactDigest": "ff46154d9320cc258fa1deac6f5a49bca1c11a43f737e92b6cdf6d6cf76d1699",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R4.Compose.RustStd.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R4.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R4/RustStd.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R4/Compose/RustStd.lex.tex"
+      ],
+      "effects": [
+        "allocation",
+        "overflow",
+        "recursion"
+      ],
+      "returnsResultOverflow": true,
+      "forbidsUnsafeCode": true,
+      "isNoStd": false,
+      "weightAdtIdent": "Adt0",
+      "outcomeAdtIdent": "Adt1"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.schedule",
+      "packageName": "verdant_mechanization_schedule",
+      "targetId": "rust-std",
+      "targetDigest": "2ab7e98605c8c6366e8c9686eb3a5f253bce4be16d78c1a39bc60d9c50c3fa3a",
+      "artifactDigest": "90a3c9e56e6c8289893b22fdc06fd3c9d2ba8ae8ecde093324deae54aa268d2a",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R5.Compose.RustStd.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R5.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R5/RustStd.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R5/Compose/RustStd.lex.tex"
+      ],
+      "effects": [
+        "allocation",
+        "recursion"
+      ],
+      "returnsResultOverflow": false,
+      "forbidsUnsafeCode": true,
+      "isNoStd": false,
+      "weightAdtIdent": "Adt0"
+    },
+    {
+      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepTriadicPlayerGameObserverCoherencePermille",
+      "packageName": "verdant_teleology_step_triadic_player_game_observer_coher_fb9ce6",
+      "targetId": "rust-core",
+      "targetDigest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+      "artifactDigest": "286d49396d5436164b10558133ba76ca0332e9b5d051e2a4611c5fdc36c48a60",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R6.Compose.RustCore.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R6.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R6/RustCore.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R6/Compose/RustCore.lex.tex"
+      ],
+      "effects": [
+        "overflow"
+      ],
+      "returnsResultOverflow": true,
+      "forbidsUnsafeCode": true,
+      "isNoStd": true
+    },
+    {
+      "root": "PrismVerdantResonance.VerdantResonance.dispatch",
+      "packageName": "verdant_resonance_dispatch",
+      "targetId": "rust-std",
+      "targetDigest": "2ab7e98605c8c6366e8c9686eb3a5f253bce4be16d78c1a39bc60d9c50c3fa3a",
+      "artifactDigest": "36b61063d67d1cb37036e7f94941e28cbcb922006f1075bfb067c353a9a25bbf",
+      "certificationStatus": "kernel-checked",
+      "theoremName": "LexLeanPreserve.Ca1e30bdbdba5f17a1510677344d41d2a.R7.Compose.RustStd.root",
+      "certificateFiles": [
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R7.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R7/RustStd.lex.tex",
+        "evidence/certificates/LexLeanPreserve/Ca1e30bdbdba5f17a1510677344d41d2a/R7/Compose/RustStd.lex.tex"
+      ],
+      "effects": [
+        "allocation",
+        "overflow"
+      ],
+      "returnsResultOverflow": true,
+      "forbidsUnsafeCode": true,
+      "isNoStd": false
+    }
+  ]
+}

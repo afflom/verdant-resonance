@@ -3,15 +3,15 @@
   "domain": "verdant-resonance/function/1",
   "summary": {
     "totalFunctions": 388,
-    "liftedCount": 106,
-    "residueCount": 246,
+    "liftedCount": 111,
+    "residueCount": 241,
     "foreignCount": 31,
     "effectCount": 5,
-    "unliftedOpenDistance": 282
+    "unliftedOpenDistance": 277
   },
   "rows": [
     {
-      "kappa": "7fde23fc76c37d154fe3c8796510d550e1aefc463b240412709dfbbedac98d48",
+      "kappa": "da669a207483e29bad53dc34afbdcb0f8c4e595550c02b7e60dad7aa4a38b6d7",
       "functionPath": "src/App.tsx::App",
       "routeId": "VR-R07",
       "status": "effect",
@@ -214,7 +214,7 @@
       "definition": "Foundation.Anamnesis.V1.Model (GENERATED_PRISM_STANDARDS)"
     },
     {
-      "kappa": "2e7b27ded06fc4afeb8703d182c0c270e8db06f57fbb1fa0401ac4c85225071d",
+      "kappa": "378929843d05fbe2e24b37c489b676eb1dd8fa1ea265c641ff65d6e3109f9562",
       "functionPath": "src/game/autonomousObjectivesEngine.ts::evaluateObserverPlayerDissonanceReconciliation",
       "routeId": "VR-R04",
       "status": "lifted",
@@ -304,12 +304,11 @@
       "definition": "Foundation.Compression.V1.Model (GENERATED_PRISM_STANDARDS)"
     },
     {
-      "kappa": "c8ac09a7753180ec2868a99efa9b5c0db191a5b265fbd13a554eead783e5c8c0",
+      "kappa": "1e272eb664830e42c2f61e28e34b495be8b09daae783076666e5a8959164cbcb",
       "functionPath": "src/game/mechanicalReasoningEngine.ts::admitLiftRegisterCandidate",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/mechanicalReasoningEngine.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "Foundation.Mechanization.V1.Model (certifiedWasmAdmitLift)"
     },
     {
       "kappa": "0e560e5e24459e71f380e6d5e1c00fbf9d6ed27aebbeccc61749d1805fef3382",
@@ -320,7 +319,7 @@
       "detail": "Pure TypeScript host projection in src/game/mechanicalReasoningEngine.ts outside current LexLean Nat/Bytes floor"
     },
     {
-      "kappa": "581fc7c4bc76dbff113fa8658a22f37f85ece4240d0677d60438bc83b57070ae",
+      "kappa": "5171b87405cee2d4891f9ae13d659d873619399e912a89a4b27b55b1a0e23413",
       "functionPath": "src/game/mechanicalReasoningEngine.ts::discoverRule30F2Relations",
       "routeId": "VR-R04",
       "status": "lifted",
@@ -356,37 +355,35 @@
       "definition": "Foundation.Mechanization.V1.Model (CompiledMechanization.engineLearnWeight)"
     },
     {
-      "kappa": "5b40478a7ada473097718f93b4d9b2bfec7de6b7fece1d3c4ed8935430698897",
+      "kappa": "b1d64bc5246d1e14e84570b5f70d71e1c6849ef6a76b8d6ed3ea2381155d6297",
       "functionPath": "src/game/mechanicalReasoningEngine.ts::mintCanonicalHypotheses",
       "routeId": "VR-R04",
       "status": "lifted",
-      "definition": "Foundation.Mechanization.V1.Model (CompiledMechanization.decideHypothesisMint)"
+      "definition": "Foundation.Mechanization.V1.Model (certifiedWasmDecideMint)"
     },
     {
-      "kappa": "c32c51a38c94425f3f4ad1926e99ab54c84b1836fa9c0c55d0c846d5b5ce7f64",
+      "kappa": "de48d44ef07c0726409dc64ed2f5e4356567305b33fa6c6828c6ac960bcac293",
       "functionPath": "src/game/mechanicalReasoningEngine.ts::routeCodebaseFact",
       "routeId": "VR-R04",
       "status": "lifted",
-      "definition": "Foundation.Mechanization.V1.Model (CompiledMechanization.classifyFoundryTagMask)"
+      "definition": "Foundation.Mechanization.V1.Model (certifiedWasmFoundryRoute)"
     },
     {
-      "kappa": "82d486fd045a15b730911602a10b4d59dfdb3f6a43dd146ae0214b8bc355a485",
+      "kappa": "71f296aceb57e333ec555e93b33b9941f568b1dd852d9ec123916c648b495b81",
       "functionPath": "src/game/mechanicalReasoningEngine.ts::runMemoizedPeircePortfolioTick",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/mechanicalReasoningEngine.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "Foundation.Mechanization.V1.Model (CompiledMechanization.reserveHomeostasisGateShare)"
     },
     {
-      "kappa": "98c283f9476fc8f55d8872c0c19107d5ae1c173da58a57db7e95991ff58bc250",
+      "kappa": "957be8a68abbfcf0cdac9092c3898ad61519be3eba7435ec92ccf51af1d2ee5d",
       "functionPath": "src/game/mechanicalReasoningEngine.ts::scheduleStrategiesByWeight",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/mechanicalReasoningEngine.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "Foundation.Mechanization.V1.Model (certifiedWasmSchedule)"
     },
     {
-      "kappa": "15591551f9f6608e15d479762c97838d84fd111b443653f996dc8e6d619462ec",
+      "kappa": "17eaeace6b144e904964f72d0e1d939fc5b815659b2bce08fec270c73d8f8a68",
       "functionPath": "src/game/mechanicalReasoningEngine.ts::sha256KappaHex",
       "routeId": "VR-R04",
       "status": "residue",
@@ -662,20 +659,18 @@
       "definition": "Foundation.Compression.V1.Model (GENERATED_PRISM_STANDARDS)"
     },
     {
-      "kappa": "49d9f53ce673bfcbd6a4f2544e2ce6a2540451bbf4f2826911d142285750eec8",
+      "kappa": "2f1148425029f369baa063b1417b5ae57c570dfcc65f687a821ce6deadd7218e",
       "functionPath": "src/game/parametricCompressionEngine.ts::stepPureRule30Ring64",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (certifiedWasmRule30Step)"
     },
     {
-      "kappa": "6e10edbf34831dee337566f0b23127913db1405b7d0be4b1c37bb368b42c540d",
+      "kappa": "39413cead72da218ed4590a4b414ea7af1357db3322dac1953dfffa0348b22b6",
       "functionPath": "src/game/parametricCompressionEngine.ts::stepRule30Ring64",
       "routeId": "VR-R04",
-      "status": "residue",
-      "reason": "host-collection-or-codec-adapter",
-      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (certifiedWasmRule30Step)"
     },
     {
       "kappa": "2eb680bcac9221db3176ad1d7ded97562a8304713f4c58649dce4651b3644ed4",

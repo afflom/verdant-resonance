@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+EXCLUDED_REGEX='^src/game/(generatedPrismConstants|generatedPrismRuntime|generatedCertifiedWasmBridge|prismModel\.test)\.ts$'
+
+# 1. Refuse any newly staged hand-written TypeScript file under src/game/
+while IFS= read -r added_file; do
+  [ -z "$added_file" ] && continue
+  if [[ "$added_file" =~ ^src/game/.*\.ts$ ]] && ! [[ "$added_file" =~ $EXCLUDED_REGEX ]]; then
+    echo "[pre-commit ratchet] REFUSED: new hand-written module '$added_file' is forbidden; author logic in prism/src/**/*.lex.tex instead." >&2
+    exit 1
+  fi
+done < <(git diff --cached --name-only --diff-filter=A)
+
+# 2. Refuse net staged line growth across hand-written src/game/*.ts files
+total_added=0
+total_deleted=0
+while IFS=$'\t' read -r added deleted filepath; do
+  [ -z "${filepath:-}" ] && continue
+  if [[ "$filepath" =~ ^src/game/.*\.ts$ ]] && ! [[ "$filepath" =~ $EXCLUDED_REGEX ]]; then
+    if [[ "$added" =~ ^[0-9]+$ ]] && [[ "$deleted" =~ ^[0-9]+$ ]]; then
+      total_added=$((total_added + added))
+      total_deleted=$((total_deleted + deleted))
+    fi
+  fi
+done < <(git diff --cached --numstat)
+
+if [ "$total_added" -gt "$total_deleted" ]; then
+  echo "[pre-commit ratchet] REFUSED: staged diff grows hand-written src/game/*.ts by +$((total_added - total_deleted)) lines (+$total_added / -$total_deleted). Hand-written code may only shrink." >&2
+  exit 1
+fi
+
+# 3. Enforce full mechanized zero-drift & shrink-only ceiling gate
+npm run --silent prism:drift

@@ -97,7 +97,8 @@ definition{
   name: stepSoundtrackBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (50 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 3 : Nat))
+  body: (50 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 3 : Nat)),
+  executable: true
 }
 
 definition{

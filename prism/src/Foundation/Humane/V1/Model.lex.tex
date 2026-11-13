@@ -164,7 +164,8 @@ definition{
   name: stepHumaneBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (120 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 10 : Nat))
+  body: (120 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 10 : Nat)),
+  executable: true
 }
 
 definition{

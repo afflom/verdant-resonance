@@ -119,14 +119,16 @@ definition{
   name: routeBitForSlot,
   parameters: [slot : Nat],
   result: Nat,
-  body: (if (slot =? 0) then 1 else (if (slot =? 1) then 2 else (if (slot =? 2) then 4 else (if (slot =? 3) then 8 else (if (slot =? 4) then 16 else (if (slot =? 5) then 32 else (if (slot =? 6) then 64 else (if (slot =? 7) then 128 else (if (slot =? 8) then 256 else (if (slot =? 9) then 512 else 0))))))))))
+  body: (if (slot =? 0) then 1 else (if (slot =? 1) then 2 else (if (slot =? 2) then 4 else (if (slot =? 3) then 8 else (if (slot =? 4) then 16 else (if (slot =? 5) then 32 else (if (slot =? 6) then 64 else (if (slot =? 7) then 128 else (if (slot =? 8) then 256 else (if (slot =? 9) then 512 else 0)))))))))),
+  executable: true
 }
 
 definition{
   name: derivedRouteMaskSum,
   parameters: [],
   result: Nat,
-  body: ((((((((((routeBitForSlot 0) + (routeBitForSlot 1)) + (routeBitForSlot 2)) + (routeBitForSlot 3)) + (routeBitForSlot 4)) + (routeBitForSlot 5)) + (routeBitForSlot 6)) + (routeBitForSlot 7)) + (routeBitForSlot 8)) + (routeBitForSlot 9))
+  body: ((((((((((routeBitForSlot 0) + (routeBitForSlot 1)) + (routeBitForSlot 2)) + (routeBitForSlot 3)) + (routeBitForSlot 4)) + (routeBitForSlot 5)) + (routeBitForSlot 6)) + (routeBitForSlot 7)) + (routeBitForSlot 8)) + (routeBitForSlot 9)),
+  executable: true
 }
 
 definition{name: routeRecordStrideBytes, parameters: [], result: Nat, body: 64}
@@ -142,20 +144,23 @@ definition{
   name: isSingleRouteBit,
   parameters: [tagMask : Nat],
   result: Bool,
-  body: ((((((((((tagMask =? 1) || (tagMask =? 2)) || (tagMask =? 4)) || (tagMask =? 8)) || (tagMask =? 16)) || (tagMask =? 32)) || (tagMask =? 64)) || (tagMask =? 128)) || (tagMask =? 256)) || (tagMask =? 512))
+  body: ((((((((((tagMask =? 1) || (tagMask =? 2)) || (tagMask =? 4)) || (tagMask =? 8)) || (tagMask =? 16)) || (tagMask =? 32)) || (tagMask =? 64)) || (tagMask =? 128)) || (tagMask =? 256)) || (tagMask =? 512)),
+  executable: true
 }
 
-definition{name: routingAdmitted, parameters: [], result: Nat, body: 0}
+definition{name: routingAdmitted, parameters: [], result: Nat, body: 0, executable: true}
 
-definition{name: routingRefusedUnknown, parameters: [], result: Nat, body: 1}
+definition{name: routingRefusedUnknown, parameters: [], result: Nat, body: 1, executable: true}
 
-definition{name: routingRefusedAmbiguous, parameters: [], result: Nat, body: 2}
+definition{name: routingRefusedAmbiguous, parameters: [], result: Nat, body: 2, executable: true}
 
 definition{
   name: classifyFoundryTagMask,
   parameters: [tagMask : Nat],
   result: Nat,
-  body: (if ((tagMask =? 0) || ((derivedRouteMaskSum) <? tagMask)) then (routingRefusedUnknown) else (if (isSingleRouteBit tagMask) then (routingAdmitted) else (routingRefusedAmbiguous)))
+  body: (if ((tagMask =? 0) || ((derivedRouteMaskSum) <? tagMask)) then (routingRefusedUnknown) else (if (isSingleRouteBit tagMask) then (routingAdmitted) else (routingRefusedAmbiguous))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -165,7 +170,7 @@ definition{
   body: (if (tagMask =? 1) then 0 else (if (tagMask =? 2) then 1 else (if (tagMask =? 4) then 2 else (if (tagMask =? 8) then 3 else (if (tagMask =? 16) then 4 else (if (tagMask =? 32) then 5 else (if (tagMask =? 64) then 6 else (if (tagMask =? 128) then 7 else (if (tagMask =? 256) then 8 else (if (tagMask =? 512) then 9 else (routeSlotTotal)))))))))))
 }
 
-definition{name: liftClassLifted, parameters: [], result: Nat, body: 0}
+definition{name: liftClassLifted, parameters: [], result: Nat, body: 0, executable: true}
 
 definition{name: liftClassResidue, parameters: [], result: Nat, body: 1}
 
@@ -173,15 +178,25 @@ definition{name: liftClassForeign, parameters: [], result: Nat, body: 2}
 
 definition{name: liftClassEffect, parameters: [], result: Nat, body: 3}
 
-definition{name: liftClassTotal, parameters: [], result: Nat, body: 4}
+definition{name: liftClassTotal, parameters: [], result: Nat, body: 4, executable: true}
 
 definition{name: liftResidueTargetZero, parameters: [], result: Nat, body: 0}
+
+definition{
+  name: admitLiftKappaTransitionScore,
+  parameters: [incumbentPresent : Bool, incumbentClass : Nat, candidateClass : Nat],
+  result: Nat,
+  body: (if (candidateClass <? (liftClassTotal)) then (if incumbentPresent then (if (incumbentClass =? (liftClassLifted)) then (if (candidateClass =? (liftClassLifted)) then 1 else 0) else 1) else 1) else 0),
+  executable: true
+}
 
 definition{
   name: admitLiftKappaTransition,
   parameters: [incumbentPresent : Bool, incumbentClass : Nat, candidateClass : Nat],
   result: Bool,
-  body: ((candidateClass <? (liftClassTotal)) && (not ((incumbentPresent && (incumbentClass =? (liftClassLifted))) && (not (candidateClass =? (liftClassLifted))))))
+  body: ((admitLiftKappaTransitionScore incumbentPresent incumbentClass candidateClass) =? 1),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
@@ -245,19 +260,21 @@ definition{
   body: (if (fromPhase =? (peircePhaseObserved)) then (toPhase =? (peircePhaseHypothesized)) else (if (fromPhase =? (peircePhaseHypothesized)) then ((toPhase =? (peircePhaseProved)) || (toPhase =? (peircePhaseRefuted))) else false))
 }
 
-definition{name: mintOutcomeAdmitted, parameters: [], result: Nat, body: 0}
+definition{name: mintOutcomeAdmitted, parameters: [], result: Nat, body: 0, executable: true}
 
-definition{name: mintOutcomeRejectedContradictory, parameters: [], result: Nat, body: 1}
+definition{name: mintOutcomeRejectedContradictory, parameters: [], result: Nat, body: 1, executable: true}
 
-definition{name: mintOutcomeSkippedKnownKappa, parameters: [], result: Nat, body: 2}
+definition{name: mintOutcomeSkippedKnownKappa, parameters: [], result: Nat, body: 2, executable: true}
 
-definition{name: mintOutcomeBudgetExhausted, parameters: [], result: Nat, body: 3}
+definition{name: mintOutcomeBudgetExhausted, parameters: [], result: Nat, body: 3, executable: true}
 
 definition{
   name: decideHypothesisMint,
   parameters: [contradictoryClause : Bool, knownKappa : Bool, remainingBudget : Nat],
   result: Nat,
-  body: (if contradictoryClause then (mintOutcomeRejectedContradictory) else (if knownKappa then (mintOutcomeSkippedKnownKappa) else (if (0 <? remainingBudget) then (mintOutcomeAdmitted) else (mintOutcomeBudgetExhausted))))
+  body: (if contradictoryClause then (mintOutcomeRejectedContradictory) else (if knownKappa then (mintOutcomeSkippedKnownKappa) else (if (0 <? remainingBudget) then (mintOutcomeAdmitted) else (mintOutcomeBudgetExhausted)))),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
@@ -307,16 +324,16 @@ definition{
 
 definition{
   name: reserveHomeostasisGateShare,
-  parameters: [totalTickBudget : Nat, gateMinimum : Nat],
+  parameters: [totalTickBudget : Nat, minGateShare : Nat],
   result: Nat,
-  body: (if (totalTickBudget <=? gateMinimum) then totalTickBudget else gateMinimum)
+  body: (if (totalTickBudget <=? minGateShare) then totalTickBudget else minGateShare)
 }
 
 definition{
   name: deductiveSearchShareAfterGate,
-  parameters: [totalTickBudget : Nat, gateMinimum : Nat],
+  parameters: [totalTickBudget : Nat, minGateShare : Nat],
   result: Nat,
-  body: (prim subtract totalTickBudget (reserveHomeostasisGateShare totalTickBudget gateMinimum) : Nat)
+  body: (prim subtract totalTickBudget (reserveHomeostasisGateShare totalTickBudget minGateShare) : Nat)
 }
 
 definition{name: oooPoleSensualQuality, parameters: [], result: Nat, body: 0}
@@ -416,7 +433,7 @@ definition{
   name: breaksMonotonicLiftRatchetAndOpenDistance,
   parameters: [incumbentClass : Nat, candidateClass : Nat],
   result: Bool,
-  body: (((incumbentClass =? (liftClassLifted)) && ((not (candidateClass =? (liftClassLifted))) && (admitLiftKappaTransition true incumbentClass candidateClass))) || (((liftClassTotal) <=? candidateClass) && (admitLiftKappaTransition false incumbentClass candidateClass)))
+  body: (((incumbentClass =? (liftClassLifted)) && (((liftClassLifted) <? candidateClass) && (admitLiftKappaTransition true incumbentClass candidateClass))) || (((liftClassTotal) <=? candidateClass) && (admitLiftKappaTransition false incumbentClass candidateClass)))
 }
 
 theorem{
@@ -426,12 +443,13 @@ theorem{
   proof: linear_arithmetic{
     definitions: [
       admitLiftKappaTransition,
+      admitLiftKappaTransitionScore,
       breaksMonotonicLiftRatchetAndOpenDistance,
       liftClassLifted,
       liftClassTotal
     ]
   },
-  axioms: [Classical.choice, Quot.sound, propext]
+  axioms: [Quot.sound, propext]
 }
 
 definition{
@@ -502,6 +520,743 @@ theorem{
   name: unifiedMechanizationModelCoherenceHolds,
   parameters: [],
   statement: ((verifyUnifiedMechanizationModelCoherence) = true),
+  proof: decide{},
+  axioms: []
+}
+
+structure{
+  name: Trigger,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: event, type: String},
+    {name: value, type: String}
+  ]
+}
+
+structure{
+  name: Permission,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: scope, type: String},
+    {name: access, type: String}
+  ]
+}
+
+structure{
+  name: Stage,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: budget, type: Nat},
+    {name: gate, type: Bool}
+  ]
+}
+
+structure{
+  name: CacheFamily,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: path, type: String}
+  ]
+}
+
+structure{
+  name: Strategy,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: id, type: String},
+    {name: template, type: String},
+    {name: digest, type: String}
+  ]
+}
+
+structure{
+  name: Weight,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: strategy, type: String},
+    {name: family, type: String},
+    {name: value, type: Nat}
+  ]
+}
+
+structure{
+  name: Outcome,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: strategy, type: String},
+    {name: family, type: String},
+    {name: success, type: Bool}
+  ]
+}
+
+definition{
+  name: memberString,
+  parameters: [value : String, values : (List String)],
+  result: Bool,
+  body: (match values
+    | List.nil => false
+    | List.cons head tail => (if (prim equal value head : Bool) then true else (memberString value tail))),
+  axioms: [],
+  recursive_argument: values
+}
+
+definition{
+  name: allMembers,
+  parameters: [values : (List String), ids : (List String)],
+  result: Bool,
+  body: (match values
+    | List.nil => true
+    | List.cons head tail => (if (memberString head ids) then (allMembers tail ids) else false)),
+  axioms: [],
+  recursive_argument: values
+}
+
+definition{name: workflowName, parameters: [], result: String, body: "Verdant Engine", axioms: []}
+
+definition{name: workflowFile, parameters: [], result: String, body: ".github/workflows/engine.yml", axioms: []}
+
+definition{name: repository, parameters: [], result: String, body: "afflom/verdant-resonance", axioms: []}
+
+definition{name: runsOn, parameters: [], result: String, body: "ubuntu-24.04", axioms: []}
+
+definition{name: timeoutMinutes, parameters: [], result: Nat, body: 45, axioms: []}
+
+definition{name: setupMinutes, parameters: [], result: Nat, body: 10, axioms: []}
+
+definition{name: tickBudget, parameters: [], result: Nat, body: 35, axioms: []}
+
+definition{name: gateMinimum, parameters: [], result: Nat, body: 8, axioms: []}
+
+definition{name: cronMinutes, parameters: [], result: (List Nat), body: (cons 17 (cons 47 (nil Nat))), axioms: []}
+
+definition{name: concurrencyGroups, parameters: [], result: (List String), body: (cons "verdant-engine" (nil String)), axioms: []}
+
+definition{name: cancelInProgress, parameters: [], result: Bool, body: false, axioms: []}
+
+definition{name: killSwitch, parameters: [], result: String, body: "VERDANT_ENGINE", axioms: []}
+
+definition{name: secrets, parameters: [], result: (List String), body: (cons "GITHUB_TOKEN" (nil String)), axioms: []}
+
+definition{
+  name: permissions,
+  parameters: [],
+  result: (List Permission),
+  body: (cons (record Permission {scope := "contents", access := "write"}) (cons (record Permission {scope := "actions", access := "write"}) (nil Permission))),
+  axioms: []
+}
+
+definition{
+  name: triggers,
+  parameters: [],
+  result: (List Trigger),
+  body: (cons (record Trigger {event := "schedule", value := "17,47 * * * *"}) (cons (record Trigger {event := "workflow_dispatch", value := "manual"}) (cons (record Trigger {event := "push", value := "main"}) (nil Trigger)))),
+  axioms: []
+}
+
+definition{
+  name: pushPaths,
+  parameters: [],
+  result: (List String),
+  body: (cons "prism/src/**" (cons "prism/spec.json" (cons "prism/production/request.json" (cons "prism/handwritten-ratchet.json" (cons "scripts/**" (cons "src/game/**" (cons "package.json" (cons ".github/workflows/engine.yml" (nil String))))))))),
+  axioms: []
+}
+
+definition{
+  name: actionsUsed,
+  parameters: [],
+  result: (List String),
+  body: (cons "actions/checkout@v4" (cons "actions/setup-node@v4" (cons "actions/cache@v4" (cons "dtolnay/rust-toolchain@stable" (nil String))))),
+  axioms: []
+}
+
+definition{
+  name: actionsAllowed,
+  parameters: [],
+  result: (List String),
+  body: (cons "actions/checkout@v4" (cons "actions/setup-node@v4" (cons "actions/cache@v4" (cons "actions/upload-artifact@v4" (cons "actions/upload-pages-artifact@v3" (cons "actions/deploy-pages@v4" (cons "dtolnay/rust-toolchain@stable" (nil String)))))))),
+  axioms: []
+}
+
+definition{
+  name: stages,
+  parameters: [],
+  result: (List Stage),
+  body: (cons (record Stage {id := "verify-bundle", budget := 5, gate := (1 =? 0)}) (cons (record Stage {id := "rule30-discovery", budget := 5, gate := (1 =? 0)}) (cons (record Stage {id := "ratchet-audit", budget := 5, gate := (1 =? 0)}) (cons (record Stage {id := "teleology-coherence", budget := 5, gate := (1 =? 0)}) (cons (record Stage {id := "portfolio-learning", budget := 5, gate := (1 =? 0)}) (cons (record Stage {id := "gate", budget := 10, gate := (1 =? 1)}) (nil Stage))))))),
+  axioms: []
+}
+
+definition{
+  name: caches,
+  parameters: [],
+  result: (List CacheFamily),
+  body: (cons (record CacheFamily {id := "cargo", path := "prism/.lexlean/harness/target\nprism/.lexlean/wasm-guest/target"}) (cons (record CacheFamily {id := "production", path := "prism/.lexlean/production"}) (cons (record CacheFamily {id := "lake", path := "prism/.lake"}) (cons (record CacheFamily {id := "mechanizer", path := "node_modules/.cache"}) (nil CacheFamily))))),
+  axioms: []
+}
+
+definition{
+  name: portfolio,
+  parameters: [],
+  result: (List Strategy),
+  body: (cons (record Strategy {id := "library-rewrite", template := "library-rewrite.lean.tmpl", digest := "sha256:7a7daaffa8216ed54c33d348240700c78235419661616af3f05c08b1b2e44693"}) (cons (record Strategy {id := "step-induction", template := "step-induction.lean.tmpl", digest := "sha256:f57700ca05d53e84bedb354c9dd6a1988528935580258cf9313a43dbca06e53f"}) (cons (record Strategy {id := "period-reduction", template := "period-reduction.lean.tmpl", digest := "sha256:f9bf7d3cbe1bb2236e43f1c83b9466ec2dfc892753c737f409d9d62ae3272a59"}) (cons (record Strategy {id := "counterexample", template := "counterexample.lean.tmpl", digest := "sha256:32690643eb2aca6e89663e989a822acbd162ede4e1bbfdb873ff75a37de30d7d"}) (nil Strategy))))),
+  axioms: []
+}
+
+definition{
+  name: strategyIdsOf,
+  parameters: [xs : (List Strategy)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (strategyIdsOf tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: digestsOf,
+  parameters: [xs : (List Strategy)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head digest) (digestsOf tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: stageIdsOf,
+  parameters: [xs : (List Stage)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (stageIdsOf tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: cacheIdsOf,
+  parameters: [xs : (List CacheFamily)],
+  result: (List String),
+  body: (match xs
+    | List.nil => (nil String)
+    | List.cons head tail => (cons (project head id) (cacheIdsOf tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: budgetSum,
+  parameters: [xs : (List Stage)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((project head budget) + (budgetSum tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: gateShare,
+  parameters: [xs : (List Stage)],
+  result: Nat,
+  body: (match xs
+    | List.nil => 0
+    | List.cons head tail => ((if (project head gate) then (project head budget) else 0) + (gateShare tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: permissionsWrite,
+  parameters: [xs : (List Permission)],
+  result: Bool,
+  body: (match xs
+    | List.nil => true
+    | List.cons head tail => (((memberString (project head scope) (cons "contents" (cons "actions" (nil String)))) && (prim equal (project head access) "write" : Bool)) && (permissionsWrite tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: offTheHour,
+  parameters: [xs : (List Nat)],
+  result: Bool,
+  body: (match xs
+    | List.nil => true
+    | List.cons head tail => (((0 <? head) && (head <? 60)) && (offTheHour tail))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: thirtyApart,
+  parameters: [xs : (List Nat)],
+  result: Bool,
+  body: (match xs
+    | List.nil => false
+    | List.cons head tail => (match tail
+    | List.nil => false
+    | List.cons later more => ((later =? (head + 30)) && ((prim length more : Nat) =? 0)))),
+  axioms: []
+}
+
+definition{
+  name: distinctStrings,
+  parameters: [values : (List String)],
+  result: Bool,
+  body: (match values
+    | List.nil => true
+    | List.cons head tail => ((not (memberString head tail)) && (distinctStrings tail))),
+  axioms: [],
+  recursive_argument: values
+}
+
+definition{
+  name: allNonEmpty,
+  parameters: [values : (List String)],
+  result: Bool,
+  body: (match values
+    | List.nil => true
+    | List.cons head tail => ((not (prim equal head "" : Bool)) && (allNonEmpty tail))),
+  axioms: [],
+  recursive_argument: values
+}
+
+theorem{
+  name: onlyGithubToken,
+  parameters: [],
+  statement: ((allMembers (secrets) (cons "GITHUB_TOKEN" (nil String))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: permissionsContentsActionsWrite,
+  parameters: [],
+  statement: (((permissionsWrite (permissions)) && ((prim length (permissions) : Nat) =? 2)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: stageBudgetsFillTheTick,
+  parameters: [],
+  statement: (((budgetSum (stages)) =? (tickBudget)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: stageBudgetsFitTheTimeout,
+  parameters: [],
+  statement: ((((setupMinutes) + (budgetSum (stages))) <=? (timeoutMinutes)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: gateKeepsItsShare,
+  parameters: [],
+  statement: (((gateMinimum) <=? (gateShare (stages))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: cronOffTheHour,
+  parameters: [],
+  statement: (((offTheHour (cronMinutes)) && (thirtyApart (cronMinutes))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: concurrencySingle,
+  parameters: [],
+  statement: ((((prim length (concurrencyGroups) : Nat) =? 1) && (not (cancelInProgress))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: actionsAlreadyUsed,
+  parameters: [],
+  statement: ((allMembers (actionsUsed) (actionsAllowed)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: portfolioIdsDistinct,
+  parameters: [],
+  statement: ((distinctStrings (strategyIdsOf (portfolio))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: templatesPinnedByDigest,
+  parameters: [],
+  statement: (((distinctStrings (digestsOf (portfolio))) && (allNonEmpty (digestsOf (portfolio)))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: stageIdsDistinct,
+  parameters: [],
+  statement: ((distinctStrings (stageIdsOf (stages))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: cacheIdsDistinct,
+  parameters: [],
+  statement: ((distinctStrings (cacheIdsOf (caches))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+definition{
+  name: learn,
+  parameters: [w : Nat, success : Bool],
+  result: Nat,
+  body: (if success then (if ((w + 2) <=? 16) then (w + 2) else 16) else (if (2 <=? w) then (prim subtract w 1 : Nat) else 1)),
+  axioms: [],
+  executable: true
+}
+
+definition{
+  name: weightOf,
+  parameters: [strategy : String, family : String, table : (List Weight)],
+  result: Nat,
+  body: (match table
+    | List.nil => 8
+    | List.cons head tail => (if ((prim equal (project head strategy) strategy : Bool) && (prim equal (project head family) family : Bool)) then (project head value) else (weightOf strategy family tail))),
+  axioms: [],
+  recursive_argument: table,
+  executable: true
+}
+
+definition{
+  name: updateWeight,
+  parameters: [table : (List Weight), strategy : String, family : String, success : Bool],
+  result: (List Weight),
+  body: (match table
+    | List.nil => (cons (record Weight {strategy := strategy, family := family, value := (learn 8 success)}) (nil Weight))
+    | List.cons head tail => (if ((prim equal (project head strategy) strategy : Bool) && (prim equal (project head family) family : Bool)) then (cons (record Weight {strategy := strategy, family := family, value := (learn (project head value) success)}) tail) else (cons head (updateWeight tail strategy family success)))),
+  axioms: [],
+  recursive_argument: table,
+  executable: true
+}
+
+definition{
+  name: learnAll,
+  parameters: [table : (List Weight), outcomes : (List Outcome)],
+  result: (List Weight),
+  body: (match outcomes
+    | List.nil => table
+    | List.cons head tail => (learnAll (updateWeight table (project head strategy) (project head family) (project head success)) tail)),
+  axioms: [],
+  recursive_argument: outcomes,
+  executable: true,
+  production: {effects: [allocation, overflow, recursion], targets: [rust-std]}
+}
+
+definition{
+  name: insertByWeight,
+  parameters: [family : String, table : (List Weight), x : String, ordered : (List String)],
+  result: (List String),
+  body: (match ordered
+    | List.nil => (cons x (nil String))
+    | List.cons head tail => (if ((weightOf head family table) <? (weightOf x family table)) then (cons x (cons head tail)) else (cons head (insertByWeight family table x tail)))),
+  axioms: [],
+  recursive_argument: ordered,
+  executable: true
+}
+
+definition{
+  name: scheduleFrom,
+  parameters: [family : String, table : (List Weight), pending : (List String), ordered : (List String)],
+  result: (List String),
+  body: (match pending
+    | List.nil => ordered
+    | List.cons head tail => (scheduleFrom family table tail (insertByWeight family table head ordered))),
+  axioms: [],
+  recursive_argument: pending,
+  executable: true
+}
+
+definition{
+  name: schedule,
+  parameters: [table : (List Weight), family : String, applicable : (List String)],
+  result: (List String),
+  body: (scheduleFrom family table applicable (nil String)),
+  axioms: [],
+  executable: true,
+  production: {effects: [allocation, overflow, recursion], targets: [rust-std]}
+}
+
+definition{
+  name: inBounds,
+  parameters: [w : Nat],
+  result: Bool,
+  body: ((1 <=? w) && (w <=? 16)),
+  axioms: []
+}
+
+definition{
+  name: learnBoundedUpTo,
+  parameters: [k : Nat],
+  result: Bool,
+  body: (match k
+    | Nat.zero => (if (inBounds 0) then ((inBounds (learn 0 true)) && (inBounds (learn 0 false))) else true)
+    | Nat.succ j => ((if (inBounds (j + 1)) then ((inBounds (learn (j + 1) true)) && (inBounds (learn (j + 1) false))) else true) && (learnBoundedUpTo j))),
+  axioms: [],
+  recursive_argument: k
+}
+
+definition{
+  name: weightsBounded,
+  parameters: [table : (List Weight)],
+  result: Bool,
+  body: (match table
+    | List.nil => true
+    | List.cons head tail => ((inBounds (project head value)) && (weightsBounded tail))),
+  axioms: [],
+  recursive_argument: table
+}
+
+definition{
+  name: countString,
+  parameters: [value : String, values : (List String)],
+  result: Nat,
+  body: (match values
+    | List.nil => 0
+    | List.cons head tail => ((if (prim equal value head : Bool) then 1 else 0) + (countString value tail))),
+  axioms: [],
+  recursive_argument: values
+}
+
+definition{
+  name: sameCounts,
+  parameters: [probe : (List String), xs : (List String), ys : (List String)],
+  result: Bool,
+  body: (match probe
+    | List.nil => true
+    | List.cons head tail => (((countString head xs) =? (countString head ys)) && (sameCounts tail xs ys))),
+  axioms: [],
+  recursive_argument: probe
+}
+
+definition{
+  name: isPermutation,
+  parameters: [xs : (List String), ys : (List String)],
+  result: Bool,
+  body: (((prim length xs : Nat) =? (prim length ys : Nat)) && ((sameCounts xs xs ys) && (sameCounts ys xs ys))),
+  axioms: []
+}
+
+definition{
+  name: byWeight,
+  parameters: [table : (List Weight), family : String, ordered : (List String)],
+  result: Bool,
+  body: (match ordered
+    | List.nil => true
+    | List.cons head tail => (match tail
+    | List.nil => true
+    | List.cons later more => (((weightOf later family table) <=? (weightOf head family table)) && (byWeight table family tail)))),
+  axioms: [],
+  recursive_argument: ordered
+}
+
+definition{
+  name: scheduleSound,
+  parameters: [table : (List Weight), family : String, applicable : (List String)],
+  result: Bool,
+  body: ((isPermutation (schedule table family applicable) applicable) && (byWeight table family (schedule table family applicable))),
+  axioms: []
+}
+
+definition{
+  name: soundForSubsets,
+  parameters: [table : (List Weight), family : String, subsets : (List (List String))],
+  result: Bool,
+  body: (match subsets
+    | List.nil => true
+    | List.cons head tail => ((scheduleSound table family head) && (soundForSubsets table family tail))),
+  axioms: [],
+  recursive_argument: subsets
+}
+
+definition{
+  name: soundForFamilies,
+  parameters: [table : (List Weight), families : (List String), subsets : (List (List String))],
+  result: Bool,
+  body: (match families
+    | List.nil => true
+    | List.cons head tail => ((soundForSubsets table head subsets) && (soundForFamilies table tail subsets))),
+  axioms: [],
+  recursive_argument: families
+}
+
+definition{
+  name: initialWeights,
+  parameters: [],
+  result: (List Weight),
+  body: (cons (record Weight {strategy := "library-rewrite", family := "rule30-orbit", value := 8}) (cons (record Weight {strategy := "library-rewrite", family := "teleology-coherence", value := 8}) (cons (record Weight {strategy := "library-rewrite", family := "botanical-judge", value := 8}) (cons (record Weight {strategy := "library-rewrite", family := "lift-ratchet", value := 8}) (cons (record Weight {strategy := "step-induction", family := "rule30-orbit", value := 8}) (cons (record Weight {strategy := "step-induction", family := "teleology-coherence", value := 8}) (cons (record Weight {strategy := "step-induction", family := "botanical-judge", value := 8}) (cons (record Weight {strategy := "step-induction", family := "lift-ratchet", value := 8}) (cons (record Weight {strategy := "period-reduction", family := "rule30-orbit", value := 8}) (cons (record Weight {strategy := "period-reduction", family := "teleology-coherence", value := 8}) (cons (record Weight {strategy := "period-reduction", family := "botanical-judge", value := 8}) (cons (record Weight {strategy := "period-reduction", family := "lift-ratchet", value := 8}) (cons (record Weight {strategy := "counterexample", family := "rule30-orbit", value := 8}) (cons (record Weight {strategy := "counterexample", family := "teleology-coherence", value := 8}) (cons (record Weight {strategy := "counterexample", family := "botanical-judge", value := 8}) (cons (record Weight {strategy := "counterexample", family := "lift-ratchet", value := 8}) (nil Weight))))))))))))))))),
+  axioms: [],
+  executable: true
+}
+
+definition{
+  name: fixtureOutcomes,
+  parameters: [],
+  result: (List Outcome),
+  body: (cons (record Outcome {strategy := "step-induction", family := "rule30-orbit", success := (1 =? 1)}) (cons (record Outcome {strategy := "library-rewrite", family := "rule30-orbit", success := (1 =? 0)}) (cons (record Outcome {strategy := "library-rewrite", family := "rule30-orbit", success := (1 =? 0)}) (cons (record Outcome {strategy := "period-reduction", family := "teleology-coherence", success := (1 =? 1)}) (cons (record Outcome {strategy := "step-induction", family := "teleology-coherence", success := (1 =? 0)}) (cons (record Outcome {strategy := "counterexample", family := "lift-ratchet", success := (1 =? 0)}) (nil Outcome))))))),
+  axioms: [],
+  executable: true
+}
+
+definition{
+  name: fixtureLearned,
+  parameters: [],
+  result: (List Weight),
+  body: (cons (record Weight {strategy := "library-rewrite", family := "rule30-orbit", value := 6}) (cons (record Weight {strategy := "library-rewrite", family := "teleology-coherence", value := 8}) (cons (record Weight {strategy := "library-rewrite", family := "botanical-judge", value := 8}) (cons (record Weight {strategy := "library-rewrite", family := "lift-ratchet", value := 8}) (cons (record Weight {strategy := "step-induction", family := "rule30-orbit", value := 10}) (cons (record Weight {strategy := "step-induction", family := "teleology-coherence", value := 7}) (cons (record Weight {strategy := "step-induction", family := "botanical-judge", value := 8}) (cons (record Weight {strategy := "step-induction", family := "lift-ratchet", value := 8}) (cons (record Weight {strategy := "period-reduction", family := "rule30-orbit", value := 8}) (cons (record Weight {strategy := "period-reduction", family := "teleology-coherence", value := 10}) (cons (record Weight {strategy := "period-reduction", family := "botanical-judge", value := 8}) (cons (record Weight {strategy := "period-reduction", family := "lift-ratchet", value := 8}) (cons (record Weight {strategy := "counterexample", family := "rule30-orbit", value := 8}) (cons (record Weight {strategy := "counterexample", family := "teleology-coherence", value := 8}) (cons (record Weight {strategy := "counterexample", family := "botanical-judge", value := 8}) (cons (record Weight {strategy := "counterexample", family := "lift-ratchet", value := 7}) (nil Weight))))))))))))))))),
+  axioms: [],
+  executable: true
+}
+
+definition{
+  name: committedWeights,
+  parameters: [],
+  result: (List Weight),
+  body: (cons (record Weight {strategy := "library-rewrite", family := "rule30-orbit", value := 9}) (cons (record Weight {strategy := "library-rewrite", family := "teleology-coherence", value := 12}) (cons (record Weight {strategy := "library-rewrite", family := "botanical-judge", value := 15}) (cons (record Weight {strategy := "library-rewrite", family := "lift-ratchet", value := 11}) (cons (record Weight {strategy := "step-induction", family := "rule30-orbit", value := 16}) (cons (record Weight {strategy := "step-induction", family := "teleology-coherence", value := 14}) (cons (record Weight {strategy := "step-induction", family := "botanical-judge", value := 10}) (cons (record Weight {strategy := "step-induction", family := "lift-ratchet", value := 13}) (cons (record Weight {strategy := "period-reduction", family := "rule30-orbit", value := 12}) (cons (record Weight {strategy := "period-reduction", family := "teleology-coherence", value := 10}) (cons (record Weight {strategy := "period-reduction", family := "botanical-judge", value := 8}) (cons (record Weight {strategy := "period-reduction", family := "lift-ratchet", value := 8}) (cons (record Weight {strategy := "counterexample", family := "rule30-orbit", value := 6}) (cons (record Weight {strategy := "counterexample", family := "teleology-coherence", value := 8}) (cons (record Weight {strategy := "counterexample", family := "botanical-judge", value := 7}) (cons (record Weight {strategy := "counterexample", family := "lift-ratchet", value := 10}) (nil Weight))))))))))))))))),
+  axioms: [],
+  executable: true
+}
+
+definition{
+  name: strategyIds,
+  parameters: [],
+  result: (List String),
+  body: (cons "library-rewrite" (cons "step-induction" (cons "period-reduction" (cons "counterexample" (nil String))))),
+  axioms: []
+}
+
+definition{
+  name: familyIds,
+  parameters: [],
+  result: (List String),
+  body: (cons "rule30-orbit" (cons "teleology-coherence" (cons "botanical-judge" (cons "lift-ratchet" (nil String))))),
+  axioms: []
+}
+
+definition{
+  name: portfolioSubsets,
+  parameters: [],
+  result: (List (List String)),
+  body: (cons (nil String) (cons (cons "library-rewrite" (nil String)) (cons (cons "step-induction" (nil String)) (cons (cons "library-rewrite" (cons "step-induction" (nil String))) (cons (cons "period-reduction" (nil String)) (cons (cons "library-rewrite" (cons "period-reduction" (nil String))) (cons (cons "step-induction" (cons "period-reduction" (nil String))) (cons (cons "library-rewrite" (cons "step-induction" (cons "period-reduction" (nil String)))) (cons (cons "counterexample" (nil String)) (cons (cons "library-rewrite" (cons "counterexample" (nil String))) (cons (cons "step-induction" (cons "counterexample" (nil String))) (cons (cons "library-rewrite" (cons "step-induction" (cons "counterexample" (nil String)))) (cons (cons "period-reduction" (cons "counterexample" (nil String))) (cons (cons "library-rewrite" (cons "period-reduction" (cons "counterexample" (nil String)))) (cons (cons "step-induction" (cons "period-reduction" (cons "counterexample" (nil String)))) (cons (cons "library-rewrite" (cons "step-induction" (cons "period-reduction" (cons "counterexample" (nil String))))) (nil (List String)))))))))))))))))),
+  axioms: []
+}
+
+definition{
+  name: sameWeights,
+  parameters: [xs : (List Weight), ys : (List Weight)],
+  result: Bool,
+  body: (match xs
+    | List.nil => ((prim length ys : Nat) =? 0)
+    | List.cons head tail => (match ys
+    | List.nil => false
+    | List.cons y rest => (((prim equal (project head strategy) (project y strategy) : Bool) && (prim equal (project head family) (project y family) : Bool)) && (((project head value) =? (project y value)) && (sameWeights tail rest))))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+definition{
+  name: sameStrings,
+  parameters: [xs : (List String), ys : (List String)],
+  result: Bool,
+  body: (match xs
+    | List.nil => ((prim length ys : Nat) =? 0)
+    | List.cons head tail => (match ys
+    | List.nil => false
+    | List.cons y rest => ((prim equal head y : Bool) && (sameStrings tail rest)))),
+  axioms: [],
+  recursive_argument: xs
+}
+
+theorem{
+  name: learnStaysInBounds,
+  parameters: [],
+  statement: ((learnBoundedUpTo 16) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: initialWeightsBounded,
+  parameters: [],
+  statement: ((weightsBounded (initialWeights)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: committedWeightsBounded,
+  parameters: [],
+  statement: ((weightsBounded (committedWeights)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: learnAllFixture,
+  parameters: [],
+  statement: ((sameWeights (learnAll (initialWeights) (fixtureOutcomes)) (fixtureLearned)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: learnAllFixtureBounded,
+  parameters: [],
+  statement: ((weightsBounded (learnAll (initialWeights) (fixtureOutcomes))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: everyScheduleIsSound,
+  parameters: [],
+  statement: ((soundForFamilies (committedWeights) (familyIds) (portfolioSubsets)) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: scheduleFixture0,
+  parameters: [],
+  statement: ((sameStrings (schedule (fixtureLearned) "rule30-orbit" (cons "library-rewrite" (cons "step-induction" (cons "period-reduction" (nil String))))) (cons "step-induction" (cons "period-reduction" (cons "library-rewrite" (nil String))))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: scheduleFixture1,
+  parameters: [],
+  statement: ((sameStrings (schedule (fixtureLearned) "teleology-coherence" (cons "library-rewrite" (cons "step-induction" (cons "period-reduction" (nil String))))) (cons "period-reduction" (cons "library-rewrite" (cons "step-induction" (nil String))))) = true),
   proof: decide{},
   axioms: []
 }

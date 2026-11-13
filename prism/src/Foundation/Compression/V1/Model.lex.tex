@@ -119,11 +119,11 @@ definition{name: honestyLevelTotal, parameters: [], result: Nat, body: 3}
 
 definition{name: architecturalFacetTotal, parameters: [], result: Nat, body: 12}
 
-definition{name: rule30CellsTotal, parameters: [], result: Nat, body: 64}
+definition{name: rule30CellsTotal, parameters: [], result: Nat, body: 64, executable: true}
 
 definition{name: rule30Ring64, parameters: [], result: Nat, body: 18446744073709551616}
 
-definition{name: rule30Seed64, parameters: [], result: Nat, body: 11400714819323198485}
+definition{name: rule30Seed64, parameters: [], result: Nat, body: 11400714819323198485, executable: true}
 
 definition{name: rule30SeedHi32, parameters: [], result: Nat, body: 2654435769}
 
@@ -305,30 +305,34 @@ definition{
   name: pow2,
   parameters: [n : Nat],
   result: Nat,
-  body: (match n | Nat.zero => 1 | Nat.succ k => ((pow2 k) + (pow2 k))),
+  body: (match n | Nat.zero => 1 | Nat.succ k => (let half : Nat := (pow2 k); (half + half))),
   axioms: [],
-  recursive_argument: n
+  recursive_argument: n,
+  executable: true
 }
 
 definition{
   name: cell,
   parameters: [s : Nat, i : Nat],
   result: Nat,
-  body: (prim remainder (prim quotient s (pow2 i) 0 : Nat) 2 0 : Nat)
+  body: (prim remainder (prim quotient s (pow2 i) 0 : Nat) 2 0 : Nat),
+  executable: true
 }
 
 definition{
   name: rule,
   parameters: [l : Nat, c : Nat, r : Nat],
   result: Nat,
-  body: (if ((c =? 1) || (r =? 1)) then (if (l =? 0) then 1 else 0) else (if (l =? 1) then 1 else 0))
+  body: (if ((c =? 1) || (r =? 1)) then (if (l =? 0) then 1 else 0) else (if (l =? 1) then 1 else 0)),
+  executable: true
 }
 
 definition{
   name: nextCell,
   parameters: [s : Nat, i : Nat],
   result: Nat,
-  body: (rule (cell s (prim remainder (i + 1) (rule30CellsTotal) 0 : Nat)) (cell s i) (cell s (prim remainder (i + 63) (rule30CellsTotal) 0 : Nat)))
+  body: (rule (cell s (prim remainder (i + 1) (rule30CellsTotal) 0 : Nat)) (cell s i) (cell s (prim remainder (i + 63) (rule30CellsTotal) 0 : Nat))),
+  executable: true
 }
 
 definition{
@@ -339,14 +343,17 @@ definition{
     | Nat.zero => 0
     | Nat.succ m => ((stepFrom s m) + (if ((nextCell s m) =? 1) then (pow2 m) else 0))),
   axioms: [],
-  recursive_argument: fuel
+  recursive_argument: fuel,
+  executable: true
 }
 
 definition{
   name: rule30Step,
   parameters: [s : Nat],
   result: Nat,
-  body: (stepFrom (if (s =? 0) then (rule30Seed64) else s) (rule30CellsTotal))
+  body: (stepFrom (if (s =? 0) then (rule30Seed64) else s) (rule30CellsTotal)),
+  executable: true,
+  production: {effects: [overflow, recursion], targets: [rust-core]}
 }
 
 definition{

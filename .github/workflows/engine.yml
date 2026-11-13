@@ -1,0 +1,89 @@
+# AUTO-GENERATED FROM `Foundation.Mechanization.V1.Model` (`prism/src/Foundation/Mechanization/V1/Model.lex.tex`)
+# BY `scripts/uorMechanizerModel.ts` (`npm run prism:mechanize`). DO NOT EDIT BY HAND (`R1`).
+# Target: .github/workflows/engine.yml | setup=10m + tickBudget=35m <= timeout=45m | gateMinimum=8m
+# Modeled stages (6): verify-bundle=5m, rule30-discovery=5m, ratchet-audit=5m, teleology-coherence=5m, portfolio-learning=5m, gate=10m [gate]
+
+name: Verdant Engine
+
+on:
+  schedule:
+    - cron: '17,47 * * * *'
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'prism/src/**'
+      - 'prism/spec.json'
+      - 'prism/production/request.json'
+      - 'prism/handwritten-ratchet.json'
+      - 'scripts/**'
+      - 'src/game/**'
+      - 'package.json'
+      - '.github/workflows/engine.yml'
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: verdant-engine
+  cancel-in-progress: false
+
+jobs:
+  engine-tick:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    if: vars.VERDANT_ENGINE != 'off'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - name: Setup Rust toolchain (native + wasm32-unknown-unknown)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            prism/.lexlean/harness/target\nprism/.lexlean/wasm-guest/target
+          key: verdant-cargo-${{ runner.os }}-${{ hashFiles('prism/lexlean.lock', 'prism/production/request.json', 'package-lock.json') }}
+          restore-keys: |
+            verdant-cargo-${{ runner.os }}-
+      - name: Cache production
+        uses: actions/cache@v4
+        with:
+          path: |
+            prism/.lexlean/production
+          key: verdant-production-${{ runner.os }}-${{ hashFiles('prism/lexlean.lock', 'prism/production/request.json', 'package-lock.json') }}
+          restore-keys: |
+            verdant-production-${{ runner.os }}-
+      - name: Cache lake
+        uses: actions/cache@v4
+        with:
+          path: |
+            prism/.lake
+          key: verdant-lake-${{ runner.os }}-${{ hashFiles('prism/lexlean.lock', 'prism/production/request.json', 'package-lock.json') }}
+          restore-keys: |
+            verdant-lake-${{ runner.os }}-
+      - name: Cache mechanizer
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules/.cache
+          key: verdant-mechanizer-${{ runner.os }}-${{ hashFiles('prism/lexlean.lock', 'prism/production/request.json', 'package-lock.json') }}
+          restore-keys: |
+            verdant-mechanizer-${{ runner.os }}-
+      - name: Install workspace dependencies
+        run: npm ci
+      - name: Build & verify certified LexLean Rust + Wasm production runtime
+        run: npm run prism:production
+      - name: Execute LexLean-modeled certified engine tick (fail-closed Rust)
+        run: npm run prism:engine-tick
+      - name: Enforce shrink-only ratchet, drift, test, and bundle homeostasis gate
+        run: npm run prism:gate

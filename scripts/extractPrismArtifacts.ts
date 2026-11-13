@@ -453,6 +453,34 @@ export function evaluateLexExpr(
             [bindVar]: Number(scrutineeVal) - 1,
           });
         }
+        if (pat === 'Option.none' && (scrutineeVal === null || scrutineeVal?.tag === 'none')) {
+          return evaluateLexExpr(bodyExpr, currentModule, modules, env);
+        }
+        if (
+          pat.startsWith('Option.some ') &&
+          scrutineeVal !== null &&
+          scrutineeVal !== undefined &&
+          scrutineeVal?.tag === 'some'
+        ) {
+          const bindVar = pat.slice('Option.some '.length).trim();
+          return evaluateLexExpr(bodyExpr, currentModule, modules, {
+            ...env,
+            [bindVar]: scrutineeVal.value,
+          });
+        }
+        if (pat === 'List.nil' && Array.isArray(scrutineeVal) && scrutineeVal.length === 0) {
+          return evaluateLexExpr(bodyExpr, currentModule, modules, env);
+        }
+        if (pat.startsWith('List.cons ') && Array.isArray(scrutineeVal) && scrutineeVal.length > 0) {
+          const bindParts = pat.slice('List.cons '.length).trim().split(/\s+/);
+          const headVar = bindParts[0];
+          const tailVar = bindParts[1];
+          return evaluateLexExpr(bodyExpr, currentModule, modules, {
+            ...env,
+            [headVar]: scrutineeVal[0],
+            [tailVar]: scrutineeVal.slice(1),
+          });
+        }
         if (pat === '_') {
           return evaluateLexExpr(bodyExpr, currentModule, modules, env);
         }
@@ -489,6 +517,7 @@ export function evaluateLexExpr(
   const tokens: string[] = [];
   let pDepth = 0;
   let bDepth = 0;
+  let sqDepth = 0;
   let inStr = false;
   let tokStart = 0;
   for (let i = 0; i < expr.length; i++) {
@@ -499,7 +528,9 @@ export function evaluateLexExpr(
     else if (ch === ')') pDepth--;
     else if (ch === '{') bDepth++;
     else if (ch === '}') bDepth--;
-    else if (/\s/.test(ch) && pDepth === 0 && bDepth === 0) {
+    else if (ch === '[') sqDepth++;
+    else if (ch === ']') sqDepth--;
+    else if (/\s/.test(ch) && pDepth === 0 && bDepth === 0 && sqDepth === 0) {
       if (i > tokStart) {
         tokens.push(expr.slice(tokStart, i).trim());
       }
@@ -523,15 +554,48 @@ export function evaluateLexExpr(
     return targetObj ? targetObj[fieldName] : undefined;
   }
 
+  if (tokens[0] === 'ctor') {
+    if (tokens[1] === 'Option.none') return { tag: 'none' };
+    if (tokens[1] === 'Option.some') {
+      return { tag: 'some', value: evaluateLexExpr(tokens[3], currentModule, modules, env) };
+    }
+  }
+
+  if (tokens[0] === 'nil') {
+    return [];
+  }
+
+  if (tokens[0] === 'cons') {
+    const headVal = evaluateLexExpr(tokens[1], currentModule, modules, env);
+    const tailVal = evaluateLexExpr(tokens[2], currentModule, modules, env);
+    return [headVal, ...(Array.isArray(tailVal) ? tailVal : [])];
+  }
+
   if (tokens[0] === 'prim') {
     const op = tokens[1];
-    const arg1 = evaluateLexExpr(tokens[2], currentModule, modules, env);
-    const arg2 = evaluateLexExpr(tokens[3], currentModule, modules, env);
+    const colonIdx = tokens.indexOf(':');
+    const argTokens = colonIdx === -1 ? tokens.slice(2) : tokens.slice(2, colonIdx);
+    const evalArgs = argTokens.map((a) => evaluateLexExpr(a, currentModule, modules, env));
+    const arg1 = evalArgs[0];
+    const arg2 = evalArgs[1];
+    const arg3 = evalArgs[2];
     if (op === 'multiply') return Number(arg1) * Number(arg2);
     if (op === 'subtract') return Math.max(0, Number(arg1) - Number(arg2));
-    if (op === 'quotient') return Number(arg2) === 0 ? 0 : Math.floor(Number(arg1) / Number(arg2));
-    if (op === 'remainder') return Number(arg2) === 0 ? Number(arg1) : Number(arg1) % Number(arg2);
-    if (op === 'equal') return arg1 === arg2;
+    if (op === 'quotient') {
+      return Number(arg2) === 0 ? (arg3 !== undefined ? Number(arg3) : 0) : Math.floor(Number(arg1) / Number(arg2));
+    }
+    if (op === 'remainder') {
+      return Number(arg2) === 0 ? (arg3 !== undefined ? Number(arg3) : Number(arg1)) : Number(arg1) % Number(arg2);
+    }
+    if (op === 'equal') return JSON.stringify(arg1) === JSON.stringify(arg2);
+    if (op === 'length') {
+      return Array.isArray(arg1) || typeof arg1 === 'string' || arg1 instanceof Uint8Array ? arg1.length : 0;
+    }
+    if (op === 'to_nat') return Number(arg1);
+    if (op === 'append') {
+      if (Array.isArray(arg1) && Array.isArray(arg2)) return [...arg1, ...arg2];
+      if (typeof arg1 === 'string' && typeof arg2 === 'string') return arg1 + arg2;
+    }
   }
 
   const fnToken = tokens[0];

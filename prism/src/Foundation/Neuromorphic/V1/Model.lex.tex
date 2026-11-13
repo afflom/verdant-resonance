@@ -158,17 +158,17 @@ structure{
   ]
 }
 
-definition{name: weightMin, parameters: [], result: Nat, body: 1}
+definition{name: weightMin, parameters: [], result: Nat, body: 1, executable: true}
 
-definition{name: weightMax, parameters: [], result: Nat, body: 16}
+definition{name: weightMax, parameters: [], result: Nat, body: 16, executable: true}
 
-definition{name: weightInitial, parameters: [], result: Nat, body: 8}
+definition{name: weightInitial, parameters: [], result: Nat, body: 8, executable: true}
 
-definition{name: weightRaise, parameters: [], result: Nat, body: 2}
+definition{name: weightRaise, parameters: [], result: Nat, body: 2, executable: true}
 
-definition{name: weightLower, parameters: [], result: Nat, body: 1}
+definition{name: weightLower, parameters: [], result: Nat, body: 1, executable: true}
 
-definition{name: consolidationThreshold, parameters: [], result: Nat, body: 12}
+definition{name: consolidationThreshold, parameters: [], result: Nat, body: 12, executable: true}
 
 definition{name: neuromorphicBasisPrime, parameters: [], result: Nat, body: 109}
 
@@ -176,14 +176,16 @@ definition{
   name: clampBusWeight,
   parameters: [w : Nat],
   result: Nat,
-  body: (let span : Nat := (prim subtract (weightMax) (weightMin) : Nat); (prim subtract (weightMax) (prim subtract span (prim subtract w (weightMin) : Nat) : Nat) : Nat))
+  body: (let span : Nat := (prim subtract (weightMax) (weightMin) : Nat); (prim subtract (weightMax) (prim subtract span (prim subtract w (weightMin) : Nat) : Nat) : Nat)),
+  executable: true
 }
 
 definition{
   name: learnWeightPotentiated,
   parameters: [w : Nat],
   result: Nat,
-  body: (let cap : Nat := (prim subtract (weightMax) (weightRaise) : Nat); (prim subtract (weightMax) (prim subtract cap w : Nat) : Nat))
+  body: (let cap : Nat := (prim subtract (weightMax) (weightRaise) : Nat); (prim subtract (weightMax) (prim subtract cap w : Nat) : Nat)),
+  executable: true
 }
 
 definition{
@@ -206,7 +208,8 @@ definition{
   result: Nat,
   body: (let span : Nat := (prim subtract (weightMax) (weightMin) : Nat); (match sourceConsolidated
     | Bool.true => (prim subtract (weightMax) (prim subtract span wTarget : Nat) : Nat)
-    | Bool.false => (prim subtract (weightMax) (prim subtract span (prim subtract wTarget (weightMin) : Nat) : Nat) : Nat)))
+    | Bool.false => (prim subtract (weightMax) (prim subtract span (prim subtract wTarget (weightMin) : Nat) : Nat) : Nat))),
+  executable: true
 }
 
 definition{
@@ -220,14 +223,16 @@ definition{
   name: uniformBusManifold,
   parameters: [w : Nat],
   result: BusManifoldState,
-  body: (record BusManifoldState {wInfrastructure := w, wPhysics := w, wBotany := w, wEcology := w, wAcoustics := w, wArticulation := w, wSoundtrack := w, wHumane := w, wBrand := w, wNeuromorphic := w})
+  body: (record BusManifoldState {wInfrastructure := w, wPhysics := w, wBotany := w, wEcology := w, wAcoustics := w, wArticulation := w, wSoundtrack := w, wHumane := w, wBrand := w, wNeuromorphic := w}),
+  executable: true
 }
 
 definition{
   name: stepUniversalBusBroadcast,
   parameters: [state : BusManifoldState, sourceConsolidated : Bool],
   result: BusManifoldState,
-  body: (record BusManifoldState {wInfrastructure := (transferWeightCrossDomain (project state wInfrastructure) sourceConsolidated), wPhysics := (transferWeightCrossDomain (project state wPhysics) sourceConsolidated), wBotany := (transferWeightCrossDomain (project state wBotany) sourceConsolidated), wEcology := (transferWeightCrossDomain (project state wEcology) sourceConsolidated), wAcoustics := (transferWeightCrossDomain (project state wAcoustics) sourceConsolidated), wArticulation := (transferWeightCrossDomain (project state wArticulation) sourceConsolidated), wSoundtrack := (transferWeightCrossDomain (project state wSoundtrack) sourceConsolidated), wHumane := (transferWeightCrossDomain (project state wHumane) sourceConsolidated), wBrand := (transferWeightCrossDomain (project state wBrand) sourceConsolidated), wNeuromorphic := (learnWeightPotentiated (project state wNeuromorphic))})
+  body: (record BusManifoldState {wInfrastructure := (transferWeightCrossDomain (project state wInfrastructure) sourceConsolidated), wPhysics := (transferWeightCrossDomain (project state wPhysics) sourceConsolidated), wBotany := (transferWeightCrossDomain (project state wBotany) sourceConsolidated), wEcology := (transferWeightCrossDomain (project state wEcology) sourceConsolidated), wAcoustics := (transferWeightCrossDomain (project state wAcoustics) sourceConsolidated), wArticulation := (transferWeightCrossDomain (project state wArticulation) sourceConsolidated), wSoundtrack := (transferWeightCrossDomain (project state wSoundtrack) sourceConsolidated), wHumane := (transferWeightCrossDomain (project state wHumane) sourceConsolidated), wBrand := (transferWeightCrossDomain (project state wBrand) sourceConsolidated), wNeuromorphic := (learnWeightPotentiated (project state wNeuromorphic))}),
+  executable: true
 }
 
 definition{
@@ -278,7 +283,7 @@ definition{name: grovePrime, parameters: [], result: Nat, body: 3}
 
 definition{name: crystalPrime, parameters: [], result: Nat, body: 5}
 
-definition{name: wetlandPrime, parameters: [], result: Nat, body: 7}
+definition{name: wetlandPrime, parameters: [], result: Nat, body: 7, executable: true}
 
 definition{name: sanctuaryPrime, parameters: [], result: Nat, body: 11}
 

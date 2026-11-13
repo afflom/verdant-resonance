@@ -187,7 +187,8 @@ definition{
   name: stepPhysicsBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (850 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 25 : Nat))
+  body: (850 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 25 : Nat)),
+  executable: true
 }
 
 definition{

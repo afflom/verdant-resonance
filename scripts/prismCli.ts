@@ -211,10 +211,66 @@ async function main() {
       checkOnly: false,
     });
     const uorMod = await import('./uorMechanizerModel.ts');
-    const uorRes = uorMod.syncOrCheckUorMechanizationArtifacts(projectRoot, { write: true });
+    const uorRes = uorMod.syncOrCheckUorMechanizationArtifacts(projectRoot, {
+      write: true,
+      ratchetDown: flags.has('--ratchet-down'),
+    });
     console.log(
-      `[prism:mechanize] ${res.fromCache ? 'cache-hit' : 'compiled'} in ${res.durationMs}ms | digest=${res.inputDigestSha256.slice(0, 16)}… | constants=${res.constantsChanged ? 'updated' : 'unchanged'} | runtime=${res.runtimeChanged ? 'updated' : 'unchanged'} | SPEC.md=${res.specReport.specMdUpdated ? 'updated' : 'in-sync'} | lift=${uorRes.liftedCount}/${uorRes.totalProductFunctions} (${uorRes.liftRegisterUpdated ? 'updated' : 'in-sync'}) | CONFORMANCE.md=${uorRes.conformanceMdUpdated ? 'updated' : 'in-sync'}`,
+      `[prism:mechanize] ${res.fromCache ? 'cache-hit' : 'compiled'} in ${res.durationMs}ms | digest=${res.inputDigestSha256.slice(0, 16)}… | constants=${res.constantsChanged ? 'updated' : 'unchanged'} | runtime=${res.runtimeChanged ? 'updated' : 'unchanged'} | SPEC.md=${res.specReport.specMdUpdated ? 'updated' : 'in-sync'} | lift=${uorRes.liftedCount}/${uorRes.totalProductFunctions} (${uorRes.liftRegisterUpdated ? 'updated' : 'in-sync'}) | ratchet=${uorRes.handwrittenGameNonCommentLines}LOC/${uorRes.residueCount}res/${uorRes.classicalChoiceCount}choice | engine.yml=${uorRes.engineWorkflowUpdated ? 'updated' : 'in-sync'} | CONFORMANCE.md=${uorRes.conformanceMdUpdated ? 'updated' : 'in-sync'}`,
     );
+    return;
+  }
+
+  if (cmd === 'production') {
+    ensurePrismMechanizedArtifacts(projectRoot, { force: flags.has('--force'), checkOnly: false });
+    const prodMod = await import('./certifiedProductionRuntime.ts');
+    const hasBundle = (() => {
+      try {
+        prodMod.findLatestProductionBundleDir(projectRoot);
+        return !flags.has('--rebuild');
+      } catch {
+        return false;
+      }
+    })();
+    if (hasBundle) {
+      const compiled = prodMod.compileCertifiedRustHarnessAndWasm(projectRoot);
+      console.log(
+        `[prism:production] reused verified bundle ${compiled.manifest.bundleResultId.slice(0, 16)}… | roots=${compiled.manifest.roots.length} (${compiled.manifest.rustCoreNoStdRootCount} rust-core #![no_std], ${compiled.manifest.rustStdRootCount} rust-std) | wasm=${compiled.manifest.wasmBytes}B | kernelChecked=${compiled.manifest.allKernelChecked}`,
+      );
+    } else {
+      const built = prodMod.buildAndVerifyCertifiedProductionBundle(projectRoot);
+      console.log(
+        `[prism:production] built & verified bundle ${built.resultId.slice(0, 16)}… | roots=${built.manifest.roots.length} (${built.manifest.rustCoreNoStdRootCount} rust-core #![no_std], ${built.manifest.rustStdRootCount} rust-std) | wasm=${built.manifest.wasmBytes}B`,
+      );
+    }
+    return;
+  }
+
+  if (cmd === 'tick' || cmd === 'engine-tick') {
+    const prodMod = await import('./certifiedProductionRuntime.ts');
+    const report = await prodMod.runCertifiedEngineTick(projectRoot);
+    console.log(
+      `=== Verdant Engine Certified Tick (${report.workflowFile} | bundle=${report.bundleResultId.slice(0, 16)}…) ===`,
+    );
+    for (const s of report.stages) {
+      const tag = s.isGate ? '[GATE]' : '[STAGE]';
+      console.log(
+        `  ✓ ${tag.padEnd(7)} ${s.id.padEnd(20)} (${String(s.budgetMinutes).padStart(2)}m) | work=${String(s.certifiedWorkUnits).padStart(5)} | ${s.detail}`,
+      );
+    }
+    console.log(
+      `Summary: ${report.stages.length}/6 stages passed | budget=${report.tickBudgetMinutes}m (gateShare=${report.gateShareMinutes}m >= ${report.gateMinimumMinutes}m) | totalCertifiedWork=${report.totalCertifiedWorkUnits}`,
+    );
+    return;
+  }
+
+  if (cmd === 'hooks') {
+    const hookFile = path.join(projectRoot, '.githooks', 'pre-commit');
+    if (fs.existsSync(hookFile)) {
+      fs.chmodSync(hookFile, 0o755);
+    }
+    runSubcommand('Configure git core.hooksPath -> .githooks', 'git', ['config', 'core.hooksPath', '.githooks'], projectRoot);
+    console.log('[prism:hooks] Installed .githooks/pre-commit shrink-only ratchet hook.');
     return;
   }
 
@@ -517,7 +573,7 @@ async function main() {
   }
 
   console.error(
-    `Unknown prismCli command '${cmd}'. Expected: sync | check | status | lift | conformance | inspect | eval | kpis | optimize | gate`,
+    `Unknown prismCli command '${cmd}'. Expected: sync | production | tick | hooks | check | status | lift | conformance | inspect | eval | kpis | optimize | gate`,
   );
   process.exit(1);
 }

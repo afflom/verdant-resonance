@@ -47,6 +47,7 @@ const CompiledMechanization = PRISM_COMPILED_MODULES['Foundation.Mechanization.V
 const GENERATED_PRODUCT_FILES = new Set([
   'src/game/generatedPrismConstants.ts',
   'src/game/generatedPrismRuntime.ts',
+  'src/game/generatedCertifiedWasmBridge.ts',
   'src/game/prismModel.test.ts',
 ]);
 
@@ -296,7 +297,7 @@ function classifyFunctionRouteAndLift(fn: ExtractedTsFunction): {
   // 3. Pure functions delegating directly to compiled LexLean definitions or AST-extracted formal tables (`lifted`)
   const lexModule = FILE_LEXLEAN_BINDING[fn.relPath] ?? 'VerdantResonance';
   const compiledCallMatch = body.match(
-    /\b(Compiled[A-Za-z0-9_]+\.[A-Za-z0-9_]+|PRISM_COMPILED_MODULES\[[^\]]+\]\.[A-Za-z0-9_]+|dispatchPrismTextRequest|decodePrismTextRequest)\b/,
+    /\b(certifiedWasm[A-Za-z0-9_]+|Compiled[A-Za-z0-9_]+\.[A-Za-z0-9_]+|PRISM_COMPILED_MODULES\[[^\]]+\]\.[A-Za-z0-9_]+|dispatchPrismTextRequest|decodePrismTextRequest)\b/,
   );
   if (compiledCallMatch) {
     return {
@@ -468,7 +469,7 @@ export const EXTERNAL_AUTHORITIES_REGISTER: readonly ExternalAuthorityRecord[] =
   {
     id: 'AUTH-07',
     citation: 'Lean 4 Theorem Prover (`leanprover/lean4:v4.32.1`) & LexLean 1.2 Kernel',
-    scopeInVerdant: 'Machine-checked `decide{}` and `linear_arithmetic{}` proofs across all 28 `.lex.tex` modules.',
+    scopeInVerdant: 'Machine-checked `decide{}` and `linear_arithmetic{}` proofs across all 27 `.lex.tex` modules plus certified Rust production preservation.',
     pinDigestOrReason: 'Pinned in prism/lean-toolchain & prism/lexlean.lock',
   },
   {
@@ -695,17 +696,309 @@ export function buildConformanceReport(
   };
 }
 
+// ============================================================================
+// Shrink-Only Authoring & Axiom Ratchet (`afflom/rule30` Ratchet + Constructive Floor)
+// ============================================================================
+
+export class RatchetViolationError extends Error {
+  readonly violations: readonly string[];
+  constructor(violations: readonly string[]) {
+    super(`Shrink-Only Ratchet Refused (${violations.length} violation(s)):\n  - ${violations.join('\n  - ')}`);
+    this.name = 'RatchetViolationError';
+    this.violations = violations;
+  }
+}
+
+export interface HandwrittenAndAxiomRatchetDocument {
+  readonly schema: 'verdant-resonance/handwritten-ratchet/1';
+  readonly allowedHandwrittenGameFiles: readonly string[];
+  readonly baselineAtCommit05e151c: {
+    readonly handwrittenGameNonCommentLines: number;
+    readonly residueFunctionCount: number;
+    readonly classicalChoiceCount: number;
+    readonly mechanizationClassicalChoiceCount: number;
+  };
+  readonly maxHandwrittenGameNonCommentLines: number;
+  readonly maxResidueFunctionCount: number;
+  readonly maxClassicalChoiceCount: number;
+  readonly maxMechanizationClassicalChoiceCount: number;
+}
+
+export interface HandwrittenAndAxiomRatchetMeasuredState {
+  readonly handwrittenGameFiles: readonly string[];
+  readonly handwrittenGameNonCommentLines: number;
+  readonly residueFunctionCount: number;
+  readonly classicalChoiceCount: number;
+  readonly mechanizationClassicalChoiceCount: number;
+}
+
+export function countNonCommentSourceLines(source: string): number {
+  let inBlock = false;
+  let count = 0;
+  for (const rawLine of source.split('\n')) {
+    let line = rawLine.trim();
+    if (!line) continue;
+    if (inBlock) {
+      const endIdx = line.indexOf('*/');
+      if (endIdx === -1) continue;
+      inBlock = false;
+      line = line.slice(endIdx + 2).trim();
+      if (!line) continue;
+    }
+    while (line.startsWith('/*')) {
+      const endIdx = line.indexOf('*/', 2);
+      if (endIdx === -1) {
+        inBlock = true;
+        line = '';
+        break;
+      }
+      line = line.slice(endIdx + 2).trim();
+    }
+    if (!line || line.startsWith('//')) continue;
+    count++;
+  }
+  return count;
+}
+
+function collectLexFilesRecursive(dir: string, out: string[] = []): string[] {
+  if (!fs.existsSync(dir)) return out;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) collectLexFilesRecursive(full, out);
+    else if (entry.isFile() && entry.name.endsWith('.lex.tex')) out.push(full);
+  }
+  return out;
+}
+
+export function measureHandwrittenAndAxiomRatchetState(
+  projectRoot: string,
+  candidateRegister: LiftRegisterDocument,
+): HandwrittenAndAxiomRatchetMeasuredState {
+  const gameDir = path.join(projectRoot, 'src', 'game');
+  const handwrittenGameFiles = fs
+    .readdirSync(gameDir, { withFileTypes: true })
+    .filter((d) => d.isFile() && d.name.endsWith('.ts'))
+    .map((d) => `src/game/${d.name}`)
+    .filter((rel) => !GENERATED_PRODUCT_FILES.has(rel))
+    .sort((a, b) => a.localeCompare(b));
+
+  let handwrittenGameNonCommentLines = 0;
+  for (const rel of handwrittenGameFiles) {
+    const src = fs.readFileSync(path.join(projectRoot, rel), 'utf8');
+    handwrittenGameNonCommentLines += countNonCommentSourceLines(src);
+  }
+
+  const prismSrcDir = path.join(projectRoot, 'prism', 'src');
+  const lexFiles = collectLexFilesRecursive(prismSrcDir);
+  let classicalChoiceCount = 0;
+  let mechanizationClassicalChoiceCount = 0;
+  for (const lexPath of lexFiles) {
+    const raw = fs.readFileSync(lexPath, 'utf8');
+    const hits = (raw.match(/\bClassical\.choice\b/g) ?? []).length;
+    classicalChoiceCount += hits;
+    if (lexPath.replace(/\\/g, '/').endsWith('Foundation/Mechanization/V1/Model.lex.tex')) {
+      mechanizationClassicalChoiceCount += hits;
+    }
+  }
+
+  return {
+    handwrittenGameFiles,
+    handwrittenGameNonCommentLines,
+    residueFunctionCount: candidateRegister.summary.residueCount,
+    classicalChoiceCount,
+    mechanizationClassicalChoiceCount,
+  };
+}
+
+export function verifyHandwrittenAndAxiomRatchet(
+  ratchet: HandwrittenAndAxiomRatchetDocument,
+  measured: HandwrittenAndAxiomRatchetMeasuredState,
+): { readonly ok: true } | { readonly ok: false; readonly violations: readonly string[] } {
+  const violations: string[] = [];
+  const allowedSet = new Set(ratchet.allowedHandwrittenGameFiles);
+  const extraFiles = measured.handwrittenGameFiles.filter((f) => !allowedSet.has(f));
+  if (extraFiles.length > 0) {
+    violations.push(
+      `New hand-written TypeScript module(s) forbidden by shrink-only allowlist: ${extraFiles.join(', ')}`,
+    );
+  }
+  if (measured.handwrittenGameNonCommentLines > ratchet.maxHandwrittenGameNonCommentLines) {
+    violations.push(
+      `Hand-written src/game/*.ts non-comment lines grew (${measured.handwrittenGameNonCommentLines} > ceiling ${ratchet.maxHandwrittenGameNonCommentLines})`,
+    );
+  }
+  if (measured.residueFunctionCount > ratchet.maxResidueFunctionCount) {
+    violations.push(
+      `Unlifted residue function count grew (${measured.residueFunctionCount} > ceiling ${ratchet.maxResidueFunctionCount})`,
+    );
+  }
+  if (measured.classicalChoiceCount > ratchet.maxClassicalChoiceCount) {
+    violations.push(
+      `Repo-wide Classical.choice axiom count grew (${measured.classicalChoiceCount} > ceiling ${ratchet.maxClassicalChoiceCount})`,
+    );
+  }
+  if (measured.mechanizationClassicalChoiceCount > ratchet.maxMechanizationClassicalChoiceCount) {
+    violations.push(
+      `Foundation.Mechanization.V1.Model Classical.choice count grew (${measured.mechanizationClassicalChoiceCount} > ceiling ${ratchet.maxMechanizationClassicalChoiceCount})`,
+    );
+  }
+
+  return violations.length === 0 ? { ok: true } : { ok: false, violations };
+}
+
+// ============================================================================
+// Deterministic LexLean -> `.github/workflows/engine.yml` Workload Projection
+// ============================================================================
+
+export function renderEngineWorkflowYamlFromLexLean(): string {
+  const wfName = String(CompiledMechanization.workflowName());
+  const wfFile = String(CompiledMechanization.workflowFile());
+  const runsOn = String(CompiledMechanization.runsOn());
+  const timeoutMinutes = Number(CompiledMechanization.timeoutMinutes());
+  const setupMinutes = Number(CompiledMechanization.setupMinutes());
+  const tickBudget = Number(CompiledMechanization.tickBudget());
+  const gateMin = Number(CompiledMechanization.gateMinimum());
+  const concurrencyGroup = String(CompiledMechanization.concurrencyGroups()[0] ?? 'verdant-engine');
+  const cancelInProgress = Boolean(CompiledMechanization.cancelInProgress());
+  const killSwitch = String(CompiledMechanization.killSwitch());
+  const permissions = CompiledMechanization.permissions() as ReadonlyArray<{
+    readonly scope: string;
+    readonly access: string;
+  }>;
+  const triggers = CompiledMechanization.triggers() as ReadonlyArray<{
+    readonly event: string;
+    readonly value: string;
+  }>;
+  const pushPaths = CompiledMechanization.pushPaths() as ReadonlyArray<string>;
+  const actionsUsed = CompiledMechanization.actionsUsed() as ReadonlyArray<string>;
+  const stages = CompiledMechanization.stages() as ReadonlyArray<{
+    readonly id: string;
+    readonly budget: bigint;
+    readonly gate: boolean;
+  }>;
+  const caches = CompiledMechanization.caches() as ReadonlyArray<{
+    readonly id: string;
+    readonly path: string;
+  }>;
+
+  const checkoutAction = actionsUsed.find((a) => a.startsWith('actions/checkout@')) ?? 'actions/checkout@v4';
+  const setupNodeAction = actionsUsed.find((a) => a.startsWith('actions/setup-node@')) ?? 'actions/setup-node@v4';
+  const cacheAction = actionsUsed.find((a) => a.startsWith('actions/cache@')) ?? 'actions/cache@v4';
+  const rustAction = actionsUsed.find((a) => a.startsWith('dtolnay/rust-toolchain@')) ?? 'dtolnay/rust-toolchain@stable';
+
+  const scheduleTrigger = triggers.find((t) => t.event === 'schedule');
+  const pushTrigger = triggers.find((t) => t.event === 'push');
+  const hasDispatch = triggers.some((t) => t.event === 'workflow_dispatch');
+
+  const permLines = permissions.map((p) => `  ${p.scope}: ${p.access}`);
+  const pathLines = pushPaths.map((p) => `      - '${p}'`);
+  const stageSummaryComment = stages
+    .map((s) => `${s.id}=${Number(s.budget)}m${s.gate ? ' [gate]' : ''}`)
+    .join(', ');
+
+  const cacheSteps = caches.flatMap((c) => {
+    const pathBlock = c.path
+      .split('\n')
+      .map((line) => `            ${line}`)
+      .join('\n');
+    return [
+      `      - name: Cache ${c.id}`,
+      `        uses: ${cacheAction}`,
+      '        with:',
+      '          path: |',
+      pathBlock,
+      `          key: verdant-${c.id}-\${{ runner.os }}-\${{ hashFiles('prism/lexlean.lock', 'prism/production/request.json', 'package-lock.json') }}`,
+      `          restore-keys: |`,
+      `            verdant-${c.id}-\${{ runner.os }}-`,
+    ];
+  });
+
+  const lines: string[] = [
+    `# AUTO-GENERATED FROM \`Foundation.Mechanization.V1.Model\` (\`prism/src/Foundation/Mechanization/V1/Model.lex.tex\`)`,
+    `# BY \`scripts/uorMechanizerModel.ts\` (\`npm run prism:mechanize\`). DO NOT EDIT BY HAND (\`R1\`).`,
+    `# Target: ${wfFile} | setup=${setupMinutes}m + tickBudget=${tickBudget}m <= timeout=${timeoutMinutes}m | gateMinimum=${gateMin}m`,
+    `# Modeled stages (${stages.length}): ${stageSummaryComment}`,
+    '',
+    `name: ${wfName}`,
+    '',
+    'on:',
+  ];
+
+  if (scheduleTrigger) {
+    lines.push('  schedule:', `    - cron: '${scheduleTrigger.value}'`);
+  }
+  if (hasDispatch) {
+    lines.push('  workflow_dispatch:');
+  }
+  if (pushTrigger) {
+    lines.push(
+      '  push:',
+      '    branches:',
+      `      - ${pushTrigger.value}`,
+      '    paths:',
+      ...pathLines,
+    );
+  }
+
+  lines.push(
+    '',
+    'permissions:',
+    ...permLines,
+    '',
+    'concurrency:',
+    `  group: ${concurrencyGroup}`,
+    `  cancel-in-progress: ${cancelInProgress}`,
+    '',
+    'jobs:',
+    '  engine-tick:',
+    `    runs-on: ${runsOn}`,
+    `    timeout-minutes: ${timeoutMinutes}`,
+    `    if: vars.${killSwitch} != 'off'`,
+    '    steps:',
+    `      - name: Checkout repository`,
+    `        uses: ${checkoutAction}`,
+    `      - name: Setup Node.js`,
+    `        uses: ${setupNodeAction}`,
+    '        with:',
+    "          node-version: '22'",
+    "          cache: 'npm'",
+    `      - name: Setup Rust toolchain (native + wasm32-unknown-unknown)`,
+    `        uses: ${rustAction}`,
+    '        with:',
+    '          targets: wasm32-unknown-unknown',
+    ...cacheSteps,
+    '      - name: Install workspace dependencies',
+    '        run: npm ci',
+    '      - name: Build & verify certified LexLean Rust + Wasm production runtime',
+    '        run: npm run prism:production',
+    '      - name: Execute LexLean-modeled certified engine tick (fail-closed Rust)',
+    '        run: npm run prism:engine-tick',
+    '      - name: Enforce shrink-only ratchet, drift, test, and bundle homeostasis gate',
+    '        run: npm run prism:gate',
+    '',
+  );
+
+  return lines.join('\n');
+}
+
 export interface UorMechanizationCheckSummary {
   readonly liftRegisterPath: string;
   readonly conformanceMdPath: string;
+  readonly ratchetPath: string;
+  readonly engineWorkflowPath: string;
   readonly liftRegisterUpdated: boolean;
   readonly conformanceMdUpdated: boolean;
+  readonly ratchetUpdated: boolean;
+  readonly engineWorkflowUpdated: boolean;
   readonly totalProductFunctions: number;
   readonly liftedCount: number;
   readonly residueCount: number;
   readonly foreignCount: number;
   readonly effectCount: number;
   readonly unliftedOpenDistance: number;
+  readonly handwrittenGameNonCommentLines: number;
+  readonly classicalChoiceCount: number;
+  readonly mechanizationClassicalChoiceCount: number;
   readonly buildScenarioCount: number;
   readonly authoritiesCount: number;
   readonly openClaimsCount: number;
@@ -715,10 +1008,13 @@ export interface UorMechanizationCheckSummary {
 
 export function syncOrCheckUorMechanizationArtifacts(
   projectRoot: string = process.cwd(),
-  options: { write: boolean },
+  options: { write: boolean; ratchetDown?: boolean },
 ): UorMechanizationCheckSummary {
   const liftRegisterPath = path.join(projectRoot, 'prism', 'lift-register.json');
   const conformanceMdPath = path.join(projectRoot, 'CONFORMANCE.md');
+  const ratchetPath = path.join(projectRoot, 'prism', 'handwritten-ratchet.json');
+  const engineWorkflowRel = String(CompiledMechanization.workflowFile());
+  const engineWorkflowPath = path.join(projectRoot, engineWorkflowRel);
   const driftDetails: string[] = [];
 
   // 1. Ingest current product functions & verify zero routing refusals
@@ -746,6 +1042,67 @@ export function syncOrCheckUorMechanizationArtifacts(
     throw new Error(msg);
   }
 
+  // 3. Enforce Shrink-Only Hand-Written LOC, Residue & Classical.choice Ratchet (`prism/handwritten-ratchet.json`)
+  const measuredRatchet = measureHandwrittenAndAxiomRatchetState(projectRoot, candidateRegister);
+  let ratchetDoc: HandwrittenAndAxiomRatchetDocument;
+  let ratchetUpdated = false;
+
+  if (fs.existsSync(ratchetPath)) {
+    ratchetDoc = JSON.parse(fs.readFileSync(ratchetPath, 'utf8')) as HandwrittenAndAxiomRatchetDocument;
+    const ratchetCheck = verifyHandwrittenAndAxiomRatchet(ratchetDoc, measuredRatchet);
+    if (!ratchetCheck.ok) {
+      throw new RatchetViolationError(ratchetCheck.violations);
+    }
+    if (options.write && options.ratchetDown) {
+      const tightened: HandwrittenAndAxiomRatchetDocument = {
+        ...ratchetDoc,
+        allowedHandwrittenGameFiles: measuredRatchet.handwrittenGameFiles,
+        maxHandwrittenGameNonCommentLines: Math.min(
+          ratchetDoc.maxHandwrittenGameNonCommentLines,
+          measuredRatchet.handwrittenGameNonCommentLines,
+        ),
+        maxResidueFunctionCount: Math.min(
+          ratchetDoc.maxResidueFunctionCount,
+          measuredRatchet.residueFunctionCount,
+        ),
+        maxClassicalChoiceCount: Math.min(
+          ratchetDoc.maxClassicalChoiceCount,
+          measuredRatchet.classicalChoiceCount,
+        ),
+        maxMechanizationClassicalChoiceCount: Math.min(
+          ratchetDoc.maxMechanizationClassicalChoiceCount,
+          measuredRatchet.mechanizationClassicalChoiceCount,
+        ),
+      };
+      ratchetUpdated = writeFileIfChanged(ratchetPath, `${JSON.stringify(tightened, null, 2)}\n`);
+      ratchetDoc = tightened;
+    }
+  } else {
+    ratchetDoc = {
+      schema: 'verdant-resonance/handwritten-ratchet/1',
+      allowedHandwrittenGameFiles: measuredRatchet.handwrittenGameFiles,
+      baselineAtCommit05e151c: {
+        handwrittenGameNonCommentLines: 31915,
+        residueFunctionCount: 246,
+        classicalChoiceCount: 67,
+        mechanizationClassicalChoiceCount: 1,
+      },
+      maxHandwrittenGameNonCommentLines: measuredRatchet.handwrittenGameNonCommentLines,
+      maxResidueFunctionCount: measuredRatchet.residueFunctionCount,
+      maxClassicalChoiceCount: measuredRatchet.classicalChoiceCount,
+      maxMechanizationClassicalChoiceCount: measuredRatchet.mechanizationClassicalChoiceCount,
+    };
+    const checkInit = verifyHandwrittenAndAxiomRatchet(ratchetDoc, measuredRatchet);
+    if (!checkInit.ok) {
+      throw new RatchetViolationError(checkInit.violations);
+    }
+    if (options.write) {
+      ratchetUpdated = writeFileIfChanged(ratchetPath, `${JSON.stringify(ratchetDoc, null, 2)}\n`);
+    } else {
+      driftDetails.push('prism/handwritten-ratchet.json is missing; run `npm run prism:mechanize`');
+    }
+  }
+
   const expectedRegisterJson = `${JSON.stringify(candidateRegister, null, 2)}\n`;
   const currentRegisterJson = fs.existsSync(liftRegisterPath)
     ? fs.readFileSync(liftRegisterPath, 'utf8')
@@ -762,7 +1119,25 @@ export function syncOrCheckUorMechanizationArtifacts(
     }
   }
 
-  // 3. Build & validate `CONFORMANCE.md` (`R1–R6` + `CM-01..CM-03`)
+  // 4. Project & byte-check `.github/workflows/engine.yml` from `Foundation.Mechanization.V1.Model`
+  const expectedEngineYaml = renderEngineWorkflowYamlFromLexLean();
+  const currentEngineYaml = fs.existsSync(engineWorkflowPath)
+    ? fs.readFileSync(engineWorkflowPath, 'utf8')
+    : '';
+  const engineWorkflowInSync = currentEngineYaml === expectedEngineYaml;
+  let engineWorkflowUpdated = false;
+  if (!engineWorkflowInSync) {
+    if (options.write) {
+      fs.mkdirSync(path.dirname(engineWorkflowPath), { recursive: true });
+      engineWorkflowUpdated = writeFileIfChanged(engineWorkflowPath, expectedEngineYaml);
+    } else {
+      driftDetails.push(
+        `${engineWorkflowRel} differs from formal LexLean CI workload projection in Foundation.Mechanization.V1.Model`,
+      );
+    }
+  }
+
+  // 5. Build & validate `CONFORMANCE.md` (`R1–R6` + `CM-01..CM-03`)
   const conformance = buildConformanceReport(projectRoot, candidateRegister, 0);
   if (!conformance.allClaimsValid) {
     const failed = conformance.claimValidations.filter((v) => !v.admitted);
@@ -792,14 +1167,21 @@ export function syncOrCheckUorMechanizationArtifacts(
   return {
     liftRegisterPath,
     conformanceMdPath,
+    ratchetPath,
+    engineWorkflowPath,
     liftRegisterUpdated,
     conformanceMdUpdated,
+    ratchetUpdated,
+    engineWorkflowUpdated,
     totalProductFunctions: candidateRegister.summary.totalFunctions,
     liftedCount: candidateRegister.summary.liftedCount,
     residueCount: candidateRegister.summary.residueCount,
     foreignCount: candidateRegister.summary.foreignCount,
     effectCount: candidateRegister.summary.effectCount,
     unliftedOpenDistance: candidateRegister.summary.unliftedOpenDistance,
+    handwrittenGameNonCommentLines: measuredRatchet.handwrittenGameNonCommentLines,
+    classicalChoiceCount: measuredRatchet.classicalChoiceCount,
+    mechanizationClassicalChoiceCount: measuredRatchet.mechanizationClassicalChoiceCount,
     buildScenarioCount: conformance.registeredBuildCount,
     authoritiesCount: EXTERNAL_AUTHORITIES_REGISTER.length,
     openClaimsCount: 4,

@@ -1,0 +1,109 @@
+{
+  "roots": [
+    {
+      "package": {
+        "name": "verdant_compression_rule30_step",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.rule30Step",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mechanization_admit_lift_kappa_transition",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.admitLiftKappaTransition",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mechanization_classify_foundry_tag_mask",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.classifyFoundryTagMask",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mechanization_decide_hypothesis_mint",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.decideHypothesisMint",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mechanization_learn_all",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.learnAll",
+      "targets": [
+        {
+          "digest": "2ab7e98605c8c6366e8c9686eb3a5f253bce4be16d78c1a39bc60d9c50c3fa3a",
+          "id": "rust-std"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mechanization_schedule",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.schedule",
+      "targets": [
+        {
+          "digest": "2ab7e98605c8c6366e8c9686eb3a5f253bce4be16d78c1a39bc60d9c50c3fa3a",
+          "id": "rust-std"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_teleology_step_triadic_player_game_observer_coher_fb9ce6",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepTriadicPlayerGameObserverCoherencePermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_resonance_dispatch",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.VerdantResonance.dispatch",
+      "targets": [
+        {
+          "digest": "2ab7e98605c8c6366e8c9686eb3a5f253bce4be16d78c1a39bc60d9c50c3fa3a",
+          "id": "rust-std"
+        }
+      ]
+    }
+  ],
+  "spec": "lexlean/production-request/1"
+}

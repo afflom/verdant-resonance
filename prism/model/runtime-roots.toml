@@ -1,0 +1,61 @@
+spec = "prismpm/runtime-roots/1"
+lean_modules = ["PrismVerdantResonance.Foundation.Compression.V1.Model", "PrismVerdantResonance.Foundation.Mechanization.V1.Model", "PrismVerdantResonance.Foundation.Teleology.V1.Model", "PrismVerdantResonance.VerdantResonance"]
+ir_module = "PrismVerdantResonance"
+roots = [
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.rule30Step",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.admitLiftKappaTransition",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.classifyFoundryTagMask",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.decideHypothesisMint",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.learnAll",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.schedule",
+  "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepTriadicPlayerGameObserverCoherencePermille",
+  "PrismVerdantResonance.VerdantResonance.dispatch",
+]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.rule30Step"
+package = "verdant_compression_rule30_step"
+targets = ["rust-core"]
+effects = ["overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.admitLiftKappaTransition"
+package = "verdant_mechanization_admit_lift_kappa_transition"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.classifyFoundryTagMask"
+package = "verdant_mechanization_classify_foundry_tag_mask"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.decideHypothesisMint"
+package = "verdant_mechanization_decide_hypothesis_mint"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.learnAll"
+package = "verdant_mechanization_learn_all"
+targets = ["rust-std"]
+effects = ["allocation", "overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.schedule"
+package = "verdant_mechanization_schedule"
+targets = ["rust-std"]
+effects = ["allocation", "overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepTriadicPlayerGameObserverCoherencePermille"
+package = "verdant_teleology_step_triadic_player_game_observer_coher_fb9ce6"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.VerdantResonance.dispatch"
+package = "verdant_resonance_dispatch"
+targets = ["rust-std"]
+effects = ["allocation", "overflow", "recursion"]
