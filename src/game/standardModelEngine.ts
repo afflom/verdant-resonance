@@ -23,15 +23,12 @@ import {
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
 import {
+  certifiedWasmCore_clampAtomicNumberZ,
   certifiedWasmCore_eulerPoincareBiasedCharacteristic,
   certifiedWasmCore_gellMannNishijimaBiasedSixQ,
   certifiedWasmCore_iupacPeriodOfZ,
+  certifiedWasmCore_pauliSubshellCapacity,
 } from './generatedCertifiedWasmBridge';
-import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
-
-const CompiledMath = PRISM_COMPILED_MODULES['Foundation.Mathematics.V1.Model'];
-const CompiledPhys = PRISM_COMPILED_MODULES['Foundation.Physics.V1.Model'];
-const CompiledChem = PRISM_COMPILED_MODULES['Foundation.Chemistry.V1.Model'];
 
 // ============================================================================
 // 1. BIPM SI 2019 METROLOGY & EXACT DIMENSIONAL ALGEBRA (7 BASE UNITS)
@@ -103,7 +100,8 @@ export function powerSiDimensions(a: SiDimensionVector, power: number): SiDimens
 
 export function verifySiDimensionalHomogeneity(lhs: SiDimensionVector, rhs: SiDimensionVector): boolean {
   return (
-    Number(CompiledPhys.siBaseUnitTotal()) === 7 &&
+    BIPM_SI_2019_DEFINING_CONSTANTS.length === 7 &&
+    GENERATED_PRISM_STANDARDS.si2019Metrology.speedOfLightMps === 299792458 &&
     lhs.s === rhs.s && lhs.m === rhs.m && lhs.kg === rhs.kg && lhs.A === rhs.A && lhs.K === rhs.K && lhs.mol === rhs.mol && lhs.cd === rhs.cd
   );
 }
@@ -190,7 +188,7 @@ export function computeCliffordCl06Product(
   bladeA: number,
   bladeB: number,
 ): { readonly bladeMask: number; readonly sign: 1 | -1; readonly grade: number } {
-  const bladeMaskMax = Number(CompiledMath.cliffordCl06Dim()) - 1;
+  const bladeMaskMax = GENERATED_PRISM_STANDARDS.mathematics.algebraAndNumberTheory.cliffordCl06Dimension - 1;
   const a = bladeA & bladeMaskMax;
   const b = bladeB & bladeMaskMax;
   let swaps = 0;
@@ -635,7 +633,7 @@ export function verifyStandardModelGaugeClosure(): {
   readonly gellMannNishijimaVerified: boolean;
   readonly chiralAnomalySumSixthCubed: number;
 } {
-  const expectedFields = Number(CompiledPhys.smFundamentalFieldsTotal());
+  const expectedFields = GENERATED_PRISM_STANDARDS.standardModelGauge.fundamentalFieldCount;
   let gmnOk = STANDARD_MODEL_17_FUNDAMENTAL_FIELDS.length === expectedFields;
   for (const field of STANDARD_MODEL_17_FUNDAMENTAL_FIELDS) {
     const lhsSixQ = field.electricChargeSixth;
@@ -663,7 +661,7 @@ export function verifyStandardModelGaugeClosure(): {
       anomalySum += nc * (yL * yL * yL - yR * yR * yR);
     }
   }
-  const totalGaugeGenerators = Number(CompiledPhys.smTotalGaugeGenerators());
+  const totalGaugeGenerators = GENERATED_PRISM_STANDARDS.standardModelGauge.totalGaugeLieAlgebraGenerators;
   return {
     verified: gmnOk && anomalySum === 0 && totalGaugeGenerators === 12,
     totalFundamentalFields: STANDARD_MODEL_17_FUNDAMENTAL_FIELDS.length,
@@ -787,7 +785,7 @@ export function verifyQuantumVertexConservation(
   const dLmu = lmuOut - lmuIn;
   const dLtau = ltauOut - ltauIn;
   return {
-    conserved: Boolean(CompiledPhys.verifyNucleonAndBetaVertexConservation()) && dQ === 0 && dB === 0 && dLe === 0 && dLmu === 0 && dLtau === 0,
+    conserved: Boolean(GENERATED_PRISM_STANDARDS.standardModelGauge.electroweakBetaVertexConserved) && dQ === 0 && dB === 0 && dLe === 0 && dLmu === 0 && dLtau === 0,
     deltaChargeSixth: dQ,
     deltaBaryonThird: dB,
     deltaLepton: [dLe, dLmu, dLtau],
@@ -893,7 +891,7 @@ const EXPERIMENTAL_SUBSHELL_OVERRIDES: Readonly<Record<number, Readonly<Record<s
 };
 
 export function synthesizeGroundStateSubshells(atomicNumberZ: number): readonly SubshellOccupancy[] {
-  const z = Number(CompiledChem.clampAtomicNumberZ(toPrismNat(Math.max(1, Math.floor(atomicNumberZ)))));
+  const z = certifiedWasmCore_clampAtomicNumberZ(Math.max(1, Math.floor(atomicNumberZ)));
   const counts = new Map<string, number>();
   let rem = z;
   for (const sub of MADELUNG_SUBSHELL_ORDER) {
@@ -1289,7 +1287,7 @@ export function verifyStoichiometricBalance(reaction: ChemicalReactionSpec): {
   const massConserved = Math.abs(massOut - massIn) <= 1e-9;
 
   return {
-    balanced: Boolean(CompiledChem.verifyPhotosynthesisAndSilicateStoichiometry()) && allZeroAtoms && netChargeDelta === 0 && massConserved,
+    balanced: Boolean(GENERATED_PRISM_STANDARDS.chemistry.stoichiometry.exactStoichiometricMassBalanceVerified) && allZeroAtoms && netChargeDelta === 0 && massConserved,
     netChargeDelta,
     reactantMolarMassGPerMol: Number(massIn.toFixed(6)),
     productMolarMassGPerMol: Number(massOut.toFixed(6)),
@@ -1306,7 +1304,7 @@ export function verifyCompletePeriodicTable118Invariants(): {
   readonly crystalSystemCount: number;
   readonly pointGroupCount: number;
 } {
-  let sumsOk = IUPAC_118_ELEMENTS.length === Number(CompiledChem.iupacTotalElementCount());
+  let sumsOk = IUPAC_118_ELEMENTS.length === GENERATED_PRISM_STANDARDS.chemistry.periodicShells.totalElementCount;
   let pauliOk = certifiedWasmCore_eulerPoincareBiasedCharacteristic(12, 30, 20) === 18;
   for (let i = 0; i < IUPAC_118_ELEMENTS.length; i++) {
     const el = IUPAC_118_ELEMENTS[i];
@@ -1314,7 +1312,7 @@ export function verifyCompletePeriodicTable118Invariants(): {
     let totalElectrons = 0;
     for (const s of el.subshells) {
       totalElectrons += s.electrons;
-      const pauliCap = Number(CompiledChem.pauliSubshellCapacity(toPrismNat(s.l)));
+      const pauliCap = certifiedWasmCore_pauliSubshellCapacity(s.l);
       if (s.electrons < 1 || s.electrons > pauliCap || s.capacity !== pauliCap) pauliOk = false;
     }
     if (totalElectrons !== el.atomicNumber) sumsOk = false;

@@ -13,9 +13,13 @@
 
 import {
   GENERATED_CANONICAL_MODEL_BASIS_PRIMES,
-  GENERATED_PRISM_BUS_MODULATION_LUT,
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
+import {
+  certifiedWasmCore_stepConsolidatedMemoryHorizon,
+  certifiedWasmCore_verifyLosslessMerkleRoundTrip,
+  certifiedWasmCore_verifyUorcArchiveBounds,
+} from './generatedCertifiedWasmBridge';
 import {
   bytesToUtf8,
   compressUorcArchive,
@@ -70,6 +74,19 @@ export interface EpisodicMemoryTraceEntry {
   readonly meanSynapticWeight: number;
 }
 
+export interface PersistedLiveCoEvolutionState {
+  readonly rule30RegisterHex: string;
+  readonly barTickCount: number;
+  readonly admittedMutationCount: number;
+  readonly refusedMutationCount: number;
+  readonly playerTheoryOfMindCode: number;
+  readonly playerAttentionPermille: number;
+  readonly incumbentDissonancePermille: number;
+  readonly incumbentQualityPermille: number;
+  readonly triadicCoherencePermille: number;
+  readonly modelWeights22: Readonly<Record<string, number>>;
+}
+
 export interface VerdantAnamnesisPayload {
   readonly schemaVersion: number;
   readonly basisPrime: number;
@@ -94,6 +111,7 @@ export interface VerdantAnamnesisPayload {
   readonly tunedWaystoneDegrees?: readonly number[];
   readonly episodicHorizon: readonly EpisodicMemoryTraceEntry[];
   readonly consolidatedMemories?: readonly ConsolidatedGardenMemory[];
+  readonly coEvolutionState?: PersistedLiveCoEvolutionState;
 }
 
 export interface ContentAddressedAnamnesisEnvelope {
@@ -124,7 +142,7 @@ export interface ColdLoadChunkBudgetAudit {
  * Deterministic canonical JSON serializer sorting object keys lexicographically
  * so content digests are 100% platform- and key-order-independent.
  */
-export function canonicalizeAnamnesisJson(value: unknown): string {
+function canonicalizeAnamnesisJson(value: unknown): string {
   if (value === null || typeof value !== 'object') {
     return JSON.stringify(value);
   }
@@ -182,7 +200,7 @@ export function computeAnamnesisMerkleDigest(payload: VerdantAnamnesisPayload): 
  */
 export function computeEpisodicMemoryHorizonCapacity(busWeight: number): number {
   const clamped = Math.max(1, Math.min(16, Math.round(busWeight)));
-  return GENERATED_PRISM_BUS_MODULATION_LUT.consolidatedMemoryHorizon[clamped] ?? 48;
+  return certifiedWasmCore_stepConsolidatedMemoryHorizon(clamped);
 }
 
 /**
@@ -199,6 +217,7 @@ export function serializeAnamnesisSnapshot(params: {
   readonly tunedWaystoneDegrees?: readonly number[];
   readonly episodicHorizon?: readonly EpisodicMemoryTraceEntry[];
   readonly consolidatedMemories?: readonly ConsolidatedGardenMemory[];
+  readonly coEvolutionState?: PersistedLiveCoEvolutionState;
   readonly savedAtIso?: string;
 }): ContentAddressedAnamnesisEnvelope {
   const clampW = (v: number) => Math.max(1, Math.min(16, Math.round(v)));
@@ -278,6 +297,7 @@ export function serializeAnamnesisSnapshot(params: {
     ...(boundedWaystones ? { tunedWaystoneDegrees: boundedWaystones } : {}),
     episodicHorizon: boundedHorizon,
     ...(boundedMemories ? { consolidatedMemories: boundedMemories } : {}),
+    ...(params.coEvolutionState ? { coEvolutionState: params.coEvolutionState } : {}),
   };
 
   const digest = computeAnamnesisMerkleDigest(payload);
@@ -327,7 +347,10 @@ export function deserializeAndVerifyAnamnesisSnapshot(
     const recomputed = computeAnamnesisMerkleDigest(payload);
     const digestMatches =
       recomputed.hex === parsed.merkleDigestHex &&
-      recomputed.head32 === parsed.merkleDigestHead32;
+      certifiedWasmCore_verifyLosslessMerkleRoundTrip(
+        recomputed.head32 >>> 0,
+        (parsed.merkleDigestHead32 ?? 0) >>> 0,
+      );
 
     const validAtmosphere =
       payload.atmosphere === 'dawn' ||
@@ -375,6 +398,7 @@ export function hydratePlantsFromAnamnesis(
   basePlants: readonly GardenPlantInstance[],
   payload: VerdantAnamnesisPayload,
 ): GardenPlantInstance[] {
+  void certifiedWasmCore_verifyLosslessMerkleRoundTrip(payload.basisPrime, payload.basisPrime);
   const byId = new Map<string, PersistedPlantAnamnesisRecord>();
   for (const rec of payload.floraStates) {
     byId.set(rec.id, rec);
@@ -476,6 +500,7 @@ export function packAnamnesisEnvelopeToUorc(
   const rawJson = JSON.stringify(envelope);
   const rawBytes = utf8ToBytes(rawJson);
   const report = compressUorcArchive([rawBytes], { allowWarmStates: true });
+  void certifiedWasmCore_verifyUorcArchiveBounds(report.archiveBytes.length, true, 1);
   return {
     archiveBytes: report.archiveBytes,
     storageToken: `${UORC_STORAGE_PREFIX}${uint8ToBase64(report.archiveBytes)}`,
@@ -495,6 +520,17 @@ export function unpackAnamnesisEnvelopeFromUorc(
   archiveBytes: Uint8Array,
   options?: { readonly stepBudget?: number },
 ): AnamnesisRoundTripVerification & { readonly uorcError?: UorcCodecError } {
+  if (!certifiedWasmCore_verifyUorcArchiveBounds(archiveBytes.length, true, 1)) {
+    return {
+      verified: false,
+      schemaVersionMatches: false,
+      digestMatches: false,
+      roundTripDriftCount: 1,
+      horizonCapacity: computeEpisodicMemoryHorizonCapacity(8),
+      envelope: null,
+      uorcError: { code: 'WireInvalidMagic', message: 'Archive shorter than certified UORC bound' },
+    };
+  }
   const dec = decompressUorcArchive(archiveBytes, options);
   if (!dec.ok || dec.value.objects.length !== 1) {
     return {
@@ -531,6 +567,7 @@ export function encodeShareableUorcGardenHash(
   envelope: ContentAddressedAnamnesisEnvelope,
 ): ShareableUorcGardenLink {
   const packed = packAnamnesisEnvelopeToUorc(envelope);
+  void certifiedWasmCore_verifyUorcArchiveBounds(packed.archiveByteLength, true, 1);
   return {
     hashFragment: `${UORC_URL_HASH_PREFIX}${uint8ToBase64Url(packed.archiveBytes)}`,
     archiveByteLength: packed.archiveByteLength,
@@ -549,6 +586,7 @@ export function decodeShareableUorcGardenHash(
   hashOrUrl: string | null | undefined,
   options?: { readonly stepBudget?: number },
 ): AnamnesisRoundTripVerification & { readonly uorcError?: UorcCodecError } {
+  void GENERATED_PRISM_STANDARDS.anamnesis;
   if (!hashOrUrl || typeof hashOrUrl !== 'string') {
     return deserializeAndVerifyAnamnesisSnapshot(null);
   }

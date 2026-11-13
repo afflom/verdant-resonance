@@ -3,115 +3,44 @@ import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { isCertifiedWasmReady } from '../game/generatedCertifiedWasmBridge';
 import {
-  ATMOSPHERE_CONFIGS,
-  AtmosphereId,
-  BIOME_CONFIGS,
-  BIOME_CONSTELLATIONS,
-  BOTANICAL_LIFECYCLE_STAGES,
-  BiomeId,
-  CameraKinematicsState,
-  ChorusStateId,
-  DEFAULT_PARAMETRIC_WORLD_TOPOLOGY,
-  EnvironmentalLifecycleState,
-  GardenPlantInstance,
-  GestureHoldEnvelopeState,
-  HoldableGestureId,
-  LiveSoundtrackScore,
-  MIRROR_LAGOON_WATER_SURFACE_Y,
-  NeuromorphicEngineState,
-  PLANT_SPECIES_CONFIGS,
-  ParametricWorldTopologyModel,
-  PlayerActionId,
-  SANCTUARY_TRAIL_WAYPOINTS,
-  SYMBIOTIC_GUILDS,
-  SolidCollider,
-  SoundscapeOutcome,
-  SurfaceMaterialId,
-  VERDANT_HUMANE_STANDARD,
-  clampAlphaSeed,
-  advancePlantLifecycle,
-  applyContinuousGameplayMicroPlasticity,
-  biomeAt,
-  buildGardenColliders,
-  classifySurfaceMaterial,
-  composeLiveSoundtrackScore,
-  computeAcousticOcclusion,
-  computeBinauralPan,
-  computeCameraKinematics,
-  computeCliffordBasinState,
-  computeCrossDomainRefinementDirectives,
-  computeEcologicalAffinity,
-  computeFoliageDeflection,
-  computeGardenHarmonyPct,
-  computeNeuromorphicCymatics,
-  computePlantMorphology,
-  computeSoftInteractionGaze,
-  computeSpeciesArticulation,
-  computeSympatheticParabolicArc,
-  createInitialAutonomousPlasticityState,
-  createInitialEnvironmentalAgencyState,
-  createInitialGestureHoldState,
-  createInitialLandmarkResonanceState,
-  createInitialNeuromorphicState,
-  evaluateBiogeochemistry,
-  evaluateCanopyWindShear,
-  evaluateCircadianPlantPhysiology,
-  evaluateDiurnalProfile,
-  evaluateEnvironmentalLifecycle,
-  evaluateGroundWavePropagation,
-  evaluateHolisticObserverState,
-  evaluateHydrodynamics,
-  evaluateLithophoneWaystoneStep,
-  evaluateMonumentPhysicalMechanics,
-  evaluateNearestSynthesizedLandmark,
-  evaluateObserverPlayerDissonanceReconciliation,
-  evaluatePrismRequest,
-  evaluateStandingWaveTerraceResonance,
-  evaluateWindField,
-  evaluateWitnessCommunionTarget,
-  exciteLandmarkResonance,
-  executeNeuromorphicSynthesisTick,
-  findNearestPlant,
-  findSympatheticNeighbors,
-  formatPrismRequest,
-  generateConservatoryGrassBlades,
-  generateConservatoryRocks,
-  generateConservatoryShorelineBoulders,
-  generateConservatorySteppingStones,
-  generateConservatoryTrees,
-  getPlantLifecycleStage,
-  groundHeightAt,
-  propagateCrossDomainEnhancement,
-  refinePrismModel,
-  registerEmergentSeedlingCollider,
-  resolveBiomeWaypointLanding,
-  resolvePlayerPhysicsStep,
-  stepAutonomousConservatoryCuration,
-  stepAutonomousGameplayPlasticity,
-  stepGestureHoldEnvelope,
-  stepKuramotoPhaseEntrainment,
-  stepLandmarkResonanceField,
-  stepSporeFluidDynamics,
-  stepSymbioticEnvironmentalAgency,
-  syncImmanentWitnessCollider,
-  synthesizeCompoundSurfaceProfile,
-  synthesizeObserverInorganicMonuments,
-  synthesizeParametricBiomeConfigs,
-  synthesizeParametricChladniTerraceRadii,
-  synthesizeParametricPlantSpeciesConfigs,
-  synthesizeParametricWorldTopology,
-  UniversalNeuromorphicManifold,
-  TUNABLE_WAYSTONE_HARMONIC_DEGREES,
-  createInitialWaystoneTuningTable,
-  evaluateImmanentObserverPresence,
-  evaluateKinematicRigPose,
-  extrapolatePrismToHighestResolution,
-  restoreNeuromorphicStateFromAnamnesis,
-  synthesizeCrossPollinatedMicroclimateOffshoot,
-  tuneNearestLithophoneWaystone,
-  type NearestLandmarkEvaluation,
-  type VerdantAnamnesisPayload,
-  type WitnessCommunionEvaluation,
+  ATMOSPHERE_CONFIGS, AtmosphereId, BIOME_CONFIGS, BIOME_CONSTELLATIONS, BOTANICAL_LIFECYCLE_STAGES,
+  BiomeId, CameraKinematicsState, ChorusStateId, DEFAULT_PARAMETRIC_WORLD_TOPOLOGY,
+  EnvironmentalLifecycleState, GardenPlantInstance, GestureHoldEnvelopeState, HoldableGestureId,
+  LiveSoundtrackScore, MIRROR_LAGOON_WATER_SURFACE_Y, NeuromorphicEngineState, PLANT_SPECIES_CONFIGS,
+  ParametricWorldTopologyModel, PlayerActionId, SANCTUARY_TRAIL_WAYPOINTS, SYMBIOTIC_GUILDS,
+  SolidCollider, SoundscapeOutcome, SurfaceMaterialId, TUNABLE_WAYSTONE_HARMONIC_DEGREES,
+  UniversalNeuromorphicManifold, VERDANT_HUMANE_STANDARD, advancePlantLifecycle,
+  applyContinuousGameplayMicroPlasticity, biomeAt, buildGardenColliders, clampAlphaSeed,
+  classifySurfaceMaterial, composeLiveSoundtrackScore, computeAcousticOcclusion, computeBinauralPan,
+  computeCameraKinematics, computeCliffordBasinState, computeCrossDomainRefinementDirectives,
+  computeEcologicalAffinity, computeFoliageDeflection, computeGardenHarmonyPct,
+  computeNeuromorphicCymatics, computePlantMorphology, computeSoftInteractionGaze,
+  computeSpeciesArticulation, computeSympatheticParabolicArc, createInitialAutonomousPlasticityState,
+  createInitialEnvironmentalAgencyState, createInitialGestureHoldState,
+  createInitialLandmarkResonanceState, createInitialLiveCoEvolutionState,
+  createInitialNeuromorphicState, createInitialWaystoneTuningTable, evaluateBiogeochemistry,
+  evaluateCanopyWindShear, evaluateCircadianPlantPhysiology, evaluateDiurnalProfile,
+  evaluateEnvironmentalLifecycle, evaluateGroundWavePropagation, evaluateHolisticObserverState,
+  evaluateHydrodynamics, evaluateImmanentObserverPresence, evaluateKinematicRigPose,
+  evaluateLithophoneWaystoneStep, evaluateMonumentPhysicalMechanics,
+  evaluateNearestSynthesizedLandmark, evaluateObserverPlayerDissonanceReconciliation,
+  evaluatePrismRequest, evaluateStandingWaveTerraceResonance, evaluateWindField,
+  evaluateWitnessCommunionTarget, exciteLandmarkResonance, executeNeuromorphicSynthesisTick,
+  extrapolatePrismToHighestResolution, findNearestPlant, findSympatheticNeighbors,
+  formatPrismRequest, generateConservatoryGrassBlades, generateConservatoryRocks,
+  generateConservatoryShorelineBoulders, generateConservatorySteppingStones,
+  generateConservatoryTrees, getPlantLifecycleStage, groundHeightAt, propagateCrossDomainEnhancement,
+  refinePrismModel, registerEmergentSeedlingCollider, resolveBiomeWaypointLanding,
+  resolvePlayerPhysicsStep, restoreLiveCoEvolutionStateFromAnamnesis,
+  restoreNeuromorphicStateFromAnamnesis, stepAutonomousConservatoryCuration,
+  stepAutonomousGameplayPlasticity, stepGestureHoldEnvelope, stepKuramotoPhaseEntrainment,
+  stepLandmarkResonanceField, stepLiveObserverPlayerCoEvolutionBar, stepSporeFluidDynamics,
+  stepSymbioticEnvironmentalAgency, syncImmanentWitnessCollider, synthesizeCompoundSurfaceProfile,
+  synthesizeCrossPollinatedMicroclimateOffshoot, synthesizeObserverInorganicMonuments,
+  synthesizeParametricBiomeConfigs, synthesizeParametricChladniTerraceRadii,
+  synthesizeParametricPlantSpeciesConfigs, synthesizeParametricWorldTopology,
+  tuneNearestLithophoneWaystone, type LiveCoEvolutionPlasticityState,
+  type NearestLandmarkEvaluation, type VerdantAnamnesisPayload, type WitnessCommunionEvaluation,
 } from '../game/prismModel';
 import {
   synthesizeSpectralDiurnalPalette,
@@ -188,6 +117,7 @@ export interface LiveTelemetryState {
   gestureHold: GestureHoldEnvelopeState;
   nearestLandmark: NearestLandmarkEvaluation;
   witnessCommunion: WitnessCommunionEvaluation;
+  liveCoEvolution: LiveCoEvolutionPlasticityState;
 }
 
 export interface GardenImperativeHandle {
@@ -200,6 +130,7 @@ export interface GardenImperativeHandle {
   extrapolateToHighestResolution: () => void;
   setAlphaSeed: (alphaSeed: number, nextPlants: GardenPlantInstance[]) => void;
   getTunedWaystoneDegrees: () => readonly number[];
+  getLiveCoEvolutionState: () => LiveCoEvolutionPlasticityState;
 }
 
 interface GardenCanvasProps {
@@ -1763,6 +1694,21 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
     let environmentalAgencyState = createInitialEnvironmentalAgencyState();
     let landmarkResonance = createInitialLandmarkResonanceState();
     let autonomousPlasticity = createInitialAutonomousPlasticityState();
+    let liveCoEvolutionState: LiveCoEvolutionPlasticityState =
+      initialAnamnesisRef.current?.coEvolutionState
+        ? restoreLiveCoEvolutionStateFromAnamnesis(
+            initialAnamnesisRef.current.coEvolutionState,
+            neuromorphicState.lastActiveSynapticWeight,
+          )
+        : createInitialLiveCoEvolutionState(neuromorphicState.lastActiveSynapticWeight);
+    if (initialAnamnesisRef.current?.coEvolutionState) {
+      neuromorphicState = applyContinuousGameplayMicroPlasticity(
+        neuromorphicState,
+        neuromorphicState.continuousPlasticityBonus01,
+        atmosphereRef.current,
+        liveCoEvolutionState.modelWeights22,
+      );
+    }
     let liveReconciliationEval = evaluateObserverPlayerDissonanceReconciliation({
       busWeight: neuromorphicState.lastActiveSynapticWeight,
       harmonyPct: 15,
@@ -1978,11 +1924,14 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         prevCanopyGeo.dispose();
       }
 
-      sharedCrystalMat.iridescenceThicknessMaximum = 220 + fidelity.airyThinFilmSpanNm;
-      crystalMonument.quartzMat.iridescenceThicknessMaximum = 240 + fidelity.airyThinFilmSpanNm;
+      const effectiveAirySpanNm =
+        fidelity.airyThinFilmSpanNm *
+        liveCoEvolutionState.sensoryDifferentiation.floraIridescenceBoost;
+      sharedCrystalMat.iridescenceThicknessMaximum = 220 + effectiveAirySpanNm;
+      crystalMonument.quartzMat.iridescenceThicknessMaximum = 240 + effectiveAirySpanNm;
       _tempColor.set(specPalette.crystalThinFilm.hex);
       crystalMonument.quartzMat.color.lerp(_tempColor, 0.35);
-      lagoonMat.iridescenceThicknessMaximum = 220 + fidelity.airyThinFilmSpanNm * 0.65;
+      lagoonMat.iridescenceThicknessMaximum = 220 + effectiveAirySpanNm * 0.65;
       _tempColor
         .set('#0f766e')
         .lerp(_lagoonAbsCol.set(specPalette.lagoonWaterAbsorption.hex), 0.42);
@@ -2017,8 +1966,8 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
           plantMeshById.set(pm.instance.id, rebuilt);
           pm = rebuilt;
         }
-        pm.bloomMat.iridescenceThicknessMaximum = 180 + fidelity.airyThinFilmSpanNm * 0.72;
-        pm.accentMat.iridescenceThicknessMaximum = 160 + fidelity.airyThinFilmSpanNm * 0.65;
+        pm.bloomMat.iridescenceThicknessMaximum = 180 + effectiveAirySpanNm * 0.72;
+        pm.accentMat.iridescenceThicknessMaximum = 160 + effectiveAirySpanNm * 0.65;
         _tempColor.set('#22543d').lerp(_foliageCanopyCol, 0.52);
         pm.stemMat.color.copy(_tempColor);
       }
@@ -2593,7 +2542,13 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
               );
 
               // Emergent Cross-Pollinated Microclimate Offshoot Colonization (`synthesizeCrossPollinatedMicroclimateOffshoot`)
-              if (nb.species !== updatedNearest.plant.species) {
+              const offshootCountNow = plantsRef.current.filter((p) =>
+                p.id.startsWith('offshoot-'),
+              ).length;
+              if (
+                offshootCountNow < liveCoEvolutionState.sensoryDifferentiation.microclimateOffshootCap &&
+                nb.species !== updatedNearest.plant.species
+              ) {
                 const offshootRes = synthesizeCrossPollinatedMicroclimateOffshoot({
                   parentA: updatedNearest.plant,
                   parentB: nb,
@@ -2943,6 +2898,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       gestureHoldState = createInitialGestureHoldState();
       landmarkResonance = createInitialLandmarkResonanceState();
       autonomousPlasticity = createInitialAutonomousPlasticityState();
+      liveCoEvolutionState = createInitialLiveCoEvolutionState(8);
       activeWaystoneIndex = -1;
       waystoneTuningTable = createInitialWaystoneTuningTable(stoneCount);
       for (let i = 0; i < stoneCount; i++) {
@@ -3286,6 +3242,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
       extrapolateToHighestResolution,
       setAlphaSeed,
       getTunedWaystoneDegrees: () => [...waystoneTuningTable],
+      getLiveCoEvolutionState: () => liveCoEvolutionState,
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
@@ -3529,6 +3486,7 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
         gestureHold: gestureHoldState,
         nearestLandmark,
         witnessCommunion,
+        liveCoEvolution: liveCoEvolutionState,
       });
     };
 
@@ -4970,6 +4928,51 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
                 player.x - immanentWitness.group.position.x,
                 player.z - immanentWitness.group.position.z,
               );
+              const tunedWaystoneCount = waystoneTuningTable.filter(
+                (deg, idx) => deg !== idx % TUNABLE_WAYSTONE_HARMONIC_DEGREES.length,
+              ).length;
+              const emergentOffshootCount = plantsRef.current.filter((p) =>
+                p.id.startsWith('offshoot-'),
+              ).length;
+              liveCoEvolutionState = stepLiveObserverPlayerCoEvolutionBar(liveCoEvolutionState, {
+                busWeight: neuromorphicState.lastActiveSynapticWeight,
+                harmonyPct: player.harmony,
+                velocityDm: player.velocityDm,
+                isStillness: player.action === 'stillness',
+                gestureHoldProgress01: gestureHoldState.holdProgress,
+                hasFocalTarget:
+                  nearest.inForwardGazeCone || frameNearestLandmark.inForwardGazeCone,
+                focalTargetAttuned: nearest.plant.attuned,
+                nearestFeatureDistanceM: Math.min(
+                  nearest.distanceMeters,
+                  frameNearestLandmark.distanceMeters,
+                ),
+                restStepCount: currentSoundtrackScore.restStepCount,
+                activeVoiceCount:
+                  currentSoundtrackScore.steps[currentSoundtrackStep]?.voices.length ?? 2,
+                barkHeadroomDb:
+                  neuromorphicState.observer.canonicalStandardModelsContext.multiModalFidelity
+                    .barkMaskingHeadroomDb,
+                tenneyConsonancePurity01: currentSoundtrackScore.curatedConsonancePurity01,
+                awakenedSpeciesCount: Math.max(1, awakenedSpeciesCount),
+                exploredBiomesCount: player.exploredBiomes.size,
+                tunedWaystoneCount,
+                emergentOffshootCount,
+                coerciveDarkPatternCount: 0,
+              });
+              if (liveCoEvolutionState.lastBarAdmitted) {
+                neuromorphicState = applyContinuousGameplayMicroPlasticity(
+                  neuromorphicState,
+                  neuromorphicState.continuousPlasticityBonus01,
+                  atmosphereRef.current,
+                  liveCoEvolutionState.modelWeights22,
+                );
+                syncMultiModalFidelityVisuals();
+                soundEngine.setPlayerReconciliationWarmthScale(
+                  liveReconciliationEval.actionDirectives.harmonicWarmthFilterScale *
+                    liveCoEvolutionState.sensoryDifferentiation.calmWindWaterDamping,
+                );
+              }
               runLiveConservatoryCurationStep(
                 soundtrackBarIndex,
                 currentBiome,
@@ -4990,7 +4993,12 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
               spawnActiveGuildResonanceArc(soundtrackBarIndex);
             }
             currentSoundtrackStep = nextStep;
-            const stepSpec = currentSoundtrackScore.steps[currentSoundtrackStep];
+            const rawStepSpec = currentSoundtrackScore.steps[currentSoundtrackStep];
+            const maxVoices = liveCoEvolutionState.sensoryDifferentiation.voiceLeadingDensityCap;
+            const stepSpec =
+              rawStepSpec && rawStepSpec.voices.length > maxVoices
+                ? { ...rawStepSpec, voices: rawStepSpec.voices.slice(0, maxVoices) }
+                : rawStepSpec;
             if (stepSpec && !stepSpec.isRest) {
               soundEngine.playSoundtrackStep(stepSpec, atmosphereRef.current);
               for (let vIdx = 0; vIdx < stepSpec.voices.length; vIdx++) {

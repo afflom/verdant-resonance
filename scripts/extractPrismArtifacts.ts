@@ -1083,6 +1083,79 @@ export function extractAllPrismArtifacts(
       'Foundation.Infrastructure.V1.Model',
       modules,
     ),
+    mechanization: evaluateLexExpr(
+      'mechanizationStandardModel',
+      'Foundation.Mechanization.V1.Model',
+      modules,
+    ),
+    mechanizationCodes: {
+      routingAdmitted: Number(
+        evaluateLexExpr('routingAdmitted', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      routingRefusedUnknown: Number(
+        evaluateLexExpr('routingRefusedUnknown', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      routingRefusedAmbiguous: Number(
+        evaluateLexExpr('routingRefusedAmbiguous', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      liftClassLifted: Number(
+        evaluateLexExpr('liftClassLifted', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      liftClassResidue: Number(
+        evaluateLexExpr('liftClassResidue', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      liftClassForeign: Number(
+        evaluateLexExpr('liftClassForeign', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      liftClassEffect: Number(
+        evaluateLexExpr('liftClassEffect', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      epistemicSomeTrue: Number(
+        evaluateLexExpr('epistemicSomeTrue', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      epistemicBuild: Number(
+        evaluateLexExpr('epistemicBuild', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      epistemicOpen: Number(
+        evaluateLexExpr('epistemicOpen', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      peircePhaseObserved: Number(
+        evaluateLexExpr('peircePhaseObserved', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      peircePhaseHypothesized: Number(
+        evaluateLexExpr('peircePhaseHypothesized', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      peircePhaseProved: Number(
+        evaluateLexExpr('peircePhaseProved', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      peircePhaseRefuted: Number(
+        evaluateLexExpr('peircePhaseRefuted', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      mintOutcomeAdmitted: Number(
+        evaluateLexExpr('mintOutcomeAdmitted', 'Foundation.Mechanization.V1.Model', modules),
+      ),
+      mintOutcomeRejectedContradictory: Number(
+        evaluateLexExpr(
+          'mintOutcomeRejectedContradictory',
+          'Foundation.Mechanization.V1.Model',
+          modules,
+        ),
+      ),
+      mintOutcomeSkippedKnownKappa: Number(
+        evaluateLexExpr(
+          'mintOutcomeSkippedKnownKappa',
+          'Foundation.Mechanization.V1.Model',
+          modules,
+        ),
+      ),
+      mintOutcomeBudgetExhausted: Number(
+        evaluateLexExpr(
+          'mintOutcomeBudgetExhausted',
+          'Foundation.Mechanization.V1.Model',
+          modules,
+        ),
+      ),
+    },
   };
 
   const domainBasisPrimes = {

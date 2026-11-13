@@ -92,14 +92,26 @@ definition{
   parameters: [z : Nat],
   result: Nat,
   body: (let span : Nat := (prim subtract (iupacTotalElementCount) 1 : Nat); (prim subtract (iupacTotalElementCount) (prim subtract span (prim subtract z 1 : Nat) : Nat) : Nat)),
-  executable: true
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
   name: pauliSubshellCapacity,
   parameters: [azimuthalL : Nat],
   result: Nat,
-  body: (2 + (prim multiply 4 azimuthalL : Nat))
+  body: (2 + (prim multiply 4 azimuthalL : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: resolveBravaisPearsonIndex,
+  parameters: [pearsonCode : Nat],
+  result: Nat,
+  body: (prim subtract 13 (prim subtract 13 pearsonCode : Nat) : Nat),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{

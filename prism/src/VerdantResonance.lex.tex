@@ -1838,6 +1838,15 @@ definition{
 }
 
 definition{
+  name: verifyBusModulationsScalar,
+  parameters: [wInfra : Nat, wPhys : Nat, wBotany : Nat, wEcology : Nat, wAcoustics : Nat, wArtic : Nat, wSoundtrack : Nat, wHumane : Nat, wBrand : Nat, wNeuro : Nat],
+  result: Bool,
+  body: (verifyBusModulationsFromState (record Foundation.Neuromorphic.V1.Model::BusManifoldState {wInfrastructure := wInfra, wPhysics := wPhys, wBotany := wBotany, wEcology := wEcology, wAcoustics := wAcoustics, wArticulation := wArtic, wSoundtrack := wSoundtrack, wHumane := wHumane, wBrand := wBrand, wNeuromorphic := wNeuro})),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
   name: verifyJudgeCrossDomainBusGate,
   parameters: [request : Request],
   result: Bool,

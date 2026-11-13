@@ -198,6 +198,11 @@ function runSubcommand(label: string, cmd: string, args: string[], cwd: string) 
   }
 }
 
+async function ensureWasmReadyForCli() {
+  const { initCertifiedWasmRuntime } = await import('../src/game/generatedCertifiedWasmBridge.ts');
+  await initCertifiedWasmRuntime();
+}
+
 async function main() {
   const projectRoot = process.cwd();
   const argv = process.argv.slice(2);
@@ -210,6 +215,7 @@ async function main() {
       force: flags.has('--force'),
       checkOnly: false,
     });
+    await ensureWasmReadyForCli();
     const uorMod = await import('./uorMechanizerModel.ts');
     const uorRes = uorMod.syncOrCheckUorMechanizationArtifacts(projectRoot, {
       write: true,
@@ -276,6 +282,7 @@ async function main() {
 
   if (cmd === 'check' || cmd === 'drift') {
     const res = ensurePrismMechanizedArtifacts(projectRoot, { checkOnly: true });
+    await ensureWasmReadyForCli();
     const uorMod = await import('./uorMechanizerModel.ts');
     const uorRes = uorMod.syncOrCheckUorMechanizationArtifacts(projectRoot, { write: false });
     const allDrift = [...res.specReport.driftDetails, ...uorRes.driftDetails];
@@ -296,6 +303,7 @@ async function main() {
 
   if (cmd === 'status') {
     const res = ensurePrismMechanizedArtifacts(projectRoot, { force: false });
+    await ensureWasmReadyForCli();
     const runtimeMod: any = await import('../src/game/generatedPrismRuntime');
     const uorMod = await import('./uorMechanizerModel.ts');
     const uorRes = uorMod.syncOrCheckUorMechanizationArtifacts(projectRoot, { write: false });
@@ -329,6 +337,7 @@ async function main() {
 
   if (cmd === 'lift' || cmd === 'conformance') {
     ensurePrismMechanizedArtifacts(projectRoot, { force: false });
+    await ensureWasmReadyForCli();
     const uorMod = await import('./uorMechanizerModel.ts');
     const reasoningMod = await import('../src/game/mechanicalReasoningEngine.ts');
     const { register } = uorMod.ingestProductCodebaseLiftRegister(projectRoot);
@@ -449,6 +458,7 @@ async function main() {
 
   if (cmd === 'kpis') {
     const checkRes = ensurePrismMechanizedArtifacts(projectRoot, { checkOnly: true });
+    await ensureWasmReadyForCli();
     const objMod: any = await import('../src/game/autonomousObjectivesEngine.ts');
     const maxChunkKb = measureDistMaxChunkKb(projectRoot);
     const scorecard = objMod.evaluateVerdantAutonomousKpis(
@@ -489,6 +499,7 @@ async function main() {
 
   if (cmd === 'optimize') {
     ensurePrismMechanizedArtifacts(projectRoot, { force: false });
+    await ensureWasmReadyForCli();
     const objMod: any = await import('../src/game/autonomousObjectivesEngine.ts');
     const cycles = positional[0] ? Math.max(1, Number(positional[0])) : 8;
     const result = objMod.runAutonomousHolonSelfOptimization(cycles, 10);
@@ -517,6 +528,7 @@ async function main() {
 
   if (cmd === 'gate') {
     const checkRes = ensurePrismMechanizedArtifacts(projectRoot, { checkOnly: true });
+    await ensureWasmReadyForCli();
     const uorMod = await import('./uorMechanizerModel.ts');
     const uorRes = uorMod.syncOrCheckUorMechanizationArtifacts(projectRoot, { write: false });
     const allDrift = [...checkRes.specReport.driftDetails, ...uorRes.driftDetails];

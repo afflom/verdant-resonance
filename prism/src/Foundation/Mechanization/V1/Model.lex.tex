@@ -113,7 +113,7 @@ definition{name: routeTestScenario, parameters: [], result: Nat, body: 8}
 
 definition{name: routeAcceptanceVector, parameters: [], result: Nat, body: 9}
 
-definition{name: routeSlotTotal, parameters: [], result: Nat, body: 10}
+definition{name: routeSlotTotal, parameters: [], result: Nat, body: 10, executable: true}
 
 definition{
   name: routeBitForSlot,
@@ -167,7 +167,9 @@ definition{
   name: resolveRouteSlotFromBit,
   parameters: [tagMask : Nat],
   result: Nat,
-  body: (if (tagMask =? 1) then 0 else (if (tagMask =? 2) then 1 else (if (tagMask =? 4) then 2 else (if (tagMask =? 8) then 3 else (if (tagMask =? 16) then 4 else (if (tagMask =? 32) then 5 else (if (tagMask =? 64) then 6 else (if (tagMask =? 128) then 7 else (if (tagMask =? 256) then 8 else (if (tagMask =? 512) then 9 else (routeSlotTotal)))))))))))
+  body: (if (tagMask =? 1) then 0 else (if (tagMask =? 2) then 1 else (if (tagMask =? 4) then 2 else (if (tagMask =? 8) then 3 else (if (tagMask =? 16) then 4 else (if (tagMask =? 32) then 5 else (if (tagMask =? 64) then 6 else (if (tagMask =? 128) then 7 else (if (tagMask =? 256) then 8 else (if (tagMask =? 512) then 9 else (routeSlotTotal))))))))))),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{name: liftClassLifted, parameters: [], result: Nat, body: 0, executable: true}
@@ -180,7 +182,7 @@ definition{name: liftClassEffect, parameters: [], result: Nat, body: 3}
 
 definition{name: liftClassTotal, parameters: [], result: Nat, body: 4, executable: true}
 
-definition{name: liftResidueTargetZero, parameters: [], result: Nat, body: 0}
+definition{name: liftResidueTargetZero, parameters: [], result: Nat, body: 0, executable: true}
 
 definition{
   name: admitLiftKappaTransitionScore,
@@ -203,21 +205,24 @@ definition{
   name: unliftedOpenDistance,
   parameters: [residueCount : Nat, foreignCount : Nat, effectCount : Nat],
   result: Nat,
-  body: ((residueCount + foreignCount) + effectCount)
+  body: ((residueCount + foreignCount) + effectCount),
+  executable: true
 }
 
 definition{
   name: unliftedExcessOverFloor,
   parameters: [residueCount : Nat, foreignCount : Nat, effectCount : Nat],
   result: Nat,
-  body: (Foundation.Compression.V1.Model::excessOver (liftResidueTargetZero) (unliftedOpenDistance residueCount foreignCount effectCount))
+  body: (Foundation.Compression.V1.Model::excessOver (liftResidueTargetZero) (unliftedOpenDistance residueCount foreignCount effectCount)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
-definition{name: epistemicSomeTrue, parameters: [], result: Nat, body: 0}
+definition{name: epistemicSomeTrue, parameters: [], result: Nat, body: 0, executable: true}
 
-definition{name: epistemicBuild, parameters: [], result: Nat, body: 1}
+definition{name: epistemicBuild, parameters: [], result: Nat, body: 1, executable: true}
 
-definition{name: epistemicOpen, parameters: [], result: Nat, body: 2}
+definition{name: epistemicOpen, parameters: [], result: Nat, body: 2, executable: true}
 
 definition{name: epistemicLevelTotal, parameters: [], result: Nat, body: 3}
 
@@ -231,7 +236,9 @@ definition{
   name: admitEpistemicClaim,
   parameters: [level : Nat, hasAuthority : Bool, hasScenario : Bool, hasExecutedTest : Bool, assertiveWordCount : Nat],
   result: Bool,
-  body: (if (level =? (epistemicSomeTrue)) then (hasAuthority && (assertiveWordCount =? 0)) else (if (level =? (epistemicBuild)) then (((not hasAuthority) && hasScenario) && hasExecutedTest) else (if (level =? (epistemicOpen)) then ((not hasAuthority) && (assertiveWordCount =? 0)) else false)))
+  body: (if (level =? (epistemicSomeTrue)) then (hasAuthority && (assertiveWordCount =? 0)) else (if (level =? (epistemicBuild)) then (((not hasAuthority) && hasScenario) && hasExecutedTest) else (if (level =? (epistemicOpen)) then ((not hasAuthority) && (assertiveWordCount =? 0)) else false))),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
@@ -241,13 +248,13 @@ definition{
   body: (((((0 <? registeredIds) && (registeredIds =? scenarioIds)) && (scenarioIds =? executedTestIds)) && (orphanClaimTags =? 0)) && (driftFileCount =? 0))
 }
 
-definition{name: peircePhaseObserved, parameters: [], result: Nat, body: 0}
+definition{name: peircePhaseObserved, parameters: [], result: Nat, body: 0, executable: true}
 
-definition{name: peircePhaseHypothesized, parameters: [], result: Nat, body: 1}
+definition{name: peircePhaseHypothesized, parameters: [], result: Nat, body: 1, executable: true}
 
-definition{name: peircePhaseProved, parameters: [], result: Nat, body: 2}
+definition{name: peircePhaseProved, parameters: [], result: Nat, body: 2, executable: true}
 
-definition{name: peircePhaseRefuted, parameters: [], result: Nat, body: 3}
+definition{name: peircePhaseRefuted, parameters: [], result: Nat, body: 3, executable: true}
 
 definition{name: peircePhaseTotal, parameters: [], result: Nat, body: 4}
 
@@ -257,7 +264,9 @@ definition{
   name: validPeircePhaseStep,
   parameters: [fromPhase : Nat, toPhase : Nat],
   result: Bool,
-  body: (if (fromPhase =? (peircePhaseObserved)) then (toPhase =? (peircePhaseHypothesized)) else (if (fromPhase =? (peircePhaseHypothesized)) then ((toPhase =? (peircePhaseProved)) || (toPhase =? (peircePhaseRefuted))) else false))
+  body: (if (fromPhase =? (peircePhaseObserved)) then (toPhase =? (peircePhaseHypothesized)) else (if (fromPhase =? (peircePhaseHypothesized)) then ((toPhase =? (peircePhaseProved)) || (toPhase =? (peircePhaseRefuted))) else false)),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{name: mintOutcomeAdmitted, parameters: [], result: Nat, body: 0, executable: true}
@@ -281,31 +290,36 @@ definition{
   name: remainingBudgetAfterMint,
   parameters: [contradictoryClause : Bool, knownKappa : Bool, remainingBudget : Nat],
   result: Nat,
-  body: (if ((decideHypothesisMint contradictoryClause knownKappa remainingBudget) =? (mintOutcomeAdmitted)) then (prim subtract remainingBudget 1 : Nat) else remainingBudget)
+  body: (if ((decideHypothesisMint contradictoryClause knownKappa remainingBudget) =? (mintOutcomeAdmitted)) then (prim subtract remainingBudget 1 : Nat) else remainingBudget),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
-definition{name: engineWeightMinVal, parameters: [], result: Nat, body: 1}
+definition{name: engineWeightMinVal, parameters: [], result: Nat, body: 1, executable: true}
 
-definition{name: engineWeightMaxVal, parameters: [], result: Nat, body: 16}
+definition{name: engineWeightMaxVal, parameters: [], result: Nat, body: 16, executable: true}
 
 definition{name: engineWeightInitialVal, parameters: [], result: Nat, body: 8}
 
-definition{name: engineLearnPotentiation, parameters: [], result: Nat, body: 2}
+definition{name: engineLearnPotentiation, parameters: [], result: Nat, body: 2, executable: true}
 
-definition{name: engineLearnDepression, parameters: [], result: Nat, body: 1}
+definition{name: engineLearnDepression, parameters: [], result: Nat, body: 1, executable: true}
 
 definition{
   name: clampEngineWeight,
   parameters: [w : Nat],
   result: Nat,
-  body: (if (w <=? (engineWeightMinVal)) then (engineWeightMinVal) else (if ((engineWeightMaxVal) <=? w) then (engineWeightMaxVal) else w))
+  body: (if (w <=? (engineWeightMinVal)) then (engineWeightMinVal) else (if ((engineWeightMaxVal) <=? w) then (engineWeightMaxVal) else w)),
+  executable: true
 }
 
 definition{
   name: engineLearnWeight,
   parameters: [current : Nat, succeeded : Bool],
   result: Nat,
-  body: (let base : Nat := (clampEngineWeight current); (if succeeded then (clampEngineWeight (base + (engineLearnPotentiation))) else (clampEngineWeight (prim subtract base (engineLearnDepression) : Nat))))
+  body: (let base : Nat := (clampEngineWeight current); (if succeeded then (clampEngineWeight (base + (engineLearnPotentiation))) else (clampEngineWeight (prim subtract base (engineLearnDepression) : Nat)))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -326,14 +340,18 @@ definition{
   name: reserveHomeostasisGateShare,
   parameters: [totalTickBudget : Nat, minGateShare : Nat],
   result: Nat,
-  body: (if (totalTickBudget <=? minGateShare) then totalTickBudget else minGateShare)
+  body: (if (totalTickBudget <=? minGateShare) then totalTickBudget else minGateShare),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
   name: deductiveSearchShareAfterGate,
   parameters: [totalTickBudget : Nat, minGateShare : Nat],
   result: Nat,
-  body: (prim subtract totalTickBudget (reserveHomeostasisGateShare totalTickBudget minGateShare) : Nat)
+  body: (prim subtract totalTickBudget (reserveHomeostasisGateShare totalTickBudget minGateShare) : Nat),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{name: oooPoleSensualQuality, parameters: [], result: Nat, body: 0}
@@ -360,21 +378,27 @@ definition{
   name: gaugeTransformRealQualityMask,
   parameters: [realMask : Nat, gaugeDelta : Nat],
   result: Nat,
-  body: (prim subtract (realMask + gaugeDelta) gaugeDelta : Nat)
+  body: (prim subtract (realMask + gaugeDelta) gaugeDelta : Nat),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: gaugeTransformWithdrawnCoreId,
   parameters: [withdrawnId : Nat, gaugeDelta : Nat],
   result: Nat,
-  body: (prim subtract (withdrawnId + gaugeDelta) gaugeDelta : Nat)
+  body: (prim subtract (withdrawnId + gaugeDelta) gaugeDelta : Nat),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: gaugeTransformSensualQualityId,
   parameters: [sensualId : Nat, gaugeDelta : Nat],
   result: Nat,
-  body: (sensualId + gaugeDelta)
+  body: (sensualId + gaugeDelta),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

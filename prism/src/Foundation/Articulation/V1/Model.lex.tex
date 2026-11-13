@@ -116,7 +116,7 @@ definition{name: verdantConstellationVoices, parameters: [], result: Nat, body: 
 
 definition{name: minRequiredConstellationVoices, parameters: [], result: Nat, body: 4}
 
-definition{name: verdantArticulationBasisPrime, parameters: [], result: Nat, body: 97}
+definition{name: verdantArticulationBasisPrime, parameters: [], result: Nat, body: 97, executable: true}
 
 definition{
   name: stepArticulationBusModulation,
@@ -131,28 +131,54 @@ definition{
   name: stepBasalJointTorqueMilli,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (120 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 8 : Nat))
+  body: (120 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 8 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepMidCulmFlexureMilli,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (260 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 12 : Nat))
+  body: (260 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 12 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepApicalCorollaGimbalMilli,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (420 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 18 : Nat))
+  body: (420 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 18 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: verifyThreeJointKinematicHierarchy,
   parameters: [busWeight : Nat],
   result: Bool,
-  body: ((((stepBasalJointTorqueMilli busWeight) <? (stepMidCulmFlexureMilli busWeight)) && ((stepMidCulmFlexureMilli busWeight) <? (stepApicalCorollaGimbalMilli busWeight))) && ((stepApicalCorollaGimbalMilli busWeight) <? (stepApicalCorollaGimbalMilli (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true))))
+  body: ((((stepBasalJointTorqueMilli busWeight) <? (stepMidCulmFlexureMilli busWeight)) && ((stepMidCulmFlexureMilli busWeight) <? (stepApicalCorollaGimbalMilli busWeight))) && ((stepApicalCorollaGimbalMilli busWeight) <? (stepApicalCorollaGimbalMilli (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: stepSympatheticArcApexCm,
+  parameters: [distanceDm : Nat, busWeight : Nat],
+  result: Nat,
+  body: ((85 + (prim multiply (if (distanceDm <=? 400) then distanceDm else 400) 3 : Nat)) + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 4 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: stepGestureAttackMillis,
+  parameters: [gestureCode : Nat, busWeight : Nat],
+  result: Nat,
+  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight); (if (gestureCode =? 0) then 3 else (if (gestureCode =? 1) then (prim subtract 236 (prim multiply cw 2 : Nat) : Nat) else (if (gestureCode =? 2) then (prim subtract 690 (prim multiply cw 5 : Nat) : Nat) else 140)))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

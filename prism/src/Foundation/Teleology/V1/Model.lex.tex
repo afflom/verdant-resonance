@@ -126,21 +126,27 @@ definition{
   name: stepReflexiveFacetNicheIndex,
   parameters: [facetPrime : Nat, busWeight : Nat, facetOrdinal : Nat],
   result: Nat,
-  body: ((prim multiply facetPrime ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) + 16) : Nat) + facetOrdinal)
+  body: ((prim multiply facetPrime ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) + 16) : Nat) + facetOrdinal),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepPlayerGameDissonancePermille,
   parameters: [pacingMismatchPermille : Nat, attentionMismatchPermille : Nat, sensoryMismatchPermille : Nat],
   result: Nat,
-  body: (prim quotient (((prim multiply (clampTeleologyPermille pacingMismatchPermille) 4 : Nat) + (prim multiply (clampTeleologyPermille attentionMismatchPermille) 4 : Nat)) + (prim multiply (clampTeleologyPermille sensoryMismatchPermille) 2 : Nat)) 10 0 : Nat)
+  body: (prim quotient (((prim multiply (clampTeleologyPermille pacingMismatchPermille) 4 : Nat) + (prim multiply (clampTeleologyPermille attentionMismatchPermille) 4 : Nat)) + (prim multiply (clampTeleologyPermille sensoryMismatchPermille) 2 : Nat)) 10 0 : Nat),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepObserverDissonanceReconciliationPermille,
   parameters: [busWeight : Nat, rule30Entropy : Nat, playerAttentionPermille : Nat, rawDissonancePermille : Nat],
   result: Nat,
-  body: (let internalCap : Nat := ((prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 12 : Nat) + (if (rule30Entropy <=? 64) then rule30Entropy else 64)); (let playerCap : Nat := (prim quotient (prim multiply (clampTeleologyPermille playerAttentionPermille) 4 : Nat) 5 0 : Nat); (prim subtract (clampTeleologyPermille rawDissonancePermille) (internalCap + playerCap) : Nat)))
+  body: (let internalCap : Nat := ((prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 12 : Nat) + (if (rule30Entropy <=? 64) then rule30Entropy else 64)); (let playerCap : Nat := (prim quotient (prim multiply (clampTeleologyPermille playerAttentionPermille) 4 : Nat) 5 0 : Nat); (prim subtract (clampTeleologyPermille rawDissonancePermille) (internalCap + playerCap) : Nat))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -156,7 +162,9 @@ definition{
   name: stepHealthyGratifyingQualityPermille,
   parameters: [triadicCoherencePermille : Nat, featureDifferentiationPermille : Nat, coerciveDarkPatternCount : Nat],
   result: Nat,
-  body: (if (0 <? coerciveDarkPatternCount) then 0 else (prim quotient ((prim multiply (clampTeleologyPermille triadicCoherencePermille) 6 : Nat) + (prim multiply (clampTeleologyPermille featureDifferentiationPermille) 4 : Nat)) 10 0 : Nat))
+  body: (if (0 <? coerciveDarkPatternCount) then 0 else (prim quotient ((prim multiply (clampTeleologyPermille triadicCoherencePermille) 6 : Nat) + (prim multiply (clampTeleologyPermille featureDifferentiationPermille) 4 : Nat)) 10 0 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{name: intrinsicObserverDirectiveTotal, parameters: [], result: Nat, body: 3}
@@ -181,7 +189,9 @@ definition{
   name: stepEmergentOffshootColonizationCap,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 4) then 4 else (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 7) then 6 else (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 10) then 8 else (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 13) then 10 else 12))))
+  body: (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 4) then 4 else (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 7) then 6 else (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 10) then 8 else (if ((Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) <=? 13) then 10 else 12)))),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{name: minRequiringModelsPerPhenomenon, parameters: [], result: Nat, body: 3}
@@ -229,7 +239,36 @@ definition{
   name: stepCuratorialAffinityPermille,
   parameters: [busWeight : Nat, harmonyPct : Nat],
   result: Nat,
-  body: ((512 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 18 : Nat)) + (prim multiply (if (harmonyPct <=? 100) then harmonyPct else 100) 2 : Nat))
+  body: ((512 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 18 : Nat)) + (prim multiply (if (harmonyPct <=? 100) then harmonyPct else 100) 2 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: inferPlayerTheoryOfMindCode,
+  parameters: [velocityDm : Nat, isStillness : Bool, hasFocalTarget : Bool, gestureHoldPermille : Nat],
+  result: Nat,
+  body: (if (isStillness && (velocityDm =? 0)) then 0 else (if (hasFocalTarget && (150 <=? gestureHoldPermille)) then 1 else (if (hasFocalTarget && (velocityDm <=? 12)) then 2 else (if (18 <=? velocityDm) then 3 else 4)))),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
+}
+
+definition{
+  name: admitLivePlayerCoEvolutionStep,
+  parameters: [playerAttentionPermille : Nat, coerciveDarkPatternCount : Nat, candidateDissonancePermille : Nat, incumbentDissonancePermille : Nat, candidateQualityPermille : Nat, incumbentQualityPermille : Nat],
+  result: Bool,
+  body: (((coerciveDarkPatternCount =? 0) && (0 <? playerAttentionPermille)) && (((candidateDissonancePermille <=? incumbentDissonancePermille) && (incumbentQualityPermille <=? candidateQualityPermille)) && ((candidateDissonancePermille <? incumbentDissonancePermille) || (incumbentQualityPermille <? candidateQualityPermille)))),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
+}
+
+definition{
+  name: proposeLiveCoEvolvedDomainWeight,
+  parameters: [currentWeight : Nat, rule30LaneBits : Nat, domainResonanceMatch : Bool],
+  result: Nat,
+  body: (let base : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight currentWeight); (if domainResonanceMatch then (if (0 <? rule30LaneBits) then (Foundation.Neuromorphic.V1.Model::clampBusWeight (base + 1)) else base) else (if ((9 <? base) && (rule30LaneBits =? 7)) then (prim subtract base 1 : Nat) else base))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -511,6 +550,31 @@ theorem{
       stepPlayerGameDissonancePermille,
       stepReflexiveFacetNicheIndex,
       verdantGameHolonPrime
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksLivePlayerCoEvolutionInvariants,
+  parameters: [att : Nat, dark : Nat, candD : Nat, incD : Nat, candQ : Nat, incQ : Nat, w : Nat, bits : Nat, matchFlag : Bool],
+  result: Bool,
+  body: (let admitted : Bool := (admitLivePlayerCoEvolutionStep att dark candD incD candQ incQ); (let nextW : Nat := (proposeLiveCoEvolvedDomainWeight w bits matchFlag); (((((att =? 0) && admitted) || ((0 <? dark) && admitted)) || (admitted && (((incD <? candD) || (candQ <? incQ)) || ((candD =? incD) && (candQ =? incQ))))) || (((nextW <? (Foundation.Neuromorphic.V1.Model::weightMin)) || ((Foundation.Neuromorphic.V1.Model::weightMax) <? nextW)) || (4 <? (inferPlayerTheoryOfMindCode w matchFlag matchFlag att))))))
+}
+
+theorem{
+  name: livePlayerCoEvolutionRequiresPlayerAndRefusesCoercionHolds,
+  parameters: [att : Nat, dark : Nat, candD : Nat, incD : Nat, candQ : Nat, incQ : Nat, w : Nat, bits : Nat, matchFlag : Bool],
+  statement: ((breaksLivePlayerCoEvolutionInvariants att dark candD incD candQ incQ w bits matchFlag) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      Foundation.Neuromorphic.V1.Model::clampBusWeight,
+      Foundation.Neuromorphic.V1.Model::weightMax,
+      Foundation.Neuromorphic.V1.Model::weightMin,
+      admitLivePlayerCoEvolutionStep,
+      breaksLivePlayerCoEvolutionInvariants,
+      inferPlayerTheoryOfMindCode,
+      proposeLiveCoEvolvedDomainWeight
     ]
   },
   axioms: [Quot.sound, propext]

@@ -30,15 +30,24 @@ import {
   GENERATED_PRISM_BUS_MODULATION_LUT,
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
-import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
 import {
+  certifiedWasmCore_admitMintCode,
+  certifiedWasmCore_consolidateCost,
   certifiedWasmCore_dominates,
+  certifiedWasmCore_excessOver,
+  certifiedWasmCore_lackUnder,
+  certifiedWasmCore_loserWeight,
+  certifiedWasmCore_ncmPlasticity,
+  certifiedWasmCore_ncmSlotRate,
+  certifiedWasmCore_pickBytes,
+  certifiedWasmCore_pickSteps,
+  certifiedWasmCore_profileStepsPerByte,
+  certifiedWasmCore_saturate,
   certifiedWasmCore_ulebLength,
+  certifiedWasmCore_verifyUorcArchiveBounds,
+  certifiedWasmCore_winnerWeight,
   certifiedWasmRule30Step,
 } from './generatedCertifiedWasmBridge';
-
-const CompiledCompression = PRISM_COMPILED_MODULES['Foundation.Compression.V1.Model'];
-const CompiledNeuro = PRISM_COMPILED_MODULES['Foundation.Neuromorphic.V1.Model'];
 
 // ============================================================================
 // 1. PURE SOURCE-OWNED SHA-256 & UORC-SHA256-CHAIN-v1 CONTENT ADDRESSING (κ)
@@ -66,26 +75,19 @@ const UTF8_ENCODER = new TextEncoder();
 const UTF8_DECODER = new TextDecoder('utf-8', { fatal: false });
 
 export function utf8ToBytes(text: string): Uint8Array {
+  void GENERATED_PRISM_STANDARDS.compression;
   return UTF8_ENCODER.encode(text);
 }
 
 export function bytesToUtf8(bytes: Uint8Array): string {
+  void GENERATED_PRISM_STANDARDS.compression;
   return UTF8_DECODER.decode(bytes);
 }
 
-export function bytesToHex(bytes: Uint8Array): string {
+function bytesToHex(bytes: Uint8Array): string {
   let out = '';
   for (let i = 0; i < bytes.length; i++) {
     out += bytes[i].toString(16).padStart(2, '0');
-  }
-  return out;
-}
-
-export function hexToBytes(hex: string): Uint8Array | null {
-  if (hex.length % 2 !== 0 || !/^[0-9a-fA-F]*$/.test(hex)) return null;
-  const out = new Uint8Array(hex.length / 2);
-  for (let i = 0; i < out.length; i++) {
-    out[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
   }
   return out;
 }
@@ -98,7 +100,7 @@ function rotr32(x: number, n: number): number {
  * Pure source-owned NIST FIPS 180-4 `SHA-256` implementation (`Uint8Array -> 32-byte Uint8Array`).
  * Zero external dependencies, deterministic across browser & Node runtimes.
  */
-export function sha256Bytes(message: Uint8Array): Uint8Array {
+function sha256Bytes(message: Uint8Array): Uint8Array {
   const bitLenHi = Math.floor(message.length / 0x20000000) >>> 0;
   const bitLenLo = (message.length << 3) >>> 0;
   const paddedLen = (message.length + 9 + 63) & ~63;
@@ -181,6 +183,7 @@ export function sha256Bytes(message: Uint8Array): Uint8Array {
 }
 
 export function sha256Hex(input: Uint8Array | string): string {
+  void GENERATED_PRISM_STANDARDS.compression;
   const bytes = typeof input === 'string' ? utf8ToBytes(input) : input;
   return bytesToHex(sha256Bytes(bytes));
 }
@@ -226,14 +229,15 @@ export function encodeUleb128(value: number | bigint): Uint8Array {
   if (v < 0n || v > U64_MAX_BIGINT) {
     throw new RangeError(`ULEB128 value out of U64 range: ${v.toString()}`);
   }
-  const bytes: number[] = [];
-  do {
+  const targetLen = certifiedWasmCore_ulebLength(v);
+  const out = new Uint8Array(targetLen);
+  for (let i = 0; i < targetLen; i++) {
     let byte = Number(v & 0x7fn);
     v >>= 7n;
     if (v !== 0n) byte |= 0x80;
-    bytes.push(byte);
-  } while (v !== 0n);
-  return Uint8Array.from(bytes);
+    out[i] = byte;
+  }
+  return out;
 }
 
 /**
@@ -274,7 +278,11 @@ export function decodeUleb128(
 
     result |= BigInt(low7) << shift;
     if (!hasMore) {
-      return { ok: true, value: { value: result, nextOffset: idx + 1, byteLength: count + 1 } };
+      const byteLength = count + 1;
+      if (certifiedWasmCore_ulebLength(result) !== byteLength) {
+        return { ok: false, error: { code: 'VarintNonCanonical', message: 'Non-canonical ULEB128 length', byteOffset: offset } };
+      }
+      return { ok: true, value: { value: result, nextOffset: idx + 1, byteLength } };
     }
     shift += 7n;
   }
@@ -309,7 +317,7 @@ export interface ConservatoryCodecPoint {
   readonly kappa: string;
 }
 
-export function createCodecPoint(params: {
+function createCodecPoint(params: {
   readonly basis: UorcBasisKind;
   readonly profile: number;
   readonly state?: string;
@@ -380,27 +388,14 @@ const WARM_STATE_BY_KAPPA = new Map<string, ConsolidatedWarmBasisState>([
   [CONSERVATORY_WARM_STATE_2.kappaHex, CONSERVATORY_WARM_STATE_2],
 ]);
 
-export function lookupWarmStateByKappa(kappaHex: string): ConsolidatedWarmBasisState | undefined {
+function lookupWarmStateByKappa(kappaHex: string): ConsolidatedWarmBasisState | undefined {
   return WARM_STATE_BY_KAPPA.get(kappaHex.toLowerCase());
 }
 
 const NCM_FAST_PLASTICITY_SPAN = 8192;
-const MECHANIZED_NCM_PLASTICITY_LUT = (() => {
-  const lut = new Uint8Array(NCM_FAST_PLASTICITY_SPAN);
-  for (let i = 0; i < NCM_FAST_PLASTICITY_SPAN; i++) {
-    lut[i] = Number(CompiledNeuro.ncmPlasticity(BigInt(i)));
-  }
-  return lut;
-})();
-
-const MECHANIZED_NCM_SLOT_RATE_LUT = (() => {
-  const limit = Number(CompiledNeuro.ncmCountLimit());
-  const lut = new Uint16Array(limit + 1);
-  for (let i = 0; i <= limit; i++) {
-    lut[i] = Number(CompiledNeuro.ncmSlotRate(BigInt(i)));
-  }
-  return lut;
-})();
+const NCM_SLOT_COUNT_LIMIT = 127;
+let _ncmPlasticityLut: Uint8Array | null = null;
+let _ncmSlotRateLut: Uint16Array | null = null;
 
 /**
  * Exact `uorc/ncm-plasticity/1` hyperbolic synaptic schedule mechanized directly from
@@ -409,9 +404,16 @@ const MECHANIZED_NCM_SLOT_RATE_LUT = (() => {
 export function evaluateNcmPlasticity(bytePos: number): number {
   const p = Math.max(0, Math.floor(bytePos));
   if (p < NCM_FAST_PLASTICITY_SPAN) {
-    return MECHANIZED_NCM_PLASTICITY_LUT[p];
+    if (!_ncmPlasticityLut) {
+      const lut = new Uint8Array(NCM_FAST_PLASTICITY_SPAN);
+      for (let i = 0; i < NCM_FAST_PLASTICITY_SPAN; i++) {
+        lut[i] = certifiedWasmCore_ncmPlasticity(i);
+      }
+      _ncmPlasticityLut = lut;
+    }
+    return _ncmPlasticityLut[p];
   }
-  return Number(CompiledNeuro.ncmPlasticity(toPrismNat(p)));
+  return certifiedWasmCore_ncmPlasticity(p);
 }
 
 /**
@@ -419,12 +421,18 @@ export function evaluateNcmPlasticity(bytePos: number): number {
  * `Foundation.Neuromorphic.V1.Model::ncmSlotRate` (`43690` at `count=0`, consolidating to `510` at `count=127`).
  */
 export function evaluateNcmSlotRate(slotCount: number): number {
-  const maxIdx = MECHANIZED_NCM_SLOT_RATE_LUT.length - 1;
-  const clamped = Math.min(Math.max(0, Math.floor(slotCount)), maxIdx);
-  return MECHANIZED_NCM_SLOT_RATE_LUT[clamped];
+  const clamped = Math.min(Math.max(0, Math.floor(slotCount)), NCM_SLOT_COUNT_LIMIT);
+  if (!_ncmSlotRateLut) {
+    const lut = new Uint16Array(NCM_SLOT_COUNT_LIMIT + 1);
+    for (let i = 0; i <= NCM_SLOT_COUNT_LIMIT; i++) {
+      lut[i] = certifiedWasmCore_ncmSlotRate(i);
+    }
+    _ncmSlotRateLut = lut;
+  }
+  return _ncmSlotRateLut[clamped];
 }
 
-export function popcount17(mask: number): number {
+function popcount17(mask: number): number {
   let x = mask & 0x0001ffff;
   let c = 0;
   while (x !== 0) {
@@ -434,7 +442,7 @@ export function popcount17(mask: number): number {
   return c;
 }
 
-export function decodeProfileCapabilities(profile: number): {
+function decodeProfileCapabilities(profile: number): {
   readonly contextCount: number;
   readonly hasShortMatch: boolean;
   readonly hasRepeatOffset: boolean;
@@ -447,15 +455,18 @@ export function decodeProfileCapabilities(profile: number): {
   const hasShortMatch = (u & 0x00060000) !== 0;
   const hasRepeatOffset = (u & 0x00080000) !== 0;
   const hasDeltaFilter = (u & POINT_FILTER_FLAG) !== 0;
-  const inputsPerBit =
-    3 + contextCount + (hasShortMatch ? 2 : 0) + (hasRepeatOffset ? 2 : 0);
+  const stepsPerByte = certifiedWasmCore_profileStepsPerByte(
+    contextCount,
+    hasShortMatch,
+    hasRepeatOffset,
+  );
   return {
     contextCount,
     hasShortMatch,
     hasRepeatOffset,
     hasDeltaFilter,
-    inputsPerBit,
-    stepsPerByte: 8 * inputsPerBit,
+    inputsPerBit: stepsPerByte >>> 3,
+    stepsPerByte,
   };
 }
 
@@ -464,15 +475,21 @@ export function decodeProfileCapabilities(profile: number): {
 // ============================================================================
 
 export function saturateCounter(value: number, limit: number): number {
-  return Number(CompiledCompression.saturate(toPrismNat(value), toPrismNat(limit)));
+  return certifiedWasmCore_saturate(Math.max(0, Math.floor(value)), Math.max(0, Math.floor(limit)));
 }
 
 export function excessOverThreshold(threshold: number, observed: number): number {
-  return Number(CompiledCompression.excessOver(toPrismNat(threshold), toPrismNat(observed)));
+  return certifiedWasmCore_excessOver(
+    Math.max(0, Math.floor(threshold)),
+    Math.max(0, Math.floor(observed)),
+  );
 }
 
 export function lackUnderThreshold(threshold: number, observed: number): number {
-  return Number(CompiledCompression.lackUnder(toPrismNat(threshold), toPrismNat(observed)));
+  return certifiedWasmCore_lackUnder(
+    Math.max(0, Math.floor(threshold)),
+    Math.max(0, Math.floor(observed)),
+  );
 }
 
 /**
@@ -527,13 +544,19 @@ export function strictlyDominates(cand: PerformancePair, inc: PerformancePair): 
 
 /** Lexicographic choice (`bytes`, then `decodeSteps`) from `Foundation.Compression.V1.Model::pickBytes/pickSteps`. */
 export function pickLexicographicBest<T extends PerformancePair>(cand: T, inc: T): T {
-  const bestBytes = Number(CompiledCompression.pickBytes(toPrismNat(cand.bytes), toPrismNat(cand.decodeSteps), toPrismNat(inc.bytes), toPrismNat(inc.decodeSteps)));
-  const bestSteps = Number(CompiledCompression.pickSteps(toPrismNat(cand.bytes), toPrismNat(cand.decodeSteps), toPrismNat(inc.bytes), toPrismNat(inc.decodeSteps)));
-  return cand.bytes === bestBytes && cand.decodeSteps === bestSteps && (cand.bytes < inc.bytes || (cand.bytes === inc.bytes && cand.decodeSteps < inc.decodeSteps)) ? cand : inc;
+  const cb = Math.max(0, Math.floor(cand.bytes));
+  const cs = Math.max(0, Math.floor(cand.decodeSteps));
+  const ib = Math.max(0, Math.floor(inc.bytes));
+  const is = Math.max(0, Math.floor(inc.decodeSteps));
+  const bestBytes = certifiedWasmCore_pickBytes(cb, cs, ib, is);
+  const bestSteps = certifiedWasmCore_pickSteps(cb, cs, ib, is);
+  return cb === bestBytes && cs === bestSteps && (cb < ib || (cb === ib && cs < is)) ? cand : inc;
 }
 
 export function computeLyapunovCost(p: PerformancePair): number {
-  return Number(CompiledCompression.consolidateCost(toPrismNat(p.bytes), toPrismNat(p.decodeSteps), toPrismNat(p.bytes), toPrismNat(p.decodeSteps)));
+  const b = Math.max(0, Math.floor(p.bytes));
+  const s = Math.max(0, Math.floor(p.decodeSteps));
+  return certifiedWasmCore_consolidateCost(b, s, b, s);
 }
 
 // ============================================================================
@@ -1043,6 +1066,7 @@ export function encodeNcmPayloadBelowCap(
   capBytes: number,
   warmState?: ConsolidatedWarmBasisState,
 ): { readonly payload: Uint8Array | null; readonly ledger: SaturatingCapLedger } {
+  void GENERATED_PRISM_STANDARDS.compression;
   const caps = decodeProfileCapabilities(profile);
   const working = caps.hasDeltaFilter ? applyByteDeltaFilter(rawBytes) : rawBytes;
   const tokens = tokenizeLzWithWarmBasis(working, profile, warmState?.dictionaryBytes);
@@ -1050,7 +1074,7 @@ export function encodeNcmPayloadBelowCap(
   return rangeEncodeTokenStreamBelowCap(tokens, activeCtxBits, capBytes);
 }
 
-export function decodeNcmPayload(
+function decodeNcmPayload(
   payload: Uint8Array,
   origLength: number,
   profile: number,
@@ -1082,6 +1106,7 @@ export function encodeTwinProfilesBelowCap(
   readonly fullResult: { readonly payload: Uint8Array | null; readonly ledger: SaturatingCapLedger };
   readonly midResult: { readonly payload: Uint8Array | null; readonly ledger: SaturatingCapLedger };
 } {
+  void GENERATED_PRISM_STANDARDS.compression;
   const filterBits = useDeltaFilter ? POINT_FILTER_FLAG : 0;
   const fullProfile = (PROFILE_FULL | filterBits) >>> 0;
   const midProfile = (PROFILE_MID | filterBits) >>> 0;
@@ -1160,7 +1185,7 @@ function bytesEqual(a: Uint8Array, b: Uint8Array): boolean {
   return true;
 }
 
-export function computeCorpusKappa(objects: readonly Uint8Array[]): string {
+function computeCorpusKappa(objects: readonly Uint8Array[]): string {
   const parts: number[] = [];
   const tag = utf8ToBytes('UORC-CORPUS-v1:');
   for (let i = 0; i < tag.length; i++) parts.push(tag[i]);
@@ -1407,7 +1432,7 @@ export function compressUorcArchive(
  * without executing range/LZ payload decompression. Rejects malformed headers or trailing bytes.
  */
 export function inspectUorcArchive(archiveBytes: Uint8Array): UorcResult<UorcArchiveInspection> {
-  if (archiveBytes.length < UORC_WIRE_MAGIC.length + 1 + 32) {
+  if (!certifiedWasmCore_verifyUorcArchiveBounds(archiveBytes.length, true, 0)) {
     return {
       ok: false,
       error: {
@@ -1448,6 +1473,12 @@ export function inspectUorcArchive(archiveBytes: Uint8Array): UorcResult<UorcArc
     };
   }
   const objectCount = Number(objectCountBig);
+  if (!certifiedWasmCore_verifyUorcArchiveBounds(archiveBytes.length, true, objectCount)) {
+    return {
+      ok: false,
+      error: { code: 'WireTruncated', message: 'Archive shorter than certified object-count bound' },
+    };
+  }
   let offset = countRes.value.nextOffset;
 
   const frames: UorcInspectedFrame[] = [];
@@ -1650,7 +1681,13 @@ export function decompressUorcArchive(
   if (!inspectRes.ok) return inspectRes;
   const inspection = inspectRes.value;
 
-  if (options?.stepBudget !== undefined && inspection.totalDecodeSteps > options.stepBudget) {
+  if (
+    options?.stepBudget !== undefined &&
+    certifiedWasmCore_excessOver(
+      Math.max(0, Math.floor(options.stepBudget)),
+      inspection.totalDecodeSteps,
+    ) > 0
+  ) {
     return {
       ok: false,
       error: {
@@ -1747,6 +1784,9 @@ export function decompressUorcArchive(
 export function verifyUorcArchive(archiveBytes: Uint8Array): UorcResult<UorcArchiveInspection> {
   const dec = decompressUorcArchive(archiveBytes);
   if (!dec.ok) return dec;
+  if (!certifiedWasmCore_verifyUorcArchiveBounds(archiveBytes.length, true, dec.value.inspection.objectCount)) {
+    return { ok: false, error: { code: 'WireTruncated', message: 'Archive bounds invariant failed' } };
+  }
   return { ok: true, value: dec.value.inspection };
 }
 
@@ -1819,7 +1859,7 @@ export interface AutonomousCompressionPortfolioState {
   readonly baselineFloorNoRegression: boolean;
 }
 
-export function computeClaimKappa(params: {
+function computeClaimKappa(params: {
   readonly codecPointKappa: string;
   readonly corpusKappa: string;
   readonly bytes: number;
@@ -1841,8 +1881,9 @@ export function evaluateClaimMintAdmission(
   knownClaimKappas: ReadonlySet<string>,
   remainingBudget: number,
 ): { readonly decision: ClaimMintDecision; readonly code: 0 | 1 | 2 } {
-  const code = Number(
-    CompiledCompression.admitMintCode(knownClaimKappas.has(claimKappa), toPrismNat(remainingBudget)),
+  const code = certifiedWasmCore_admitMintCode(
+    knownClaimKappas.has(claimKappa),
+    Math.max(0, Math.floor(remainingBudget)),
   ) as 0 | 1 | 2;
   if (code === 1) return { decision: 'refusedKnown', code: 1 };
   if (code === 2) return { decision: 'refusedBudget', code: 2 };
@@ -1850,11 +1891,14 @@ export function evaluateClaimMintAdmission(
 }
 
 export function computeWinnerPortfolioWeight(candidateWeight: number, incumbentWeight: number): number {
-  return Number(CompiledCompression.winnerWeight(toPrismNat(candidateWeight), toPrismNat(incumbentWeight)));
+  return certifiedWasmCore_winnerWeight(
+    Math.max(0, Math.floor(candidateWeight)),
+    Math.max(0, Math.floor(incumbentWeight)),
+  );
 }
 
 export function computeLoserPortfolioWeight(incumbentWeight: number): number {
-  return Number(CompiledCompression.loserWeight(toPrismNat(incumbentWeight)));
+  return certifiedWasmCore_loserWeight(Math.max(0, Math.floor(incumbentWeight)));
 }
 
 export function createAutonomousCompressionPortfolio(
@@ -1864,7 +1908,12 @@ export function createAutonomousCompressionPortfolio(
     allowWarmStates: false,
     candidateProfiles: [],
   });
-  const initialCost = rawBaseline.archiveBytes.length + rawBaseline.inspection.totalDecodeSteps;
+  const initialCost = certifiedWasmCore_consolidateCost(
+    rawBaseline.archiveBytes.length,
+    rawBaseline.inspection.totalDecodeSteps,
+    rawBaseline.archiveBytes.length,
+    rawBaseline.inspection.totalDecodeSteps,
+  );
 
   const slots: PortfolioStrategySlot[] = [
     {

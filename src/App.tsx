@@ -22,6 +22,7 @@ import {
   computeGardenHarmonyPct,
   createInitialGestureHoldState,
   createInitialLandmarkResonanceState,
+  createInitialLiveCoEvolutionState,
   createInitialNeuromorphicState,
   decodeShareableUorcGardenHash,
   encodeShareableUorcGardenHash,
@@ -34,8 +35,10 @@ import {
   hydratePlantsFromAnamnesis,
   loadAnamnesisEnvelopeFromStorage,
   persistAnamnesisEnvelopeToStorage,
+  restoreLiveCoEvolutionStateFromAnamnesis,
   restoreNeuromorphicStateFromAnamnesis,
   serializeAnamnesisSnapshot,
+  serializeLiveCoEvolutionStateForAnamnesis,
   synthesizeParametricAtmosphereConfigs,
   synthesizeParametricBiomeConfigs,
   synthesizeParametricBotanicalLifecycleStages,
@@ -196,6 +199,12 @@ export default function App() {
       gestureHold: createInitialGestureHoldState(),
       nearestLandmark: initialNearestLandmark,
       witnessCommunion: initialWitnessCommunion,
+      liveCoEvolution: initialAnamnesisPayload?.coEvolutionState
+        ? restoreLiveCoEvolutionStateFromAnamnesis(
+            initialAnamnesisPayload.coEvolutionState,
+            initialNeuro.lastActiveSynapticWeight,
+          )
+        : createInitialLiveCoEvolutionState(initialNeuro.lastActiveSynapticWeight),
     };
   });
 
@@ -212,11 +221,14 @@ export default function App() {
       !tunedWaystoneDegrees &&
       telemetry.attunedCount === 0 &&
       telemetry.neuromorphic.tickCount === 0 &&
+      telemetry.liveCoEvolution.admittedMutationCount === 0 &&
       telemetry.neuromorphic.universalManifold.globalFidelityIndex <= 1.001 &&
       telemetry.exploredBiomes.length <= 1;
     if (isDefaultGenesis) return;
 
     const saveTimer = window.setTimeout(() => {
+      const liveCoEvo =
+        gardenHandleRef.current?.getLiveCoEvolutionState() ?? telemetry.liveCoEvolution;
       const envelope = serializeAnamnesisSnapshot({
         alphaSeed,
         atmosphere,
@@ -228,6 +240,7 @@ export default function App() {
           telemetry.neuromorphic.observer.conservatoryCuration.consolidatedMemories,
         tunedWaystoneDegrees:
           gardenHandleRef.current?.getTunedWaystoneDegrees() ?? tunedWaystoneDegrees,
+        coEvolutionState: serializeLiveCoEvolutionStateForAnamnesis(liveCoEvo),
       });
       persistAnamnesisEnvelopeToStorage(envelope);
     }, 420);
@@ -240,6 +253,7 @@ export default function App() {
     tunedWaystoneDegrees,
     telemetry.attunedCount,
     telemetry.exploredBiomes,
+    telemetry.liveCoEvolution,
     telemetry.neuromorphic.tickCount,
     telemetry.neuromorphic.universalManifold,
     telemetry.neuromorphic.observer.conservatoryCuration.consolidatedMemories,
@@ -444,6 +458,8 @@ export default function App() {
       e?.currentTarget.blur();
       const liveWaystoneDegrees =
         gardenHandleRef.current?.getTunedWaystoneDegrees() ?? tunedWaystoneDegrees;
+      const liveCoEvo =
+        gardenHandleRef.current?.getLiveCoEvolutionState() ?? telemetry.liveCoEvolution;
       const envelope = serializeAnamnesisSnapshot({
         alphaSeed,
         atmosphere,
@@ -454,6 +470,7 @@ export default function App() {
         consolidatedMemories:
           telemetry.neuromorphic.observer.conservatoryCuration.consolidatedMemories,
         tunedWaystoneDegrees: liveWaystoneDegrees,
+        coEvolutionState: serializeLiveCoEvolutionStateForAnamnesis(liveCoEvo),
       });
       persistAnamnesisEnvelopeToStorage(envelope);
       const link = encodeShareableUorcGardenHash(envelope);
@@ -473,6 +490,7 @@ export default function App() {
       plants,
       tunedWaystoneDegrees,
       telemetry.exploredBiomes,
+      telemetry.liveCoEvolution,
       telemetry.neuromorphic.universalManifold,
       telemetry.neuromorphic.observer.conservatoryCuration.consolidatedMemories,
     ],

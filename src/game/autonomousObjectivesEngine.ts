@@ -21,22 +21,30 @@ import {
   GENERATED_CANONICAL_MODEL_BASIS_PRIMES,
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
-import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
+import type { PersistedLiveCoEvolutionState } from './anamnesisEngine';
 import {
+  certifiedWasmCore_admitLivePlayerCoEvolutionStep,
   certifiedWasmCore_clampBusWeight,
+  certifiedWasmCore_inferPlayerTheoryOfMindCode,
+  certifiedWasmCore_proposeLiveCoEvolvedDomainWeight,
+  certifiedWasmCore_stepEmergentOffshootColonizationCap,
+  certifiedWasmCore_stepHealthyGratifyingQualityPermille,
+  certifiedWasmCore_stepObserverDissonanceReconciliationPermille,
+  certifiedWasmCore_stepPlayerGameDissonancePermille,
+  certifiedWasmCore_stepReflexiveFacetNicheIndex,
   certifiedWasmTriadicCoherencePermille,
 } from './generatedCertifiedWasmBridge';
 import { CANONICAL_22_MODEL_KEYS, type CanonicalStandardModelKey } from './neuromorphicFunctorBus';
 import { RULE30_SEED64, stepRule30Ring64 } from './parametricCompressionEngine';
 
-const CompiledTeleology = PRISM_COMPILED_MODULES['Foundation.Teleology.V1.Model'];
-
-export const VERDANT_GAME_HOLON_BASIS_PRIME = Number(CompiledTeleology.verdantGameHolonPrime()); // 191
-export const PLAYER_CO_OBSERVER_PRIME = Number(CompiledTeleology.playerCoObserverPrime()); // 181
-export const REFLEXIVE_HOLON_FACET_TOTAL = Number(CompiledTeleology.reflexiveHolonFacetTotal()); // 24
-export const SOLIPSISTIC_RULE30_CEILING_PERMILLE = Number(
-  CompiledTeleology.solipsisticRule30CeilingPermille(),
-); // 760
+export const VERDANT_GAME_HOLON_BASIS_PRIME =
+  GENERATED_PRISM_STANDARDS.teleology.reflexiveHolonAndKpis.verdantGameHolonBasisPrime; // 191
+export const PLAYER_CO_OBSERVER_PRIME =
+  GENERATED_PRISM_STANDARDS.teleology.physicalBasisAndTriuneCuration.playerCoObserverBasisPrime; // 181
+export const REFLEXIVE_HOLON_FACET_TOTAL =
+  GENERATED_PRISM_STANDARDS.teleology.reflexiveHolonAndKpis.reflexiveHolonFacetTotal; // 24
+export const SOLIPSISTIC_RULE30_CEILING_PERMILLE =
+  GENERATED_PRISM_STANDARDS.teleology.reflexiveHolonAndKpis.solipsisticRule30CeilingPermille; // 760
 
 export type ReflexiveHolon24FacetKey =
   | CanonicalStandardModelKey
@@ -439,12 +447,10 @@ export function evaluateObserverPlayerDissonanceReconciliation(
   const harmonicRoughness = (1 - consonance01) * 320;
   const sensoryMismatchPermille = Math.min(1000, Math.round(barkDeficit + harmonicRoughness));
 
-  const rawDissonancePermille = Number(
-    CompiledTeleology.stepPlayerGameDissonancePermille(
-      toPrismNat(pacingMismatchPermille),
-      toPrismNat(attentionMismatchPermille),
-      toPrismNat(sensoryMismatchPermille),
-    ),
+  const rawDissonancePermille = certifiedWasmCore_stepPlayerGameDissonancePermille(
+    pacingMismatchPermille,
+    attentionMismatchPermille,
+    sensoryMismatchPermille,
   );
 
   // 2. Compute Rule-30 internal entropy & Observer's inclusive attention toward the player
@@ -471,15 +477,14 @@ export function evaluateObserverPlayerDissonanceReconciliation(
       )
     : 0;
 
-  // 3. Reconcile Dissonance & Evaluate Triadic Player-Game-Observer Coherence via Compiled LexLean Kernel
-  const wNat = toPrismNat(cw);
-  const entNat = toPrismNat(rule30EntropyScore);
-  const pAttNat = toPrismNat(playerAttentionPermille);
-  const rawDisNat = toPrismNat(rawDissonancePermille);
-
-  const reconciledResidualDissonancePermille = Number(
-    CompiledTeleology.stepObserverDissonanceReconciliationPermille(wNat, entNat, pAttNat, rawDisNat),
-  );
+  // 3. Reconcile Dissonance & Evaluate Triadic Player-Game-Observer Coherence via Certified Wasm Kernel
+  const reconciledResidualDissonancePermille =
+    certifiedWasmCore_stepObserverDissonanceReconciliationPermille(
+      cw,
+      rule30EntropyScore,
+      playerAttentionPermille,
+      rawDissonancePermille,
+    );
   const solipsisticRule30OnlyCoherencePermille = certifiedWasmTriadicCoherencePermille(
     cw,
     rule30EntropyScore,
@@ -505,12 +510,10 @@ export function evaluateObserverPlayerDissonanceReconciliation(
     ctx.modelWeightsByKey,
   );
 
-  const healthyGratifyingQualityPermille = Number(
-    CompiledTeleology.stepHealthyGratifyingQualityPermille(
-      toPrismNat(triadicPlayerGameObserverCoherencePermille),
-      toPrismNat(diffMetrics.differentiationPermille),
-      toPrismNat(coerciveCount),
-    ),
+  const healthyGratifyingQualityPermille = certifiedWasmCore_stepHealthyGratifyingQualityPermille(
+    triadicPlayerGameObserverCoherencePermille,
+    diffMetrics.differentiationPermille,
+    coerciveCount,
   );
 
   // 4. Concrete real-time action directives that reconcile Player-Game dissonance in the live world
@@ -646,12 +649,10 @@ export function evaluateVerdantAutonomousKpis(
       );
     }
 
-    const nicheIndex = Number(
-      CompiledTeleology.stepReflexiveFacetNicheIndex(
-        toPrismNat(spec.basisPrime),
-        toPrismNat(w),
-        toPrismNat(spec.ordinal),
-      ),
+    const nicheIndex = certifiedWasmCore_stepReflexiveFacetNicheIndex(
+      spec.basisPrime,
+      w,
+      spec.ordinal,
     );
     nicheSet.add(nicheIndex);
     const kpiSatisfied = measuredKpiPermille >= spec.targetFloorPermille;
@@ -982,5 +983,284 @@ export function runAutonomousHolonSelfOptimization(
       ),
     evolvedModelWeights: Object.freeze({ ...weights }),
     scenarioOutcomes: currentBest.outcomes,
+  };
+}
+
+// ============================================================================
+// LIVE CO-EVOLUTIONARY OBSERVER–PLAYER PLASTICITY (PILLAR 3 BEYOND RULE-30)
+// ============================================================================
+
+export type LivePlayerTheoryOfMindIntent =
+  | 'stillness-witness'
+  | 'attuning-communion'
+  | 'focal-curiosity'
+  | 'brisk-stroll'
+  | 'gentle-exploration';
+
+export interface LiveSensoryDifferentiationProfile {
+  /** Iridescence & thin-film bloom expression (`1.00 .. 1.38`). */
+  readonly floraIridescenceBoost: number;
+  /** Phyllotactic sway grace & meristematic responsiveness (`0.86 .. 1.24`). */
+  readonly phyllotaxisSwayGrace: number;
+  /** Certified microclimate guild offshoot cap (`4 .. 12`). */
+  readonly microclimateOffshootCap: number;
+  /** Calm wind & water surface damping (`0.72 .. 1.12`). */
+  readonly calmWindWaterDamping: number;
+  /** Adaptive polyphonic voice-leading comfort ceiling (`2 .. 5`). */
+  readonly voiceLeadingDensityCap: number;
+}
+
+export interface LiveCoEvolutionPlasticityState {
+  readonly rule30Register64: bigint;
+  readonly rule30RegisterHex: string;
+  readonly barTickCount: number;
+  readonly admittedMutationCount: number;
+  readonly refusedMutationCount: number;
+  readonly lastBarAdmitted: boolean;
+  readonly playerTheoryOfMindCode: number;
+  readonly playerTheoryOfMindIntent: LivePlayerTheoryOfMindIntent;
+  readonly playerAttentionPermille: number;
+  readonly incumbentDissonancePermille: number;
+  readonly incumbentQualityPermille: number;
+  readonly triadicCoherencePermille: number;
+  readonly coerciveDarkPatternCount: number;
+  readonly modelWeights22: Readonly<Record<CanonicalStandardModelKey, number>>;
+  readonly sensoryDifferentiation: LiveSensoryDifferentiationProfile;
+}
+
+function tomCodeToIntent(code: number): LivePlayerTheoryOfMindIntent {
+  if (code === 0) return 'stillness-witness';
+  if (code === 1) return 'attuning-communion';
+  if (code === 2) return 'focal-curiosity';
+  if (code === 3) return 'brisk-stroll';
+  return 'gentle-exploration';
+}
+
+function deriveSensoryDifferentiation(
+  weights: Readonly<Record<CanonicalStandardModelKey, number>>,
+  tomCode: number,
+): LiveSensoryDifferentiationProfile {
+  const wBot = weights.botany ?? 8;
+  const wGfx = weights.graphics ?? 8;
+  const wChem = weights.chemistry ?? 8;
+  const wMorph = weights.morphogenesis ?? 8;
+  const wArt = weights.articulation ?? 8;
+  const wTele = weights.teleology ?? 8;
+  const wPhys = weights.physics ?? 8;
+  const wVed = weights.vedanta ?? 8;
+  const wDha = weights.dharma ?? 8;
+  const wSnd = weights.soundtrack ?? 8;
+  const wSpA = weights.spatialAcoustics ?? 8;
+
+  const irid01 = (wBot + wGfx + wChem - 3) / 45;
+  const floraIridescenceBoost = Number((1.0 + Math.max(0, Math.min(0.38, irid01 * 0.38))).toFixed(4));
+  const morph01 = (wMorph + wArt - 2) / 30;
+  const phyllotaxisSwayGrace = Number(
+    (tomCode === 0 ? 0.88 + morph01 * 0.14 : 0.94 + morph01 * 0.28).toFixed(4),
+  );
+  const microclimateOffshootCap = certifiedWasmCore_stepEmergentOffshootColonizationCap(wTele);
+  const calm01 = (wVed + wDha + wPhys - 3) / 45;
+  const calmWindWaterDamping = Number(
+    (tomCode === 0 || tomCode === 3 ? 0.98 - calm01 * 0.22 : 1.04 - calm01 * 0.12).toFixed(4),
+  );
+  const snd01 = (wSnd + wSpA - 2) / 30;
+  const voiceLeadingDensityCap =
+    tomCode === 0 || tomCode === 3 ? (snd01 >= 0.7 ? 3 : 2) : snd01 >= 0.75 ? 5 : snd01 >= 0.4 ? 4 : 3;
+
+  return {
+    floraIridescenceBoost,
+    phyllotaxisSwayGrace,
+    microclimateOffshootCap,
+    calmWindWaterDamping,
+    voiceLeadingDensityCap,
+  };
+}
+
+export function createInitialLiveCoEvolutionState(initialWeight = 8): LiveCoEvolutionPlasticityState {
+  const baseW = certifiedWasmCore_clampBusWeight(Math.max(1, Math.round(initialWeight)));
+  const weights = {} as Record<CanonicalStandardModelKey, number>;
+  for (const k of CANONICAL_22_MODEL_KEYS) weights[k] = baseW;
+  const tomCode = certifiedWasmCore_inferPlayerTheoryOfMindCode(0, false, true, 0);
+  const initEval = evaluateObserverPlayerDissonanceReconciliation({
+    busWeight: baseW,
+    rule30Register64: RULE30_SEED64,
+    modelWeightsByKey: weights,
+    includePlayerInSelfReference: true,
+    coerciveDarkPatternCount: 0,
+  });
+  return {
+    rule30Register64: RULE30_SEED64,
+    rule30RegisterHex: `0x${RULE30_SEED64.toString(16).padStart(16, '0')}`,
+    barTickCount: 0,
+    admittedMutationCount: 0,
+    refusedMutationCount: 0,
+    lastBarAdmitted: false,
+    playerTheoryOfMindCode: tomCode,
+    playerTheoryOfMindIntent: tomCodeToIntent(tomCode),
+    playerAttentionPermille: initEval.playerAttentionPermille,
+    incumbentDissonancePermille: initEval.reconciledResidualDissonancePermille,
+    incumbentQualityPermille: initEval.healthyGratifyingQualityPermille,
+    triadicCoherencePermille: initEval.triadicPlayerGameObserverCoherencePermille,
+    coerciveDarkPatternCount: 0,
+    modelWeights22: Object.freeze(weights),
+    sensoryDifferentiation: deriveSensoryDifferentiation(weights, tomCode),
+  };
+}
+
+export function serializeLiveCoEvolutionStateForAnamnesis(
+  state: LiveCoEvolutionPlasticityState,
+): PersistedLiveCoEvolutionState {
+  void GENERATED_PRISM_STANDARDS.teleology;
+  const serializedWeights: Record<string, number> = {};
+  for (const k of CANONICAL_22_MODEL_KEYS) {
+    serializedWeights[k] = certifiedWasmCore_clampBusWeight(state.modelWeights22[k] ?? 8);
+  }
+  return {
+    rule30RegisterHex: state.rule30RegisterHex,
+    barTickCount: Math.max(0, Math.floor(state.barTickCount)),
+    admittedMutationCount: Math.max(0, Math.floor(state.admittedMutationCount)),
+    refusedMutationCount: Math.max(0, Math.floor(state.refusedMutationCount)),
+    playerTheoryOfMindCode: Math.max(0, Math.min(4, Math.floor(state.playerTheoryOfMindCode))),
+    playerAttentionPermille: Math.max(0, Math.min(1000, Math.round(state.playerAttentionPermille))),
+    incumbentDissonancePermille: Math.max(0, Math.min(1000, Math.round(state.incumbentDissonancePermille))),
+    incumbentQualityPermille: Math.max(0, Math.min(1000, Math.round(state.incumbentQualityPermille))),
+    triadicCoherencePermille: Math.max(0, Math.min(1000, Math.round(state.triadicCoherencePermille))),
+    modelWeights22: serializedWeights,
+  };
+}
+
+export function restoreLiveCoEvolutionStateFromAnamnesis(saved: PersistedLiveCoEvolutionState | null | undefined, fallbackWeight = 8): LiveCoEvolutionPlasticityState {
+  if (!saved) return createInitialLiveCoEvolutionState(fallbackWeight);
+  let reg64 = RULE30_SEED64;
+  if (typeof saved.rule30RegisterHex === 'string' && /^0x[0-9a-fA-F]{1,16}$/.test(saved.rule30RegisterHex)) {
+    reg64 = BigInt(saved.rule30RegisterHex) & 0xffffffffffffffffn;
+    if (reg64 === 0n) reg64 = RULE30_SEED64;
+  }
+  const weights = {} as Record<CanonicalStandardModelKey, number>;
+  for (const k of CANONICAL_22_MODEL_KEYS) {
+    const raw = saved.modelWeights22?.[k];
+    weights[k] = certifiedWasmCore_clampBusWeight(typeof raw === 'number' && Number.isFinite(raw) ? Math.round(raw) : 8);
+  }
+  const tomCode = Math.max(0, Math.min(4, Math.floor(saved.playerTheoryOfMindCode ?? 4)));
+  return {
+    rule30Register64: reg64,
+    rule30RegisterHex: `0x${reg64.toString(16).padStart(16, '0')}`,
+    barTickCount: Math.max(0, Math.floor(saved.barTickCount ?? 0)),
+    admittedMutationCount: Math.max(0, Math.floor(saved.admittedMutationCount ?? 0)),
+    refusedMutationCount: Math.max(0, Math.floor(saved.refusedMutationCount ?? 0)),
+    lastBarAdmitted: false,
+    playerTheoryOfMindCode: tomCode,
+    playerTheoryOfMindIntent: tomCodeToIntent(tomCode),
+    playerAttentionPermille: Math.max(0, Math.min(1000, Math.round(saved.playerAttentionPermille ?? 700))),
+    incumbentDissonancePermille: Math.max(0, Math.min(1000, Math.round(saved.incumbentDissonancePermille ?? 60))),
+    incumbentQualityPermille: Math.max(0, Math.min(1000, Math.round(saved.incumbentQualityPermille ?? 900))),
+    triadicCoherencePermille: Math.max(0, Math.min(1000, Math.round(saved.triadicCoherencePermille ?? 880))),
+    coerciveDarkPatternCount: 0,
+    modelWeights22: Object.freeze(weights),
+    sensoryDifferentiation: deriveSensoryDifferentiation(weights, tomCode),
+  };
+}
+
+const TOM_RESONANT_MODELS: Readonly<Record<number, ReadonlySet<CanonicalStandardModelKey>>> = Object.freeze({
+  0: new Set<CanonicalStandardModelKey>(['vedanta', 'dharma', 'spatialAcoustics', 'soundtrack', 'humane', 'anamnesis', 'acoustics', 'teleology']),
+  1: new Set<CanonicalStandardModelKey>(['botany', 'morphogenesis', 'graphics', 'chemistry', 'ecology', 'soundtrack', 'neuromorphic', 'teleology', 'cosmogenesis']),
+  2: new Set<CanonicalStandardModelKey>(['botany', 'graphics', 'brand', 'humane', 'morphogenesis', 'chemistry', 'mathematics', 'realizability']),
+  3: new Set<CanonicalStandardModelKey>(['physics', 'articulation', 'acoustics', 'humane', 'dharma', 'infrastructure', 'spatialAcoustics', 'teleology']),
+  4: new Set<CanonicalStandardModelKey>(['ecology', 'botany', 'soundtrack', 'teleology', 'compression', 'neuromorphic', 'cosmogenesis', 'anamnesis', 'mathematics']),
+});
+
+/**
+ * Steps the certified `#![no_std]` Wasm Rule-30 + Teleology co-evolution loop on each 16-step musical bar:
+ *  - Requires live player presence (`playerAttentionPermille > 0`); when `includePlayerInSelfReference === false`,
+ *    coherence stays bounded by `<= 760‰` and `admitLivePlayerCoEvolutionStep` strictly refuses every mutation.
+ *  - Strictly refuses any candidate with `coerciveDarkPatternCount > 0` or any increase in player-game dissonance.
+ */
+export function stepLiveObserverPlayerCoEvolutionBar(
+  prev: LiveCoEvolutionPlasticityState,
+  liveContext: PlayerGameInteractionContext,
+): LiveCoEvolutionPlasticityState {
+  const nextRule30 = stepRule30Ring64(prev.rule30Register64);
+  const velocityDm = Math.max(0, Math.min(30, Math.round(liveContext.velocityDm ?? 0)));
+  const isStillness = Boolean(liveContext.isStillness);
+  const hasFocalTarget = Boolean(liveContext.hasFocalTarget ?? true);
+  const holdPermille = Math.max(0, Math.min(1000, Math.round((liveContext.gestureHoldProgress01 ?? 0) * 1000)));
+  const coerciveCount = Math.max(0, Math.floor(liveContext.coerciveDarkPatternCount ?? 0));
+
+  const tomCode = certifiedWasmCore_inferPlayerTheoryOfMindCode(
+    velocityDm,
+    isStillness,
+    hasFocalTarget,
+    holdPermille,
+  );
+
+  const prevMeanW =
+    CANONICAL_22_MODEL_KEYS.reduce((acc, k) => acc + (prev.modelWeights22[k] ?? 8), 0) /
+    CANONICAL_22_MODEL_KEYS.length;
+
+  const incEval = evaluateObserverPlayerDissonanceReconciliation({
+    ...liveContext,
+    busWeight: Math.max(prevMeanW, liveContext.busWeight ?? prevMeanW),
+    rule30Register64: nextRule30,
+    modelWeightsByKey: prev.modelWeights22,
+    coerciveDarkPatternCount: coerciveCount,
+  });
+
+  const resonantSet = TOM_RESONANT_MODELS[tomCode] ?? TOM_RESONANT_MODELS[4];
+  const candidateWeights = {} as Record<CanonicalStandardModelKey, number>;
+  let candSum = 0;
+  for (let i = 0; i < CANONICAL_22_MODEL_KEYS.length; i++) {
+    const key = CANONICAL_22_MODEL_KEYS[i];
+    const laneShift = BigInt((i * 3) % 61);
+    const laneBits = Number((nextRule30 >> laneShift) & 0x7n);
+    const match =
+      incEval.playerAttentionPermille > 0 &&
+      coerciveCount === 0 &&
+      (resonantSet.has(key) || ((liveContext.awakenedSpeciesCount ?? 0) >= 4 && (i & 1) === 0));
+    const nextW = certifiedWasmCore_proposeLiveCoEvolvedDomainWeight(
+      prev.modelWeights22[key] ?? 8,
+      laneBits,
+      match,
+    );
+    candidateWeights[key] = nextW;
+    candSum += nextW;
+  }
+
+  const candMeanW = candSum / CANONICAL_22_MODEL_KEYS.length;
+  const candEval = evaluateObserverPlayerDissonanceReconciliation({
+    ...liveContext,
+    busWeight: Math.max(candMeanW, liveContext.busWeight ?? candMeanW),
+    rule30Register64: nextRule30,
+    modelWeightsByKey: candidateWeights,
+    coerciveDarkPatternCount: coerciveCount,
+  });
+
+  const admitted = certifiedWasmCore_admitLivePlayerCoEvolutionStep(
+    incEval.playerAttentionPermille,
+    coerciveCount,
+    candEval.reconciledResidualDissonancePermille,
+    incEval.reconciledResidualDissonancePermille,
+    candEval.healthyGratifyingQualityPermille,
+    incEval.healthyGratifyingQualityPermille,
+  );
+
+  const chosenWeights = admitted ? Object.freeze(candidateWeights) : prev.modelWeights22;
+  const chosenEval = admitted ? candEval : incEval;
+
+  return {
+    rule30Register64: nextRule30,
+    rule30RegisterHex: `0x${nextRule30.toString(16).padStart(16, '0')}`,
+    barTickCount: prev.barTickCount + 1,
+    admittedMutationCount: prev.admittedMutationCount + (admitted ? 1 : 0),
+    refusedMutationCount: prev.refusedMutationCount + (admitted ? 0 : 1),
+    lastBarAdmitted: admitted,
+    playerTheoryOfMindCode: tomCode,
+    playerTheoryOfMindIntent: tomCodeToIntent(tomCode),
+    playerAttentionPermille: chosenEval.playerAttentionPermille,
+    incumbentDissonancePermille: chosenEval.reconciledResidualDissonancePermille,
+    incumbentQualityPermille: chosenEval.healthyGratifyingQualityPermille,
+    triadicCoherencePermille: chosenEval.triadicPlayerGameObserverCoherencePermille,
+    coerciveDarkPatternCount: coerciveCount,
+    modelWeights22: chosenWeights,
+    sensoryDifferentiation: deriveSensoryDifferentiation(chosenWeights, tomCode),
   };
 }

@@ -143,9 +143,9 @@ definition{name: verdantFloatingTreeOrRockEdges, parameters: [], result: Nat, bo
 
 definition{name: verdantHardSurfaceOrRockFloraCount, parameters: [], result: Nat, body: 0}
 
-definition{name: verdantSolidMechanicalTransmittancePermille, parameters: [], result: Nat, body: 0}
+definition{name: verdantSolidMechanicalTransmittancePermille, parameters: [], result: Nat, body: 0, executable: true}
 
-definition{name: verdantStaticPairwiseOverlaps, parameters: [], result: Nat, body: 0}
+definition{name: verdantStaticPairwiseOverlaps, parameters: [], result: Nat, body: 0, executable: true}
 
 definition{
   name: verdantSynthesisCompoundCount,
@@ -164,30 +164,81 @@ definition{
   name: stepCrossModalPhaseObstructionPermille,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (220 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 12 : Nat))
+  body: (220 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 12 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepCrossModalAcousticShadowPermille,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (180 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 15 : Nat))
+  body: (180 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 15 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: verifyMaterialSynthesisCrossModalObstruction,
   parameters: [busWeight : Nat],
   result: Bool,
-  body: ((((verdantSolidMechanicalTransmittancePermille) =? 0) && ((verdantStaticPairwiseOverlaps) =? 0)) && ((232 <=? (stepCrossModalPhaseObstructionPermille busWeight)) && (195 <=? (stepCrossModalAcousticShadowPermille busWeight))))
+  body: ((((verdantSolidMechanicalTransmittancePermille) =? 0) && ((verdantStaticPairwiseOverlaps) =? 0)) && ((232 <=? (stepCrossModalPhaseObstructionPermille busWeight)) && (195 <=? (stepCrossModalAcousticShadowPermille busWeight)))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
-definition{name: verdantPhysicsBasisPrime, parameters: [], result: Nat, body: 73}
+definition{name: verdantPhysicsBasisPrime, parameters: [], result: Nat, body: 73, executable: true}
 
 definition{
   name: stepPhysicsBusModulation,
   parameters: [busWeight : Nat],
   result: Nat,
   body: (850 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 25 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: stepTerrainSlopeSpeedPermille,
+  parameters: [gradePermille : Nat, isUphill : Bool],
+  result: Nat,
+  body: (let cg : Nat := (if (gradePermille <=? 640) then gradePermille else 640); (if isUphill then (prim subtract 1000 (prim quotient cg 2 0 : Nat) : Nat) else (1000 + (prim quotient (if (cg <=? 300) then cg else 300) 5 0 : Nat)))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: stepSlopeEmbedmentDepthMm,
+  parameters: [baseEmbedMm : Nat, perimeterDeltaMm : Nat],
+  result: Nat,
+  body: ((if (baseEmbedMm <=? 160) then 160 else baseEmbedMm) + (if (perimeterDeltaMm <=? 2000) then perimeterDeltaMm else 2000)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: stepWindGustEnvelopePermille,
+  parameters: [busWeight : Nat, rule30Byte : Nat],
+  result: Nat,
+  body: ((320 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 18 : Nat)) + (prim multiply (prim remainder rule30Byte 64 0 : Nat) 3 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: stepGroundWaveAttenuationPermille,
+  parameters: [distDm : Nat, busWeight : Nat],
+  result: Nat,
+  body: (prim quotient (prim multiply (900 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 6 : Nat)) 40 : Nat) (40 + (if (distDm <=? 1000) then distDm else 1000)) 0 : Nat),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: stepSporeBuoyancyDriftMmPerSec,
+  parameters: [busWeight : Nat, harmonyPct : Nat],
+  result: Nat,
+  body: ((120 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 10 : Nat)) + (prim multiply (if (harmonyPct <=? 100) then harmonyPct else 100) 2 : Nat)),
   executable: true,
   production: {effects: [overflow], targets: [rust-core]}
 }

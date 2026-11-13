@@ -146,7 +146,7 @@ definition{name: verdantStillnessBreathCycleMs, parameters: [], result: Nat, bod
 
 definition{name: minRequiredBreathCycleMs, parameters: [], result: Nat, body: 4000}
 
-definition{name: verdantHumaneBasisPrime, parameters: [], result: Nat, body: 103}
+definition{name: verdantHumaneBasisPrime, parameters: [], result: Nat, body: 103, executable: true}
 
 definition{name: verdantMaxZephyrAccelMmPerSec2, parameters: [], result: Nat, body: 280}
 
@@ -176,6 +176,24 @@ definition{
   body: ((angleDeg <=? (verdantForwardFovHalfAngleDeg)) && (distMeters <=? 22)),
   executable: true,
   production: {effects: [], targets: [rust-core]}
+}
+
+definition{
+  name: resolveCompassOctantIndex,
+  parameters: [headingDeg360 : Nat],
+  result: Nat,
+  body: (prim remainder (prim quotient ((prim remainder headingDeg360 360 0 : Nat) + 22) 45 0 : Nat) 8 0 : Nat),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: stepDiurnalSkyLuminancePermille,
+  parameters: [atmosphereCode : Nat, busWeight : Nat],
+  result: Nat,
+  body: ((if (atmosphereCode =? 0) then 640 else (if (atmosphereCode =? 1) then 820 else (if (atmosphereCode =? 2) then 380 else 190))) + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 4 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

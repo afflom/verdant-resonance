@@ -102,14 +102,16 @@ definition{
   name: wcagAaMinimumContrastTenths,
   parameters: [],
   result: Nat,
-  body: (prim multiply (Foundation.Neuromorphic.V1.Model::grovePrime) (prim multiply (Foundation.Neuromorphic.V1.Model::grovePrime) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat) : Nat)
+  body: (prim multiply (Foundation.Neuromorphic.V1.Model::grovePrime) (prim multiply (Foundation.Neuromorphic.V1.Model::grovePrime) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat) : Nat),
+  executable: true
 }
 
 definition{
   name: wcagAaaMinimumContrastTenths,
   parameters: [],
   result: Nat,
-  body: (prim multiply (Foundation.Neuromorphic.V1.Model::wetlandPrime) (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat) : Nat)
+  body: (prim multiply (Foundation.Neuromorphic.V1.Model::wetlandPrime) (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat) : Nat),
+  executable: true
 }
 
 definition{
@@ -131,14 +133,16 @@ definition{
   name: verdantBrandBasisPrime,
   parameters: [],
   result: Nat,
-  body: (prim subtract (Foundation.Neuromorphic.V1.Model::neuromorphicBasisPrime) (Foundation.Neuromorphic.V1.Model::meadowPrime) : Nat)
+  body: (prim subtract (Foundation.Neuromorphic.V1.Model::neuromorphicBasisPrime) (Foundation.Neuromorphic.V1.Model::meadowPrime) : Nat),
+  executable: true
 }
 
 definition{
   name: parametricBaseSpatialUnitPx,
   parameters: [],
   result: Nat,
-  body: (Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod 2)
+  body: (Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod 2),
+  executable: true
 }
 
 definition{
@@ -152,14 +156,16 @@ definition{
   name: parametricOuterRadiusPx,
   parameters: [wBrand : Nat],
   result: Nat,
-  body: ((Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod 3) + (parametricBaseSpatialUnitPx))
+  body: ((Foundation.Neuromorphic.V1.Model::stepRule30LeftDiagonalPeriod 3) + (parametricBaseSpatialUnitPx)),
+  executable: true
 }
 
 definition{
   name: parametricInnerRadiusPx,
   parameters: [wBrand : Nat],
   result: Nat,
-  body: (prim subtract (parametricOuterRadiusPx wBrand) (parametricBaseSpatialUnitPx) : Nat)
+  body: (prim subtract (parametricOuterRadiusPx wBrand) (parametricBaseSpatialUnitPx) : Nat),
+  executable: true
 }
 
 definition{
@@ -175,14 +181,16 @@ definition{
   name: synthesizeParametricDisplayHarmonizedContrastTenths,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: ((stepBrandBusModulation busWeight) + (Foundation.Neuromorphic.V1.Model::meadowPrime))
+  body: ((stepBrandBusModulation busWeight) + (Foundation.Neuromorphic.V1.Model::meadowPrime)),
+  executable: true
 }
 
 definition{
   name: verifyParametricDisplayDesignClosure,
   parameters: [busWeight : Nat],
   result: Bool,
-  body: (let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated busWeight); (((((wcagAaMinimumContrastTenths) <=? (stepBrandBusModulation busWeight)) && ((wcagAaaMinimumContrastTenths) <=? (synthesizeParametricDisplayHarmonizedContrastTenths busWeight))) && ((parametricInnerRadiusPx busWeight) <? (parametricOuterRadiusPx busWeight))) && ((synthesizeParametricDisplayHarmonizedContrastTenths busWeight) <=? (synthesizeParametricDisplayHarmonizedContrastTenths nextW))))
+  body: (let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated busWeight); (((((wcagAaMinimumContrastTenths) <=? (stepBrandBusModulation busWeight)) && ((wcagAaaMinimumContrastTenths) <=? (synthesizeParametricDisplayHarmonizedContrastTenths busWeight))) && ((parametricInnerRadiusPx busWeight) <? (parametricOuterRadiusPx busWeight))) && ((synthesizeParametricDisplayHarmonizedContrastTenths busWeight) <=? (synthesizeParametricDisplayHarmonizedContrastTenths nextW)))),
+  executable: true
 }
 
 definition{

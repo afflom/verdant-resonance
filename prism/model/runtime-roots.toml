@@ -4,42 +4,139 @@ ir_module = "PrismVerdantResonance"
 roots = [
   "PrismVerdantResonance.Foundation.Acoustics.V1.Model.stepAcousticsBusModulation",
   "PrismVerdantResonance.Foundation.Anamnesis.V1.Model.stepAnamnesisBusModulation",
+  "PrismVerdantResonance.Foundation.Anamnesis.V1.Model.stepConsolidatedMemoryHorizon",
+  "PrismVerdantResonance.Foundation.Anamnesis.V1.Model.verifyLosslessMerkleRoundTrip",
+  "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepApicalCorollaGimbalMilli",
   "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepArticulationBusModulation",
+  "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepBasalJointTorqueMilli",
+  "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepGestureAttackMillis",
+  "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepMidCulmFlexureMilli",
+  "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepSympatheticArcApexCm",
+  "PrismVerdantResonance.Foundation.Articulation.V1.Model.verifyThreeJointKinematicHierarchy",
+  "PrismVerdantResonance.Foundation.Botany.V1.Model.classifyGrowthSubstrateCode",
+  "PrismVerdantResonance.Foundation.Botany.V1.Model.stepBMeshSubdivisionDensity",
+  "PrismVerdantResonance.Foundation.Botany.V1.Model.stepBotanicalTurgorPermille",
   "PrismVerdantResonance.Foundation.Botany.V1.Model.stepBotanyBusModulation",
+  "PrismVerdantResonance.Foundation.Botany.V1.Model.stepKuramotoCouplingPermille",
   "PrismVerdantResonance.Foundation.Botany.V1.Model.stepThinFilmIridescenceSpanNm",
+  "PrismVerdantResonance.Foundation.Botany.V1.Model.verifyHighDefinitionBMeshSynthesis",
   "PrismVerdantResonance.Foundation.Brand.V1.Model.stepBrandBusModulation",
+  "PrismVerdantResonance.Foundation.Chemistry.V1.Model.clampAtomicNumberZ",
   "PrismVerdantResonance.Foundation.Chemistry.V1.Model.iupacPeriodOfZ",
+  "PrismVerdantResonance.Foundation.Chemistry.V1.Model.pauliSubshellCapacity",
+  "PrismVerdantResonance.Foundation.Chemistry.V1.Model.resolveBravaisPearsonIndex",
   "PrismVerdantResonance.Foundation.Chemistry.V1.Model.stepChemistryBusModulation",
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.admitMintCode",
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.admitZeroDefectBytes",
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.consolidateCost",
   "PrismVerdantResonance.Foundation.Compression.V1.Model.dominates",
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.excessOver",
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.lackUnder",
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.loserWeight",
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.pickBytes",
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.pickSteps",
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.profileStepsPerByte",
   "PrismVerdantResonance.Foundation.Compression.V1.Model.rule30Step",
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.saturate",
   "PrismVerdantResonance.Foundation.Compression.V1.Model.ulebLength",
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.verifyUorcArchiveBounds",
+  "PrismVerdantResonance.Foundation.Compression.V1.Model.winnerWeight",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.clampAlphaSeed",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.extrapolateHighestResolutionPermille",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.extrapolateHighestResolutionSubdiv",
   "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepAlphaOmegaFieldPotential",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepFoundationalAffectValencePermille",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepFoundationalChaosPermille",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepFoundationalHarmonyPermille",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepObserverPreferenceFulfillmentPermille",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepPartDifferentiationNicheIndex",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricCanonicalSeed",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricConcertPitchCentiHz",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricInorganicScalePermille",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricOrganicVitalityPermille",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricPlayerEmbodimentPermille",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.verifyAlphaOmegaParametricClosure",
+  "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.verifyObserverCreatesAllThreeRealms",
+  "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepBrahmaviharaEquanimityPermille",
   "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepDharmaBusModulation",
+  "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepLokasangrahaWorldWelfarePermille",
+  "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepPratityasamutpadaCausalCoherencePermille",
+  "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepRtaCosmicOrderPermille",
+  "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepAtomicRemineralizationFlux",
+  "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepAtomicValenceActivity",
+  "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepCompoundManifestation",
   "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepEcologyBusModulation",
+  "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepEnvironmentalModalSynthesis",
+  "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepMacromolecularPolymerization",
   "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepMicroclimateIso9613ClarityPermille",
+  "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepMolecularBondCoherence",
+  "PrismVerdantResonance.Foundation.Ecology.V1.Model.verifyClosedLoopMatterConservation",
+  "PrismVerdantResonance.Foundation.Ecology.V1.Model.verifyCompleteGranularSynthesisClosure",
+  "PrismVerdantResonance.Foundation.Ecology.V1.Model.verifyGranularAtomicToEnvironmentalChain",
   "PrismVerdantResonance.Foundation.Graphics.V1.Model.stepGraphicsBusModulation",
   "PrismVerdantResonance.Foundation.Graphics.V1.Model.verifyPassivePbrEnergyConservation",
   "PrismVerdantResonance.Foundation.Humane.V1.Model.evaluateGazeTargetInForwardCone",
+  "PrismVerdantResonance.Foundation.Humane.V1.Model.resolveCompassOctantIndex",
+  "PrismVerdantResonance.Foundation.Humane.V1.Model.stepDiurnalSkyLuminancePermille",
   "PrismVerdantResonance.Foundation.Humane.V1.Model.stepHumaneBusModulation",
   "PrismVerdantResonance.Foundation.Infrastructure.V1.Model.stepInfrastructureBusModulation",
   "PrismVerdantResonance.Foundation.Mathematics.V1.Model.eulerPoincareBiasedCharacteristic",
   "PrismVerdantResonance.Foundation.Mathematics.V1.Model.stepMathematicsBusModulation",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.admitEpistemicClaim",
   "PrismVerdantResonance.Foundation.Mechanization.V1.Model.admitLiftKappaTransition",
   "PrismVerdantResonance.Foundation.Mechanization.V1.Model.classifyFoundryTagMask",
   "PrismVerdantResonance.Foundation.Mechanization.V1.Model.decideHypothesisMint",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.deductiveSearchShareAfterGate",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.engineLearnWeight",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.gaugeTransformRealQualityMask",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.gaugeTransformSensualQualityId",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.gaugeTransformWithdrawnCoreId",
   "PrismVerdantResonance.Foundation.Mechanization.V1.Model.learnAll",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.remainingBudgetAfterMint",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.reserveHomeostasisGateShare",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.resolveRouteSlotFromBit",
   "PrismVerdantResonance.Foundation.Mechanization.V1.Model.schedule",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.unliftedExcessOverFloor",
+  "PrismVerdantResonance.Foundation.Mechanization.V1.Model.validPeircePhaseStep",
   "PrismVerdantResonance.Foundation.MetaModel.V1.Model.composeCoherentModelDepthScore",
+  "PrismVerdantResonance.Foundation.Morphogenesis.V1.Model.stepLSystemDerivationDepth",
+  "PrismVerdantResonance.Foundation.Morphogenesis.V1.Model.stepMeristemOrganCount",
   "PrismVerdantResonance.Foundation.Morphogenesis.V1.Model.stepMorphogenesisBusModulation",
   "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.clampBusWeight",
   "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.conservatoryCurationDefect",
   "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.conservatoryCurationDominates",
   "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.conservatoryCurationLyapunovCost",
   "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.learnHebbianWeight",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.learnWeightPotentiated",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.ncmPlasticity",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.ncmSlotRate",
   "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.refineDomainWeightAutopoietic",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepRule30AperiodicCompensationIndex",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepRule30LeftDiagonalPeriod",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepStakeholderValueReinforcement",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepSupraDirectiveDefinitionSubdiv",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepSupraDirectiveFeatureUnlockCount",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepSupraDirectiveFidelityPermille",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepSupraDirectiveQualityPermille",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepTheoryOfMindCoherencePermille",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepWisdomPhenomenonModulation",
   "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.transferWeightCrossDomain",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyAutopoieticSingleCallAdvancesAllTenDomains",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyEmergentEntitySynthesizesFacets",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyObserverHolisticWhyClosure",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyObserverSupraDirectiveTranscendence",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyRule30DeterministicAndWithdrawnDuality",
+  "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifySingleCallPropagatesAllTenDomains",
   "PrismVerdantResonance.Foundation.Physics.V1.Model.gellMannNishijimaBiasedSixQ",
+  "PrismVerdantResonance.Foundation.Physics.V1.Model.stepCrossModalAcousticShadowPermille",
+  "PrismVerdantResonance.Foundation.Physics.V1.Model.stepCrossModalPhaseObstructionPermille",
+  "PrismVerdantResonance.Foundation.Physics.V1.Model.stepGroundWaveAttenuationPermille",
   "PrismVerdantResonance.Foundation.Physics.V1.Model.stepPhysicsBusModulation",
+  "PrismVerdantResonance.Foundation.Physics.V1.Model.stepSlopeEmbedmentDepthMm",
+  "PrismVerdantResonance.Foundation.Physics.V1.Model.stepSporeBuoyancyDriftMmPerSec",
+  "PrismVerdantResonance.Foundation.Physics.V1.Model.stepTerrainSlopeSpeedPermille",
+  "PrismVerdantResonance.Foundation.Physics.V1.Model.stepWindGustEnvelopePermille",
+  "PrismVerdantResonance.Foundation.Physics.V1.Model.verifyMaterialSynthesisCrossModalObstruction",
   "PrismVerdantResonance.Foundation.Realizability.V1.Model.stepRealizabilityBusModulation",
   "PrismVerdantResonance.Foundation.Soundtrack.V1.Model.advanceLifecycleStage",
   "PrismVerdantResonance.Foundation.Soundtrack.V1.Model.stepCuratedConsonancePurityPermille",
@@ -48,10 +145,26 @@ roots = [
   "PrismVerdantResonance.Foundation.SpatialAcoustics.V1.Model.stepEarlyReflectionTapCount",
   "PrismVerdantResonance.Foundation.SpatialAcoustics.V1.Model.stepSpatialAcousticsBusModulation",
   "PrismVerdantResonance.Foundation.SpatialAcoustics.V1.Model.stepWoodworthItdMicros",
+  "PrismVerdantResonance.Foundation.Teleology.V1.Model.admitLivePlayerCoEvolutionStep",
+  "PrismVerdantResonance.Foundation.Teleology.V1.Model.inferPlayerTheoryOfMindCode",
+  "PrismVerdantResonance.Foundation.Teleology.V1.Model.proposeLiveCoEvolvedDomainWeight",
+  "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepCuratorialAffinityPermille",
+  "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepEmergentOffshootColonizationCap",
+  "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepHealthyGratifyingQualityPermille",
+  "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepObserverDissonanceReconciliationPermille",
+  "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepPlayerGameDissonancePermille",
+  "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepReflexiveFacetNicheIndex",
   "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepTeleologyBusModulation",
   "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepTriadicPlayerGameObserverCoherencePermille",
+  "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepAtmanBrahmanNonDualPermille",
+  "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepRajasActivityPermille",
+  "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepSattvaClarityPermille",
+  "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepTamasGroundingPermille",
+  "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepTuriyaSilentWitnessPermille",
   "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepVedantaBusModulation",
+  "PrismVerdantResonance.Foundation.Vedanta.V1.Model.verifyTrigunaConservationLaw",
   "PrismVerdantResonance.VerdantResonance.dispatch",
+  "PrismVerdantResonance.VerdantResonance.verifyBusModulationsScalar",
 ]
 
 [[root]]
@@ -67,8 +180,74 @@ targets = ["rust-core"]
 effects = ["overflow"]
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Anamnesis.V1.Model.stepConsolidatedMemoryHorizon"
+package = "verdant_anamnesis_step_consolidated_memory_horizon"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Anamnesis.V1.Model.verifyLosslessMerkleRoundTrip"
+package = "verdant_anamnesis_verify_lossless_merkle_round_trip"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepApicalCorollaGimbalMilli"
+package = "verdant_articulation_step_apical_corolla_gimbal_milli"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepArticulationBusModulation"
 package = "verdant_articulation_step_articulation_bus_modulation"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepBasalJointTorqueMilli"
+package = "verdant_articulation_step_basal_joint_torque_milli"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepGestureAttackMillis"
+package = "verdant_articulation_step_gesture_attack_millis"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepMidCulmFlexureMilli"
+package = "verdant_articulation_step_mid_culm_flexure_milli"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepSympatheticArcApexCm"
+package = "verdant_articulation_step_sympathetic_arc_apex_cm"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Articulation.V1.Model.verifyThreeJointKinematicHierarchy"
+package = "verdant_articulation_verify_three_joint_kinematic_hierarchy"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Botany.V1.Model.classifyGrowthSubstrateCode"
+package = "verdant_botany_classify_growth_substrate_code"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Botany.V1.Model.stepBMeshSubdivisionDensity"
+package = "verdant_botany_step_b_mesh_subdivision_density"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Botany.V1.Model.stepBotanicalTurgorPermille"
+package = "verdant_botany_step_botanical_turgor_permille"
 targets = ["rust-core"]
 effects = ["overflow"]
 
@@ -79,8 +258,20 @@ targets = ["rust-core"]
 effects = ["overflow"]
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Botany.V1.Model.stepKuramotoCouplingPermille"
+package = "verdant_botany_step_kuramoto_coupling_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Botany.V1.Model.stepThinFilmIridescenceSpanNm"
 package = "verdant_botany_step_thin_film_iridescence_span_nm"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Botany.V1.Model.verifyHighDefinitionBMeshSynthesis"
+package = "verdant_botany_verify_high_definition_b_mesh_synthesis"
 targets = ["rust-core"]
 effects = ["overflow"]
 
@@ -91,8 +282,26 @@ targets = ["rust-core"]
 effects = ["overflow"]
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Chemistry.V1.Model.clampAtomicNumberZ"
+package = "verdant_chemistry_clamp_atomic_number_z"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Chemistry.V1.Model.iupacPeriodOfZ"
 package = "verdant_chemistry_iupac_period_of_z"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Chemistry.V1.Model.pauliSubshellCapacity"
+package = "verdant_chemistry_pauli_subshell_capacity"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Chemistry.V1.Model.resolveBravaisPearsonIndex"
+package = "verdant_chemistry_resolve_bravais_pearson_index"
 targets = ["rust-core"]
 effects = []
 
@@ -103,10 +312,64 @@ targets = ["rust-core"]
 effects = ["overflow"]
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.admitMintCode"
+package = "verdant_compression_admit_mint_code"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.admitZeroDefectBytes"
+package = "verdant_compression_admit_zero_defect_bytes"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.consolidateCost"
+package = "verdant_compression_consolidate_cost"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Compression.V1.Model.dominates"
 package = "verdant_compression_dominates"
 targets = ["rust-core"]
 effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.excessOver"
+package = "verdant_compression_excess_over"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.lackUnder"
+package = "verdant_compression_lack_under"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.loserWeight"
+package = "verdant_compression_loser_weight"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.pickBytes"
+package = "verdant_compression_pick_bytes"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.pickSteps"
+package = "verdant_compression_pick_steps"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.profileStepsPerByte"
+package = "verdant_compression_profile_steps_per_byte"
+targets = ["rust-core"]
+effects = ["overflow"]
 
 [[root]]
 name = "PrismVerdantResonance.Foundation.Compression.V1.Model.rule30Step"
@@ -115,14 +378,128 @@ targets = ["rust-core"]
 effects = ["overflow", "recursion"]
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.saturate"
+package = "verdant_compression_saturate"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Compression.V1.Model.ulebLength"
 package = "verdant_compression_uleb_length"
 targets = ["rust-core"]
 effects = []
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.verifyUorcArchiveBounds"
+package = "verdant_compression_verify_uorc_archive_bounds"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Compression.V1.Model.winnerWeight"
+package = "verdant_compression_winner_weight"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.clampAlphaSeed"
+package = "verdant_cosmogenesis_clamp_alpha_seed"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.extrapolateHighestResolutionPermille"
+package = "verdant_cosmogenesis_extrapolate_highest_resolution_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.extrapolateHighestResolutionSubdiv"
+package = "verdant_cosmogenesis_extrapolate_highest_resolution_subdiv"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepAlphaOmegaFieldPotential"
 package = "verdant_cosmogenesis_step_alpha_omega_field_potential"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepFoundationalAffectValencePermille"
+package = "verdant_cosmogenesis_step_foundational_affect_valence_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepFoundationalChaosPermille"
+package = "verdant_cosmogenesis_step_foundational_chaos_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepFoundationalHarmonyPermille"
+package = "verdant_cosmogenesis_step_foundational_harmony_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepObserverPreferenceFulfillmentPermille"
+package = "verdant_cosmogenesis_step_observer_preference_fulfillment_5aca9e"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepPartDifferentiationNicheIndex"
+package = "verdant_cosmogenesis_step_part_differentiation_niche_index"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricCanonicalSeed"
+package = "verdant_cosmogenesis_synthesize_parametric_canonical_seed"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricConcertPitchCentiHz"
+package = "verdant_cosmogenesis_synthesize_parametric_concert_pitch_3c4924"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricInorganicScalePermille"
+package = "verdant_cosmogenesis_synthesize_parametric_inorganic_scal_80fc2f"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricOrganicVitalityPermille"
+package = "verdant_cosmogenesis_synthesize_parametric_organic_vitali_4ce193"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricPlayerEmbodimentPermille"
+package = "verdant_cosmogenesis_synthesize_parametric_player_embodim_ad7ef2"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.verifyAlphaOmegaParametricClosure"
+package = "verdant_cosmogenesis_verify_alpha_omega_parametric_closure"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.verifyObserverCreatesAllThreeRealms"
+package = "verdant_cosmogenesis_verify_observer_creates_all_three_realms"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepBrahmaviharaEquanimityPermille"
+package = "verdant_dharma_step_brahmavihara_equanimity_permille"
 targets = ["rust-core"]
 effects = ["overflow"]
 
@@ -133,14 +510,86 @@ targets = ["rust-core"]
 effects = ["overflow"]
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepLokasangrahaWorldWelfarePermille"
+package = "verdant_dharma_step_lokasangraha_world_welfare_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepPratityasamutpadaCausalCoherencePermille"
+package = "verdant_dharma_step_pratityasamutpada_causal_coherence_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepRtaCosmicOrderPermille"
+package = "verdant_dharma_step_rta_cosmic_order_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepAtomicRemineralizationFlux"
+package = "verdant_ecology_step_atomic_remineralization_flux"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepAtomicValenceActivity"
+package = "verdant_ecology_step_atomic_valence_activity"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepCompoundManifestation"
+package = "verdant_ecology_step_compound_manifestation"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepEcologyBusModulation"
 package = "verdant_ecology_step_ecology_bus_modulation"
 targets = ["rust-core"]
 effects = ["overflow"]
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepEnvironmentalModalSynthesis"
+package = "verdant_ecology_step_environmental_modal_synthesis"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepMacromolecularPolymerization"
+package = "verdant_ecology_step_macromolecular_polymerization"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepMicroclimateIso9613ClarityPermille"
 package = "verdant_ecology_step_microclimate_iso9613_clarity_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepMolecularBondCoherence"
+package = "verdant_ecology_step_molecular_bond_coherence"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ecology.V1.Model.verifyClosedLoopMatterConservation"
+package = "verdant_ecology_verify_closed_loop_matter_conservation"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ecology.V1.Model.verifyCompleteGranularSynthesisClosure"
+package = "verdant_ecology_verify_complete_granular_synthesis_closure"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ecology.V1.Model.verifyGranularAtomicToEnvironmentalChain"
+package = "verdant_ecology_verify_granular_atomic_to_environmental_chain"
 targets = ["rust-core"]
 effects = ["overflow"]
 
@@ -161,6 +610,18 @@ name = "PrismVerdantResonance.Foundation.Humane.V1.Model.evaluateGazeTargetInFor
 package = "verdant_humane_evaluate_gaze_target_in_forward_cone"
 targets = ["rust-core"]
 effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Humane.V1.Model.resolveCompassOctantIndex"
+package = "verdant_humane_resolve_compass_octant_index"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Humane.V1.Model.stepDiurnalSkyLuminancePermille"
+package = "verdant_humane_step_diurnal_sky_luminance_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
 
 [[root]]
 name = "PrismVerdantResonance.Foundation.Humane.V1.Model.stepHumaneBusModulation"
@@ -187,6 +648,12 @@ targets = ["rust-core"]
 effects = ["overflow"]
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.admitEpistemicClaim"
+package = "verdant_mechanization_admit_epistemic_claim"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.admitLiftKappaTransition"
 package = "verdant_mechanization_admit_lift_kappa_transition"
 targets = ["rust-core"]
@@ -205,10 +672,58 @@ targets = ["rust-core"]
 effects = []
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.deductiveSearchShareAfterGate"
+package = "verdant_mechanization_deductive_search_share_after_gate"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.engineLearnWeight"
+package = "verdant_mechanization_engine_learn_weight"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.gaugeTransformRealQualityMask"
+package = "verdant_mechanization_gauge_transform_real_quality_mask"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.gaugeTransformSensualQualityId"
+package = "verdant_mechanization_gauge_transform_sensual_quality_id"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.gaugeTransformWithdrawnCoreId"
+package = "verdant_mechanization_gauge_transform_withdrawn_core_id"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.learnAll"
 package = "verdant_mechanization_learn_all"
 targets = ["rust-std"]
 effects = ["allocation", "overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.remainingBudgetAfterMint"
+package = "verdant_mechanization_remaining_budget_after_mint"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.reserveHomeostasisGateShare"
+package = "verdant_mechanization_reserve_homeostasis_gate_share"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.resolveRouteSlotFromBit"
+package = "verdant_mechanization_resolve_route_slot_from_bit"
+targets = ["rust-core"]
+effects = []
 
 [[root]]
 name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.schedule"
@@ -217,8 +732,32 @@ targets = ["rust-std"]
 effects = ["allocation", "overflow", "recursion"]
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.unliftedExcessOverFloor"
+package = "verdant_mechanization_unlifted_excess_over_floor"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Mechanization.V1.Model.validPeircePhaseStep"
+package = "verdant_mechanization_valid_peirce_phase_step"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.MetaModel.V1.Model.composeCoherentModelDepthScore"
 package = "verdant_meta_model_compose_coherent_model_depth_score"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Morphogenesis.V1.Model.stepLSystemDerivationDepth"
+package = "verdant_morphogenesis_step_l_system_derivation_depth"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Morphogenesis.V1.Model.stepMeristemOrganCount"
+package = "verdant_morphogenesis_step_meristem_organ_count"
 targets = ["rust-core"]
 effects = ["overflow"]
 
@@ -259,14 +798,122 @@ targets = ["rust-core"]
 effects = ["overflow"]
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.learnWeightPotentiated"
+package = "verdant_neuromorphic_learn_weight_potentiated"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.ncmPlasticity"
+package = "verdant_neuromorphic_ncm_plasticity"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.ncmSlotRate"
+package = "verdant_neuromorphic_ncm_slot_rate"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.refineDomainWeightAutopoietic"
 package = "verdant_neuromorphic_refine_domain_weight_autopoietic"
 targets = ["rust-core"]
 effects = []
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepRule30AperiodicCompensationIndex"
+package = "verdant_neuromorphic_step_rule30_aperiodic_compensation_index"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepRule30LeftDiagonalPeriod"
+package = "verdant_neuromorphic_step_rule30_left_diagonal_period"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepStakeholderValueReinforcement"
+package = "verdant_neuromorphic_step_stakeholder_value_reinforcement"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepSupraDirectiveDefinitionSubdiv"
+package = "verdant_neuromorphic_step_supra_directive_definition_subdiv"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepSupraDirectiveFeatureUnlockCount"
+package = "verdant_neuromorphic_step_supra_directive_feature_unlock_count"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepSupraDirectiveFidelityPermille"
+package = "verdant_neuromorphic_step_supra_directive_fidelity_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepSupraDirectiveQualityPermille"
+package = "verdant_neuromorphic_step_supra_directive_quality_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepTheoryOfMindCoherencePermille"
+package = "verdant_neuromorphic_step_theory_of_mind_coherence_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepWisdomPhenomenonModulation"
+package = "verdant_neuromorphic_step_wisdom_phenomenon_modulation"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.transferWeightCrossDomain"
 package = "verdant_neuromorphic_transfer_weight_cross_domain"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyAutopoieticSingleCallAdvancesAllTenDomains"
+package = "verdant_neuromorphic_verify_autopoietic_single_call_advan_a8714f"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyEmergentEntitySynthesizesFacets"
+package = "verdant_neuromorphic_verify_emergent_entity_synthesizes_facets"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyObserverHolisticWhyClosure"
+package = "verdant_neuromorphic_verify_observer_holistic_why_closure"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyObserverSupraDirectiveTranscendence"
+package = "verdant_neuromorphic_verify_observer_supra_directive_tran_d04505"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyRule30DeterministicAndWithdrawnDuality"
+package = "verdant_neuromorphic_verify_rule30_deterministic_and_with_ccea39"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifySingleCallPropagatesAllTenDomains"
+package = "verdant_neuromorphic_verify_single_call_propagates_all_te_2386f3"
 targets = ["rust-core"]
 effects = []
 
@@ -277,8 +924,56 @@ targets = ["rust-core"]
 effects = ["overflow"]
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Physics.V1.Model.stepCrossModalAcousticShadowPermille"
+package = "verdant_physics_step_cross_modal_acoustic_shadow_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Physics.V1.Model.stepCrossModalPhaseObstructionPermille"
+package = "verdant_physics_step_cross_modal_phase_obstruction_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Physics.V1.Model.stepGroundWaveAttenuationPermille"
+package = "verdant_physics_step_ground_wave_attenuation_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Physics.V1.Model.stepPhysicsBusModulation"
 package = "verdant_physics_step_physics_bus_modulation"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Physics.V1.Model.stepSlopeEmbedmentDepthMm"
+package = "verdant_physics_step_slope_embedment_depth_mm"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Physics.V1.Model.stepSporeBuoyancyDriftMmPerSec"
+package = "verdant_physics_step_spore_buoyancy_drift_mm_per_sec"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Physics.V1.Model.stepTerrainSlopeSpeedPermille"
+package = "verdant_physics_step_terrain_slope_speed_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Physics.V1.Model.stepWindGustEnvelopePermille"
+package = "verdant_physics_step_wind_gust_envelope_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Physics.V1.Model.verifyMaterialSynthesisCrossModalObstruction"
+package = "verdant_physics_verify_material_synthesis_cross_modal_obs_5cdea3"
 targets = ["rust-core"]
 effects = ["overflow"]
 
@@ -331,6 +1026,60 @@ targets = ["rust-core"]
 effects = ["overflow"]
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Teleology.V1.Model.admitLivePlayerCoEvolutionStep"
+package = "verdant_teleology_admit_live_player_co_evolution_step"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Teleology.V1.Model.inferPlayerTheoryOfMindCode"
+package = "verdant_teleology_infer_player_theory_of_mind_code"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Teleology.V1.Model.proposeLiveCoEvolvedDomainWeight"
+package = "verdant_teleology_propose_live_co_evolved_domain_weight"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepCuratorialAffinityPermille"
+package = "verdant_teleology_step_curatorial_affinity_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepEmergentOffshootColonizationCap"
+package = "verdant_teleology_step_emergent_offshoot_colonization_cap"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepHealthyGratifyingQualityPermille"
+package = "verdant_teleology_step_healthy_gratifying_quality_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepObserverDissonanceReconciliationPermille"
+package = "verdant_teleology_step_observer_dissonance_reconciliation_08dec4"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepPlayerGameDissonancePermille"
+package = "verdant_teleology_step_player_game_dissonance_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepReflexiveFacetNicheIndex"
+package = "verdant_teleology_step_reflexive_facet_niche_index"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepTeleologyBusModulation"
 package = "verdant_teleology_step_teleology_bus_modulation"
 targets = ["rust-core"]
@@ -343,8 +1092,44 @@ targets = ["rust-core"]
 effects = ["overflow"]
 
 [[root]]
+name = "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepAtmanBrahmanNonDualPermille"
+package = "verdant_vedanta_step_atman_brahman_non_dual_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepRajasActivityPermille"
+package = "verdant_vedanta_step_rajas_activity_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepSattvaClarityPermille"
+package = "verdant_vedanta_step_sattva_clarity_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepTamasGroundingPermille"
+package = "verdant_vedanta_step_tamas_grounding_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepTuriyaSilentWitnessPermille"
+package = "verdant_vedanta_step_turiya_silent_witness_permille"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
 name = "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepVedantaBusModulation"
 package = "verdant_vedanta_step_vedanta_bus_modulation"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Vedanta.V1.Model.verifyTrigunaConservationLaw"
+package = "verdant_vedanta_verify_triguna_conservation_law"
 targets = ["rust-core"]
 effects = ["overflow"]
 
@@ -353,3 +1138,9 @@ name = "PrismVerdantResonance.VerdantResonance.dispatch"
 package = "verdant_resonance_dispatch"
 targets = ["rust-std"]
 effects = ["allocation", "overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.VerdantResonance.verifyBusModulationsScalar"
+package = "verdant_resonance_verify_bus_modulations_scalar"
+targets = ["rust-core"]
+effects = ["overflow"]

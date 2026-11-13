@@ -16,9 +16,16 @@ import {
   runCertifiedEngineTick,
 } from '../../scripts/certifiedProductionRuntime';
 import {
+  GENERATED_PRISM_MECHANIZED_MANIFEST,
+  PRISM_COMPILED_MODULES,
+  decodePrismTextRequest,
+  dispatchPrismTextRequest,
+} from './generatedPrismRuntime';
+import {
   CERTIFIED_PRODUCTION_MANIFEST,
   CERTIFIED_WASM_CORE_ROOT_NAMES,
   certifiedWasmAdmitLift,
+  certifiedWasmCore_admitLivePlayerCoEvolutionStep,
   certifiedWasmCore_advanceLifecycleStage,
   certifiedWasmCore_clampBusWeight,
   certifiedWasmCore_conservatoryCurationDefect,
@@ -28,8 +35,12 @@ import {
   certifiedWasmCore_eulerPoincareBiasedCharacteristic,
   certifiedWasmCore_evaluateGazeTargetInForwardCone,
   certifiedWasmCore_gellMannNishijimaBiasedSixQ,
+  certifiedWasmCore_inferPlayerTheoryOfMindCode,
   certifiedWasmCore_iupacPeriodOfZ,
   certifiedWasmCore_learnHebbianWeight,
+  certifiedWasmCore_ncmPlasticity,
+  certifiedWasmCore_ncmSlotRate,
+  certifiedWasmCore_proposeLiveCoEvolvedDomainWeight,
   certifiedWasmCore_refineDomainWeightAutopoietic,
   certifiedWasmCore_stepAcousticsBusModulation,
   certifiedWasmCore_stepAlphaOmegaFieldPotential,
@@ -39,9 +50,11 @@ import {
   certifiedWasmCore_stepBrandBusModulation,
   certifiedWasmCore_stepChemistryBusModulation,
   certifiedWasmCore_stepCuratedConsonancePurityPermille,
+  certifiedWasmCore_stepCuratorialAffinityPermille,
   certifiedWasmCore_stepDharmaBusModulation,
   certifiedWasmCore_stepEarlyReflectionTapCount,
   certifiedWasmCore_stepEcologyBusModulation,
+  certifiedWasmCore_stepEmergentOffshootColonizationCap,
   certifiedWasmCore_stepGraphicsBusModulation,
   certifiedWasmCore_stepHumaneBusModulation,
   certifiedWasmCore_stepInfrastructureBusModulation,
@@ -51,6 +64,8 @@ import {
   certifiedWasmCore_stepPhysicsBusModulation,
   certifiedWasmCore_stepPrimeLimitHarmonicCeiling,
   certifiedWasmCore_stepRealizabilityBusModulation,
+  certifiedWasmCore_stepRtaCosmicOrderPermille,
+  certifiedWasmCore_stepSattvaClarityPermille,
   certifiedWasmCore_stepSoundtrackBusModulation,
   certifiedWasmCore_stepSpatialAcousticsBusModulation,
   certifiedWasmCore_stepTeleologyBusModulation,
@@ -60,6 +75,8 @@ import {
   certifiedWasmCore_stepWoodworthItdMicros,
   certifiedWasmCore_transferWeightCrossDomain,
   certifiedWasmCore_ulebLength,
+  certifiedWasmCore_verifyBusModulationsScalar,
+  certifiedWasmCore_verifyLosslessMerkleRoundTrip,
   certifiedWasmCore_verifyPassivePbrEnergyConservation,
   certifiedWasmCoreCallCount,
   certifiedWasmDecideMint,
@@ -207,10 +224,10 @@ import {
   GENERATED_PRISM_THEOREMS_BY_MODULE,
   GENERATED_VERDANT_JUDGE_ARTIFACT,
   GENERATED_VERDANT_RESONANCE_SPEC,
-  GENERATED_PRISM_MECHANIZED_MANIFEST,
-  PRISM_COMPILED_MODULES,
-  dispatchPrismTextRequest,
-  decodePrismTextRequest,
+  createInitialLiveCoEvolutionState,
+  restoreLiveCoEvolutionStateFromAnamnesis,
+  serializeLiveCoEvolutionStateForAnamnesis,
+  stepLiveObserverPlayerCoEvolutionBar,
   BIOME_PRIMES,
   SPECIES_PRIMES,
   ATMOSPHERE_PRIMES,
@@ -6989,7 +7006,7 @@ test('65. Unified UORust + UORC + Rule-30 Mechanical Reasoning Model: Foundry Ro
   assert.equal(Mech.verifyUnifiedMechanizationModelCoherence(), true);
   const stdModel = getCompiledMechanizationStandardModel();
   assert.equal(stdModel.profile, 'prism/mechanization-uorust-uorc-rule30/1');
-  assert.equal(stdModel.coherentClassicalModelCount, 6n);
+  assert.equal(stdModel.coherentClassicalModelCount, 6);
 
   // NIST FIPS 180-4 SHA-256 `κ` equivalence check
   assert.equal(
@@ -7555,11 +7572,11 @@ test('68. Zero Classical.choice Repository Closure, All-22-Domain no_std Certifi
     assert.equal(/\bClassical\.choice\b/.test(fs.readFileSync(lexPath, 'utf8')), false, `Unexpected Classical.choice in ${lexPath}`);
   }
 
-  // 2. Pillar 2: 50 Certified Production Roots (`47` `#![no_std]` `rust-core` + `3` `rust-std`) Across All 22 Domains
-  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.rustCoreNoStdRootCount, 47);
+  // 2. Pillar 2: >= 50 Certified Production Roots (`>= 47` `#![no_std]` `rust-core` + `3` `rust-std`) Across All 22 Domains
+  assert.ok(CERTIFIED_PRODUCTION_MANIFEST.rustCoreNoStdRootCount >= 47);
   assert.equal(CERTIFIED_PRODUCTION_MANIFEST.rustStdRootCount, 3);
-  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.roots.length, 50);
-  assert.equal(CERTIFIED_WASM_CORE_ROOT_NAMES.length, 47);
+  assert.ok(CERTIFIED_PRODUCTION_MANIFEST.roots.length >= 50);
+  assert.ok(CERTIFIED_WASM_CORE_ROOT_NAMES.length >= 47);
 
   const coveredModules = new Set<string>(CERTIFIED_PRODUCTION_MANIFEST.roots.map((r) => r.moduleName));
   const expected25Modules = [
@@ -7697,4 +7714,202 @@ test('68. Zero Classical.choice Repository Closure, All-22-Domain no_std Certifi
   const callsBefore = certifiedWasmCoreCallCount();
   evaluatePrismRequest('meadow chime-lily attune dawn dormant 8 4');
   assert.ok(certifiedWasmCoreCallCount() > callsBefore);
+});
+
+test('69. Single Certified Wasm Runtime Cutover, Zero-Residue Codebase Lift & Live Observer-Player Co-Evolutionary Plasticity', () => {
+  // 1. Pillar 1: Zero `generatedPrismRuntime` / `PRISM_COMPILED_MODULES` / `toPrismNat` Imports in Live `src/`
+  const walkSrcFiles = (dir: string): string[] =>
+    fs.readdirSync(dir, { withFileTypes: true }).flatMap((ent) =>
+      ent.isDirectory() ? walkSrcFiles(`${dir}/${ent.name}`) : /\.(ts|tsx)$/.test(ent.name) ? [`${dir}/${ent.name}`] : [],
+    );
+  const liveSrcFiles = walkSrcFiles('src').filter(
+    (p) => p !== 'src/game/generatedPrismRuntime.ts' && !p.endsWith('.test.ts'),
+  );
+  assert.ok(liveSrcFiles.length >= 16);
+  for (const filePath of liveSrcFiles) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    assert.equal(
+      /from\s+['"][^'"]*generatedPrismRuntime['"]/.test(content),
+      false,
+      `Live gameplay file ${filePath} must not import generatedPrismRuntime`,
+    );
+    assert.equal(
+      /\btoPrismNat\s*\(/.test(content),
+      false,
+      `Live gameplay file ${filePath} must not call toPrismNat`,
+    );
+  }
+
+  // 163 Certified Production Roots (`160` `#![no_std]` `rust-core` + `3` `rust-std`) with 3-way parity
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.rustCoreNoStdRootCount, 160);
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.rustStdRootCount, 3);
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.roots.length, 163);
+  assert.equal(CERTIFIED_WASM_CORE_ROOT_NAMES.length, 160);
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.allKernelChecked, true);
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.allForbidUnsafeCode, true);
+
+  const runner = new CertifiedRustRunner(process.cwd());
+  const Tel = PRISM_COMPILED_MODULES['Foundation.Teleology.V1.Model'];
+  const Ved = PRISM_COMPILED_MODULES['Foundation.Vedanta.V1.Model'];
+  const Dha = PRISM_COMPILED_MODULES['Foundation.Dharma.V1.Model'];
+  const Neuro = PRISM_COMPILED_MODULES['Foundation.Neuromorphic.V1.Model'];
+  const Ana = PRISM_COMPILED_MODULES['Foundation.Anamnesis.V1.Model'];
+  const Ver = PRISM_COMPILED_MODULES['VerdantResonance'];
+
+  // 3-way parity (`CertifiedRustRunner.evalCoreRoot` == `certifiedWasmCore_*` == `PRISM_COMPILED_MODULES`)
+  const irAdmit = Tel.admitLivePlayerCoEvolutionStep(620n, 0n, 210n, 240n, 780n, 740n);
+  assert.equal(irAdmit, true);
+  assert.equal(runner.evalCoreRoot('admitLivePlayerCoEvolutionStep', [620, 0, 210, 240, 780, 740]).value, irAdmit);
+  assert.equal(certifiedWasmCore_admitLivePlayerCoEvolutionStep(620, 0, 210, 240, 780, 740), irAdmit);
+  assert.equal(certifiedWasmCore_admitLivePlayerCoEvolutionStep(0, 0, 120, 240, 900, 740), false);
+  assert.equal(certifiedWasmCore_admitLivePlayerCoEvolutionStep(800, 1, 120, 240, 900, 740), false);
+
+  const irWeight = Number(Tel.proposeLiveCoEvolvedDomainWeight(8n, 7n, true));
+  assert.equal(Number(runner.evalCoreRoot('proposeLiveCoEvolvedDomainWeight', [8, 7, true]).value), irWeight);
+  assert.equal(certifiedWasmCore_proposeLiveCoEvolvedDomainWeight(8, 7, true), irWeight);
+
+  assert.equal(
+    certifiedWasmCore_inferPlayerTheoryOfMindCode(0, true, true, 12),
+    Number(Tel.inferPlayerTheoryOfMindCode(0n, true, true, 12n)),
+  );
+  assert.equal(
+    certifiedWasmCore_stepEmergentOffshootColonizationCap(12),
+    Number(Tel.stepEmergentOffshootColonizationCap(12n)),
+  );
+  assert.equal(
+    certifiedWasmCore_stepCuratorialAffinityPermille(13, 12),
+    Number(Tel.stepCuratorialAffinityPermille(13n, 12n)),
+  );
+  assert.equal(
+    certifiedWasmCore_stepSattvaClarityPermille(12, 80, 2),
+    Number(Ved.stepSattvaClarityPermille(12n, 80n, 2n)),
+  );
+  assert.equal(
+    certifiedWasmCore_stepRtaCosmicOrderPermille(12, 80),
+    Number(Dha.stepRtaCosmicOrderPermille(12n, 80n)),
+  );
+  assert.equal(
+    certifiedWasmCore_ncmPlasticity(85),
+    Number(Neuro.ncmPlasticity(85n)),
+  );
+  assert.equal(
+    certifiedWasmCore_ncmSlotRate(42),
+    Number(Neuro.ncmSlotRate(42n)),
+  );
+  assert.equal(
+    certifiedWasmCore_verifyLosslessMerkleRoundTrip(128, 128),
+    Boolean(Ana.verifyLosslessMerkleRoundTrip(128n, 128n)),
+  );
+  assert.equal(
+    certifiedWasmCore_verifyBusModulationsScalar(9, 9, 9, 9, 9, 9, 9, 9, 9, 9),
+    Boolean(
+      Ver.verifyBusModulationsScalar(9n, 9n, 9n, 9n, 9n, 9n, 9n, 9n, 9n, 9n),
+    ),
+  );
+
+  // 2. Pillar 2: Zero Residue Across Entire Codebase (`residueCount === 0`, `maxResidueFunctionCount === 0`) & LOC Ratchet Shrink
+  const liftIngest = ingestProductCodebaseLiftRegister(process.cwd());
+  assert.equal(liftIngest.register.summary.residueCount, 0);
+  const ratchetState = measureHandwrittenAndAxiomRatchetState(process.cwd(), liftIngest.register);
+  assert.equal(ratchetState.residueFunctionCount, 0);
+  assert.equal(ratchetState.classicalChoiceCount, 0);
+  assert.ok(ratchetState.handwrittenGameNonCommentLines < 31269);
+
+  const ratchetDoc = JSON.parse(fs.readFileSync('prism/handwritten-ratchet.json', 'utf8'));
+  assert.equal(ratchetDoc.maxResidueFunctionCount, 0);
+  assert.equal(ratchetDoc.maxClassicalChoiceCount, 0);
+  assert.ok(ratchetDoc.maxHandwrittenGameNonCommentLines < 31269);
+  assert.equal(verifyHandwrittenAndAxiomRatchet(ratchetDoc, ratchetState).ok, true);
+
+  // 3. Pillar 3: Live Observer–Player Co-Evolutionary Plasticity Beyond Solipsistic Rule-30
+  let solipsisticState = createInitialLiveCoEvolutionState(8);
+  for (let bar = 0; bar < 6; bar++) {
+    solipsisticState = stepLiveObserverPlayerCoEvolutionBar(solipsisticState, {
+      busWeight: 12,
+      harmonyPct: 75,
+      includePlayerInSelfReference: false,
+    });
+    assert.equal(solipsisticState.lastBarAdmitted, false);
+    assert.ok(solipsisticState.triadicCoherencePermille <= SOLIPSISTIC_RULE30_CEILING_PERMILLE);
+  }
+  assert.equal(solipsisticState.admittedMutationCount, 0);
+
+  // Coercive dark pattern refusal (`coerciveDarkPatternCount > 0` => never admitted)
+  const coerciveAttempt = stepLiveObserverPlayerCoEvolutionBar(createInitialLiveCoEvolutionState(8), {
+    busWeight: 12,
+    harmonyPct: 82,
+    velocityDm: 0,
+    isStillness: true,
+    hasFocalTarget: true,
+    focalTargetAttuned: true,
+    coerciveDarkPatternCount: 1,
+  });
+  assert.equal(coerciveAttempt.lastBarAdmitted, false);
+  assert.equal(coerciveAttempt.admittedMutationCount, 0);
+
+  // Live contemplative player co-observation differentiates the 22 domain weights & transcends 760‰
+  let liveState = createInitialLiveCoEvolutionState(8);
+  for (let bar = 0; bar < 8; bar++) {
+    const prevDiss = liveState.incumbentDissonancePermille;
+    liveState = stepLiveObserverPlayerCoEvolutionBar(liveState, {
+      busWeight: 12 + Math.min(4, Math.floor(bar / 2)),
+      harmonyPct: 68 + bar * 3,
+      velocityDm: 0,
+      isStillness: true,
+      gestureHoldProgress01: 0.9,
+      hasFocalTarget: true,
+      focalTargetAttuned: true,
+      nearestFeatureDistanceM: 4.2,
+      restStepCount: 5,
+      activeVoiceCount: 3,
+      barkHeadroomDb: 12.5,
+      tenneyConsonancePurity01: 0.96,
+      awakenedSpeciesCount: 5,
+      exploredBiomesCount: 5,
+      tunedWaystoneCount: 4,
+      emergentOffshootCount: 2,
+      coerciveDarkPatternCount: 0,
+    });
+    if (liveState.lastBarAdmitted) {
+      assert.ok(liveState.incumbentDissonancePermille <= prevDiss);
+    }
+  }
+  assert.ok(liveState.admittedMutationCount >= 1);
+  assert.ok(liveState.triadicCoherencePermille > SOLIPSISTIC_RULE30_CEILING_PERMILLE);
+  assert.equal(liveState.playerTheoryOfMindIntent, 'stillness-witness');
+  assert.ok(liveState.sensoryDifferentiation.floraIridescenceBoost > 1.0);
+  const distinctWeights = new Set(Object.values(liveState.modelWeights22));
+  assert.ok(distinctWeights.size >= 2);
+
+  // Lossless UORC Anamnesis & `#uorc=` URL round-trip persistence of co-evolved state
+  const baseNeuro = createInitialNeuromorphicState(1);
+  const basePlants = generateGardenPlants({ alphaSeed: 1 });
+  const env = serializeAnamnesisSnapshot({
+    alphaSeed: 1,
+    atmosphere: 'starlight',
+    isMuted: false,
+    exploredBiomes: ['meadow', 'sanctuary'],
+    manifold: baseNeuro.universalManifold,
+    plants: basePlants,
+    coEvolutionState: serializeLiveCoEvolutionStateForAnamnesis(liveState),
+  });
+  const packed = packAnamnesisEnvelopeToUorc(env);
+  const unpacked = unpackAnamnesisEnvelopeFromUorc(packed.archiveBytes);
+  assert.equal(unpacked.verified, true);
+  assert.ok(unpacked.envelope?.payload.coEvolutionState);
+  const restored = restoreLiveCoEvolutionStateFromAnamnesis(
+    unpacked.envelope?.payload.coEvolutionState,
+    8,
+  );
+  assert.equal(restored.rule30RegisterHex, liveState.rule30RegisterHex);
+  assert.equal(restored.admittedMutationCount, liveState.admittedMutationCount);
+  assert.deepEqual(restored.modelWeights22, liveState.modelWeights22);
+
+  const shareLink = encodeShareableUorcGardenHash(env);
+  const decodedShare = decodeShareableUorcGardenHash(shareLink.hashFragment);
+  assert.equal(decodedShare.verified, true);
+  assert.deepEqual(
+    decodedShare.envelope?.payload.coEvolutionState,
+    env.payload.coEvolutionState,
+  );
 });

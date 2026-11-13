@@ -466,6 +466,7 @@ export function evaluateHolisticObserverStandardModelContext(params: {
   }>;
   readonly alphaSeed?: number;
   readonly atmosphere?: 'dawn' | 'golden' | 'twilight' | 'starlight';
+  readonly modelWeights22?: Partial<Record<CanonicalStandardModelKey, number>>;
 }): HolisticObserverStandardModelContext {
   const w10 = params.domainWeights10;
   const clampW = (v: number) => Math.max(1, Math.min(16, Math.round(v)));
@@ -540,6 +541,14 @@ export function evaluateHolisticObserverStandardModelContext(params: {
   MODEL_RAW_WEIGHTS_F64[19] = cVedanta;
   MODEL_RAW_WEIGHTS_F64[20] = cDharma;
   MODEL_RAW_WEIGHTS_F64[21] = cComp;
+  if (params.modelWeights22) {
+    for (let i = 0; i < MODEL_TOTAL; i++) {
+      const overrideW = params.modelWeights22[CANONICAL_22_MODEL_KEYS[i]];
+      if (overrideW !== undefined && Number.isFinite(overrideW)) {
+        MODEL_RAW_WEIGHTS_F64[i] = clampF64W(overrideW);
+      }
+    }
+  }
 
   // Step 1: Compute each model's intrinsic 64-bit PPM precision depth in [0, 1_000_000]
   for (let i = 0; i < MODEL_TOTAL; i++) {

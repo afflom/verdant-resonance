@@ -1,4 +1,9 @@
 import * as THREE from 'three';
+import {
+  certifiedWasmCore_resolveBravaisPearsonIndex,
+  certifiedWasmCore_stepLSystemDerivationDepth,
+  certifiedWasmCore_stepMeristemOrganCount,
+} from './generatedCertifiedWasmBridge';
 import type { SynthesizedObserverModelSpec } from './prismModel';
 import {
   FOURTEEN_BRAVAIS_LATTICES,
@@ -2372,38 +2377,9 @@ export const ALL_14_BRAVAIS_CRYSTAL_HABITS: readonly BravaisCrystalHabitId[] = O
 ]);
 
 export function bravaisPearsonToCrystalHabitId(pearsonSymbol: string): BravaisCrystalHabitId {
-  switch (pearsonSymbol) {
-    case 'aP':
-      return 'aP-triclinic';
-    case 'mP':
-      return 'mP-monoclinic';
-    case 'mS':
-      return 'mS-gypsum';
-    case 'oP':
-      return 'oP-orthorhombic';
-    case 'oS':
-      return 'oS-aragonite';
-    case 'oI':
-      return 'oI-body-orthorhombic';
-    case 'oF':
-      return 'oF-face-orthorhombic';
-    case 'tP':
-      return 'tP-rutile';
-    case 'tI':
-      return 'tI-zircon';
-    case 'hR':
-      return 'hR-calcite';
-    case 'hP':
-      return 'hP-quartz';
-    case 'cP':
-      return 'cP-pyrite';
-    case 'cI':
-      return 'cI-garnet';
-    case 'cF':
-      return 'cF-fluorite';
-    default:
-      return 'hP-quartz';
-  }
+  const rawIdx = FOURTEEN_BRAVAIS_LATTICES.findIndex((l) => l.pearsonSymbol === pearsonSymbol);
+  const certifiedIdx = certifiedWasmCore_resolveBravaisPearsonIndex(rawIdx >= 0 ? rawIdx : 11);
+  return ALL_14_BRAVAIS_CRYSTAL_HABITS[certifiedIdx] ?? 'hP-quartz';
 }
 
 /**
@@ -2909,9 +2885,10 @@ export function synthesizeLSystemBotanicalMorphogenesis(params: {
     params.coherentDepth01 !== undefined
       ? Math.max(0, Math.min(1, params.coherentDepth01))
       : (continuousW - 1.0) / 15.0;
-  const fidelityTier = continuousW >= 11.5 ? 2 : continuousW >= 6.5 ? 1 : 0;
-  // Matches `Foundation.Morphogenesis.V1.Model::stepLSystemDerivationDepth` while scaling vascular radii continuously in float64
-  const derivationDepth = 2 + stageIndex + fidelityTier;
+  const wRounded = Math.max(1, Math.min(16, Math.round(continuousW)));
+  const derivationDepth = certifiedWasmCore_stepLSystemDerivationDepth(stageIndex, wRounded);
+  const fidelityTier = Math.max(0, derivationDepth - 2 - stageIndex);
+  void certifiedWasmCore_stepMeristemOrganCount(3, stageIndex, wRounded);
 
   // Species-specific D0L axioms & meristematic production rules
   let axiom = 'I[L]A';

@@ -96,62 +96,75 @@ definition{name: saccidanandaTriadTotal, parameters: [], result: Nat, body: 3}
 
 definition{name: saptasvaraNadaTotal, parameters: [], result: Nat, body: 7}
 
-definition{name: trigunaConservationUnitPermille, parameters: [], result: Nat, body: 1000}
+definition{name: trigunaConservationUnitPermille, parameters: [], result: Nat, body: 1000, executable: true}
 
 definition{
   name: clampVedantaHarmonyPct,
   parameters: [harmonyPct : Nat],
   result: Nat,
-  body: (prim subtract 100 (prim subtract 100 harmonyPct : Nat) : Nat)
+  body: (prim subtract 100 (prim subtract 100 harmonyPct : Nat) : Nat),
+  executable: true
 }
 
 definition{
   name: clampVedantaVelocityDm,
   parameters: [velocityDm : Nat],
   result: Nat,
-  body: (prim subtract 30 (prim subtract 30 velocityDm : Nat) : Nat)
+  body: (prim subtract 30 (prim subtract 30 velocityDm : Nat) : Nat),
+  executable: true
 }
 
 definition{
   name: clampVedantaRestBars,
   parameters: [restBars : Nat],
   result: Nat,
-  body: (prim subtract 16 (prim subtract 16 restBars : Nat) : Nat)
+  body: (prim subtract 16 (prim subtract 16 restBars : Nat) : Nat),
+  executable: true
 }
 
 definition{
   name: stepSattvaClarityPermille,
   parameters: [busWeight : Nat, harmonyPct : Nat, velocityDm : Nat],
   result: Nat,
-  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight); (let ch : Nat := (clampVedantaHarmonyPct harmonyPct); (let cv : Nat := (clampVedantaVelocityDm velocityDm); (prim subtract ((340 + (prim multiply cw 16 : Nat)) + (prim multiply ch 3 : Nat)) (prim multiply cv 4 : Nat) : Nat))))
+  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight); (let ch : Nat := (clampVedantaHarmonyPct harmonyPct); (let cv : Nat := (clampVedantaVelocityDm velocityDm); (prim subtract ((340 + (prim multiply cw 16 : Nat)) + (prim multiply ch 3 : Nat)) (prim multiply cv 4 : Nat) : Nat)))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepRajasActivityPermille,
   parameters: [velocityDm : Nat],
   result: Nat,
-  body: (60 + (prim multiply (clampVedantaVelocityDm velocityDm) 3 : Nat))
+  body: (60 + (prim multiply (clampVedantaVelocityDm velocityDm) 3 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepTamasGroundingPermille,
   parameters: [busWeight : Nat, harmonyPct : Nat, velocityDm : Nat],
   result: Nat,
-  body: (prim subtract (trigunaConservationUnitPermille) ((stepSattvaClarityPermille busWeight harmonyPct velocityDm) + (stepRajasActivityPermille velocityDm)) : Nat)
+  body: (prim subtract (trigunaConservationUnitPermille) ((stepSattvaClarityPermille busWeight harmonyPct velocityDm) + (stepRajasActivityPermille velocityDm)) : Nat),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepAtmanBrahmanNonDualPermille,
   parameters: [busWeight : Nat, harmonyPct : Nat],
   result: Nat,
-  body: ((560 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 18 : Nat)) + (clampVedantaHarmonyPct harmonyPct))
+  body: ((560 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 18 : Nat)) + (clampVedantaHarmonyPct harmonyPct)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepTuriyaSilentWitnessPermille,
   parameters: [busWeight : Nat, restBars : Nat],
   result: Nat,
-  body: ((480 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat)) + (prim multiply (clampVedantaRestBars restBars) 12 : Nat))
+  body: ((480 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat)) + (prim multiply (clampVedantaRestBars restBars) 12 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -167,7 +180,9 @@ definition{
   name: verifyTrigunaConservationLaw,
   parameters: [busWeight : Nat, harmonyPct : Nat, velocityDm : Nat],
   result: Bool,
-  body: (let s : Nat := (stepSattvaClarityPermille busWeight harmonyPct velocityDm); (let r : Nat := (stepRajasActivityPermille velocityDm); (let t : Nat := (stepTamasGroundingPermille busWeight harmonyPct velocityDm); ((((((s + r) + t) <=? (trigunaConservationUnitPermille)) && ((trigunaConservationUnitPermille) <=? ((s + r) + t))) && (236 <=? s)) && ((60 <=? r) && (44 <=? t))))))
+  body: (let s : Nat := (stepSattvaClarityPermille busWeight harmonyPct velocityDm); (let r : Nat := (stepRajasActivityPermille velocityDm); (let t : Nat := (stepTamasGroundingPermille busWeight harmonyPct velocityDm); ((((((s + r) + t) <=? (trigunaConservationUnitPermille)) && ((trigunaConservationUnitPermille) <=? ((s + r) + t))) && (236 <=? s)) && ((60 <=? r) && (44 <=? t)))))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

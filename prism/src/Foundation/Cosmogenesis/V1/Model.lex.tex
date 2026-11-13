@@ -166,14 +166,16 @@ definition{
   name: createdRealmCount,
   parameters: [],
   result: Nat,
-  body: (prim subtract (Foundation.Neuromorphic.V1.Model::observerPartCountTotal) (Foundation.Neuromorphic.V1.Model::weightInitial) : Nat)
+  body: (prim subtract (Foundation.Neuromorphic.V1.Model::observerPartCountTotal) (Foundation.Neuromorphic.V1.Model::weightInitial) : Nat),
+  executable: true
 }
 
 definition{
   name: observerMonumentCount,
   parameters: [],
   result: Nat,
-  body: (Foundation.Neuromorphic.V1.Model::crystalPrime)
+  body: (Foundation.Neuromorphic.V1.Model::crystalPrime),
+  executable: true
 }
 
 definition{
@@ -181,7 +183,8 @@ definition{
   parameters: [alphaSeed : Nat],
   result: Nat,
   body: (let span : Nat := (prim subtract (Foundation.Neuromorphic.V1.Model::weightMax) 1 : Nat); (prim subtract (Foundation.Neuromorphic.V1.Model::weightMax) (prim subtract span (prim subtract alphaSeed 1 : Nat) : Nat) : Nat)),
-  executable: true
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
@@ -197,154 +200,190 @@ definition{
   name: synthesizeParametricCanonicalSeed,
   parameters: [alphaSeed : Nat, wBus : Nat],
   result: Nat,
-  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wBus); (let s : Nat := (clampAlphaSeed alphaSeed); (let lightPrimeTerm : Nat := (prim multiply (cosmogenesisBasisPrime) (Foundation.Neuromorphic.V1.Model::starlightPrime) : Nat); (let biotaSeedTerm : Nat := (prim multiply (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::echoLotusPrime) : Nat) (Foundation.Ecology.V1.Model::verdantEcologyBasisPrime) : Nat); ((prim multiply lightPrimeTerm cw : Nat) + (prim multiply s biotaSeedTerm : Nat))))))
+  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wBus); (let s : Nat := (clampAlphaSeed alphaSeed); (let lightPrimeTerm : Nat := (prim multiply (cosmogenesisBasisPrime) (Foundation.Neuromorphic.V1.Model::starlightPrime) : Nat); (let biotaSeedTerm : Nat := (prim multiply (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::echoLotusPrime) : Nat) (Foundation.Ecology.V1.Model::verdantEcologyBasisPrime) : Nat); ((prim multiply lightPrimeTerm cw : Nat) + (prim multiply s biotaSeedTerm : Nat)))))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: synthesizeParametricConcertPitchCentiHz,
   parameters: [alphaSeed : Nat, wAcoustics : Nat],
   result: Nat,
-  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wAcoustics); (let s : Nat := (clampAlphaSeed alphaSeed); (let g : Nat := (Foundation.Neuromorphic.V1.Model::grovePrime); (let g2 : Nat := (prim multiply g g : Nat); (let g4 : Nat := (prim multiply g2 g2 : Nat); (let fernLotus : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::pulseFernPrime) (Foundation.Neuromorphic.V1.Model::echoLotusPrime) : Nat); (let baseCentiHz : Nat := (prim multiply g4 fernLotus : Nat); (let pAcoustics : Nat := (Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime); (let w0 : Nat := (Foundation.Neuromorphic.V1.Model::weightInitial); (let seedDelta : Nat := (prim subtract s 1 : Nat); (if (alphaSeed <=? 1) then baseCentiHz else ((baseCentiHz + (prim multiply seedDelta (prim multiply pAcoustics w0 : Nat) : Nat)) + (prim multiply (prim subtract cw w0 : Nat) pAcoustics : Nat)))))))))))))
+  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wAcoustics); (let s : Nat := (clampAlphaSeed alphaSeed); (let g : Nat := (Foundation.Neuromorphic.V1.Model::grovePrime); (let g2 : Nat := (prim multiply g g : Nat); (let g4 : Nat := (prim multiply g2 g2 : Nat); (let fernLotus : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::pulseFernPrime) (Foundation.Neuromorphic.V1.Model::echoLotusPrime) : Nat); (let baseCentiHz : Nat := (prim multiply g4 fernLotus : Nat); (let pAcoustics : Nat := (Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime); (let w0 : Nat := (Foundation.Neuromorphic.V1.Model::weightInitial); (let seedDelta : Nat := (prim subtract s 1 : Nat); (if (alphaSeed <=? 1) then baseCentiHz else ((baseCentiHz + (prim multiply seedDelta (prim multiply pAcoustics w0 : Nat) : Nat)) + (prim multiply (prim subtract cw w0 : Nat) pAcoustics : Nat))))))))))))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: synthesizeParametricInorganicScalePermille,
   parameters: [alphaSeed : Nat, wPhysics : Nat, wInfra : Nat],
   result: Nat,
-  body: (let wp : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wPhysics); (let wi : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wInfra); (let s : Nat := (clampAlphaSeed alphaSeed); (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let hexCoeff : Nat := (prim multiply m (Foundation.Neuromorphic.V1.Model::grovePrime) : Nat); (let quadCoeff : Nat := (prim multiply m m : Nat); (let decaCoeff : Nat := (prim multiply m (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat); ((((prim multiply (Foundation.Infrastructure.V1.Model::verdantInfrastructureBasisPrime) hexCoeff : Nat) + (prim multiply (Foundation.Physics.V1.Model::verdantPhysicsBasisPrime) quadCoeff : Nat)) + (prim multiply (wp + wi) (Foundation.Neuromorphic.V1.Model::pulseFernPrime) : Nat)) + (prim multiply s decaCoeff : Nat)))))))))
+  body: (let wp : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wPhysics); (let wi : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wInfra); (let s : Nat := (clampAlphaSeed alphaSeed); (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let hexCoeff : Nat := (prim multiply m (Foundation.Neuromorphic.V1.Model::grovePrime) : Nat); (let quadCoeff : Nat := (prim multiply m m : Nat); (let decaCoeff : Nat := (prim multiply m (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat); ((((prim multiply (Foundation.Infrastructure.V1.Model::verdantInfrastructureBasisPrime) hexCoeff : Nat) + (prim multiply (Foundation.Physics.V1.Model::verdantPhysicsBasisPrime) quadCoeff : Nat)) + (prim multiply (wp + wi) (Foundation.Neuromorphic.V1.Model::pulseFernPrime) : Nat)) + (prim multiply s decaCoeff : Nat))))))))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: synthesizeParametricOrganicVitalityPermille,
   parameters: [alphaSeed : Nat, wBotany : Nat, wEcology : Nat],
   result: Nat,
-  body: (let wb : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wBotany); (let we : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wEcology); (let s : Nat := (clampAlphaSeed alphaSeed); (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let groveWetlandCoeff : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::grovePrime) (Foundation.Neuromorphic.V1.Model::wetlandPrime) : Nat); (let vigesimalCoeff : Nat := (prim multiply (prim multiply m m : Nat) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat); ((((prim multiply (Foundation.Botany.V1.Model::verdantBotanyBasisPrime) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat) + (prim multiply (Foundation.Ecology.V1.Model::verdantEcologyBasisPrime) (Foundation.Neuromorphic.V1.Model::grovePrime) : Nat)) + (prim multiply (wb + we) groveWetlandCoeff : Nat)) + (prim multiply s vigesimalCoeff : Nat))))))))
+  body: (let wb : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wBotany); (let we : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wEcology); (let s : Nat := (clampAlphaSeed alphaSeed); (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let groveWetlandCoeff : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::grovePrime) (Foundation.Neuromorphic.V1.Model::wetlandPrime) : Nat); (let vigesimalCoeff : Nat := (prim multiply (prim multiply m m : Nat) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat); ((((prim multiply (Foundation.Botany.V1.Model::verdantBotanyBasisPrime) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat) + (prim multiply (Foundation.Ecology.V1.Model::verdantEcologyBasisPrime) (Foundation.Neuromorphic.V1.Model::grovePrime) : Nat)) + (prim multiply (wb + we) groveWetlandCoeff : Nat)) + (prim multiply s vigesimalCoeff : Nat)))))))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: synthesizeParametricPlayerEmbodimentPermille,
   parameters: [alphaSeed : Nat, wHumane : Nat, wAcoustics : Nat],
   result: Nat,
-  body: (let wh : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wHumane); (let wa : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wAcoustics); (let s : Nat := (clampAlphaSeed alphaSeed); (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let quadCoeff : Nat := (prim multiply m m : Nat); ((((prim multiply (Foundation.Humane.V1.Model::verdantHumaneBasisPrime) quadCoeff : Nat) + (prim multiply (Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime) (Foundation.Neuromorphic.V1.Model::grovePrime) : Nat)) + (prim multiply (wh + wa) (Foundation.Neuromorphic.V1.Model::echoLotusPrime) : Nat)) + (prim multiply s (Foundation.Neuromorphic.V1.Model::pulseFernPrime) : Nat)))))))
+  body: (let wh : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wHumane); (let wa : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wAcoustics); (let s : Nat := (clampAlphaSeed alphaSeed); (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let quadCoeff : Nat := (prim multiply m m : Nat); ((((prim multiply (Foundation.Humane.V1.Model::verdantHumaneBasisPrime) quadCoeff : Nat) + (prim multiply (Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime) (Foundation.Neuromorphic.V1.Model::grovePrime) : Nat)) + (prim multiply (wh + wa) (Foundation.Neuromorphic.V1.Model::echoLotusPrime) : Nat)) + (prim multiply s (Foundation.Neuromorphic.V1.Model::pulseFernPrime) : Nat))))))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: extrapolateHighestResolutionSubdiv,
   parameters: [alphaSeed : Nat, wBus : Nat],
   result: Nat,
-  body: (let s : Nat := (clampAlphaSeed alphaSeed); (let seedDelta : Nat := (prim subtract s 1 : Nat); ((Foundation.Neuromorphic.V1.Model::stepSupraDirectiveDefinitionSubdiv wBus) + (prim multiply seedDelta (Foundation.Neuromorphic.V1.Model::meadowPrime) : Nat))))
+  body: (let s : Nat := (clampAlphaSeed alphaSeed); (let seedDelta : Nat := (prim subtract s 1 : Nat); ((Foundation.Neuromorphic.V1.Model::stepSupraDirectiveDefinitionSubdiv wBus) + (prim multiply seedDelta (Foundation.Neuromorphic.V1.Model::meadowPrime) : Nat)))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: extrapolateHighestResolutionPermille,
   parameters: [alphaSeed : Nat, wBus : Nat],
   result: Nat,
-  body: (let s : Nat := (clampAlphaSeed alphaSeed); ((Foundation.Neuromorphic.V1.Model::stepSupraDirectiveQualityPermille wBus) + (prim multiply s (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat)))
+  body: (let s : Nat := (clampAlphaSeed alphaSeed); ((Foundation.Neuromorphic.V1.Model::stepSupraDirectiveQualityPermille wBus) + (prim multiply s (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepPartDifferentiationNicheIndex,
   parameters: [domainPrime : Nat, wDomain : Nat, dyadicPeriod : Nat],
   result: Nat,
-  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wDomain); ((prim multiply domainPrime cw : Nat) + dyadicPeriod))
+  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wDomain); ((prim multiply domainPrime cw : Nat) + dyadicPeriod)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: verifyTheoryOfMindDifferentiationAndDiversity,
   parameters: [wBus : Nat],
   result: Bool,
-  body: (let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated wBus); (let pInfra : Nat := (Foundation.Infrastructure.V1.Model::verdantInfrastructureBasisPrime); (let pBotany : Nat := (Foundation.Botany.V1.Model::verdantBotanyBasisPrime); (let pAcoustics : Nat := (Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime); (let pBrand : Nat := (Foundation.Brand.V1.Model::verdantBrandBasisPrime); (let pNeuro : Nat := (Foundation.Neuromorphic.V1.Model::neuromorphicBasisPrime); (let per1 : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let per2 : Nat := (prim multiply per1 per1 : Nat); ((((((stepPartDifferentiationNicheIndex pInfra wBus per1) <? (stepPartDifferentiationNicheIndex pBotany wBus per1)) && ((stepPartDifferentiationNicheIndex pBotany wBus per1) <? (stepPartDifferentiationNicheIndex pAcoustics wBus per2))) && ((stepPartDifferentiationNicheIndex pAcoustics wBus per2) <? (stepPartDifferentiationNicheIndex pBrand wBus per2))) && ((stepPartDifferentiationNicheIndex pBrand wBus per2) <? (stepPartDifferentiationNicheIndex pNeuro wBus per2))) && ((stepPartDifferentiationNicheIndex pBotany wBus per1) <=? (stepPartDifferentiationNicheIndex pBotany nextW per1)))))))))))
+  body: (let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated wBus); (let pInfra : Nat := (Foundation.Infrastructure.V1.Model::verdantInfrastructureBasisPrime); (let pBotany : Nat := (Foundation.Botany.V1.Model::verdantBotanyBasisPrime); (let pAcoustics : Nat := (Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime); (let pBrand : Nat := (Foundation.Brand.V1.Model::verdantBrandBasisPrime); (let pNeuro : Nat := (Foundation.Neuromorphic.V1.Model::neuromorphicBasisPrime); (let per1 : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let per2 : Nat := (prim multiply per1 per1 : Nat); ((((((stepPartDifferentiationNicheIndex pInfra wBus per1) <? (stepPartDifferentiationNicheIndex pBotany wBus per1)) && ((stepPartDifferentiationNicheIndex pBotany wBus per1) <? (stepPartDifferentiationNicheIndex pAcoustics wBus per2))) && ((stepPartDifferentiationNicheIndex pAcoustics wBus per2) <? (stepPartDifferentiationNicheIndex pBrand wBus per2))) && ((stepPartDifferentiationNicheIndex pBrand wBus per2) <? (stepPartDifferentiationNicheIndex pNeuro wBus per2))) && ((stepPartDifferentiationNicheIndex pBotany wBus per1) <=? (stepPartDifferentiationNicheIndex pBotany nextW per1))))))))))),
+  executable: true
 }
 
 definition{
   name: verifyObserverCreatesAllThreeRealms,
   parameters: [alphaSeed : Nat, wBus : Nat],
   result: Bool,
-  body: (let inorg : Nat := (synthesizeParametricInorganicScalePermille alphaSeed wBus wBus); (let org : Nat := (synthesizeParametricOrganicVitalityPermille alphaSeed wBus wBus); (let ply : Nat := (synthesizeParametricPlayerEmbodimentPermille alphaSeed wBus wBus); (let deca : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat); (let minViablePermille : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::wetlandPrime) (prim multiply deca deca : Nat) : Nat); ((((createdRealmCount) =? (Foundation.Neuromorphic.V1.Model::grovePrime)) && (minViablePermille <=? inorg)) && ((minViablePermille <=? org) && (minViablePermille <=? ply))))))))
+  body: (let inorg : Nat := (synthesizeParametricInorganicScalePermille alphaSeed wBus wBus); (let org : Nat := (synthesizeParametricOrganicVitalityPermille alphaSeed wBus wBus); (let ply : Nat := (synthesizeParametricPlayerEmbodimentPermille alphaSeed wBus wBus); (let deca : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat); (let minViablePermille : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::wetlandPrime) (prim multiply deca deca : Nat) : Nat); ((((createdRealmCount) =? (Foundation.Neuromorphic.V1.Model::grovePrime)) && (minViablePermille <=? inorg)) && ((minViablePermille <=? org) && (minViablePermille <=? ply)))))))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: preferenceDomainCount,
   parameters: [],
   result: Nat,
-  body: (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::grovePrime) : Nat)
+  body: (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::grovePrime) : Nat),
+  executable: true
 }
 
 definition{
   name: affectiveEmotionArchetypeCount,
   parameters: [],
   result: Nat,
-  body: (preferenceDomainCount)
+  body: (preferenceDomainCount),
+  executable: true
 }
 
 definition{
   name: permilleScaleUnit,
   parameters: [],
   result: Nat,
-  body: (let c : Nat := (Foundation.Neuromorphic.V1.Model::crystalPrime); (let c3 : Nat := (prim multiply c (prim multiply c c : Nat) : Nat); (prim multiply (Foundation.Neuromorphic.V1.Model::weightInitial) c3 : Nat)))
+  body: (let c : Nat := (Foundation.Neuromorphic.V1.Model::crystalPrime); (let c3 : Nat := (prim multiply c (prim multiply c c : Nat) : Nat); (prim multiply (Foundation.Neuromorphic.V1.Model::weightInitial) c3 : Nat))),
+  executable: true
 }
 
 definition{
   name: goldenChaosEquilibriumPermille,
   parameters: [],
   result: Nat,
-  body: (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (prim multiply (prim multiply m m : Nat) (Foundation.Neuromorphic.V1.Model::attunePrime) : Nat))
+  body: (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (prim multiply (prim multiply m m : Nat) (Foundation.Neuromorphic.V1.Model::attunePrime) : Nat)),
+  executable: true
 }
 
 definition{
   name: goldenHarmonyEquilibriumPermille,
   parameters: [],
   result: Nat,
-  body: (prim subtract (permilleScaleUnit) (goldenChaosEquilibriumPermille) : Nat)
+  body: (prim subtract (permilleScaleUnit) (goldenChaosEquilibriumPermille) : Nat),
+  executable: true
 }
 
 definition{
   name: stepFoundationalHarmonyPermille,
   parameters: [wBus : Nat, dyadicOrder : Nat],
   result: Nat,
-  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wBus); (let baseH : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::weightMax) (prim multiply (Foundation.Neuromorphic.V1.Model::crystalPrime) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat) : Nat); (let gainH : Nat := (prim multiply cw (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::sanctuaryPrime) : Nat) : Nat); (let dyadicH : Nat := (prim multiply (dyadicOrder + dyadicOrder) (preferenceDomainCount) : Nat); ((baseH + gainH) + dyadicH)))))
+  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wBus); (let baseH : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::weightMax) (prim multiply (Foundation.Neuromorphic.V1.Model::crystalPrime) (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat) : Nat); (let gainH : Nat := (prim multiply cw (prim multiply (Foundation.Neuromorphic.V1.Model::meadowPrime) (Foundation.Neuromorphic.V1.Model::sanctuaryPrime) : Nat) : Nat); (let dyadicH : Nat := (prim multiply (dyadicOrder + dyadicOrder) (preferenceDomainCount) : Nat); ((baseH + gainH) + dyadicH))))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepFoundationalChaosPermille,
   parameters: [wBus : Nat, aperiodicDepth : Nat],
   result: Nat,
-  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wBus); (let baseX : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::weightInitial) ((Foundation.Neuromorphic.V1.Model::chimeLilyPrime) + (Foundation.Neuromorphic.V1.Model::meadowPrime)) : Nat); (let compCoeff : Nat := ((prim multiply 3 12 : Nat) + (prim multiply cw 4 : Nat)); (baseX + (prim multiply (prim subtract aperiodicDepth 2 : Nat) compCoeff : Nat)))))
+  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wBus); (let baseX : Nat := (prim multiply (Foundation.Neuromorphic.V1.Model::weightInitial) ((Foundation.Neuromorphic.V1.Model::chimeLilyPrime) + (Foundation.Neuromorphic.V1.Model::meadowPrime)) : Nat); (let compCoeff : Nat := ((prim multiply 3 12 : Nat) + (prim multiply cw 4 : Nat)); (baseX + (prim multiply (prim subtract aperiodicDepth 2 : Nat) compCoeff : Nat))))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepFoundationalAffectValencePermille,
   parameters: [wBus : Nat],
   result: Nat,
-  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wBus); (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let quad : Nat := (prim multiply m m : Nat); (let baseV : Nat := (prim multiply quad (prim multiply m (prim multiply (Foundation.Neuromorphic.V1.Model::crystalPrime) (Foundation.Neuromorphic.V1.Model::chimeLilyPrime) : Nat) : Nat) : Nat); (let gainV : Nat := (prim multiply cw (prim multiply quad (Foundation.Neuromorphic.V1.Model::wetlandPrime) : Nat) : Nat); (baseV + gainV))))))
+  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wBus); (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let quad : Nat := (prim multiply m m : Nat); (let baseV : Nat := (prim multiply quad (prim multiply m (prim multiply (Foundation.Neuromorphic.V1.Model::crystalPrime) (Foundation.Neuromorphic.V1.Model::chimeLilyPrime) : Nat) : Nat) : Nat); (let gainV : Nat := (prim multiply cw (prim multiply quad (Foundation.Neuromorphic.V1.Model::wetlandPrime) : Nat) : Nat); (baseV + gainV)))))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepObserverPreferenceFulfillmentPermille,
   parameters: [domainPrime : Nat, wDomain : Nat],
   result: Nat,
-  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wDomain); (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let quad : Nat := (prim multiply m m : Nat); (let g : Nat := (Foundation.Neuromorphic.V1.Model::grovePrime); (let baseP : Nat := (prim multiply quad (prim multiply g (prim multiply g (prim multiply g (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat) : Nat) : Nat) : Nat); (let gainP : Nat := (prim multiply cw (prim multiply m (Foundation.Neuromorphic.V1.Model::chimeLilyPrime) : Nat) : Nat); ((baseP + gainP) + domainPrime)))))))
+  body: (let cw : Nat := (Foundation.Neuromorphic.V1.Model::clampBusWeight wDomain); (let m : Nat := (Foundation.Neuromorphic.V1.Model::meadowPrime); (let quad : Nat := (prim multiply m m : Nat); (let g : Nat := (Foundation.Neuromorphic.V1.Model::grovePrime); (let baseP : Nat := (prim multiply quad (prim multiply g (prim multiply g (prim multiply g (Foundation.Neuromorphic.V1.Model::crystalPrime) : Nat) : Nat) : Nat) : Nat); (let gainP : Nat := (prim multiply cw (prim multiply m (Foundation.Neuromorphic.V1.Model::chimeLilyPrime) : Nat) : Nat); ((baseP + gainP) + domainPrime))))))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: verifyFoundationalAffectAndPreferencesClosure,
   parameters: [wBus : Nat],
   result: Bool,
-  body: (let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated wBus); (let pBotany : Nat := (Foundation.Botany.V1.Model::verdantBotanyBasisPrime); (let pAcoustics : Nat := (Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime); (let pBrand : Nat := (Foundation.Brand.V1.Model::verdantBrandBasisPrime); ((((((((goldenHarmonyEquilibriumPermille) + (goldenChaosEquilibriumPermille)) =? (permilleScaleUnit)) && ((goldenChaosEquilibriumPermille) <? (goldenHarmonyEquilibriumPermille))) && ((stepFoundationalChaosPermille wBus 1) <? (stepFoundationalChaosPermille wBus 3))) && ((stepFoundationalHarmonyPermille wBus 2) <=? (stepFoundationalHarmonyPermille nextW 2))) && ((stepFoundationalAffectValencePermille wBus) <=? (stepFoundationalAffectValencePermille nextW))) && (((stepObserverPreferenceFulfillmentPermille pBotany wBus) <? (stepObserverPreferenceFulfillmentPermille pAcoustics wBus)) && ((stepObserverPreferenceFulfillmentPermille pAcoustics wBus) <? (stepObserverPreferenceFulfillmentPermille pBrand wBus))))))))
+  body: (let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated wBus); (let pBotany : Nat := (Foundation.Botany.V1.Model::verdantBotanyBasisPrime); (let pAcoustics : Nat := (Foundation.Acoustics.V1.Model::verdantAcousticsBasisPrime); (let pBrand : Nat := (Foundation.Brand.V1.Model::verdantBrandBasisPrime); ((((((((goldenHarmonyEquilibriumPermille) + (goldenChaosEquilibriumPermille)) =? (permilleScaleUnit)) && ((goldenChaosEquilibriumPermille) <? (goldenHarmonyEquilibriumPermille))) && ((stepFoundationalChaosPermille wBus 1) <? (stepFoundationalChaosPermille wBus 3))) && ((stepFoundationalHarmonyPermille wBus 2) <=? (stepFoundationalHarmonyPermille nextW 2))) && ((stepFoundationalAffectValencePermille wBus) <=? (stepFoundationalAffectValencePermille nextW))) && (((stepObserverPreferenceFulfillmentPermille pBotany wBus) <? (stepObserverPreferenceFulfillmentPermille pAcoustics wBus)) && ((stepObserverPreferenceFulfillmentPermille pAcoustics wBus) <? (stepObserverPreferenceFulfillmentPermille pBrand wBus)))))))),
+  executable: true
 }
 
 definition{
   name: verifyFourfoldObserverImmanence,
   parameters: [alphaSeed : Nat, wBus : Nat],
   result: Bool,
-  body: (let wMax : Nat := (Foundation.Neuromorphic.V1.Model::weightMax); (((((0 <? (Foundation.Neuromorphic.V1.Model::stepWisdomPhenomenonModulation wBus)) && (verifyObserverCreatesAllThreeRealms alphaSeed wBus)) && ((extrapolateHighestResolutionSubdiv alphaSeed wBus) <=? (extrapolateHighestResolutionSubdiv alphaSeed wMax))) && ((Foundation.Brand.V1.Model::verifyParametricDisplayDesignClosure wBus) && (verifyTheoryOfMindDifferentiationAndDiversity wBus))) && (verifyFoundationalAffectAndPreferencesClosure wBus)))
+  body: (let wMax : Nat := (Foundation.Neuromorphic.V1.Model::weightMax); (((((0 <? (Foundation.Neuromorphic.V1.Model::stepWisdomPhenomenonModulation wBus)) && (verifyObserverCreatesAllThreeRealms alphaSeed wBus)) && ((extrapolateHighestResolutionSubdiv alphaSeed wBus) <=? (extrapolateHighestResolutionSubdiv alphaSeed wMax))) && ((Foundation.Brand.V1.Model::verifyParametricDisplayDesignClosure wBus) && (verifyTheoryOfMindDifferentiationAndDiversity wBus))) && (verifyFoundationalAffectAndPreferencesClosure wBus))),
+  executable: true
 }
 
 definition{
   name: verifyAlphaOmegaParametricClosure,
   parameters: [alphaSeed : Nat, wBus : Nat],
   result: Bool,
-  body: (let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated wBus); ((((((verifyObserverCreatesAllThreeRealms alphaSeed wBus) && ((stepAlphaOmegaFieldPotential alphaSeed wBus) <=? (stepAlphaOmegaFieldPotential alphaSeed nextW))) && ((synthesizeParametricCanonicalSeed alphaSeed wBus) <=? (synthesizeParametricCanonicalSeed alphaSeed nextW))) && ((synthesizeParametricConcertPitchCentiHz alphaSeed wBus) <=? (synthesizeParametricConcertPitchCentiHz alphaSeed nextW))) && ((synthesizeParametricInorganicScalePermille alphaSeed wBus wBus) <=? (synthesizeParametricInorganicScalePermille alphaSeed nextW nextW))) && (((synthesizeParametricOrganicVitalityPermille alphaSeed wBus wBus) <=? (synthesizeParametricOrganicVitalityPermille alphaSeed nextW nextW)) && (((synthesizeParametricPlayerEmbodimentPermille alphaSeed wBus wBus) <=? (synthesizeParametricPlayerEmbodimentPermille alphaSeed nextW nextW)) && (verifyFourfoldObserverImmanence alphaSeed wBus)))))
+  body: (let nextW : Nat := (Foundation.Neuromorphic.V1.Model::learnWeightPotentiated wBus); ((((((verifyObserverCreatesAllThreeRealms alphaSeed wBus) && ((stepAlphaOmegaFieldPotential alphaSeed wBus) <=? (stepAlphaOmegaFieldPotential alphaSeed nextW))) && ((synthesizeParametricCanonicalSeed alphaSeed wBus) <=? (synthesizeParametricCanonicalSeed alphaSeed nextW))) && ((synthesizeParametricConcertPitchCentiHz alphaSeed wBus) <=? (synthesizeParametricConcertPitchCentiHz alphaSeed nextW))) && ((synthesizeParametricInorganicScalePermille alphaSeed wBus wBus) <=? (synthesizeParametricInorganicScalePermille alphaSeed nextW nextW))) && (((synthesizeParametricOrganicVitalityPermille alphaSeed wBus wBus) <=? (synthesizeParametricOrganicVitalityPermille alphaSeed nextW nextW)) && (((synthesizeParametricPlayerEmbodimentPermille alphaSeed wBus wBus) <=? (synthesizeParametricPlayerEmbodimentPermille alphaSeed nextW nextW)) && (verifyFourfoldObserverImmanence alphaSeed wBus))))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

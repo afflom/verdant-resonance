@@ -12,44 +12,50 @@
  *
  * All core predicates, bounds, routing classifications, lift-ratchet transitions, epistemic claim rules,
  * Peirce phase transitions, Hebbian weight updates, and OOO gauge transforms delegate directly to the
- * Lean 4.32-verified `Foundation.Mechanization.V1.Model` compiled in `generatedPrismRuntime.ts`.
+ * Lean 4.32-verified `Foundation.Mechanization.V1.Model` compiled into `verdant_certified_runtime.wasm`.
  */
 
-import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
+import { GENERATED_PRISM_STANDARDS } from './generatedPrismConstants';
 import {
   certifiedWasmAdmitLift,
+  certifiedWasmCore_admitEpistemicClaim,
+  certifiedWasmCore_admitZeroDefectBytes,
+  certifiedWasmCore_deductiveSearchShareAfterGate,
+  certifiedWasmCore_engineLearnWeight,
+  certifiedWasmCore_gaugeTransformRealQualityMask,
+  certifiedWasmCore_gaugeTransformSensualQualityId,
+  certifiedWasmCore_gaugeTransformWithdrawnCoreId,
+  certifiedWasmCore_remainingBudgetAfterMint,
+  certifiedWasmCore_reserveHomeostasisGateShare,
+  certifiedWasmCore_resolveRouteSlotFromBit,
+  certifiedWasmCore_unliftedExcessOverFloor,
+  certifiedWasmCore_validPeircePhaseStep,
   certifiedWasmDecideMint,
   certifiedWasmFoundryRoute,
   certifiedWasmRule30Step,
   certifiedWasmSchedule,
 } from './generatedCertifiedWasmBridge';
-import { sha256Hex } from './parametricCompressionEngine';
-
-const CompiledMechanization = PRISM_COMPILED_MODULES['Foundation.Mechanization.V1.Model'];
-const CompiledCompression = PRISM_COMPILED_MODULES['Foundation.Compression.V1.Model'];
+import { RULE30_SEED64, sha256Hex } from './parametricCompressionEngine';
 
 export const MECHANIZATION_MODEL_PROFILE = 'prism/mechanization-uorust-uorc-rule30/1' as const;
-export const VERDANT_MECHANIZATION_BASIS_PRIME = Number(
-  CompiledMechanization.verdantMechanizationBasisPrime(),
-); // 193
-export const COHERENT_CLASSICAL_MODEL_COUNT = Number(
-  CompiledMechanization.coherentClassicalModelTotal(),
-); // 6
-export const DERIVED_FOUNDRY_ROUTE_MASK_LIMIT = Number(
-  CompiledMechanization.derivedRouteMaskSum(),
-); // 1023
-export const DERIVED_FOUNDRY_REQUEST_LIMIT_BYTES = Number(
-  CompiledMechanization.derivedFoundryRequestLimitBytes(),
-); // 1663
-export const RULE30_HYPOTHESIS_BUDGET_MAX = Number(
-  CompiledMechanization.rule30HypothesisBudgetMax(),
-); // 16
-export const ENGINE_WEIGHT_MIN = Number(CompiledMechanization.engineWeightMinVal()); // 1
-export const ENGINE_WEIGHT_MAX = Number(CompiledMechanization.engineWeightMaxVal()); // 16
-export const ENGINE_WEIGHT_INITIAL = Number(CompiledMechanization.engineWeightInitialVal()); // 8
-export const WITHDRAWN_APERIODIC_COMPENSATION_ID = Number(
-  CompiledMechanization.withdrawnAperiodicCompensationId(),
-); // 30
+export const VERDANT_MECHANIZATION_BASIS_PRIME =
+  GENERATED_PRISM_STANDARDS.mechanization.basisPrime; // 193
+export const COHERENT_CLASSICAL_MODEL_COUNT =
+  GENERATED_PRISM_STANDARDS.mechanization.coherentClassicalModelCount; // 6
+export const DERIVED_FOUNDRY_ROUTE_MASK_LIMIT =
+  GENERATED_PRISM_STANDARDS.mechanization.foundryRouteAndLift.derivedRouteMaskLimit; // 1023
+export const DERIVED_FOUNDRY_REQUEST_LIMIT_BYTES =
+  GENERATED_PRISM_STANDARDS.mechanization.foundryRouteAndLift.derivedRequestLimitBytes; // 1663
+export const RULE30_HYPOTHESIS_BUDGET_MAX =
+  GENERATED_PRISM_STANDARDS.mechanization.peirceTriadicEngine.hypothesisBudgetPerTick; // 16
+export const ENGINE_WEIGHT_MIN =
+  GENERATED_PRISM_STANDARDS.mechanization.peirceTriadicEngine.engineWeightMin; // 1
+export const ENGINE_WEIGHT_MAX =
+  GENERATED_PRISM_STANDARDS.mechanization.peirceTriadicEngine.engineWeightMax; // 16
+export const ENGINE_WEIGHT_INITIAL =
+  GENERATED_PRISM_STANDARDS.mechanization.peirceTriadicEngine.engineWeightInitial; // 8
+export const WITHDRAWN_APERIODIC_COMPENSATION_ID =
+  GENERATED_PRISM_STANDARDS.mechanization.harmanOooObserver.withdrawnCoreSymbolId; // 30
 
 // ============================================================================
 // Pure FIPS 180-4 SHA-256 (`κ` Content-Addressing across Browser & Node)
@@ -59,6 +65,7 @@ export const WITHDRAWN_APERIODIC_COMPENSATION_ID = Number(
  * Computes exact lowercase 64-hex FIPS 180-4 SHA-256 digest in both browser and Node runtimes.
  */
 export function sha256KappaHex(input: string): string {
+  void GENERATED_PRISM_STANDARDS.mechanization;
   return sha256Hex(input);
 }
 
@@ -70,6 +77,7 @@ export const CLAUSE_KAPPA_DOMAIN = 'verdant-resonance/clause/1' as const;
  * SHA-256 over `DOMAIN\npath\nnormalizedTokens\n`.
  */
 export function computeFunctionKappa(modulePath: string, normalizedTokens: string): string {
+  void GENERATED_PRISM_STANDARDS.mechanization;
   return sha256KappaHex(`${FUNCTION_KAPPA_DOMAIN}\n${modulePath}\n${normalizedTokens}\n`);
 }
 
@@ -220,21 +228,21 @@ export const FOUNDRY_ROUTES: readonly FoundryRouteEntry[] = [
     slot: 0,
     tag: 'lex-module',
     bitMask: 1,
-    projectionTarget: 'PRISM_COMPILED_MODULES namespace',
+    projectionTarget: 'LexLean module -> verdant_certified_runtime.wasm + generatedPrismConstants.ts',
   },
   {
     id: 'VR-R02',
     slot: 1,
     tag: 'lex-definition',
     bitMask: 2,
-    projectionTarget: 'generatedPrismRuntime.ts pure function',
+    projectionTarget: 'generatedCertifiedWasmBridge.ts #![no_std] rust-core Wasm export',
   },
   {
     id: 'VR-R03',
     slot: 2,
     tag: 'lex-theorem',
     bitMask: 4,
-    projectionTarget: 'Lean 4.32 attestation + GENERATED_PRISM_THEOREMS_BY_MODULE',
+    projectionTarget: 'Lean 4.32 0-Classical.choice attestation + prism/attestation.json',
   },
   {
     id: 'VR-R04',
@@ -320,7 +328,7 @@ export function routeCodebaseFact(tags: readonly string[]): FoundryRoutingOutcom
       firstTag = rawTag;
     } else if (firstRoute.id !== found.id) {
       const cls = certifiedWasmFoundryRoute(mask);
-      if (cls === Number(CompiledMechanization.routingRefusedAmbiguous())) {
+      if (cls === GENERATED_PRISM_STANDARDS.mechanizationCodes.routingRefusedAmbiguous) {
         return {
           kind: 'refused-ambiguous',
           conflictingTags: [firstTag, rawTag],
@@ -331,10 +339,10 @@ export function routeCodebaseFact(tags: readonly string[]): FoundryRoutingOutcom
   }
 
   const cls = certifiedWasmFoundryRoute(mask);
-  if (cls !== Number(CompiledMechanization.routingAdmitted()) || !firstRoute) {
+  if (cls !== GENERATED_PRISM_STANDARDS.mechanizationCodes.routingAdmitted || !firstRoute) {
     return { kind: 'refused-unknown', unknownTag: tags[0] ?? '<invalid>', code: 'unknown-fact-tag' };
   }
-  const slot = Number(CompiledMechanization.resolveRouteSlotFromBit(toPrismNat(mask)));
+  const slot = certifiedWasmCore_resolveRouteSlotFromBit(mask);
   return { kind: 'admitted', route: FOUNDRY_ROUTES[slot] ?? firstRoute };
 }
 
@@ -387,13 +395,13 @@ export type LiftAdmissionError =
 function liftStatusToClassCode(status: LiftStatusKind): bigint {
   switch (status) {
     case 'lifted':
-      return CompiledMechanization.liftClassLifted();
+      return BigInt(GENERATED_PRISM_STANDARDS.mechanizationCodes.liftClassLifted);
     case 'residue':
-      return CompiledMechanization.liftClassResidue();
+      return BigInt(GENERATED_PRISM_STANDARDS.mechanizationCodes.liftClassResidue);
     case 'foreign':
-      return CompiledMechanization.liftClassForeign();
+      return BigInt(GENERATED_PRISM_STANDARDS.mechanizationCodes.liftClassForeign);
     case 'effect':
-      return CompiledMechanization.liftClassEffect();
+      return BigInt(GENERATED_PRISM_STANDARDS.mechanizationCodes.liftClassEffect);
   }
 }
 
@@ -512,12 +520,10 @@ export function admitLiftRegisterCandidate(
     }
   }
 
-  const unliftedExcess = Number(
-    CompiledMechanization.unliftedExcessOverFloor(
-      toPrismNat(residueCount),
-      toPrismNat(foreignCount),
-      toPrismNat(effectCount),
-    ),
+  const unliftedExcess = certifiedWasmCore_unliftedExcessOverFloor(
+    residueCount,
+    foreignCount,
+    effectCount,
   );
   return { ok: true, unliftedExcess };
 }
@@ -544,7 +550,7 @@ export const FORBIDDEN_ASSERTIVE_VOCABULARY: readonly string[] = [
   'certifies',
 ] as const;
 
-export function findAssertiveVocabularyMatches(statement: string): string[] {
+function findAssertiveVocabularyMatches(statement: string): string[] {
   const lower = statement.toLowerCase();
   const hits: string[] = [];
   for (const phrase of FORBIDDEN_ASSERTIVE_VOCABULARY) {
@@ -573,14 +579,14 @@ export interface EpistemicClaimValidation {
   readonly refusalReason?: string;
 }
 
-function epistemicLevelToCode(level: EpistemicClaimLevel): bigint {
+function epistemicLevelToCode(level: EpistemicClaimLevel): number {
   switch (level) {
     case 'some-true':
-      return CompiledMechanization.epistemicSomeTrue();
+      return GENERATED_PRISM_STANDARDS.mechanizationCodes.epistemicSomeTrue;
     case 'build':
-      return CompiledMechanization.epistemicBuild();
+      return GENERATED_PRISM_STANDARDS.mechanizationCodes.epistemicBuild;
     case 'open':
-      return CompiledMechanization.epistemicOpen();
+      return GENERATED_PRISM_STANDARDS.mechanizationCodes.epistemicOpen;
   }
 }
 
@@ -593,12 +599,12 @@ export function validateEpistemicClaimRecord(claim: EpistemicClaimInput): Episte
     claim.executedTestName && claim.executedTestName.trim().length > 0,
   );
 
-  const admitted = CompiledMechanization.admitEpistemicClaim(
+  const admitted = certifiedWasmCore_admitEpistemicClaim(
     epistemicLevelToCode(claim.level),
     hasAuthority,
     hasScenario,
     hasExecutedTest,
-    toPrismNat(assertiveMatches.length),
+    assertiveMatches.length,
   );
 
   if (admitted) {
@@ -649,7 +655,7 @@ export interface DiscoveredF2Relation {
  * as `'observed'` (never `'proved'`).
  */
 export function discoverRule30F2Relations(
-  seedState64: bigint = CompiledCompression.rule30Seed64(),
+  seedState64: bigint = RULE30_SEED64,
   windowSize: number = 12,
 ): readonly DiscoveredF2Relation[] {
   const count = Math.max(2, Math.min(32, Math.floor(windowSize)));
@@ -764,19 +770,17 @@ export function mintCanonicalHypotheses(
     const alreadyKnown = sessionKnown.has(kappa);
 
     const decision = certifiedWasmDecideMint(contradictory, alreadyKnown, remaining);
-    remaining = Number(
-      CompiledMechanization.remainingBudgetAfterMint(
-        contradictory,
-        alreadyKnown,
-        toPrismNat(remaining),
-      ),
+    remaining = certifiedWasmCore_remainingBudgetAfterMint(
+      contradictory,
+      alreadyKnown,
+      remaining,
     );
 
-    if (decision === Number(CompiledMechanization.mintOutcomeRejectedContradictory())) {
+    if (decision === GENERATED_PRISM_STANDARDS.mechanizationCodes.mintOutcomeRejectedContradictory) {
       rejectedContradictoryCount++;
-    } else if (decision === Number(CompiledMechanization.mintOutcomeSkippedKnownKappa())) {
+    } else if (decision === GENERATED_PRISM_STANDARDS.mechanizationCodes.mintOutcomeSkippedKnownKappa) {
       skippedKnownKappaCount++;
-    } else if (decision === Number(CompiledMechanization.mintOutcomeBudgetExhausted())) {
+    } else if (decision === GENERATED_PRISM_STANDARDS.mechanizationCodes.mintOutcomeBudgetExhausted) {
       stoppedBudgetExhaustedCount++;
     } else {
       sessionKnown.add(kappa);
@@ -829,7 +833,7 @@ export function scheduleStrategiesByWeight(
 }
 
 export function learnEngineStrategyWeight(currentWeight: number, succeeded: boolean): number {
-  return Number(CompiledMechanization.engineLearnWeight(toPrismNat(currentWeight), succeeded));
+  return certifiedWasmCore_engineLearnWeight(Math.max(0, Math.floor(currentWeight)), succeeded);
 }
 
 export interface PeircePortfolioClaimAttempt {
@@ -875,17 +879,12 @@ export function runMemoizedPeircePortfolioTick(
   totalTickBudget: number = 24,
   gateMinimum: number = 6,
 ): PeircePortfolioTickRunResult {
-  const reservedGateShare = Number(
-    CompiledMechanization.reserveHomeostasisGateShare(
-      toPrismNat(totalTickBudget),
-      toPrismNat(gateMinimum),
-    ),
-  );
-  const deductiveSearchShare = Number(
-    CompiledMechanization.deductiveSearchShareAfterGate(
-      toPrismNat(totalTickBudget),
-      toPrismNat(gateMinimum),
-    ),
+  const cleanBudget = Math.max(0, Math.floor(totalTickBudget));
+  const cleanGate = Math.max(0, Math.floor(gateMinimum));
+  const reservedGateShare = certifiedWasmCore_reserveHomeostasisGateShare(cleanBudget, cleanGate);
+  const deductiveSearchShare = certifiedWasmCore_deductiveSearchShareAfterGate(
+    cleanBudget,
+    cleanGate,
   );
 
   const nextKnown = new Set<string>(knownProvedKappas);
@@ -921,9 +920,9 @@ export function runMemoizedPeircePortfolioTick(
       const won =
         claim.winningStrategy === strat.strategyId &&
         claim.defectCount === 0 &&
-        CompiledMechanization.validPeircePhaseStep(
-          CompiledMechanization.peircePhaseHypothesized(),
-          CompiledMechanization.peircePhaseProved(),
+        certifiedWasmCore_validPeircePhaseStep(
+          GENERATED_PRISM_STANDARDS.mechanizationCodes.peircePhaseHypothesized,
+          GENERATED_PRISM_STANDARDS.mechanizationCodes.peircePhaseProved,
         );
 
       const updatedWeight = learnEngineStrategyWeight(strat.weight, won);
@@ -932,12 +931,10 @@ export function runMemoizedPeircePortfolioTick(
       if (won) {
         nextKnown.add(claim.claimKappa);
         newlyProvedKappas.push(claim.claimKappa);
-        const settled = Number(
-          CompiledCompression.admitZeroDefectBytes(
-            toPrismNat(claim.encodedBytes),
-            toPrismNat(claim.defectCount),
-            toPrismNat(claim.rawFallbackBytes),
-          ),
+        const settled = certifiedWasmCore_admitZeroDefectBytes(
+          Math.max(0, Math.floor(claim.encodedBytes)),
+          Math.max(0, Math.floor(claim.defectCount)),
+          Math.max(0, Math.floor(claim.rawFallbackBytes)),
         );
         settledBytesTotal += settled;
         break;
@@ -1031,19 +1028,18 @@ export function evaluateHarmanOooQuadruple(
   gaugeDelta: number = 0,
 ): HarmanOooQuadrupleEncounter {
   const baseMask = 0b1111; // 4 core proved invariants
-  const deltaNat = toPrismNat(Math.max(0, Math.floor(gaugeDelta)));
-  const transformedRealMask = Number(
-    CompiledMechanization.gaugeTransformRealQualityMask(toPrismNat(baseMask), deltaNat),
+  const deltaClamped = Math.max(0, Math.floor(gaugeDelta));
+  const transformedRealMask = certifiedWasmCore_gaugeTransformRealQualityMask(
+    baseMask,
+    deltaClamped,
   );
-  const transformedWithdrawnId = Number(
-    CompiledMechanization.gaugeTransformWithdrawnCoreId(
-      toPrismNat(WITHDRAWN_APERIODIC_COMPENSATION_ID),
-      deltaNat,
-    ),
+  const transformedWithdrawnId = certifiedWasmCore_gaugeTransformWithdrawnCoreId(
+    WITHDRAWN_APERIODIC_COMPENSATION_ID,
+    deltaClamped,
   );
   const spec = VANTAGE_SENSUAL_LABELS[vantage];
   const sensualQualityIds = spec.baseIds.map((id) =>
-    Number(CompiledMechanization.gaugeTransformSensualQualityId(toPrismNat(id), deltaNat)),
+    certifiedWasmCore_gaugeTransformSensualQualityId(id, deltaClamped),
   );
 
   return {
@@ -1058,12 +1054,12 @@ export function evaluateHarmanOooQuadruple(
     sensualQualityIds,
     sensualQualities: spec.qualities,
     overlapRealAndWithdrawn: 0,
-    gaugeDeltaApplied: Math.max(0, Math.floor(gaugeDelta)),
+    gaugeDeltaApplied: deltaClamped,
     realQualitiesGaugeInvariant: transformedRealMask === baseMask,
     withdrawnCoreGaugeInvariant: transformedWithdrawnId === WITHDRAWN_APERIODIC_COMPENSATION_ID,
   };
 }
 
 export function getCompiledMechanizationStandardModel() {
-  return CompiledMechanization.mechanizationStandardModel();
+  return GENERATED_PRISM_STANDARDS.mechanization;
 }

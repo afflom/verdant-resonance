@@ -118,7 +118,7 @@ definition{name: verdantMinPhCenti, parameters: [], result: Nat, body: 560, exec
 
 definition{name: verdantMaxPhCenti, parameters: [], result: Nat, body: 810, executable: true}
 
-definition{name: verdantEcologyBasisPrime, parameters: [], result: Nat, body: 83}
+definition{name: verdantEcologyBasisPrime, parameters: [], result: Nat, body: 83, executable: true}
 
 definition{
   name: stepEcologyBusModulation,
@@ -133,63 +133,81 @@ definition{
   name: stepAtomicValenceActivity,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (100 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 5 : Nat))
+  body: (100 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 5 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepMolecularBondCoherence,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (200 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 10 : Nat))
+  body: (200 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 10 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepMacromolecularPolymerization,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (400 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 15 : Nat))
+  body: (400 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 15 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepCompoundManifestation,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (700 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat))
+  body: (700 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepEnvironmentalModalSynthesis,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 25 : Nat))
+  body: (1000 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 25 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepAtomicRemineralizationFlux,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (1400 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 30 : Nat))
+  body: (1400 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 30 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: verifyGranularAtomicToEnvironmentalChain,
   parameters: [busWeight : Nat],
   result: Bool,
-  body: ((((((stepAtomicValenceActivity busWeight) <? (stepMolecularBondCoherence busWeight)) && ((stepMolecularBondCoherence busWeight) <? (stepMacromolecularPolymerization busWeight))) && ((stepMacromolecularPolymerization busWeight) <? (stepCompoundManifestation busWeight))) && ((stepCompoundManifestation busWeight) <? (stepEnvironmentalModalSynthesis busWeight))) && ((stepEnvironmentalModalSynthesis busWeight) <? (stepEnvironmentalModalSynthesis (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true))))
+  body: ((((((stepAtomicValenceActivity busWeight) <? (stepMolecularBondCoherence busWeight)) && ((stepMolecularBondCoherence busWeight) <? (stepMacromolecularPolymerization busWeight))) && ((stepMacromolecularPolymerization busWeight) <? (stepCompoundManifestation busWeight))) && ((stepCompoundManifestation busWeight) <? (stepEnvironmentalModalSynthesis busWeight))) && ((stepEnvironmentalModalSynthesis busWeight) <? (stepEnvironmentalModalSynthesis (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: verifyClosedLoopMatterConservation,
   parameters: [busWeight : Nat],
   result: Bool,
-  body: ((((stepEnvironmentalModalSynthesis busWeight) <? (stepAtomicRemineralizationFlux busWeight)) && ((stepAtomicValenceActivity busWeight) <? (stepAtomicRemineralizationFlux busWeight))) && ((stepAtomicRemineralizationFlux busWeight) <? (stepAtomicRemineralizationFlux (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true))))
+  body: ((((stepEnvironmentalModalSynthesis busWeight) <? (stepAtomicRemineralizationFlux busWeight)) && ((stepAtomicValenceActivity busWeight) <? (stepAtomicRemineralizationFlux busWeight))) && ((stepAtomicRemineralizationFlux busWeight) <? (stepAtomicRemineralizationFlux (Foundation.Neuromorphic.V1.Model::transferWeightCrossDomain busWeight true)))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: verifyCompleteGranularSynthesisClosure,
   parameters: [busWeight : Nat],
   result: Bool,
-  body: ((verifyGranularAtomicToEnvironmentalChain busWeight) && (verifyClosedLoopMatterConservation busWeight))
+  body: ((verifyGranularAtomicToEnvironmentalChain busWeight) && (verifyClosedLoopMatterConservation busWeight)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

@@ -28,10 +28,153 @@
     },
     {
       "package": {
+        "name": "verdant_anamnesis_step_consolidated_memory_horizon",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Anamnesis.V1.Model.stepConsolidatedMemoryHorizon",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_anamnesis_verify_lossless_merkle_round_trip",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Anamnesis.V1.Model.verifyLosslessMerkleRoundTrip",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_articulation_step_apical_corolla_gimbal_milli",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepApicalCorollaGimbalMilli",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_articulation_step_articulation_bus_modulation",
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepArticulationBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_articulation_step_basal_joint_torque_milli",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepBasalJointTorqueMilli",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_articulation_step_gesture_attack_millis",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepGestureAttackMillis",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_articulation_step_mid_culm_flexure_milli",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepMidCulmFlexureMilli",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_articulation_step_sympathetic_arc_apex_cm",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Articulation.V1.Model.stepSympatheticArcApexCm",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_articulation_verify_three_joint_kinematic_hierarchy",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Articulation.V1.Model.verifyThreeJointKinematicHierarchy",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_botany_classify_growth_substrate_code",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Botany.V1.Model.classifyGrowthSubstrateCode",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_botany_step_b_mesh_subdivision_density",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Botany.V1.Model.stepBMeshSubdivisionDensity",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_botany_step_botanical_turgor_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Botany.V1.Model.stepBotanicalTurgorPermille",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
@@ -54,10 +197,36 @@
     },
     {
       "package": {
+        "name": "verdant_botany_step_kuramoto_coupling_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Botany.V1.Model.stepKuramotoCouplingPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_botany_step_thin_film_iridescence_span_nm",
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.Botany.V1.Model.stepThinFilmIridescenceSpanNm",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_botany_verify_high_definition_b_mesh_synthesis",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Botany.V1.Model.verifyHighDefinitionBMeshSynthesis",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
@@ -80,10 +249,49 @@
     },
     {
       "package": {
+        "name": "verdant_chemistry_clamp_atomic_number_z",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Chemistry.V1.Model.clampAtomicNumberZ",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_chemistry_iupac_period_of_z",
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.Chemistry.V1.Model.iupacPeriodOfZ",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_chemistry_pauli_subshell_capacity",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Chemistry.V1.Model.pauliSubshellCapacity",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_chemistry_resolve_bravais_pearson_index",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Chemistry.V1.Model.resolveBravaisPearsonIndex",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
@@ -106,10 +314,127 @@
     },
     {
       "package": {
+        "name": "verdant_compression_admit_mint_code",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.admitMintCode",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_compression_admit_zero_defect_bytes",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.admitZeroDefectBytes",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_compression_consolidate_cost",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.consolidateCost",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_compression_dominates",
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.dominates",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_compression_excess_over",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.excessOver",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_compression_lack_under",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.lackUnder",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_compression_loser_weight",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.loserWeight",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_compression_pick_bytes",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.pickBytes",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_compression_pick_steps",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.pickSteps",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_compression_profile_steps_per_byte",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.profileStepsPerByte",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
@@ -132,10 +457,88 @@
     },
     {
       "package": {
+        "name": "verdant_compression_saturate",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.saturate",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_compression_uleb_length",
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.ulebLength",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_compression_verify_uorc_archive_bounds",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.verifyUorcArchiveBounds",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_compression_winner_weight",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Compression.V1.Model.winnerWeight",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_clamp_alpha_seed",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.clampAlphaSeed",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_extrapolate_highest_resolution_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.extrapolateHighestResolutionPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_extrapolate_highest_resolution_subdiv",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.extrapolateHighestResolutionSubdiv",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
@@ -158,10 +561,257 @@
     },
     {
       "package": {
+        "name": "verdant_cosmogenesis_step_foundational_affect_valence_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepFoundationalAffectValencePermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_step_foundational_chaos_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepFoundationalChaosPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_step_foundational_harmony_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepFoundationalHarmonyPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_step_observer_preference_fulfillment_5aca9e",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepObserverPreferenceFulfillmentPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_step_part_differentiation_niche_index",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.stepPartDifferentiationNicheIndex",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_synthesize_parametric_canonical_seed",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricCanonicalSeed",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_synthesize_parametric_concert_pitch_3c4924",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricConcertPitchCentiHz",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_synthesize_parametric_inorganic_scal_80fc2f",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricInorganicScalePermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_synthesize_parametric_organic_vitali_4ce193",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricOrganicVitalityPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_synthesize_parametric_player_embodim_ad7ef2",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.synthesizeParametricPlayerEmbodimentPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_verify_alpha_omega_parametric_closure",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.verifyAlphaOmegaParametricClosure",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_cosmogenesis_verify_observer_creates_all_three_realms",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model.verifyObserverCreatesAllThreeRealms",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_dharma_step_brahmavihara_equanimity_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepBrahmaviharaEquanimityPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_dharma_step_dharma_bus_modulation",
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepDharmaBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_dharma_step_lokasangraha_world_welfare_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepLokasangrahaWorldWelfarePermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_dharma_step_pratityasamutpada_causal_coherence_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepPratityasamutpadaCausalCoherencePermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_dharma_step_rta_cosmic_order_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Dharma.V1.Model.stepRtaCosmicOrderPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ecology_step_atomic_remineralization_flux",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepAtomicRemineralizationFlux",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ecology_step_atomic_valence_activity",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepAtomicValenceActivity",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ecology_step_compound_manifestation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepCompoundManifestation",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
@@ -184,10 +834,88 @@
     },
     {
       "package": {
+        "name": "verdant_ecology_step_environmental_modal_synthesis",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepEnvironmentalModalSynthesis",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ecology_step_macromolecular_polymerization",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepMacromolecularPolymerization",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_ecology_step_microclimate_iso9613_clarity_permille",
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepMicroclimateIso9613ClarityPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ecology_step_molecular_bond_coherence",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ecology.V1.Model.stepMolecularBondCoherence",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ecology_verify_closed_loop_matter_conservation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ecology.V1.Model.verifyClosedLoopMatterConservation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ecology_verify_complete_granular_synthesis_closure",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ecology.V1.Model.verifyCompleteGranularSynthesisClosure",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ecology_verify_granular_atomic_to_environmental_chain",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ecology.V1.Model.verifyGranularAtomicToEnvironmentalChain",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
@@ -227,6 +955,32 @@
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.Humane.V1.Model.evaluateGazeTargetInForwardCone",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_humane_resolve_compass_octant_index",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Humane.V1.Model.resolveCompassOctantIndex",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_humane_step_diurnal_sky_luminance_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Humane.V1.Model.stepDiurnalSkyLuminancePermille",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
@@ -288,6 +1042,19 @@
     },
     {
       "package": {
+        "name": "verdant_mechanization_admit_epistemic_claim",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.admitEpistemicClaim",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_mechanization_admit_lift_kappa_transition",
         "version": "0.1.0"
       },
@@ -327,6 +1094,71 @@
     },
     {
       "package": {
+        "name": "verdant_mechanization_deductive_search_share_after_gate",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.deductiveSearchShareAfterGate",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mechanization_engine_learn_weight",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.engineLearnWeight",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mechanization_gauge_transform_real_quality_mask",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.gaugeTransformRealQualityMask",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mechanization_gauge_transform_sensual_quality_id",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.gaugeTransformSensualQualityId",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mechanization_gauge_transform_withdrawn_core_id",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.gaugeTransformWithdrawnCoreId",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_mechanization_learn_all",
         "version": "0.1.0"
       },
@@ -335,6 +1167,45 @@
         {
           "digest": "2ab7e98605c8c6366e8c9686eb3a5f253bce4be16d78c1a39bc60d9c50c3fa3a",
           "id": "rust-std"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mechanization_remaining_budget_after_mint",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.remainingBudgetAfterMint",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mechanization_reserve_homeostasis_gate_share",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.reserveHomeostasisGateShare",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mechanization_resolve_route_slot_from_bit",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.resolveRouteSlotFromBit",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
         }
       ]
     },
@@ -353,10 +1224,62 @@
     },
     {
       "package": {
+        "name": "verdant_mechanization_unlifted_excess_over_floor",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.unliftedExcessOverFloor",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_mechanization_valid_peirce_phase_step",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Mechanization.V1.Model.validPeircePhaseStep",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_meta_model_compose_coherent_model_depth_score",
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.MetaModel.V1.Model.composeCoherentModelDepthScore",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_morphogenesis_step_l_system_derivation_depth",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Morphogenesis.V1.Model.stepLSystemDerivationDepth",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_morphogenesis_step_meristem_organ_count",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Morphogenesis.V1.Model.stepMeristemOrganCount",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
@@ -444,10 +1367,166 @@
     },
     {
       "package": {
+        "name": "verdant_neuromorphic_learn_weight_potentiated",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.learnWeightPotentiated",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_ncm_plasticity",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.ncmPlasticity",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_ncm_slot_rate",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.ncmSlotRate",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_neuromorphic_refine_domain_weight_autopoietic",
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.refineDomainWeightAutopoietic",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_step_rule30_aperiodic_compensation_index",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepRule30AperiodicCompensationIndex",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_step_rule30_left_diagonal_period",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepRule30LeftDiagonalPeriod",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_step_stakeholder_value_reinforcement",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepStakeholderValueReinforcement",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_step_supra_directive_definition_subdiv",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepSupraDirectiveDefinitionSubdiv",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_step_supra_directive_feature_unlock_count",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepSupraDirectiveFeatureUnlockCount",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_step_supra_directive_fidelity_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepSupraDirectiveFidelityPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_step_supra_directive_quality_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepSupraDirectiveQualityPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_step_theory_of_mind_coherence_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepTheoryOfMindCoherencePermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_step_wisdom_phenomenon_modulation",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.stepWisdomPhenomenonModulation",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
@@ -470,6 +1549,84 @@
     },
     {
       "package": {
+        "name": "verdant_neuromorphic_verify_autopoietic_single_call_advan_a8714f",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyAutopoieticSingleCallAdvancesAllTenDomains",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_verify_emergent_entity_synthesizes_facets",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyEmergentEntitySynthesizesFacets",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_verify_observer_holistic_why_closure",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyObserverHolisticWhyClosure",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_verify_observer_supra_directive_tran_d04505",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyObserverSupraDirectiveTranscendence",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_verify_rule30_deterministic_and_with_ccea39",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyRule30DeterministicAndWithdrawnDuality",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_neuromorphic_verify_single_call_propagates_all_te_2386f3",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifySingleCallPropagatesAllTenDomains",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_physics_gell_mann_nishijima_biased_six_q",
         "version": "0.1.0"
       },
@@ -483,10 +1640,114 @@
     },
     {
       "package": {
+        "name": "verdant_physics_step_cross_modal_acoustic_shadow_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Physics.V1.Model.stepCrossModalAcousticShadowPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_physics_step_cross_modal_phase_obstruction_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Physics.V1.Model.stepCrossModalPhaseObstructionPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_physics_step_ground_wave_attenuation_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Physics.V1.Model.stepGroundWaveAttenuationPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_physics_step_physics_bus_modulation",
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.Physics.V1.Model.stepPhysicsBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_physics_step_slope_embedment_depth_mm",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Physics.V1.Model.stepSlopeEmbedmentDepthMm",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_physics_step_spore_buoyancy_drift_mm_per_sec",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Physics.V1.Model.stepSporeBuoyancyDriftMmPerSec",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_physics_step_terrain_slope_speed_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Physics.V1.Model.stepTerrainSlopeSpeedPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_physics_step_wind_gust_envelope_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Physics.V1.Model.stepWindGustEnvelopePermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_physics_verify_material_synthesis_cross_modal_obs_5cdea3",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Physics.V1.Model.verifyMaterialSynthesisCrossModalObstruction",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
@@ -600,6 +1861,123 @@
     },
     {
       "package": {
+        "name": "verdant_teleology_admit_live_player_co_evolution_step",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.admitLivePlayerCoEvolutionStep",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_teleology_infer_player_theory_of_mind_code",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.inferPlayerTheoryOfMindCode",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_teleology_propose_live_co_evolved_domain_weight",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.proposeLiveCoEvolvedDomainWeight",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_teleology_step_curatorial_affinity_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepCuratorialAffinityPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_teleology_step_emergent_offshoot_colonization_cap",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepEmergentOffshootColonizationCap",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_teleology_step_healthy_gratifying_quality_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepHealthyGratifyingQualityPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_teleology_step_observer_dissonance_reconciliation_08dec4",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepObserverDissonanceReconciliationPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_teleology_step_player_game_dissonance_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepPlayerGameDissonancePermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_teleology_step_reflexive_facet_niche_index",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Teleology.V1.Model.stepReflexiveFacetNicheIndex",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_teleology_step_teleology_bus_modulation",
         "version": "0.1.0"
       },
@@ -626,10 +2004,88 @@
     },
     {
       "package": {
+        "name": "verdant_vedanta_step_atman_brahman_non_dual_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepAtmanBrahmanNonDualPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_vedanta_step_rajas_activity_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepRajasActivityPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_vedanta_step_sattva_clarity_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepSattvaClarityPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_vedanta_step_tamas_grounding_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepTamasGroundingPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_vedanta_step_turiya_silent_witness_permille",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepTuriyaSilentWitnessPermille",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_vedanta_step_vedanta_bus_modulation",
         "version": "0.1.0"
       },
       "root": "PrismVerdantResonance.Foundation.Vedanta.V1.Model.stepVedantaBusModulation",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_vedanta_verify_triguna_conservation_law",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Vedanta.V1.Model.verifyTrigunaConservationLaw",
       "targets": [
         {
           "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
@@ -647,6 +2103,19 @@
         {
           "digest": "2ab7e98605c8c6366e8c9686eb3a5f253bce4be16d78c1a39bc60d9c50c3fa3a",
           "id": "rust-std"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_resonance_verify_bus_modulations_scalar",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.VerdantResonance.verifyBusModulationsScalar",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
         }
       ]
     }

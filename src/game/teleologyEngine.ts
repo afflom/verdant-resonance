@@ -21,11 +21,11 @@ import {
   GENERATED_PRISM_BUS_MODULATION_LUT,
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
-import { certifiedWasmCore_stepTeleologyBusModulation } from './generatedCertifiedWasmBridge';
-import { PRISM_COMPILED_MODULES, toPrismNat } from './generatedPrismRuntime';
+import {
+  certifiedWasmCore_stepCuratorialAffinityPermille,
+  certifiedWasmCore_stepTeleologyBusModulation,
+} from './generatedCertifiedWasmBridge';
 import { CANONICAL_22_MODEL_KEYS, type CanonicalStandardModelKey } from './neuromorphicFunctorBus';
-
-const CompiledTeleology = PRISM_COMPILED_MODULES['Foundation.Teleology.V1.Model'];
 
 export type TeleologicalPhenomenonCategory =
   | 'biome-landmark'
@@ -723,14 +723,14 @@ export function evaluateCompiledCuratorialAffinityPermille(
   harmonyPct: number,
 ): number {
   const cw = Math.max(1, Math.min(16, Number.isFinite(busWeight) ? busWeight : 8));
-  const hNat = toPrismNat(Math.max(0, Math.min(100, Math.round(harmonyPct))));
+  const hClamped = Math.max(0, Math.min(100, Math.round(harmonyPct)));
   const i0 = Math.floor(cw);
   const frac = cw - i0;
-  const v0 = Number(CompiledTeleology.stepCuratorialAffinityPermille(toPrismNat(i0), hNat));
+  const v0 = certifiedWasmCore_stepCuratorialAffinityPermille(i0, hClamped);
   if (frac < 1e-9 || i0 >= 16) {
     return v0;
   }
-  const v1 = Number(CompiledTeleology.stepCuratorialAffinityPermille(toPrismNat(i0 + 1), hNat));
+  const v1 = certifiedWasmCore_stepCuratorialAffinityPermille(i0 + 1, hClamped);
   return Math.round(v0 + (v1 - v0) * frac);
 }
 
@@ -1257,7 +1257,8 @@ export function evaluateWitnessCommunionTarget(params: {
 }
 
 export const STANDARD_GRAVITY_MPS2 = 9.80665;
-export const PLAYER_CO_OBSERVER_BASIS_PRIME = Number(CompiledTeleology.playerCoObserverPrime());
+export const PLAYER_CO_OBSERVER_BASIS_PRIME =
+  GENERATED_PRISM_STANDARDS.teleology.physicalBasisAndTriuneCuration.playerCoObserverBasisPrime;
 
 const CHIME_OMEGA_BUF = [0, 0, 0, 0, 0, 0];
 const CHIME_PITCH_X_BUF = [0, 0, 0, 0, 0, 0];

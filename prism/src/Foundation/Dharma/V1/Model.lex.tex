@@ -92,49 +92,60 @@ definition{
   name: clampDharmaHarmonyPct,
   parameters: [harmonyPct : Nat],
   result: Nat,
-  body: (prim subtract 100 (prim subtract 100 harmonyPct : Nat) : Nat)
+  body: (prim subtract 100 (prim subtract 100 harmonyPct : Nat) : Nat),
+  executable: true
 }
 
 definition{
   name: clampDharmaVelocityDm,
   parameters: [velocityDm : Nat],
   result: Nat,
-  body: (prim subtract 30 (prim subtract 30 velocityDm : Nat) : Nat)
+  body: (prim subtract 30 (prim subtract 30 velocityDm : Nat) : Nat),
+  executable: true
 }
 
 definition{
   name: clampAwakenedGuildSpecies,
   parameters: [awakenedSpecies : Nat],
   result: Nat,
-  body: (prim subtract 5 (prim subtract 5 awakenedSpecies : Nat) : Nat)
+  body: (prim subtract 5 (prim subtract 5 awakenedSpecies : Nat) : Nat),
+  executable: true
 }
 
 definition{
   name: stepRtaCosmicOrderPermille,
   parameters: [busWeight : Nat, harmonyPct : Nat],
   result: Nat,
-  body: ((580 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 18 : Nat)) + (clampDharmaHarmonyPct harmonyPct))
+  body: ((580 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 18 : Nat)) + (clampDharmaHarmonyPct harmonyPct)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepPratityasamutpadaCausalCoherencePermille,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (620 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 22 : Nat))
+  body: (620 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 22 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepBrahmaviharaEquanimityPermille,
   parameters: [busWeight : Nat, velocityDm : Nat],
   result: Nat,
-  body: (prim subtract (660 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat)) (prim multiply (clampDharmaVelocityDm velocityDm) 4 : Nat) : Nat)
+  body: (prim subtract (660 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat)) (prim multiply (clampDharmaVelocityDm velocityDm) 4 : Nat) : Nat),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepLokasangrahaWorldWelfarePermille,
   parameters: [busWeight : Nat, awakenedSpecies : Nat],
   result: Nat,
-  body: ((520 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat)) + (prim multiply (clampAwakenedGuildSpecies awakenedSpecies) 32 : Nat))
+  body: ((520 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 20 : Nat)) + (prim multiply (clampAwakenedGuildSpecies awakenedSpecies) 32 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

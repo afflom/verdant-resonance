@@ -584,6 +584,23 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                     </div>
                   </div>
                 </div>
+                <div
+                  data-testid="live-coevolution-telemetry"
+                  className="rounded-lg bg-[#0d221a]/80 border border-teal-400/20 px-3 py-2 text-[11px] font-mono text-emerald-100/90 flex flex-wrap items-center justify-between gap-2"
+                >
+                  <span>
+                    Co-Evolution Bars: {telemetry.liveCoEvolution.barTickCount} (
+                    {telemetry.liveCoEvolution.admittedMutationCount} admitted ·{' '}
+                    {telemetry.liveCoEvolution.playerTheoryOfMindIntent})
+                  </span>
+                  <span className="text-teal-200/90">
+                    R30 {telemetry.liveCoEvolution.rule30RegisterHex} · Dissonance{' '}
+                    {telemetry.liveCoEvolution.incumbentDissonancePermille}‰ ·{' '}
+                    {telemetry.liveCoEvolution.sensoryDifferentiation.floraIridescenceBoost.toFixed(2)}×
+                    Airy · Offshoots ≤
+                    {telemetry.liveCoEvolution.sensoryDifferentiation.microclimateOffshootCap}
+                  </span>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">

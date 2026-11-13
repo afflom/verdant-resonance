@@ -168,7 +168,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Physics (BIPM SI 2019 + SU(3)xSU(2)xU(1) 17-Field SM + Continuum)",
     "sourceModule": "Foundation.Physics.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Physics/V1/Model.lex.tex",
-    "sourceSha256": "cc51effcd1860b045379653209f417dd8993bc44c94dea521ea9ad7709df029d",
+    "sourceSha256": "ecef27e2192abad6f3d63606164e0627a291aac9b7b2b6046ed27390fa2bb1df",
     "unbiasedSiExponents": {
       "s": -2,
       "m": 1,
@@ -285,7 +285,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Chemistry (118-Element IUPAC Periodic Table + 14 Bravais Lattices)",
     "sourceModule": "Foundation.Chemistry.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Chemistry/V1/Model.lex.tex",
-    "sourceSha256": "b24749a167f6bb26b882146a7d8723f3dc4ddaf10732ec46c87558bcd8ac236e",
+    "sourceSha256": "180067ef6eb489a62cc71c4c747aa1a7914db669c99906186107cbb3be7c3c48",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -402,7 +402,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Botany (Farquhar-von Caemmerer-Berry C3 + Lockhart Turgor + Phyllotaxis)",
     "sourceModule": "Foundation.Botany.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Botany/V1/Model.lex.tex",
-    "sourceSha256": "ef03926bffe76caee29dd19a5cddb3bae3f651a6e13711c5fef6bbfb39785c75",
+    "sourceSha256": "e539dfd92f0a5807e8e1fb82298a5b483c9006f8bd7dfe83cb5c5c56101a8ff5",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -519,7 +519,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Ecology (Closed-Loop C-H-O-N-P-S-Si-Ca-Mg-Fe Biogeochemical Conservation)",
     "sourceModule": "Foundation.Ecology.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Ecology/V1/Model.lex.tex",
-    "sourceSha256": "3976ea132667ac120d2aa0bd4b268fb3caa9df9be0bd856d979d242867b47ed1",
+    "sourceSha256": "4d88ce085e03228651ebb508356a1afec8ab523fee1711eb43b5f51d0a28505d",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -636,7 +636,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Acoustics (ISO 226:2023 Loudness + 24-Bark Masking + Chladni Eigenmodes)",
     "sourceModule": "Foundation.Acoustics.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Acoustics/V1/Model.lex.tex",
-    "sourceSha256": "972fe5567e1442999eb26e7ddf844c15f8df67fc2e6dee2f3b59229f0ca6e280",
+    "sourceSha256": "080f06d70c68f0c70f6f2e461499f9ed536b026d2c4120f13c365e3d4eca4a06",
     "unbiasedSiExponents": {
       "s": -1,
       "m": -1,
@@ -753,7 +753,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Articulation (Euler-Lagrange 3-Joint Botanical Kinematics + ADSR)",
     "sourceModule": "Foundation.Articulation.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Articulation/V1/Model.lex.tex",
-    "sourceSha256": "d862a5b7defec3b1cfce0c5ba8a4487e719cf990cae66fa9ea7dd3dae4e233d3",
+    "sourceSha256": "115fe9e60542f673898ec9f763b1f4220ad809d9182a89cdd1a59a7e5a0abdeb",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -1104,7 +1104,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Brand & Design (W3C Design Tokens + OKLCH Gamut + WCAG 2.2 AAA + APCA)",
     "sourceModule": "Foundation.Brand.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Brand/V1/Model.lex.tex",
-    "sourceSha256": "8bc7c88c10ec879c1bcb3168bbf67fc7c2010bae73728702c28928623a6a3fd3",
+    "sourceSha256": "9884051cfbe4cdf90b74944b0be86252fe20997ad84ef88e37f4c6628976bdae",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 1,
@@ -1221,7 +1221,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Humane Ergonomics (ISO 9241-110/210 + Fitts/Hick-Hyman + Zero Dark Patterns)",
     "sourceModule": "Foundation.Humane.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Humane/V1/Model.lex.tex",
-    "sourceSha256": "048e96637cfe824386cceee2a5c774a51f5e9c8f80315d8cfda409c918c1cba0",
+    "sourceSha256": "c9053cd204e8c7d7d4b1e623d955c0221f5983bdbdd10cd5225e9aa6cb40206d",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -1338,7 +1338,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Infrastructure (ISO/IEC/IEEE 42010 + ISO 25010 + Zero-GC Real-Time Arenas)",
     "sourceModule": "Foundation.Infrastructure.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Infrastructure/V1/Model.lex.tex",
-    "sourceSha256": "86ad3d9088f22b8546a8052e58a382783366196d3932cc20769529d85b72538c",
+    "sourceSha256": "f0f9b1ff68666a471e57b752bf04877d7d518e40e961f2340fb3634bd5860754",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 0,
@@ -1455,7 +1455,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Neuromorphic Bus (22x22 Inherent Gameplay Functor Matrix + uorc/ncm-plasticity/1 + STDP + Active Inference)",
     "sourceModule": "Foundation.Neuromorphic.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Neuromorphic/V1/Model.lex.tex",
-    "sourceSha256": "b30ba74d7b9e84cbb3ecbd76384f1f3e5c18a2675eeaac0d0b0ea4fab1522559",
+    "sourceSha256": "3cd29baa1a94c3dc5d2ee100324946e8b79818ef643bb527bb7dcac3f4bc8d87",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 0,
@@ -1572,7 +1572,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Holistic Observer & Cosmogenesis (Complete 22x11 Context = 242 Cells + Alpha-Omega)",
     "sourceModule": "Foundation.Cosmogenesis.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Cosmogenesis/V1/Model.lex.tex",
-    "sourceSha256": "5a4f61befece7d4d1e6c841799fcdc5fc9f8f56f44bc4e2e9b97ab83c559837d",
+    "sourceSha256": "f1ccdb8e22cd90836f244674a7a1b08aecf322e288b99292f275ca22c0910d94",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -1806,7 +1806,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Morphogenesis (Parametric L-System Ontogeny + Murray r^3 Vascular Law + Turing Phyllotaxis)",
     "sourceModule": "Foundation.Morphogenesis.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Morphogenesis/V1/Model.lex.tex",
-    "sourceSha256": "12b71af8ac2a1c56dea072b6ad925ec5fa6b5f7f602bb1894c026dba4f608ddc",
+    "sourceSha256": "4960109c5a02022840758c6ad254f164b215707c0b84f97daac9f8f9bb3ae4d7",
     "unbiasedSiExponents": {
       "s": -1,
       "m": 1,
@@ -2040,7 +2040,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Anamnesis (Content-Addressed Merkle State-DAG Persistence + Modular Cold-Load Delivery)",
     "sourceModule": "Foundation.Anamnesis.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Anamnesis/V1/Model.lex.tex",
-    "sourceSha256": "88a0965e4e39417b89c1b0d1f40d83333fc024a5320967035f55be51342473bc",
+    "sourceSha256": "cbf39ff2a3f08497c2825d68c2b3f942ecc010f300082917c98249ca3e22616e",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -2157,7 +2157,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Teleology (Requirement-Grounded Environmental Synthesis + Interactive Landmarks + Inherent Plasticity)",
     "sourceModule": "Foundation.Teleology.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Teleology/V1/Model.lex.tex",
-    "sourceSha256": "e0bf205fe34c255e9d76a8bcc76b7b8e11fb4fc5dad9b836816b2ce0cef6beb7",
+    "sourceSha256": "26b1d2f9766d09b85c9e56b6b89292b9f065efc1465fc57a16e35d1cd6e5040b",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -2274,7 +2274,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Vedanta (Advaita Non-Duality, 4 Mahavakyas, Turiya Pranava, 5 Panca-Kosas, Conserved Triguna & Pancikarana)",
     "sourceModule": "Foundation.Vedanta.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Vedanta/V1/Model.lex.tex",
-    "sourceSha256": "4f68ca2d55c020070475d2b397270abfd0b553dca7d66ac467db52b95925ad72",
+    "sourceSha256": "89c65859819b0813c2f06cf8c1812d8bc5de3e493bb1db215c00439fe49dc5c3",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -2391,7 +2391,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Dharma (Rta Cosmic Order, Structural Ahimsa, 8-Limb Astanga, 12-Nidana Pratityasamutpada & Lokasangraha)",
     "sourceModule": "Foundation.Dharma.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Dharma/V1/Model.lex.tex",
-    "sourceSha256": "086e7cd5b1cb2fbd01bbdd7e84d363f40bbf2aa98f4936b53c831c605667bd56",
+    "sourceSha256": "e631651fcc22f55b20421c73aa90e5e09698be4235dfcdfe18644f51223d63e1",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -2508,7 +2508,7 @@ export const GENERATED_CANONICAL_STANDARD_MODELS = [
     "displayName": "Parametric Compression (UORC kappa-Named Codec Points, Warm States, Saturating Cap Ledger & 64-Cell Rule-30 Portfolio)",
     "sourceModule": "Foundation.Compression.V1.Model",
     "sourceFileRelative": "prism/src/Foundation/Compression/V1/Model.lex.tex",
-    "sourceSha256": "147bb2f432ba8ae528f0fd6542c6d965364f1edfef9b90ce28c0b5f228c026c4",
+    "sourceSha256": "02310806a3dc40ecfc7f8c76d820cb1e4e3a37f591aa331b22d05b29ffd0f742",
     "unbiasedSiExponents": {
       "s": 0,
       "m": 0,
@@ -10691,6 +10691,74 @@ export const GENERATED_PRISM_STANDARDS = {
     "slsaProvenanceLevel": 3,
     "spdx3DocumentCoupled": true,
     "adaptiveFidelityFrameGovernorEnabled": true
+  },
+  "mechanization": {
+    "profile": "prism/mechanization-uorust-uorc-rule30/1",
+    "basisPrime": 193,
+    "coherentClassicalModelCount": 6,
+    "foundryRouteAndLift": {
+      "routeSlotCount": 10,
+      "derivedRouteMaskLimit": 1023,
+      "derivedRequestLimitBytes": 1663,
+      "liftClassCount": 4,
+      "liftResidueTargetZero": 0,
+      "unknownTagRefusedVerified": true,
+      "ambiguousTagRefusedVerified": true,
+      "liftedKappaMonotonicRatchetVerified": true,
+      "unliftedReportedAsOpenDistanceVerified": true
+    },
+    "epistemicHonestyAndConformance": {
+      "epistemicLevelCount": 3,
+      "contractRuleCount": 6,
+      "conformanceMetaGateCount": 3,
+      "assertiveVocabularyForbiddenCount": 9,
+      "someTrueRequiresAuthorityVerified": true,
+      "buildRequiresScenarioAndTestVerified": true,
+      "openForbidsAssertiveWordsVerified": true,
+      "threeWayBijectionEnforcedVerified": true
+    },
+    "peirceTriadicEngine": {
+      "peircePhaseCount": 4,
+      "hypothesisBudgetPerTick": 16,
+      "engineWeightMin": 1,
+      "engineWeightMax": 16,
+      "engineWeightInitial": 8,
+      "enginePotentiationGain": 2,
+      "engineDepressionLoss": 1,
+      "inductionNeverDirectlyProvedVerified": true,
+      "knownKappaDedupBeforeStrategyVerified": true,
+      "schedulePermutationByWeightVerified": true,
+      "homeostasisGateShareReservedVerified": true
+    },
+    "harmanOooObserver": {
+      "oooPoleCount": 3,
+      "oooVantageCount": 3,
+      "withdrawnCoreSymbolId": 30,
+      "realAndWithdrawnOverlapZero": 0,
+      "realQualitiesProvedAndGaugeInvariant": true,
+      "withdrawnCoreOpenAndGaugeInvariant": true,
+      "sensualPresentationGaugeTransformable": true
+    }
+  },
+  "mechanizationCodes": {
+    "routingAdmitted": 0,
+    "routingRefusedUnknown": 1,
+    "routingRefusedAmbiguous": 2,
+    "liftClassLifted": 0,
+    "liftClassResidue": 1,
+    "liftClassForeign": 2,
+    "liftClassEffect": 3,
+    "epistemicSomeTrue": 0,
+    "epistemicBuild": 1,
+    "epistemicOpen": 2,
+    "peircePhaseObserved": 0,
+    "peircePhaseHypothesized": 1,
+    "peircePhaseProved": 2,
+    "peircePhaseRefuted": 3,
+    "mintOutcomeAdmitted": 0,
+    "mintOutcomeRejectedContradictory": 1,
+    "mintOutcomeSkippedKnownKappa": 2,
+    "mintOutcomeBudgetExhausted": 3
   }
 } as const;
 
@@ -10897,7 +10965,8 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "physicalBasisAndTriuneObserverCurationHold",
     "coCuratorialOffshootAndWaystoneBoundsHold",
     "inclusivePlayerReferenceTranscendsRule30CeilingHolds",
-    "reflexiveHolonDirectivesAndDissonanceReconciliationHold"
+    "reflexiveHolonDirectivesAndDissonanceReconciliationHold",
+    "livePlayerCoEvolutionRequiresPlayerAndRefusesCoercionHolds"
   ],
   "Foundation.Vedanta.V1.Model": [
     "trigunaExactConservationThousandPermilleHolds",

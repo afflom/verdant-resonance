@@ -50,7 +50,7 @@ definition{name: verdantAnamnesisBasisPrime, parameters: [], result: Nat, body: 
 
 definition{name: anamnesisSchemaVersion, parameters: [], result: Nat, body: 1}
 
-definition{name: persistenceRoundTripDriftZero, parameters: [], result: Nat, body: 0}
+definition{name: persistenceRoundTripDriftZero, parameters: [], result: Nat, body: 0, executable: true}
 
 definition{name: maxInitialAppChunkKb, parameters: [], result: Nat, body: 650}
 
@@ -58,7 +58,9 @@ definition{
   name: stepConsolidatedMemoryHorizon,
   parameters: [busWeight : Nat],
   result: Nat,
-  body: (16 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 4 : Nat))
+  body: (16 + (prim multiply (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight) 4 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -74,7 +76,9 @@ definition{
   name: verifyLosslessMerkleRoundTrip,
   parameters: [digestBefore : Nat, digestAfter : Nat],
   result: Bool,
-  body: ((digestBefore <=? digestAfter) && ((digestAfter <=? digestBefore) && ((persistenceRoundTripDriftZero) =? 0)))
+  body: ((digestBefore <=? digestAfter) && ((digestAfter <=? digestBefore) && ((persistenceRoundTripDriftZero) =? 0))),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{

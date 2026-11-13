@@ -57,21 +57,26 @@ definition{
   name: clampLifecycleStageIndex,
   parameters: [stageIdx : Nat],
   result: Nat,
-  body: (if (4 <=? stageIdx) then 4 else stageIdx)
+  body: (if (4 <=? stageIdx) then 4 else stageIdx),
+  executable: true
 }
 
 definition{
   name: stepLSystemDerivationDepth,
   parameters: [stageIdx : Nat, busWeight : Nat],
   result: Nat,
-  body: (2 + ((clampLifecycleStageIndex stageIdx) + (if (12 <=? (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight)) then 2 else (if (7 <=? (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight)) then 1 else 0))))
+  body: (2 + ((clampLifecycleStageIndex stageIdx) + (if (12 <=? (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight)) then 2 else (if (7 <=? (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight)) then 1 else 0)))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepMeristemOrganCount,
   parameters: [baseOrgans : Nat, stageIdx : Nat, busWeight : Nat],
   result: Nat,
-  body: (baseOrgans + ((prim multiply (clampLifecycleStageIndex stageIdx) 2 : Nat) + (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight)))
+  body: (baseOrgans + ((prim multiply (clampLifecycleStageIndex stageIdx) 2 : Nat) + (Foundation.Neuromorphic.V1.Model::clampBusWeight busWeight))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

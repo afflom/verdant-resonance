@@ -2674,6 +2674,26 @@ export function Foundation_Physics_V1_Model_stepPhysicsBusModulation(busWeight: 
   return (850n + _natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 25n));
 }
 
+export function Foundation_Physics_V1_Model_stepTerrainSlopeSpeedPermille(gradePermille: bigint, isUphill: boolean): bigint {
+  return (() => { const cg = ((gradePermille <= 640n) ? gradePermille : 640n); return (isUphill ? _natSub(1000n, _natQuot(cg, 2n, 0n)) : (1000n + _natQuot(((cg <= 300n) ? cg : 300n), 5n, 0n))); })();
+}
+
+export function Foundation_Physics_V1_Model_stepSlopeEmbedmentDepthMm(baseEmbedMm: bigint, perimeterDeltaMm: bigint): bigint {
+  return (((baseEmbedMm <= 160n) ? 160n : baseEmbedMm) + ((perimeterDeltaMm <= 2000n) ? perimeterDeltaMm : 2000n));
+}
+
+export function Foundation_Physics_V1_Model_stepWindGustEnvelopePermille(busWeight: bigint, rule30Byte: bigint): bigint {
+  return ((320n + _natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 18n)) + _natMul(_natRem(rule30Byte, 64n, 0n), 3n));
+}
+
+export function Foundation_Physics_V1_Model_stepGroundWaveAttenuationPermille(distDm: bigint, busWeight: bigint): bigint {
+  return _natQuot(_natMul((900n + _natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 6n)), 40n), (40n + ((distDm <= 1000n) ? distDm : 1000n)), 0n);
+}
+
+export function Foundation_Physics_V1_Model_stepSporeBuoyancyDriftMmPerSec(busWeight: bigint, harmonyPct: bigint): bigint {
+  return ((120n + _natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 10n)) + _natMul(((harmonyPct <= 100n) ? harmonyPct : 100n), 2n));
+}
+
 let _c_Foundation_Physics_V1_Model_verdantPhysicsStandard: Foundation_Physics_V1_Model_EnvironmentalPhysicsStandard | undefined;
 export function Foundation_Physics_V1_Model_verdantPhysicsStandard(): Foundation_Physics_V1_Model_EnvironmentalPhysicsStandard {
   return _c_Foundation_Physics_V1_Model_verdantPhysicsStandard !== undefined ? _c_Foundation_Physics_V1_Model_verdantPhysicsStandard : (_c_Foundation_Physics_V1_Model_verdantPhysicsStandard = ({ profile: "prism/physics-standard/1", taxonomy: ({ solidColliderClasses: 7n, permeableMediumClasses: 5n, monumentColumnColliders: "Solid tangential sliding colliders on Sanctuary Obelisk core & colonnade columns, Meadow Sundial 2 pillars, Bamboo Pergola 4 corner posts, Crystal Archway 6 quartz spires, Wetland 5 lantern pedestals, and dynamic 7-part Immanent Observer Witness", bambooAndQuartzStalkColliders: "64 slope-embedded bottom-anchored cylindrical tree/culm colliders strictly outside hard structure platforms and rocks with trunk-scaled steric radii", perimeterBoulderColliders: "52 slope-embedded dodecahedral basalt outcrop colliders + 28 Mirror Lagoon shoreline river-stone boulder colliders + amphitheater boundary", woodyStemCoreColliders: "Solid basal stem cores for upright flora and emergent seedlings rooted exclusively in fertile soil/water media while outer petals/fronds remain compliant", permeableGrassAndReeds: "360 non-obstructing grass & reed blades rooted in fertile turf outside platforms, stepping stones, boulders, trees, and flora bases with Hooke's law bending wake from player & Witness", permeableShallowWaterLagoon: "Hydrostatically contained Mirror Lagoon fluid basin with levelled shoreline embankment, neuromorphic Rule-30 cymatic standing waves, 24 pct viscous momentum drag & 5 dry stone lantern aprons" } as Foundation_Physics_V1_Model_CollisionPermeabilityTaxonomySpec), hydrodynamics: ({ lagoonRadiusMeters: 16n, maxWaterDepthCm: 42n, wadingSpeedPct: 76n, floatingStonePadCount: 5n, archimedeanBuoyancyMillihz: 1900n, waterSurfaceSubmergedBelowRim: (Foundation_Physics_V1_Model_minRequiredRimMarginCm() <= Foundation_Physics_V1_Model_verdantShorelineRimMarginCm()), floatingWaterEdgeCount: 0n, neuromorphicCymaticCouplingEnabled: (Foundation_Physics_V1_Model_stepPhysicsBusModulation(1n) < Foundation_Physics_V1_Model_stepPhysicsBusModulation(16n)), terraceBasinLevellingCount: 5n } as Foundation_Physics_V1_Model_HydrodynamicFluidSpec), foliageAndSlope: ({ grassWakeRadiusCm: 185n, maxDeflectionDeg: 38n, springReturnRate: 8n, surfaceMaterialCount: 5n, acousticOcclusionEnabled: (Foundation_Physics_V1_Model_minPermeableWadingSpeedPct() <= Foundation_Physics_V1_Model_verdantWadingSpeedPct()), canopyWindShearEnabled: (Foundation_Physics_V1_Model_minPermeableWadingSpeedPct() <= Foundation_Physics_V1_Model_verdantWadingSpeedPct()), slipstreamVortexWakeEnabled: (Foundation_Physics_V1_Model_minPermeableWadingSpeedPct() <= Foundation_Physics_V1_Model_verdantWadingSpeedPct()), chemotacticSporeBuoyancyEnabled: (Foundation_Physics_V1_Model_stepPhysicsBusModulation(1n) < Foundation_Physics_V1_Model_stepPhysicsBusModulation(16n)) } as Foundation_Physics_V1_Model_FoliageElasticityAndSlopeSpec), holisticCoupling: ({ coupledDomainCount: Foundation_Physics_V1_Model_verdantCoupledDomainCount(), sporeSolidObstacleDeflectionEnabled: (Foundation_Physics_V1_Model_minRequiredCoupledDomains() <= Foundation_Physics_V1_Model_verdantCoupledDomainCount()), sporeTerrainMeniscusFloorEnabled: (Foundation_Physics_V1_Model_verdantFloatingWaterEdges() === 0n), emergentSeedlingColliderRegistrationEnabled: (Foundation_Physics_V1_Model_minRequiredCoupledDomains() <= Foundation_Physics_V1_Model_verdantCoupledDomainCount()), waveRingSurfaceNormalAlignmentEnabled: (Foundation_Physics_V1_Model_minRequiredRimMarginCm() <= Foundation_Physics_V1_Model_verdantShorelineRimMarginCm()), heliocentricPhototropicShadowLockEnabled: (Foundation_Physics_V1_Model_minRequiredCoupledDomains() <= Foundation_Physics_V1_Model_verdantCoupledDomainCount()), causalWavefrontEchoTimingEnabled: (Foundation_Physics_V1_Model_minRequiredCoupledDomains() <= Foundation_Physics_V1_Model_verdantCoupledDomainCount()), universalAcousticSpatialBiochemConstraintEnabled: (Foundation_Physics_V1_Model_minRequiredCoupledDomains() <= Foundation_Physics_V1_Model_verdantCoupledDomainCount()), spatialGroundingAndSubstrateCoherenceEnabled: ((Foundation_Physics_V1_Model_verdantFloatingTreeOrRockEdges() === 0n) && (Foundation_Physics_V1_Model_verdantHardSurfaceOrRockFloraCount() === 0n)), universalNeuromorphicBusEnabled: Foundation_Neuromorphic_V1_Model_verifySingleCallPropagatesAllTenDomains(8n), crossDomainTransferLatencyTicks: 0n, floatingTreeOrRockEdgeCount: Foundation_Physics_V1_Model_verdantFloatingTreeOrRockEdges(), hardSurfaceOrRockFloraGrowthCount: Foundation_Physics_V1_Model_verdantHardSurfaceOrRockFloraCount() } as Foundation_Physics_V1_Model_HolisticCrossDomainCouplingSpec), materialObstruction: ({ synthesisCompoundCount: Foundation_Physics_V1_Model_verdantSynthesisCompoundCount(), crossModalChannelCount: Foundation_Physics_V1_Model_verdantCrossModalChannelCount(), solidMechanicalTransmittancePermille: Foundation_Physics_V1_Model_verdantSolidMechanicalTransmittancePermille(), quartzPhaseVelocityRetardationPermille: Foundation_Physics_V1_Model_verdantQuartzPhaseRetardationPermille(), lagoonHydroMomentumObstructionPermille: _natSub(1000n, _natMul(Foundation_Physics_V1_Model_verdantWadingSpeedPct(), 10n)), stoneAcousticImpedanceReflectionPermille: Foundation_Physics_V1_Model_verdantStoneImpedanceReflectionPermille(), staticPairwiseOverlapCount: Foundation_Physics_V1_Model_verdantStaticPairwiseOverlaps(), immanentWitnessColliderCoupled: Foundation_Physics_V1_Model_verifyMaterialSynthesisCrossModalObstruction(8n), wetlandLanternAndShorelineBoulderCollidersEnabled: (Foundation_Physics_V1_Model_verdantStaticPairwiseOverlaps() === 0n), sympatheticArcObstacleClearanceEnabled: (Foundation_Physics_V1_Model_stepCrossModalAcousticShadowPermille(1n) < Foundation_Physics_V1_Model_stepCrossModalAcousticShadowPermille(16n)), crossModalObstructionComplete: Foundation_Physics_V1_Model_verifyMaterialSynthesisCrossModalObstruction(16n) } as Foundation_Physics_V1_Model_MaterialSynthesisCrossModalObstructionSpec), neuromorphicBridge: ({ neuromorphicBusCoupled: (Foundation_Physics_V1_Model_stepPhysicsBusModulation(1n) < Foundation_Physics_V1_Model_stepPhysicsBusModulation(16n)), domainBasisPrime: Foundation_Physics_V1_Model_verdantPhysicsBasisPrime(), rule30RegisterBits: 64n, pointKeyBits: 28n, crossDomainTransferEnabled: (Foundation_Physics_V1_Model_stepPhysicsBusModulation(8n) < Foundation_Physics_V1_Model_stepPhysicsBusModulation(Foundation_Neuromorphic_V1_Model_transferWeightCrossDomain(8n, true))), autopoieticSelfRefinementEnabled: (Foundation_Physics_V1_Model_stepPhysicsBusModulation(8n) < Foundation_Physics_V1_Model_stepPhysicsBusModulation(Foundation_Neuromorphic_V1_Model_refineDomainWeightAutopoietic(8n, 16n))) } as Foundation_Physics_V1_Model_NeuromorphicPhysicsBridgeSpec) } as Foundation_Physics_V1_Model_EnvironmentalPhysicsStandard));
@@ -3055,6 +3075,14 @@ export function Foundation_Articulation_V1_Model_verifyThreeJointKinematicHierar
   return (((Foundation_Articulation_V1_Model_stepBasalJointTorqueMilli(busWeight) < Foundation_Articulation_V1_Model_stepMidCulmFlexureMilli(busWeight)) && (Foundation_Articulation_V1_Model_stepMidCulmFlexureMilli(busWeight) < Foundation_Articulation_V1_Model_stepApicalCorollaGimbalMilli(busWeight))) && (Foundation_Articulation_V1_Model_stepApicalCorollaGimbalMilli(busWeight) < Foundation_Articulation_V1_Model_stepApicalCorollaGimbalMilli(Foundation_Neuromorphic_V1_Model_transferWeightCrossDomain(busWeight, true))));
 }
 
+export function Foundation_Articulation_V1_Model_stepSympatheticArcApexCm(distanceDm: bigint, busWeight: bigint): bigint {
+  return ((85n + _natMul(((distanceDm <= 400n) ? distanceDm : 400n), 3n)) + _natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 4n));
+}
+
+export function Foundation_Articulation_V1_Model_stepGestureAttackMillis(gestureCode: bigint, busWeight: bigint): bigint {
+  return (() => { const cw = Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight); return ((gestureCode === 0n) ? 3n : ((gestureCode === 1n) ? _natSub(236n, _natMul(cw, 2n)) : ((gestureCode === 2n) ? _natSub(690n, _natMul(cw, 5n)) : 140n))); })();
+}
+
 let _c_Foundation_Articulation_V1_Model_verdantArticulationStandard: Foundation_Articulation_V1_Model_BotanicalArticulationStandard | undefined;
 export function Foundation_Articulation_V1_Model_verdantArticulationStandard(): Foundation_Articulation_V1_Model_BotanicalArticulationStandard {
   return _c_Foundation_Articulation_V1_Model_verdantArticulationStandard !== undefined ? _c_Foundation_Articulation_V1_Model_verdantArticulationStandard : (_c_Foundation_Articulation_V1_Model_verdantArticulationStandard = ({ profile: "prism/articulation-standard/2", speciesArticulation: ({ speciesCount: 5n, partialsPerSpecies: 5n, chimeLilyModel: "Silver Campanula Bell · Pendulum Corolla Swing & Clapper Harmonics [1.0, 2.0, 3.0, 4.24, 5.42]", pulseFernModel: "Rosewood Kalimba Tine · Crozier Spiral Unfurling & Frond Breathing [1.0, 2.92, 5.40, 8.15, 11.2]", echoLotusModel: "Hydro-Acoustic Water Harp · Concentric Petal Blooming & Meniscus Glide [1.0, 1.5, 2.0, 2.67, 4.0]", droneMossModel: "Basalt Organ Bourdon · Sub-Octave Cushion Respiration & Spore Levitation [0.5, 1.0, 1.5, 2.0, 3.0]", starOrchidModel: "Quartz Glass Harmonica · Celestial Gaze Tracking & Tepal Shimmer [1.0, 2.0, 3.0, 4.0, 6.0]" } as Foundation_Articulation_V1_Model_SpeciesModalArticulationSpec), gestureContrast: ({ touchAttackMs: 3n, touchDecayMs: 420n, touchVoices: 2n, touchGestureModel: "Touch Petal [T]: Crisp 3ms plucked/struck solo upper-harmonic transient (2x & 3x overtones) with 9Hz elastic petal shiver and 420ms intimate decay", attuneAttackMs: 220n, attuneDecayMs: 2400n, attuneVoices: 6n, attuneGestureModel: "Attune Flora [Space]: Lush 220ms polyphonic bowed/harmonica 6-voice multi-octave choir swell + 3 staggered binaural cross-pollination echoes over 2.4s", stillnessAttackMs: 650n, stillnessDecayMs: 3200n, stillnessGestureModel: "Meditative Stillness [C]: Self-decaying 650ms inhale / 3.2s exhale warm pastoral ninth breathing pad that fades cleanly to natural silence" } as Foundation_Articulation_V1_Model_GestureArticulationContrastSpec), landscapeTerraces: ({ terraceCount: 5n, meadowTerrace: "Sunlit Travertine Parterre & Radial Sundial Inlay", groveTerrace: "Raked Zen Moss & Jade Gravel Acoustic Ring Terrace with Nodal Bamboo Culms", crystalTerrace: "Obsidian-Sapphire Geode Mirror Basin & Perimeter Quartz Clusters", wetlandTerrace: "Multi-Tiered Mirror Lagoon with Expanding Water-Harp Ripple Rings", sanctuaryTerrace: "Golden-Ratio Harmonic Labyrinth Amphitheater & 5-Biome Ley-Line Conduits" } as Foundation_Articulation_V1_Model_BiomeLandscapeTerraceSpec), sympatheticArcs: ({ parabolicArcSegments: 9n, sympatheticEchoDelayMs: 140n, constellationVoices: 6n } as Foundation_Articulation_V1_Model_SympatheticArcAudioVisualSpec), kinematicRig: ({ kinematicJointsPerSpecimen: 3n, shapeKeyMorphChannels: 2n, phaseLagMilliRadPerJoint: 550n, threeJointKinematicChainVerified: Foundation_Articulation_V1_Model_verifyThreeJointKinematicHierarchy(Foundation_Neuromorphic_V1_Model_weightInitial()), shapeKeyMorphCouplingVerified: (Foundation_Articulation_V1_Model_verdantTouchAttackMs() < Foundation_Articulation_V1_Model_verdantAttuneAttackMs()) } as Foundation_Articulation_V1_Model_KinematicRigAndMorphSpec), neuromorphicBridge: ({ neuromorphicBusCoupled: (Foundation_Articulation_V1_Model_stepArticulationBusModulation(1n) < Foundation_Articulation_V1_Model_stepArticulationBusModulation(16n)), domainBasisPrime: Foundation_Articulation_V1_Model_verdantArticulationBasisPrime(), rule30RegisterBits: 64n, pointKeyBits: 28n, crossDomainTransferEnabled: (Foundation_Articulation_V1_Model_stepArticulationBusModulation(8n) < Foundation_Articulation_V1_Model_stepArticulationBusModulation(Foundation_Neuromorphic_V1_Model_transferWeightCrossDomain(8n, true))), autopoieticSelfRefinementEnabled: (Foundation_Articulation_V1_Model_stepArticulationBusModulation(8n) < Foundation_Articulation_V1_Model_stepArticulationBusModulation(Foundation_Neuromorphic_V1_Model_refineDomainWeightAutopoietic(8n, 16n))) } as Foundation_Articulation_V1_Model_NeuromorphicArticulationBridgeSpec) } as Foundation_Articulation_V1_Model_BotanicalArticulationStandard));
@@ -3126,6 +3154,10 @@ export function Foundation_Chemistry_V1_Model_clampAtomicNumberZ(z: bigint): big
 
 export function Foundation_Chemistry_V1_Model_pauliSubshellCapacity(azimuthalL: bigint): bigint {
   return (2n + _natMul(4n, azimuthalL));
+}
+
+export function Foundation_Chemistry_V1_Model_resolveBravaisPearsonIndex(pearsonCode: bigint): bigint {
+  return _natSub(13n, _natSub(13n, pearsonCode));
 }
 
 export function Foundation_Chemistry_V1_Model_iupacPeriodLowHalf(cz: bigint): bigint {
@@ -3243,6 +3275,18 @@ export function Foundation_Botany_V1_Model_stepThinFilmIridescenceSpanNm(busWeig
 
 export function Foundation_Botany_V1_Model_verifyHighDefinitionBMeshSynthesis(busWeight: bigint): boolean {
   return (((272n <= Foundation_Botany_V1_Model_stepBMeshSubdivisionDensity(busWeight)) && (Foundation_Botany_V1_Model_stepBMeshSubdivisionDensity(busWeight) < Foundation_Botany_V1_Model_stepThinFilmIridescenceSpanNm(busWeight))) && (Foundation_Botany_V1_Model_stepBMeshSubdivisionDensity(busWeight) < Foundation_Botany_V1_Model_stepBMeshSubdivisionDensity(Foundation_Neuromorphic_V1_Model_transferWeightCrossDomain(busWeight, true))));
+}
+
+export function Foundation_Botany_V1_Model_classifyGrowthSubstrateCode(isEchoLotusInLagoon: boolean, isDroneMossOnRock: boolean, isStarOrchidNearCrystal: boolean, isNearMonumentApron: boolean): bigint {
+  return (isEchoLotusInLagoon ? 1n : (isDroneMossOnRock ? 2n : (isStarOrchidNearCrystal ? 3n : (isNearMonumentApron ? 4n : 0n))));
+}
+
+export function Foundation_Botany_V1_Model_stepKuramotoCouplingPermille(busWeight: bigint, neighborCount: bigint): bigint {
+  return _natQuot(_natMul((180n + _natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 24n)), ((neighborCount <= 6n) ? neighborCount : 6n)), 6n, 0n);
+}
+
+export function Foundation_Botany_V1_Model_stepBotanicalTurgorPermille(busWeight: bigint, harmonyPct: bigint, attuned: boolean): bigint {
+  return (((720n + _natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 14n)) + ((harmonyPct <= 100n) ? harmonyPct : 100n)) + (attuned ? 80n : 0n));
 }
 
 let _c_Foundation_Botany_V1_Model_verdantBotanicalStandard: Foundation_Botany_V1_Model_BotanicalFidelityStandard | undefined;
@@ -3702,6 +3746,10 @@ export function Foundation_Compression_V1_Model_lackUnder(threshold: bigint, obs
   return _natSub(threshold, observed);
 }
 
+export function Foundation_Compression_V1_Model_verifyUorcArchiveBounds(archiveLen: bigint, magicValid: boolean, objectCount: bigint): boolean {
+  return (magicValid && ((38n + objectCount) <= archiveLen));
+}
+
 const _memo_Foundation_Compression_V1_Model_pow2 = new Map<bigint, bigint>();
 export function Foundation_Compression_V1_Model_pow2(n: bigint): bigint {
   const hit = _memo_Foundation_Compression_V1_Model_pow2.get(n);
@@ -4104,6 +4152,14 @@ export function Foundation_Humane_V1_Model_evaluateGazeTargetInForwardCone(angle
   return ((angleDeg <= Foundation_Humane_V1_Model_verdantForwardFovHalfAngleDeg()) && (distMeters <= 22n));
 }
 
+export function Foundation_Humane_V1_Model_resolveCompassOctantIndex(headingDeg360: bigint): bigint {
+  return _natRem(_natQuot((_natRem(headingDeg360, 360n, 0n) + 22n), 45n, 0n), 8n, 0n);
+}
+
+export function Foundation_Humane_V1_Model_stepDiurnalSkyLuminancePermille(atmosphereCode: bigint, busWeight: bigint): bigint {
+  return (((atmosphereCode === 0n) ? 640n : ((atmosphereCode === 1n) ? 820n : ((atmosphereCode === 2n) ? 380n : 190n))) + _natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 4n));
+}
+
 let _c_Foundation_Humane_V1_Model_verdantHumaneStandard: Foundation_Humane_V1_Model_HumaneDesignStandard | undefined;
 export function Foundation_Humane_V1_Model_verdantHumaneStandard(): Foundation_Humane_V1_Model_HumaneDesignStandard {
   return _c_Foundation_Humane_V1_Model_verdantHumaneStandard !== undefined ? _c_Foundation_Humane_V1_Model_verdantHumaneStandard : (_c_Foundation_Humane_V1_Model_verdantHumaneStandard = ({ profile: "prism/humane-design/3", philosophy: "Calm Technology, Focal Gaze-Cone Selection, Reciprocal Environmental Co-Agency, Zero Camera Snap & Sustained Mindful Hold", viewportBudget: ({ minUnobstructedPct: 85n, actualUnobstructedPct: 88n, maxCornerClusters: 3n, actualCornerClusters: 2n, collapsibleControlDock: (Foundation_Humane_V1_Model_requiredOpenViewportPct() <= Foundation_Humane_V1_Model_verdantOpenViewportPct()) } as Foundation_Humane_V1_Model_ViewportCalmBudget), safetyGuarantee: ({ violenceElements: 0n, punitiveTimers: 0n, darkPatterns: 0n, nonViolentSanctuary: (Foundation_Humane_V1_Model_verdantViolenceCount() === 0n), userAgencyPreserved: (Foundation_Humane_V1_Model_verdantMaxZephyrAccelMmPerSec2() <= Foundation_Humane_V1_Model_maxPermissibleGentleZephyrMmPerSec2()) } as Foundation_Humane_V1_Model_HumaneSafetyGuarantee), pacingModel: ({ stillnessVelocityDm: 0n, calmAttuneMaxVelocityDm: 10n, gentleStrollMaxVelocityDm: 20n, blossomFramingDistanceDm: 36n } as Foundation_Humane_V1_Model_RestorativePacingModel), cameraKinematics: ({ zeroPositionTeleportOnInteract: (Foundation_Humane_V1_Model_verdantTeleportCountOnInteract() === 0n), zeroHardYawSnapOnInteract: (Foundation_Humane_V1_Model_verdantTeleportCountOnInteract() === 0n), positionSpringDampingPerSec: 14n, rotationSpringDampingPerSec: 12n, softGazeAssistMaxMillirad: 65n } as Foundation_Humane_V1_Model_CameraKinematicsPolicy), gestureHoldPolicy: ({ suppressOsKeyRepeat: (Foundation_Humane_V1_Model_verdantOsKeyRepeatChaosCount() === 0n), touchRefractoryMs: 550n, attuneRefractoryMs: 1100n, stillnessBreathCycleMs: 4200n, sustainedHoldPulseMs: 2400n, mindfulExplorationNeverForceEnds: (Foundation_Humane_V1_Model_minRequiredBreathCycleMs() <= Foundation_Humane_V1_Model_verdantStillnessBreathCycleMs()) } as Foundation_Humane_V1_Model_GestureHoldAndCooldownPolicy), focalGazeSelection: ({ forwardFovHalfAngleDeg: 62n, maxInteractiveRangeMeters: 22n, rayAlignmentWeightPct: 72n, rejectsBehindCameraTargets: (!Foundation_Humane_V1_Model_evaluateGazeTargetInForwardCone(180n, 5n)), behindPlayerActivationsCount: 0n } as Foundation_Humane_V1_Model_FocalGazeSelectionPolicy), environmentalAgency: ({ environmentObservesSelfAndPlayer: Foundation_Humane_V1_Model_evaluateGazeTargetInForwardCone(10n, 8n), environmentActsOnSelfAndPlayer: (Foundation_Humane_V1_Model_stepHumaneBusModulation(8n) <= Foundation_Humane_V1_Model_verdantMaxZephyrAccelMmPerSec2()), playerObjectiveUnchanged: (Foundation_Humane_V1_Model_verdantMaxZephyrAccelMmPerSec2() <= Foundation_Humane_V1_Model_maxPermissibleGentleZephyrMmPerSec2()), optimizedModalityCount: 6n, maxZephyrGuidanceAccelMmPerSec2: 280n, maxReciprocalBowMillirad: 140n, autonomousBeckoningIntervalMs: 4800n } as Foundation_Humane_V1_Model_SymbioticEnvironmentalAgencySpec), neuromorphicBridge: ({ neuromorphicBusCoupled: (Foundation_Humane_V1_Model_stepHumaneBusModulation(1n) < Foundation_Humane_V1_Model_stepHumaneBusModulation(16n)), domainBasisPrime: Foundation_Humane_V1_Model_verdantHumaneBasisPrime(), rule30RegisterBits: 64n, pointKeyBits: 28n, crossDomainTransferEnabled: (Foundation_Humane_V1_Model_stepHumaneBusModulation(8n) < Foundation_Humane_V1_Model_stepHumaneBusModulation(Foundation_Neuromorphic_V1_Model_transferWeightCrossDomain(8n, true))), autopoieticSelfRefinementEnabled: (Foundation_Humane_V1_Model_stepHumaneBusModulation(8n) < Foundation_Humane_V1_Model_stepHumaneBusModulation(Foundation_Neuromorphic_V1_Model_refineDomainWeightAutopoietic(8n, 16n))) } as Foundation_Humane_V1_Model_NeuromorphicHumaneBridgeSpec) } as Foundation_Humane_V1_Model_HumaneDesignStandard));
@@ -4485,6 +4541,18 @@ export function Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille(bus
   return ((512n + _natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 18n)) + _natMul(((harmonyPct <= 100n) ? harmonyPct : 100n), 2n));
 }
 
+export function Foundation_Teleology_V1_Model_inferPlayerTheoryOfMindCode(velocityDm: bigint, isStillness: boolean, hasFocalTarget: boolean, gestureHoldPermille: bigint): bigint {
+  return ((isStillness && (velocityDm === 0n)) ? 0n : ((hasFocalTarget && (150n <= gestureHoldPermille)) ? 1n : ((hasFocalTarget && (velocityDm <= 12n)) ? 2n : ((18n <= velocityDm) ? 3n : 4n))));
+}
+
+export function Foundation_Teleology_V1_Model_admitLivePlayerCoEvolutionStep(playerAttentionPermille: bigint, coerciveDarkPatternCount: bigint, candidateDissonancePermille: bigint, incumbentDissonancePermille: bigint, candidateQualityPermille: bigint, incumbentQualityPermille: bigint): boolean {
+  return (((coerciveDarkPatternCount === 0n) && (0n < playerAttentionPermille)) && (((candidateDissonancePermille <= incumbentDissonancePermille) && (incumbentQualityPermille <= candidateQualityPermille)) && ((candidateDissonancePermille < incumbentDissonancePermille) || (incumbentQualityPermille < candidateQualityPermille))));
+}
+
+export function Foundation_Teleology_V1_Model_proposeLiveCoEvolvedDomainWeight(currentWeight: bigint, rule30LaneBits: bigint, domainResonanceMatch: boolean): bigint {
+  return (() => { const base = Foundation_Neuromorphic_V1_Model_clampBusWeight(currentWeight); return (domainResonanceMatch ? ((0n < rule30LaneBits) ? Foundation_Neuromorphic_V1_Model_clampBusWeight((base + 1n)) : base) : (((9n < base) && (rule30LaneBits === 7n)) ? _natSub(base, 1n) : base)); })();
+}
+
 export function Foundation_Teleology_V1_Model_stepTeleologyBusModulation(busWeight: bigint): bigint {
   return (1000n + _natMul(Foundation_Neuromorphic_V1_Model_clampBusWeight(busWeight), 28n));
 }
@@ -4557,6 +4625,10 @@ export function Foundation_Teleology_V1_Model_breaksInclusivePlayerReferenceTran
 
 export function Foundation_Teleology_V1_Model_breaksReflexiveHolonDirectivesAndDissonanceReconciliation(w: bigint, rawDissonance: bigint): boolean {
   return (((Foundation_Teleology_V1_Model_clampTeleologyPermille(rawDissonance) < Foundation_Teleology_V1_Model_stepObserverDissonanceReconciliationPermille(w, 32n, 800n, rawDissonance)) || (0n < Foundation_Teleology_V1_Model_stepObserverDissonanceReconciliationPermille(12n, 32n, 900n, 400n))) || ((Foundation_Teleology_V1_Model_stepReflexiveFacetNicheIndex(Foundation_Teleology_V1_Model_verdantGameHolonPrime(), w, 23n) <= Foundation_Teleology_V1_Model_stepReflexiveFacetNicheIndex(Foundation_Teleology_V1_Model_playerCoObserverPrime(), w, 22n)) || ((1000n < Foundation_Teleology_V1_Model_stepPlayerGameDissonancePermille(1200n, 1200n, 1200n)) || (Foundation_Teleology_V1_Model_reflexiveHolonFacetTotal() < 24n))));
+}
+
+export function Foundation_Teleology_V1_Model_breaksLivePlayerCoEvolutionInvariants(att: bigint, dark: bigint, candD: bigint, incD: bigint, candQ: bigint, incQ: bigint, w: bigint, bits: bigint, matchFlag: boolean): boolean {
+  return (() => { const admitted = Foundation_Teleology_V1_Model_admitLivePlayerCoEvolutionStep(att, dark, candD, incD, candQ, incQ); const nextW = Foundation_Teleology_V1_Model_proposeLiveCoEvolvedDomainWeight(w, bits, matchFlag); return (((((att === 0n) && admitted) || ((0n < dark) && admitted)) || (admitted && (((incD < candD) || (candQ < incQ)) || ((candD === incD) && (candQ === incQ))))) || (((nextW < Foundation_Neuromorphic_V1_Model_weightMin()) || (Foundation_Neuromorphic_V1_Model_weightMax() < nextW)) || (4n < Foundation_Teleology_V1_Model_inferPlayerTheoryOfMindCode(w, matchFlag, matchFlag, att)))); })();
 }
 
 let _c_Foundation_Vedanta_V1_Model_verdantVedantaBasisPrime: bigint | undefined;
@@ -6735,6 +6807,10 @@ export function VerdantResonance_verifyBusModulationsFromState(bus: Foundation_N
   return ((((((((((_natSub(1005n, Foundation_Infrastructure_V1_Model_stepInfrastructureBusModulation(bus.wInfrastructure)) + _natSub(875n, Foundation_Physics_V1_Model_stepPhysicsBusModulation(bus.wPhysics))) + _natSub(20n, Foundation_Botany_V1_Model_stepBotanyBusModulation(bus.wBotany))) + _natSub(825n, Foundation_Ecology_V1_Model_stepEcologyBusModulation(bus.wEcology))) + _natSub(915n, Foundation_Acoustics_V1_Model_stepAcousticsBusModulation(bus.wAcoustics))) + _natSub(920n, Foundation_Articulation_V1_Model_stepArticulationBusModulation(bus.wArticulation))) + _natSub(53n, Foundation_Soundtrack_V1_Model_stepSoundtrackBusModulation(bus.wSoundtrack))) + _natSub(130n, Foundation_Humane_V1_Model_stepHumaneBusModulation(bus.wHumane))) + _natSub(85n, Foundation_Brand_V1_Model_stepBrandBusModulation(bus.wBrand))) + _natSub((Foundation_Neuromorphic_V1_Model_weightInitial() + 1n), bus.wNeuromorphic)) <= 0n);
 }
 
+export function VerdantResonance_verifyBusModulationsScalar(wInfra: bigint, wPhys: bigint, wBotany: bigint, wEcology: bigint, wAcoustics: bigint, wArtic: bigint, wSoundtrack: bigint, wHumane: bigint, wBrand: bigint, wNeuro: bigint): boolean {
+  return VerdantResonance_verifyBusModulationsFromState(({ wInfrastructure: wInfra, wPhysics: wPhys, wBotany: wBotany, wEcology: wEcology, wAcoustics: wAcoustics, wArticulation: wArtic, wSoundtrack: wSoundtrack, wHumane: wHumane, wBrand: wBrand, wNeuromorphic: wNeuro } as Foundation_Neuromorphic_V1_Model_BusManifoldState));
+}
+
 export function VerdantResonance_verifyJudgeCrossDomainBusGate(request: VerdantResonance_Request): boolean {
   return VerdantResonance_verifyBusModulationsFromState(VerdantResonance_stepJudgeBusManifold(request));
 }
@@ -7052,6 +7128,11 @@ export const PRISM_COMPILED_MODULES = {
     "verifyMaterialSynthesisCrossModalObstruction": Foundation_Physics_V1_Model_verifyMaterialSynthesisCrossModalObstruction,
     "verdantPhysicsBasisPrime": Foundation_Physics_V1_Model_verdantPhysicsBasisPrime,
     "stepPhysicsBusModulation": Foundation_Physics_V1_Model_stepPhysicsBusModulation,
+    "stepTerrainSlopeSpeedPermille": Foundation_Physics_V1_Model_stepTerrainSlopeSpeedPermille,
+    "stepSlopeEmbedmentDepthMm": Foundation_Physics_V1_Model_stepSlopeEmbedmentDepthMm,
+    "stepWindGustEnvelopePermille": Foundation_Physics_V1_Model_stepWindGustEnvelopePermille,
+    "stepGroundWaveAttenuationPermille": Foundation_Physics_V1_Model_stepGroundWaveAttenuationPermille,
+    "stepSporeBuoyancyDriftMmPerSec": Foundation_Physics_V1_Model_stepSporeBuoyancyDriftMmPerSec,
     "verdantPhysicsStandard": Foundation_Physics_V1_Model_verdantPhysicsStandard,
     "breaksPermeableMediaNonObstruction": Foundation_Physics_V1_Model_breaksPermeableMediaNonObstruction,
     "breaksHydrostaticContainment": Foundation_Physics_V1_Model_breaksHydrostaticContainment,
@@ -7143,6 +7224,8 @@ export const PRISM_COMPILED_MODULES = {
     "stepMidCulmFlexureMilli": Foundation_Articulation_V1_Model_stepMidCulmFlexureMilli,
     "stepApicalCorollaGimbalMilli": Foundation_Articulation_V1_Model_stepApicalCorollaGimbalMilli,
     "verifyThreeJointKinematicHierarchy": Foundation_Articulation_V1_Model_verifyThreeJointKinematicHierarchy,
+    "stepSympatheticArcApexCm": Foundation_Articulation_V1_Model_stepSympatheticArcApexCm,
+    "stepGestureAttackMillis": Foundation_Articulation_V1_Model_stepGestureAttackMillis,
     "verdantArticulationStandard": Foundation_Articulation_V1_Model_verdantArticulationStandard,
     "breaksArticulationVoicesMinimum": Foundation_Articulation_V1_Model_breaksArticulationVoicesMinimum,
     "breaksGestureAttackContrast": Foundation_Articulation_V1_Model_breaksGestureAttackContrast,
@@ -7161,6 +7244,7 @@ export const PRISM_COMPILED_MODULES = {
     "essentialBiologicalElementsTotal": Foundation_Chemistry_V1_Model_essentialBiologicalElementsTotal,
     "clampAtomicNumberZ": Foundation_Chemistry_V1_Model_clampAtomicNumberZ,
     "pauliSubshellCapacity": Foundation_Chemistry_V1_Model_pauliSubshellCapacity,
+    "resolveBravaisPearsonIndex": Foundation_Chemistry_V1_Model_resolveBravaisPearsonIndex,
     "iupacPeriodLowHalf": Foundation_Chemistry_V1_Model_iupacPeriodLowHalf,
     "iupacPeriodHighHalf": Foundation_Chemistry_V1_Model_iupacPeriodHighHalf,
     "iupacPeriodOfZ": Foundation_Chemistry_V1_Model_iupacPeriodOfZ,
@@ -7189,6 +7273,9 @@ export const PRISM_COMPILED_MODULES = {
     "stepBMeshSubdivisionDensity": Foundation_Botany_V1_Model_stepBMeshSubdivisionDensity,
     "stepThinFilmIridescenceSpanNm": Foundation_Botany_V1_Model_stepThinFilmIridescenceSpanNm,
     "verifyHighDefinitionBMeshSynthesis": Foundation_Botany_V1_Model_verifyHighDefinitionBMeshSynthesis,
+    "classifyGrowthSubstrateCode": Foundation_Botany_V1_Model_classifyGrowthSubstrateCode,
+    "stepKuramotoCouplingPermille": Foundation_Botany_V1_Model_stepKuramotoCouplingPermille,
+    "stepBotanicalTurgorPermille": Foundation_Botany_V1_Model_stepBotanicalTurgorPermille,
     "verdantBotanicalStandard": Foundation_Botany_V1_Model_verdantBotanicalStandard,
     "breaksBotanicalRoughnessContrast": Foundation_Botany_V1_Model_breaksBotanicalRoughnessContrast,
     "breaksSubstrateDiversityGuarantee": Foundation_Botany_V1_Model_breaksSubstrateDiversityGuarantee,
@@ -7299,6 +7386,7 @@ export const PRISM_COMPILED_MODULES = {
     "encodedPayloadBelowCap": Foundation_Compression_V1_Model_encodedPayloadBelowCap,
     "excessOver": Foundation_Compression_V1_Model_excessOver,
     "lackUnder": Foundation_Compression_V1_Model_lackUnder,
+    "verifyUorcArchiveBounds": Foundation_Compression_V1_Model_verifyUorcArchiveBounds,
     "pow2": Foundation_Compression_V1_Model_pow2,
     "cell": Foundation_Compression_V1_Model_cell,
     "rule": Foundation_Compression_V1_Model_rule,
@@ -7395,6 +7483,8 @@ export const PRISM_COMPILED_MODULES = {
     "maxForwardHemisphereHalfAngleDeg": Foundation_Humane_V1_Model_maxForwardHemisphereHalfAngleDeg,
     "stepHumaneBusModulation": Foundation_Humane_V1_Model_stepHumaneBusModulation,
     "evaluateGazeTargetInForwardCone": Foundation_Humane_V1_Model_evaluateGazeTargetInForwardCone,
+    "resolveCompassOctantIndex": Foundation_Humane_V1_Model_resolveCompassOctantIndex,
+    "stepDiurnalSkyLuminancePermille": Foundation_Humane_V1_Model_stepDiurnalSkyLuminancePermille,
     "verdantHumaneStandard": Foundation_Humane_V1_Model_verdantHumaneStandard,
     "breaksHumaneViewportBudget": Foundation_Humane_V1_Model_breaksHumaneViewportBudget,
     "breaksCameraOrHoldDiscipline": Foundation_Humane_V1_Model_breaksCameraOrHoldDiscipline,
@@ -7488,6 +7578,9 @@ export const PRISM_COMPILED_MODULES = {
     "stepTerraceStandingWaveGlowPermille": Foundation_Teleology_V1_Model_stepTerraceStandingWaveGlowPermille,
     "stepWitnessCommunionReciprocityPermille": Foundation_Teleology_V1_Model_stepWitnessCommunionReciprocityPermille,
     "stepCuratorialAffinityPermille": Foundation_Teleology_V1_Model_stepCuratorialAffinityPermille,
+    "inferPlayerTheoryOfMindCode": Foundation_Teleology_V1_Model_inferPlayerTheoryOfMindCode,
+    "admitLivePlayerCoEvolutionStep": Foundation_Teleology_V1_Model_admitLivePlayerCoEvolutionStep,
+    "proposeLiveCoEvolvedDomainWeight": Foundation_Teleology_V1_Model_proposeLiveCoEvolvedDomainWeight,
     "stepTeleologyBusModulation": Foundation_Teleology_V1_Model_stepTeleologyBusModulation,
     "verifyRequirementGroundsEnvironmentalSynthesis": Foundation_Teleology_V1_Model_verifyRequirementGroundsEnvironmentalSynthesis,
     "verifyZeroOrphanElementsAndZeroManualControls": Foundation_Teleology_V1_Model_verifyZeroOrphanElementsAndZeroManualControls,
@@ -7506,6 +7599,7 @@ export const PRISM_COMPILED_MODULES = {
     "breaksCoCuratorialOffshootAndWaystoneBounds": Foundation_Teleology_V1_Model_breaksCoCuratorialOffshootAndWaystoneBounds,
     "breaksInclusivePlayerReferenceTranscendsRule30Ceiling": Foundation_Teleology_V1_Model_breaksInclusivePlayerReferenceTranscendsRule30Ceiling,
     "breaksReflexiveHolonDirectivesAndDissonanceReconciliation": Foundation_Teleology_V1_Model_breaksReflexiveHolonDirectivesAndDissonanceReconciliation,
+    "breaksLivePlayerCoEvolutionInvariants": Foundation_Teleology_V1_Model_breaksLivePlayerCoEvolutionInvariants,
   },
   "Foundation.Vedanta.V1.Model": {
     "verdantVedantaBasisPrime": Foundation_Vedanta_V1_Model_verdantVedantaBasisPrime,
@@ -8019,6 +8113,7 @@ export const PRISM_COMPILED_MODULES = {
     "judgeRules": VerdantResonance_judgeRules,
     "stepJudgeBusManifold": VerdantResonance_stepJudgeBusManifold,
     "verifyBusModulationsFromState": VerdantResonance_verifyBusModulationsFromState,
+    "verifyBusModulationsScalar": VerdantResonance_verifyBusModulationsScalar,
     "verifyJudgeCrossDomainBusGate": VerdantResonance_verifyJudgeCrossDomainBusGate,
     "verifyCompletePrismModelClosure": VerdantResonance_verifyCompletePrismModelClosure,
     "verifyCanonicalStandardModelsAllTheWayDown": VerdantResonance_verifyCanonicalStandardModelsAllTheWayDown,
@@ -8053,12 +8148,12 @@ export const PRISM_COMPILED_MODULES = {
 export type PrismCompiledModuleName = keyof typeof PRISM_COMPILED_MODULES;
 
 export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
-  "sourceTreeDigestSha256": "8584cf288385cc902985a80016e5d7d6d0fab3048c5b307993a5f5f2fdece563",
+  "sourceTreeDigestSha256": "0bde848b37d760d13d90e99eae426fd5dce1e3eb5d0c60cc4f79cea93ff935ed",
   "moduleCount": 28,
   "inductiveCount": 2,
   "structureCount": 162,
-  "definitionCount": 1134,
-  "theoremCount": 181,
+  "definitionCount": 1153,
+  "theoremCount": 182,
   "modules": [
     {
       "moduleName": "Foundation.MetaModel.V1.Model",
@@ -8098,7 +8193,7 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       ],
       "inductiveCount": 0,
       "structureCount": 9,
-      "definitionCount": 49,
+      "definitionCount": 54,
       "theoremCount": 8
     },
     {
@@ -8145,7 +8240,7 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       ],
       "inductiveCount": 0,
       "structureCount": 7,
-      "definitionCount": 17,
+      "definitionCount": 19,
       "theoremCount": 5
     },
     {
@@ -8157,7 +8252,7 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       ],
       "inductiveCount": 0,
       "structureCount": 4,
-      "definitionCount": 23,
+      "definitionCount": 24,
       "theoremCount": 5
     },
     {
@@ -8169,7 +8264,7 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       ],
       "inductiveCount": 0,
       "structureCount": 8,
-      "definitionCount": 22,
+      "definitionCount": 25,
       "theoremCount": 7
     },
     {
@@ -8214,7 +8309,7 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       ],
       "inductiveCount": 0,
       "structureCount": 4,
-      "definitionCount": 73,
+      "definitionCount": 74,
       "theoremCount": 7
     },
     {
@@ -8251,7 +8346,7 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       ],
       "inductiveCount": 0,
       "structureCount": 10,
-      "definitionCount": 27,
+      "definitionCount": 29,
       "theoremCount": 6
     },
     {
@@ -8303,8 +8398,8 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       ],
       "inductiveCount": 0,
       "structureCount": 5,
-      "definitionCount": 49,
-      "theoremCount": 9
+      "definitionCount": 53,
+      "theoremCount": 10
     },
     {
       "moduleName": "Foundation.Vedanta.V1.Model",
@@ -8414,7 +8509,7 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       ],
       "inductiveCount": 0,
       "structureCount": 1,
-      "definitionCount": 257,
+      "definitionCount": 258,
       "theoremCount": 0
     },
     {
@@ -10069,6 +10164,49 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       "resultType": "Bool"
     },
     {
+      "moduleName": "Foundation.Teleology.V1.Model",
+      "name": "breaksLivePlayerCoEvolutionInvariants",
+      "parameters": [
+        {
+          "name": "att",
+          "lexType": "Nat"
+        },
+        {
+          "name": "dark",
+          "lexType": "Nat"
+        },
+        {
+          "name": "candD",
+          "lexType": "Nat"
+        },
+        {
+          "name": "incD",
+          "lexType": "Nat"
+        },
+        {
+          "name": "candQ",
+          "lexType": "Nat"
+        },
+        {
+          "name": "incQ",
+          "lexType": "Nat"
+        },
+        {
+          "name": "w",
+          "lexType": "Nat"
+        },
+        {
+          "name": "bits",
+          "lexType": "Nat"
+        },
+        {
+          "name": "matchFlag",
+          "lexType": "Bool"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
       "moduleName": "Foundation.Vedanta.V1.Model",
       "name": "breaksTrigunaExactConservationThousandPermille",
       "parameters": [
@@ -10913,6 +11051,25 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
     },
     {
       "moduleName": "Foundation.Compression.V1.Model",
+      "name": "verifyUorcArchiveBounds",
+      "parameters": [
+        {
+          "name": "archiveLen",
+          "lexType": "Nat"
+        },
+        {
+          "name": "magicValid",
+          "lexType": "Bool"
+        },
+        {
+          "name": "objectCount",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "Foundation.Compression.V1.Model",
       "name": "verifyRule30RingAndOrbitVectors",
       "parameters": [],
       "resultType": "Bool"
@@ -11387,6 +11544,53 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
     },
     {
       "moduleName": "VerdantResonance",
+      "name": "verifyBusModulationsScalar",
+      "parameters": [
+        {
+          "name": "wInfra",
+          "lexType": "Nat"
+        },
+        {
+          "name": "wPhys",
+          "lexType": "Nat"
+        },
+        {
+          "name": "wBotany",
+          "lexType": "Nat"
+        },
+        {
+          "name": "wEcology",
+          "lexType": "Nat"
+        },
+        {
+          "name": "wAcoustics",
+          "lexType": "Nat"
+        },
+        {
+          "name": "wArtic",
+          "lexType": "Nat"
+        },
+        {
+          "name": "wSoundtrack",
+          "lexType": "Nat"
+        },
+        {
+          "name": "wHumane",
+          "lexType": "Nat"
+        },
+        {
+          "name": "wBrand",
+          "lexType": "Nat"
+        },
+        {
+          "name": "wNeuro",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "VerdantResonance",
       "name": "verifyJudgeCrossDomainBusGate",
       "parameters": [
         {
@@ -11634,6 +11838,81 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       "resultType": "Nat"
     },
     {
+      "moduleName": "Foundation.Physics.V1.Model",
+      "name": "stepTerrainSlopeSpeedPermille",
+      "parameters": [
+        {
+          "name": "gradePermille",
+          "lexType": "Nat"
+        },
+        {
+          "name": "isUphill",
+          "lexType": "Bool"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "moduleName": "Foundation.Physics.V1.Model",
+      "name": "stepSlopeEmbedmentDepthMm",
+      "parameters": [
+        {
+          "name": "baseEmbedMm",
+          "lexType": "Nat"
+        },
+        {
+          "name": "perimeterDeltaMm",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "moduleName": "Foundation.Physics.V1.Model",
+      "name": "stepWindGustEnvelopePermille",
+      "parameters": [
+        {
+          "name": "busWeight",
+          "lexType": "Nat"
+        },
+        {
+          "name": "rule30Byte",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "moduleName": "Foundation.Physics.V1.Model",
+      "name": "stepGroundWaveAttenuationPermille",
+      "parameters": [
+        {
+          "name": "distDm",
+          "lexType": "Nat"
+        },
+        {
+          "name": "busWeight",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "moduleName": "Foundation.Physics.V1.Model",
+      "name": "stepSporeBuoyancyDriftMmPerSec",
+      "parameters": [
+        {
+          "name": "busWeight",
+          "lexType": "Nat"
+        },
+        {
+          "name": "harmonyPct",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
       "moduleName": "Foundation.Acoustics.V1.Model",
       "name": "stepAcousticsBusModulation",
       "parameters": [
@@ -11733,6 +12012,36 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       "resultType": "Nat"
     },
     {
+      "moduleName": "Foundation.Articulation.V1.Model",
+      "name": "stepSympatheticArcApexCm",
+      "parameters": [
+        {
+          "name": "distanceDm",
+          "lexType": "Nat"
+        },
+        {
+          "name": "busWeight",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "moduleName": "Foundation.Articulation.V1.Model",
+      "name": "stepGestureAttackMillis",
+      "parameters": [
+        {
+          "name": "gestureCode",
+          "lexType": "Nat"
+        },
+        {
+          "name": "busWeight",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
       "moduleName": "Foundation.Chemistry.V1.Model",
       "name": "stepChemistryBusModulation",
       "parameters": [
@@ -11772,6 +12081,40 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
         {
           "name": "busWeight",
           "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "moduleName": "Foundation.Botany.V1.Model",
+      "name": "stepKuramotoCouplingPermille",
+      "parameters": [
+        {
+          "name": "busWeight",
+          "lexType": "Nat"
+        },
+        {
+          "name": "neighborCount",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "moduleName": "Foundation.Botany.V1.Model",
+      "name": "stepBotanicalTurgorPermille",
+      "parameters": [
+        {
+          "name": "busWeight",
+          "lexType": "Nat"
+        },
+        {
+          "name": "harmonyPct",
+          "lexType": "Nat"
+        },
+        {
+          "name": "attuned",
+          "lexType": "Bool"
         }
       ],
       "resultType": "Nat"
@@ -12011,6 +12354,21 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       "moduleName": "Foundation.Humane.V1.Model",
       "name": "stepHumaneBusModulation",
       "parameters": [
+        {
+          "name": "busWeight",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Nat"
+    },
+    {
+      "moduleName": "Foundation.Humane.V1.Model",
+      "name": "stepDiurnalSkyLuminancePermille",
+      "parameters": [
+        {
+          "name": "atmosphereCode",
+          "lexType": "Nat"
+        },
         {
           "name": "busWeight",
           "lexType": "Nat"

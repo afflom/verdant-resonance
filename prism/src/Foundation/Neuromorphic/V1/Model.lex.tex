@@ -186,7 +186,8 @@ definition{
   parameters: [w : Nat],
   result: Nat,
   body: (let cap : Nat := (prim subtract (weightMax) (weightRaise) : Nat); (prim subtract (weightMax) (prim subtract cap w : Nat) : Nat)),
-  executable: true
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
@@ -246,7 +247,8 @@ definition{
   name: stepAutopoieticBusManifold,
   parameters: [state : BusManifoldState, leaderWeight : Nat],
   result: BusManifoldState,
-  body: (record BusManifoldState {wInfrastructure := (refineDomainWeightAutopoietic (project state wInfrastructure) leaderWeight), wPhysics := (refineDomainWeightAutopoietic (project state wPhysics) leaderWeight), wBotany := (refineDomainWeightAutopoietic (project state wBotany) leaderWeight), wEcology := (refineDomainWeightAutopoietic (project state wEcology) leaderWeight), wAcoustics := (refineDomainWeightAutopoietic (project state wAcoustics) leaderWeight), wArticulation := (refineDomainWeightAutopoietic (project state wArticulation) leaderWeight), wSoundtrack := (refineDomainWeightAutopoietic (project state wSoundtrack) leaderWeight), wHumane := (refineDomainWeightAutopoietic (project state wHumane) leaderWeight), wBrand := (refineDomainWeightAutopoietic (project state wBrand) leaderWeight), wNeuromorphic := (refineDomainWeightAutopoietic (project state wNeuromorphic) leaderWeight)})
+  body: (record BusManifoldState {wInfrastructure := (refineDomainWeightAutopoietic (project state wInfrastructure) leaderWeight), wPhysics := (refineDomainWeightAutopoietic (project state wPhysics) leaderWeight), wBotany := (refineDomainWeightAutopoietic (project state wBotany) leaderWeight), wEcology := (refineDomainWeightAutopoietic (project state wEcology) leaderWeight), wAcoustics := (refineDomainWeightAutopoietic (project state wAcoustics) leaderWeight), wArticulation := (refineDomainWeightAutopoietic (project state wArticulation) leaderWeight), wSoundtrack := (refineDomainWeightAutopoietic (project state wSoundtrack) leaderWeight), wHumane := (refineDomainWeightAutopoietic (project state wHumane) leaderWeight), wBrand := (refineDomainWeightAutopoietic (project state wBrand) leaderWeight), wNeuromorphic := (refineDomainWeightAutopoietic (project state wNeuromorphic) leaderWeight)}),
+  executable: true
 }
 
 definition{
@@ -260,14 +262,18 @@ definition{
   name: verifySingleCallPropagatesAllTenDomains,
   parameters: [w : Nat],
   result: Bool,
-  body: ((((((((((((w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wInfrastructure)) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wPhysics))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wBotany))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wEcology))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wAcoustics))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wArticulation))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wSoundtrack))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wHumane))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wBrand))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wNeuromorphic))) && ((project (stepUniversalBusBroadcast (uniformBusManifold w) true) wNeuromorphic) <=? (weightMax))) && ((project (stepUniversalBusBroadcast (uniformBusManifold w) true) wInfrastructure) <=? (weightMax)))
+  body: ((((((((((((w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wInfrastructure)) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wPhysics))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wBotany))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wEcology))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wAcoustics))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wArticulation))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wSoundtrack))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wHumane))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wBrand))) && (w <? (project (stepUniversalBusBroadcast (uniformBusManifold w) true) wNeuromorphic))) && ((project (stepUniversalBusBroadcast (uniformBusManifold w) true) wNeuromorphic) <=? (weightMax))) && ((project (stepUniversalBusBroadcast (uniformBusManifold w) true) wInfrastructure) <=? (weightMax))),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
   name: verifyAutopoieticSingleCallAdvancesAllTenDomains,
   parameters: [w : Nat],
   result: Bool,
-  body: (((((((((((w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wInfrastructure)) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wPhysics))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wBotany))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wEcology))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wAcoustics))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wArticulation))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wSoundtrack))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wHumane))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wBrand))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wNeuromorphic))) && ((project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wNeuromorphic) <=? (weightMax)))
+  body: (((((((((((w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wInfrastructure)) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wPhysics))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wBotany))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wEcology))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wAcoustics))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wArticulation))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wSoundtrack))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wHumane))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wBrand))) && (w <? (project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wNeuromorphic))) && ((project (stepAutopoieticBusManifold (uniformBusManifold w) (weightMax)) wNeuromorphic) <=? (weightMax))),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
@@ -284,67 +290,73 @@ definition{
   body: (((((consolidationThreshold) <=? synapticWeight) && (orphanCount =? 0)) && (shortCycleCount =? 0)) && (8 <=? windowHi))
 }
 
-definition{name: meadowPrime, parameters: [], result: Nat, body: 2}
+definition{name: meadowPrime, parameters: [], result: Nat, body: 2, executable: true}
 
-definition{name: grovePrime, parameters: [], result: Nat, body: 3}
+definition{name: grovePrime, parameters: [], result: Nat, body: 3, executable: true}
 
-definition{name: crystalPrime, parameters: [], result: Nat, body: 5}
+definition{name: crystalPrime, parameters: [], result: Nat, body: 5, executable: true}
 
 definition{name: wetlandPrime, parameters: [], result: Nat, body: 7, executable: true}
 
-definition{name: sanctuaryPrime, parameters: [], result: Nat, body: 11}
+definition{name: sanctuaryPrime, parameters: [], result: Nat, body: 11, executable: true}
 
-definition{name: chimeLilyPrime, parameters: [], result: Nat, body: 13}
+definition{name: chimeLilyPrime, parameters: [], result: Nat, body: 13, executable: true}
 
-definition{name: pulseFernPrime, parameters: [], result: Nat, body: 17}
+definition{name: pulseFernPrime, parameters: [], result: Nat, body: 17, executable: true}
 
-definition{name: echoLotusPrime, parameters: [], result: Nat, body: 19}
+definition{name: echoLotusPrime, parameters: [], result: Nat, body: 19, executable: true}
 
-definition{name: droneMossPrime, parameters: [], result: Nat, body: 23}
+definition{name: droneMossPrime, parameters: [], result: Nat, body: 23, executable: true}
 
-definition{name: starOrchidPrime, parameters: [], result: Nat, body: 29}
+definition{name: starOrchidPrime, parameters: [], result: Nat, body: 29, executable: true}
 
-definition{name: dawnPrime, parameters: [], result: Nat, body: 31}
+definition{name: dawnPrime, parameters: [], result: Nat, body: 31, executable: true}
 
-definition{name: goldenPrime, parameters: [], result: Nat, body: 37}
+definition{name: goldenPrime, parameters: [], result: Nat, body: 37, executable: true}
 
-definition{name: twilightPrime, parameters: [], result: Nat, body: 41}
+definition{name: twilightPrime, parameters: [], result: Nat, body: 41, executable: true}
 
-definition{name: starlightPrime, parameters: [], result: Nat, body: 43}
+definition{name: starlightPrime, parameters: [], result: Nat, body: 43, executable: true}
 
-definition{name: observePrime, parameters: [], result: Nat, body: 47}
+definition{name: observePrime, parameters: [], result: Nat, body: 47, executable: true}
 
-definition{name: touchPrime, parameters: [], result: Nat, body: 53}
+definition{name: touchPrime, parameters: [], result: Nat, body: 53, executable: true}
 
-definition{name: attunePrime, parameters: [], result: Nat, body: 59}
+definition{name: attunePrime, parameters: [], result: Nat, body: 59, executable: true}
 
-definition{name: strollPrime, parameters: [], result: Nat, body: 61}
+definition{name: strollPrime, parameters: [], result: Nat, body: 61, executable: true}
 
-definition{name: stillnessPrime, parameters: [], result: Nat, body: 67}
+definition{name: stillnessPrime, parameters: [], result: Nat, body: 67, executable: true}
 
-definition{name: dormantPrime, parameters: [], result: Nat, body: 71}
+definition{name: dormantPrime, parameters: [], result: Nat, body: 71, executable: true}
 
-definition{name: awakenedPrime, parameters: [], result: Nat, body: 73}
+definition{name: awakenedPrime, parameters: [], result: Nat, body: 73, executable: true}
 
 definition{
   name: stepStakeholderValueReinforcement,
   parameters: [w : Nat, allFacetsActive : Bool],
   result: Nat,
-  body: (let span : Nat := (prim subtract (weightMax) (weightMin) : Nat); (if allFacetsActive then (prim subtract (weightMax) (prim subtract span w : Nat) : Nat) else (prim subtract (weightMax) (prim subtract span (prim subtract w (weightMin) : Nat) : Nat) : Nat)))
+  body: (let span : Nat := (prim subtract (weightMax) (weightMin) : Nat); (if allFacetsActive then (prim subtract (weightMax) (prim subtract span w : Nat) : Nat) else (prim subtract (weightMax) (prim subtract span (prim subtract w (weightMin) : Nat) : Nat) : Nat))),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
   name: stepWisdomPhenomenonModulation,
   parameters: [w : Nat],
   result: Nat,
-  body: (80 + (prim multiply (clampBusWeight w) 5 : Nat))
+  body: (80 + (prim multiply (clampBusWeight w) 5 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: verifyEmergentEntitySynthesizesFacets,
   parameters: [w : Nat],
   result: Bool,
-  body: (((w <? (stepStakeholderValueReinforcement w true)) && ((stepWisdomPhenomenonModulation w) <? (stepWisdomPhenomenonModulation (stepStakeholderValueReinforcement w true)))) && ((stepStakeholderValueReinforcement w true) <=? (weightMax)))
+  body: (((w <? (stepStakeholderValueReinforcement w true)) && ((stepWisdomPhenomenonModulation w) <? (stepWisdomPhenomenonModulation (stepStakeholderValueReinforcement w true)))) && ((stepStakeholderValueReinforcement w true) <=? (weightMax))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{name: observerPartCountTotal, parameters: [], result: Nat, body: 11, executable: true}
@@ -353,35 +365,45 @@ definition{
   name: stepTheoryOfMindCoherencePermille,
   parameters: [w : Nat],
   result: Nat,
-  body: (720 + (prim multiply (clampBusWeight w) 18 : Nat))
+  body: (720 + (prim multiply (clampBusWeight w) 18 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepSupraDirectiveFidelityPermille,
   parameters: [w : Nat],
   result: Nat,
-  body: (840 + (prim multiply (clampBusWeight w) 20 : Nat))
+  body: (840 + (prim multiply (clampBusWeight w) 20 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepSupraDirectiveQualityPermille,
   parameters: [w : Nat],
   result: Nat,
-  body: (860 + (prim multiply (clampBusWeight w) 22 : Nat))
+  body: (860 + (prim multiply (clampBusWeight w) 22 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepSupraDirectiveDefinitionSubdiv,
   parameters: [w : Nat],
   result: Nat,
-  body: (16 + (prim multiply (clampBusWeight w) 2 : Nat))
+  body: (16 + (prim multiply (clampBusWeight w) 2 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepSupraDirectiveFeatureUnlockCount,
   parameters: [w : Nat],
   result: Nat,
-  body: (4 + (clampBusWeight w))
+  body: (4 + (clampBusWeight w)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -389,35 +411,44 @@ definition{
   parameters: [d : Nat],
   result: Nat,
   body: (let poly : Nat := (((d + (prim subtract d 1 : Nat)) + (prim multiply 2 (prim subtract d 2 : Nat) : Nat)) + (prim multiply 4 (prim subtract d 3 : Nat) : Nat)); (prim subtract 16 (prim subtract 15 poly : Nat) : Nat)),
-  executable: true
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: stepRule30AperiodicCompensationIndex,
   parameters: [d : Nat, w : Nat],
   result: Nat,
-  body: (let gate : Nat := (prim subtract 1 (prim subtract 3 d : Nat) : Nat); (prim multiply gate ((prim multiply d 12 : Nat) + (prim multiply (clampBusWeight w) 4 : Nat)) : Nat))
+  body: (let gate : Nat := (prim subtract 1 (prim subtract 3 d : Nat) : Nat); (prim multiply gate ((prim multiply d 12 : Nat) + (prim multiply (clampBusWeight w) 4 : Nat)) : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: verifyRule30DeterministicAndWithdrawnDuality,
   parameters: [w : Nat],
   result: Bool,
-  body: ((((((stepRule30LeftDiagonalPeriod 0) <? (stepRule30LeftDiagonalPeriod 1)) && ((stepRule30LeftDiagonalPeriod 1) <? (stepRule30LeftDiagonalPeriod 2))) && ((stepRule30LeftDiagonalPeriod 2) <? (stepRule30LeftDiagonalPeriod 3))) && ((stepRule30AperiodicCompensationIndex 2 w) =? 0)) && (0 <? (stepRule30AperiodicCompensationIndex 3 w)))
+  body: ((((((stepRule30LeftDiagonalPeriod 0) <? (stepRule30LeftDiagonalPeriod 1)) && ((stepRule30LeftDiagonalPeriod 1) <? (stepRule30LeftDiagonalPeriod 2))) && ((stepRule30LeftDiagonalPeriod 2) <? (stepRule30LeftDiagonalPeriod 3))) && ((stepRule30AperiodicCompensationIndex 2 w) =? 0)) && (0 <? (stepRule30AperiodicCompensationIndex 3 w))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: verifyObserverSupraDirectiveTranscendence,
   parameters: [w : Nat],
   result: Bool,
-  body: ((((((stepSupraDirectiveFidelityPermille (weightInitial)) <? (stepSupraDirectiveFidelityPermille (learnWeightPotentiated w))) && ((stepSupraDirectiveQualityPermille (weightInitial)) <? (stepSupraDirectiveQualityPermille (learnWeightPotentiated w)))) && ((stepSupraDirectiveDefinitionSubdiv (weightInitial)) <? (stepSupraDirectiveDefinitionSubdiv (learnWeightPotentiated w)))) && ((stepSupraDirectiveFeatureUnlockCount (weightInitial)) <? (stepSupraDirectiveFeatureUnlockCount (learnWeightPotentiated w)))) && ((stepTheoryOfMindCoherencePermille (weightInitial)) <? (stepTheoryOfMindCoherencePermille (learnWeightPotentiated w))))
+  body: ((((((stepSupraDirectiveFidelityPermille (weightInitial)) <? (stepSupraDirectiveFidelityPermille (learnWeightPotentiated w))) && ((stepSupraDirectiveQualityPermille (weightInitial)) <? (stepSupraDirectiveQualityPermille (learnWeightPotentiated w)))) && ((stepSupraDirectiveDefinitionSubdiv (weightInitial)) <? (stepSupraDirectiveDefinitionSubdiv (learnWeightPotentiated w)))) && ((stepSupraDirectiveFeatureUnlockCount (weightInitial)) <? (stepSupraDirectiveFeatureUnlockCount (learnWeightPotentiated w)))) && ((stepTheoryOfMindCoherencePermille (weightInitial)) <? (stepTheoryOfMindCoherencePermille (learnWeightPotentiated w)))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: verifyObserverHolisticWhyClosure,
   parameters: [w : Nat],
   result: Bool,
-  body: (((((verifySingleCallPropagatesAllTenDomains w) && (verifyEmergentEntitySynthesizesFacets w)) && (verifyRule30DeterministicAndWithdrawnDuality w)) && (verifyObserverSupraDirectiveTranscendence w)) && (11 =? (observerPartCountTotal)))
+  body: (((((verifySingleCallPropagatesAllTenDomains w) && (verifyEmergentEntitySynthesizesFacets w)) && (verifyRule30DeterministicAndWithdrawnDuality w)) && (verifyObserverSupraDirectiveTranscendence w)) && (11 =? (observerPartCountTotal))),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -875,11 +906,11 @@ definition{name: ncmErrorLimit, parameters: [], result: Nat, body: 4096}
 
 definition{name: ncmPlasticityScale, parameters: [], result: Nat, body: 65536}
 
-definition{name: ncmPlasticityFloor, parameters: [], result: Nat, body: 24}
+definition{name: ncmPlasticityFloor, parameters: [], result: Nat, body: 24, executable: true}
 
-definition{name: ncmPlasticityGain, parameters: [], result: Nat, body: 104}
+definition{name: ncmPlasticityGain, parameters: [], result: Nat, body: 104, executable: true}
 
-definition{name: ncmPlasticityHalfLife, parameters: [], result: Nat, body: 4096}
+definition{name: ncmPlasticityHalfLife, parameters: [], result: Nat, body: 4096, executable: true}
 
 definition{name: ncmPlasticityCeiling, parameters: [], result: Nat, body: 128}
 
@@ -889,9 +920,9 @@ definition{name: ncmSlotContexts, parameters: [], result: Nat, body: 17}
 
 definition{name: ncmProbabilityLimit, parameters: [], result: Nat, body: 65535}
 
-definition{name: ncmCountLimit, parameters: [], result: Nat, body: 127}
+definition{name: ncmCountLimit, parameters: [], result: Nat, body: 127, executable: true}
 
-definition{name: ncmRateNumerator, parameters: [], result: Nat, body: 131072}
+definition{name: ncmRateNumerator, parameters: [], result: Nat, body: 131072, executable: true}
 
 definition{name: ncmRateCeiling, parameters: [], result: Nat, body: 43690}
 
@@ -909,14 +940,18 @@ definition{
   name: ncmPlasticity,
   parameters: [pos : Nat],
   result: Nat,
-  body: ((ncmPlasticityFloor) + (prim quotient (prim multiply (ncmPlasticityGain) (ncmPlasticityHalfLife) : Nat) ((ncmPlasticityHalfLife) + pos) 0 : Nat))
+  body: ((ncmPlasticityFloor) + (prim quotient (prim multiply (ncmPlasticityGain) (ncmPlasticityHalfLife) : Nat) ((ncmPlasticityHalfLife) + pos) 0 : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: ncmSlotRate,
   parameters: [count : Nat],
   result: Nat,
-  body: (prim quotient (ncmRateNumerator) ((prim multiply 2 count : Nat) + 3) 0 : Nat)
+  body: (prim quotient (ncmRateNumerator) ((prim multiply 2 count : Nat) + 3) 0 : Nat),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{

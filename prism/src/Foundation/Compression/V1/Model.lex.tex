@@ -93,13 +93,13 @@ structure{
 
 definition{name: verdantCompressionBasisPrime, parameters: [], result: Nat, body: 179}
 
-definition{name: bitsPerByte, parameters: [], result: Nat, body: 8}
+definition{name: bitsPerByte, parameters: [], result: Nat, body: 8, executable: true}
 
-definition{name: contextBitsTotal, parameters: [], result: Nat, body: 17}
+definition{name: contextBitsTotal, parameters: [], result: Nat, body: 17, executable: true}
 
-definition{name: fixedInputsTotal, parameters: [], result: Nat, body: 3}
+definition{name: fixedInputsTotal, parameters: [], result: Nat, body: 3, executable: true}
 
-definition{name: featureInputsPair, parameters: [], result: Nat, body: 2}
+definition{name: featureInputsPair, parameters: [], result: Nat, body: 2, executable: true}
 
 definition{name: maxInputsPerBitTotal, parameters: [], result: Nat, body: 24}
 
@@ -111,7 +111,7 @@ definition{name: rawFixedHeaderTrailerBytes, parameters: [], result: Nat, body: 
 
 definition{name: rawMaxOverheadBytes, parameters: [], result: Nat, body: 61}
 
-definition{name: defectExactZero, parameters: [], result: Nat, body: 0}
+definition{name: defectExactZero, parameters: [], result: Nat, body: 0, executable: true}
 
 definition{name: capHeaderMargin, parameters: [], result: Nat, body: 5}
 
@@ -163,28 +163,33 @@ definition{
   name: settleBytes,
   parameters: [candidateBytes : Nat, rawBytes : Nat],
   result: Nat,
-  body: (prim subtract candidateBytes (prim subtract candidateBytes rawBytes : Nat) : Nat)
+  body: (prim subtract candidateBytes (prim subtract candidateBytes rawBytes : Nat) : Nat),
+  executable: true
 }
 
 definition{
   name: clampContextCount,
   parameters: [ctxCount : Nat],
   result: Nat,
-  body: (prim subtract (contextBitsTotal) (prim subtract (contextBitsTotal) ctxCount : Nat) : Nat)
+  body: (prim subtract (contextBitsTotal) (prim subtract (contextBitsTotal) ctxCount : Nat) : Nat),
+  executable: true
 }
 
 definition{
   name: profileInputsPerBit,
   parameters: [ctxCount : Nat, hasShort : Bool, hasRep : Bool],
   result: Nat,
-  body: ((((clampContextCount ctxCount) + (fixedInputsTotal)) + (if hasShort then (featureInputsPair) else 0)) + (if hasRep then (featureInputsPair) else 0))
+  body: ((((clampContextCount ctxCount) + (fixedInputsTotal)) + (if hasShort then (featureInputsPair) else 0)) + (if hasRep then (featureInputsPair) else 0)),
+  executable: true
 }
 
 definition{
   name: profileStepsPerByte,
   parameters: [ctxCount : Nat, hasShort : Bool, hasRep : Bool],
   result: Nat,
-  body: (prim multiply (bitsPerByte) (profileInputsPerBit ctxCount hasShort hasRep) : Nat)
+  body: (prim multiply (bitsPerByte) (profileInputsPerBit ctxCount hasShort hasRep) : Nat),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{name: referenceFrameSteps, parameters: [n : Nat], result: Nat, body: 0}
@@ -216,7 +221,9 @@ definition{
   name: admitZeroDefectBytes,
   parameters: [candidateBytes : Nat, defectCount : Nat, rawFallbackBytes : Nat],
   result: Nat,
-  body: (if (defectCount =? (defectExactZero)) then (settleBytes candidateBytes rawFallbackBytes) else rawFallbackBytes)
+  body: (if (defectCount =? (defectExactZero)) then (settleBytes candidateBytes rawFallbackBytes) else rawFallbackBytes),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
@@ -230,14 +237,18 @@ definition{
   name: pickBytes,
   parameters: [b : Nat, s : Nat, kb : Nat, ks : Nat],
   result: Nat,
-  body: (if (b <? kb) then b else (if (b =? kb) then (if (s <? ks) then b else kb) else kb))
+  body: (if (b <? kb) then b else (if (b =? kb) then (if (s <? ks) then b else kb) else kb)),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
   name: pickSteps,
   parameters: [b : Nat, s : Nat, kb : Nat, ks : Nat],
   result: Nat,
-  body: (if (b <? kb) then s else (if (b =? kb) then (if (s <? ks) then s else ks) else ks))
+  body: (if (b <? kb) then s else (if (b =? kb) then (if (s <? ks) then s else ks) else ks)),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
@@ -260,28 +271,34 @@ definition{
   name: consolidateBytes,
   parameters: [cb : Nat, cs : Nat, ib : Nat, it : Nat],
   result: Nat,
-  body: (if (cb <=? ib) then (if (cs <=? it) then (if (cb <? ib) then cb else (if (cs <? it) then cb else ib)) else ib) else ib)
+  body: (if (cb <=? ib) then (if (cs <=? it) then (if (cb <? ib) then cb else (if (cs <? it) then cb else ib)) else ib) else ib),
+  executable: true
 }
 
 definition{
   name: consolidateSteps,
   parameters: [cb : Nat, cs : Nat, ib : Nat, it : Nat],
   result: Nat,
-  body: (if (cb <=? ib) then (if (cs <=? it) then (if (cb <? ib) then cs else (if (cs <? it) then cs else it)) else it) else it)
+  body: (if (cb <=? ib) then (if (cs <=? it) then (if (cb <? ib) then cs else (if (cs <? it) then cs else it)) else it) else it),
+  executable: true
 }
 
 definition{
   name: consolidateCost,
   parameters: [cb : Nat, cs : Nat, ib : Nat, it : Nat],
   result: Nat,
-  body: ((consolidateBytes cb cs ib it) + (consolidateSteps cb cs ib it))
+  body: ((consolidateBytes cb cs ib it) + (consolidateSteps cb cs ib it)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: saturate,
   parameters: [count : Nat, limit : Nat],
   result: Nat,
-  body: (prim subtract count (prim subtract count limit : Nat) : Nat)
+  body: (prim subtract count (prim subtract count limit : Nat) : Nat),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
@@ -295,14 +312,27 @@ definition{
   name: excessOver,
   parameters: [threshold : Nat, observed : Nat],
   result: Nat,
-  body: (prim subtract observed threshold : Nat)
+  body: (prim subtract observed threshold : Nat),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
 }
 
 definition{
   name: lackUnder,
   parameters: [threshold : Nat, observed : Nat],
   result: Nat,
-  body: (prim subtract threshold observed : Nat)
+  body: (prim subtract threshold observed : Nat),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
+}
+
+definition{
+  name: verifyUorcArchiveBounds,
+  parameters: [archiveLen : Nat, magicValid : Bool, objectCount : Nat],
+  result: Bool,
+  body: (magicValid && ((38 + objectCount) <=? archiveLen)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -364,35 +394,42 @@ definition{
   name: largerWeight,
   parameters: [a : Nat, b : Nat],
   result: Nat,
-  body: (a + (prim subtract b a : Nat))
+  body: (a + (prim subtract b a : Nat)),
+  executable: true
 }
 
 definition{
   name: potentiatePortfolioWeight,
   parameters: [w : Nat],
   result: Nat,
-  body: (let cap : Nat := (prim subtract (Foundation.Neuromorphic.V1.Model::weightMax) (Foundation.Neuromorphic.V1.Model::weightRaise) : Nat); (prim subtract (Foundation.Neuromorphic.V1.Model::weightMax) (prim subtract cap w : Nat) : Nat))
+  body: (let cap : Nat := (prim subtract (Foundation.Neuromorphic.V1.Model::weightMax) (Foundation.Neuromorphic.V1.Model::weightRaise) : Nat); (prim subtract (Foundation.Neuromorphic.V1.Model::weightMax) (prim subtract cap w : Nat) : Nat)),
+  executable: true
 }
 
 definition{
   name: depressPortfolioWeight,
   parameters: [w : Nat],
   result: Nat,
-  body: ((Foundation.Neuromorphic.V1.Model::weightMin) + (prim subtract w ((Foundation.Neuromorphic.V1.Model::weightMin) + (Foundation.Neuromorphic.V1.Model::weightLower)) : Nat))
+  body: ((Foundation.Neuromorphic.V1.Model::weightMin) + (prim subtract w ((Foundation.Neuromorphic.V1.Model::weightMin) + (Foundation.Neuromorphic.V1.Model::weightLower)) : Nat)),
+  executable: true
 }
 
 definition{
   name: winnerWeight,
   parameters: [candidate : Nat, incumbent : Nat],
   result: Nat,
-  body: (potentiatePortfolioWeight (largerWeight candidate incumbent))
+  body: (potentiatePortfolioWeight (largerWeight candidate incumbent)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
   name: loserWeight,
   parameters: [incumbent : Nat],
   result: Nat,
-  body: (depressPortfolioWeight incumbent)
+  body: (depressPortfolioWeight incumbent),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
@@ -401,7 +438,9 @@ definition{
   result: Nat,
   body: (match known
     | Bool.true => 1
-    | Bool.false => (prim multiply 2 (prim subtract 1 remaining : Nat) : Nat))
+    | Bool.false => (prim multiply 2 (prim subtract 1 remaining : Nat) : Nat)),
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
 }
 
 definition{
