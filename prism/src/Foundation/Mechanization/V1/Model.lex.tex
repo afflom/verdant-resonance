@@ -1,0 +1,509 @@
+\begin{lexlean}{Foundation.Mechanization.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\importmodule{Foundation.MetaModel.V1.Model}
+\importmodule{Foundation.Neuromorphic.V1.Model}
+\importmodule{Foundation.Compression.V1.Model}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: FoundryRouteAndLiftSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: routeSlotCount, type: Nat},
+    {name: derivedRouteMaskLimit, type: Nat},
+    {name: derivedRequestLimitBytes, type: Nat},
+    {name: liftClassCount, type: Nat},
+    {name: liftResidueTargetZero, type: Nat},
+    {name: unknownTagRefusedVerified, type: Bool},
+    {name: ambiguousTagRefusedVerified, type: Bool},
+    {name: liftedKappaMonotonicRatchetVerified, type: Bool},
+    {name: unliftedReportedAsOpenDistanceVerified, type: Bool}
+  ]
+}
+
+structure{
+  name: EpistemicHonestyAndConformanceSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: epistemicLevelCount, type: Nat},
+    {name: contractRuleCount, type: Nat},
+    {name: conformanceMetaGateCount, type: Nat},
+    {name: assertiveVocabularyForbiddenCount, type: Nat},
+    {name: someTrueRequiresAuthorityVerified, type: Bool},
+    {name: buildRequiresScenarioAndTestVerified, type: Bool},
+    {name: openForbidsAssertiveWordsVerified, type: Bool},
+    {name: threeWayBijectionEnforcedVerified, type: Bool}
+  ]
+}
+
+structure{
+  name: PeirceAbductionDeductionInductionSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: peircePhaseCount, type: Nat},
+    {name: hypothesisBudgetPerTick, type: Nat},
+    {name: engineWeightMin, type: Nat},
+    {name: engineWeightMax, type: Nat},
+    {name: engineWeightInitial, type: Nat},
+    {name: enginePotentiationGain, type: Nat},
+    {name: engineDepressionLoss, type: Nat},
+    {name: inductionNeverDirectlyProvedVerified, type: Bool},
+    {name: knownKappaDedupBeforeStrategyVerified, type: Bool},
+    {name: schedulePermutationByWeightVerified, type: Bool},
+    {name: homeostasisGateShareReservedVerified, type: Bool}
+  ]
+}
+
+structure{
+  name: HarmanObjectOrientedObserverSpec,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: oooPoleCount, type: Nat},
+    {name: oooVantageCount, type: Nat},
+    {name: withdrawnCoreSymbolId, type: Nat},
+    {name: realAndWithdrawnOverlapZero, type: Nat},
+    {name: realQualitiesProvedAndGaugeInvariant, type: Bool},
+    {name: withdrawnCoreOpenAndGaugeInvariant, type: Bool},
+    {name: sensualPresentationGaugeTransformable, type: Bool}
+  ]
+}
+
+structure{
+  name: MechanizationStandardModel,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: profile, type: String},
+    {name: basisPrime, type: Nat},
+    {name: coherentClassicalModelCount, type: Nat},
+    {name: foundryRouteAndLift, type: FoundryRouteAndLiftSpec},
+    {name: epistemicHonestyAndConformance, type: EpistemicHonestyAndConformanceSpec},
+    {name: peirceTriadicEngine, type: PeirceAbductionDeductionInductionSpec},
+    {name: harmanOooObserver, type: HarmanObjectOrientedObserverSpec}
+  ]
+}
+
+definition{name: verdantMechanizationBasisPrime, parameters: [], result: Nat, body: 193}
+
+definition{name: coherentClassicalModelTotal, parameters: [], result: Nat, body: 6}
+
+definition{name: routeLexModule, parameters: [], result: Nat, body: 0}
+
+definition{name: routeLexDefinition, parameters: [], result: Nat, body: 1}
+
+definition{name: routeLexTheorem, parameters: [], result: Nat, body: 2}
+
+definition{name: routePureDomainFn, parameters: [], result: Nat, body: 3}
+
+definition{name: routeSceneBuilderFn, parameters: [], result: Nat, body: 4}
+
+definition{name: routeReactUiComponent, parameters: [], result: Nat, body: 5}
+
+definition{name: routeWebglEffectFn, parameters: [], result: Nat, body: 6}
+
+definition{name: routeWebaudioEffectFn, parameters: [], result: Nat, body: 7}
+
+definition{name: routeTestScenario, parameters: [], result: Nat, body: 8}
+
+definition{name: routeAcceptanceVector, parameters: [], result: Nat, body: 9}
+
+definition{name: routeSlotTotal, parameters: [], result: Nat, body: 10}
+
+definition{
+  name: routeBitForSlot,
+  parameters: [slot : Nat],
+  result: Nat,
+  body: (if (slot =? 0) then 1 else (if (slot =? 1) then 2 else (if (slot =? 2) then 4 else (if (slot =? 3) then 8 else (if (slot =? 4) then 16 else (if (slot =? 5) then 32 else (if (slot =? 6) then 64 else (if (slot =? 7) then 128 else (if (slot =? 8) then 256 else (if (slot =? 9) then 512 else 0))))))))))
+}
+
+definition{
+  name: derivedRouteMaskSum,
+  parameters: [],
+  result: Nat,
+  body: ((((((((((routeBitForSlot 0) + (routeBitForSlot 1)) + (routeBitForSlot 2)) + (routeBitForSlot 3)) + (routeBitForSlot 4)) + (routeBitForSlot 5)) + (routeBitForSlot 6)) + (routeBitForSlot 7)) + (routeBitForSlot 8)) + (routeBitForSlot 9))
+}
+
+definition{name: routeRecordStrideBytes, parameters: [], result: Nat, body: 64}
+
+definition{
+  name: derivedFoundryRequestLimitBytes,
+  parameters: [],
+  result: Nat,
+  body: ((derivedRouteMaskSum) + (prim multiply (routeSlotTotal) (routeRecordStrideBytes) : Nat))
+}
+
+definition{
+  name: isSingleRouteBit,
+  parameters: [tagMask : Nat],
+  result: Bool,
+  body: ((((((((((tagMask =? 1) || (tagMask =? 2)) || (tagMask =? 4)) || (tagMask =? 8)) || (tagMask =? 16)) || (tagMask =? 32)) || (tagMask =? 64)) || (tagMask =? 128)) || (tagMask =? 256)) || (tagMask =? 512))
+}
+
+definition{name: routingAdmitted, parameters: [], result: Nat, body: 0}
+
+definition{name: routingRefusedUnknown, parameters: [], result: Nat, body: 1}
+
+definition{name: routingRefusedAmbiguous, parameters: [], result: Nat, body: 2}
+
+definition{
+  name: classifyFoundryTagMask,
+  parameters: [tagMask : Nat],
+  result: Nat,
+  body: (if ((tagMask =? 0) || ((derivedRouteMaskSum) <? tagMask)) then (routingRefusedUnknown) else (if (isSingleRouteBit tagMask) then (routingAdmitted) else (routingRefusedAmbiguous)))
+}
+
+definition{
+  name: resolveRouteSlotFromBit,
+  parameters: [tagMask : Nat],
+  result: Nat,
+  body: (if (tagMask =? 1) then 0 else (if (tagMask =? 2) then 1 else (if (tagMask =? 4) then 2 else (if (tagMask =? 8) then 3 else (if (tagMask =? 16) then 4 else (if (tagMask =? 32) then 5 else (if (tagMask =? 64) then 6 else (if (tagMask =? 128) then 7 else (if (tagMask =? 256) then 8 else (if (tagMask =? 512) then 9 else (routeSlotTotal)))))))))))
+}
+
+definition{name: liftClassLifted, parameters: [], result: Nat, body: 0}
+
+definition{name: liftClassResidue, parameters: [], result: Nat, body: 1}
+
+definition{name: liftClassForeign, parameters: [], result: Nat, body: 2}
+
+definition{name: liftClassEffect, parameters: [], result: Nat, body: 3}
+
+definition{name: liftClassTotal, parameters: [], result: Nat, body: 4}
+
+definition{name: liftResidueTargetZero, parameters: [], result: Nat, body: 0}
+
+definition{
+  name: admitLiftKappaTransition,
+  parameters: [incumbentPresent : Bool, incumbentClass : Nat, candidateClass : Nat],
+  result: Bool,
+  body: ((candidateClass <? (liftClassTotal)) && (not ((incumbentPresent && (incumbentClass =? (liftClassLifted))) && (not (candidateClass =? (liftClassLifted))))))
+}
+
+definition{
+  name: unliftedOpenDistance,
+  parameters: [residueCount : Nat, foreignCount : Nat, effectCount : Nat],
+  result: Nat,
+  body: ((residueCount + foreignCount) + effectCount)
+}
+
+definition{
+  name: unliftedExcessOverFloor,
+  parameters: [residueCount : Nat, foreignCount : Nat, effectCount : Nat],
+  result: Nat,
+  body: (Foundation.Compression.V1.Model::excessOver (liftResidueTargetZero) (unliftedOpenDistance residueCount foreignCount effectCount))
+}
+
+definition{name: epistemicSomeTrue, parameters: [], result: Nat, body: 0}
+
+definition{name: epistemicBuild, parameters: [], result: Nat, body: 1}
+
+definition{name: epistemicOpen, parameters: [], result: Nat, body: 2}
+
+definition{name: epistemicLevelTotal, parameters: [], result: Nat, body: 3}
+
+definition{name: contractRuleTotal, parameters: [], result: Nat, body: 6}
+
+definition{name: conformanceMetaGateTotal, parameters: [], result: Nat, body: 3}
+
+definition{name: forbiddenAssertiveVocabularyTotal, parameters: [], result: Nat, body: 9}
+
+definition{
+  name: admitEpistemicClaim,
+  parameters: [level : Nat, hasAuthority : Bool, hasScenario : Bool, hasExecutedTest : Bool, assertiveWordCount : Nat],
+  result: Bool,
+  body: (if (level =? (epistemicSomeTrue)) then (hasAuthority && (assertiveWordCount =? 0)) else (if (level =? (epistemicBuild)) then (((not hasAuthority) && hasScenario) && hasExecutedTest) else (if (level =? (epistemicOpen)) then ((not hasAuthority) && (assertiveWordCount =? 0)) else false)))
+}
+
+definition{
+  name: verifyBijectiveConformanceTriangulation,
+  parameters: [registeredIds : Nat, scenarioIds : Nat, executedTestIds : Nat, orphanClaimTags : Nat, driftFileCount : Nat],
+  result: Bool,
+  body: (((((0 <? registeredIds) && (registeredIds =? scenarioIds)) && (scenarioIds =? executedTestIds)) && (orphanClaimTags =? 0)) && (driftFileCount =? 0))
+}
+
+definition{name: peircePhaseObserved, parameters: [], result: Nat, body: 0}
+
+definition{name: peircePhaseHypothesized, parameters: [], result: Nat, body: 1}
+
+definition{name: peircePhaseProved, parameters: [], result: Nat, body: 2}
+
+definition{name: peircePhaseRefuted, parameters: [], result: Nat, body: 3}
+
+definition{name: peircePhaseTotal, parameters: [], result: Nat, body: 4}
+
+definition{name: rule30HypothesisBudgetMax, parameters: [], result: Nat, body: 16}
+
+definition{
+  name: validPeircePhaseStep,
+  parameters: [fromPhase : Nat, toPhase : Nat],
+  result: Bool,
+  body: (if (fromPhase =? (peircePhaseObserved)) then (toPhase =? (peircePhaseHypothesized)) else (if (fromPhase =? (peircePhaseHypothesized)) then ((toPhase =? (peircePhaseProved)) || (toPhase =? (peircePhaseRefuted))) else false))
+}
+
+definition{name: mintOutcomeAdmitted, parameters: [], result: Nat, body: 0}
+
+definition{name: mintOutcomeRejectedContradictory, parameters: [], result: Nat, body: 1}
+
+definition{name: mintOutcomeSkippedKnownKappa, parameters: [], result: Nat, body: 2}
+
+definition{name: mintOutcomeBudgetExhausted, parameters: [], result: Nat, body: 3}
+
+definition{
+  name: decideHypothesisMint,
+  parameters: [contradictoryClause : Bool, knownKappa : Bool, remainingBudget : Nat],
+  result: Nat,
+  body: (if contradictoryClause then (mintOutcomeRejectedContradictory) else (if knownKappa then (mintOutcomeSkippedKnownKappa) else (if (0 <? remainingBudget) then (mintOutcomeAdmitted) else (mintOutcomeBudgetExhausted))))
+}
+
+definition{
+  name: remainingBudgetAfterMint,
+  parameters: [contradictoryClause : Bool, knownKappa : Bool, remainingBudget : Nat],
+  result: Nat,
+  body: (if ((decideHypothesisMint contradictoryClause knownKappa remainingBudget) =? (mintOutcomeAdmitted)) then (prim subtract remainingBudget 1 : Nat) else remainingBudget)
+}
+
+definition{name: engineWeightMinVal, parameters: [], result: Nat, body: 1}
+
+definition{name: engineWeightMaxVal, parameters: [], result: Nat, body: 16}
+
+definition{name: engineWeightInitialVal, parameters: [], result: Nat, body: 8}
+
+definition{name: engineLearnPotentiation, parameters: [], result: Nat, body: 2}
+
+definition{name: engineLearnDepression, parameters: [], result: Nat, body: 1}
+
+definition{
+  name: clampEngineWeight,
+  parameters: [w : Nat],
+  result: Nat,
+  body: (if (w <=? (engineWeightMinVal)) then (engineWeightMinVal) else (if ((engineWeightMaxVal) <=? w) then (engineWeightMaxVal) else w))
+}
+
+definition{
+  name: engineLearnWeight,
+  parameters: [current : Nat, succeeded : Bool],
+  result: Nat,
+  body: (let base : Nat := (clampEngineWeight current); (if succeeded then (clampEngineWeight (base + (engineLearnPotentiation))) else (clampEngineWeight (prim subtract base (engineLearnDepression) : Nat))))
+}
+
+definition{
+  name: schedulePairFirstWeight,
+  parameters: [wA : Nat, wB : Nat],
+  result: Nat,
+  body: (if (wA <? wB) then wB else wA)
+}
+
+definition{
+  name: schedulePairSecondWeight,
+  parameters: [wA : Nat, wB : Nat],
+  result: Nat,
+  body: (if (wA <? wB) then wA else wB)
+}
+
+definition{
+  name: reserveHomeostasisGateShare,
+  parameters: [totalTickBudget : Nat, gateMinimum : Nat],
+  result: Nat,
+  body: (if (totalTickBudget <=? gateMinimum) then totalTickBudget else gateMinimum)
+}
+
+definition{
+  name: deductiveSearchShareAfterGate,
+  parameters: [totalTickBudget : Nat, gateMinimum : Nat],
+  result: Nat,
+  body: (prim subtract totalTickBudget (reserveHomeostasisGateShare totalTickBudget gateMinimum) : Nat)
+}
+
+definition{name: oooPoleSensualQuality, parameters: [], result: Nat, body: 0}
+
+definition{name: oooPoleWithdrawnCore, parameters: [], result: Nat, body: 1}
+
+definition{name: oooPoleRealQuality, parameters: [], result: Nat, body: 2}
+
+definition{name: oooPoleTotal, parameters: [], result: Nat, body: 3}
+
+definition{name: oooVantageRegularSide, parameters: [], result: Nat, body: 0}
+
+definition{name: oooVantageChaoticSide, parameters: [], result: Nat, body: 1}
+
+definition{name: oooVantageKernel, parameters: [], result: Nat, body: 2}
+
+definition{name: oooVantageTotal, parameters: [], result: Nat, body: 3}
+
+definition{name: withdrawnAperiodicCompensationId, parameters: [], result: Nat, body: 30}
+
+definition{name: overlapRealAndWithdrawnZero, parameters: [], result: Nat, body: 0}
+
+definition{
+  name: gaugeTransformRealQualityMask,
+  parameters: [realMask : Nat, gaugeDelta : Nat],
+  result: Nat,
+  body: (prim subtract (realMask + gaugeDelta) gaugeDelta : Nat)
+}
+
+definition{
+  name: gaugeTransformWithdrawnCoreId,
+  parameters: [withdrawnId : Nat, gaugeDelta : Nat],
+  result: Nat,
+  body: (prim subtract (withdrawnId + gaugeDelta) gaugeDelta : Nat)
+}
+
+definition{
+  name: gaugeTransformSensualQualityId,
+  parameters: [sensualId : Nat, gaugeDelta : Nat],
+  result: Nat,
+  body: (sensualId + gaugeDelta)
+}
+
+definition{
+  name: qualityGateSatisfied,
+  parameters: [defectExcess : Nat, coverageLack : Nat],
+  result: Bool,
+  body: ((defectExcess =? 0) && (coverageLack =? 0))
+}
+
+definition{
+  name: verifyFoundryRouterAndLiftVectors,
+  parameters: [],
+  result: Bool,
+  body: ((((((((((derivedRouteMaskSum) =? 1023) && ((derivedFoundryRequestLimitBytes) =? 1663)) && ((classifyFoundryTagMask 0) =? (routingRefusedUnknown))) && ((classifyFoundryTagMask 1024) =? (routingRefusedUnknown))) && ((classifyFoundryTagMask 3) =? (routingRefusedAmbiguous))) && ((classifyFoundryTagMask 8) =? (routingAdmitted))) && ((resolveRouteSlotFromBit 8) =? (routePureDomainFn))) && ((admitLiftKappaTransition true (liftClassLifted) (liftClassLifted)) && (not (admitLiftKappaTransition true (liftClassLifted) (liftClassResidue))))) && (((admitLiftKappaTransition true (liftClassResidue) (liftClassLifted)) && (admitLiftKappaTransition false (liftClassResidue) (liftClassEffect))) && ((unliftedExcessOverFloor 4 2 3) =? 9)))
+}
+
+theorem{
+  name: foundryRouterAndLiftVectorsHold,
+  parameters: [],
+  statement: ((verifyFoundryRouterAndLiftVectors) = true),
+  proof: decide{},
+  axioms: []
+}
+
+definition{
+  name: verifyEpistemicHonestyAndConformanceVectors,
+  parameters: [],
+  result: Bool,
+  body: (((((((admitEpistemicClaim (epistemicSomeTrue) true false false 0) && (not (admitEpistemicClaim (epistemicSomeTrue) false true true 0))) && (not (admitEpistemicClaim (epistemicSomeTrue) true true true 1))) && ((admitEpistemicClaim (epistemicBuild) false true true 0) && (not (admitEpistemicClaim (epistemicBuild) false true false 0)))) && ((admitEpistemicClaim (epistemicOpen) false false false 0) && (not (admitEpistemicClaim (epistemicOpen) false false false 1)))) && (not (admitEpistemicClaim 3 false false false 0))) && ((verifyBijectiveConformanceTriangulation 65 65 65 0 0) && ((not (verifyBijectiveConformanceTriangulation 65 64 65 0 0)) && (not (verifyBijectiveConformanceTriangulation 65 65 65 1 0)))))
+}
+
+theorem{
+  name: epistemicHonestyAndConformanceVectorsHold,
+  parameters: [],
+  statement: ((verifyEpistemicHonestyAndConformanceVectors) = true),
+  proof: decide{},
+  axioms: []
+}
+
+definition{
+  name: verifyPeirceCycleAndOooObserverVectors,
+  parameters: [],
+  result: Bool,
+  body: (((((((validPeircePhaseStep (peircePhaseObserved) (peircePhaseHypothesized)) && (not (validPeircePhaseStep (peircePhaseObserved) (peircePhaseProved)))) && ((validPeircePhaseStep (peircePhaseHypothesized) (peircePhaseProved)) && (validPeircePhaseStep (peircePhaseHypothesized) (peircePhaseRefuted)))) && ((((decideHypothesisMint true false 16) =? (mintOutcomeRejectedContradictory)) && ((decideHypothesisMint false true 16) =? (mintOutcomeSkippedKnownKappa))) && (((decideHypothesisMint false false 16) =? (mintOutcomeAdmitted)) && ((remainingBudgetAfterMint false true 16) =? 16)))) && ((((engineLearnWeight 8 true) =? 10) && ((engineLearnWeight 8 false) =? 7)) && (((engineLearnWeight 16 true) =? 16) && ((engineLearnWeight 1 false) =? 1)))) && ((((gaugeTransformRealQualityMask 4095 7) =? 4095) && ((gaugeTransformWithdrawnCoreId (withdrawnAperiodicCompensationId) 7) =? (withdrawnAperiodicCompensationId))) && ((withdrawnAperiodicCompensationId) <? (gaugeTransformSensualQualityId (withdrawnAperiodicCompensationId) 7)))) && ((qualityGateSatisfied 0 0) && (not (qualityGateSatisfied 1 0))))
+}
+
+theorem{
+  name: peirceCycleAndOooObserverVectorsHold,
+  parameters: [],
+  statement: ((verifyPeirceCycleAndOooObserverVectors) = true),
+  proof: decide{},
+  axioms: []
+}
+
+definition{
+  name: breaksMonotonicLiftRatchetAndOpenDistance,
+  parameters: [incumbentClass : Nat, candidateClass : Nat],
+  result: Bool,
+  body: (((incumbentClass =? (liftClassLifted)) && ((not (candidateClass =? (liftClassLifted))) && (admitLiftKappaTransition true incumbentClass candidateClass))) || (((liftClassTotal) <=? candidateClass) && (admitLiftKappaTransition false incumbentClass candidateClass)))
+}
+
+theorem{
+  name: monotonicLiftRatchetAndOpenDistanceHold,
+  parameters: [incumbentClass : Nat, candidateClass : Nat],
+  statement: ((breaksMonotonicLiftRatchetAndOpenDistance incumbentClass candidateClass) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      admitLiftKappaTransition,
+      breaksMonotonicLiftRatchetAndOpenDistance,
+      liftClassLifted,
+      liftClassTotal
+    ]
+  },
+  axioms: [Classical.choice, Quot.sound, propext]
+}
+
+definition{
+  name: breaksSchedulePermutationAndWeightBounds,
+  parameters: [wA : Nat, wB : Nat],
+  result: Bool,
+  body: (((((schedulePairFirstWeight wA wB) <? (schedulePairSecondWeight wA wB)) || (not (((schedulePairFirstWeight wA wB) + (schedulePairSecondWeight wA wB)) =? (wA + wB)))) || (((engineLearnWeight wA true) <? (engineWeightMinVal)) || ((engineWeightMaxVal) <? (engineLearnWeight wA true)))) || (((engineLearnWeight wA false) <? (engineWeightMinVal)) || ((engineLearnWeight wA true) <? (engineLearnWeight wA false))))
+}
+
+theorem{
+  name: schedulePermutationAndWeightBoundsHold,
+  parameters: [wA : Nat, wB : Nat],
+  statement: ((breaksSchedulePermutationAndWeightBounds wA wB) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      breaksSchedulePermutationAndWeightBounds,
+      clampEngineWeight,
+      engineLearnDepression,
+      engineLearnPotentiation,
+      engineLearnWeight,
+      engineWeightMaxVal,
+      engineWeightMinVal,
+      schedulePairFirstWeight,
+      schedulePairSecondWeight
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksHomeostasisPartitionAndOooGaugeInvariance,
+  parameters: [budget : Nat, gateMin : Nat],
+  result: Bool,
+  body: (((not (((reserveHomeostasisGateShare budget gateMin) + (deductiveSearchShareAfterGate budget gateMin)) =? budget)) || ((gateMin <=? budget) && ((reserveHomeostasisGateShare budget gateMin) <? gateMin))) || ((not ((gaugeTransformRealQualityMask budget gateMin) =? budget)) || ((0 <? gateMin) && ((gaugeTransformSensualQualityId budget gateMin) <=? budget))))
+}
+
+theorem{
+  name: homeostasisPartitionAndOooGaugeInvarianceHold,
+  parameters: [budget : Nat, gateMin : Nat],
+  statement: ((breaksHomeostasisPartitionAndOooGaugeInvariance budget gateMin) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      breaksHomeostasisPartitionAndOooGaugeInvariance,
+      deductiveSearchShareAfterGate,
+      gaugeTransformRealQualityMask,
+      gaugeTransformSensualQualityId,
+      reserveHomeostasisGateShare
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: mechanizationStandardModel,
+  parameters: [],
+  result: MechanizationStandardModel,
+  body: (record MechanizationStandardModel {profile := "prism/mechanization-uorust-uorc-rule30/1", basisPrime := (verdantMechanizationBasisPrime), coherentClassicalModelCount := (coherentClassicalModelTotal), foundryRouteAndLift := (record FoundryRouteAndLiftSpec {routeSlotCount := (routeSlotTotal), derivedRouteMaskLimit := (derivedRouteMaskSum), derivedRequestLimitBytes := (derivedFoundryRequestLimitBytes), liftClassCount := (liftClassTotal), liftResidueTargetZero := (liftResidueTargetZero), unknownTagRefusedVerified := ((classifyFoundryTagMask 0) =? (routingRefusedUnknown)), ambiguousTagRefusedVerified := ((classifyFoundryTagMask 3) =? (routingRefusedAmbiguous)), liftedKappaMonotonicRatchetVerified := (not (admitLiftKappaTransition true (liftClassLifted) (liftClassResidue))), unliftedReportedAsOpenDistanceVerified := ((unliftedExcessOverFloor 4 2 3) =? 9)}), epistemicHonestyAndConformance := (record EpistemicHonestyAndConformanceSpec {epistemicLevelCount := (epistemicLevelTotal), contractRuleCount := (contractRuleTotal), conformanceMetaGateCount := (conformanceMetaGateTotal), assertiveVocabularyForbiddenCount := (forbiddenAssertiveVocabularyTotal), someTrueRequiresAuthorityVerified := (admitEpistemicClaim (epistemicSomeTrue) true false false 0), buildRequiresScenarioAndTestVerified := (admitEpistemicClaim (epistemicBuild) false true true 0), openForbidsAssertiveWordsVerified := (not (admitEpistemicClaim (epistemicOpen) false false false 1)), threeWayBijectionEnforcedVerified := (verifyBijectiveConformanceTriangulation 65 65 65 0 0)}), peirceTriadicEngine := (record PeirceAbductionDeductionInductionSpec {peircePhaseCount := (peircePhaseTotal), hypothesisBudgetPerTick := (rule30HypothesisBudgetMax), engineWeightMin := (engineWeightMinVal), engineWeightMax := (engineWeightMaxVal), engineWeightInitial := (engineWeightInitialVal), enginePotentiationGain := (engineLearnPotentiation), engineDepressionLoss := (engineLearnDepression), inductionNeverDirectlyProvedVerified := (not (validPeircePhaseStep (peircePhaseObserved) (peircePhaseProved))), knownKappaDedupBeforeStrategyVerified := ((decideHypothesisMint false true 16) =? (mintOutcomeSkippedKnownKappa)), schedulePermutationByWeightVerified := (((schedulePairFirstWeight 7 12) =? 12) && ((schedulePairSecondWeight 7 12) =? 7)), homeostasisGateShareReservedVerified := ((reserveHomeostasisGateShare 24 6) =? 6)}), harmanOooObserver := (record HarmanObjectOrientedObserverSpec {oooPoleCount := (oooPoleTotal), oooVantageCount := (oooVantageTotal), withdrawnCoreSymbolId := (withdrawnAperiodicCompensationId), realAndWithdrawnOverlapZero := (overlapRealAndWithdrawnZero), realQualitiesProvedAndGaugeInvariant := ((gaugeTransformRealQualityMask 4095 11) =? 4095), withdrawnCoreOpenAndGaugeInvariant := ((gaugeTransformWithdrawnCoreId (withdrawnAperiodicCompensationId) 11) =? (withdrawnAperiodicCompensationId)), sensualPresentationGaugeTransformable := ((withdrawnAperiodicCompensationId) <? (gaugeTransformSensualQualityId (withdrawnAperiodicCompensationId) 11))})})
+}
+
+definition{
+  name: verifyUnifiedMechanizationModelCoherence,
+  parameters: [],
+  result: Bool,
+  body: (((verifyFoundryRouterAndLiftVectors) && (verifyEpistemicHonestyAndConformanceVectors)) && ((verifyPeirceCycleAndOooObserverVectors) && ((project (mechanizationStandardModel) coherentClassicalModelCount) =? 6)))
+}
+
+theorem{
+  name: unifiedMechanizationModelCoherenceHolds,
+  parameters: [],
+  statement: ((verifyUnifiedMechanizationModelCoherence) = true),
+  proof: decide{},
+  axioms: []
+}
+\end{semanticmodule}
+\end{lexlean}

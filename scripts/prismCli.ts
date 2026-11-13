@@ -210,17 +210,22 @@ async function main() {
       force: flags.has('--force'),
       checkOnly: false,
     });
+    const uorMod = await import('./uorMechanizerModel.ts');
+    const uorRes = uorMod.syncOrCheckUorMechanizationArtifacts(projectRoot, { write: true });
     console.log(
-      `[prism:mechanize] ${res.fromCache ? 'cache-hit' : 'compiled'} in ${res.durationMs}ms | digest=${res.inputDigestSha256.slice(0, 16)}… | constants=${res.constantsChanged ? 'updated' : 'unchanged'} | runtime=${res.runtimeChanged ? 'updated' : 'unchanged'} | SPEC.md=${res.specReport.specMdUpdated ? 'updated' : 'in-sync'}`,
+      `[prism:mechanize] ${res.fromCache ? 'cache-hit' : 'compiled'} in ${res.durationMs}ms | digest=${res.inputDigestSha256.slice(0, 16)}… | constants=${res.constantsChanged ? 'updated' : 'unchanged'} | runtime=${res.runtimeChanged ? 'updated' : 'unchanged'} | SPEC.md=${res.specReport.specMdUpdated ? 'updated' : 'in-sync'} | lift=${uorRes.liftedCount}/${uorRes.totalProductFunctions} (${uorRes.liftRegisterUpdated ? 'updated' : 'in-sync'}) | CONFORMANCE.md=${uorRes.conformanceMdUpdated ? 'updated' : 'in-sync'}`,
     );
     return;
   }
 
   if (cmd === 'check' || cmd === 'drift') {
     const res = ensurePrismMechanizedArtifacts(projectRoot, { checkOnly: true });
-    if (res.specReport.driftDetails.length > 0) {
+    const uorMod = await import('./uorMechanizerModel.ts');
+    const uorRes = uorMod.syncOrCheckUorMechanizationArtifacts(projectRoot, { write: false });
+    const allDrift = [...res.specReport.driftDetails, ...uorRes.driftDetails];
+    if (allDrift.length > 0) {
       console.error('[prism:drift] DRIFT DETECTED:');
-      for (const d of res.specReport.driftDetails) {
+      for (const d of allDrift) {
         console.error(`  - ${d}`);
       }
       console.error('Run `npm run prism:mechanize` to synchronize mechanized artifacts.');
@@ -228,7 +233,7 @@ async function main() {
     }
     const sweep = await runMechanizedContractSweep();
     console.log(
-      `[prism:drift] ZERO DRIFT (${res.durationMs}ms compile-check + ${sweep.durationMs}ms contract-sweep) | modules=${sweep.modulesVerified} | vectors=${sweep.acceptanceVectorsVerified} | refuters=${sweep.counterexamplePredicatesChecked} (${sweep.counterexampleEvaluations} checks) | gates=${sweep.verificationPredicatesChecked}`,
+      `[prism:drift] ZERO DRIFT (${res.durationMs}ms compile-check + ${sweep.durationMs}ms contract-sweep) | modules=${sweep.modulesVerified} | vectors=${sweep.acceptanceVectorsVerified} | refuters=${sweep.counterexamplePredicatesChecked} (${sweep.counterexampleEvaluations} checks) | gates=${sweep.verificationPredicatesChecked} | UE-16=${uorRes.liftedCount}/${uorRes.totalProductFunctions} lifted | CM-02=${uorRes.buildScenarioCount}/${uorRes.buildScenarioCount}`,
     );
     return;
   }
@@ -236,6 +241,8 @@ async function main() {
   if (cmd === 'status') {
     const res = ensurePrismMechanizedArtifacts(projectRoot, { force: false });
     const runtimeMod: any = await import('../src/game/generatedPrismRuntime');
+    const uorMod = await import('./uorMechanizerModel.ts');
+    const uorRes = uorMod.syncOrCheckUorMechanizationArtifacts(projectRoot, { write: false });
     const manifest = runtimeMod.GENERATED_PRISM_MECHANIZED_MANIFEST;
     const sweep = await runMechanizedContractSweep();
     const lean = inspectLeanAttestationStatus(projectRoot);
@@ -251,12 +258,42 @@ async function main() {
     console.log(
       `Contract Auto-Sweep : ${sweep.acceptanceVectorsVerified} byte vectors | ${sweep.counterexamplePredicatesChecked} breaks* refuters (${sweep.counterexampleEvaluations} evals) | ${sweep.verificationPredicatesChecked} verify* gates (${sweep.durationMs}ms)`,
     );
+    console.log(
+      `UORust/UORC Gate    : ${uorRes.liftedCount}/${uorRes.totalProductFunctions} κ lifted (open distance=${uorRes.unliftedOpenDistance}: ${uorRes.residueCount} residue, ${uorRes.foreignCount} foreign, ${uorRes.effectCount} effect) | ${uorRes.authoritiesCount} some-true | ${uorRes.buildScenarioCount} build | ${uorRes.openClaimsCount} open`,
+    );
     if (lean.available) {
       console.log(
         `Lean 4.32 Attested  : ${lean.attestationId?.slice(0, 16)}… | ${lean.declarationCount} verified declarations | allOk=${lean.allOk} | sorry=${lean.sorryDetected} | axioms=[${lean.observedAxioms.join(', ')}]`,
       );
     } else {
       console.log('Lean 4.32 Attested  : (local .lexlean cache not present; run `npm run prism:verify`)');
+    }
+    return;
+  }
+
+  if (cmd === 'lift' || cmd === 'conformance') {
+    ensurePrismMechanizedArtifacts(projectRoot, { force: false });
+    const uorMod = await import('./uorMechanizerModel.ts');
+    const reasoningMod = await import('../src/game/mechanicalReasoningEngine.ts');
+    const { register } = uorMod.ingestProductCodebaseLiftRegister(projectRoot);
+    const checkRes = uorMod.syncOrCheckUorMechanizationArtifacts(projectRoot, { write: false });
+    console.log('=== Verdant Resonance — Unified UORust + UORC + Rule-30 Mechanical Model ===');
+    console.log('Classical Reasoning Models in Coherence (6):');
+    for (const m of reasoningMod.COHERENT_CLASSICAL_REASONING_MODELS) {
+      console.log(`  [${m.ordinal}] ${m.id.padEnd(38)} <- ${m.sourceRepositories.join(', ')} | ${m.classicalLineage}`);
+    }
+    console.log(
+      `\nFoundry Router: ${reasoningMod.FOUNDRY_ROUTES.length} routes | maskLimit=${reasoningMod.DERIVED_FOUNDRY_ROUTE_MASK_LIMIT} | derivedRequestLimit=${reasoningMod.DERIVED_FOUNDRY_REQUEST_LIMIT_BYTES}B`,
+    );
+    console.log(
+      `Lift Register (UE-16): total=${register.summary.totalFunctions} | lifted=${register.summary.liftedCount} | residue=${register.summary.residueCount} | foreign=${register.summary.foreignCount} | effect=${register.summary.effectCount} | openDistance=${register.summary.unliftedOpenDistance}`,
+    );
+    console.log(
+      `Epistemic Contract (R1-R6 / CM-01..03): some-true=${checkRes.authoritiesCount} | build=${checkRes.buildScenarioCount}/${checkRes.buildScenarioCount} | open=${checkRes.openClaimsCount} | drift=${checkRes.driftDetails.length}`,
+    );
+    if (checkRes.driftDetails.length > 0) {
+      for (const d of checkRes.driftDetails) console.error(`  ! ${d}`);
+      process.exit(1);
     }
     return;
   }
@@ -424,13 +461,16 @@ async function main() {
 
   if (cmd === 'gate') {
     const checkRes = ensurePrismMechanizedArtifacts(projectRoot, { checkOnly: true });
-    if (checkRes.specReport.driftDetails.length > 0) {
-      console.error('[prism:gate] Mechanized artifacts out of sync:', checkRes.specReport.driftDetails);
+    const uorMod = await import('./uorMechanizerModel.ts');
+    const uorRes = uorMod.syncOrCheckUorMechanizationArtifacts(projectRoot, { write: false });
+    const allDrift = [...checkRes.specReport.driftDetails, ...uorRes.driftDetails];
+    if (allDrift.length > 0) {
+      console.error('[prism:gate] Mechanized artifacts out of sync:', allDrift);
       process.exit(1);
     }
     const sweep = await runMechanizedContractSweep();
     console.log(
-      `✓ Mechanized Prism drift & contract sweep passed (${sweep.modulesVerified} modules, ${sweep.counterexampleEvaluations} refuter checks in ${sweep.durationMs}ms)`,
+      `✓ Mechanized Prism + UORust/UORC/Rule-30 gate passed (${sweep.modulesVerified} modules, ${sweep.counterexampleEvaluations} refuters, UE-16=${uorRes.liftedCount}/${uorRes.totalProductFunctions} κ lifted, CM-02=${uorRes.buildScenarioCount}/${uorRes.buildScenarioCount} in ${sweep.durationMs}ms)`,
     );
     if (flags.has('--formal')) {
       runSubcommand(
@@ -477,7 +517,7 @@ async function main() {
   }
 
   console.error(
-    `Unknown prismCli command '${cmd}'. Expected: sync | check | status | inspect | eval | kpis | optimize | gate`,
+    `Unknown prismCli command '${cmd}'. Expected: sync | check | status | lift | conformance | inspect | eval | kpis | optimize | gate`,
   );
   process.exit(1);
 }

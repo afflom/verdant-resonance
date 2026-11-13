@@ -4,6 +4,26 @@ import fs from 'node:fs';
 import { ensurePrismMechanizedArtifacts } from '../../scripts/prismMechanizer';
 import { runMechanizedContractSweep } from '../../scripts/prismCli';
 import {
+  ingestProductCodebaseLiftRegister,
+  syncOrCheckUorMechanizationArtifacts,
+} from '../../scripts/uorMechanizerModel';
+import {
+  admitLiftRegisterCandidate,
+  COHERENT_CLASSICAL_REASONING_MODELS,
+  DERIVED_FOUNDRY_REQUEST_LIMIT_BYTES,
+  DERIVED_FOUNDRY_ROUTE_MASK_LIMIT,
+  discoverRule30F2Relations,
+  evaluateHarmanOooQuadruple,
+  FORBIDDEN_ASSERTIVE_VOCABULARY,
+  FOUNDRY_ROUTES,
+  getCompiledMechanizationStandardModel,
+  mintCanonicalHypotheses,
+  routeCodebaseFact,
+  runMemoizedPeircePortfolioTick,
+  sha256KappaHex,
+  validateEpistemicClaimRecord,
+  VERDANT_MECHANIZATION_BASIS_PRIME,
+  WITHDRAWN_APERIODIC_COMPENSATION_ID,
   ATMOSPHERE_CONFIGS,
   BIOME_CONSTELLATIONS,
   BIOME_LANDSCAPE_TERRACES,
@@ -1770,7 +1790,7 @@ test('Root Judge calls the 10-Domain Universal Neuromorphic Bus, constructive bo
   const liveExtracted = extractAllPrismArtifacts(prismSrcDir);
   assert.deepEqual(liveExtracted.foundationPurity, GENERATED_PRISM_FOUNDATION_PURITY);
   assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.verified, true);
-  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 24);
+  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 25);
   assert.deepEqual(liveExtracted.domainBasisPrimes, GENERATED_PRISM_DOMAIN_BASIS_PRIMES);
   assert.deepEqual(liveExtracted.domainBasisPrimes, PRISM_DOMAIN_BASIS_PRIMES);
   assert.deepEqual(liveExtracted.contextPrimes, GENERATED_PRISM_CONTEXT_PRIMES);
@@ -3002,7 +3022,7 @@ test('31. Live Neuromorphic Bus Refinement Advances Observer Cosmogenesis & Modu
 
 test('32. Pure Parametric Canonical Seed, Concert Pitch & World Topology derive deterministically from UOR Primes & Rule-30 Dyadics', () => {
   assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.verified, true);
-  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 24);
+  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 25);
 
   // Exact UOR prime & Rule-30 dyadic identities at Base Directive w = 8
   assert.equal(synthesizeParametricCanonicalSeed(1, 8), 42026);
@@ -6697,13 +6717,13 @@ test('62. Modular Scene Builders, Zero-GC 60Hz Biogeochemistry & Strict Compiler
 });
 
 test('63. Universal Prism LexLean-to-TypeScript Mechanizer, Differential Dispatch Parity & Zero-Drift Automation Gate', async () => {
-  // 1. Complete 27-module compilation coverage in generatedPrismRuntime.ts
-  assert.equal(GENERATED_PRISM_MECHANIZED_MANIFEST.moduleCount, 27);
+  // 1. Complete 28-module compilation coverage in generatedPrismRuntime.ts
+  assert.equal(GENERATED_PRISM_MECHANIZED_MANIFEST.moduleCount, 28);
   assert.ok(GENERATED_PRISM_MECHANIZED_MANIFEST.inductiveCount >= 2);
   assert.ok(GENERATED_PRISM_MECHANIZED_MANIFEST.structureCount >= 149);
   assert.ok(GENERATED_PRISM_MECHANIZED_MANIFEST.definitionCount >= 967);
   assert.ok(GENERATED_PRISM_MECHANIZED_MANIFEST.theoremCount >= 154);
-  assert.equal(Object.keys(PRISM_COMPILED_MODULES).length, 27);
+  assert.equal(Object.keys(PRISM_COMPILED_MODULES).length, 28);
 
   // 2. Exact 64-bit BigInt formal kernel parity (beyond IEEE-754 MAX_SAFE_INTEGER 2^53 - 1)
   const Comp = PRISM_COMPILED_MODULES['Foundation.Compression.V1.Model'];
@@ -6768,7 +6788,7 @@ test('63. Universal Prism LexLean-to-TypeScript Mechanizer, Differential Dispatc
 
   // 4. Universal auto-discovered contract sweep (all 87 byte vectors + >=152 breaks* refuters + 34 verify* gates)
   const sweep = await runMechanizedContractSweep();
-  assert.equal(sweep.modulesVerified, 27);
+  assert.equal(sweep.modulesVerified, 28);
   assert.equal(sweep.acceptanceVectorsVerified, 87);
   assert.ok(sweep.counterexamplePredicatesChecked >= 152);
   assert.ok(sweep.counterexampleEvaluations >= 1300);
@@ -6884,4 +6904,267 @@ test('64. 24-Facet Reflexive Holon Guiding Directives, Autonomous KPIs & Player-
   assert.equal(gardenCanvasSrc.includes('evaluateObserverPlayerDissonanceReconciliation('), true);
   assert.equal(gardenCanvasSrc.includes('setPlayerReconciliationWarmthScale('), true);
   assert.equal(soundscapeSrc.includes('playerReconciliationWarmthScale'), true);
+});
+
+test('65. Unified UORust + UORC + Rule-30 Mechanical Reasoning Model: Foundry Routing, UE-16 Monotonic κ Lift Ratchet, Planted-Defect R2 Honesty Meta-Gate, Peirce Cycle & Harman OOO Gauge Invariance', () => {
+  // 1. Formal Lean 4.32 `Foundation.Mechanization.V1.Model` parity & 6 Coherent Classical Reasoning Models
+  assert.equal(VERDANT_MECHANIZATION_BASIS_PRIME, 193);
+  assert.equal(COHERENT_CLASSICAL_REASONING_MODELS.length, 6);
+  const mechTheorems = GENERATED_PRISM_THEOREMS_BY_MODULE['Foundation.Mechanization.V1.Model'];
+  assert.deepEqual(mechTheorems, [
+    'foundryRouterAndLiftVectorsHold',
+    'epistemicHonestyAndConformanceVectorsHold',
+    'peirceCycleAndOooObserverVectorsHold',
+    'monotonicLiftRatchetAndOpenDistanceHold',
+    'schedulePermutationAndWeightBoundsHold',
+    'homeostasisPartitionAndOooGaugeInvarianceHold',
+    'unifiedMechanizationModelCoherenceHolds',
+  ]);
+  const Mech = PRISM_COMPILED_MODULES['Foundation.Mechanization.V1.Model'];
+  assert.equal(Mech.verifyUnifiedMechanizationModelCoherence(), true);
+  const stdModel = getCompiledMechanizationStandardModel();
+  assert.equal(stdModel.profile, 'prism/mechanization-uorust-uorc-rule30/1');
+  assert.equal(stdModel.coherentClassicalModelCount, 6n);
+
+  // NIST FIPS 180-4 SHA-256 `κ` equivalence check
+  assert.equal(
+    sha256KappaHex(''),
+    'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+  );
+  assert.equal(
+    sha256KappaHex('abc'),
+    'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad',
+  );
+
+  // 2. Foundry Router (`afflom/UORust`): derived request limit + total Unknown/Ambiguous refusals
+  assert.equal(FOUNDRY_ROUTES.length, 10);
+  assert.equal(DERIVED_FOUNDRY_ROUTE_MASK_LIMIT, 1023);
+  assert.equal(DERIVED_FOUNDRY_REQUEST_LIMIT_BYTES, 1663);
+  const okRoute = routeCodebaseFact(['pure-domain-fn']);
+  assert.equal(okRoute.kind, 'admitted');
+  if (okRoute.kind === 'admitted') {
+    assert.equal(okRoute.route.id, 'VR-R04');
+  }
+  const emptyRoute = routeCodebaseFact([]);
+  assert.equal(emptyRoute.kind, 'refused-unknown');
+  const unknownRoute = routeCodebaseFact(['invented-unregistered-tag']);
+  assert.equal(unknownRoute.kind, 'refused-unknown');
+  const ambiguousRoute = routeCodebaseFact(['pure-domain-fn', 'webgl-effect-fn']);
+  assert.equal(ambiguousRoute.kind, 'refused-ambiguous');
+
+  // 3. Planted-Defect Proof 1 — Gate `UE-16` Monotonic `κ` Lift Ratchet (`afflom/UORust`)
+  const { register, routingRefusals } = ingestProductCodebaseLiftRegister(process.cwd());
+  assert.equal(routingRefusals.length, 0);
+  assert.ok(register.summary.totalFunctions >= 90);
+  assert.ok(register.summary.liftedCount >= 40);
+  assert.equal(
+    register.summary.liftedCount + register.summary.unliftedOpenDistance,
+    register.summary.totalFunctions,
+  );
+
+  const okAdmission = admitLiftRegisterCandidate(register, register);
+  assert.equal(okAdmission.ok, true);
+
+  // Plant synthetic regression: downgrade a `lifted` κ to `residue` without changing its κ
+  const firstLiftedIdx = register.rows.findIndex((r) => r.status === 'lifted');
+  assert.ok(firstLiftedIdx >= 0, 'Expected at least one lifted function in product codebase');
+  const regressedRows = register.rows.map((row, idx) =>
+    idx === firstLiftedIdx
+      ? {
+          kappa: row.kappa,
+          functionPath: row.functionPath,
+          routeId: row.routeId,
+          status: 'residue' as const,
+          reason: 'planted-regression',
+          detail: 'Planted regression to prove UE-16 gate',
+        }
+      : row,
+  );
+  const regressedAdmission = admitLiftRegisterCandidate(register, {
+    ...register,
+    rows: regressedRows,
+  });
+  assert.equal(regressedAdmission.ok, false, 'UE-16 must reject regression of lifted κ');
+  if (!regressedAdmission.ok) {
+    assert.equal(regressedAdmission.error.kind, 'Regressed');
+  }
+
+  // Plant malformed foreign row (missing package declaration) & non-lifted divergence
+  const malformedForeign = admitLiftRegisterCandidate(null, {
+    ...register,
+    rows: [
+      {
+        kappa: sha256KappaHex('malformed-foreign-probe'),
+        functionPath: 'src/probe.ts::badForeign',
+        routeId: 'VR-R05',
+        status: 'foreign',
+        detail: 'unnamed wrapper',
+      },
+    ],
+  });
+  assert.equal(malformedForeign.ok, false);
+  if (!malformedForeign.ok) {
+    assert.equal(malformedForeign.error.kind, 'Malformed');
+  }
+
+  // 4. Planted-Defect Proof 2 — `R2` Assertive Vocabulary Meta-Gate & `CM-01..CM-03` Bijection
+  for (const word of FORBIDDEN_ASSERTIVE_VOCABULARY) {
+    const badOpen = validateEpistemicClaimRecord({
+      id: 'OPEN-PLANTED',
+      level: 'open',
+      statement: `Empirical measurement ${word} universal optimality.`,
+    });
+    assert.equal(badOpen.admitted, false, `R2 must reject '${word}' on open claim`);
+    const badSomeTrue = validateEpistemicClaimRecord({
+      id: 'AUTH-PLANTED',
+      level: 'some-true',
+      authorityId: 'AUTH-01',
+      statement: `External standard ${word} local theorem.`,
+    });
+    assert.equal(badSomeTrue.admitted, false, `R2 must reject '${word}' on some-true claim`);
+  }
+
+  // Verify live repository `prism/lift-register.json` & `CONFORMANCE.md` zero-drift and 65/65/65 bijection
+  const repoCheck = syncOrCheckUorMechanizationArtifacts(process.cwd(), { write: false });
+  assert.deepEqual(repoCheck.driftDetails, []);
+  assert.equal(repoCheck.buildScenarioCount, 65);
+  assert.equal(repoCheck.authoritiesCount, 10);
+  assert.equal(repoCheck.openClaimsCount, 4);
+
+  // 5. Peirce Triadic Cycle (`afflom/rule30` Discovery -> Hypotheses -> Engine + `UORC` Dominance)
+  const f2Relations = discoverRule30F2Relations(undefined, 14);
+  assert.equal(f2Relations.length, 6);
+  for (const rel of f2Relations) {
+    assert.equal(rel.phase, 'observed');
+    assert.equal(rel.certifiedAcrossWindow, true);
+  }
+  // Finite inductive observation can NEVER jump directly to `proved` without abduction + deduction
+  assert.equal(
+    Mech.validPeircePhaseStep(Mech.peircePhaseObserved(), Mech.peircePhaseProved()),
+    false,
+  );
+
+  // Canonical clause `κ` symmetry & idempotent saturation
+  const mintPass1 = mintCanonicalHypotheses(
+    [
+      {
+        originKind: 'exclusion',
+        literals: [
+          { atom: 'cell30_zero', positive: true },
+          { atom: 'period_1', positive: false },
+        ],
+      },
+      {
+        // Permuted literal order -> must hash to identical canonical κ and skip without spending budget!
+        originKind: 'exclusion',
+        literals: [
+          { atom: 'period_1', positive: false },
+          { atom: 'cell30_zero', positive: true },
+        ],
+      },
+      {
+        // Contradictory clause (`x && !x`) -> must be rejected!
+        originKind: 'audit-obligation',
+        literals: [
+          { atom: 'aperiodic', positive: true },
+          { atom: 'aperiodic', positive: false },
+        ],
+      },
+    ],
+    new Set(),
+    16,
+  );
+  assert.equal(mintPass1.admitted.length, 1);
+  assert.equal(mintPass1.skippedKnownKappaCount, 1);
+  assert.equal(mintPass1.rejectedContradictoryCount, 1);
+  assert.equal(mintPass1.remainingBudget, 15);
+
+  // Re-running with `admitted` κ in known set saturates cleanly with 0 new mints and 16/16 budget untouched
+  const mintPass2 = mintCanonicalHypotheses(
+    [
+      {
+        originKind: 'exclusion',
+        literals: [
+          { atom: 'cell30_zero', positive: true },
+          { atom: 'period_1', positive: false },
+        ],
+      },
+    ],
+    new Set(mintPass1.admitted.map((m) => m.kappa)),
+    16,
+  );
+  assert.equal(mintPass2.admitted.length, 0);
+  assert.equal(mintPass2.skippedKnownKappaCount, 1);
+  assert.equal(mintPass2.remainingBudget, 16);
+
+  // Portfolio scheduling (`[1..16]`, `+2/-1`, `scheduleSound`, `known` dedup, homeostasis gate share)
+  const initialPortfolio = [
+    { strategyId: 'library-rewrite' as const, templateDigestSha256: 'tpl-lib', weight: 8 },
+    { strategyId: 'step-induction' as const, templateDigestSha256: 'tpl-ind', weight: 8 },
+    { strategyId: 'period-reduction' as const, templateDigestSha256: 'tpl-per', weight: 8 },
+    { strategyId: 'counterexample' as const, templateDigestSha256: 'tpl-cex', weight: 8 },
+  ];
+  const claimKappa = mintPass1.admitted[0].kappa;
+  const tick1 = runMemoizedPeircePortfolioTick(
+    initialPortfolio,
+    [
+      {
+        claimKappa,
+        winningStrategy: 'step-induction',
+        defectCount: 0,
+        encodedBytes: 38,
+        decodeSteps: 160,
+        rawFallbackBytes: 85,
+      },
+    ],
+    new Set(),
+    new Set(),
+    24,
+    6,
+  );
+  assert.equal(tick1.summary.reservedGateShare, 6);
+  assert.equal(tick1.summary.deductiveSearchShare, 18);
+  assert.equal(tick1.summary.newlyProvedKappas.length, 1);
+  assert.equal(tick1.summary.settledBytesTotal, 38);
+  assert.equal(tick1.summary.scheduleIsSoundPermutation, true);
+  assert.equal(tick1.summary.updatedPortfolio[0].strategyId, 'step-induction');
+  assert.equal(tick1.summary.updatedPortfolio[0].weight, 10); // 8 + 2
+
+  // Re-submitting the same `claimKappa` skips in O(1) via `known` dedup without running strategies
+  const tick2 = runMemoizedPeircePortfolioTick(
+    tick1.summary.updatedPortfolio,
+    [
+      {
+        claimKappa,
+        winningStrategy: 'step-induction',
+        defectCount: 0,
+        encodedBytes: 38,
+        decodeSteps: 160,
+        rawFallbackBytes: 85,
+      },
+    ],
+    tick1.nextKnownProvedKappas,
+    tick1.nextAttemptLedger,
+    24,
+    6,
+  );
+  assert.equal(tick2.summary.skippedKnownClaims, 1);
+  assert.equal(tick2.summary.newlyProvedKappas.length, 0);
+
+  // 6. Harman's Object-Oriented Ontology (OOO) Quadruple & Sensual Gauge Invariance (`Observer.lex.tex`)
+  for (const vantage of ['regular-side', 'chaotic-side', 'kernel'] as const) {
+    const baseOoo = evaluateHarmanOooQuadruple(vantage, 0);
+    const shiftedOoo = evaluateHarmanOooQuadruple(vantage, 13);
+    assert.equal(baseOoo.withdrawnCore, 'aperiodic-compensation');
+    assert.equal(baseOoo.withdrawnCoreId, WITHDRAWN_APERIODIC_COMPENSATION_ID);
+    assert.equal(baseOoo.overlapRealAndWithdrawn, 0);
+    assert.equal(shiftedOoo.realQualitiesGaugeInvariant, true);
+    assert.equal(shiftedOoo.withdrawnCoreGaugeInvariant, true);
+    assert.equal(shiftedOoo.realQualitiesMask, baseOoo.realQualitiesMask);
+    assert.equal(shiftedOoo.withdrawnCoreId, baseOoo.withdrawnCoreId);
+    assert.deepEqual(
+      shiftedOoo.sensualQualityIds,
+      baseOoo.sensualQualityIds.map((id) => id + 13),
+    );
+  }
 });

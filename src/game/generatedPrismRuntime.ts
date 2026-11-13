@@ -1644,6 +1644,63 @@ export interface Foundation_Cosmogenesis_V1_Model_HolisticObserverModelRegistry 
   readonly observerSelfKnowledgeComplete: boolean;
 }
 
+export interface Foundation_Mechanization_V1_Model_FoundryRouteAndLiftSpec {
+  readonly routeSlotCount: bigint;
+  readonly derivedRouteMaskLimit: bigint;
+  readonly derivedRequestLimitBytes: bigint;
+  readonly liftClassCount: bigint;
+  readonly liftResidueTargetZero: bigint;
+  readonly unknownTagRefusedVerified: boolean;
+  readonly ambiguousTagRefusedVerified: boolean;
+  readonly liftedKappaMonotonicRatchetVerified: boolean;
+  readonly unliftedReportedAsOpenDistanceVerified: boolean;
+}
+
+export interface Foundation_Mechanization_V1_Model_EpistemicHonestyAndConformanceSpec {
+  readonly epistemicLevelCount: bigint;
+  readonly contractRuleCount: bigint;
+  readonly conformanceMetaGateCount: bigint;
+  readonly assertiveVocabularyForbiddenCount: bigint;
+  readonly someTrueRequiresAuthorityVerified: boolean;
+  readonly buildRequiresScenarioAndTestVerified: boolean;
+  readonly openForbidsAssertiveWordsVerified: boolean;
+  readonly threeWayBijectionEnforcedVerified: boolean;
+}
+
+export interface Foundation_Mechanization_V1_Model_PeirceAbductionDeductionInductionSpec {
+  readonly peircePhaseCount: bigint;
+  readonly hypothesisBudgetPerTick: bigint;
+  readonly engineWeightMin: bigint;
+  readonly engineWeightMax: bigint;
+  readonly engineWeightInitial: bigint;
+  readonly enginePotentiationGain: bigint;
+  readonly engineDepressionLoss: bigint;
+  readonly inductionNeverDirectlyProvedVerified: boolean;
+  readonly knownKappaDedupBeforeStrategyVerified: boolean;
+  readonly schedulePermutationByWeightVerified: boolean;
+  readonly homeostasisGateShareReservedVerified: boolean;
+}
+
+export interface Foundation_Mechanization_V1_Model_HarmanObjectOrientedObserverSpec {
+  readonly oooPoleCount: bigint;
+  readonly oooVantageCount: bigint;
+  readonly withdrawnCoreSymbolId: bigint;
+  readonly realAndWithdrawnOverlapZero: bigint;
+  readonly realQualitiesProvedAndGaugeInvariant: boolean;
+  readonly withdrawnCoreOpenAndGaugeInvariant: boolean;
+  readonly sensualPresentationGaugeTransformable: boolean;
+}
+
+export interface Foundation_Mechanization_V1_Model_MechanizationStandardModel {
+  readonly profile: string;
+  readonly basisPrime: bigint;
+  readonly coherentClassicalModelCount: bigint;
+  readonly foundryRouteAndLift: Foundation_Mechanization_V1_Model_FoundryRouteAndLiftSpec;
+  readonly epistemicHonestyAndConformance: Foundation_Mechanization_V1_Model_EpistemicHonestyAndConformanceSpec;
+  readonly peirceTriadicEngine: Foundation_Mechanization_V1_Model_PeirceAbductionDeductionInductionSpec;
+  readonly harmanOooObserver: Foundation_Mechanization_V1_Model_HarmanObjectOrientedObserverSpec;
+}
+
 export interface Foundation_View_Text_V1_Model_TextView {
   readonly title: string;
   readonly heading: string;
@@ -4889,6 +4946,416 @@ export function Foundation_Cosmogenesis_V1_Model_breaksObserverCompleteFourteenM
   return ((probe === 0n) && (!Foundation_Cosmogenesis_V1_Model_verifyObserverCompleteFourteenModelRegistry()));
 }
 
+let _c_Foundation_Mechanization_V1_Model_verdantMechanizationBasisPrime: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_verdantMechanizationBasisPrime(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_verdantMechanizationBasisPrime !== undefined ? _c_Foundation_Mechanization_V1_Model_verdantMechanizationBasisPrime : (_c_Foundation_Mechanization_V1_Model_verdantMechanizationBasisPrime = 193n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_coherentClassicalModelTotal: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_coherentClassicalModelTotal(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_coherentClassicalModelTotal !== undefined ? _c_Foundation_Mechanization_V1_Model_coherentClassicalModelTotal : (_c_Foundation_Mechanization_V1_Model_coherentClassicalModelTotal = 6n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_routeLexModule: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routeLexModule(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routeLexModule !== undefined ? _c_Foundation_Mechanization_V1_Model_routeLexModule : (_c_Foundation_Mechanization_V1_Model_routeLexModule = 0n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_routeLexDefinition: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routeLexDefinition(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routeLexDefinition !== undefined ? _c_Foundation_Mechanization_V1_Model_routeLexDefinition : (_c_Foundation_Mechanization_V1_Model_routeLexDefinition = 1n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_routeLexTheorem: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routeLexTheorem(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routeLexTheorem !== undefined ? _c_Foundation_Mechanization_V1_Model_routeLexTheorem : (_c_Foundation_Mechanization_V1_Model_routeLexTheorem = 2n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_routePureDomainFn: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routePureDomainFn(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routePureDomainFn !== undefined ? _c_Foundation_Mechanization_V1_Model_routePureDomainFn : (_c_Foundation_Mechanization_V1_Model_routePureDomainFn = 3n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_routeSceneBuilderFn: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routeSceneBuilderFn(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routeSceneBuilderFn !== undefined ? _c_Foundation_Mechanization_V1_Model_routeSceneBuilderFn : (_c_Foundation_Mechanization_V1_Model_routeSceneBuilderFn = 4n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_routeReactUiComponent: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routeReactUiComponent(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routeReactUiComponent !== undefined ? _c_Foundation_Mechanization_V1_Model_routeReactUiComponent : (_c_Foundation_Mechanization_V1_Model_routeReactUiComponent = 5n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_routeWebglEffectFn: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routeWebglEffectFn(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routeWebglEffectFn !== undefined ? _c_Foundation_Mechanization_V1_Model_routeWebglEffectFn : (_c_Foundation_Mechanization_V1_Model_routeWebglEffectFn = 6n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_routeWebaudioEffectFn: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routeWebaudioEffectFn(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routeWebaudioEffectFn !== undefined ? _c_Foundation_Mechanization_V1_Model_routeWebaudioEffectFn : (_c_Foundation_Mechanization_V1_Model_routeWebaudioEffectFn = 7n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_routeTestScenario: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routeTestScenario(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routeTestScenario !== undefined ? _c_Foundation_Mechanization_V1_Model_routeTestScenario : (_c_Foundation_Mechanization_V1_Model_routeTestScenario = 8n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_routeAcceptanceVector: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routeAcceptanceVector(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routeAcceptanceVector !== undefined ? _c_Foundation_Mechanization_V1_Model_routeAcceptanceVector : (_c_Foundation_Mechanization_V1_Model_routeAcceptanceVector = 9n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_routeSlotTotal: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routeSlotTotal(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routeSlotTotal !== undefined ? _c_Foundation_Mechanization_V1_Model_routeSlotTotal : (_c_Foundation_Mechanization_V1_Model_routeSlotTotal = 10n);
+}
+
+export function Foundation_Mechanization_V1_Model_routeBitForSlot(slot: bigint): bigint {
+  return ((slot === 0n) ? 1n : ((slot === 1n) ? 2n : ((slot === 2n) ? 4n : ((slot === 3n) ? 8n : ((slot === 4n) ? 16n : ((slot === 5n) ? 32n : ((slot === 6n) ? 64n : ((slot === 7n) ? 128n : ((slot === 8n) ? 256n : ((slot === 9n) ? 512n : 0n))))))))));
+}
+
+let _c_Foundation_Mechanization_V1_Model_derivedRouteMaskSum: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_derivedRouteMaskSum(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_derivedRouteMaskSum !== undefined ? _c_Foundation_Mechanization_V1_Model_derivedRouteMaskSum : (_c_Foundation_Mechanization_V1_Model_derivedRouteMaskSum = (((((((((Foundation_Mechanization_V1_Model_routeBitForSlot(0n) + Foundation_Mechanization_V1_Model_routeBitForSlot(1n)) + Foundation_Mechanization_V1_Model_routeBitForSlot(2n)) + Foundation_Mechanization_V1_Model_routeBitForSlot(3n)) + Foundation_Mechanization_V1_Model_routeBitForSlot(4n)) + Foundation_Mechanization_V1_Model_routeBitForSlot(5n)) + Foundation_Mechanization_V1_Model_routeBitForSlot(6n)) + Foundation_Mechanization_V1_Model_routeBitForSlot(7n)) + Foundation_Mechanization_V1_Model_routeBitForSlot(8n)) + Foundation_Mechanization_V1_Model_routeBitForSlot(9n)));
+}
+
+let _c_Foundation_Mechanization_V1_Model_routeRecordStrideBytes: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routeRecordStrideBytes(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routeRecordStrideBytes !== undefined ? _c_Foundation_Mechanization_V1_Model_routeRecordStrideBytes : (_c_Foundation_Mechanization_V1_Model_routeRecordStrideBytes = 64n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_derivedFoundryRequestLimitBytes: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_derivedFoundryRequestLimitBytes(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_derivedFoundryRequestLimitBytes !== undefined ? _c_Foundation_Mechanization_V1_Model_derivedFoundryRequestLimitBytes : (_c_Foundation_Mechanization_V1_Model_derivedFoundryRequestLimitBytes = (Foundation_Mechanization_V1_Model_derivedRouteMaskSum() + _natMul(Foundation_Mechanization_V1_Model_routeSlotTotal(), Foundation_Mechanization_V1_Model_routeRecordStrideBytes())));
+}
+
+export function Foundation_Mechanization_V1_Model_isSingleRouteBit(tagMask: bigint): boolean {
+  return ((((((((((tagMask === 1n) || (tagMask === 2n)) || (tagMask === 4n)) || (tagMask === 8n)) || (tagMask === 16n)) || (tagMask === 32n)) || (tagMask === 64n)) || (tagMask === 128n)) || (tagMask === 256n)) || (tagMask === 512n));
+}
+
+let _c_Foundation_Mechanization_V1_Model_routingAdmitted: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routingAdmitted(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routingAdmitted !== undefined ? _c_Foundation_Mechanization_V1_Model_routingAdmitted : (_c_Foundation_Mechanization_V1_Model_routingAdmitted = 0n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_routingRefusedUnknown: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routingRefusedUnknown(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routingRefusedUnknown !== undefined ? _c_Foundation_Mechanization_V1_Model_routingRefusedUnknown : (_c_Foundation_Mechanization_V1_Model_routingRefusedUnknown = 1n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_routingRefusedAmbiguous: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_routingRefusedAmbiguous(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_routingRefusedAmbiguous !== undefined ? _c_Foundation_Mechanization_V1_Model_routingRefusedAmbiguous : (_c_Foundation_Mechanization_V1_Model_routingRefusedAmbiguous = 2n);
+}
+
+export function Foundation_Mechanization_V1_Model_classifyFoundryTagMask(tagMask: bigint): bigint {
+  return (((tagMask === 0n) || (Foundation_Mechanization_V1_Model_derivedRouteMaskSum() < tagMask)) ? Foundation_Mechanization_V1_Model_routingRefusedUnknown() : (Foundation_Mechanization_V1_Model_isSingleRouteBit(tagMask) ? Foundation_Mechanization_V1_Model_routingAdmitted() : Foundation_Mechanization_V1_Model_routingRefusedAmbiguous()));
+}
+
+export function Foundation_Mechanization_V1_Model_resolveRouteSlotFromBit(tagMask: bigint): bigint {
+  return ((tagMask === 1n) ? 0n : ((tagMask === 2n) ? 1n : ((tagMask === 4n) ? 2n : ((tagMask === 8n) ? 3n : ((tagMask === 16n) ? 4n : ((tagMask === 32n) ? 5n : ((tagMask === 64n) ? 6n : ((tagMask === 128n) ? 7n : ((tagMask === 256n) ? 8n : ((tagMask === 512n) ? 9n : Foundation_Mechanization_V1_Model_routeSlotTotal()))))))))));
+}
+
+let _c_Foundation_Mechanization_V1_Model_liftClassLifted: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_liftClassLifted(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_liftClassLifted !== undefined ? _c_Foundation_Mechanization_V1_Model_liftClassLifted : (_c_Foundation_Mechanization_V1_Model_liftClassLifted = 0n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_liftClassResidue: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_liftClassResidue(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_liftClassResidue !== undefined ? _c_Foundation_Mechanization_V1_Model_liftClassResidue : (_c_Foundation_Mechanization_V1_Model_liftClassResidue = 1n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_liftClassForeign: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_liftClassForeign(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_liftClassForeign !== undefined ? _c_Foundation_Mechanization_V1_Model_liftClassForeign : (_c_Foundation_Mechanization_V1_Model_liftClassForeign = 2n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_liftClassEffect: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_liftClassEffect(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_liftClassEffect !== undefined ? _c_Foundation_Mechanization_V1_Model_liftClassEffect : (_c_Foundation_Mechanization_V1_Model_liftClassEffect = 3n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_liftClassTotal: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_liftClassTotal(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_liftClassTotal !== undefined ? _c_Foundation_Mechanization_V1_Model_liftClassTotal : (_c_Foundation_Mechanization_V1_Model_liftClassTotal = 4n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_liftResidueTargetZero: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_liftResidueTargetZero(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_liftResidueTargetZero !== undefined ? _c_Foundation_Mechanization_V1_Model_liftResidueTargetZero : (_c_Foundation_Mechanization_V1_Model_liftResidueTargetZero = 0n);
+}
+
+export function Foundation_Mechanization_V1_Model_admitLiftKappaTransition(incumbentPresent: boolean, incumbentClass: bigint, candidateClass: bigint): boolean {
+  return ((candidateClass < Foundation_Mechanization_V1_Model_liftClassTotal()) && (!((incumbentPresent && (incumbentClass === Foundation_Mechanization_V1_Model_liftClassLifted())) && (!(candidateClass === Foundation_Mechanization_V1_Model_liftClassLifted())))));
+}
+
+export function Foundation_Mechanization_V1_Model_unliftedOpenDistance(residueCount: bigint, foreignCount: bigint, effectCount: bigint): bigint {
+  return ((residueCount + foreignCount) + effectCount);
+}
+
+export function Foundation_Mechanization_V1_Model_unliftedExcessOverFloor(residueCount: bigint, foreignCount: bigint, effectCount: bigint): bigint {
+  return Foundation_Compression_V1_Model_excessOver(Foundation_Mechanization_V1_Model_liftResidueTargetZero(), Foundation_Mechanization_V1_Model_unliftedOpenDistance(residueCount, foreignCount, effectCount));
+}
+
+let _c_Foundation_Mechanization_V1_Model_epistemicSomeTrue: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_epistemicSomeTrue(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_epistemicSomeTrue !== undefined ? _c_Foundation_Mechanization_V1_Model_epistemicSomeTrue : (_c_Foundation_Mechanization_V1_Model_epistemicSomeTrue = 0n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_epistemicBuild: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_epistemicBuild(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_epistemicBuild !== undefined ? _c_Foundation_Mechanization_V1_Model_epistemicBuild : (_c_Foundation_Mechanization_V1_Model_epistemicBuild = 1n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_epistemicOpen: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_epistemicOpen(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_epistemicOpen !== undefined ? _c_Foundation_Mechanization_V1_Model_epistemicOpen : (_c_Foundation_Mechanization_V1_Model_epistemicOpen = 2n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_epistemicLevelTotal: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_epistemicLevelTotal(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_epistemicLevelTotal !== undefined ? _c_Foundation_Mechanization_V1_Model_epistemicLevelTotal : (_c_Foundation_Mechanization_V1_Model_epistemicLevelTotal = 3n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_contractRuleTotal: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_contractRuleTotal(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_contractRuleTotal !== undefined ? _c_Foundation_Mechanization_V1_Model_contractRuleTotal : (_c_Foundation_Mechanization_V1_Model_contractRuleTotal = 6n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_conformanceMetaGateTotal: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_conformanceMetaGateTotal(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_conformanceMetaGateTotal !== undefined ? _c_Foundation_Mechanization_V1_Model_conformanceMetaGateTotal : (_c_Foundation_Mechanization_V1_Model_conformanceMetaGateTotal = 3n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_forbiddenAssertiveVocabularyTotal: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_forbiddenAssertiveVocabularyTotal(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_forbiddenAssertiveVocabularyTotal !== undefined ? _c_Foundation_Mechanization_V1_Model_forbiddenAssertiveVocabularyTotal : (_c_Foundation_Mechanization_V1_Model_forbiddenAssertiveVocabularyTotal = 9n);
+}
+
+export function Foundation_Mechanization_V1_Model_admitEpistemicClaim(level: bigint, hasAuthority: boolean, hasScenario: boolean, hasExecutedTest: boolean, assertiveWordCount: bigint): boolean {
+  return ((level === Foundation_Mechanization_V1_Model_epistemicSomeTrue()) ? (hasAuthority && (assertiveWordCount === 0n)) : ((level === Foundation_Mechanization_V1_Model_epistemicBuild()) ? (((!hasAuthority) && hasScenario) && hasExecutedTest) : ((level === Foundation_Mechanization_V1_Model_epistemicOpen()) ? ((!hasAuthority) && (assertiveWordCount === 0n)) : false)));
+}
+
+export function Foundation_Mechanization_V1_Model_verifyBijectiveConformanceTriangulation(registeredIds: bigint, scenarioIds: bigint, executedTestIds: bigint, orphanClaimTags: bigint, driftFileCount: bigint): boolean {
+  return (((((0n < registeredIds) && (registeredIds === scenarioIds)) && (scenarioIds === executedTestIds)) && (orphanClaimTags === 0n)) && (driftFileCount === 0n));
+}
+
+let _c_Foundation_Mechanization_V1_Model_peircePhaseObserved: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_peircePhaseObserved(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_peircePhaseObserved !== undefined ? _c_Foundation_Mechanization_V1_Model_peircePhaseObserved : (_c_Foundation_Mechanization_V1_Model_peircePhaseObserved = 0n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_peircePhaseHypothesized: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_peircePhaseHypothesized(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_peircePhaseHypothesized !== undefined ? _c_Foundation_Mechanization_V1_Model_peircePhaseHypothesized : (_c_Foundation_Mechanization_V1_Model_peircePhaseHypothesized = 1n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_peircePhaseProved: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_peircePhaseProved(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_peircePhaseProved !== undefined ? _c_Foundation_Mechanization_V1_Model_peircePhaseProved : (_c_Foundation_Mechanization_V1_Model_peircePhaseProved = 2n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_peircePhaseRefuted: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_peircePhaseRefuted(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_peircePhaseRefuted !== undefined ? _c_Foundation_Mechanization_V1_Model_peircePhaseRefuted : (_c_Foundation_Mechanization_V1_Model_peircePhaseRefuted = 3n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_peircePhaseTotal: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_peircePhaseTotal(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_peircePhaseTotal !== undefined ? _c_Foundation_Mechanization_V1_Model_peircePhaseTotal : (_c_Foundation_Mechanization_V1_Model_peircePhaseTotal = 4n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_rule30HypothesisBudgetMax: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_rule30HypothesisBudgetMax(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_rule30HypothesisBudgetMax !== undefined ? _c_Foundation_Mechanization_V1_Model_rule30HypothesisBudgetMax : (_c_Foundation_Mechanization_V1_Model_rule30HypothesisBudgetMax = 16n);
+}
+
+export function Foundation_Mechanization_V1_Model_validPeircePhaseStep(fromPhase: bigint, toPhase: bigint): boolean {
+  return ((fromPhase === Foundation_Mechanization_V1_Model_peircePhaseObserved()) ? (toPhase === Foundation_Mechanization_V1_Model_peircePhaseHypothesized()) : ((fromPhase === Foundation_Mechanization_V1_Model_peircePhaseHypothesized()) ? ((toPhase === Foundation_Mechanization_V1_Model_peircePhaseProved()) || (toPhase === Foundation_Mechanization_V1_Model_peircePhaseRefuted())) : false));
+}
+
+let _c_Foundation_Mechanization_V1_Model_mintOutcomeAdmitted: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_mintOutcomeAdmitted(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_mintOutcomeAdmitted !== undefined ? _c_Foundation_Mechanization_V1_Model_mintOutcomeAdmitted : (_c_Foundation_Mechanization_V1_Model_mintOutcomeAdmitted = 0n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_mintOutcomeRejectedContradictory: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_mintOutcomeRejectedContradictory(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_mintOutcomeRejectedContradictory !== undefined ? _c_Foundation_Mechanization_V1_Model_mintOutcomeRejectedContradictory : (_c_Foundation_Mechanization_V1_Model_mintOutcomeRejectedContradictory = 1n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_mintOutcomeSkippedKnownKappa: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_mintOutcomeSkippedKnownKappa(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_mintOutcomeSkippedKnownKappa !== undefined ? _c_Foundation_Mechanization_V1_Model_mintOutcomeSkippedKnownKappa : (_c_Foundation_Mechanization_V1_Model_mintOutcomeSkippedKnownKappa = 2n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_mintOutcomeBudgetExhausted: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_mintOutcomeBudgetExhausted(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_mintOutcomeBudgetExhausted !== undefined ? _c_Foundation_Mechanization_V1_Model_mintOutcomeBudgetExhausted : (_c_Foundation_Mechanization_V1_Model_mintOutcomeBudgetExhausted = 3n);
+}
+
+export function Foundation_Mechanization_V1_Model_decideHypothesisMint(contradictoryClause: boolean, knownKappa: boolean, remainingBudget: bigint): bigint {
+  return (contradictoryClause ? Foundation_Mechanization_V1_Model_mintOutcomeRejectedContradictory() : (knownKappa ? Foundation_Mechanization_V1_Model_mintOutcomeSkippedKnownKappa() : ((0n < remainingBudget) ? Foundation_Mechanization_V1_Model_mintOutcomeAdmitted() : Foundation_Mechanization_V1_Model_mintOutcomeBudgetExhausted())));
+}
+
+export function Foundation_Mechanization_V1_Model_remainingBudgetAfterMint(contradictoryClause: boolean, knownKappa: boolean, remainingBudget: bigint): bigint {
+  return ((Foundation_Mechanization_V1_Model_decideHypothesisMint(contradictoryClause, knownKappa, remainingBudget) === Foundation_Mechanization_V1_Model_mintOutcomeAdmitted()) ? _natSub(remainingBudget, 1n) : remainingBudget);
+}
+
+let _c_Foundation_Mechanization_V1_Model_engineWeightMinVal: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_engineWeightMinVal(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_engineWeightMinVal !== undefined ? _c_Foundation_Mechanization_V1_Model_engineWeightMinVal : (_c_Foundation_Mechanization_V1_Model_engineWeightMinVal = 1n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_engineWeightMaxVal: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_engineWeightMaxVal(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_engineWeightMaxVal !== undefined ? _c_Foundation_Mechanization_V1_Model_engineWeightMaxVal : (_c_Foundation_Mechanization_V1_Model_engineWeightMaxVal = 16n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_engineWeightInitialVal: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_engineWeightInitialVal(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_engineWeightInitialVal !== undefined ? _c_Foundation_Mechanization_V1_Model_engineWeightInitialVal : (_c_Foundation_Mechanization_V1_Model_engineWeightInitialVal = 8n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_engineLearnPotentiation: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_engineLearnPotentiation(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_engineLearnPotentiation !== undefined ? _c_Foundation_Mechanization_V1_Model_engineLearnPotentiation : (_c_Foundation_Mechanization_V1_Model_engineLearnPotentiation = 2n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_engineLearnDepression: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_engineLearnDepression(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_engineLearnDepression !== undefined ? _c_Foundation_Mechanization_V1_Model_engineLearnDepression : (_c_Foundation_Mechanization_V1_Model_engineLearnDepression = 1n);
+}
+
+export function Foundation_Mechanization_V1_Model_clampEngineWeight(w: bigint): bigint {
+  return ((w <= Foundation_Mechanization_V1_Model_engineWeightMinVal()) ? Foundation_Mechanization_V1_Model_engineWeightMinVal() : ((Foundation_Mechanization_V1_Model_engineWeightMaxVal() <= w) ? Foundation_Mechanization_V1_Model_engineWeightMaxVal() : w));
+}
+
+export function Foundation_Mechanization_V1_Model_engineLearnWeight(current: bigint, succeeded: boolean): bigint {
+  return (() => { const base = Foundation_Mechanization_V1_Model_clampEngineWeight(current); return (succeeded ? Foundation_Mechanization_V1_Model_clampEngineWeight((base + Foundation_Mechanization_V1_Model_engineLearnPotentiation())) : Foundation_Mechanization_V1_Model_clampEngineWeight(_natSub(base, Foundation_Mechanization_V1_Model_engineLearnDepression()))); })();
+}
+
+export function Foundation_Mechanization_V1_Model_schedulePairFirstWeight(wA: bigint, wB: bigint): bigint {
+  return ((wA < wB) ? wB : wA);
+}
+
+export function Foundation_Mechanization_V1_Model_schedulePairSecondWeight(wA: bigint, wB: bigint): bigint {
+  return ((wA < wB) ? wA : wB);
+}
+
+export function Foundation_Mechanization_V1_Model_reserveHomeostasisGateShare(totalTickBudget: bigint, gateMinimum: bigint): bigint {
+  return ((totalTickBudget <= gateMinimum) ? totalTickBudget : gateMinimum);
+}
+
+export function Foundation_Mechanization_V1_Model_deductiveSearchShareAfterGate(totalTickBudget: bigint, gateMinimum: bigint): bigint {
+  return _natSub(totalTickBudget, Foundation_Mechanization_V1_Model_reserveHomeostasisGateShare(totalTickBudget, gateMinimum));
+}
+
+let _c_Foundation_Mechanization_V1_Model_oooPoleSensualQuality: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_oooPoleSensualQuality(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_oooPoleSensualQuality !== undefined ? _c_Foundation_Mechanization_V1_Model_oooPoleSensualQuality : (_c_Foundation_Mechanization_V1_Model_oooPoleSensualQuality = 0n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_oooPoleWithdrawnCore: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_oooPoleWithdrawnCore(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_oooPoleWithdrawnCore !== undefined ? _c_Foundation_Mechanization_V1_Model_oooPoleWithdrawnCore : (_c_Foundation_Mechanization_V1_Model_oooPoleWithdrawnCore = 1n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_oooPoleRealQuality: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_oooPoleRealQuality(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_oooPoleRealQuality !== undefined ? _c_Foundation_Mechanization_V1_Model_oooPoleRealQuality : (_c_Foundation_Mechanization_V1_Model_oooPoleRealQuality = 2n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_oooPoleTotal: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_oooPoleTotal(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_oooPoleTotal !== undefined ? _c_Foundation_Mechanization_V1_Model_oooPoleTotal : (_c_Foundation_Mechanization_V1_Model_oooPoleTotal = 3n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_oooVantageRegularSide: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_oooVantageRegularSide(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_oooVantageRegularSide !== undefined ? _c_Foundation_Mechanization_V1_Model_oooVantageRegularSide : (_c_Foundation_Mechanization_V1_Model_oooVantageRegularSide = 0n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_oooVantageChaoticSide: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_oooVantageChaoticSide(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_oooVantageChaoticSide !== undefined ? _c_Foundation_Mechanization_V1_Model_oooVantageChaoticSide : (_c_Foundation_Mechanization_V1_Model_oooVantageChaoticSide = 1n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_oooVantageKernel: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_oooVantageKernel(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_oooVantageKernel !== undefined ? _c_Foundation_Mechanization_V1_Model_oooVantageKernel : (_c_Foundation_Mechanization_V1_Model_oooVantageKernel = 2n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_oooVantageTotal: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_oooVantageTotal(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_oooVantageTotal !== undefined ? _c_Foundation_Mechanization_V1_Model_oooVantageTotal : (_c_Foundation_Mechanization_V1_Model_oooVantageTotal = 3n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId !== undefined ? _c_Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId : (_c_Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId = 30n);
+}
+
+let _c_Foundation_Mechanization_V1_Model_overlapRealAndWithdrawnZero: bigint | undefined;
+export function Foundation_Mechanization_V1_Model_overlapRealAndWithdrawnZero(): bigint {
+  return _c_Foundation_Mechanization_V1_Model_overlapRealAndWithdrawnZero !== undefined ? _c_Foundation_Mechanization_V1_Model_overlapRealAndWithdrawnZero : (_c_Foundation_Mechanization_V1_Model_overlapRealAndWithdrawnZero = 0n);
+}
+
+export function Foundation_Mechanization_V1_Model_gaugeTransformRealQualityMask(realMask: bigint, gaugeDelta: bigint): bigint {
+  return _natSub((realMask + gaugeDelta), gaugeDelta);
+}
+
+export function Foundation_Mechanization_V1_Model_gaugeTransformWithdrawnCoreId(withdrawnId: bigint, gaugeDelta: bigint): bigint {
+  return _natSub((withdrawnId + gaugeDelta), gaugeDelta);
+}
+
+export function Foundation_Mechanization_V1_Model_gaugeTransformSensualQualityId(sensualId: bigint, gaugeDelta: bigint): bigint {
+  return (sensualId + gaugeDelta);
+}
+
+export function Foundation_Mechanization_V1_Model_qualityGateSatisfied(defectExcess: bigint, coverageLack: bigint): boolean {
+  return ((defectExcess === 0n) && (coverageLack === 0n));
+}
+
+let _c_Foundation_Mechanization_V1_Model_verifyFoundryRouterAndLiftVectors: boolean | undefined;
+export function Foundation_Mechanization_V1_Model_verifyFoundryRouterAndLiftVectors(): boolean {
+  return _c_Foundation_Mechanization_V1_Model_verifyFoundryRouterAndLiftVectors !== undefined ? _c_Foundation_Mechanization_V1_Model_verifyFoundryRouterAndLiftVectors : (_c_Foundation_Mechanization_V1_Model_verifyFoundryRouterAndLiftVectors = (((((((((Foundation_Mechanization_V1_Model_derivedRouteMaskSum() === 1023n) && (Foundation_Mechanization_V1_Model_derivedFoundryRequestLimitBytes() === 1663n)) && (Foundation_Mechanization_V1_Model_classifyFoundryTagMask(0n) === Foundation_Mechanization_V1_Model_routingRefusedUnknown())) && (Foundation_Mechanization_V1_Model_classifyFoundryTagMask(1024n) === Foundation_Mechanization_V1_Model_routingRefusedUnknown())) && (Foundation_Mechanization_V1_Model_classifyFoundryTagMask(3n) === Foundation_Mechanization_V1_Model_routingRefusedAmbiguous())) && (Foundation_Mechanization_V1_Model_classifyFoundryTagMask(8n) === Foundation_Mechanization_V1_Model_routingAdmitted())) && (Foundation_Mechanization_V1_Model_resolveRouteSlotFromBit(8n) === Foundation_Mechanization_V1_Model_routePureDomainFn())) && (Foundation_Mechanization_V1_Model_admitLiftKappaTransition(true, Foundation_Mechanization_V1_Model_liftClassLifted(), Foundation_Mechanization_V1_Model_liftClassLifted()) && (!Foundation_Mechanization_V1_Model_admitLiftKappaTransition(true, Foundation_Mechanization_V1_Model_liftClassLifted(), Foundation_Mechanization_V1_Model_liftClassResidue())))) && ((Foundation_Mechanization_V1_Model_admitLiftKappaTransition(true, Foundation_Mechanization_V1_Model_liftClassResidue(), Foundation_Mechanization_V1_Model_liftClassLifted()) && Foundation_Mechanization_V1_Model_admitLiftKappaTransition(false, Foundation_Mechanization_V1_Model_liftClassResidue(), Foundation_Mechanization_V1_Model_liftClassEffect())) && (Foundation_Mechanization_V1_Model_unliftedExcessOverFloor(4n, 2n, 3n) === 9n))));
+}
+
+let _c_Foundation_Mechanization_V1_Model_verifyEpistemicHonestyAndConformanceVectors: boolean | undefined;
+export function Foundation_Mechanization_V1_Model_verifyEpistemicHonestyAndConformanceVectors(): boolean {
+  return _c_Foundation_Mechanization_V1_Model_verifyEpistemicHonestyAndConformanceVectors !== undefined ? _c_Foundation_Mechanization_V1_Model_verifyEpistemicHonestyAndConformanceVectors : (_c_Foundation_Mechanization_V1_Model_verifyEpistemicHonestyAndConformanceVectors = ((((((Foundation_Mechanization_V1_Model_admitEpistemicClaim(Foundation_Mechanization_V1_Model_epistemicSomeTrue(), true, false, false, 0n) && (!Foundation_Mechanization_V1_Model_admitEpistemicClaim(Foundation_Mechanization_V1_Model_epistemicSomeTrue(), false, true, true, 0n))) && (!Foundation_Mechanization_V1_Model_admitEpistemicClaim(Foundation_Mechanization_V1_Model_epistemicSomeTrue(), true, true, true, 1n))) && (Foundation_Mechanization_V1_Model_admitEpistemicClaim(Foundation_Mechanization_V1_Model_epistemicBuild(), false, true, true, 0n) && (!Foundation_Mechanization_V1_Model_admitEpistemicClaim(Foundation_Mechanization_V1_Model_epistemicBuild(), false, true, false, 0n)))) && (Foundation_Mechanization_V1_Model_admitEpistemicClaim(Foundation_Mechanization_V1_Model_epistemicOpen(), false, false, false, 0n) && (!Foundation_Mechanization_V1_Model_admitEpistemicClaim(Foundation_Mechanization_V1_Model_epistemicOpen(), false, false, false, 1n)))) && (!Foundation_Mechanization_V1_Model_admitEpistemicClaim(3n, false, false, false, 0n))) && (Foundation_Mechanization_V1_Model_verifyBijectiveConformanceTriangulation(65n, 65n, 65n, 0n, 0n) && ((!Foundation_Mechanization_V1_Model_verifyBijectiveConformanceTriangulation(65n, 64n, 65n, 0n, 0n)) && (!Foundation_Mechanization_V1_Model_verifyBijectiveConformanceTriangulation(65n, 65n, 65n, 1n, 0n))))));
+}
+
+let _c_Foundation_Mechanization_V1_Model_verifyPeirceCycleAndOooObserverVectors: boolean | undefined;
+export function Foundation_Mechanization_V1_Model_verifyPeirceCycleAndOooObserverVectors(): boolean {
+  return _c_Foundation_Mechanization_V1_Model_verifyPeirceCycleAndOooObserverVectors !== undefined ? _c_Foundation_Mechanization_V1_Model_verifyPeirceCycleAndOooObserverVectors : (_c_Foundation_Mechanization_V1_Model_verifyPeirceCycleAndOooObserverVectors = ((((((Foundation_Mechanization_V1_Model_validPeircePhaseStep(Foundation_Mechanization_V1_Model_peircePhaseObserved(), Foundation_Mechanization_V1_Model_peircePhaseHypothesized()) && (!Foundation_Mechanization_V1_Model_validPeircePhaseStep(Foundation_Mechanization_V1_Model_peircePhaseObserved(), Foundation_Mechanization_V1_Model_peircePhaseProved()))) && (Foundation_Mechanization_V1_Model_validPeircePhaseStep(Foundation_Mechanization_V1_Model_peircePhaseHypothesized(), Foundation_Mechanization_V1_Model_peircePhaseProved()) && Foundation_Mechanization_V1_Model_validPeircePhaseStep(Foundation_Mechanization_V1_Model_peircePhaseHypothesized(), Foundation_Mechanization_V1_Model_peircePhaseRefuted()))) && (((Foundation_Mechanization_V1_Model_decideHypothesisMint(true, false, 16n) === Foundation_Mechanization_V1_Model_mintOutcomeRejectedContradictory()) && (Foundation_Mechanization_V1_Model_decideHypothesisMint(false, true, 16n) === Foundation_Mechanization_V1_Model_mintOutcomeSkippedKnownKappa())) && ((Foundation_Mechanization_V1_Model_decideHypothesisMint(false, false, 16n) === Foundation_Mechanization_V1_Model_mintOutcomeAdmitted()) && (Foundation_Mechanization_V1_Model_remainingBudgetAfterMint(false, true, 16n) === 16n)))) && (((Foundation_Mechanization_V1_Model_engineLearnWeight(8n, true) === 10n) && (Foundation_Mechanization_V1_Model_engineLearnWeight(8n, false) === 7n)) && ((Foundation_Mechanization_V1_Model_engineLearnWeight(16n, true) === 16n) && (Foundation_Mechanization_V1_Model_engineLearnWeight(1n, false) === 1n)))) && (((Foundation_Mechanization_V1_Model_gaugeTransformRealQualityMask(4095n, 7n) === 4095n) && (Foundation_Mechanization_V1_Model_gaugeTransformWithdrawnCoreId(Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId(), 7n) === Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId())) && (Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId() < Foundation_Mechanization_V1_Model_gaugeTransformSensualQualityId(Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId(), 7n)))) && (Foundation_Mechanization_V1_Model_qualityGateSatisfied(0n, 0n) && (!Foundation_Mechanization_V1_Model_qualityGateSatisfied(1n, 0n)))));
+}
+
+export function Foundation_Mechanization_V1_Model_breaksMonotonicLiftRatchetAndOpenDistance(incumbentClass: bigint, candidateClass: bigint): boolean {
+  return (((incumbentClass === Foundation_Mechanization_V1_Model_liftClassLifted()) && ((!(candidateClass === Foundation_Mechanization_V1_Model_liftClassLifted())) && Foundation_Mechanization_V1_Model_admitLiftKappaTransition(true, incumbentClass, candidateClass))) || ((Foundation_Mechanization_V1_Model_liftClassTotal() <= candidateClass) && Foundation_Mechanization_V1_Model_admitLiftKappaTransition(false, incumbentClass, candidateClass)));
+}
+
+export function Foundation_Mechanization_V1_Model_breaksSchedulePermutationAndWeightBounds(wA: bigint, wB: bigint): boolean {
+  return ((((Foundation_Mechanization_V1_Model_schedulePairFirstWeight(wA, wB) < Foundation_Mechanization_V1_Model_schedulePairSecondWeight(wA, wB)) || (!((Foundation_Mechanization_V1_Model_schedulePairFirstWeight(wA, wB) + Foundation_Mechanization_V1_Model_schedulePairSecondWeight(wA, wB)) === (wA + wB)))) || ((Foundation_Mechanization_V1_Model_engineLearnWeight(wA, true) < Foundation_Mechanization_V1_Model_engineWeightMinVal()) || (Foundation_Mechanization_V1_Model_engineWeightMaxVal() < Foundation_Mechanization_V1_Model_engineLearnWeight(wA, true)))) || ((Foundation_Mechanization_V1_Model_engineLearnWeight(wA, false) < Foundation_Mechanization_V1_Model_engineWeightMinVal()) || (Foundation_Mechanization_V1_Model_engineLearnWeight(wA, true) < Foundation_Mechanization_V1_Model_engineLearnWeight(wA, false))));
+}
+
+export function Foundation_Mechanization_V1_Model_breaksHomeostasisPartitionAndOooGaugeInvariance(budget: bigint, gateMin: bigint): boolean {
+  return (((!((Foundation_Mechanization_V1_Model_reserveHomeostasisGateShare(budget, gateMin) + Foundation_Mechanization_V1_Model_deductiveSearchShareAfterGate(budget, gateMin)) === budget)) || ((gateMin <= budget) && (Foundation_Mechanization_V1_Model_reserveHomeostasisGateShare(budget, gateMin) < gateMin))) || ((!(Foundation_Mechanization_V1_Model_gaugeTransformRealQualityMask(budget, gateMin) === budget)) || ((0n < gateMin) && (Foundation_Mechanization_V1_Model_gaugeTransformSensualQualityId(budget, gateMin) <= budget))));
+}
+
+let _c_Foundation_Mechanization_V1_Model_mechanizationStandardModel: Foundation_Mechanization_V1_Model_MechanizationStandardModel | undefined;
+export function Foundation_Mechanization_V1_Model_mechanizationStandardModel(): Foundation_Mechanization_V1_Model_MechanizationStandardModel {
+  return _c_Foundation_Mechanization_V1_Model_mechanizationStandardModel !== undefined ? _c_Foundation_Mechanization_V1_Model_mechanizationStandardModel : (_c_Foundation_Mechanization_V1_Model_mechanizationStandardModel = ({ profile: "prism/mechanization-uorust-uorc-rule30/1", basisPrime: Foundation_Mechanization_V1_Model_verdantMechanizationBasisPrime(), coherentClassicalModelCount: Foundation_Mechanization_V1_Model_coherentClassicalModelTotal(), foundryRouteAndLift: ({ routeSlotCount: Foundation_Mechanization_V1_Model_routeSlotTotal(), derivedRouteMaskLimit: Foundation_Mechanization_V1_Model_derivedRouteMaskSum(), derivedRequestLimitBytes: Foundation_Mechanization_V1_Model_derivedFoundryRequestLimitBytes(), liftClassCount: Foundation_Mechanization_V1_Model_liftClassTotal(), liftResidueTargetZero: Foundation_Mechanization_V1_Model_liftResidueTargetZero(), unknownTagRefusedVerified: (Foundation_Mechanization_V1_Model_classifyFoundryTagMask(0n) === Foundation_Mechanization_V1_Model_routingRefusedUnknown()), ambiguousTagRefusedVerified: (Foundation_Mechanization_V1_Model_classifyFoundryTagMask(3n) === Foundation_Mechanization_V1_Model_routingRefusedAmbiguous()), liftedKappaMonotonicRatchetVerified: (!Foundation_Mechanization_V1_Model_admitLiftKappaTransition(true, Foundation_Mechanization_V1_Model_liftClassLifted(), Foundation_Mechanization_V1_Model_liftClassResidue())), unliftedReportedAsOpenDistanceVerified: (Foundation_Mechanization_V1_Model_unliftedExcessOverFloor(4n, 2n, 3n) === 9n) } as Foundation_Mechanization_V1_Model_FoundryRouteAndLiftSpec), epistemicHonestyAndConformance: ({ epistemicLevelCount: Foundation_Mechanization_V1_Model_epistemicLevelTotal(), contractRuleCount: Foundation_Mechanization_V1_Model_contractRuleTotal(), conformanceMetaGateCount: Foundation_Mechanization_V1_Model_conformanceMetaGateTotal(), assertiveVocabularyForbiddenCount: Foundation_Mechanization_V1_Model_forbiddenAssertiveVocabularyTotal(), someTrueRequiresAuthorityVerified: Foundation_Mechanization_V1_Model_admitEpistemicClaim(Foundation_Mechanization_V1_Model_epistemicSomeTrue(), true, false, false, 0n), buildRequiresScenarioAndTestVerified: Foundation_Mechanization_V1_Model_admitEpistemicClaim(Foundation_Mechanization_V1_Model_epistemicBuild(), false, true, true, 0n), openForbidsAssertiveWordsVerified: (!Foundation_Mechanization_V1_Model_admitEpistemicClaim(Foundation_Mechanization_V1_Model_epistemicOpen(), false, false, false, 1n)), threeWayBijectionEnforcedVerified: Foundation_Mechanization_V1_Model_verifyBijectiveConformanceTriangulation(65n, 65n, 65n, 0n, 0n) } as Foundation_Mechanization_V1_Model_EpistemicHonestyAndConformanceSpec), peirceTriadicEngine: ({ peircePhaseCount: Foundation_Mechanization_V1_Model_peircePhaseTotal(), hypothesisBudgetPerTick: Foundation_Mechanization_V1_Model_rule30HypothesisBudgetMax(), engineWeightMin: Foundation_Mechanization_V1_Model_engineWeightMinVal(), engineWeightMax: Foundation_Mechanization_V1_Model_engineWeightMaxVal(), engineWeightInitial: Foundation_Mechanization_V1_Model_engineWeightInitialVal(), enginePotentiationGain: Foundation_Mechanization_V1_Model_engineLearnPotentiation(), engineDepressionLoss: Foundation_Mechanization_V1_Model_engineLearnDepression(), inductionNeverDirectlyProvedVerified: (!Foundation_Mechanization_V1_Model_validPeircePhaseStep(Foundation_Mechanization_V1_Model_peircePhaseObserved(), Foundation_Mechanization_V1_Model_peircePhaseProved())), knownKappaDedupBeforeStrategyVerified: (Foundation_Mechanization_V1_Model_decideHypothesisMint(false, true, 16n) === Foundation_Mechanization_V1_Model_mintOutcomeSkippedKnownKappa()), schedulePermutationByWeightVerified: ((Foundation_Mechanization_V1_Model_schedulePairFirstWeight(7n, 12n) === 12n) && (Foundation_Mechanization_V1_Model_schedulePairSecondWeight(7n, 12n) === 7n)), homeostasisGateShareReservedVerified: (Foundation_Mechanization_V1_Model_reserveHomeostasisGateShare(24n, 6n) === 6n) } as Foundation_Mechanization_V1_Model_PeirceAbductionDeductionInductionSpec), harmanOooObserver: ({ oooPoleCount: Foundation_Mechanization_V1_Model_oooPoleTotal(), oooVantageCount: Foundation_Mechanization_V1_Model_oooVantageTotal(), withdrawnCoreSymbolId: Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId(), realAndWithdrawnOverlapZero: Foundation_Mechanization_V1_Model_overlapRealAndWithdrawnZero(), realQualitiesProvedAndGaugeInvariant: (Foundation_Mechanization_V1_Model_gaugeTransformRealQualityMask(4095n, 11n) === 4095n), withdrawnCoreOpenAndGaugeInvariant: (Foundation_Mechanization_V1_Model_gaugeTransformWithdrawnCoreId(Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId(), 11n) === Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId()), sensualPresentationGaugeTransformable: (Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId() < Foundation_Mechanization_V1_Model_gaugeTransformSensualQualityId(Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId(), 11n)) } as Foundation_Mechanization_V1_Model_HarmanObjectOrientedObserverSpec) } as Foundation_Mechanization_V1_Model_MechanizationStandardModel));
+}
+
+let _c_Foundation_Mechanization_V1_Model_verifyUnifiedMechanizationModelCoherence: boolean | undefined;
+export function Foundation_Mechanization_V1_Model_verifyUnifiedMechanizationModelCoherence(): boolean {
+  return _c_Foundation_Mechanization_V1_Model_verifyUnifiedMechanizationModelCoherence !== undefined ? _c_Foundation_Mechanization_V1_Model_verifyUnifiedMechanizationModelCoherence : (_c_Foundation_Mechanization_V1_Model_verifyUnifiedMechanizationModelCoherence = ((Foundation_Mechanization_V1_Model_verifyFoundryRouterAndLiftVectors() && Foundation_Mechanization_V1_Model_verifyEpistemicHonestyAndConformanceVectors()) && (Foundation_Mechanization_V1_Model_verifyPeirceCycleAndOooObserverVectors() && (Foundation_Mechanization_V1_Model_mechanizationStandardModel().coherentClassicalModelCount === 6n))));
+}
+
 let _c_Foundation_View_Text_V1_Model_textApplicationProfile: string | undefined;
 export function Foundation_View_Text_V1_Model_textApplicationProfile(): string {
   return _c_Foundation_View_Text_V1_Model_textApplicationProfile !== undefined ? _c_Foundation_View_Text_V1_Model_textApplicationProfile : (_c_Foundation_View_Text_V1_Model_textApplicationProfile = "prismpm/text-application/1");
@@ -6773,6 +7240,95 @@ export const PRISM_COMPILED_MODULES = {
     "breaksObserverDescriptorComplete": Foundation_Cosmogenesis_V1_Model_breaksObserverDescriptorComplete,
     "breaksObserverCompleteFourteenModelRegistry": Foundation_Cosmogenesis_V1_Model_breaksObserverCompleteFourteenModelRegistry,
   },
+  "Foundation.Mechanization.V1.Model": {
+    "verdantMechanizationBasisPrime": Foundation_Mechanization_V1_Model_verdantMechanizationBasisPrime,
+    "coherentClassicalModelTotal": Foundation_Mechanization_V1_Model_coherentClassicalModelTotal,
+    "routeLexModule": Foundation_Mechanization_V1_Model_routeLexModule,
+    "routeLexDefinition": Foundation_Mechanization_V1_Model_routeLexDefinition,
+    "routeLexTheorem": Foundation_Mechanization_V1_Model_routeLexTheorem,
+    "routePureDomainFn": Foundation_Mechanization_V1_Model_routePureDomainFn,
+    "routeSceneBuilderFn": Foundation_Mechanization_V1_Model_routeSceneBuilderFn,
+    "routeReactUiComponent": Foundation_Mechanization_V1_Model_routeReactUiComponent,
+    "routeWebglEffectFn": Foundation_Mechanization_V1_Model_routeWebglEffectFn,
+    "routeWebaudioEffectFn": Foundation_Mechanization_V1_Model_routeWebaudioEffectFn,
+    "routeTestScenario": Foundation_Mechanization_V1_Model_routeTestScenario,
+    "routeAcceptanceVector": Foundation_Mechanization_V1_Model_routeAcceptanceVector,
+    "routeSlotTotal": Foundation_Mechanization_V1_Model_routeSlotTotal,
+    "routeBitForSlot": Foundation_Mechanization_V1_Model_routeBitForSlot,
+    "derivedRouteMaskSum": Foundation_Mechanization_V1_Model_derivedRouteMaskSum,
+    "routeRecordStrideBytes": Foundation_Mechanization_V1_Model_routeRecordStrideBytes,
+    "derivedFoundryRequestLimitBytes": Foundation_Mechanization_V1_Model_derivedFoundryRequestLimitBytes,
+    "isSingleRouteBit": Foundation_Mechanization_V1_Model_isSingleRouteBit,
+    "routingAdmitted": Foundation_Mechanization_V1_Model_routingAdmitted,
+    "routingRefusedUnknown": Foundation_Mechanization_V1_Model_routingRefusedUnknown,
+    "routingRefusedAmbiguous": Foundation_Mechanization_V1_Model_routingRefusedAmbiguous,
+    "classifyFoundryTagMask": Foundation_Mechanization_V1_Model_classifyFoundryTagMask,
+    "resolveRouteSlotFromBit": Foundation_Mechanization_V1_Model_resolveRouteSlotFromBit,
+    "liftClassLifted": Foundation_Mechanization_V1_Model_liftClassLifted,
+    "liftClassResidue": Foundation_Mechanization_V1_Model_liftClassResidue,
+    "liftClassForeign": Foundation_Mechanization_V1_Model_liftClassForeign,
+    "liftClassEffect": Foundation_Mechanization_V1_Model_liftClassEffect,
+    "liftClassTotal": Foundation_Mechanization_V1_Model_liftClassTotal,
+    "liftResidueTargetZero": Foundation_Mechanization_V1_Model_liftResidueTargetZero,
+    "admitLiftKappaTransition": Foundation_Mechanization_V1_Model_admitLiftKappaTransition,
+    "unliftedOpenDistance": Foundation_Mechanization_V1_Model_unliftedOpenDistance,
+    "unliftedExcessOverFloor": Foundation_Mechanization_V1_Model_unliftedExcessOverFloor,
+    "epistemicSomeTrue": Foundation_Mechanization_V1_Model_epistemicSomeTrue,
+    "epistemicBuild": Foundation_Mechanization_V1_Model_epistemicBuild,
+    "epistemicOpen": Foundation_Mechanization_V1_Model_epistemicOpen,
+    "epistemicLevelTotal": Foundation_Mechanization_V1_Model_epistemicLevelTotal,
+    "contractRuleTotal": Foundation_Mechanization_V1_Model_contractRuleTotal,
+    "conformanceMetaGateTotal": Foundation_Mechanization_V1_Model_conformanceMetaGateTotal,
+    "forbiddenAssertiveVocabularyTotal": Foundation_Mechanization_V1_Model_forbiddenAssertiveVocabularyTotal,
+    "admitEpistemicClaim": Foundation_Mechanization_V1_Model_admitEpistemicClaim,
+    "verifyBijectiveConformanceTriangulation": Foundation_Mechanization_V1_Model_verifyBijectiveConformanceTriangulation,
+    "peircePhaseObserved": Foundation_Mechanization_V1_Model_peircePhaseObserved,
+    "peircePhaseHypothesized": Foundation_Mechanization_V1_Model_peircePhaseHypothesized,
+    "peircePhaseProved": Foundation_Mechanization_V1_Model_peircePhaseProved,
+    "peircePhaseRefuted": Foundation_Mechanization_V1_Model_peircePhaseRefuted,
+    "peircePhaseTotal": Foundation_Mechanization_V1_Model_peircePhaseTotal,
+    "rule30HypothesisBudgetMax": Foundation_Mechanization_V1_Model_rule30HypothesisBudgetMax,
+    "validPeircePhaseStep": Foundation_Mechanization_V1_Model_validPeircePhaseStep,
+    "mintOutcomeAdmitted": Foundation_Mechanization_V1_Model_mintOutcomeAdmitted,
+    "mintOutcomeRejectedContradictory": Foundation_Mechanization_V1_Model_mintOutcomeRejectedContradictory,
+    "mintOutcomeSkippedKnownKappa": Foundation_Mechanization_V1_Model_mintOutcomeSkippedKnownKappa,
+    "mintOutcomeBudgetExhausted": Foundation_Mechanization_V1_Model_mintOutcomeBudgetExhausted,
+    "decideHypothesisMint": Foundation_Mechanization_V1_Model_decideHypothesisMint,
+    "remainingBudgetAfterMint": Foundation_Mechanization_V1_Model_remainingBudgetAfterMint,
+    "engineWeightMinVal": Foundation_Mechanization_V1_Model_engineWeightMinVal,
+    "engineWeightMaxVal": Foundation_Mechanization_V1_Model_engineWeightMaxVal,
+    "engineWeightInitialVal": Foundation_Mechanization_V1_Model_engineWeightInitialVal,
+    "engineLearnPotentiation": Foundation_Mechanization_V1_Model_engineLearnPotentiation,
+    "engineLearnDepression": Foundation_Mechanization_V1_Model_engineLearnDepression,
+    "clampEngineWeight": Foundation_Mechanization_V1_Model_clampEngineWeight,
+    "engineLearnWeight": Foundation_Mechanization_V1_Model_engineLearnWeight,
+    "schedulePairFirstWeight": Foundation_Mechanization_V1_Model_schedulePairFirstWeight,
+    "schedulePairSecondWeight": Foundation_Mechanization_V1_Model_schedulePairSecondWeight,
+    "reserveHomeostasisGateShare": Foundation_Mechanization_V1_Model_reserveHomeostasisGateShare,
+    "deductiveSearchShareAfterGate": Foundation_Mechanization_V1_Model_deductiveSearchShareAfterGate,
+    "oooPoleSensualQuality": Foundation_Mechanization_V1_Model_oooPoleSensualQuality,
+    "oooPoleWithdrawnCore": Foundation_Mechanization_V1_Model_oooPoleWithdrawnCore,
+    "oooPoleRealQuality": Foundation_Mechanization_V1_Model_oooPoleRealQuality,
+    "oooPoleTotal": Foundation_Mechanization_V1_Model_oooPoleTotal,
+    "oooVantageRegularSide": Foundation_Mechanization_V1_Model_oooVantageRegularSide,
+    "oooVantageChaoticSide": Foundation_Mechanization_V1_Model_oooVantageChaoticSide,
+    "oooVantageKernel": Foundation_Mechanization_V1_Model_oooVantageKernel,
+    "oooVantageTotal": Foundation_Mechanization_V1_Model_oooVantageTotal,
+    "withdrawnAperiodicCompensationId": Foundation_Mechanization_V1_Model_withdrawnAperiodicCompensationId,
+    "overlapRealAndWithdrawnZero": Foundation_Mechanization_V1_Model_overlapRealAndWithdrawnZero,
+    "gaugeTransformRealQualityMask": Foundation_Mechanization_V1_Model_gaugeTransformRealQualityMask,
+    "gaugeTransformWithdrawnCoreId": Foundation_Mechanization_V1_Model_gaugeTransformWithdrawnCoreId,
+    "gaugeTransformSensualQualityId": Foundation_Mechanization_V1_Model_gaugeTransformSensualQualityId,
+    "qualityGateSatisfied": Foundation_Mechanization_V1_Model_qualityGateSatisfied,
+    "verifyFoundryRouterAndLiftVectors": Foundation_Mechanization_V1_Model_verifyFoundryRouterAndLiftVectors,
+    "verifyEpistemicHonestyAndConformanceVectors": Foundation_Mechanization_V1_Model_verifyEpistemicHonestyAndConformanceVectors,
+    "verifyPeirceCycleAndOooObserverVectors": Foundation_Mechanization_V1_Model_verifyPeirceCycleAndOooObserverVectors,
+    "breaksMonotonicLiftRatchetAndOpenDistance": Foundation_Mechanization_V1_Model_breaksMonotonicLiftRatchetAndOpenDistance,
+    "breaksSchedulePermutationAndWeightBounds": Foundation_Mechanization_V1_Model_breaksSchedulePermutationAndWeightBounds,
+    "breaksHomeostasisPartitionAndOooGaugeInvariance": Foundation_Mechanization_V1_Model_breaksHomeostasisPartitionAndOooGaugeInvariance,
+    "mechanizationStandardModel": Foundation_Mechanization_V1_Model_mechanizationStandardModel,
+    "verifyUnifiedMechanizationModelCoherence": Foundation_Mechanization_V1_Model_verifyUnifiedMechanizationModelCoherence,
+  },
   "Foundation.View.Text.V1.Model": {
     "textApplicationProfile": Foundation_View_Text_V1_Model_textApplicationProfile,
   },
@@ -7053,12 +7609,12 @@ export const PRISM_COMPILED_MODULES = {
 export type PrismCompiledModuleName = keyof typeof PRISM_COMPILED_MODULES;
 
 export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
-  "sourceTreeDigestSha256": "c0704cabe37ba58ca3280187f10f6686544de7098731cd08558968f8c883a2d0",
-  "moduleCount": 27,
+  "sourceTreeDigestSha256": "a83f8a285b35c36e9b816683bcc65ca081f84dda02b9839c6ed88da5aaf28080",
+  "moduleCount": 28,
   "inductiveCount": 2,
-  "structureCount": 150,
-  "definitionCount": 978,
-  "theoremCount": 156,
+  "structureCount": 155,
+  "definitionCount": 1065,
+  "theoremCount": 163,
   "modules": [
     {
       "moduleName": "Foundation.MetaModel.V1.Model",
@@ -7363,6 +7919,18 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       "theoremCount": 5
     },
     {
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "imports": [
+        "Foundation.MetaModel.V1.Model",
+        "Foundation.Neuromorphic.V1.Model",
+        "Foundation.Compression.V1.Model"
+      ],
+      "inductiveCount": 0,
+      "structureCount": 5,
+      "definitionCount": 87,
+      "theoremCount": 7
+    },
+    {
       "moduleName": "Foundation.View.Text.V1.Model",
       "imports": [],
       "inductiveCount": 0,
@@ -7397,7 +7965,8 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
         "Foundation.Vedanta.V1.Model",
         "Foundation.Dharma.V1.Model",
         "Foundation.Compression.V1.Model",
-        "Foundation.Cosmogenesis.V1.Model"
+        "Foundation.Cosmogenesis.V1.Model",
+        "Foundation.Mechanization.V1.Model"
       ],
       "inductiveCount": 0,
       "structureCount": 1,
@@ -9294,6 +9863,51 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
       "resultType": "Bool"
     },
     {
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "name": "breaksMonotonicLiftRatchetAndOpenDistance",
+      "parameters": [
+        {
+          "name": "incumbentClass",
+          "lexType": "Nat"
+        },
+        {
+          "name": "candidateClass",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "name": "breaksSchedulePermutationAndWeightBounds",
+      "parameters": [
+        {
+          "name": "wA",
+          "lexType": "Nat"
+        },
+        {
+          "name": "wB",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "name": "breaksHomeostasisPartitionAndOooGaugeInvariance",
+      "parameters": [
+        {
+          "name": "budget",
+          "lexType": "Nat"
+        },
+        {
+          "name": "gateMin",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
       "moduleName": "VerdantResonanceProofs",
       "name": "breaksRootJudgeBusGate",
       "parameters": [
@@ -10243,6 +10857,57 @@ export const GENERATED_PRISM_MECHANIZED_MANIFEST = {
     {
       "moduleName": "Foundation.Cosmogenesis.V1.Model",
       "name": "verifyObserverCompleteFourteenModelRegistry",
+      "parameters": [],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "name": "verifyBijectiveConformanceTriangulation",
+      "parameters": [
+        {
+          "name": "registeredIds",
+          "lexType": "Nat"
+        },
+        {
+          "name": "scenarioIds",
+          "lexType": "Nat"
+        },
+        {
+          "name": "executedTestIds",
+          "lexType": "Nat"
+        },
+        {
+          "name": "orphanClaimTags",
+          "lexType": "Nat"
+        },
+        {
+          "name": "driftFileCount",
+          "lexType": "Nat"
+        }
+      ],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "name": "verifyFoundryRouterAndLiftVectors",
+      "parameters": [],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "name": "verifyEpistemicHonestyAndConformanceVectors",
+      "parameters": [],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "name": "verifyPeirceCycleAndOooObserverVectors",
+      "parameters": [],
+      "resultType": "Bool"
+    },
+    {
+      "moduleName": "Foundation.Mechanization.V1.Model",
+      "name": "verifyUnifiedMechanizationModelCoherence",
       "parameters": [],
       "resultType": "Bool"
     },

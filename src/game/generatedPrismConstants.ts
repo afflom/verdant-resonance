@@ -3,7 +3,7 @@
 
 export const GENERATED_PRISM_FOUNDATION_PURITY = {
   "verified": true,
-  "checkedModules": 24
+  "checkedModules": 25
 } as const;
 
 export const GENERATED_PRISM_DOMAIN_BASIS_PRIMES = {
@@ -10795,6 +10795,15 @@ export const GENERATED_PRISM_THEOREMS_BY_MODULE = {
     "exteriorDerivativeNilpotencyHolds",
     "mathematicsNeuromorphicCouplingHolds",
     "mathematicsDescriptorCompleteHolds"
+  ],
+  "Foundation.Mechanization.V1.Model": [
+    "foundryRouterAndLiftVectorsHold",
+    "epistemicHonestyAndConformanceVectorsHold",
+    "peirceCycleAndOooObserverVectorsHold",
+    "monotonicLiftRatchetAndOpenDistanceHold",
+    "schedulePermutationAndWeightBoundsHold",
+    "homeostasisPartitionAndOooGaugeInvarianceHold",
+    "unifiedMechanizationModelCoherenceHolds"
   ],
   "Foundation.MetaModel.V1.Model": [
     "canonicalMetaModelCellAccountingHolds",

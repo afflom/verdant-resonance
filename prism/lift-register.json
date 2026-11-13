@@ -1,0 +1,2976 @@
+{
+  "schema": "verdant-resonance/lift-register/1",
+  "domain": "verdant-resonance/function/1",
+  "summary": {
+    "totalFunctions": 388,
+    "liftedCount": 106,
+    "residueCount": 246,
+    "foreignCount": 31,
+    "effectCount": 5,
+    "unliftedOpenDistance": 282
+  },
+  "rows": [
+    {
+      "kappa": "7fde23fc76c37d154fe3c8796510d550e1aefc463b240412709dfbbedac98d48",
+      "functionPath": "src/App.tsx::App",
+      "routeId": "VR-R07",
+      "status": "effect",
+      "effect": "webgl-GpuFrameLoopAndShaderPipeline"
+    },
+    {
+      "kappa": "083377c6aad91533fbab363035bea549dc76d70d0133a2b2e317030e595382dd",
+      "functionPath": "src/components/gardenFloraBuilder.ts::buildBotanicalBMeshSuite",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "19215a10b0e8979e9ea3632a37c72d89a24df68cf28eaf2d6b6a3c5340446fa4",
+      "functionPath": "src/components/gardenFloraBuilder.ts::buildConservatoryPlantGroup",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "146ca53f990710a49ac01ee3f9eb9f73320ded34d85b46ad6a740a3f2417b2d6",
+      "functionPath": "src/components/gardenFloraBuilder.ts::computeDeterministicPlantPulsePhase",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "94c54361f389138446751959c8bdd9e9acaecc448ea3f7ed71c8e168b7084d60",
+      "functionPath": "src/components/gardenFloraBuilder.ts::disposePlantGroup",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "382a8d1cf7a42fb2e92a04759389736918da97360b7a018410959e7ead66a992",
+      "functionPath": "src/components/gardenFloraBuilder.ts::disposeSuiteGeometries",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "7a1ca9854c4d6740aa8ae63f499f3ac7609c13840f5797d4d0a5f4daf19b9833",
+      "functionPath": "src/components/gardenFloraBuilder.ts::registerSuiteGeometries",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "c96011ea9e6d1ae2e57e06a4e3476d400fef62da8266029e52ecef4cfb55a0d2",
+      "functionPath": "src/components/gardenMonuments.ts::buildCrystalArchway",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "4ac51cb59045549722eff71e0d331c559a7994225024f763967e61967f6a9821",
+      "functionPath": "src/components/gardenMonuments.ts::buildGrovePergola",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "ac2d50f9f9fce0ffa8fd410734e4bf2908a90c279bfb9d8df453dd352165dd23",
+      "functionPath": "src/components/gardenMonuments.ts::buildMeadowSundial",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "48fd30d2e9cda4acd393142b224b65207ba5cf00b1b5a482078b8c1c6f67ef50",
+      "functionPath": "src/components/gardenMonuments.ts::buildSanctuaryPavilion",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "3d17ff3c6d36ce28f697905169215f62bf0ae48c92c15da17aadbd062962e10c",
+      "functionPath": "src/components/gardenMonuments.ts::buildWetlandLanterns",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "58a3b68a14e9c64da6ca3771bbfd13ddf43245036ed84d776e894b73c624c691",
+      "functionPath": "src/components/gardenMonuments.ts::disposeMonumentGroup",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "9eb2fc2ff6dd3a2cae9f6f2443d49cf81e3a36409b89b9f394f14185a42370ab",
+      "functionPath": "src/components/gardenMonuments.ts::enableMonumentShadows",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "90825597f1a0050a165749fd138484fc4c62e31da0258fb29f44ec454fa3a2d0",
+      "functionPath": "src/game/anamnesisEngine.ts::canonicalizeAnamnesisJson",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/anamnesisEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "5618fee357445c988bfd5eaf39879d6965fd60ba1687d7e367bdae2f0af737d7",
+      "functionPath": "src/game/anamnesisEngine.ts::clearAnamnesisStorage",
+      "routeId": "VR-R04",
+      "status": "effect",
+      "effect": "dom-BrowserEnvironmentIo"
+    },
+    {
+      "kappa": "d3e48766164c4bc943cebc8adfeafa2599214cfb556e5f5e53a8fee74eb95907",
+      "functionPath": "src/game/anamnesisEngine.ts::computeAnamnesisMerkleDigest",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/anamnesisEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "c4385185a9320945fa5754727398aeefe67921e8f6196785c7041be6d08a493b",
+      "functionPath": "src/game/anamnesisEngine.ts::computeEpisodicMemoryHorizonCapacity",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Anamnesis.V1.Model (GENERATED_PRISM_BUS_MODULATION_LUT)"
+    },
+    {
+      "kappa": "76d387453061955c70ec3f468bb175807f60859650f79b8d8d05f6f62584e657",
+      "functionPath": "src/game/anamnesisEngine.ts::decodeShareableUorcGardenHash",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/anamnesisEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "384e3e33550b344ef5c87f7678ba1dc34a455e8ad716cd1f183fc9ca1dba739c",
+      "functionPath": "src/game/anamnesisEngine.ts::deserializeAndVerifyAnamnesisSnapshot",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Anamnesis.V1.Model (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "9ae1860e7335cdd6a6e1757f9048ff032d15a4fa7a5e6c4765ba0cb555775c11",
+      "functionPath": "src/game/anamnesisEngine.ts::encodeShareableUorcGardenHash",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/anamnesisEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "6d584bfba48d2b07b92186e7fe0bceb49b2a3a94d1fe03f7d515436132f251c6",
+      "functionPath": "src/game/anamnesisEngine.ts::hydratePlantsFromAnamnesis",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/anamnesisEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "26904fc33d3d62deb0e7191330751f30878160f1f23f32360e7d5b05ac9eaac7",
+      "functionPath": "src/game/anamnesisEngine.ts::loadAnamnesisEnvelopeFromStorage",
+      "routeId": "VR-R04",
+      "status": "effect",
+      "effect": "dom-BrowserEnvironmentIo"
+    },
+    {
+      "kappa": "a98ae1963c8d9b732966cfccfb64588b5f4ded0fc1d5eb91e561f3b19a019b2b",
+      "functionPath": "src/game/anamnesisEngine.ts::packAnamnesisEnvelopeToUorc",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/anamnesisEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "71a5ff42ee280a557d99a79f266b3a054587b98e7f6fe0912ccd74cada5e370c",
+      "functionPath": "src/game/anamnesisEngine.ts::persistAnamnesisEnvelopeToStorage",
+      "routeId": "VR-R04",
+      "status": "effect",
+      "effect": "dom-BrowserEnvironmentIo"
+    },
+    {
+      "kappa": "13fb8ec3fe3bdbc4cda4bc212aac849a13c2442e1dec7dbe0e4b96a9229bf3b1",
+      "functionPath": "src/game/anamnesisEngine.ts::serializeAnamnesisSnapshot",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Anamnesis.V1.Model (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "45149340a6bcbf0558616d2229ca70b5acdebbda343d40e95fe0c73928b3a736",
+      "functionPath": "src/game/anamnesisEngine.ts::unpackAnamnesisEnvelopeFromUorc",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/anamnesisEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "300d931685c2da145932eb8a9f9f33af87d800d4137d3afaf72de86ee23d8762",
+      "functionPath": "src/game/anamnesisEngine.ts::verifyColdLoadModularChunkBudget",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Anamnesis.V1.Model (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "2e7b27ded06fc4afeb8703d182c0c270e8db06f57fbb1fa0401ac4c85225071d",
+      "functionPath": "src/game/autonomousObjectivesEngine.ts::evaluateObserverPlayerDissonanceReconciliation",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (CompiledTeleology.stepPlayerGameDissonancePermille)"
+    },
+    {
+      "kappa": "d2306fe3c01a1427fff9fe7444a05a816d6c68dc5d58580916fe1285ae0675c6",
+      "functionPath": "src/game/autonomousObjectivesEngine.ts::evaluateVerdantAutonomousKpis",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (CompiledTeleology.stepReflexiveFacetNicheIndex)"
+    },
+    {
+      "kappa": "78b3e733f30302f066b6c2f21ac708a0797e1bb262a60d1bce9ca0e40ebfded2",
+      "functionPath": "src/game/autonomousObjectivesEngine.ts::runAutonomousHolonSelfOptimization",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/autonomousObjectivesEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "5f8a04026668cf5f1d6c03802d7ea3c6f82bc1bec771725b2bcab04898cfd9f0",
+      "functionPath": "src/game/conservatoryCurationEngine.ts::computeConservatoryCurationDefect",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "2a4ec8dcab2e0da1bc92d2315ac8e8f2eebc4273277cddd21c0364194a302acb",
+      "functionPath": "src/game/conservatoryCurationEngine.ts::computeConservatoryCurationLyapunovCost",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "bb207c1009c6a5210ecdf9beaf639257e6931e3092d721c02d5ebfb20ad549b6",
+      "functionPath": "src/game/conservatoryCurationEngine.ts::computeConsolidatedMemoryRootKappa",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/conservatoryCurationEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "3eefd53ad177b050bfc817fbd85d7442ac58318d67bb986391ee7aa2b3057396",
+      "functionPath": "src/game/conservatoryCurationEngine.ts::conservatoryCurationDominates",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/conservatoryCurationEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "5e73dfb50d08647ef8c9d51414d828d8015952d33e7023b1b78e3b32837ec198",
+      "functionPath": "src/game/conservatoryCurationEngine.ts::createConservatoryCurationPoint",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/conservatoryCurationEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "4eb61e54f2cfa96d8730e92a24f4e1f7671007dae84fe2b35cb9951e3d97d58e",
+      "functionPath": "src/game/conservatoryCurationEngine.ts::createInitialConservatoryCurationState",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "a5f94030b943ded60aeb45d4fc12e4826eca357e64b40c06a157e0759e3b2fbc",
+      "functionPath": "src/game/conservatoryCurationEngine.ts::evaluateGardenCurationCandidate",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/conservatoryCurationEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "492be62967374a963f0356726461ee4792c7bd6cb01d58bc90e08b1582e05498",
+      "functionPath": "src/game/conservatoryCurationEngine.ts::mintConsolidatedGardenMemory",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/conservatoryCurationEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "3bf5ead9e359e67c579fbc8e6e9813afa8e6780ca80ed72a82e446c1d38a2d7c",
+      "functionPath": "src/game/conservatoryCurationEngine.ts::stepAutonomousConservatoryCuration",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "c8ac09a7753180ec2868a99efa9b5c0db191a5b265fbd13a554eead783e5c8c0",
+      "functionPath": "src/game/mechanicalReasoningEngine.ts::admitLiftRegisterCandidate",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/mechanicalReasoningEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "0e560e5e24459e71f380e6d5e1c00fbf9d6ed27aebbeccc61749d1805fef3382",
+      "functionPath": "src/game/mechanicalReasoningEngine.ts::computeFunctionKappa",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/mechanicalReasoningEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "581fc7c4bc76dbff113fa8658a22f37f85ece4240d0677d60438bc83b57070ae",
+      "functionPath": "src/game/mechanicalReasoningEngine.ts::discoverRule30F2Relations",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Mechanization.V1.Model (CompiledCompression.rule30Seed64)"
+    },
+    {
+      "kappa": "e0a3ab0999e390138313c296b36a50c8fa28e389548a5f8ca0e0a27412cfd070",
+      "functionPath": "src/game/mechanicalReasoningEngine.ts::evaluateHarmanOooQuadruple",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Mechanization.V1.Model (CompiledMechanization.gaugeTransformRealQualityMask)"
+    },
+    {
+      "kappa": "df690b7e9bf3f209cf40933c86cac07c2b8e8113389e9c74cb42f2da3effba58",
+      "functionPath": "src/game/mechanicalReasoningEngine.ts::findAssertiveVocabularyMatches",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/mechanicalReasoningEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "287f4f9c9fac9dbea2e4d0791a63a29534633062a4df8e07e77328e9b79d80c4",
+      "functionPath": "src/game/mechanicalReasoningEngine.ts::getCompiledMechanizationStandardModel",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Mechanization.V1.Model (CompiledMechanization.mechanizationStandardModel)"
+    },
+    {
+      "kappa": "b537b6a0202a063c8b7e8fcfb703b53dcb031e5820bbf870a3950f699ff12648",
+      "functionPath": "src/game/mechanicalReasoningEngine.ts::learnEngineStrategyWeight",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Mechanization.V1.Model (CompiledMechanization.engineLearnWeight)"
+    },
+    {
+      "kappa": "5b40478a7ada473097718f93b4d9b2bfec7de6b7fece1d3c4ed8935430698897",
+      "functionPath": "src/game/mechanicalReasoningEngine.ts::mintCanonicalHypotheses",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Mechanization.V1.Model (CompiledMechanization.decideHypothesisMint)"
+    },
+    {
+      "kappa": "c32c51a38c94425f3f4ad1926e99ab54c84b1836fa9c0c55d0c846d5b5ce7f64",
+      "functionPath": "src/game/mechanicalReasoningEngine.ts::routeCodebaseFact",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Mechanization.V1.Model (CompiledMechanization.classifyFoundryTagMask)"
+    },
+    {
+      "kappa": "82d486fd045a15b730911602a10b4d59dfdb3f6a43dd146ae0214b8bc355a485",
+      "functionPath": "src/game/mechanicalReasoningEngine.ts::runMemoizedPeircePortfolioTick",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/mechanicalReasoningEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "98c283f9476fc8f55d8872c0c19107d5ae1c173da58a57db7e95991ff58bc250",
+      "functionPath": "src/game/mechanicalReasoningEngine.ts::scheduleStrategiesByWeight",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/mechanicalReasoningEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "15591551f9f6608e15d479762c97838d84fd111b443653f996dc8e6d619462ec",
+      "functionPath": "src/game/mechanicalReasoningEngine.ts::sha256KappaHex",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/mechanicalReasoningEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "1b730f595d48917fc407dad3fb44bd6c5ff1eb0c196f7fc40ec70b9647d7363f",
+      "functionPath": "src/game/mechanicalReasoningEngine.ts::validateEpistemicClaimRecord",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Mechanization.V1.Model (CompiledMechanization.admitEpistemicClaim)"
+    },
+    {
+      "kappa": "f7ac62cbf98a7c6f693741b15639adafad9aa84ad525db80061a6b77601f2b20",
+      "functionPath": "src/game/neuromorphicFunctorBus.ts::evaluateHolisticObserverStandardModelContext",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Neuromorphic.V1.Model (GENERATED_CANONICAL_STANDARD_MODELS)"
+    },
+    {
+      "kappa": "de93adf0fd3042d655e61e4d3af07be0adfd2d1b3af4505d890fb35b3ad03124",
+      "functionPath": "src/game/parametricCompressionEngine.ts::bytesToHex",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "95381632f95f330b6474d26594463d4376c6c6e9cc0d4591e9fd00041dbb3549",
+      "functionPath": "src/game/parametricCompressionEngine.ts::bytesToUtf8",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "939fcc8b8408247b94a138e1e5138cd23bd6f59a678684a8aad2db17bf3abc32",
+      "functionPath": "src/game/parametricCompressionEngine.ts::compressUorcArchive",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "45ad244c6b69c55352548a13783b4e3c04e7435e0866e007459c9c35cf9a8b80",
+      "functionPath": "src/game/parametricCompressionEngine.ts::computeClaimKappa",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "6ae4a4116d7bc1554984688cc6d78528967bbb8fe0b9459c3b6958ec877b6695",
+      "functionPath": "src/game/parametricCompressionEngine.ts::computeCorpusKappa",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "27343a872482547106069c1733f09e3621e9475aea779abb21fca4bc79749f10",
+      "functionPath": "src/game/parametricCompressionEngine.ts::computeLoserPortfolioWeight",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (CompiledCompression.loserWeight)"
+    },
+    {
+      "kappa": "327c79612fc45d16e184b0d02d53e5b91cf69a8fd2fcc23d72b2ef6ec497a75e",
+      "functionPath": "src/game/parametricCompressionEngine.ts::computeLyapunovCost",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "6850e1e426f8f8be381b40e0d1918ca1a879b78f3b4c2bf6ec0edab5bfe14d14",
+      "functionPath": "src/game/parametricCompressionEngine.ts::computeUleb128Length",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (CompiledCompression.ulebLength)"
+    },
+    {
+      "kappa": "8a879a9cdd88ccf6d53fb74a588b3e18fc54a57164cab68808e708b69b70b9f1",
+      "functionPath": "src/game/parametricCompressionEngine.ts::computeWinnerPortfolioWeight",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (CompiledCompression.winnerWeight)"
+    },
+    {
+      "kappa": "4458582d46ea5e3f7e5f845fb3e2c8450b443a35f006db215ecef9e4641db3e3",
+      "functionPath": "src/game/parametricCompressionEngine.ts::createAutonomousCompressionPortfolio",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "5b9788ccd1b4941b09d6a20ef65100dc161150589fde0fdecaddd19f91f3276d",
+      "functionPath": "src/game/parametricCompressionEngine.ts::createCodecPoint",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "ad3f6b84e9d7b6866d92bcf1d615d067e013064f38326525424ccd752bfb706c",
+      "functionPath": "src/game/parametricCompressionEngine.ts::decodeNcmPayload",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d2727f06577a7ca66ebca8843b62a5084963ce332354d7c2e5c53f5ea463089f",
+      "functionPath": "src/game/parametricCompressionEngine.ts::decodeProfileCapabilities",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "4c6e7407d75da15b04e67438bf751db72b1ba7d7819f0e3a61e31dc476579eab",
+      "functionPath": "src/game/parametricCompressionEngine.ts::decodeUleb128",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "7f6afcb4ede5ee22fa9bbe4b86a9f1136f879ef0726d938aaee01c74c361fbc3",
+      "functionPath": "src/game/parametricCompressionEngine.ts::decompressUorcArchive",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "f0e29f5a2414229963420816eb4f3ffa4f5deb100236e535e1e693576ea4fb5d",
+      "functionPath": "src/game/parametricCompressionEngine.ts::encodeNcmPayloadBelowCap",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "eba0b20802e9c75c4b9c95825bb8774dd687419bc63b8f5cdc13cda90ecf10ef",
+      "functionPath": "src/game/parametricCompressionEngine.ts::encodeTwinProfilesBelowCap",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "2d3a6348461de4e471ca972abeb90e1cd6cb1d0d4f076971de0e1878f47459b0",
+      "functionPath": "src/game/parametricCompressionEngine.ts::encodeUleb128",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "fcd7d9af02b70c1dc3c402972ed892a158cb6cc9ce73ea0e7a35ba0fcd1de939",
+      "functionPath": "src/game/parametricCompressionEngine.ts::evaluateClaimMintAdmission",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "dbc4f0628eac1da29b31dac6ed8ceb9efbdc576b0d04dfa61e735e2a5b973333",
+      "functionPath": "src/game/parametricCompressionEngine.ts::evaluateConservatoryParametricCompression",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (GENERATED_PRISM_BUS_MODULATION_LUT)"
+    },
+    {
+      "kappa": "3fad8e64b28a5f62b788ca159528162dd4e82c53f66eea3c69fd39dca8706012",
+      "functionPath": "src/game/parametricCompressionEngine.ts::evaluateNcmPlasticity",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (CompiledNeuro.ncmPlasticity)"
+    },
+    {
+      "kappa": "fb30990f0ee56f502749016648a79f73cd0d568f904b79d61db113bf20f1c48d",
+      "functionPath": "src/game/parametricCompressionEngine.ts::evaluateNcmSlotRate",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "3dff91e14addf31965ddf98dab4fa0b7ca52d097ebdef27502639403044be408",
+      "functionPath": "src/game/parametricCompressionEngine.ts::excessOverThreshold",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (CompiledCompression.excessOver)"
+    },
+    {
+      "kappa": "0d3f7a26637a39c588dfba89a6650d7b3d471b037724ef344206cdba0e2aaeef",
+      "functionPath": "src/game/parametricCompressionEngine.ts::hexToBytes",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "4a193f0cb6d16cf9da71c9569e27c71e611cefec29b8bac88df4a88f1c236902",
+      "functionPath": "src/game/parametricCompressionEngine.ts::inspectUorcArchive",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "9d66faa0309dcbcb6aac651410014214621ff08434ed3ce689bfcee25e5f27d7",
+      "functionPath": "src/game/parametricCompressionEngine.ts::lackUnderThreshold",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (CompiledCompression.lackUnder)"
+    },
+    {
+      "kappa": "457b756204fea82a7b55308fa39e9df9d06d71fc71fe209d101023836244739a",
+      "functionPath": "src/game/parametricCompressionEngine.ts::lookupWarmStateByKappa",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "2a3e0a6b5c6060b6c9ce4c2392f1e0851686f9d26b5404b64fada3bd03055221",
+      "functionPath": "src/game/parametricCompressionEngine.ts::pickLexicographicBest",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "671eec302dab124d93a12760babb49511c65c153be7122318c73bf77fbef51b8",
+      "functionPath": "src/game/parametricCompressionEngine.ts::popcount17",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "72d8f51222db6b8ab30695a9805bbaee69d757e9b59abc2d80115b099356de24",
+      "functionPath": "src/game/parametricCompressionEngine.ts::saturateCounter",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (CompiledCompression.saturate)"
+    },
+    {
+      "kappa": "24572de04c6eeff2aa600a1fd80fd010f3d60be80d7a10ef64c078d421aa1bd3",
+      "functionPath": "src/game/parametricCompressionEngine.ts::sha256Bytes",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "e3bb41fd2eef103b8fd2d7c39bcf713e576ce5870b5a5b3c25b10850a12cc518",
+      "functionPath": "src/game/parametricCompressionEngine.ts::sha256Hex",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "e7e625bf63a5ccbb7392f7ad3f7526470795f699a4cd74c51c3b72efe47f3be5",
+      "functionPath": "src/game/parametricCompressionEngine.ts::stepAutonomousPortfolioEngineTick",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "49d9f53ce673bfcbd6a4f2544e2ce6a2540451bbf4f2826911d142285750eec8",
+      "functionPath": "src/game/parametricCompressionEngine.ts::stepPureRule30Ring64",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "6e10edbf34831dee337566f0b23127913db1405b7d0be4b1c37bb368b42c540d",
+      "functionPath": "src/game/parametricCompressionEngine.ts::stepRule30Ring64",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "2eb680bcac9221db3176ad1d7ded97562a8304713f4c58649dce4651b3644ed4",
+      "functionPath": "src/game/parametricCompressionEngine.ts::strictlyDominates",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Compression.V1.Model (CompiledCompression.dominates)"
+    },
+    {
+      "kappa": "5c7a7f5c6005ebff7cc9425eecbfc4238078f25fd7d370b32921a35fca16f5d3",
+      "functionPath": "src/game/parametricCompressionEngine.ts::utf8ToBytes",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "b43caab7bfb0151a5f1890bf2d045c5f0ef522d4da324fcd425c780f0d997a55",
+      "functionPath": "src/game/parametricCompressionEngine.ts::verifyUorcArchive",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/parametricCompressionEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "968317a52099b065996d361935e8ef6e09d52c61291a2da314a9b411cf4d95c2",
+      "functionPath": "src/game/prismModel.ts::advancePlantLifecycle",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "66ef5ea9b379368dbd55da21fe22c7ff0d6892289498a2a7ff5e3baad9c92516",
+      "functionPath": "src/game/prismModel.ts::applyContinuousGameplayMicroPlasticity",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "7093f2d1cf55ea20159ec05dc53ef6d088795ad134f5b68697dba381d84859c2",
+      "functionPath": "src/game/prismModel.ts::biomeAt",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d2440c013edb4354c7d070b5b3e6f96c7b6981eee8a2bf301a5aa1acdcce3d7e",
+      "functionPath": "src/game/prismModel.ts::buildGardenColliders",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/prismModel.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "1fb96aa0c1f21dea9f19a15d9751180614435f7010c5ba21dbc91b4564340e54",
+      "functionPath": "src/game/prismModel.ts::clampAlphaSeed",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "1d1e10a270b122c27297d9b06cdc5dd730545a2e0694c79241a9679db8330cdc",
+      "functionPath": "src/game/prismModel.ts::clampPrismBusWeight",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "193ff741433bcf97896f825b7ead0180638a3964625f2f2f1cbeef624684894d",
+      "functionPath": "src/game/prismModel.ts::classifyPlantGrowthSubstrate",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "08ee2fe5fd48e87840633374f16e92cc6cc9cb4c4135f66f9799cd05662c5ea0",
+      "functionPath": "src/game/prismModel.ts::classifySurfaceMaterial",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_CONTEXT_PRIMES)"
+    },
+    {
+      "kappa": "3f3c92bebb4652e178812d8db7f312760159e032c2da18904de5e077c05c0cc0",
+      "functionPath": "src/game/prismModel.ts::composeLiveSoundtrackScore",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "046f0717ac9f3d019b1f1df3b1e256dcde81d740aa96f0779b5ffe8b3e1b2bf5",
+      "functionPath": "src/game/prismModel.ts::computeAcousticOcclusion",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "800c7bb23ed7516f8d5c29dca96227e1fa4d6f6d8825b508f668fc0ba64f6550",
+      "functionPath": "src/game/prismModel.ts::computeBinauralPan",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/prismModel.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "c8808bfafc5752189871b354cc07392bfe2298595b677af5efd45f3ad0ebd9e6",
+      "functionPath": "src/game/prismModel.ts::computeCameraKinematics",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "9f224b37942dae8f47fd02bac1b3d4eeee03f4f65f5d6733dac7a2c1dcda0476",
+      "functionPath": "src/game/prismModel.ts::computeCardinalWayfinder",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "00c3483af28b0b50455473b1e6ff736dd472ebad4e1b4e8959805606b502d09d",
+      "functionPath": "src/game/prismModel.ts::computeCliffordBasinState",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/prismModel.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "72582b20e9a0032754c32dde2fb421622e997443ab67fa832d2fbc0efde3465e",
+      "functionPath": "src/game/prismModel.ts::computeCrossDomainRefinementDirectives",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "cb0619f4b172eb8e395478193db7a841839f783d24918be8d024194f67d26123",
+      "functionPath": "src/game/prismModel.ts::computeEcologicalAffinity",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "d04809a3eddf8f963ac3a1f111b32c18ee1b878602d8023d109fdd51265a4143",
+      "functionPath": "src/game/prismModel.ts::computeFoliageDeflection",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "536d1d4de60060b800eba6ccca73981072f0999bf94c685d1486a32ed1eab1f7",
+      "functionPath": "src/game/prismModel.ts::computeGardenHarmonyPct",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "4e2f9d5de080879ed0b95dbc29018e24c10a3e51d0c51af333de78b74ced6e74",
+      "functionPath": "src/game/prismModel.ts::computeJudgeBusModulations",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "8332e58a678c0689e0d940b38765f2e197d2829308c0342af92834ef434966bb",
+      "functionPath": "src/game/prismModel.ts::computeNeuromorphicCymatics",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "6d12edb19188cac168b95e25aad371283da048a868de6d9d29572bf8740ff8a6",
+      "functionPath": "src/game/prismModel.ts::computePlantMorphology",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/prismModel.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "a8195e900ee8a443bb3476990589e1be69c7b60b19428d72955ec5533c299a16",
+      "functionPath": "src/game/prismModel.ts::computePointKey28",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "ead98c0b386132aadab7f3b5a83174c8d30885b1f8b7148174bae15be75966e8",
+      "functionPath": "src/game/prismModel.ts::computePointKey64",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "9463090b21a4b1e76ff72ef437c334219b0bfdbc5c08e836e81d2919ae675bda",
+      "functionPath": "src/game/prismModel.ts::computePrimeAddress",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "0259c9430e01cd0782c6dbd65a785069ebdd7bc21139738493f87454e7932e52",
+      "functionPath": "src/game/prismModel.ts::computeSlopeEmbeddedGroundAnchor",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/prismModel.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "4ce311dc3747e38626e7658c27d857795239910f835e44cefdda9b693fbdd783",
+      "functionPath": "src/game/prismModel.ts::computeSoftInteractionGaze",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "cf69d3f9f7dd70a3cc92bf5b0aee2241be4c9be96e83333d2540d8acce18320d",
+      "functionPath": "src/game/prismModel.ts::computeSpeciesArticulation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/prismModel.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "71765ad2cf30a0c4f4be8ecd955085a6d3d6b6ee5f1cfbb0cd589967105da4d6",
+      "functionPath": "src/game/prismModel.ts::computeSympatheticParabolicArc",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "f60f3c4efdeff9d722a08e20e40513dcd671f681f2c9755cab8513e189067a96",
+      "functionPath": "src/game/prismModel.ts::computeSynthesisEnvelope",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "6a3587880150ca516a331d1c73f3cb94591c451e9e7b2d9d3f1adf79edf5171b",
+      "functionPath": "src/game/prismModel.ts::computeTenneyHeightAndEulerGradus",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "734b9225a5cf6b5101763b2b24b848d020fc75e5342a2007d1d315e0a0661041",
+      "functionPath": "src/game/prismModel.ts::computeTerrainNormalTilt",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "04aca690437bb092b927cb6e999d22d78ce125fede8510c30ac209a1fd6312a2",
+      "functionPath": "src/game/prismModel.ts::computeWcagContrastRatio",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/prismModel.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "9d00918060d066bdacb3f6fdb573dab28ca07bcf6ce2d9b4ebbe7ed7f786c6e7",
+      "functionPath": "src/game/prismModel.ts::conditionHolds",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "1f17ae1ced010fb34330edd61085ecaf7b7b60553555239f4bfa6dbbb477a2d4",
+      "functionPath": "src/game/prismModel.ts::countStaticColliderPairwiseOverlaps",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "0fc90809a205ef4673408e814c024bf19f51a3007f1bcf4b9c6724367424a524",
+      "functionPath": "src/game/prismModel.ts::createBusWhyPacket",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "63f680874f524bd2046611ae5ed5cd6644ffe06170ba53fbeb223c7d6c84a15a",
+      "functionPath": "src/game/prismModel.ts::createInitialEnvironmentalAgencyState",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "2c62e712f619138ffdb28b20075c385041ac191e9da16a26f4e3675282208868",
+      "functionPath": "src/game/prismModel.ts::createInitialGestureHoldState",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "c3569d5caff2e3223d3f808833c635d2353769c2dfd131291e245c9a01f0a02b",
+      "functionPath": "src/game/prismModel.ts::createInitialHebbianTable",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "91e4a305191ae55f25f271bf04be1e0a53a9d0ef5fc2236d29bed5a5f96b34a8",
+      "functionPath": "src/game/prismModel.ts::createInitialNeuromorphicState",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "9f193444392feb6dfa0f8591ff251f317bfaa28e0643c0322f849d87fb154cf7",
+      "functionPath": "src/game/prismModel.ts::createInitialRule30Row",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "6d7f5f45888aed6b6db8db9606ab7bb9a93bd183c3d0a6d86d2fbc1a4390bb5b",
+      "functionPath": "src/game/prismModel.ts::createInitialStakeholderEntityState",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "2be15ba3d83a07aec327a723c1d428e417851971bf59384e43d6ece68644ba27",
+      "functionPath": "src/game/prismModel.ts::createInitialUniversalManifold",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "e31bd6d85df3cc04447c601033aa00def6875893b42253c13b47fbbb88314a48",
+      "functionPath": "src/game/prismModel.ts::createSeededRng",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "4a343bc997fdfe6ecf7afea6f3029203c01cdb8587b8128c25a8f3dd4c3c5615",
+      "functionPath": "src/game/prismModel.ts::decodePrismRequest",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "cb62accae489c055b61b3023324e621945ddc6f967bb0863f7ef5fb16a6c482d",
+      "functionPath": "src/game/prismModel.ts::evaluateAlphaOmegaCosmogenesis",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS)"
+    },
+    {
+      "kappa": "05084832daa2be1eb54daf57ef638c40340b8a301c2e9942618b18a9071d13f3",
+      "functionPath": "src/game/prismModel.ts::evaluateBiogeochemistry",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "c086815f95a192ff573e4265da438a38a9818ddeea99e3b0f2cf316956546dd3",
+      "functionPath": "src/game/prismModel.ts::evaluateBiomeMasteryAndGuilds",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "8d9b393dccb1beb84228e987922691a6cb9599d41aa386cbdae905b76affc2a6",
+      "functionPath": "src/game/prismModel.ts::evaluateCanopyWindShear",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d8658386aafce2ca589ebf702a88ba82968a02ed72cdfb8a19e845012fcc3426",
+      "functionPath": "src/game/prismModel.ts::evaluateCircadianPlantPhysiology",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "038d33fa2da4da4189ececc53879221c82f0651526d8b179d90797d207fc53ab",
+      "functionPath": "src/game/prismModel.ts::evaluateDiurnalProfile",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/prismModel.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "b791165e1eb1fe5d59686e4bf7220e666f2fbf936b47e852dceecc10c75b998c",
+      "functionPath": "src/game/prismModel.ts::evaluateEmergentStakeholderEntity",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "02d552ef261ad9eb29864692c69843b018fdcd8f9d9dd1661d324532d426721b",
+      "functionPath": "src/game/prismModel.ts::evaluateEnvironmentalLifecycle",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "ed97e0a72dc022b981a6559251439ce470a0cd266c67543b27aeb8158bb9071e",
+      "functionPath": "src/game/prismModel.ts::evaluateFoundationalMathematicalAffect",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS)"
+    },
+    {
+      "kappa": "7e751168f1a83ac1564005cbe7f122704668649817be7ebe0ba9ea2b7626155c",
+      "functionPath": "src/game/prismModel.ts::evaluateGranularMatterSynthesis",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "b027e70adb5642a73bd745ec18a9a7277612dc77aeb695172a4f9fdde6b23dc5",
+      "functionPath": "src/game/prismModel.ts::evaluateGroundWavePropagation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "3578918cddc66d634f491592ecf8431467cb83c795848448219d2f9aa4909944",
+      "functionPath": "src/game/prismModel.ts::evaluateHighDefinitionVisualSynthesis",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "b7c8ba03efa1497bd7cc97660265e3beca2d5ab2f3fd35c8453b2efcceca2dbb",
+      "functionPath": "src/game/prismModel.ts::evaluateHolisticObserverState",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_OBSERVER_RULE30_FACETS)"
+    },
+    {
+      "kappa": "e0f7e9b60e9dda20ffaa2a53d4f24f798c2537a03e42523b62f31cc15a6ce942",
+      "functionPath": "src/game/prismModel.ts::evaluateHumaneErgonomics",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "046609e38994dfc39e9cbd51992d75ea3c01129ffa956c559c3e3bba6e06c828",
+      "functionPath": "src/game/prismModel.ts::evaluateHydrodynamics",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "6277d56dacd45e67f213fcfab41a4d8d2ec11303bb8c41cabea736b03c7ef667",
+      "functionPath": "src/game/prismModel.ts::evaluateImmanentObserverPresence",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS)"
+    },
+    {
+      "kappa": "d081661242aea9860367f3d2efd97bd3675d80a02c8d76f27bdaad5ef7b83631",
+      "functionPath": "src/game/prismModel.ts::evaluateJustIntonationConsonance",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "a3e7b7d49a9e90858566b5f22e671559cf9d28b497982c8a31a67643953625bf",
+      "functionPath": "src/game/prismModel.ts::evaluateKinematicRigPose",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/prismModel.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "bcd4236b78ed5656d389add28fac544b5bdbad24ed4f6e406a548225aca3674a",
+      "functionPath": "src/game/prismModel.ts::evaluateMaterialSynthesisCrossModalObstruction",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "727ef19b56f20ac368fc241a9ca0ac40ea6d624d640c8bb674680e4487b23292",
+      "functionPath": "src/game/prismModel.ts::evaluateObserverAffectAndPreferences",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "cb630ef252584c2b141effaa8c0e936812961aaa7c67f1b0e6aaabdbdc3f41b5",
+      "functionPath": "src/game/prismModel.ts::evaluateObserverDifferentiationAndExtrapolation",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_BUS_MODULATION_LUT)"
+    },
+    {
+      "kappa": "cb4d8fe28a1c19ef876b01ffb6373a4462a015ac0917ca05fc51f440b48eba81",
+      "functionPath": "src/game/prismModel.ts::evaluateObserverPreferences",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "888b0e31015e7464c7c531cb01223e0ab2cfdc424a9f5185c486d620e995317b",
+      "functionPath": "src/game/prismModel.ts::evaluatePrismRequest",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "5b4ba6d9e32e36118781789fd48f21eb8ad0a42ba47ca04fbd7ecf79da33f95a",
+      "functionPath": "src/game/prismModel.ts::evaluateSpatialSurfaceLaw",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_CONTEXT_PRIMES)"
+    },
+    {
+      "kappa": "587083f614f9f6f68cd4c377700980747bc715546e2e69ebf99d2454b3208dee",
+      "functionPath": "src/game/prismModel.ts::evaluateSpatialWaveAcoustics",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "36ebd9abd2b07f318aa39e23f0d29da8088cdf3d9ec4b19c3d8412954063dd64",
+      "functionPath": "src/game/prismModel.ts::evaluateTerrainSlope",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "4a20074880fc11238e3050e3ececbb157f521f2638931cf4710d26bf7612a5f5",
+      "functionPath": "src/game/prismModel.ts::evaluateWindField",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "7b771fb20038b387974caf6ab8ac807a4c1439f54f3c25e26721edf68d49afcc",
+      "functionPath": "src/game/prismModel.ts::executeNeuromorphicSynthesisTick",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "44c90613aa978251ade5e2a92a9fcbee05207202e9addd8b12211416520a67cb",
+      "functionPath": "src/game/prismModel.ts::extractRule30Word32",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "71e433af1317cbc6eb452863465f08c37feb2b05fed9c7cebfc777db1f08cf4b",
+      "functionPath": "src/game/prismModel.ts::extrapolateHighestResolutionPermille",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "7308f47b5d12629d5e0335cd679560391bb870539928723b55b6f5289564eccc",
+      "functionPath": "src/game/prismModel.ts::extrapolateHighestResolutionSubdiv",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "0b2ea5c0953f618a702a10e5cab4e18b5f605cba44a55ef9ebd7ba3c1328924c",
+      "functionPath": "src/game/prismModel.ts::extrapolatePrismToHighestResolution",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "5c6e47bc6da924cb9b4eab1fe02d23bcbc47c1708da6f951373701199567e822",
+      "functionPath": "src/game/prismModel.ts::findNearestPlant",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/prismModel.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "d93798a18279c086d429914f38357e9d24bef217327e253f1ec9c42e3037a6ae",
+      "functionPath": "src/game/prismModel.ts::findSympatheticNeighbors",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "cf6cf948b44f7202b584e90952b68bf00edd9c7240bbb1439a083531d4dce94f",
+      "functionPath": "src/game/prismModel.ts::formatPrismRequest",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "1315a3d7d949b273ecff6fe305baf6b52d6ec44a2d43a43217835f61cdc9ef12",
+      "functionPath": "src/game/prismModel.ts::gcdExact",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "89ad1eec26603b0da72e9b9770955f1b744d42d44de2cc263e3c45f7cafd5e43",
+      "functionPath": "src/game/prismModel.ts::generateConservatoryGrassBlades",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS)"
+    },
+    {
+      "kappa": "ace547fbf22c19c5e0640e1577fafbacaba747a2104d8db704294317f12f5537",
+      "functionPath": "src/game/prismModel.ts::generateConservatoryRocks",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "a3246067e8f92cffb98c68c8b1bfd1908c62653010a5022a52db5065e59a1527",
+      "functionPath": "src/game/prismModel.ts::generateConservatoryShorelineBoulders",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "46af2eb20f0c312e275a15a64da83c91913fa87dfc93f530aa22fd97e562455c",
+      "functionPath": "src/game/prismModel.ts::generateConservatorySteppingStones",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_OBSERVER_RULE30_FACETS)"
+    },
+    {
+      "kappa": "ff81b5c8ad3038b35aaafcf1a0723ed846eb0af20c84ef97a0c644fb2da1a5ef",
+      "functionPath": "src/game/prismModel.ts::generateConservatoryTrees",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS)"
+    },
+    {
+      "kappa": "377dcdf16d43d959338fcd4feaf31e94f09d9aecf6291ed065aede2aca8476a3",
+      "functionPath": "src/game/prismModel.ts::generateGardenPlants",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "9c75919e6e930bc806a4ad337e4ebd96390deb17c5233f7dbb8adfb2f2fadedd",
+      "functionPath": "src/game/prismModel.ts::getCompileTimeSynthesizedModels",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_COMPILE_TIME_OBSERVER_MODELS)"
+    },
+    {
+      "kappa": "ce0e75c852b2c7c4877bcc9d56b7c0de4d2acaa66f3f9dbf2ebd289307d60887",
+      "functionPath": "src/game/prismModel.ts::getHebbianWeight",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "cfc2cabad8bf1c3db414f87f0eddf4ae82d388b8762bf958aaf035b8bfb0f722",
+      "functionPath": "src/game/prismModel.ts::getPlantLifecycleStage",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d81e45c1dde230fe51c888f3303ded970b7be6f533404e0904c48e536993abaf",
+      "functionPath": "src/game/prismModel.ts::groundHeightAt",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/prismModel.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "9b36e6994935b120cb5ee6520b94826483f53eb7b9f8a8026ade058c0c7c4aec",
+      "functionPath": "src/game/prismModel.ts::hasShortCycleRepetition",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "714135969b4901492782091a75a47e87534a8071d03c355fb6e5fda8a2de3ee7",
+      "functionPath": "src/game/prismModel.ts::inferPlayerTheoryOfMindIntent",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "ec4651ca8628dcb0ab8c402f9a20c699a69e8a13773f4daaff8985429c4b9dc2",
+      "functionPath": "src/game/prismModel.ts::judgePrismRequest",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "c36e2bfbe078abe6d693daae6b48a5550d5dd5c24bab6d9815359bf916d340db",
+      "functionPath": "src/game/prismModel.ts::learnAllHebbian",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "0d9a3c007d1f9219aca2a9b33b3295e0655b5d642a0c84be1bcdb297dabbc809",
+      "functionPath": "src/game/prismModel.ts::learnHebbianWeight",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "ef24106b10a501ddbfa4f9596530d2738ef57a7552beff9b2ede583a08b9b3fd",
+      "functionPath": "src/game/prismModel.ts::parsePrismNumber",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "c595f0e7ede99f7ce44f49e9752eeccfa903cd31e5247824f6296940167ea326",
+      "functionPath": "src/game/prismModel.ts::propagateCrossDomainEnhancement",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "7d2f8b3c15f9b0fea6744de80b6f385f3c21f869ac970b77b03671240588b1a1",
+      "functionPath": "src/game/prismModel.ts::refineDomainWeightAutopoietic",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "fed8af2109c24aa6bc4f32358b005c66258f44cf4bf0f2513cc82ae39af18a21",
+      "functionPath": "src/game/prismModel.ts::refinePrismModel",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "75a1095ba9c87786f3ef50b18887a940e367ca12667f469be0b10d2cd3b4bf68",
+      "functionPath": "src/game/prismModel.ts::registerEmergentSeedlingCollider",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d709dd8ed13193115894c9f0aeb5b574f6a646703eb2858f2aa04f1d2baaa93c",
+      "functionPath": "src/game/prismModel.ts::resolveBiomeWaypointLanding",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_CONTEXT_PRIMES)"
+    },
+    {
+      "kappa": "585c395aff92558439908bfc191bb88e6ed3bfc422ed59cab48d8df31ccda4c7",
+      "functionPath": "src/game/prismModel.ts::resolvePlayerPhysicsStep",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "370b2c07bc77883403c870871b2e5f1f7aa8015e20c96ef84f0e04acd3e57869",
+      "functionPath": "src/game/prismModel.ts::restoreNeuromorphicStateFromAnamnesis",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "ffc4ad442d48618b111b67575cbcab3167b900d410abd1c9d74dc0c9bb07c717",
+      "functionPath": "src/game/prismModel.ts::rule30CellStep",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_RULE30_LUT)"
+    },
+    {
+      "kappa": "f37f5bb744f1af637542726eab39634c1480bedd9f7ceaa256f70c57618ccfe8",
+      "functionPath": "src/game/prismModel.ts::runAcceptanceVectors",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "959aca8ec89540426b024e9574316348e5bd77d4cbabed61f2d710659d2eac92",
+      "functionPath": "src/game/prismModel.ts::scheduleNeuromorphicStrategies",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "e72bbc1df6419000e49c060fff3d676294ecfa8e1270f1ef7864c6c047c5a6fd",
+      "functionPath": "src/game/prismModel.ts::stepAcousticsBusModulation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "752fbb3401d2244fa36ba32c3b0c16195640845cf550a079cb877dc6ddfe8637",
+      "functionPath": "src/game/prismModel.ts::stepAlphaOmegaFieldPotential",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "310932c924099381abd5c9115b5104b956ff956bd767e47f482fd9a9aed9dc3b",
+      "functionPath": "src/game/prismModel.ts::stepApicalCorollaGimbalMilli",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "5b48b19182f22578b4a89169703f8e817edae5fac8ef573727010441afb9775a",
+      "functionPath": "src/game/prismModel.ts::stepArticulationBusModulation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "36703878f42501ded33d05d799a65510eeb048c3543799a8509942850a0ccaf2",
+      "functionPath": "src/game/prismModel.ts::stepAtomicRemineralizationFlux",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "9cdd067223a871b460e282c3ca7c462ce2637a5a0d45560fc54ce696629dd4cd",
+      "functionPath": "src/game/prismModel.ts::stepAtomicValenceActivity",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "f7d0294a40e0117e0d8dd2123981b2b2bd0be0c46208ffbbcbfcdbfc8521874f",
+      "functionPath": "src/game/prismModel.ts::stepAutopoieticBusManifold",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "22a1963dc7519c3ded06dff96b0e4b89494c635bda2bc1fb8650687199e0b41a",
+      "functionPath": "src/game/prismModel.ts::stepBasalJointTorqueMilli",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "17e1da1281497e4f10fd4c35bde43103788352dee4a1193455fba9c79f3f22af",
+      "functionPath": "src/game/prismModel.ts::stepBMeshSubdivisionDensity",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "fe54e9be058c99ff23b755c07f71e58ec05efb950d20b7c7926cc69ea777415a",
+      "functionPath": "src/game/prismModel.ts::stepBotanyBusModulation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "b57fd5d83bd63c3158b5edc1cbe3e0fed650039d8be6d57ac4cdfbc55f418593",
+      "functionPath": "src/game/prismModel.ts::stepBrandBusModulation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "9a1e2fdff9007c906b43ee0a04c0912fc6cac7dab523870c413f612c8171b4e0",
+      "functionPath": "src/game/prismModel.ts::stepCompoundManifestation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "65d0c79507e9cea73d634cb218de77f1103a4bcc642965f0dd691b4d67c07ec9",
+      "functionPath": "src/game/prismModel.ts::stepCrossModalAcousticShadowPermille",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d81206699dfa623b224ae1ece7d9d4279b3e18487a1a4b3ba4b89e6bb4e84af6",
+      "functionPath": "src/game/prismModel.ts::stepCrossModalPhaseObstructionPermille",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "7b6a35027355d5351aabb61f2e3b3624a4587d7b2541063c0132fcb9a13d73ba",
+      "functionPath": "src/game/prismModel.ts::stepEcologyBusModulation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "986a35675fc366b8fc716fdbaadcef1fe97f2c6c0c76e90a3bf2a79fe5be81a2",
+      "functionPath": "src/game/prismModel.ts::stepEnvironmentalModalSynthesis",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "f48786661de5d63e1251615a98a5380219a80acbec5a05490cc106204b5667bd",
+      "functionPath": "src/game/prismModel.ts::stepFoundationalAffectValenceLutPermille",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "037392d55f13febd65b45c2a3c4ce62cbaf525ef1b14a4e30d39037cd0734755",
+      "functionPath": "src/game/prismModel.ts::stepFoundationalChaosLutPermille",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "a8d660448f292dd764ca5958562d95cfb4dbb8d7020273f88001bcbc26312dae",
+      "functionPath": "src/game/prismModel.ts::stepFoundationalHarmonyLutPermille",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "8ff022e757f07763821bfe62f2204302ce30c977fa3ffd00a974d460d01458e6",
+      "functionPath": "src/game/prismModel.ts::stepGestureHoldEnvelope",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "594bbf655121ab6d73d40db42aa980f008c792a2db9e7af486603573b5d46897",
+      "functionPath": "src/game/prismModel.ts::stepHumaneBusModulation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "0ad5c5ddd938d982b75e2dcf10005e7d7d18819f62962719c33f266a4b5b590e",
+      "functionPath": "src/game/prismModel.ts::stepInfrastructureBusModulation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "f99945b47c19a53d9eafb22060fc6b91d4869924e073641e9a2b473980639c90",
+      "functionPath": "src/game/prismModel.ts::stepJudgeBusManifold",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "06b27ecde0b7befd660736f413a65ac830ee43cd2fb2b6619f676ebeb47006db",
+      "functionPath": "src/game/prismModel.ts::stepKuramotoPhaseEntrainment",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "0f7e3b6150676f7b49b0067e82240b6b8360acaab7a48f30a5e4deba7b65a855",
+      "functionPath": "src/game/prismModel.ts::stepMacromolecularPolymerization",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d03d51962659953390676ea3fa516363963413256b00e2385fbe33b535c886e8",
+      "functionPath": "src/game/prismModel.ts::stepMidCulmFlexureMilli",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "c754b66c163712169b9bcdca5a5f0b615e58a97f46ae36a94c9495bd1740b0c2",
+      "functionPath": "src/game/prismModel.ts::stepMolecularBondCoherence",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "1a158ad2a54cc4b71635d91222c5ea0b880eb71834dde2016ebfd97b45a6945e",
+      "functionPath": "src/game/prismModel.ts::stepParametricInorganicScalePermille",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "e0d8d88a3da74f7c782b057d06fc7959c7b9d6a8b93df02636b7528c66b60f55",
+      "functionPath": "src/game/prismModel.ts::stepParametricOrganicVitalityPermille",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "31492282081c1733d664a16344bb2b06fe0834f8acef6f1c48613a16ef0d4495",
+      "functionPath": "src/game/prismModel.ts::stepParametricPlayerEmbodimentPermille",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "14d1a00f9fc1b710567854cf76d9bfd976e56ef09b274d2310c36306e79c132e",
+      "functionPath": "src/game/prismModel.ts::stepPartDifferentiationNicheIndex",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS)"
+    },
+    {
+      "kappa": "6b885703399f4582deddc70ae8aaba5f646ce699c79e946e3cb29237f8efc6f4",
+      "functionPath": "src/game/prismModel.ts::stepPhysicsBusModulation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "b7c68a3f7d8137ead39d51bc513d4b77d2e359e7848069816c8b7b3d0ee0eb6b",
+      "functionPath": "src/game/prismModel.ts::stepRule30AperiodicCompensationIndex",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "4852555ed78a10ec3a3cbbe28655fa6749ddef0c671de40715b463817ac824f0",
+      "functionPath": "src/game/prismModel.ts::stepRule30LeftDiagonalPeriod",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "675db662fd20c1057608e0c2cb2164613134536f28b7ad053ad517f6ab679e94",
+      "functionPath": "src/game/prismModel.ts::stepRule30Row",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d21178fe153a64c0b809b188be8d102143d9e7bf710dbcfc7715cf5baffcc0cd",
+      "functionPath": "src/game/prismModel.ts::stepSoundtrackBusModulation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "b5a55e018083162dd7bea93e59a4856569dce57ec327dcfa200b4dbc121f76eb",
+      "functionPath": "src/game/prismModel.ts::stepSporeFluidDynamics",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "73102cb337c5c943d01a08e28a9b54ca40127cf22aee1203ee698667cd7c7a53",
+      "functionPath": "src/game/prismModel.ts::stepStakeholderValueReinforcement",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "48c16b6f922395ae59add75d251a68a27957fddfbb9b42c291847739947c4370",
+      "functionPath": "src/game/prismModel.ts::stepSupraDirectiveDefinitionSubdiv",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "cff502398e249aef26f4fce11e5ecee13f783cd10945ab3d26848616df41fcab",
+      "functionPath": "src/game/prismModel.ts::stepSupraDirectiveFeatureUnlockCount",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "5a34fdf40ee65d2fdaa6f96d733923c6213372977bf8c8b68a4ddc1bc25f8b99",
+      "functionPath": "src/game/prismModel.ts::stepSupraDirectiveFidelityPermille",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "dcb76cc15b8b802def10dc5c3243d9c299ad890f0d8bdbf842a64b6031e710cc",
+      "functionPath": "src/game/prismModel.ts::stepSupraDirectiveQualityPermille",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "8804c453d635ec24fe2b0295a8df936f20972f085bda5e126c3f1fe790eb93c9",
+      "functionPath": "src/game/prismModel.ts::stepSymbioticEnvironmentalAgency",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "2d757f82aed0126c64b3707d818127c6547b4e37678154fc2fc89f0c16b4a7b7",
+      "functionPath": "src/game/prismModel.ts::stepTheoryOfMindCoherencePermille",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "0f87c7fa5d8881a3a2c0d6c5c56fcd679793c0be7e88e8132e5ed9a27f38481c",
+      "functionPath": "src/game/prismModel.ts::stepThinFilmIridescenceSpanNm",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d43dbc8f52a32aba688ab49880965350ebefe65ee833945dfd12cf3ebab995ff",
+      "functionPath": "src/game/prismModel.ts::stepUniversalBusBroadcastManifold",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "43427a80406eb9b3ad8878901f562aa44a56cf6987915369a4073d1e81a26cbb",
+      "functionPath": "src/game/prismModel.ts::stepWisdomPhenomenonModulation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "1522750ebe41f7ed2570c1b61acbbf019426d6dd6fcf1a5581174704ce30983b",
+      "functionPath": "src/game/prismModel.ts::syncImmanentWitnessCollider",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "9685580a3cda8f7d0862e2280975ee8739145357a90aa859fce927b1be78df0f",
+      "functionPath": "src/game/prismModel.ts::synthesizeBotanicalOrganogenesis",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "52d86e7ae54f587028f679325b7da572dc81b79e2fd8dc909da832166c7a2f98",
+      "functionPath": "src/game/prismModel.ts::synthesizeCompoundSurfaceProfile",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "ff45737f322c2ca102a1f8f89a13f1013d52c7d9a4a1f4d41bf3db44d866c31b",
+      "functionPath": "src/game/prismModel.ts::synthesizeCrossPollinatedMicroclimateOffshoot",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_BUS_MODULATION_LUT)"
+    },
+    {
+      "kappa": "0b3a9200e4c95bed9c187d10de97a7495dc4197bda3d57191047f715fe8480af",
+      "functionPath": "src/game/prismModel.ts::synthesizeEmbodiedPlayerObserverModel",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS)"
+    },
+    {
+      "kappa": "33b17c794bbc2284c448637516fd479046e03ecafca5f0ce72b67246a9925aef",
+      "functionPath": "src/game/prismModel.ts::synthesizeObserverInorganicMonuments",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_OBSERVER_RULE30_FACETS)"
+    },
+    {
+      "kappa": "c5c5160b0eb1f8beece54e9c0413a996d5bc0e6a47d2ecb222005151980e16a1",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricAtmosphereConfigs",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "fbe8278353cb417d77b5c0690116bee205596b547183b0dfbe9bee9229827488",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricBiomeConfigs",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "4b54eb211f8886844283002ca5b87f161fd1c601bfcb733367fa2a2ef6c55f89",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricBiomeConstellations",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "76d8cbf3dc8ef8d37cb2848c92222ffe95e2edb059e1b82a2e5eea5c999e4975",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricBiomeLandscapeTerraces",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_OBSERVER_RULE30_FACETS)"
+    },
+    {
+      "kappa": "8a181074dcf4892c819f4624ab7dd1505d65b4e43dfe6ec42e3154e4e13a8288",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricBiomeMonuments",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "9e3c074d48349be71abfbb15366ce6956e68d55098821aad39946fae74e37c32",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricBotanicalLifecycleStages",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "e7f88fa217f0776c4b66f0656067cc4d0af24b63fc72380b984586ab0eab32d2",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricCanonicalSeed",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "ad3ba6dad7b5adb3577e453cdcfb6d0ffae2943da95fcbe2b27ad84a6a53c561",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricConcertPitchHz",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "ac9961bf3bc80f6ff86de7158b59f234935f2014faae41d911887db4e5fd87eb",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricDisplayAndDesignModel",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "874a6ae510180cf0c6073cf3066e55f8eac7d24569a5d1bba1b98570c67ac5bd",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricDiurnalCelestialVectors",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_CONTEXT_PRIMES)"
+    },
+    {
+      "kappa": "521a86db4c7a54d19e646d2b86b34d769b10b89544429909b79f3f53b8bf26b5",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricGrowthSubstrateSpecs",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "379ffdb8b63429c5210fbe8d7e03b579a0e671f0141077f569e8c78d4dd51967",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricOrganicBiota",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "bb3a460b5455aa719fdf3164069fc75fe0404189d1b841c4134c3cbefdacca57",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricPhysicsAndGeology",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS)"
+    },
+    {
+      "kappa": "21abff44071cd52e4e7476676bf3df87d72991b939a280cd6606efef8298620a",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricPlantSpeciesConfigs",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_CONTEXT_PRIMES)"
+    },
+    {
+      "kappa": "9a245dfd7143dda660f35cd4721418ebeb8aaf826af5fa14e18fcce2ec52efa6",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricSoundOutcomeProfiles",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "ef788d5d6a2098b4cb0298b186123a2225e04c81be5c9e639af4e01264e14db1",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricSpeciesArticulationProfiles",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "631d45653de24cfa8f21fb0437206e6a74cfe1c95ef13b30c800e1bf56cc6a75",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricSymbioticGuilds",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "c2d3e1ee19bfb741115a860069dca2fb30bb6a0819af27805f70d025f29fcee6",
+      "functionPath": "src/game/prismModel.ts::synthesizeParametricWorldTopology",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_CONTEXT_PRIMES)"
+    },
+    {
+      "kappa": "46b552b157c0766070e167d8236b9cd73ceaa802ba294124ef3b1ac58125f50a",
+      "functionPath": "src/game/prismModel.ts::synthesizeRuntimeObserverModel",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "5e2669ed1a0d341fdfb5a3f549d92b3bf8838c1457edf3e0184a0c514ada4528",
+      "functionPath": "src/game/prismModel.ts::transferWeightCrossDomain",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "c266ef238ceff37d75cab6d9061806fe3e6b46c1b015780eeb178a0ac4e2f5ce",
+      "functionPath": "src/game/prismModel.ts::uniformJudgeBusManifold",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "471eb105338ed0fde3270728bb8b0a3b120abeee4929adb461f61370ad18fe65",
+      "functionPath": "src/game/prismModel.ts::updateHebbianWeight",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "65c4aa3b7b66f96d73b2c739d8b1c508f23e558576ca68a8815c7fabb58b2968",
+      "functionPath": "src/game/prismModel.ts::verifyAlphaOmegaParametricClosure",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "527f4a32b112c94d495bac663531f8876f207724ef18e7b778aca9fd34078789",
+      "functionPath": "src/game/prismModel.ts::verifyAutopoieticSingleCallAdvancesAllTenDomains",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "07dc1001517f7fd9f1500c63efa508ba3f1690f0eeb7a59b6b502a0141283647",
+      "functionPath": "src/game/prismModel.ts::verifyBusModulationsFromState",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "61a5e37b87638b05fe87e449c646985b6a350b138bb99ef351af187d39d98c23",
+      "functionPath": "src/game/prismModel.ts::verifyClosedLoopMatterConservation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d51450d0c37644d62288b8b5543858127e1e64040cf8bf7b3d730cb644d71a23",
+      "functionPath": "src/game/prismModel.ts::verifyCompleteGranularSynthesisClosure",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "a127ab30c1741ffc449b1d274ad9dfa80285767874f810e918715d5eefdbb9db",
+      "functionPath": "src/game/prismModel.ts::verifyCompletePrismModelClosure",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "01f4bfd3b292954be56248a72929c13566f00ad3dc57f3cf640ea8c1fb8bf806",
+      "functionPath": "src/game/prismModel.ts::verifyEmergentEntitySynthesizesFacets",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "15afca62e34577f5283cf8389f70d80eb9737311cb25eac4c3654ad7c6a636f0",
+      "functionPath": "src/game/prismModel.ts::verifyGranularAtomicToEnvironmentalChain",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "5dbc4e9af3a7f003e29abd95f0c4c843764e254822c3509fb843f48c0d3ef41a",
+      "functionPath": "src/game/prismModel.ts::verifyHighDefinitionBMeshSynthesis",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d5232b01405db20e75f67f8ae944b237852e2c12561ac27271370c09a7fc3f7f",
+      "functionPath": "src/game/prismModel.ts::verifyHolisticSystemCoupling",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance (GENERATED_PRISM_PLASTICITY_LUT)"
+    },
+    {
+      "kappa": "1a07d8c093f03c162c60dc3695df029d8dfc4b9311e2bba92131fed50a71ab82",
+      "functionPath": "src/game/prismModel.ts::verifyJudgeCrossDomainBusGate",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "a2dabe498d0d7fef729a726db52664956614a35bef697fa23376264c024bf738",
+      "functionPath": "src/game/prismModel.ts::verifyMaterialSynthesisCrossModalObstruction",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "c773293667ca8699841b5664b591f316f7018cd3704b6faffbe0b2a63408370a",
+      "functionPath": "src/game/prismModel.ts::verifyObserverCreatesAllThreeRealms",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "7064eea63ba74b8a5e4c51254b4c2282c4fb2251fb0270207f8d2d85aa44d35a",
+      "functionPath": "src/game/prismModel.ts::verifyObserverHolisticWhyClosure",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d70c929467e883a8f1a58ce54a4e7ece69833b4f5243a46f517770e44b739542",
+      "functionPath": "src/game/prismModel.ts::verifyObserverSupraDirectiveTranscendence",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d21774961aca5202ba2b142d74dc05d1c7f20436eed859a4c9fe600947eda05f",
+      "functionPath": "src/game/prismModel.ts::verifyPointKeyResonanceGate",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "VerdantResonance::formalProjectionTable"
+    },
+    {
+      "kappa": "19c6b3d302d1e92e4b044b3894559b5ce0b3375102b01b9968d28423f5c7bf78",
+      "functionPath": "src/game/prismModel.ts::verifyPrismProperties",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "fc88e2dfdf6933fe7d34d5b342e5bb10730096d91ce4d47c95d041dca4a5deb3",
+      "functionPath": "src/game/prismModel.ts::verifyRule30DeterministicAndWithdrawnDuality",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "84542627e633366ef4443a12b67904ac6d0ddaaa79ca212e8f0217d68f180212",
+      "functionPath": "src/game/prismModel.ts::verifySingleCallPropagatesAllTenDomains",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "913e435dfce7373c599e2a8ce6498fcf84d2bb86d530184b03a5f96ece8699e7",
+      "functionPath": "src/game/prismModel.ts::verifySpatialGroundingAndSubstrateCoherence",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "8d5a23ba4a92306bba540699a5d99b8b7e8b1dadc2eba453fe1d7560051b5b88",
+      "functionPath": "src/game/prismModel.ts::verifyThreeJointKinematicHierarchy",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "36c56520722294173b98ead6be9190c9cfb282d191eaf2444f5afe9e0897fcf9",
+      "functionPath": "src/game/prismModel.ts::wavelengthNmToHex",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/prismModel.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "7a164cd730a157f096e40ad96dc10b48521f511077095d52f98b0e981e7e0df8",
+      "functionPath": "src/game/proceduralMeshEngine.ts::bravaisPearsonToCrystalHabitId",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/proceduralMeshEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "25577d05917c2e1a10195c38e6435cfa25e4c74162a59d45d66f9b62ffb42740",
+      "functionPath": "src/game/proceduralMeshEngine.ts::buildImmanentObserverWitnessGroup",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "0697b8996f2c005fc81f3713fb33bbf1d30034faf1a9e874796f69199bf68187",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createBravaisCrystalHabitGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "ad11f80de67f752af7a8356efd5308d5258a161a3962c8899e967dceb06a2495",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createCordateLotusPadGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "c629a56d478146c565f2fa957d60fc3da418f5ffe87f836e96ac506b7e5b446d",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createFlutedBellCorollaGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "9ab200f40cf1a4926b8670a7ad8e4ac9d74fe2b1cdab8d59aa03b42700c0d33c",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createFlutedEntasisPillarGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "c0691a6a8ded4d67a72f5a2ff5e7c57b5480a1cf4f07f0ce4849a59286762014",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createHexagonalQuartzCrystalGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "4836b7fb4a3e800dbd072c46c1c4c6ef9518672d23665aa0a3afb8ad2c6a5931",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createHighDefinitionPbrTextureSuite",
+      "routeId": "VR-R04",
+      "status": "effect",
+      "effect": "dom-BrowserEnvironmentIo"
+    },
+    {
+      "kappa": "6d701010ad96344f3fd3e6b4380ab424b39a96c38d70badd42492746a23481f9",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createLogarithmicCrozierGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "a239ded450c630cb18120b7b7dacba0c9f843c4969d6025fb3eec02f5d2835ad",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createObserverAstrolabeCrownGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "90534256e683ee05b6d65932f7e5246b73a3f108dd71ff964ecf3b39bf224992",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createPinnateFrondGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "46ae01e0d64b95842b39dd2fa14105203cf7b53adae39cfb07e79ba6167a080c",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createPlayerCoObserverLocusGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "209f8e34c2b0813a92bf1769f5963f8ae1646be8a2754ed0a51b917bfc6bbb5b",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createSculptedCanopyCrownGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "3381a806dfd3a2f86502fd718220f567b9f514394685d7f99ef183c3fddb7bf6",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createSculptedGrassBladeGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "a00245da91d40986503ac6f8991854e05d24b8cd3d23ce324e9337ec6fd8df25",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createSculptedPetalGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "75ecb8acf18c9e2100af6910250a879aa4aca2805ef170c994cd7c3ad9b7f534",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createSegmentedBambooStalkGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "6a48f80f74210fc8e19e12abddbba08440245653b45d988d914f862d4d5a3db1",
+      "functionPath": "src/game/proceduralMeshEngine.ts::createStratifiedBoulderGeometry",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "aa6e456d6eed45a70764321127919f455d20887d46e2749f2456571867028658",
+      "functionPath": "src/game/proceduralMeshEngine.ts::enhanceMaterialWithBotanicalShader",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "bc9a2de352c4bfe64c1647b7a9986cee3b3b8086d4f2d0d6959a9a5736aa7372",
+      "functionPath": "src/game/proceduralMeshEngine.ts::inspectGeometryMetadata",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "0d431a07879a1787cefda7f5f14b7c762ffb0f15bee0b7f0d169b03a7caf373d",
+      "functionPath": "src/game/proceduralMeshEngine.ts::synthesizeLSystemBotanicalMorphogenesis",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/proceduralMeshEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "c28401398b2feb7d8b6f20cf6d6db46b19c4006bc4ddb3a4d7f694f4e377ef86",
+      "functionPath": "src/game/proceduralMeshEngine.ts::verifyManifoldBMeshTopology",
+      "routeId": "VR-R05",
+      "status": "foreign",
+      "detail": "three package with no LexLean model"
+    },
+    {
+      "kappa": "58a1b50cac8d937f8d2d5db4b1e5e09fa37cec03877347aef6e075a595ffa715",
+      "functionPath": "src/game/realizabilityEngine.ts::evaluateVerdantRealizabilityAudit",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Realizability.V1.Model (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "114be61e7715c1b75cce99f5134351d68296f46ee46a13eb7118ff10d4226e8f",
+      "functionPath": "src/game/soundscapeEngine.ts::computeHdVoiceHarmonicPartials",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/soundscapeEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "7c0f95466186c1c260f16e71c553d2db443ad389bdd08e548c1bb81d7c3f777a",
+      "functionPath": "src/game/soundscapeEngine.ts::computeIso226EqualLoudnessWeight",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/soundscapeEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "516d171f5a385d0a94e3f97120b726f7ce2f6ea928b09b8f613bd025884f20d0",
+      "functionPath": "src/game/soundscapeEngine.ts::computeIso3382BiomeRoomAcoustics",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/soundscapeEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "192f94e3c4869982b4bb7cae436dae4edae29978d8d4d552f916c416416e8cfe",
+      "functionPath": "src/game/soundscapeEngine.ts::computeMaterialChladniModalRatios",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/soundscapeEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "f118ea5d1a06cf36e53646b0ee2ffd619dd7cc2cc22f919c6dc5bee007702705",
+      "functionPath": "src/game/soundscapeEngine.ts::computeWoodworth3DBinauralSpatializer",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/soundscapeEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "132167fc1e77406db87ecc74daea592ac36d8661fa8175cd7c36f572ba939af1",
+      "functionPath": "src/game/soundscapeEngine.ts::computeZwickerBarkBandIndex",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/soundscapeEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "eb2a953cae875fb2bb05a45398d0f6283d62280559d97a6b77515a2d8bdbf7ea",
+      "functionPath": "src/game/soundscapeEngine.ts::computeZwickerBarkRate",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/soundscapeEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "572ded30264941d395aa0dc8c35cc200542c5b42f3cdbcc2491193b657708d12",
+      "functionPath": "src/game/soundscapeEngine.ts::evaluate24BarkMaskingGovernor",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/soundscapeEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "6cc6e9e8e5bb673ebd77b3638b8b2a6e2d8f909fc9df10fdcac44d4b1b8d03af",
+      "functionPath": "src/game/soundscapeEngine.ts::resolvePureSustainedHarmonicSeries",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/soundscapeEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "bdcda4d9ec75117e2dce3c1736646e6d2beddf1feea83827c928493e31b45e7c",
+      "functionPath": "src/game/soundscapeEngine.ts::synthesizeIso3382ImpulseChannels",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/soundscapeEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "fe03449e5a1ec94ba0aa6a1fcb62f68771d1501c0c9020173389c161b3a6b331",
+      "functionPath": "src/game/spectralColorEngine.ts::cie1931ColorMatching2Deg",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "5f51ac443f13375a7b5999131237b454785997cf6448552c360d624eabf3d56c",
+      "functionPath": "src/game/spectralColorEngine.ts::cieXyzD65ToLinearSrgb",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "0b9d6cbc3247fca22a724d2a2d5963e82814cb32a093ad9e4412a4e3b36be6b3",
+      "functionPath": "src/game/spectralColorEngine.ts::cieXyzD65ToOklch",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "1096262afb17724fe0230f496665fbbe024b83eb94749278ee5cc8f29d973069",
+      "functionPath": "src/game/spectralColorEngine.ts::computeApcaContrastLc",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/spectralColorEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "9991a396b83ccfd1db1dc48630341d2c5245b66f12b5258f3a09e974af9ab0e8",
+      "functionPath": "src/game/spectralColorEngine.ts::computeDeltaEOk",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "f0eceab9030f190aa8a1c8cb448c8b3e987f29b350d8672dbfbbd30e45831f35",
+      "functionPath": "src/game/spectralColorEngine.ts::computeWcag22ContrastRatio",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "969414df844e5152f51f6bc02fb13e11aee5b6f37f58a622fca59d5bd912fea7",
+      "functionPath": "src/game/spectralColorEngine.ts::computeWcag22RelativeLuminance",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "7255d7536620c52a632e59f2d763a7f830c916f2e6bb6a9f31cd739c132d8fbc",
+      "functionPath": "src/game/spectralColorEngine.ts::evaluateAiryThinFilmReflectance",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/spectralColorEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "9be829c07909c5ea8407e57039bec2002eeae0bec715bb2f244e31a88b350281",
+      "functionPath": "src/game/spectralColorEngine.ts::evaluateChlorophyllFoliageReflectance",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/spectralColorEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "ba2a8434d5b028cb23bedd439b859029fbb181cbe45f3454eae408b6cc6d52d9",
+      "functionPath": "src/game/spectralColorEngine.ts::evaluateCookTorranceGgxBrdf",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "23edcb4659c7b8bfaf46d8a58d9b1229f4c767317aeace6b1a9d707205148d71",
+      "functionPath": "src/game/spectralColorEngine.ts::evaluateDiurnalSkyIlluminantSpd",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/spectralColorEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "f81bbf92efde3bdf4351415aed2636f9b3aef02957d0f89cb4826d0349a94260",
+      "functionPath": "src/game/spectralColorEngine.ts::integrateSpectralReflectanceToXyzD65",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "7337dcc47277657429bfd7db40747395b2b88bd98d532a656cc1a7848218eaa5",
+      "functionPath": "src/game/spectralColorEngine.ts::linearChannelToSrgb",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/spectralColorEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "2106deb6b71165b6a832254248db2bb303c5d805b25ff277560e1388a5fddb16",
+      "functionPath": "src/game/spectralColorEngine.ts::linearSrgbToCieXyzD65",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "7c24c71ccbd7982beaa8efe90051aac35534dd73cf5aa83eeaf99d433873f6cf",
+      "functionPath": "src/game/spectralColorEngine.ts::linearSrgbToOklab",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "4b95b603e7ea03e47badab3c476d02721ecf4cf227744c8cf5db8e64fa267def",
+      "functionPath": "src/game/spectralColorEngine.ts::oklabToLinearSrgb",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "13ecffb024b0d8c16fc447cbc1f31d00b462d6c623a48e90053fad30168ed803",
+      "functionPath": "src/game/spectralColorEngine.ts::oklabToOklch",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/spectralColorEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "1dc087f0d5544142bd396392ab9a48f5b03021da7e7440eed2e636faf714697b",
+      "functionPath": "src/game/spectralColorEngine.ts::oklchToCieXyzD65",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "f923343d884a54c34a020343022252a7d3d56a11e0e35cfd1194954a5c5c6aeb",
+      "functionPath": "src/game/spectralColorEngine.ts::oklchToGamutMappedSrgb",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d7a6fd09eb0cd43686be1e2f9b6a6d3ad5e1c1967e401384adc98cb93dc29983",
+      "functionPath": "src/game/spectralColorEngine.ts::oklchToOklab",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/spectralColorEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "92c90ab8f73f740bde56a42d25c971f648e2d863235d8f95f0748597f5564775",
+      "functionPath": "src/game/spectralColorEngine.ts::planckNormalizedSpectrum",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/spectralColorEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "a2ec79c3327132ecb503f51ee8d64c5569b9ec694d71ba2a0b3fbaa22ac4e1a9",
+      "functionPath": "src/game/spectralColorEngine.ts::srgbChannelToLinear",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/spectralColorEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "34b4aaf3ffd25cc96ba3dd9325f5ab81f1661bf081ca02c339d36555ba034f32",
+      "functionPath": "src/game/spectralColorEngine.ts::srgbHexToOklch",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "1d57734a73af13766a56b84432a4cf8ac51b50eae1c110dd0a6dc77acae63fe7",
+      "functionPath": "src/game/spectralColorEngine.ts::synthesizeSpectralDiurnalPalette",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "37fab0c7c4dd2aeae509299ad06aa544dd4604ae11130fee64509215437bfa68",
+      "functionPath": "src/game/spectralColorEngine.ts::synthesizeVerdantW3CDesignTokens",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "cc1f0315a0ddce6e11cde782200a90a2af4d7f0fd91b9c3727fcc6efe629afbf",
+      "functionPath": "src/game/spectralColorEngine.ts::wavelengthNmToDisplayColor",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/spectralColorEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "f27839bd88b179ab90da71c186e2df4bc0706458d1db7908b2894322edf8f6f9",
+      "functionPath": "src/game/standardModelEngine.ts::computeCliffordCl06Product",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "5bcd267f28f337fc4b57ce871f941c976e186304f4654f5c0536169253cbbce3",
+      "functionPath": "src/game/standardModelEngine.ts::computeNormalizedShannonEntropy",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "dc57a4886f1165db212a31ad6f7f257091e35318f8dbe68f1833419323ff5756",
+      "functionPath": "src/game/standardModelEngine.ts::divideSiDimensions",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "11e7ebaf343151d0925e85353fcf8263a222c9f1e41334c5d260cf7ad241582a",
+      "functionPath": "src/game/standardModelEngine.ts::factorizeUorPositiveInt",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "089c07e17fd16953921c25254fd58468991881feb665bac296f92418fc9d49ba",
+      "functionPath": "src/game/standardModelEngine.ts::formatSiDimensionFormula",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "2431976f2300e98cd9d620f78e873985c5ebce5cbd7976230578c83d43dd18e2",
+      "functionPath": "src/game/standardModelEngine.ts::getIupacElementBySymbol",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "02837e493f1dd13c5ad1a49d22021b42b98f480b44a3b6b9783141ff0cb617d9",
+      "functionPath": "src/game/standardModelEngine.ts::getIupacElementByZ",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Chemistry.V1.Model::formalProjectionTable"
+    },
+    {
+      "kappa": "ebba48df1ee8975329164680b08342db4a9421b4bdb9ddd760ac5a4c1b4681fc",
+      "functionPath": "src/game/standardModelEngine.ts::multiplySiDimensions",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "0a8b251e70cec483faa3620a26e11b977a99ab231396a8bbd2a1657083d679cc",
+      "functionPath": "src/game/standardModelEngine.ts::powerSiDimensions",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "95f180947dadcf230a0c90953063422fa538cb6d2f6de1ff968ce007f87e1b02",
+      "functionPath": "src/game/standardModelEngine.ts::synthesizeGroundStateSubshells",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d2276a92240e7ccb8463964ba920c7bf714e5bc2118aefab13ff40b6b29a9026",
+      "functionPath": "src/game/standardModelEngine.ts::verifyCompletePeriodicTable118Invariants",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "dd911949fb6e9faa40130cf7fbd11ecf7e115473942a382e7257222376a13d79",
+      "functionPath": "src/game/standardModelEngine.ts::verifyExteriorDerivativeNilpotencyOnMesh",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "f2e5db235545e293245d964190d29b8182bdc2d4b4ec0644e15e6ba39d8419cb",
+      "functionPath": "src/game/standardModelEngine.ts::verifyQuantumVertexConservation",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "1b86d861b0960c0df4b1b34e54303c88817c70fa7b28c0c4697cf4658725633b",
+      "functionPath": "src/game/standardModelEngine.ts::verifySiDimensionalHomogeneity",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "427931623a760fe8817970446bf6c5cbf516a50da76fe3b5959ccdf3067f8f95",
+      "functionPath": "src/game/standardModelEngine.ts::verifyStandardModelGaugeClosure",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "d66d3914a35bc98f621e704eac000445ccb13f84b259bfb9972428b6c8b0a0cc",
+      "functionPath": "src/game/standardModelEngine.ts::verifyStoichiometricBalance",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/standardModelEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "c953275d9be99b2161a68792c6e26affe4f88a4d703c2438a202f03c2e97db1d",
+      "functionPath": "src/game/teleologyEngine.ts::createInitialAutonomousPlasticityState",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/teleologyEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "0c0d3c8efadcc41325193e0a48ff1681ed10ed12a7da9bd46bbc4130ca834b62",
+      "functionPath": "src/game/teleologyEngine.ts::createInitialLandmarkResonanceState",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/teleologyEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "5a54c1512100109026019fbfb56e510eb61e78fcef66d3d628c59707b9e03377",
+      "functionPath": "src/game/teleologyEngine.ts::createInitialWaystoneTuningTable",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/teleologyEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "b2416eec9615b7eed89235a22bb5011e9545f95a47d269b538c8eeee1e893e56",
+      "functionPath": "src/game/teleologyEngine.ts::evaluateCompiledCuratorialAffinityPermille",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (CompiledTeleology.stepCuratorialAffinityPermille)"
+    },
+    {
+      "kappa": "58ebd3c3f01dd98200980238dfa27671d28c07493684f3bf43b25efbbe0b05af",
+      "functionPath": "src/game/teleologyEngine.ts::evaluateLithophoneWaystoneStep",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (GENERATED_PRISM_BUS_MODULATION_LUT)"
+    },
+    {
+      "kappa": "2c6ec3083823ca45de31fc584843ef09d7215cabaa65e188344c2ec02742b275",
+      "functionPath": "src/game/teleologyEngine.ts::evaluateMonumentPhysicalMechanics",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/teleologyEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "47f2e1cdc2b852af7f0c5f17995b6e77fd6d7f5a7f0ea067df43fc5e5ff9dcc0",
+      "functionPath": "src/game/teleologyEngine.ts::evaluateNearestSynthesizedLandmark",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (GENERATED_PRISM_BUS_MODULATION_LUT)"
+    },
+    {
+      "kappa": "a3d2695c56b817dfaf98c590b2aba88d14e25e1dd7e32cc6ac45b3330fcc8b5e",
+      "functionPath": "src/game/teleologyEngine.ts::evaluateObserver20FacetDifferentiationAndAffinity",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (GENERATED_CANONICAL_MODEL_BASIS_PRIMES)"
+    },
+    {
+      "kappa": "d8cd0ecc065fefda4df7d5bb4514b8be1421752ab2640820e5eff4862896aeba",
+      "functionPath": "src/game/teleologyEngine.ts::evaluateStandingWaveTerraceResonance",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (GENERATED_PRISM_BUS_MODULATION_LUT)"
+    },
+    {
+      "kappa": "c0da3bb280d0197200fb0d88d08d422e71a24d9b3de1ddc53038b7480af95fc8",
+      "functionPath": "src/game/teleologyEngine.ts::evaluateVerdantTeleologySynthesis",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (GENERATED_PRISM_BUS_MODULATION_LUT)"
+    },
+    {
+      "kappa": "5570e3a3c13c97d37a9ecdd1330dff6f0c76175e4a6fcc5fbaaa6330e23c3683",
+      "functionPath": "src/game/teleologyEngine.ts::evaluateWitnessCommunionTarget",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (GENERATED_PRISM_BUS_MODULATION_LUT)"
+    },
+    {
+      "kappa": "c07a4043fcce33eb15972f6ff93b2c2de7ec9f8eddc07b542e872b319e3d1392",
+      "functionPath": "src/game/teleologyEngine.ts::exciteLandmarkResonance",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (GENERATED_PRISM_BUS_MODULATION_LUT)"
+    },
+    {
+      "kappa": "aa5e3c447fc8e4a24b904b7d459d778da791d43e51c6059d09f3ccf9d0582ad9",
+      "functionPath": "src/game/teleologyEngine.ts::stepAutonomousGameplayPlasticity",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/teleologyEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "f8702927886e9922d6d0c4890a1f54e86c242eeb698027f7db5a6bdbc10abee1",
+      "functionPath": "src/game/teleologyEngine.ts::stepLandmarkResonanceField",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "ieee754-transcendental-kinematics",
+      "detail": "Continuous IEEE-754 transcendental projection in src/game/teleologyEngine.ts awaiting fixed-point LexLean lift"
+    },
+    {
+      "kappa": "d0468517c8ef8791707f6fb9c8c2fa33225fa52316624e67b9bdfe09ef5e3c7a",
+      "functionPath": "src/game/teleologyEngine.ts::synthesizeParametricChladniTerraceRadii",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/teleologyEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "2cd82af1c6be1ac537d5d1c2694c8ff5ff6fcaece6269a91c84251fc2e0f9007",
+      "functionPath": "src/game/teleologyEngine.ts::tuneNearestLithophoneWaystone",
+      "routeId": "VR-R04",
+      "status": "residue",
+      "reason": "host-collection-or-codec-adapter",
+      "detail": "Pure TypeScript host projection in src/game/teleologyEngine.ts outside current LexLean Nat/Bytes floor"
+    },
+    {
+      "kappa": "f9c60466da3f02d805e011afcb949c615fca8c36dc60ff0d7aff9f1e4b214ef6",
+      "functionPath": "src/game/vedantaDharmaEngine.ts::evaluateMandukyaTuriyaResonance",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Vedanta.V1.Model (CompiledVedanta.stepAtmanBrahmanNonDualPermille)"
+    },
+    {
+      "kappa": "a794d693b9721de8f025f89d0c405a1bcba084700497a800631315687ae9ae41",
+      "functionPath": "src/game/vedantaDharmaEngine.ts::evaluateTrigunaFieldDynamics",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Vedanta.V1.Model (CompiledVedanta.stepSattvaClarityPermille)"
+    },
+    {
+      "kappa": "9718805ee4ce257f469d8982e8b3bafaa752eb25af86c43e0d9acaf5bac43dd3",
+      "functionPath": "src/game/vedantaDharmaEngine.ts::evaluateVerdantVedantaAndDharmaSynthesis",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Vedanta.V1.Model (CompiledDharma.stepRtaCosmicOrderPermille)"
+    }
+  ]
+}

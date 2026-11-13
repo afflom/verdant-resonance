@@ -78,6 +78,7 @@ export * from './realizabilityEngine';
 export * from './vedantaDharmaEngine';
 export * from './parametricCompressionEngine';
 export * from './conservatoryCurationEngine';
+export * from './mechanicalReasoningEngine';
 
 export {
   decodePrismBytesToUtf8,
