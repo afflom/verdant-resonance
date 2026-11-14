@@ -78,6 +78,15 @@ import {
   certifiedWasmCore_verifyBusModulationsScalar,
   certifiedWasmCore_verifyLosslessMerkleRoundTrip,
   certifiedWasmCore_verifyPassivePbrEnergyConservation,
+  certifiedWasmCore_bitMaskConstructive,
+  certifiedWasmCore_distinctionBitsForCardinality,
+  certifiedWasmCore_fibonacciConstructive,
+  certifiedWasmCore_isPrimeConstructive,
+  certifiedWasmCore_nthPrimeConstructive,
+  certifiedWasmCore_pow2Constructive,
+  certifiedWasmCore_triadicAgencyPrimeProduct,
+  certifiedWasmCore_verifyStratumObstructionResolved,
+  certifiedWasmCore_verifyW5HCertificateComplete,
   certifiedWasmCoreCallCount,
   certifiedWasmDecideMint,
   certifiedWasmDispatchText,
@@ -95,9 +104,14 @@ import {
   DERIVED_FOUNDRY_ROUTE_MASK_LIMIT,
   discoverRule30F2Relations,
   evaluateHarmanOooQuadruple,
+  evaluateLiveOntologicalTelosState,
+  evaluateUniversal5WhOntologyCatalog,
   FORBIDDEN_ASSERTIVE_VOCABULARY,
   FOUNDRY_ROUTES,
+  GENERATED_ONTOLOGY_5WH_LEDGER,
   getCompiledMechanizationStandardModel,
+  createInitialParametricOntologyCoordinates,
+  stepLiveParametricOntologyCoordinates,
   mintCanonicalHypotheses,
   routeCodebaseFact,
   runMemoizedPeircePortfolioTick,
@@ -1871,7 +1885,7 @@ test('Root Judge calls the 10-Domain Universal Neuromorphic Bus, constructive bo
   const liveExtracted = extractAllPrismArtifacts(prismSrcDir);
   assert.deepEqual(liveExtracted.foundationPurity, GENERATED_PRISM_FOUNDATION_PURITY);
   assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.verified, true);
-  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 25);
+  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 26);
   assert.deepEqual(liveExtracted.domainBasisPrimes, GENERATED_PRISM_DOMAIN_BASIS_PRIMES);
   assert.deepEqual(liveExtracted.domainBasisPrimes, PRISM_DOMAIN_BASIS_PRIMES);
   assert.deepEqual(liveExtracted.contextPrimes, GENERATED_PRISM_CONTEXT_PRIMES);
@@ -3103,7 +3117,7 @@ test('31. Live Neuromorphic Bus Refinement Advances Observer Cosmogenesis & Modu
 
 test('32. Pure Parametric Canonical Seed, Concert Pitch & World Topology derive deterministically from UOR Primes & Rule-30 Dyadics', () => {
   assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.verified, true);
-  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 25);
+  assert.equal(GENERATED_PRISM_FOUNDATION_PURITY.checkedModules, 26);
 
   // Exact UOR prime & Rule-30 dyadic identities at Base Directive w = 8
   assert.equal(synthesizeParametricCanonicalSeed(1, 8), 42026);
@@ -6798,13 +6812,13 @@ test('62. Modular Scene Builders, Zero-GC 60Hz Biogeochemistry & Strict Compiler
 });
 
 test('63. Universal Prism LexLean-to-TypeScript Mechanizer, Differential Dispatch Parity & Zero-Drift Automation Gate', async () => {
-  // 1. Complete 28-module compilation coverage in generatedPrismRuntime.ts
-  assert.equal(GENERATED_PRISM_MECHANIZED_MANIFEST.moduleCount, 28);
+  // 1. Complete 29-module compilation coverage in generatedPrismRuntime.ts
+  assert.equal(GENERATED_PRISM_MECHANIZED_MANIFEST.moduleCount, 29);
   assert.ok(GENERATED_PRISM_MECHANIZED_MANIFEST.inductiveCount >= 2);
   assert.ok(GENERATED_PRISM_MECHANIZED_MANIFEST.structureCount >= 149);
   assert.ok(GENERATED_PRISM_MECHANIZED_MANIFEST.definitionCount >= 967);
   assert.ok(GENERATED_PRISM_MECHANIZED_MANIFEST.theoremCount >= 154);
-  assert.equal(Object.keys(PRISM_COMPILED_MODULES).length, 28);
+  assert.equal(Object.keys(PRISM_COMPILED_MODULES).length, 29);
 
   // 2. Exact 64-bit BigInt formal kernel parity (beyond IEEE-754 MAX_SAFE_INTEGER 2^53 - 1)
   const Comp = PRISM_COMPILED_MODULES['Foundation.Compression.V1.Model'];
@@ -6869,7 +6883,7 @@ test('63. Universal Prism LexLean-to-TypeScript Mechanizer, Differential Dispatc
 
   // 4. Universal auto-discovered contract sweep (all 87 byte vectors + >=152 breaks* refuters + 34 verify* gates)
   const sweep = await runMechanizedContractSweep();
-  assert.equal(sweep.modulesVerified, 28);
+  assert.equal(sweep.modulesVerified, 29);
   assert.equal(sweep.acceptanceVectorsVerified, 87);
   assert.ok(sweep.counterexamplePredicatesChecked >= 152);
   assert.ok(sweep.counterexampleEvaluations >= 1300);
@@ -7740,11 +7754,11 @@ test('69. Single Certified Wasm Runtime Cutover, Zero-Residue Codebase Lift & Li
     );
   }
 
-  // 163 Certified Production Roots (`160` `#![no_std]` `rust-core` + `3` `rust-std`) with 3-way parity
-  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.rustCoreNoStdRootCount, 160);
+  // 177 Certified Production Roots (`174` `#![no_std]` `rust-core` + `3` `rust-std`) with 3-way parity
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.rustCoreNoStdRootCount, 174);
   assert.equal(CERTIFIED_PRODUCTION_MANIFEST.rustStdRootCount, 3);
-  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.roots.length, 163);
-  assert.equal(CERTIFIED_WASM_CORE_ROOT_NAMES.length, 160);
+  assert.equal(CERTIFIED_PRODUCTION_MANIFEST.roots.length, 177);
+  assert.equal(CERTIFIED_WASM_CORE_ROOT_NAMES.length, 174);
   assert.equal(CERTIFIED_PRODUCTION_MANIFEST.allKernelChecked, true);
   assert.equal(CERTIFIED_PRODUCTION_MANIFEST.allForbidUnsafeCode, true);
 
@@ -7912,4 +7926,202 @@ test('69. Single Certified Wasm Runtime Cutover, Zero-Residue Codebase Lift & Li
     decodedShare.envelope?.payload.coEvolutionState,
     env.payload.coEvolutionState,
   );
+});
+
+test('70. Purely Parametric {0, 1} Root Purity & Certified #![no_std] Wasm Constructive Generators (Foundation.Ontology.V1.Model)', () => {
+  // 1. Zero unexplained numeric literals (> 1), zero String fields, and zero zero-parameter constants in Foundation.Ontology.V1.Model
+  const rootPurity = GENERATED_ONTOLOGY_5WH_LEDGER.rootPurity;
+  assert.equal(rootPurity.moduleName, 'Foundation.Ontology.V1.Model');
+  assert.equal(rootPurity.literalGtOneCount, 0);
+  assert.equal(rootPurity.stringFieldCount, 0);
+  assert.equal(rootPurity.zeroParamDefCount, 0);
+  assert.equal(rootPurity.verifiedFromZeroAndOneOnly, true);
+
+  const ontologyTheorems = GENERATED_PRISM_THEOREMS_BY_MODULE['Foundation.Ontology.V1.Model'];
+  assert.equal(ontologyTheorems.length, 6);
+
+  // 2. Certified #![no_std] Wasm constructive primes, Fibonacci convergents, powers of two, bitmasks & agency triad
+  const firstEightPrimes = Array.from({ length: 8 }, (_, k) =>
+    certifiedWasmCore_nthPrimeConstructive(k),
+  );
+  assert.deepEqual(firstEightPrimes, [2, 3, 5, 7, 11, 13, 17, 19]);
+  for (const p of firstEightPrimes) {
+    assert.equal(certifiedWasmCore_isPrimeConstructive(p), true);
+  }
+  assert.equal(certifiedWasmCore_isPrimeConstructive(1), false);
+  assert.equal(certifiedWasmCore_isPrimeConstructive(9), false);
+
+  const fibs = Array.from({ length: 8 }, (_, k) => certifiedWasmCore_fibonacciConstructive(k));
+  assert.deepEqual(fibs, [0, 1, 1, 2, 3, 5, 8, 13]);
+  assert.equal(certifiedWasmCore_pow2Constructive(0), 1);
+  assert.equal(certifiedWasmCore_pow2Constructive(3), 8);
+  assert.equal(certifiedWasmCore_pow2Constructive(6), 64);
+  assert.equal(certifiedWasmCore_bitMaskConstructive(3), 7);
+  assert.equal(certifiedWasmCore_bitMaskConstructive(10), 1023);
+
+  assert.equal(certifiedWasmCore_distinctionBitsForCardinality(0), 0);
+  assert.equal(certifiedWasmCore_distinctionBitsForCardinality(1), 0);
+  assert.equal(certifiedWasmCore_distinctionBitsForCardinality(2), 1);
+  assert.equal(certifiedWasmCore_distinctionBitsForCardinality(8), 7);
+
+  assert.equal(certifiedWasmCore_triadicAgencyPrimeProduct(true, false, false), 2);
+  assert.equal(certifiedWasmCore_triadicAgencyPrimeProduct(true, true, false), 6);
+  assert.equal(certifiedWasmCore_triadicAgencyPrimeProduct(true, true, true), 30);
+});
+
+test('71. Universal 5W+H Ontology Completeness: 29/29 Grounded Modules, 167/167 Certified Structures & 8-Stratum Obstruction Chain', () => {
+  const ledger = GENERATED_ONTOLOGY_5WH_LEDGER;
+  assert.equal(ledger.groundedModuleCount, 29);
+  assert.equal(ledger.ungroundedModuleCount, 0);
+  assert.equal(ledger.totalStructureCount, 167);
+  assert.equal(ledger.uncertifiedStructureCount, 0);
+  assert.equal(ledger.eightStrata.length, 8);
+
+  // Every stratum 0..7 resolves when its structural prerequisites hold, and Stratum 7 (Living Game) fails without a free Player
+  for (let rank = 0; rank < 8; rank++) {
+    assert.equal(
+      certifiedWasmCore_verifyStratumObstructionResolved(rank, true, true, true, true),
+      true,
+    );
+  }
+  assert.equal(
+    certifiedWasmCore_verifyStratumObstructionResolved(7, true, true, true, false),
+    false,
+    'The Living Game (Stratum 7) cannot resolve its existential obstruction without a free living Player',
+  );
+
+  // Full Universal 5W+H Catalog certifies every prime atom, causal stratum, world phenomenon, structure, and the game itself via Wasm
+  const report = evaluateUniversal5WhOntologyCatalog();
+  assert.equal(report.rootVerifiedFromZeroAndOneOnly, true);
+  assert.equal(report.ungroundedModuleCount, 0);
+  assert.equal(report.uncertifiedStructureCount, 0);
+  assert.equal(report.primeAtomNodes.length, 8);
+  assert.equal(report.causalStratumNodes.length, 8);
+  assert.equal(report.worldPhenomenonNodes.length, 20);
+  assert.equal(report.structureNodes.length, ledger.totalStructureCount);
+  assert.equal(report.gameExistenceNode.w5hCertifiedByWasm, true);
+  assert.equal(report.gameExistenceNode.whoAgencyPrimeProduct, 30);
+  assert.equal(report.liveTelos.epistemicOpacityDebt, 0);
+
+  for (const group of [
+    report.primeAtomNodes,
+    report.causalStratumNodes,
+    report.worldPhenomenonNodes,
+    report.structureNodes,
+  ]) {
+    for (const node of group) {
+      assert.equal(node.w5hCertifiedByWasm, true, `Expected W5H Wasm certification for ${node.nodeId}`);
+      assert.ok(node.whatIntrinsicPrimeAtom >= 2);
+      assert.ok(node.whyAnswer.length > 0);
+    }
+  }
+
+  // Negative refusal check: missing prime atom (< 2) or unverified Logos is rejected by Wasm W5H gate
+  assert.equal(
+    certifiedWasmCore_verifyW5HCertificateComplete(1, 30, 0, 30, 0, 1, 0, true),
+    false,
+  );
+  assert.equal(
+    certifiedWasmCore_verifyW5HCertificateComplete(2, 30, 0, 30, 0, 1, 0, false),
+    false,
+  );
+
+  // Ratchet enforces zero ungrounded models, zero uncertified structures, and zero root constants
+  const ratchetDoc = JSON.parse(fs.readFileSync('prism/handwritten-ratchet.json', 'utf8'));
+  const { register } = ingestProductCodebaseLiftRegister(process.cwd());
+  const measured = measureHandwrittenAndAxiomRatchetState(process.cwd(), register);
+  const ratchetVerify = verifyHandwrittenAndAxiomRatchet(ratchetDoc, measured);
+  assert.equal(ratchetVerify.ok, true);
+  assert.equal(measured.ungroundedModelCount, 0);
+  assert.equal(measured.uncertifiedStructureW5HCount, 0);
+  assert.equal(measured.ontologyRootLiteralGtOneCount, 0);
+  assert.equal(measured.ontologyRootStringFieldCount, 0);
+});
+
+test('72. Live Parametric OntologicalTelosLoss Coordinate Descent, Non-Coercive Freeze & UORC Anamnesis Persistence', () => {
+  const initCoords = createInitialParametricOntologyCoordinates();
+  assert.equal(initCoords.harmonicSimplicity, 8);
+  assert.equal(initCoords.guildOffshootDensity, 5);
+  const host = { logicalCores: 8, memoryGiB: 8, frameBudgetMicros: 16667, observedFrameMicros: 8200 };
+  const witness = {
+    stillnessRatioPermille: 920,
+    gazeDwellRatioPermille: 880,
+    harmonicComfortPermille: 950,
+    activePresence: true,
+  };
+  let coords = {
+    harmonicSimplicity: 2,
+    phyllotaxisClarity: 2,
+    waveCalmDamping: 2,
+    iridescenceLegibility: 2,
+    guildOffshootDensity: 2,
+    precisionBits: 16,
+  };
+  let telos = evaluateLiveOntologicalTelosState(host, witness, coords, 35, 0);
+  const initialLoss = telos.totalTelosLoss;
+  assert.equal(telos.epistemicOpacityDebt, 0);
+  assert.equal(telos.triadicConnectionActive, true);
+
+  for (let step = 0; step < 12; step++) {
+    const prevLoss = telos.totalTelosLoss;
+    telos = stepLiveParametricOntologyCoordinates(telos.coordinates, host, witness, 35, 0);
+    assert.ok(
+      telos.totalTelosLoss <= prevLoss,
+      `Step ${step}: expected monotonic non-increasing Telos loss (${telos.totalTelosLoss} <= ${prevLoss})`,
+    );
+  }
+  assert.ok(telos.totalTelosLoss < initialLoss);
+  assert.ok(telos.coordinates.waveCalmDamping > coords.waveCalmDamping);
+  assert.ok(telos.coordinates.phyllotaxisClarity > coords.phyllotaxisClarity);
+
+  // Coercive dark pattern (`coerciveCount > 0`) freezes parametric coordinate mutation immediately
+  const frozenProbe = stepLiveParametricOntologyCoordinates(coords, host, witness, 35, 1);
+  assert.deepEqual(frozenProbe.coordinates, coords);
+  assert.ok(frozenProbe.epistemicOpacityDebt > 0);
+
+  // Live 16-step bar co-evolution + lossless UORC Anamnesis round-trip of evolved parametric coordinates
+  let liveCoEvo = createInitialLiveCoEvolutionState(8);
+  for (let bar = 0; bar < 6; bar++) {
+    liveCoEvo = stepLiveObserverPlayerCoEvolutionBar(liveCoEvo, {
+      busWeight: 12,
+      harmonyPct: 85,
+      velocityDm: 0,
+      isStillness: true,
+      gestureHoldProgress01: 1.0,
+      hasFocalTarget: true,
+      focalTargetAttuned: true,
+      tenneyConsonancePurity01: 0.96,
+      awakenedSpeciesCount: 5,
+      exploredBiomesCount: 5,
+      coerciveDarkPatternCount: 0,
+      hostEnvelope: host,
+    });
+  }
+  assert.equal(liveCoEvo.ontologicalTelos.epistemicOpacityDebt, 0);
+  assert.equal(liveCoEvo.ontologicalTelos.triadicConnectionActive, true);
+
+  const baseNeuro = createInitialNeuromorphicState(1);
+  const basePlants = generateGardenPlants({ alphaSeed: 1 });
+  const env = serializeAnamnesisSnapshot({
+    alphaSeed: 1,
+    atmosphere: 'golden',
+    isMuted: false,
+    exploredBiomes: ['meadow', 'sanctuary'],
+    manifold: baseNeuro.universalManifold,
+    plants: basePlants,
+    coEvolutionState: serializeLiveCoEvolutionStateForAnamnesis(liveCoEvo),
+  });
+  const packed = packAnamnesisEnvelopeToUorc(env);
+  const unpacked = unpackAnamnesisEnvelopeFromUorc(packed.archiveBytes);
+  assert.equal(unpacked.verified, true);
+  const restored = restoreLiveCoEvolutionStateFromAnamnesis(
+    unpacked.envelope?.payload.coEvolutionState,
+    8,
+  );
+  assert.deepEqual(restored.ontologicalTelos.coordinates, liveCoEvo.ontologicalTelos.coordinates);
+
+  // Inspector UI surfaces the 5W+H Ontology self-inquiry tab
+  const inspectorSrc = fs.readFileSync('src/components/PrismInspectorModal.tsx', 'utf8');
+  assert.equal(inspectorSrc.includes('evaluateUniversal5WhOntologyCatalog('), true);
+  assert.equal(inspectorSrc.includes('data-testid="ontology-5wh-panel"'), true);
 });

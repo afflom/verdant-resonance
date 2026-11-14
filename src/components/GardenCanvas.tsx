@@ -4959,6 +4959,12 @@ export const GardenCanvas: React.FC<GardenCanvasProps> = ({
                 tunedWaystoneCount,
                 emergentOffshootCount,
                 coerciveDarkPatternCount: 0,
+                hostEnvelope: {
+                  logicalCores: typeof navigator !== 'undefined' ? navigator.hardwareConcurrency || 4 : 4,
+                  memoryGiB: typeof navigator !== 'undefined' ? ((navigator as unknown as { deviceMemory?: number }).deviceMemory ?? 4) : 4,
+                  frameBudgetMicros: 16667,
+                  observedFrameMicros: Math.round(Math.max(0.001, dt) * 1_000_000),
+                },
               });
               if (liveCoEvolutionState.lastBarAdmitted) {
                 neuromorphicState = applyContinuousGameplayMicroPlasticity(

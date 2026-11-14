@@ -1,0 +1,424 @@
+\begin{lexlean}{Foundation.Ontology.V1.Model}
+\useglossary{lexlean.std.bool@1.2.0}
+\useglossary{lexlean.std.nat@1.2.0}
+\useglossary{prism.arch@1.0.0}
+\title{Text application model}
+\begin{semanticmodule}
+structure{
+  name: HostEnvelope,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: logicalCores, type: Nat},
+    {name: memoryUnits, type: Nat},
+    {name: frameBudgetMicros, type: Nat},
+    {name: observedFrameMicros, type: Nat},
+    {name: audioSampleRateHz, type: Nat},
+    {name: audioQuantumFrames, type: Nat}
+  ]
+}
+
+structure{
+  name: WitnessEnvelope,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: criticalBands, type: Nat},
+    {name: breathCycleMillis, type: Nat},
+    {name: stillnessRatio, type: Nat},
+    {name: gazeDwellRatio, type: Nat},
+    {name: harmonicComfortRatio, type: Nat},
+    {name: activePresence, type: Bool}
+  ]
+}
+
+structure{
+  name: ParametricWorldCoordinates,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: harmonicSimplicity, type: Nat},
+    {name: phyllotaxisClarity, type: Nat},
+    {name: waveCalmDamping, type: Nat},
+    {name: iridescenceLegibility, type: Nat},
+    {name: guildOffshootDensity, type: Nat},
+    {name: precisionBits, type: Nat}
+  ]
+}
+
+structure{
+  name: W5HCertificate,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: whatIntrinsicPrime, type: Nat},
+    {name: whatCompositeUorSig, type: Nat},
+    {name: whyStratumRank, type: Nat},
+    {name: whyObstructionWithout, type: Bool},
+    {name: whyObstructionResolved, type: Bool},
+    {name: whoAgencyPrimeProduct, type: Nat},
+    {name: whereBoundaryPole, type: Nat},
+    {name: whereStructuralArity, type: Nat},
+    {name: whenTemporalRegime, type: Nat},
+    {name: howLogosVerified, type: Bool}
+  ]
+}
+
+structure{
+  name: OntologicalTelosEvaluation,
+  type_parameters: [],
+  parameters: [],
+  fields: [
+    {name: epistemicOpacityDebt, type: Nat},
+    {name: sensoryLegibilityGap, type: Nat},
+    {name: playerDissonance, type: Nat},
+    {name: hostCeilingExcess, type: Nat},
+    {name: totalTelosLoss, type: Nat},
+    {name: triadicConnectionActive, type: Bool}
+  ]
+}
+
+definition{
+  name: distinctionBitsForCardinality,
+  parameters: [cardinality : Nat],
+  result: Nat,
+  body: (if (cardinality <=? 1) then 0 else (prim subtract cardinality 1 : Nat)),
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
+}
+
+definition{
+  name: pow2Constructive,
+  parameters: [exp : Nat],
+  result: Nat,
+  body: (match exp
+    | Nat.zero => 1
+    | Nat.succ k => (let half : Nat := (pow2Constructive k); (half + half))),
+  axioms: [],
+  recursive_argument: exp,
+  executable: true,
+  production: {effects: [overflow, recursion], targets: [rust-core]}
+}
+
+definition{
+  name: bitMaskConstructive,
+  parameters: [bits : Nat],
+  result: Nat,
+  body: (prim subtract (pow2Constructive bits) 1 : Nat),
+  axioms: [],
+  executable: true,
+  production: {effects: [overflow, recursion], targets: [rust-core]}
+}
+
+definition{
+  name: fibPairStep,
+  parameters: [fuel : Nat, a : Nat, b : Nat],
+  result: Nat,
+  body: (match fuel
+    | Nat.zero => a
+    | Nat.succ rest => (fibPairStep rest b (a + b))),
+  axioms: [],
+  recursive_argument: fuel,
+  executable: true
+}
+
+definition{
+  name: fibonacciConstructive,
+  parameters: [index : Nat],
+  result: Nat,
+  body: (fibPairStep index 0 1),
+  axioms: [],
+  executable: true,
+  production: {effects: [overflow, recursion], targets: [rust-core]}
+}
+
+definition{
+  name: hasDivisorFrom,
+  parameters: [n : Nat, d : Nat, fuel : Nat],
+  result: Bool,
+  body: (match fuel
+    | Nat.zero => false
+    | Nat.succ rest => (if (n <? (prim multiply d d : Nat)) then false else (if ((prim remainder n d 0 : Nat) =? 0) then true else (hasDivisorFrom n (d + 1) rest)))),
+  axioms: [],
+  recursive_argument: fuel,
+  executable: true
+}
+
+definition{
+  name: isPrimeConstructive,
+  parameters: [n : Nat],
+  result: Bool,
+  body: (let two : Nat := (1 + 1); (if (n <? two) then false else (not (hasDivisorFrom n two n)))),
+  axioms: [],
+  executable: true,
+  production: {effects: [overflow, recursion], targets: [rust-core]}
+}
+
+definition{
+  name: seekPrimeFrom,
+  parameters: [candidate : Nat, fuel : Nat],
+  result: Nat,
+  body: (match fuel
+    | Nat.zero => candidate
+    | Nat.succ rest => (if (isPrimeConstructive candidate) then candidate else (seekPrimeFrom (candidate + 1) rest))),
+  axioms: [],
+  recursive_argument: fuel,
+  executable: true
+}
+
+definition{
+  name: nextPrimeAfter,
+  parameters: [n : Nat],
+  result: Nat,
+  body: (seekPrimeFrom (n + 1) (n + 1)),
+  axioms: [],
+  executable: true
+}
+
+definition{
+  name: nthPrimeConstructive,
+  parameters: [rank : Nat],
+  result: Nat,
+  body: (match rank
+    | Nat.zero => (1 + 1)
+    | Nat.succ prev => (nextPrimeAfter (nthPrimeConstructive prev))),
+  axioms: [],
+  recursive_argument: rank,
+  executable: true,
+  production: {effects: [overflow, recursion], targets: [rust-core]}
+}
+
+definition{
+  name: harmonicConsonanceComplexity,
+  parameters: [num : Nat, den : Nat],
+  result: Nat,
+  body: (if ((num =? 0) || (den =? 0)) then 0 else ((prim subtract num 1 : Nat) + (prim subtract den 1 : Nat))),
+  axioms: [],
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: triadicAgencyPrimeProduct,
+  parameters: [hasObserver : Bool, hasMedium : Bool, hasPlayer : Bool],
+  result: Nat,
+  body: (let pObs : Nat := (if hasObserver then (nthPrimeConstructive 0) else 1); (let pMed : Nat := (if hasMedium then (nthPrimeConstructive 1) else 1); (let pPly : Nat := (if hasPlayer then (nthPrimeConstructive (1 + 1)) else 1); (prim multiply (prim multiply pObs pMed : Nat) pPly : Nat)))),
+  axioms: [],
+  executable: true,
+  production: {effects: [overflow, recursion], targets: [rust-core]}
+}
+
+definition{
+  name: isValidAgencyPrimeProduct,
+  parameters: [agencyProduct : Nat],
+  result: Bool,
+  body: (let fullTriad : Nat := (triadicAgencyPrimeProduct true true true); ((1 <? agencyProduct) && ((prim remainder fullTriad agencyProduct 0 : Nat) =? 0))),
+  axioms: [],
+  executable: true
+}
+
+definition{
+  name: stratumObstructionWithout,
+  parameters: [stratumRank : Nat, stratumPresent : Bool],
+  result: Bool,
+  body: (let maxStratumRank : Nat := (bitMaskConstructive ((1 + 1) + 1)); ((stratumRank <=? maxStratumRank) && (not stratumPresent))),
+  axioms: [],
+  executable: true
+}
+
+definition{
+  name: verifyStratumObstructionResolved,
+  parameters: [stratumRank : Nat, stratumPresent : Bool, hasObserver : Bool, hasMedium : Bool, hasPlayer : Bool],
+  result: Bool,
+  body: (let maxStratumRank : Nat := (bitMaskConstructive ((1 + 1) + 1)); (if (maxStratumRank <? stratumRank) then false else (if (not stratumPresent) then false else (if (stratumRank =? maxStratumRank) then ((hasObserver && hasMedium) && hasPlayer) else ((hasObserver || hasMedium) || hasPlayer))))),
+  axioms: [],
+  executable: true,
+  production: {effects: [overflow, recursion], targets: [rust-core]}
+}
+
+definition{
+  name: verifyW5HCertificateComplete,
+  parameters: [whatIntrinsicPrime : Nat, whatCompositeUorSig : Nat, whyStratumRank : Nat, whoAgencyProduct : Nat, whereBoundaryPole : Nat, whereStructuralArity : Nat, whenTemporalRegime : Nat, howLogosVerified : Bool],
+  result: Bool,
+  body: (let maxStratumRank : Nat := (bitMaskConstructive ((1 + 1) + 1)); (let maxBoundaryPole : Nat := (bitMaskConstructive (1 + 1)); (let maxTemporalRegime : Nat := (pow2Constructive (1 + 1)); (((((isPrimeConstructive whatIntrinsicPrime) && (whatIntrinsicPrime <=? whatCompositeUorSig)) && ((prim remainder whatCompositeUorSig whatIntrinsicPrime 0 : Nat) =? 0)) && ((whyStratumRank <=? maxStratumRank) && (isValidAgencyPrimeProduct whoAgencyProduct))) && (((whereBoundaryPole <=? maxBoundaryPole) && (1 <=? whereStructuralArity)) && ((whenTemporalRegime <=? maxTemporalRegime) && howLogosVerified)))))),
+  axioms: [],
+  executable: true,
+  production: {effects: [overflow, recursion], targets: [rust-core]}
+}
+
+definition{
+  name: synthesizeW5HCertificate,
+  parameters: [stratumRank : Nat, sigFactor : Nat, hasObserver : Bool, hasMedium : Bool, hasPlayer : Bool, boundaryPole : Nat, structuralArity : Nat, temporalRegime : Nat, logosVerified : Bool],
+  result: W5HCertificate,
+  body: (let atomPrime : Nat := (nthPrimeConstructive stratumRank); (let factorClean : Nat := (if (sigFactor =? 0) then 1 else sigFactor); (let uorSig : Nat := (prim multiply atomPrime factorClean : Nat); (let agency : Nat := (triadicAgencyPrimeProduct hasObserver hasMedium hasPlayer); (record W5HCertificate {whatIntrinsicPrime := atomPrime, whatCompositeUorSig := uorSig, whyStratumRank := stratumRank, whyObstructionWithout := (stratumObstructionWithout stratumRank false), whyObstructionResolved := (verifyStratumObstructionResolved stratumRank true hasObserver hasMedium hasPlayer), whoAgencyPrimeProduct := agency, whereBoundaryPole := boundaryPole, whereStructuralArity := structuralArity, whenTemporalRegime := temporalRegime, howLogosVerified := logosVerified}))))),
+  axioms: [],
+  executable: true
+}
+
+definition{
+  name: computeEpistemicOpacityDebt,
+  parameters: [totalNodes : Nat, certifiedNodes : Nat, ungroundedModels : Nat, magicRootLiterals : Nat],
+  result: Nat,
+  body: (((prim subtract totalNodes certifiedNodes : Nat) + ungroundedModels) + magicRootLiterals),
+  axioms: [],
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: computeHostCeilingExcess,
+  parameters: [frameBudgetMicros : Nat, observedFrameMicros : Nat],
+  result: Nat,
+  body: (prim subtract observedFrameMicros frameBudgetMicros : Nat),
+  axioms: [],
+  executable: true,
+  production: {effects: [], targets: [rust-core]}
+}
+
+definition{
+  name: evaluateOntologicalTelosLoss,
+  parameters: [opacityDebt : Nat, legibilityGap : Nat, playerDissonance : Nat, hostCeilingExcess : Nat],
+  result: Nat,
+  body: (((opacityDebt + legibilityGap) + playerDissonance) + hostCeilingExcess),
+  axioms: [],
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: evaluateHolonTelosState,
+  parameters: [host : HostEnvelope, witness : WitnessEnvelope, opacityDebt : Nat, legibilityGap : Nat, playerDissonance : Nat],
+  result: OntologicalTelosEvaluation,
+  body: (let ceilingExcess : Nat := (computeHostCeilingExcess (project host frameBudgetMicros) (project host observedFrameMicros)); (let totalLoss : Nat := (evaluateOntologicalTelosLoss opacityDebt legibilityGap playerDissonance ceilingExcess); (record OntologicalTelosEvaluation {epistemicOpacityDebt := opacityDebt, sensoryLegibilityGap := legibilityGap, playerDissonance := playerDissonance, hostCeilingExcess := ceilingExcess, totalTelosLoss := totalLoss, triadicConnectionActive := ((opacityDebt =? 0) && (project witness activePresence))})))
+}
+
+definition{
+  name: clampParametricCoord,
+  parameters: [val : Nat, minBound : Nat, maxBound : Nat],
+  result: Nat,
+  body: (let hi : Nat := (minBound + (prim subtract maxBound minBound : Nat)); (if (val <=? minBound) then minBound else (if (hi <=? val) then hi else val))),
+  axioms: [],
+  executable: true
+}
+
+definition{
+  name: stepParametricOntologyCoordinate,
+  parameters: [currentVal : Nat, minBound : Nat, maxBound : Nat, lossAtMinus : Nat, lossAtCurrent : Nat, lossAtPlus : Nat, coerciveCount : Nat],
+  result: Nat,
+  body: (let clamped : Nat := (clampParametricCoord currentVal minBound maxBound); (if (0 <? coerciveCount) then clamped else (if ((lossAtMinus <? lossAtCurrent) && (lossAtMinus <=? lossAtPlus)) then (clampParametricCoord (prim subtract clamped 1 : Nat) minBound maxBound) else (if (lossAtPlus <? lossAtCurrent) then (clampParametricCoord (clamped + 1) minBound maxBound) else clamped)))),
+  axioms: [],
+  executable: true,
+  production: {effects: [overflow], targets: [rust-core]}
+}
+
+definition{
+  name: allPrimeRanksStrictlyAscendingUpTo,
+  parameters: [fuel : Nat],
+  result: Bool,
+  body: (match fuel
+    | Nat.zero => (isPrimeConstructive (nthPrimeConstructive 0))
+    | Nat.succ prev => (((isPrimeConstructive (nthPrimeConstructive (prev + 1))) && ((nthPrimeConstructive prev) <? (nthPrimeConstructive (prev + 1)))) && (allPrimeRanksStrictlyAscendingUpTo prev))),
+  axioms: [],
+  recursive_argument: fuel,
+  executable: true
+}
+
+definition{
+  name: allStrataNecessaryUpTo,
+  parameters: [fuel : Nat],
+  result: Bool,
+  body: (match fuel
+    | Nat.zero => ((stratumObstructionWithout 0 false) && (verifyStratumObstructionResolved 0 true true true true))
+    | Nat.succ prev => (((stratumObstructionWithout (prev + 1) false) && (verifyStratumObstructionResolved (prev + 1) true true true true)) && (allStrataNecessaryUpTo prev))),
+  axioms: [],
+  recursive_argument: fuel,
+  executable: true
+}
+
+definition{
+  name: breaksVoidIndistinguishabilityAndDistinction,
+  parameters: [cardinality : Nat],
+  result: Bool,
+  body: (((cardinality <=? 1) && (0 <? (distinctionBitsForCardinality cardinality))) || (((1 + 1) <=? cardinality) && ((distinctionBitsForCardinality cardinality) =? 0)))
+}
+
+theorem{
+  name: voidIndistinguishabilityNecessitatesDistinction,
+  parameters: [cardinality : Nat],
+  statement: ((breaksVoidIndistinguishabilityAndDistinction cardinality) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      breaksVoidIndistinguishabilityAndDistinction,
+      distinctionBitsForCardinality
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+theorem{
+  name: constructivePrimeAtomsStrictlyAscendingFromZeroOne,
+  parameters: [],
+  statement: ((allPrimeRanksStrictlyAscendingUpTo (pow2Constructive ((1 + 1) + 1))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: triadicAgencyProductSynthesizesObserverMediumPlayer,
+  parameters: [],
+  statement: (((((triadicAgencyPrimeProduct true false false) <? (triadicAgencyPrimeProduct true true true)) && ((triadicAgencyPrimeProduct true true false) <? (triadicAgencyPrimeProduct true true true))) && ((isValidAgencyPrimeProduct (triadicAgencyPrimeProduct true true true)) && (not (isValidAgencyPrimeProduct 1)))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+theorem{
+  name: allEightCausalStrataNecessaryAndGameRequiresPlayer,
+  parameters: [],
+  statement: (((allStrataNecessaryUpTo (bitMaskConstructive ((1 + 1) + 1))) && (not (verifyStratumObstructionResolved (bitMaskConstructive ((1 + 1) + 1)) true true true false))) = true),
+  proof: decide{},
+  axioms: []
+}
+
+definition{
+  name: breaksEpistemicOpacityAndTelosDecomposition,
+  parameters: [totalNodes : Nat, certifiedNodes : Nat, legibilityGap : Nat, playerDissonance : Nat],
+  result: Bool,
+  body: (((certifiedNodes <=? totalNodes) && (((computeEpistemicOpacityDebt totalNodes certifiedNodes 0 0) =? 0) && (not (certifiedNodes =? totalNodes)))) || ((evaluateOntologicalTelosLoss (computeEpistemicOpacityDebt totalNodes certifiedNodes 0 0) legibilityGap playerDissonance 0) <? playerDissonance))
+}
+
+theorem{
+  name: epistemicOpacityZeroRequiresFullCertificationAndBoundsTelos,
+  parameters: [totalNodes : Nat, certifiedNodes : Nat, legibilityGap : Nat, playerDissonance : Nat],
+  statement: ((breaksEpistemicOpacityAndTelosDecomposition totalNodes certifiedNodes legibilityGap playerDissonance) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      breaksEpistemicOpacityAndTelosDecomposition,
+      computeEpistemicOpacityDebt,
+      evaluateOntologicalTelosLoss
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+
+definition{
+  name: breaksParametricDescentBoundsAndNonCoercion,
+  parameters: [currentVal : Nat, minBound : Nat, maxBound : Nat, lossMinus : Nat, lossCurrent : Nat, lossPlus : Nat],
+  result: Bool,
+  body: (let stepped : Nat := (stepParametricOntologyCoordinate currentVal minBound maxBound lossMinus lossCurrent lossPlus 0); (let coercedStep : Nat := (stepParametricOntologyCoordinate currentVal minBound maxBound lossMinus lossCurrent lossPlus 1); (((stepped <? minBound) || ((minBound + (prim subtract maxBound minBound : Nat)) <? stepped)) || (not (coercedStep =? (clampParametricCoord currentVal minBound maxBound))))))
+}
+
+theorem{
+  name: parametricOntologyDescentBoundedAndNonCoercive,
+  parameters: [currentVal : Nat, minBound : Nat, maxBound : Nat, lossMinus : Nat, lossCurrent : Nat, lossPlus : Nat],
+  statement: ((breaksParametricDescentBoundsAndNonCoercion currentVal minBound maxBound lossMinus lossCurrent lossPlus) = false),
+  proof: linear_arithmetic{
+    definitions: [
+      breaksParametricDescentBoundsAndNonCoercion,
+      clampParametricCoord,
+      stepParametricOntologyCoordinate
+    ]
+  },
+  axioms: [Quot.sound, propext]
+}
+\end{semanticmodule}
+\end{lexlean}

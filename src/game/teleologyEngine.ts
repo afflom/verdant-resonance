@@ -18,12 +18,27 @@
 import {
   GENERATED_ALPHA_OMEGA_COSMOGENESIS_ARTIFACTS,
   GENERATED_CANONICAL_MODEL_BASIS_PRIMES,
+  GENERATED_ONTOLOGY_5WH_LEDGER,
   GENERATED_PRISM_BUS_MODULATION_LUT,
   GENERATED_PRISM_STANDARDS,
 } from './generatedPrismConstants';
 import {
+  certifiedWasmCore_bitMaskConstructive,
+  certifiedWasmCore_computeEpistemicOpacityDebt,
+  certifiedWasmCore_computeHostCeilingExcess,
+  certifiedWasmCore_distinctionBitsForCardinality,
+  certifiedWasmCore_evaluateOntologicalTelosLoss,
+  certifiedWasmCore_fibonacciConstructive,
+  certifiedWasmCore_harmonicConsonanceComplexity,
+  certifiedWasmCore_isPrimeConstructive,
+  certifiedWasmCore_nthPrimeConstructive,
+  certifiedWasmCore_pow2Constructive,
   certifiedWasmCore_stepCuratorialAffinityPermille,
+  certifiedWasmCore_stepParametricOntologyCoordinate,
   certifiedWasmCore_stepTeleologyBusModulation,
+  certifiedWasmCore_triadicAgencyPrimeProduct,
+  certifiedWasmCore_verifyStratumObstructionResolved,
+  certifiedWasmCore_verifyW5HCertificateComplete,
 } from './generatedCertifiedWasmBridge';
 import { CANONICAL_22_MODEL_KEYS, type CanonicalStandardModelKey } from './neuromorphicFunctorBus';
 
@@ -99,416 +114,40 @@ export interface EnvironmentalTeleologicalPhenomenon {
  *  - 5 Living Ecosystem, Atmospheric & Celestial Phenomena (`canopyAndTurfInstanced`, `lagoonAndSporeStream`, `biomeConstellationBeams`, `mycorrhizalFilamentsAndGuidance`, `celestialStarDomeAndAurora`)
  *  - 1 Embodied Co-Observer Presence (`immanentWitnessAndPlayerLocus`)
  */
+const mkPhenom = (
+  phenomenonId: string, sceneGroupKey: SceneGroupKey20, category: TeleologicalPhenomenonCategory,
+  biome: TeleologyBiomeScope, displayName: string, shortPurposeCue: string,
+  requiringModels: readonly CanonicalStandardModelKey[], environmentalRequirement: string,
+  nativeSubstrateCompound: EnvironmentalTeleologicalPhenomenon['nativeSubstrateCompound'],
+  nativeChemicalFormula: string, environmentalSynthesisOrigin: string,
+  gameplayPurpose: string, interactiveGameplayResponse: string, basePurposeGainPermille: number,
+): EnvironmentalTeleologicalPhenomenon => ({
+  phenomenonId, sceneGroupKey, category, biome, displayName, shortPurposeCue, requiringModels,
+  environmentalRequirement, nativeSubstrateCompound, nativeChemicalFormula,
+  environmentalSynthesisOrigin, gameplayPurpose, interactiveGameplayResponse, basePurposeGainPermille,
+});
+
 export const VERDANT_TELEOLOGICAL_PHENOMENA: readonly EnvironmentalTeleologicalPhenomenon[] = Object.freeze([
-  // --- 1..5: The 5 Biome Architectural Landmarks ---
-  {
-    phenomenonId: 'landmark-meadow-sundial',
-    sceneGroupKey: 'meadowMonument',
-    category: 'biome-landmark',
-    biome: 'meadow',
-    displayName: 'Meridian Solar Sundial',
-    shortPurposeCue: 'Circadian Solar Gnomon · Synchronizes Meadow Bloom Phase',
-    requiringModels: ['botany', 'physics', 'graphics'],
-    environmentalRequirement:
-      'Sunlit Meadow C3 flora require an exact diurnal meridian reference to synchronize stomatal turgor and morning corolla opening across shifting solar elevations.',
-    nativeSubstrateCompound: 'travertine-limestone-plinth',
-    nativeChemicalFormula: 'CaCO3 + CuSnAu + Fe2O3',
-    environmentalSynthesisOrigin:
-      'Synthesized in situ by the Observer via photonic-acoustic standing-wave calcification of meadow limestone travertine and native solar bronze.',
-    gameplayPurpose:
-      'Anchors the meadow photoperiod and focuses warm Lydian fourth overtones across surrounding Chime Lilies.',
-    interactiveGameplayResponse:
-      'Approaching, touching, or attuning near the Sundial aligns its solar crystal gnomon, rings a warm Lydian bell-stone chime, and nourishes nearby meadow blossoms.',
-    basePurposeGainPermille: 860,
-  },
-  {
-    phenomenonId: 'landmark-grove-pergola',
-    sceneGroupKey: 'groveMonument',
-    category: 'biome-landmark',
-    biome: 'grove',
-    displayName: 'Silicified Bamboo Chime Pergola',
-    shortPurposeCue: 'Wind-Shear Resonator · Transduces Canopy Breeze into Dorian Chimes',
-    requiringModels: ['acoustics', 'ecology', 'articulation'],
-    environmentalRequirement:
-      'High canopy wind shear in the Ancient Grove would buffet delicate fern croziers unless turbulent gusts are baffled and transduced into steady rhythmic overtones.',
-    nativeSubstrateCompound: 'lignocellulosic-vascular-tissue',
-    nativeChemicalFormula: '(C6H10O5)n · SiO2 + CuSn',
-    environmentalSynthesisOrigin:
-      'Woven by the Observer from four mature silicified bamboo culms arched into a self-bracing Euclidean ring suspending six hollow tubular resonators.',
-    gameplayPurpose:
-      'Calms turbulent wind into Dorian polyrhythmic chimes that entrain Pulse Fern crozier unfurling.',
-    interactiveGameplayResponse:
-      'Touching or attuning beneath the Pergola sets all six suspended chime tubes swinging in harmonic phase and ripples rhythmic vitality through nearby ferns.',
-    basePurposeGainPermille: 880,
-  },
-  {
-    phenomenonId: 'landmark-crystal-archway',
-    sceneGroupKey: 'crystalMonument',
-    category: 'biome-landmark',
-    biome: 'crystal',
-    displayName: 'Piezoelectric Quartz Geode Archway',
-    shortPurposeCue: 'Spectral Prism Focus · Disperses Light & Standing Waves for Epiphytes',
-    requiringModels: ['chemistry', 'spatialAcoustics', 'botany'],
-    environmentalRequirement:
-      'Subterranean Crystalline Hollow pockets lack direct sky irradiance and trap harsh echoes unless a birefringent quartz lens disperses light and focuses standing waves.',
-    nativeSubstrateCompound: 'piezoelectric-quartz-geode',
-    nativeChemicalFormula: 'SiO2 + MgFeSiO4 + Bi2O3',
-    environmentalSynthesisOrigin:
-      'Nucleated by the Observer along hydrothermal piezoelectric nodal lines, cantilevers six Bravais quartz spires into a hexagonal keystone suspending a rotating core prism.',
-    gameplayPurpose:
-      'Refracts thin-film spectral light onto lithophytic Star Orchids and tunes the cavern to pure crystalline seventh harmonics.',
-    interactiveGameplayResponse:
-      'Attuning or resting near the Archway accelerates its levitating quartz core, flares thin-film iridescence, and sings glass-harmonica overtones across the hollow.',
-    basePurposeGainPermille: 910,
-  },
-  {
-    phenomenonId: 'landmark-wetland-lanterns',
-    sceneGroupKey: 'wetlandMonument',
-    category: 'biome-landmark',
-    biome: 'wetland',
-    displayName: 'Hydro-Meniscus Lantern Piers',
-    shortPurposeCue: 'Bioluminescent Tufa Piers · Oxygenates Lagoon & Guides Safe Wading',
-    requiringModels: ['physics', 'ecology', 'humane'],
-    environmentalRequirement:
-      'Still pelagic water loses dissolved oxygen at dusk and obscures shallow wading depth unless anchored tufa piers aerate the meniscus and cast gentle bioluminescence.',
-    nativeSubstrateCompound: 'pelagic-water-column',
-    nativeChemicalFormula: 'CaCO3 · H2O + C11H8N2O3S2 (Luciferin)',
-    environmentalSynthesisOrigin:
-      'Precipitated by the Observer from lakebed calcium tufa columns crowned with symbiotic luciferin-quartz lantern chambers.',
-    gameplayPurpose:
-      'Sustains Echo Lotus buoyancy, reflects antiphonal water-harp echoes across the lagoon, and illuminates calm twilight traversal.',
-    interactiveGameplayResponse:
-      'Wading, touching, or attuning by the Lantern Piers pulses their bioluminescent orbs, radiates concentric cymatic meniscus rings, and awakens floating lotuses.',
-    basePurposeGainPermille: 890,
-  },
-  {
-    phenomenonId: 'landmark-sanctuary-pavilion',
-    sceneGroupKey: 'sanctuaryMonument',
-    category: 'biome-landmark',
-    biome: 'sanctuary',
-    displayName: 'Sanctuary Harmonic Pavilion',
-    shortPurposeCue: 'Central Convergence Rotunda · Unites All Five Biome Choirs in Stillness',
-    requiringModels: ['soundtrack', 'cosmogenesis', 'anamnesis', 'humane'],
-    environmentalRequirement:
-      'Five distinct biome modes and scattered flora choirs require a central acoustic amphitheater to phase-lock into a unified conservatory chorus and consolidate memory.',
-    nativeSubstrateCompound: 'harmonic-bronze-astrolabe',
-    nativeChemicalFormula: 'CaCO3 + SiO2 + CuSnAu',
-    environmentalSynthesisOrigin:
-      'Crystallized by the Observer at the conservatory’s five-fold nodal origin from fluted travertine colonnades and a counter-rotating harmonic bronze astrolabe.',
-    gameplayPurpose:
-      'Gathers every awakened biome voice into the Sanctuary Chorus and anchors restorative stillness at the heart of the garden.',
-    interactiveGameplayResponse:
-      'Practicing stillness or attuning within the Pavilion harmonizes its gimbal rings, blossoms the overhead astrolabe crown, and swells the multi-octave Sanctuary Choir.',
-    basePurposeGainPermille: 960,
-  },
-
-  // --- 6..9: Mineral Traversal, Terrace & Acoustic Rim Substrates ---
-  {
-    phenomenonId: 'substrate-stepping-stones',
-    sceneGroupKey: 'stepStonesMesh',
-    category: 'traversal-substrate',
-    biome: 'conservatory',
-    displayName: 'Piezo-Travertine Lithophone Waystones',
-    shortPurposeCue: 'Root-Loam Protection, Wayfinding & Tuned Footstep Lithophones',
-    requiringModels: ['ecology', 'humane', 'physics', 'soundtrack', 'dharma'],
-    environmentalRequirement:
-      'Repeated footsteps over porous humic soil and delicate mycelial mats would compact root zones unless load-bearing mineral flagstones guide gentle traversal.',
-    nativeSubstrateCompound: 'travertine-limestone-plinth',
-    nativeChemicalFormula: 'CaCO3 + SiO2',
-    environmentalSynthesisOrigin:
-      'Calcified by the Observer along minimum-slope geodesic contours into 64 resonant travertine flagstones tuned to 5-limit Just-Intonation intervals.',
-    gameplayPurpose:
-      'Protects living soil permeability, provides clear visual wayfinding without UI arrows, and rings soft travertine marimba overtones underfoot.',
-    interactiveGameplayResponse:
-      'Stepping from flagstone to flagstone rings delicate biome-tuned lithophone notes and radiates mineral footstep ripples.',
-    basePurposeGainPermille: 830,
-  },
-  {
-    phenomenonId: 'substrate-biome-terraces',
-    sceneGroupKey: 'biomeChladniTerraces',
-    category: 'traversal-substrate',
-    biome: 'conservatory',
-    displayName: 'Chladni Acoustic Labyrinth & Biome Plinth Terraces',
-    shortPurposeCue: 'Standing-Wave Nodal Plinths & Slope Erosion Retention',
-    requiringModels: ['spatialAcoustics', 'physics', 'ecology', 'mathematics'],
-    environmentalRequirement:
-      'Sloped basin soils erode under rainfall and scatter ground-level sound waves unless concentric stone terraces stabilize the grade and focus early acoustic arrivals.',
-    nativeSubstrateCompound: 'travertine-limestone-plinth',
-    nativeChemicalFormula: 'CaCO3 + MgCa(CO3)2',
-    environmentalSynthesisOrigin:
-      'Deposited by the Observer at exact UOR Just-Intonation Chladni nodal radii around each biome landmark to retain moisture and focus reflections.',
-    gameplayPurpose:
-      'Frames contemplative gathering spaces around each landmark and illuminates Chladni nodal rings when inhabited.',
-    interactiveGameplayResponse:
-      'Standing, attuning, or resting in stillness on a terrace illuminates its concentric Chladni nodal rings and clarifies binaural flora echoes.',
-    basePurposeGainPermille: 820,
-  },
-  {
-    phenomenonId: 'substrate-shoreline-boulders',
-    sceneGroupKey: 'shorelineBankGroup',
-    category: 'traversal-substrate',
-    biome: 'wetland',
-    displayName: 'Stratified Shoreline Boulders & Bravais Mineral Druses',
-    shortPurposeCue: 'Hydrostatic Lagoon Embankment & 14-Lattice Lithophyte Micro-Habitats',
-    requiringModels: ['chemistry', 'physics', 'botany'],
-    environmentalRequirement:
-      'The Mirror Lagoon basin requires a mineral retention rim to hold hydrostatic water level and provide damp mineral crevices for bryophytes and all 14 Bravais crystal habits.',
-    nativeSubstrateCompound: 'piezoelectric-quartz-geode',
-    nativeChemicalFormula: 'MgFeSiO4 + SiO2',
-    environmentalSynthesisOrigin:
-      'Uplifted and weathered in situ by the Observer along the lagoon perimeter, hosting gleaming IUCr Bravais crystal druse clusters.',
-    gameplayPurpose:
-      'Bounds the hydrostatic wetland basin, refracts thin-film shoreline highlights, and reflects capillary waves.',
-    interactiveGameplayResponse:
-      'Reflects water-harp ripples back across the lagoon meniscus as the player wades or attunes nearby.',
-    basePurposeGainPermille: 800,
-  },
-  {
-    phenomenonId: 'substrate-amphitheater-rim-outcrops',
-    sceneGroupKey: 'rocksInstanced',
-    category: 'traversal-substrate',
-    biome: 'conservatory',
-    displayName: 'Parabolic Amphitheater Rim Outcrops',
-    shortPurposeCue: 'Sabine Acoustic Shell & Perimeter Microclimate Windbreak',
-    requiringModels: ['spatialAcoustics', 'physics', 'ecology'],
-    environmentalRequirement:
-      'Without a dense mineral perimeter rim, conservatory sound energy would leak into open space (collapsing Sabine reverberation) and cold ridge winds would desiccate the basin.',
-    nativeSubstrateCompound: 'travertine-limestone-plinth',
-    nativeChemicalFormula: 'CaSiO3 + CaCO3 + MgFeSiO4',
-    environmentalSynthesisOrigin:
-      'Folded and stratified by the Observer along the 52m amphitheater perimeter via Urey calcium-silicate weathering equilibria.',
-    gameplayPurpose:
-      'Forms a natural parabolic acoustic shell that reflects late reverberation back into the garden and gently bounds exploration without invisible walls.',
-    interactiveGameplayResponse:
-      'Reflects 3D early-arrival echoes and deflects drifting chemotactic spores back into the fertile basin.',
-    basePurposeGainPermille: 810,
-  },
-
-  // --- 10..14: The 5 Botanical Species ---
-  {
-    phenomenonId: 'flora-chime-lily',
-    sceneGroupKey: 'floraChimeLily',
-    category: 'botanical-species',
-    biome: 'meadow',
-    displayName: 'Chime Lily (Campanula Resonans)',
-    shortPurposeCue: 'Solar Bell Corolla · Sings Bright Lydian Overtones',
-    requiringModels: ['botany', 'morphogenesis', 'acoustics'],
-    environmentalRequirement:
-      'Open sunlit turf requires a high-albedo campanulate pollinator species to convert morning PAR photons and breeze into clear upper-register harmonic beacons.',
-    nativeSubstrateCompound: 'humic-loam-soil',
-    nativeChemicalFormula: 'C55H72MgN4O5 (Chlorophyll-a) + C10H16 (Terpenes)',
-    environmentalSynthesisOrigin:
-      'Grown by the Observer from humic meadow loam via Murray cubic vascular branching and fluted 8-lobe bell morphogenesis.',
-    gameplayPurpose:
-      'Awakens bright melodic chimes on gentle touch or attunement and initiates sympathetic cross-pollination arcs.',
-    interactiveGameplayResponse:
-      'Swings its bell corollas, releases golden spore bursts, and chimes pure Just-Intonation intervals.',
-    basePurposeGainPermille: 850,
-  },
-  {
-    phenomenonId: 'flora-pulse-fern',
-    sceneGroupKey: 'floraPulseFern',
-    category: 'botanical-species',
-    biome: 'grove',
-    displayName: 'Pulse Fern (Pteris Polyrhythmica)',
-    shortPurposeCue: 'Fibonacci Crozier · Grounds Understory Polyrhythms',
-    requiringModels: ['botany', 'morphogenesis', 'articulation'],
-    environmentalRequirement:
-      'Dappled grove shade requires broad pinnate fronds to harvest filtered green-edge photons and logarithmic croziers to pulse nutrients from forest humus.',
-    nativeSubstrateCompound: 'lignocellulosic-vascular-tissue',
-    nativeChemicalFormula: '(C6H10O5)n + K+ / Ca2+ Turgor',
-    environmentalSynthesisOrigin:
-      'Synthesized by the Observer from forest litter humus following Vogel 137.508° spiral phyllotaxis.',
-    gameplayPurpose:
-      'Provides warm rhythmic pulse counterpoint as the player strolls or attunes beneath the bamboo canopy.',
-    interactiveGameplayResponse:
-      'Unfurls its spiral croziers and breathes in polyrhythmic Dorian cadence with neighboring ferns.',
-    basePurposeGainPermille: 850,
-  },
-  {
-    phenomenonId: 'flora-echo-lotus',
-    sceneGroupKey: 'floraEchoLotus',
-    category: 'botanical-species',
-    biome: 'wetland',
-    displayName: 'Echo Lotus (Nelumbo Antiphona)',
-    shortPurposeCue: 'Hydrostatic Chalice · Sustains Antiphonal Water Reflections',
-    requiringModels: ['botany', 'physics', 'soundtrack'],
-    environmentalRequirement:
-      'Nutrient-rich lagoon water requires buoyant cordate pads to shade pelagic algae and hydrophobic chalices to exchange dissolved gases.',
-    nativeSubstrateCompound: 'pelagic-water-column',
-    nativeChemicalFormula: 'H2O + Wax Cuticle + Luciferin',
-    environmentalSynthesisOrigin:
-      'Germinated by the Observer in shallow wetland silt, rising to hydrostatic equilibrium on the Mirror Lagoon meniscus.',
-    gameplayPurpose:
-      'Voices tranquil antiphonal echoes across the water and co-regulates unhurried breathing.',
-    interactiveGameplayResponse:
-      'Bobs gently on lagoon ripples, opens luminous inner petals, and answers player gestures with liquid echoes.',
-    basePurposeGainPermille: 860,
-  },
-  {
-    phenomenonId: 'flora-drone-moss',
-    sceneGroupKey: 'floraDroneMoss',
-    category: 'botanical-species',
-    biome: 'sanctuary',
-    displayName: 'Drone Moss (Bryum Sustenuto)',
-    shortPurposeCue: 'Bryophyte Cushion · Anchors Deep Pedal-Tone Harmony',
-    requiringModels: ['ecology', 'acoustics', 'botany'],
-    environmentalRequirement:
-      'Exposed rock and sanctuary terraces require moisture-retaining bryophyte mats to pioneer mineral weathering and anchor low-frequency acoustic warmth.',
-    nativeSubstrateCompound: 'bryophyte-peat-mat',
-    nativeChemicalFormula: 'Organic Peat + Chelated Mg / Fe',
-    environmentalSynthesisOrigin:
-      'Spore-settled by the Observer across damp stone joints into compressible cushions with spore-bearing seta capsules.',
-    gameplayPurpose:
-      'Sustains the soothing fundamental bass drone of the conservatory and cushions footsteps softly.',
-    interactiveGameplayResponse:
-      'Compresses elastically underfoot and swells warm harmonic drones during stillness.',
-    basePurposeGainPermille: 840,
-  },
-  {
-    phenomenonId: 'flora-star-orchid',
-    sceneGroupKey: 'floraStarOrchid',
-    category: 'botanical-species',
-    biome: 'crystal',
-    displayName: 'Star Orchid (Epidendrum Sidereum)',
-    shortPurposeCue: 'Lithophytic Epiphyte · Voices Celestial Twilight Harmonics',
-    requiringModels: ['botany', 'chemistry', 'graphics'],
-    environmentalRequirement:
-      'Mineral quartz outcrops without deep soil require an aerial-root lithophyte capable of capturing atmospheric mist and piezo-luminescent twilight.',
-    nativeSubstrateCompound: 'piezoelectric-quartz-geode',
-    nativeChemicalFormula: 'SiO2 Holdfast + Anthocyanin / Flavone Chromophores',
-    environmentalSynthesisOrigin:
-      'Anchored by the Observer onto Bravais crystal facets with Thin-Film iridescent tepals.',
-    gameplayPurpose:
-      'Crowns twilight and starlight exploration with shimmering crystalline choir overtones.',
-    interactiveGameplayResponse:
-      'Rotates its stellate flower head toward the observer and shimmers with thin-film spectral iridescence.',
-    basePurposeGainPermille: 880,
-  },
-
-  // --- 15..19: Living Ecosystem, Atmospheric & Celestial Phenomena ---
-  {
-    phenomenonId: 'ecosystem-canopy-and-turf',
-    sceneGroupKey: 'canopyAndTurfInstanced',
-    category: 'ecological-phenomenon',
-    biome: 'conservatory',
-    displayName: 'Phyllotactic Canopy Forest & Permeable Meadow Turf',
-    shortPurposeCue: 'Microclimate Shelter, Carbon Cycling & Living Wind Field',
-    requiringModels: ['ecology', 'botany', 'physics'],
-    environmentalRequirement:
-      'An open basin without overstory trees or groundcover would suffer desiccating wind and radiative heat loss; a closed-loop ecosystem requires 64 canopy crowns and 360 turf blades.',
-    nativeSubstrateCompound: 'lignocellulosic-vascular-tissue',
-    nativeChemicalFormula: '6CO2 + 6H2O -> C6H12O6 + 6O2',
-    environmentalSynthesisOrigin:
-      'Differentiated by the Observer across perimeter ridges and sunny clearings to close the conservatory carbon-water-oxygen cycle.',
-    gameplayPurpose:
-      'Makes invisible wind currents visible through swaying crowns and Hookean grass deflection around the player’s stride.',
-    interactiveGameplayResponse:
-      'Parts gently around the player’s footsteps and sways in unified gusts with the windscape.',
-    basePurposeGainPermille: 830,
-  },
-  {
-    phenomenonId: 'ecosystem-lagoon-cymatics-and-spores',
-    sceneGroupKey: 'lagoonAndSporeStream',
-    category: 'ecological-phenomenon',
-    biome: 'conservatory',
-    displayName: 'Mirror Lagoon Cymatics & Chemotactic Spore Streams',
-    shortPurposeCue: 'Visible Acoustic Standing Waves & Airborne Pollination',
-    requiringModels: ['physics', 'acoustics', 'ecology'],
-    environmentalRequirement:
-      'Botanical cross-pollination and acoustic resonance require physical transport media—airborne chemotactic spores and water-surface standing waves—to connect distant flora.',
-    nativeSubstrateCompound: 'pelagic-water-column',
-    nativeChemicalFormula: 'H2O Capillary Waves + Volatile Terpene Aerosols',
-    environmentalSynthesisOrigin:
-      'Emerges continuously from Stokes-buoyant spore advection and 24-Bark acoustic energy coupling into the lagoon surface.',
-    gameplayPurpose:
-      'Gently guides the player toward unawakened blossoms via living spore streams rather than artificial UI arrows.',
-    interactiveGameplayResponse:
-      'Streams luminous spores toward beckoning flora and ripples in sympathy with every note.',
-    basePurposeGainPermille: 870,
-  },
-  {
-    phenomenonId: 'ecosystem-terpene-tyndall-columns',
-    sceneGroupKey: 'biomeConstellationBeams',
-    category: 'ecological-phenomenon',
-    biome: 'conservatory',
-    displayName: 'Terpene Tyndall Resonance Columns & Crown Halos',
-    shortPurposeCue: 'Volatile Pinene Plumes · Horizon-Scale Biome Wayfinding & Mastery Cue',
-    requiringModels: ['chemistry', 'acoustics', 'graphics', 'ecology'],
-    environmentalRequirement:
-      'Awakened flora transpire volatile alpha-pinene terpenes (`C10H16`) that accumulate over each biome landmark; without vertical acoustic convection, dense aerosols would stagnate near the ground.',
-    nativeSubstrateCompound: 'volatile-terpene-aerosol',
-    nativeChemicalFormula: 'C10H16 (alpha-Pinene) + H2O Mist Tyndall Scattering',
-    environmentalSynthesisOrigin:
-      'Entrained upward by the Observer along each landmark’s vertical Chladni pressure node, scattering diurnal sunlight into a soft vertical Tyndall column and torus vortex halo.',
-    gameplayPurpose:
-      'Provides serene, natural horizon-scale orientation to all five biome landmarks and visually reflects each biome’s awakened flora harmony without HUD markers.',
-    interactiveGameplayResponse:
-      'Brightens and spins faster above each landmark as native flora awaken, release volatile terpenes, or resonate with player gestures.',
-    basePurposeGainPermille: 865,
-  },
-  {
-    phenomenonId: 'ecosystem-mycorrhizal-arcs-and-guidance',
-    sceneGroupKey: 'mycorrhizalFilamentsAndGuidance',
-    category: 'ecological-phenomenon',
-    biome: 'conservatory',
-    displayName: 'Mycorrhizal Action-Potential Arcs & Chemotactic Guidance Rings',
-    shortPurposeCue: 'Chitin-Hyphal Signal Conduction & Diegetic Ground Invitations',
-    requiringModels: ['ecology', 'articulation', 'neuromorphic', 'humane', 'dharma'],
-    environmentalRequirement:
-      'Sessile plants separated by meters of soil require chitin-hyphal action potentials (`Ca2+` waves) and spore-filament arcs to coordinate sympathetic blooming and invite pollinator attention.',
-    nativeSubstrateCompound: 'mycorrhizal-hyphal-network',
-    nativeChemicalFormula: '(C8H13O5N)n (Chitin) + Ca2+ / ATP Action Potentials',
-    environmentalSynthesisOrigin:
-      'Woven by the Observer through subterranean chitin-glucan hyphae and parabolic aerial bio-filaments linking kin specimens.',
-    gameplayPurpose:
-      'Reveals live cross-pollination cascades when a plant awakens and traces soft ground-hugging mycelial rings toward unawakened specimens.',
-    interactiveGameplayResponse:
-      'Launches luminous traveling action-potential orbs to neighboring flora on `[Space]` Attune or Witness communion, triggering sympathetic shiver and bloom.',
-    basePurposeGainPermille: 895,
-  },
-  {
-    phenomenonId: 'ecosystem-celestial-photoperiod-dome',
-    sceneGroupKey: 'celestialStarDomeAndAurora',
-    category: 'ecological-phenomenon',
-    biome: 'conservatory',
-    displayName: 'Celestial Photoperiod Dome & Magnetospheric Ion Veil',
-    shortPurposeCue: 'Crepuscular Starlight Reference & Nocturnal Epiphyte Excitation',
-    requiringModels: ['botany', 'graphics', 'physics', 'cosmogenesis'],
-    environmentalRequirement:
-      'Nocturnal and crepuscular species (`Star Orchid`, `Echo Lotus`) require spectral twilight/starlight sky irradiance and geomagnetic orientation cues when direct solar PAR subsides.',
-    nativeSubstrateCompound: 'magnetospheric-ion-plasma',
-    nativeChemicalFormula: 'O(1S -> 1D) 557.7nm Airglow + N2+ Magnetospheric Veil',
-    environmentalSynthesisOrigin:
-      'Projected by the Observer across the upper atmospheric hemisphere from 260 stellar photoperiod anchors and a subtle 557.7nm oxygen airglow ribbon.',
-    gameplayPurpose:
-      'Envelops twilight and starlight contemplation in a living celestial canopy whose aurora ripples gently with conservatory harmony.',
-    interactiveGameplayResponse:
-      'Emerges smoothly at dusk and starlight, undulating its airglow veil in phase with awakened garden harmony.',
-    basePurposeGainPermille: 855,
-  },
-
-  // --- 20: Embodied Co-Observer Presence ---
-  {
-    phenomenonId: 'embodied-co-observer-witness',
-    sceneGroupKey: 'immanentWitnessAndPlayerLocus',
-    category: 'embodied-witness',
-    biome: 'conservatory',
-    displayName: 'Immanent Co-Observer Witness & Player Harmonic Locus',
-    shortPurposeCue: 'Shared Presence · Direct Communion & Sympathetic Garden Stewardship',
-    requiringModels: ['cosmogenesis', 'neuromorphic', 'humane', 'vedanta', 'dharma'],
-    environmentalRequirement:
-      'Because the Observer creates and inhabits the conservatory alongside the player, its presence must appear diegetically within the garden rather than as detached backend menus.',
-    nativeSubstrateCompound: 'harmonic-bronze-astrolabe',
-    nativeChemicalFormula: 'SiO2 Core + CuSnAu Gimbals',
-    environmentalSynthesisOrigin:
-      'Manifested by the Observer as a serene 7-part sculptural companion along the garden’s paths and a subtle harmonic locus ring beneath the player’s feet.',
-    gameplayPurpose:
-      'Walks alongside the player at a respectful distance, answers direct contemplative communion, and bridges resonant energy to unawakened flora.',
-    interactiveGameplayResponse:
-      'Focusing on the Witness and pressing `[Space]` Attune, `[T]` Touch, or `[C]` Stillness rings a warm quartz-bronze astrolabe chord, deepens its reciprocal bow, and sends a sympathetic arc to nearby flora.',
-    basePurposeGainPermille: 940,
-  },
+  mkPhenom('landmark-meadow-sundial', 'meadowMonument', 'biome-landmark', 'meadow', 'Meridian Solar Sundial', 'Circadian Solar Gnomon · Synchronizes Meadow Bloom Phase', ['botany', 'physics', 'graphics'], 'Sunlit Meadow C3 flora require an exact diurnal meridian reference to synchronize stomatal turgor and morning corolla opening across shifting solar elevations.', 'travertine-limestone-plinth', 'CaCO3 + CuSnAu + Fe2O3', 'Synthesized in situ by the Observer via photonic-acoustic standing-wave calcification of meadow limestone travertine and native solar bronze.', 'Anchors the meadow photoperiod and focuses warm Lydian fourth overtones across surrounding Chime Lilies.', 'Approaching, touching, or attuning near the Sundial aligns its solar crystal gnomon, rings a warm Lydian bell-stone chime, and nourishes nearby meadow blossoms.', 860),
+  mkPhenom('landmark-grove-pergola', 'groveMonument', 'biome-landmark', 'grove', 'Silicified Bamboo Chime Pergola', 'Wind-Shear Resonator · Transduces Canopy Breeze into Dorian Chimes', ['acoustics', 'ecology', 'articulation'], 'High canopy wind shear in the Ancient Grove would buffet delicate fern croziers unless turbulent gusts are baffled and transduced into steady rhythmic overtones.', 'lignocellulosic-vascular-tissue', '(C6H10O5)n · SiO2 + CuSn', 'Woven by the Observer from four mature silicified bamboo culms arched into a self-bracing Euclidean ring suspending six hollow tubular resonators.', 'Calms turbulent wind into Dorian polyrhythmic chimes that entrain Pulse Fern crozier unfurling.', 'Touching or attuning beneath the Pergola sets all six suspended chime tubes swinging in harmonic phase and ripples rhythmic vitality through nearby ferns.', 880),
+  mkPhenom('landmark-crystal-archway', 'crystalMonument', 'biome-landmark', 'crystal', 'Piezoelectric Quartz Geode Archway', 'Spectral Prism Focus · Disperses Light & Standing Waves for Epiphytes', ['chemistry', 'spatialAcoustics', 'botany'], 'Subterranean Crystalline Hollow pockets lack direct sky irradiance and trap harsh echoes unless a birefringent quartz lens disperses light and focuses standing waves.', 'piezoelectric-quartz-geode', 'SiO2 + MgFeSiO4 + Bi2O3', 'Nucleated by the Observer along hydrothermal piezoelectric nodal lines, cantilevers six Bravais quartz spires into a hexagonal keystone suspending a rotating core prism.', 'Refracts thin-film spectral light onto lithophytic Star Orchids and tunes the cavern to pure crystalline seventh harmonics.', 'Attuning or resting near the Archway accelerates its levitating quartz core, flares thin-film iridescence, and sings glass-harmonica overtones across the hollow.', 910),
+  mkPhenom('landmark-wetland-lanterns', 'wetlandMonument', 'biome-landmark', 'wetland', 'Hydro-Meniscus Lantern Piers', 'Bioluminescent Tufa Piers · Oxygenates Lagoon & Guides Safe Wading', ['physics', 'ecology', 'humane'], 'Still pelagic water loses dissolved oxygen at dusk and obscures shallow wading depth unless anchored tufa piers aerate the meniscus and cast gentle bioluminescence.', 'pelagic-water-column', 'CaCO3 · H2O + C11H8N2O3S2 (Luciferin)', 'Precipitated by the Observer from lakebed calcium tufa columns crowned with symbiotic luciferin-quartz lantern chambers.', 'Sustains Echo Lotus buoyancy, reflects antiphonal water-harp echoes across the lagoon, and illuminates calm twilight traversal.', 'Wading, touching, or attuning by the Lantern Piers pulses their bioluminescent orbs, radiates concentric cymatic meniscus rings, and awakens floating lotuses.', 890),
+  mkPhenom('landmark-sanctuary-pavilion', 'sanctuaryMonument', 'biome-landmark', 'sanctuary', 'Sanctuary Harmonic Pavilion', 'Central Convergence Rotunda · Unites All Five Biome Choirs in Stillness', ['soundtrack', 'cosmogenesis', 'anamnesis', 'humane'], 'Five distinct biome modes and scattered flora choirs require a central acoustic amphitheater to phase-lock into a unified conservatory chorus and consolidate memory.', 'harmonic-bronze-astrolabe', 'CaCO3 + SiO2 + CuSnAu', 'Crystallized by the Observer at the conservatory’s five-fold nodal origin from fluted travertine colonnades and a counter-rotating harmonic bronze astrolabe.', 'Gathers every awakened biome voice into the Sanctuary Chorus and anchors restorative stillness at the heart of the garden.', 'Practicing stillness or attuning within the Pavilion harmonizes its gimbal rings, blossoms the overhead astrolabe crown, and swells the multi-octave Sanctuary Choir.', 960),
+  mkPhenom('substrate-stepping-stones', 'stepStonesMesh', 'traversal-substrate', 'conservatory', 'Piezo-Travertine Lithophone Waystones', 'Root-Loam Protection, Wayfinding & Tuned Footstep Lithophones', ['ecology', 'humane', 'physics', 'soundtrack', 'dharma'], 'Repeated footsteps over porous humic soil and delicate mycelial mats would compact root zones unless load-bearing mineral flagstones guide gentle traversal.', 'travertine-limestone-plinth', 'CaCO3 + SiO2', 'Calcified by the Observer along minimum-slope geodesic contours into 64 resonant travertine flagstones tuned to 5-limit Just-Intonation intervals.', 'Protects living soil permeability, provides clear visual wayfinding without UI arrows, and rings soft travertine marimba overtones underfoot.', 'Stepping from flagstone to flagstone rings delicate biome-tuned lithophone notes and radiates mineral footstep ripples.', 830),
+  mkPhenom('substrate-biome-terraces', 'biomeChladniTerraces', 'traversal-substrate', 'conservatory', 'Chladni Acoustic Labyrinth & Biome Plinth Terraces', 'Standing-Wave Nodal Plinths & Slope Erosion Retention', ['spatialAcoustics', 'physics', 'ecology', 'mathematics'], 'Sloped basin soils erode under rainfall and scatter ground-level sound waves unless concentric stone terraces stabilize the grade and focus early acoustic arrivals.', 'travertine-limestone-plinth', 'CaCO3 + MgCa(CO3)2', 'Deposited by the Observer at exact UOR Just-Intonation Chladni nodal radii around each biome landmark to retain moisture and focus reflections.', 'Frames contemplative gathering spaces around each landmark and illuminates Chladni nodal rings when inhabited.', 'Standing, attuning, or resting in stillness on a terrace illuminates its concentric Chladni nodal rings and clarifies binaural flora echoes.', 820),
+  mkPhenom('substrate-shoreline-boulders', 'shorelineBankGroup', 'traversal-substrate', 'wetland', 'Stratified Shoreline Boulders & Bravais Mineral Druses', 'Hydrostatic Lagoon Embankment & 14-Lattice Lithophyte Micro-Habitats', ['chemistry', 'physics', 'botany'], 'The Mirror Lagoon basin requires a mineral retention rim to hold hydrostatic water level and provide damp mineral crevices for bryophytes and all 14 Bravais crystal habits.', 'piezoelectric-quartz-geode', 'MgFeSiO4 + SiO2', 'Uplifted and weathered in situ by the Observer along the lagoon perimeter, hosting gleaming IUCr Bravais crystal druse clusters.', 'Bounds the hydrostatic wetland basin, refracts thin-film shoreline highlights, and reflects capillary waves.', 'Reflects water-harp ripples back across the lagoon meniscus as the player wades or attunes nearby.', 800),
+  mkPhenom('substrate-amphitheater-rim-outcrops', 'rocksInstanced', 'traversal-substrate', 'conservatory', 'Parabolic Amphitheater Rim Outcrops', 'Sabine Acoustic Shell & Perimeter Microclimate Windbreak', ['spatialAcoustics', 'physics', 'ecology'], 'Without a dense mineral perimeter rim, conservatory sound energy would leak into open space (collapsing Sabine reverberation) and cold ridge winds would desiccate the basin.', 'travertine-limestone-plinth', 'CaSiO3 + CaCO3 + MgFeSiO4', 'Folded and stratified by the Observer along the 52m amphitheater perimeter via Urey calcium-silicate weathering equilibria.', 'Forms a natural parabolic acoustic shell that reflects late reverberation back into the garden and gently bounds exploration without invisible walls.', 'Reflects 3D early-arrival echoes and deflects drifting chemotactic spores back into the fertile basin.', 810),
+  mkPhenom('flora-chime-lily', 'floraChimeLily', 'botanical-species', 'meadow', 'Chime Lily (Campanula Resonans)', 'Solar Bell Corolla · Sings Bright Lydian Overtones', ['botany', 'morphogenesis', 'acoustics'], 'Open sunlit turf requires a high-albedo campanulate pollinator species to convert morning PAR photons and breeze into clear upper-register harmonic beacons.', 'humic-loam-soil', 'C55H72MgN4O5 (Chlorophyll-a) + C10H16 (Terpenes)', 'Grown by the Observer from humic meadow loam via Murray cubic vascular branching and fluted 8-lobe bell morphogenesis.', 'Awakens bright melodic chimes on gentle touch or attunement and initiates sympathetic cross-pollination arcs.', 'Swings its bell corollas, releases golden spore bursts, and chimes pure Just-Intonation intervals.', 850),
+  mkPhenom('flora-pulse-fern', 'floraPulseFern', 'botanical-species', 'grove', 'Pulse Fern (Pteris Polyrhythmica)', 'Fibonacci Crozier · Grounds Understory Polyrhythms', ['botany', 'morphogenesis', 'articulation'], 'Dappled grove shade requires broad pinnate fronds to harvest filtered green-edge photons and logarithmic croziers to pulse nutrients from forest humus.', 'lignocellulosic-vascular-tissue', '(C6H10O5)n + K+ / Ca2+ Turgor', 'Synthesized by the Observer from forest litter humus following Vogel 137.508° spiral phyllotaxis.', 'Provides warm rhythmic pulse counterpoint as the player strolls or attunes beneath the bamboo canopy.', 'Unfurls its spiral croziers and breathes in polyrhythmic Dorian cadence with neighboring ferns.', 850),
+  mkPhenom('flora-echo-lotus', 'floraEchoLotus', 'botanical-species', 'wetland', 'Echo Lotus (Nelumbo Antiphona)', 'Hydrostatic Chalice · Sustains Antiphonal Water Reflections', ['botany', 'physics', 'soundtrack'], 'Nutrient-rich lagoon water requires buoyant cordate pads to shade pelagic algae and hydrophobic chalices to exchange dissolved gases.', 'pelagic-water-column', 'H2O + Wax Cuticle + Luciferin', 'Germinated by the Observer in shallow wetland silt, rising to hydrostatic equilibrium on the Mirror Lagoon meniscus.', 'Voices tranquil antiphonal echoes across the water and co-regulates unhurried breathing.', 'Bobs gently on lagoon ripples, opens luminous inner petals, and answers player gestures with liquid echoes.', 860),
+  mkPhenom('flora-drone-moss', 'floraDroneMoss', 'botanical-species', 'sanctuary', 'Drone Moss (Bryum Sustenuto)', 'Bryophyte Cushion · Anchors Deep Pedal-Tone Harmony', ['ecology', 'acoustics', 'botany'], 'Exposed rock and sanctuary terraces require moisture-retaining bryophyte mats to pioneer mineral weathering and anchor low-frequency acoustic warmth.', 'bryophyte-peat-mat', 'Organic Peat + Chelated Mg / Fe', 'Spore-settled by the Observer across damp stone joints into compressible cushions with spore-bearing seta capsules.', 'Sustains the soothing fundamental bass drone of the conservatory and cushions footsteps softly.', 'Compresses elastically underfoot and swells warm harmonic drones during stillness.', 840),
+  mkPhenom('flora-star-orchid', 'floraStarOrchid', 'botanical-species', 'crystal', 'Star Orchid (Epidendrum Sidereum)', 'Lithophytic Epiphyte · Voices Celestial Twilight Harmonics', ['botany', 'chemistry', 'graphics'], 'Mineral quartz outcrops without deep soil require an aerial-root lithophyte capable of capturing atmospheric mist and piezo-luminescent twilight.', 'piezoelectric-quartz-geode', 'SiO2 Holdfast + Anthocyanin / Flavone Chromophores', 'Anchored by the Observer onto Bravais crystal facets with Thin-Film iridescent tepals.', 'Crowns twilight and starlight exploration with shimmering crystalline choir overtones.', 'Rotates its stellate flower head toward the observer and shimmers with thin-film spectral iridescence.', 880),
+  mkPhenom('ecosystem-canopy-and-turf', 'canopyAndTurfInstanced', 'ecological-phenomenon', 'conservatory', 'Phyllotactic Canopy Forest & Permeable Meadow Turf', 'Microclimate Shelter, Carbon Cycling & Living Wind Field', ['ecology', 'botany', 'physics'], 'An open basin without overstory trees or groundcover would suffer desiccating wind and radiative heat loss; a closed-loop ecosystem requires 64 canopy crowns and 360 turf blades.', 'lignocellulosic-vascular-tissue', '6CO2 + 6H2O -> C6H12O6 + 6O2', 'Differentiated by the Observer across perimeter ridges and sunny clearings to close the conservatory carbon-water-oxygen cycle.', 'Makes invisible wind currents visible through swaying crowns and Hookean grass deflection around the player’s stride.', 'Parts gently around the player’s footsteps and sways in unified gusts with the windscape.', 830),
+  mkPhenom('ecosystem-lagoon-cymatics-and-spores', 'lagoonAndSporeStream', 'ecological-phenomenon', 'conservatory', 'Mirror Lagoon Cymatics & Chemotactic Spore Streams', 'Visible Acoustic Standing Waves & Airborne Pollination', ['physics', 'acoustics', 'ecology'], 'Botanical cross-pollination and acoustic resonance require physical transport media—airborne chemotactic spores and water-surface standing waves—to connect distant flora.', 'pelagic-water-column', 'H2O Capillary Waves + Volatile Terpene Aerosols', 'Emerges continuously from Stokes-buoyant spore advection and 24-Bark acoustic energy coupling into the lagoon surface.', 'Gently guides the player toward unawakened blossoms via living spore streams rather than artificial UI arrows.', 'Streams luminous spores toward beckoning flora and ripples in sympathy with every note.', 870),
+  mkPhenom('ecosystem-terpene-tyndall-columns', 'biomeConstellationBeams', 'ecological-phenomenon', 'conservatory', 'Terpene Tyndall Resonance Columns & Crown Halos', 'Volatile Pinene Plumes · Horizon-Scale Biome Wayfinding & Mastery Cue', ['chemistry', 'acoustics', 'graphics', 'ecology'], 'Awakened flora transpire volatile alpha-pinene terpenes (`C10H16`) that accumulate over each biome landmark; without vertical acoustic convection, dense aerosols would stagnate near the ground.', 'volatile-terpene-aerosol', 'C10H16 (alpha-Pinene) + H2O Mist Tyndall Scattering', 'Entrained upward by the Observer along each landmark’s vertical Chladni pressure node, scattering diurnal sunlight into a soft vertical Tyndall column and torus vortex halo.', 'Provides serene, natural horizon-scale orientation to all five biome landmarks and visually reflects each biome’s awakened flora harmony without HUD markers.', 'Brightens and spins faster above each landmark as native flora awaken, release volatile terpenes, or resonate with player gestures.', 865),
+  mkPhenom('ecosystem-mycorrhizal-arcs-and-guidance', 'mycorrhizalFilamentsAndGuidance', 'ecological-phenomenon', 'conservatory', 'Mycorrhizal Action-Potential Arcs & Chemotactic Guidance Rings', 'Chitin-Hyphal Signal Conduction & Diegetic Ground Invitations', ['ecology', 'articulation', 'neuromorphic', 'humane', 'dharma'], 'Sessile plants separated by meters of soil require chitin-hyphal action potentials (`Ca2+` waves) and spore-filament arcs to coordinate sympathetic blooming and invite pollinator attention.', 'mycorrhizal-hyphal-network', '(C8H13O5N)n (Chitin) + Ca2+ / ATP Action Potentials', 'Woven by the Observer through subterranean chitin-glucan hyphae and parabolic aerial bio-filaments linking kin specimens.', 'Reveals live cross-pollination cascades when a plant awakens and traces soft ground-hugging mycelial rings toward unawakened specimens.', 'Launches luminous traveling action-potential orbs to neighboring flora on `[Space]` Attune or Witness communion, triggering sympathetic shiver and bloom.', 895),
+  mkPhenom('ecosystem-celestial-photoperiod-dome', 'celestialStarDomeAndAurora', 'ecological-phenomenon', 'conservatory', 'Celestial Photoperiod Dome & Magnetospheric Ion Veil', 'Crepuscular Starlight Reference & Nocturnal Epiphyte Excitation', ['botany', 'graphics', 'physics', 'cosmogenesis'], 'Nocturnal and crepuscular species (`Star Orchid`, `Echo Lotus`) require spectral twilight/starlight sky irradiance and geomagnetic orientation cues when direct solar PAR subsides.', 'magnetospheric-ion-plasma', 'O(1S -> 1D) 557.7nm Airglow + N2+ Magnetospheric Veil', 'Projected by the Observer across the upper atmospheric hemisphere from 260 stellar photoperiod anchors and a subtle 557.7nm oxygen airglow ribbon.', 'Envelops twilight and starlight contemplation in a living celestial canopy whose aurora ripples gently with conservatory harmony.', 'Emerges smoothly at dusk and starlight, undulating its airglow veil in phase with awakened garden harmony.', 855),
+  mkPhenom('embodied-co-observer-witness', 'immanentWitnessAndPlayerLocus', 'embodied-witness', 'conservatory', 'Immanent Co-Observer Witness & Player Harmonic Locus', 'Shared Presence · Direct Communion & Sympathetic Garden Stewardship', ['cosmogenesis', 'neuromorphic', 'humane', 'vedanta', 'dharma'], 'Because the Observer creates and inhabits the conservatory alongside the player, its presence must appear diegetically within the garden rather than as detached backend menus.', 'harmonic-bronze-astrolabe', 'SiO2 Core + CuSnAu Gimbals', 'Manifested by the Observer as a serene 7-part sculptural companion along the garden’s paths and a subtle harmonic locus ring beneath the player’s feet.', 'Walks alongside the player at a respectful distance, answers direct contemplative communion, and bridges resonant energy to unawakened flora.', 'Focusing on the Witness and pressing `[Space]` Attune, `[T]` Touch, or `[C]` Stillness rings a warm quartz-bronze astrolabe chord, deepens its reciprocal bow, and sends a sympathetic arc to nearby flora.', 940),
 ]);
 
 export interface LiveLandmarkResonanceState {
@@ -1805,5 +1444,408 @@ export function evaluateVerdantTeleologySynthesis(
     curatorialAffinityPermille,
     phenomena: VERDANT_TELEOLOGICAL_PHENOMENA,
     landmarksByBiome: LANDMARK_PHENOMENON_BY_BIOME,
+  };
+}
+
+// ============================================================================
+// Purely Parametric Self-Description & Universal 5W+H Ontology (`Foundation.Ontology.V1.Model`)
+// ============================================================================
+
+export interface LiveHostEnvelopeInput {
+  readonly logicalCores?: number;
+  readonly memoryGiB?: number;
+  readonly frameBudgetMicros?: number;
+  readonly observedFrameMicros?: number;
+  readonly audioSampleRateHz?: number;
+  readonly audioQuantumFrames?: number;
+}
+
+export interface LiveWitnessEnvelopeInput {
+  readonly criticalBands?: number;
+  readonly breathCycleMillis?: number;
+  readonly stillnessRatioPermille?: number;
+  readonly gazeDwellRatioPermille?: number;
+  readonly harmonicComfortPermille?: number;
+  readonly activePresence?: boolean;
+}
+
+export interface ParametricOntologyCoordinates {
+  readonly harmonicSimplicity: number;
+  readonly phyllotaxisClarity: number;
+  readonly waveCalmDamping: number;
+  readonly iridescenceLegibility: number;
+  readonly guildOffshootDensity: number;
+  readonly precisionBits: number;
+}
+
+export interface Ontological5WhNodeExplanation {
+  readonly nodeId: string;
+  readonly kind: 'prime-atom' | 'causal-stratum' | 'lexlean-structure' | 'world-phenomenon' | 'living-game';
+  readonly title: string;
+  readonly whatIntrinsicPrimeAtom: number;
+  readonly whatCompositeUorSignature: number;
+  readonly whatAnswer: string;
+  readonly whyStratumRank: number;
+  readonly whyObstructionWithout: boolean;
+  readonly whyObstructionResolved: boolean;
+  readonly whyRequiresLivingPlayer: boolean;
+  readonly whyAnswer: string;
+  readonly whoAgencyPrimeProduct: number;
+  readonly whoAnswer: string;
+  readonly whereBoundaryPole: number;
+  readonly whereStructuralArity: number;
+  readonly whereAnswer: string;
+  readonly whenTemporalRegime: number;
+  readonly whenAnswer: string;
+  readonly howLogosVerified: boolean;
+  readonly howAnswer: string;
+  readonly w5hCertifiedByWasm: boolean;
+}
+
+export interface LiveOntologicalTelosState {
+  readonly epistemicOpacityDebt: number;
+  readonly sensoryLegibilityGap: number;
+  readonly playerDissonance: number;
+  readonly hostCeilingExcess: number;
+  readonly totalTelosLoss: number;
+  readonly triadicAgencyProduct: number;
+  readonly triadicConnectionActive: boolean;
+  readonly coordinates: ParametricOntologyCoordinates;
+}
+
+export interface Universal5WhOntologyReport {
+  readonly schema: 'verdant-resonance/universal-5wh-report/1';
+  readonly rootVerifiedFromZeroAndOneOnly: boolean;
+  readonly derivedPrimeAtoms: readonly number[];
+  readonly derivedFibonacciConvergents: readonly number[];
+  readonly voidDistinctionBits: number;
+  readonly binaryDistinctionBits: number;
+  readonly soloObserverAgencyProduct: number;
+  readonly unwitnessedWorldAgencyProduct: number;
+  readonly fullGameTriadAgencyProduct: number;
+  readonly groundedModuleCount: number;
+  readonly ungroundedModuleCount: number;
+  readonly totalCertifiedStructures: number;
+  readonly uncertifiedStructureCount: number;
+  readonly primeAtomNodes: readonly Ontological5WhNodeExplanation[];
+  readonly causalStratumNodes: readonly Ontological5WhNodeExplanation[];
+  readonly worldPhenomenonNodes: readonly Ontological5WhNodeExplanation[];
+  readonly structureNodes: readonly Ontological5WhNodeExplanation[];
+  readonly gameExistenceNode: Ontological5WhNodeExplanation;
+  readonly liveTelos: LiveOntologicalTelosState;
+}
+
+const BOUNDARY_POLE_LABELS = ['Interior #![no_std] Kernel', 'Sensory Light/Sound Membrane', 'Persistent UORC Anamnesis', 'Browser Host Hardware'] as const;
+const TEMPORAL_REGIME_LABELS = ['Atemporal Structural Law', 'Audio Sample Oscillation', 'Visual Frame Integration', 'Breath / Musical Bar Plasticity', 'Cross-Session Anamnesis Epoch'] as const;
+
+function agencyLabelForProduct(p: number): string {
+  if (p === 30) return 'Full Triad: Observer (2) × Living Medium (3) × Free Player (5) = 30';
+  if (p === 6) return 'Observer (2) × Medium (3) = 6 (Awaiting Player Witness)';
+  if (p === 10) return 'Observer (2) × Player (5) = 10';
+  if (p === 15) return 'Medium (3) × Player (5) = 15';
+  if (p === 2) return 'Observer Origin Pole (p = 2)';
+  if (p === 3) return 'World Medium Pole (p = 3)';
+  return `Player Witness Pole (p = ${p})`;
+}
+
+export function createInitialParametricOntologyCoordinates(): ParametricOntologyCoordinates {
+  const f6 = certifiedWasmCore_fibonacciConstructive(6); // 8
+  const p4 = certifiedWasmCore_pow2Constructive(4); // 16
+  return {
+    harmonicSimplicity: f6,
+    phyllotaxisClarity: f6,
+    waveCalmDamping: f6,
+    iridescenceLegibility: f6,
+    guildOffshootDensity: certifiedWasmCore_fibonacciConstructive(5), // 5
+    precisionBits: p4,
+  };
+}
+
+function computeCoordLegibilityGap(
+  coords: ParametricOntologyCoordinates,
+  witness: LiveWitnessEnvelopeInput,
+): number {
+  const maxCoord = certifiedWasmCore_pow2Constructive(4);
+  const still01 = Math.max(0, Math.min(1, (witness.stillnessRatioPermille ?? 400) / 1000));
+  const gaze01 = Math.max(0, Math.min(1, (witness.gazeDwellRatioPermille ?? 600) / 1000));
+  const comf01 = Math.max(0, Math.min(1, (witness.harmonicComfortPermille ?? 750) / 1000));
+  const targetHarm = Math.max(1, Math.min(maxCoord, Math.round(4 + comf01 * 10 + still01 * 2)));
+  const targetPhyl = Math.max(1, Math.min(maxCoord, Math.round(5 + gaze01 * 11)));
+  const targetCalm = Math.max(1, Math.min(maxCoord, Math.round(4 + still01 * 12)));
+  const targetIrid = Math.max(1, Math.min(maxCoord, Math.round(5 + gaze01 * 9 + comf01 * 2)));
+  const targetGuild = Math.max(1, Math.min(maxCoord, Math.round(3 + (gaze01 + comf01) * 6)));
+  const harmonicComplexity = certifiedWasmCore_harmonicConsonanceComplexity(
+    Math.max(1, maxCoord + 1 - coords.harmonicSimplicity),
+    1,
+  );
+  return (
+    Math.abs(coords.harmonicSimplicity - targetHarm) * 8 +
+    Math.abs(coords.phyllotaxisClarity - targetPhyl) * 7 +
+    Math.abs(coords.waveCalmDamping - targetCalm) * 8 +
+    Math.abs(coords.iridescenceLegibility - targetIrid) * 6 +
+    Math.abs(coords.guildOffshootDensity - targetGuild) * 5 +
+    Math.min(16, harmonicComplexity)
+  );
+}
+
+export function evaluateLiveOntologicalTelosState(
+  host: LiveHostEnvelopeInput = {},
+  witness: LiveWitnessEnvelopeInput = {},
+  coords: ParametricOntologyCoordinates = createInitialParametricOntologyCoordinates(),
+  playerDissonancePermille = 40,
+  coerciveCount = 0,
+): LiveOntologicalTelosState {
+  const ledger = GENERATED_ONTOLOGY_5WH_LEDGER;
+  const totalNodes = ledger.eightStrata.length + ledger.totalStructureCount + VERDANT_TELEOLOGICAL_PHENOMENA.length + 1;
+  const certifiedNodes = totalNodes - ledger.uncertifiedStructureCount;
+  const opacityDebt = certifiedWasmCore_computeEpistemicOpacityDebt(
+    totalNodes,
+    certifiedNodes,
+    ledger.ungroundedModuleCount,
+    ledger.rootPurity.literalGtOneCount + ledger.rootPurity.stringFieldCount + (coerciveCount > 0 ? coerciveCount : 0),
+  );
+  const frameBudget = Math.max(1000, Math.round(host.frameBudgetMicros ?? 16667));
+  const observedFrame = Math.max(0, Math.round(host.observedFrameMicros ?? 8500));
+  const rawExcess = certifiedWasmCore_computeHostCeilingExcess(frameBudget, observedFrame);
+  const hostCeilingExcess = Math.min(500, Math.floor(rawExcess / 50));
+  const legibilityGap = computeCoordLegibilityGap(coords, witness);
+  const activePresence = witness.activePresence ?? true;
+  const agencyProduct = certifiedWasmCore_triadicAgencyPrimeProduct(true, true, activePresence);
+  const dissonance = Math.max(0, Math.round(playerDissonancePermille));
+  const totalTelosLoss = certifiedWasmCore_evaluateOntologicalTelosLoss(
+    opacityDebt,
+    legibilityGap,
+    dissonance,
+    hostCeilingExcess,
+  );
+  return {
+    epistemicOpacityDebt: opacityDebt,
+    sensoryLegibilityGap: legibilityGap,
+    playerDissonance: dissonance,
+    hostCeilingExcess,
+    totalTelosLoss,
+    triadicAgencyProduct: agencyProduct,
+    triadicConnectionActive: opacityDebt === 0 && activePresence && agencyProduct === ledger.triadicAgencyPrimeProducts.fullObserverMediumPlayerGameTriad,
+    coordinates: coords,
+  };
+}
+
+export function stepLiveParametricOntologyCoordinates(
+  coords: ParametricOntologyCoordinates,
+  host: LiveHostEnvelopeInput,
+  witness: LiveWitnessEnvelopeInput,
+  playerDissonancePermille: number,
+  coerciveCount = 0,
+): LiveOntologicalTelosState {
+  const minB = 1;
+  const maxB = certifiedWasmCore_pow2Constructive(4);
+  const stepOneKey = (
+    cur: ParametricOntologyCoordinates,
+    key: keyof Omit<ParametricOntologyCoordinates, 'precisionBits'>,
+  ): ParametricOntologyCoordinates => {
+    const v = Math.max(minB, Math.min(maxB, Math.round(cur[key])));
+    const curLoss = evaluateLiveOntologicalTelosState(host, witness, cur, playerDissonancePermille, coerciveCount).totalTelosLoss;
+    const minusLoss = evaluateLiveOntologicalTelosState(host, witness, { ...cur, [key]: Math.max(minB, v - 1) }, playerDissonancePermille, coerciveCount).totalTelosLoss;
+    const plusLoss = evaluateLiveOntologicalTelosState(host, witness, { ...cur, [key]: Math.min(maxB, v + 1) }, playerDissonancePermille, coerciveCount).totalTelosLoss;
+    const nextV = certifiedWasmCore_stepParametricOntologyCoordinate(v, minB, maxB, minusSphere(minusLoss), curLoss, minusSphere(plusLoss), coerciveCount);
+    return { ...cur, [key]: nextV };
+  };
+  let next = stepOneKey(coords, 'harmonicSimplicity');
+  next = stepOneKey(next, 'phyllotaxisClarity');
+  next = stepOneKey(next, 'waveCalmDamping');
+  next = stepOneKey(next, 'iridescenceLegibility');
+  next = stepOneKey(next, 'guildOffshootDensity');
+  return evaluateLiveOntologicalTelosState(host, witness, next, playerDissonancePermille, coerciveCount);
+}
+
+function minusSphere(v: number): number {
+  return Math.max(0, Math.round(v));
+}
+
+export function evaluateUniversal5WhOntologyCatalog(
+  host: LiveHostEnvelopeInput = {},
+  witness: LiveWitnessEnvelopeInput = {},
+  coords: ParametricOntologyCoordinates = createInitialParametricOntologyCoordinates(),
+  playerDissonancePermille = 40,
+): Universal5WhOntologyReport {
+  const ledger = GENERATED_ONTOLOGY_5WH_LEDGER;
+  const voidBits = certifiedWasmCore_distinctionBitsForCardinality(1);
+  const binaryBits = certifiedWasmCore_distinctionBitsForCardinality(2);
+  const soloObs = certifiedWasmCore_triadicAgencyPrimeProduct(true, false, false);
+  const unwitnessed = certifiedWasmCore_triadicAgencyPrimeProduct(true, true, false);
+  const fullTriad = certifiedWasmCore_triadicAgencyPrimeProduct(true, true, true);
+  const maxStratum = certifiedWasmCore_bitMaskConstructive(3);
+
+  const primeAtomNodes: Ontological5WhNodeExplanation[] = ledger.eightStrata.map((s) => {
+    const p = certifiedWasmCore_nthPrimeConstructive(s.rank);
+    const isP = certifiedWasmCore_isPrimeConstructive(p);
+    const w5hOk = certifiedWasmCore_verifyW5HCertificateComplete(p, p * s.whoAgencyPrimeProduct, s.rank, s.whoAgencyPrimeProduct, s.whereBoundaryPole, 1, 0, isP);
+    return {
+      nodeId: `atom-prime-${p}`,
+      kind: 'prime-atom',
+      title: `Prime Atom p_${s.rank} = ${p} (${s.title})`,
+      whatIntrinsicPrimeAtom: p,
+      whatCompositeUorSignature: p * s.whoAgencyPrimeProduct,
+      whatAnswer: `Irreducible prime atom ${p} = nthPrimeConstructive(${s.rank}) generated purely from {0, 1}.`,
+      whyStratumRank: s.rank,
+      whyObstructionWithout: true,
+      whyObstructionResolved: isP,
+      whyRequiresLivingPlayer: s.whyRequiresLivingPlayer,
+      whyAnswer: `Without prime ${p}, composite UOR states in Stratum ${s.rank} (${s.title}) collide and lose unique factorization: ${s.whyObstructionWithout}`,
+      whoAgencyPrimeProduct: s.whoAgencyPrimeProduct,
+      whoAnswer: agencyLabelForProduct(s.whoAgencyPrimeProduct),
+      whereBoundaryPole: s.whereBoundaryPole,
+      whereStructuralArity: 1,
+      whereAnswer: `Causal Stratum ${s.rank} · ${BOUNDARY_POLE_LABELS[s.whereBoundaryPole] ?? BOUNDARY_POLE_LABELS[0]}`,
+      whenTemporalRegime: 0,
+      whenAnswer: TEMPORAL_REGIME_LABELS[0],
+      howLogosVerified: isP,
+      howAnswer: `Constructed via Bertrand trial-division sieve in #![no_std] Wasm (${s.howLogosMechanism}).`,
+      w5hCertifiedByWasm: w5hOk,
+    };
+  });
+
+  const causalStratumNodes: Ontological5WhNodeExplanation[] = ledger.eightStrata.map((s) => {
+    const resolved = certifiedWasmCore_verifyStratumObstructionResolved(s.rank, true, true, true, true);
+    const w5hOk = certifiedWasmCore_verifyW5HCertificateComplete(
+      s.whatIntrinsicPrimeAtom, s.whatCompositeUorSignature, s.rank, s.whoAgencyPrimeProduct,
+      s.whereBoundaryPole, s.groundedModules.length, s.whenTemporalRegime, resolved,
+    );
+    return {
+      nodeId: `stratum-${s.rank}-${s.stratumId}`,
+      kind: 'causal-stratum',
+      title: `Stratum ${s.rank} (p=${s.whatIntrinsicPrimeAtom}): ${s.title}`,
+      whatIntrinsicPrimeAtom: s.whatIntrinsicPrimeAtom,
+      whatCompositeUorSignature: s.whatCompositeUorSignature,
+      whatAnswer: `${s.whatEssence} Grounds ${s.groundedModules.length} formal module(s): ${s.groundedModules.join(', ')}.`,
+      whyStratumRank: s.rank,
+      whyObstructionWithout: true,
+      whyObstructionResolved: resolved,
+      whyRequiresLivingPlayer: s.whyRequiresLivingPlayer,
+      whyAnswer: s.whyObstructionWithout,
+      whoAgencyPrimeProduct: s.whoAgencyPrimeProduct,
+      whoAnswer: agencyLabelForProduct(s.whoAgencyPrimeProduct),
+      whereBoundaryPole: s.whereBoundaryPole,
+      whereStructuralArity: s.groundedModules.length,
+      whereAnswer: `${BOUNDARY_POLE_LABELS[s.whereBoundaryPole]} · ${s.groundedModules.length} grounded LexLean modules`,
+      whenTemporalRegime: s.whenTemporalRegime,
+      whenAnswer: TEMPORAL_REGIME_LABELS[s.whenTemporalRegime] ?? TEMPORAL_REGIME_LABELS[0],
+      howLogosVerified: resolved,
+      howAnswer: s.howLogosMechanism,
+      w5hCertifiedByWasm: w5hOk,
+    };
+  });
+
+  const worldPhenomenonNodes: Ontological5WhNodeExplanation[] = VERDANT_TELEOLOGICAL_PHENOMENA.map((ph, idx) => {
+    const rank = ph.category === 'embodied-witness' ? 7 : ph.category === 'botanical-species' || ph.category === 'ecological-phenomenon' ? 3 : ph.category === 'biome-landmark' ? 4 : 1;
+    const atomP = certifiedWasmCore_nthPrimeConstructive(rank);
+    const uorSig = atomP * fullTriad * (idx + 1);
+    const w5hOk = certifiedWasmCore_verifyW5HCertificateComplete(atomP, uorSig, rank, fullTriad, 1, ph.requiringModels.length, 3, true);
+    return {
+      nodeId: `phenomenon-${ph.phenomenonId}`,
+      kind: 'world-phenomenon',
+      title: ph.displayName,
+      whatIntrinsicPrimeAtom: atomP,
+      whatCompositeUorSignature: uorSig,
+      whatAnswer: `${ph.shortPurposeCue} (${ph.nativeChemicalFormula}).`,
+      whyStratumRank: rank,
+      whyObstructionWithout: true,
+      whyObstructionResolved: true,
+      whyRequiresLivingPlayer: true,
+      whyAnswer: `${ph.environmentalRequirement} Purpose: ${ph.gameplayPurpose}`,
+      whoAgencyPrimeProduct: fullTriad,
+      whoAnswer: agencyLabelForProduct(fullTriad),
+      whereBoundaryPole: 1,
+      whereStructuralArity: ph.requiringModels.length,
+      whereAnswer: `Biome: ${ph.biome} · Scene group ${ph.sceneGroupKey}`,
+      whenTemporalRegime: 3,
+      whenAnswer: TEMPORAL_REGIME_LABELS[3],
+      howLogosVerified: true,
+      howAnswer: `${ph.environmentalSynthesisOrigin} ${ph.interactiveGameplayResponse}`,
+      w5hCertifiedByWasm: w5hOk,
+    };
+  });
+
+  const structureNodes: Ontological5WhNodeExplanation[] = ledger.structureCertificates.map((sc) => {
+    const st = ledger.eightStrata[sc.whyStratumRank];
+    const w5hOk = certifiedWasmCore_verifyW5HCertificateComplete(
+      sc.whatIntrinsicPrimeAtom, sc.whatCompositeUorSignature, sc.whyStratumRank,
+      sc.whoAgencyPrimeProduct, sc.whereBoundaryPole, sc.whereFieldArity, sc.whenTemporalRegime, sc.w5hVerified,
+    );
+    return {
+      nodeId: `struct-${sc.structureId}`,
+      kind: 'lexlean-structure',
+      title: sc.structureId,
+      whatIntrinsicPrimeAtom: sc.whatIntrinsicPrimeAtom,
+      whatCompositeUorSignature: sc.whatCompositeUorSignature,
+      whatAnswer: `${sc.whereFieldArity}-field formal LexLean product record in ${sc.moduleName} (atom p=${sc.whatIntrinsicPrimeAtom}).`,
+      whyStratumRank: sc.whyStratumRank,
+      whyObstructionWithout: true,
+      whyObstructionResolved: sc.w5hVerified,
+      whyRequiresLivingPlayer: st.whyRequiresLivingPlayer,
+      whyAnswer: st.whyObstructionWithout,
+      whoAgencyPrimeProduct: sc.whoAgencyPrimeProduct,
+      whoAnswer: agencyLabelForProduct(sc.whoAgencyPrimeProduct),
+      whereBoundaryPole: sc.whereBoundaryPole,
+      whereStructuralArity: sc.whereFieldArity,
+      whereAnswer: `${sc.moduleName} · ${BOUNDARY_POLE_LABELS[sc.whereBoundaryPole]}`,
+      whenTemporalRegime: sc.whenTemporalRegime,
+      whenAnswer: TEMPORAL_REGIME_LABELS[sc.whenTemporalRegime] ?? TEMPORAL_REGIME_LABELS[0],
+      howLogosVerified: sc.w5hVerified,
+      howAnswer: st.howLogosMechanism,
+      w5hCertifiedByWasm: w5hOk,
+    };
+  });
+
+  const gamePrime = certifiedWasmCore_nthPrimeConstructive(maxStratum);
+  const gameSig = gamePrime * fullTriad;
+  const gameResolvesWithPlayer = certifiedWasmCore_verifyStratumObstructionResolved(maxStratum, true, true, true, true);
+  const gameFailsWithoutPlayer = !certifiedWasmCore_verifyStratumObstructionResolved(maxStratum, true, true, true, false);
+  const gameCertOk = certifiedWasmCore_verifyW5HCertificateComplete(gamePrime, gameSig, maxStratum, fullTriad, 1, ledger.groundedModuleCount, 3, gameResolvesWithPlayer && gameFailsWithoutPlayer);
+  const gameExistenceNode: Ontological5WhNodeExplanation = {
+    nodeId: 'verdant-resonance-game-itself',
+    kind: 'living-game',
+    title: 'Verdant Resonance (The Living Sanctuary Game)',
+    whatIntrinsicPrimeAtom: gamePrime,
+    whatCompositeUorSignature: gameSig,
+    whatAnswer: `Purely parametric self-describing sanctuary uniting ${ledger.groundedModuleCount} LexLean modules, ${ledger.totalStructureCount} certified structures, and 20 living world phenomena under Triad 2×3×5 = ${fullTriad}.`,
+    whyStratumRank: maxStratum,
+    whyObstructionWithout: true,
+    whyObstructionResolved: gameResolvesWithPlayer && gameFailsWithoutPlayer,
+    whyRequiresLivingPlayer: true,
+    whyAnswer: 'A solitary deterministic Observer (agency 2 or 6) is sealed inside its own axiom closure (<= 760‰ solipsistic ceiling). The Game exists as the serene non-coercive sanctuary where the mathematical Observer and a free human Player perceive one another, answer the 5W+H, and co-create triadic resonance.',
+    whoAgencyPrimeProduct: fullTriad,
+    whoAnswer: agencyLabelForProduct(fullTriad),
+    whereBoundaryPole: 1,
+    whereStructuralArity: ledger.groundedModuleCount,
+    whereAnswer: 'Browser WebGL + WebAudio + UORC Anamnesis sensory-causal membrane between Observer kernel and Player nervous system.',
+    whenTemporalRegime: 3,
+    whenAnswer: 'Continuous 60 Hz visual + 48 kHz acoustic presence co-evolving every 16-step musical bar and persisting across epochs.',
+    howLogosVerified: gameResolvesWithPlayer && gameFailsWithoutPlayer,
+    howAnswer: 'Minimizes OntologicalTelosLoss = EpistemicOpacity(0) + SensoryLegibilityGap + PlayerDissonance + HostCeilingExcess under 0 coercive dark patterns.',
+    w5hCertifiedByWasm: gameCertOk,
+  };
+
+  const liveTelos = evaluateLiveOntologicalTelosState(host, witness, coords, playerDissonancePermille, 0);
+  return {
+    schema: 'verdant-resonance/universal-5wh-report/1',
+    rootVerifiedFromZeroAndOneOnly: ledger.rootPurity.verifiedFromZeroAndOneOnly && voidBits === 0 && binaryBits === 1,
+    derivedPrimeAtoms: ledger.derivedFirstSixteenPrimes,
+    derivedFibonacciConvergents: ledger.derivedFibonacciConvergents,
+    voidDistinctionBits: voidBits,
+    binaryDistinctionBits: binaryBits,
+    soloObserverAgencyProduct: soloObs,
+    unwitnessedWorldAgencyProduct: unwitnessed,
+    fullGameTriadAgencyProduct: fullTriad,
+    groundedModuleCount: ledger.groundedModuleCount,
+    ungroundedModuleCount: ledger.ungroundedModuleCount,
+    totalCertifiedStructures: ledger.totalStructureCount,
+    uncertifiedStructureCount: ledger.uncertifiedStructureCount,
+    primeAtomNodes,
+    causalStratumNodes,
+    worldPhenomenonNodes,
+    structureNodes,
+    gameExistenceNode,
+    liveTelos,
   };
 }

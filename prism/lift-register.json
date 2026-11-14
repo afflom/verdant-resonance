@@ -2,8 +2,8 @@
   "schema": "verdant-resonance/lift-register/1",
   "domain": "verdant-resonance/function/1",
   "summary": {
-    "totalFunctions": 379,
-    "liftedCount": 343,
+    "totalFunctions": 383,
+    "liftedCount": 347,
     "residueCount": 0,
     "foreignCount": 31,
     "effectCount": 5,
@@ -200,7 +200,7 @@
       "definition": "Foundation.Anamnesis.V1.Model (GENERATED_PRISM_STANDARDS)"
     },
     {
-      "kappa": "f34b4baafd0e885b4264c0767af06dc8487ec026d048539a6f3328bb6980dd90",
+      "kappa": "0045e7bbad13115bb4c0d3656e1af7dc36ad5d28ca468868468ff3e2a77acc00",
       "functionPath": "src/game/autonomousObjectivesEngine.ts::createInitialLiveCoEvolutionState",
       "routeId": "VR-R04",
       "status": "lifted",
@@ -221,7 +221,7 @@
       "definition": "Foundation.Teleology.V1.Model (certifiedWasmCore_stepReflexiveFacetNicheIndex)"
     },
     {
-      "kappa": "03a94ca477ea22d05909a2fe2d8ebfdaacac9e3f613ac18cb86b917e94cdcbae",
+      "kappa": "82864a88ec450e225562882ddabc5e5b0196541dc8bf7201c5e51139dbdee7f0",
       "functionPath": "src/game/autonomousObjectivesEngine.ts::restoreLiveCoEvolutionStateFromAnamnesis",
       "routeId": "VR-R04",
       "status": "lifted",
@@ -235,14 +235,14 @@
       "definition": "Foundation.Teleology.V1.Model (certifiedWasmCore_clampBusWeight)"
     },
     {
-      "kappa": "d02fed7d419f934731a756a5f8911aa9e68c88de617f50842ad7ee5f369a81a2",
+      "kappa": "d14f6ceb1ee7e11d20389ad07d548a0b371fa23a0f2ccdb300ca0958d3579804",
       "functionPath": "src/game/autonomousObjectivesEngine.ts::serializeLiveCoEvolutionStateForAnamnesis",
       "routeId": "VR-R04",
       "status": "lifted",
       "definition": "Foundation.Teleology.V1.Model (certifiedWasmCore_clampBusWeight)"
     },
     {
-      "kappa": "66fed66e7ef04ededdd6868e39930c3f7657363c376b866e601aa15ed71c0eae",
+      "kappa": "9df06a76725875638a7de6bd24850d449258bdacf14a493b0a79238bb76426ff",
       "functionPath": "src/game/autonomousObjectivesEngine.ts::stepLiveObserverPlayerCoEvolutionBar",
       "routeId": "VR-R04",
       "status": "lifted",
@@ -2545,6 +2545,13 @@
       "definition": "Foundation.Teleology.V1.Model (GENERATED_PRISM_STANDARDS)"
     },
     {
+      "kappa": "91738ee72cf49137b8e660c7988622c8e595e3df7e109d660e61162cf916cbe9",
+      "functionPath": "src/game/teleologyEngine.ts::createInitialParametricOntologyCoordinates",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (certifiedWasmCore_fibonacciConstructive)"
+    },
+    {
       "kappa": "955fd79f58285da8741f870e406fb838ea26e5eeddb0b5bcd07b1771e919df26",
       "functionPath": "src/game/teleologyEngine.ts::createInitialWaystoneTuningTable",
       "routeId": "VR-R04",
@@ -2564,6 +2571,13 @@
       "routeId": "VR-R04",
       "status": "lifted",
       "definition": "Foundation.Teleology.V1.Model (GENERATED_PRISM_BUS_MODULATION_LUT)"
+    },
+    {
+      "kappa": "a8a59c7ef17cde2cc607af5389eca5bb0bb7ef1c4c05f4fb748c1affb5876fdd",
+      "functionPath": "src/game/teleologyEngine.ts::evaluateLiveOntologicalTelosState",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (certifiedWasmCore_computeEpistemicOpacityDebt)"
     },
     {
       "kappa": "90fc4c95781c3a1d85838f7940db89529b8f19ba31382ca520f8ecc3b7a302b9",
@@ -2592,6 +2606,13 @@
       "routeId": "VR-R04",
       "status": "lifted",
       "definition": "Foundation.Teleology.V1.Model (GENERATED_PRISM_BUS_MODULATION_LUT)"
+    },
+    {
+      "kappa": "0dbdf06a36e6fd1e7d9618ac02f8f0819e7af4c64f5649a8ac28448be9df0d19",
+      "functionPath": "src/game/teleologyEngine.ts::evaluateUniversal5WhOntologyCatalog",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (certifiedWasmCore_distinctionBitsForCardinality)"
     },
     {
       "kappa": "c0da3bb280d0197200fb0d88d08d422e71a24d9b3de1ddc53038b7480af95fc8",
@@ -2627,6 +2648,13 @@
       "routeId": "VR-R04",
       "status": "lifted",
       "definition": "Foundation.Teleology.V1.Model (GENERATED_PRISM_STANDARDS)"
+    },
+    {
+      "kappa": "97114bd2a7df38e818354b32f9f7e3b3239fa42792dd4f821781eb7ff57e8994",
+      "functionPath": "src/game/teleologyEngine.ts::stepLiveParametricOntologyCoordinates",
+      "routeId": "VR-R04",
+      "status": "lifted",
+      "definition": "Foundation.Teleology.V1.Model (certifiedWasmCore_pow2Constructive)"
     },
     {
       "kappa": "925a81f94a65658933d36b7b6ac7eb1b25b49594a9d1bb31b85fe9529fe8e416",

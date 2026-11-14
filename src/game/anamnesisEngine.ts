@@ -28,6 +28,7 @@ import {
   type UorcCodecError,
 } from './parametricCompressionEngine';
 import type { ConsolidatedGardenMemory } from './conservatoryCurationEngine';
+import type { ParametricOntologyCoordinates } from './teleologyEngine';
 import type {
   AtmosphereId,
   BiomeId,
@@ -85,6 +86,7 @@ export interface PersistedLiveCoEvolutionState {
   readonly incumbentQualityPermille: number;
   readonly triadicCoherencePermille: number;
   readonly modelWeights22: Readonly<Record<string, number>>;
+  readonly parametricCoordinates?: ParametricOntologyCoordinates;
 }
 
 export interface VerdantAnamnesisPayload {

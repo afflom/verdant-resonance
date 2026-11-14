@@ -737,6 +737,10 @@ export interface HandwrittenAndAxiomRatchetDocument {
   readonly maxResidueFunctionCount: number;
   readonly maxClassicalChoiceCount: number;
   readonly maxMechanizationClassicalChoiceCount: number;
+  readonly maxUngroundedModelCount?: number;
+  readonly maxUncertifiedStructureW5HCount?: number;
+  readonly maxOntologyRootLiteralGtOneCount?: number;
+  readonly maxOntologyRootStringFieldCount?: number;
 }
 
 export interface HandwrittenAndAxiomRatchetMeasuredState {
@@ -745,6 +749,10 @@ export interface HandwrittenAndAxiomRatchetMeasuredState {
   readonly residueFunctionCount: number;
   readonly classicalChoiceCount: number;
   readonly mechanizationClassicalChoiceCount: number;
+  readonly ungroundedModelCount: number;
+  readonly uncertifiedStructureW5HCount: number;
+  readonly ontologyRootLiteralGtOneCount: number;
+  readonly ontologyRootStringFieldCount: number;
 }
 
 export function countNonCommentSourceLines(source: string): number {
@@ -805,14 +813,62 @@ export function measureHandwrittenAndAxiomRatchetState(
 
   const prismSrcDir = path.join(projectRoot, 'prism', 'src');
   const lexFiles = collectLexFilesRecursive(prismSrcDir);
+  const groundedSet = new Set([
+    'Foundation.Ontology.V1.Model',
+    'Foundation.Mathematics.V1.Model',
+    'Foundation.Bytes',
+    'Foundation.MetaModel.V1.Model',
+    'Foundation.Physics.V1.Model',
+    'Foundation.Infrastructure.V1.Model',
+    'Foundation.Chemistry.V1.Model',
+    'Foundation.Morphogenesis.V1.Model',
+    'Foundation.Botany.V1.Model',
+    'Foundation.Ecology.V1.Model',
+    'Foundation.Graphics.V1.Model',
+    'Foundation.Acoustics.V1.Model',
+    'Foundation.SpatialAcoustics.V1.Model',
+    'Foundation.Articulation.V1.Model',
+    'Foundation.Soundtrack.V1.Model',
+    'Foundation.View.Text.V1.Model',
+    'Foundation.Brand.V1.Model',
+    'Foundation.Compression.V1.Model',
+    'Foundation.Anamnesis.V1.Model',
+    'Foundation.Realizability.V1.Model',
+    'Foundation.Neuromorphic.V1.Model',
+    'Foundation.Mechanization.V1.Model',
+    'Foundation.Teleology.V1.Model',
+    'Foundation.Humane.V1.Model',
+    'Foundation.Vedanta.V1.Model',
+    'Foundation.Dharma.V1.Model',
+    'Foundation.Cosmogenesis.V1.Model',
+    'VerdantResonance',
+    'VerdantResonanceProofs',
+  ]);
+
   let classicalChoiceCount = 0;
   let mechanizationClassicalChoiceCount = 0;
+  let ungroundedModelCount = 0;
+  let ontologyRootLiteralGtOneCount = 0;
+  let ontologyRootStringFieldCount = 0;
   for (const lexPath of lexFiles) {
     const raw = fs.readFileSync(lexPath, 'utf8');
+    const modMatch = raw.match(/\\begin\{lexlean\}\{([^}]+)\}/);
+    const modName = modMatch ? modMatch[1] : '';
+    if (!modName || !groundedSet.has(modName)) {
+      ungroundedModelCount++;
+    }
     const hits = (raw.match(/\bClassical\.choice\b/g) ?? []).length;
     classicalChoiceCount += hits;
     if (lexPath.replace(/\\/g, '/').endsWith('Foundation/Mechanization/V1/Model.lex.tex')) {
       mechanizationClassicalChoiceCount += hits;
+    }
+    if (lexPath.replace(/\\/g, '/').endsWith('Foundation/Ontology/V1/Model.lex.tex')) {
+      const semMatch = raw.match(/\\begin\{semanticmodule\}([\s\S]*?)\\end\{semanticmodule\}/);
+      const sem = semMatch ? semMatch[1] : raw;
+      ontologyRootLiteralGtOneCount = (sem.match(/\b\d+\b/g) ?? []).filter(
+        (n) => n !== '0' && n !== '1',
+      ).length;
+      ontologyRootStringFieldCount = (sem.match(/\btype\s*:\s*String\b/g) ?? []).length;
     }
   }
 
@@ -822,6 +878,10 @@ export function measureHandwrittenAndAxiomRatchetState(
     residueFunctionCount: candidateRegister.summary.residueCount,
     classicalChoiceCount,
     mechanizationClassicalChoiceCount,
+    ungroundedModelCount,
+    uncertifiedStructureW5HCount: ungroundedModelCount,
+    ontologyRootLiteralGtOneCount,
+    ontologyRootStringFieldCount,
   };
 }
 
@@ -855,6 +915,28 @@ export function verifyHandwrittenAndAxiomRatchet(
   if (measured.mechanizationClassicalChoiceCount > ratchet.maxMechanizationClassicalChoiceCount) {
     violations.push(
       `Foundation.Mechanization.V1.Model Classical.choice count grew (${measured.mechanizationClassicalChoiceCount} > ceiling ${ratchet.maxMechanizationClassicalChoiceCount})`,
+    );
+  }
+  if (measured.ungroundedModelCount > (ratchet.maxUngroundedModelCount ?? 0)) {
+    violations.push(
+      `Ungrounded LexLean model count grew (${measured.ungroundedModelCount} > ceiling ${ratchet.maxUngroundedModelCount ?? 0})`,
+    );
+  }
+  if (measured.uncertifiedStructureW5HCount > (ratchet.maxUncertifiedStructureW5HCount ?? 0)) {
+    violations.push(
+      `Uncertified structure W5H count grew (${measured.uncertifiedStructureW5HCount} > ceiling ${ratchet.maxUncertifiedStructureW5HCount ?? 0})`,
+    );
+  }
+  if (
+    measured.ontologyRootLiteralGtOneCount > (ratchet.maxOntologyRootLiteralGtOneCount ?? 0)
+  ) {
+    violations.push(
+      `Ontology root numeric literals > 1 grew (${measured.ontologyRootLiteralGtOneCount} > ceiling ${ratchet.maxOntologyRootLiteralGtOneCount ?? 0})`,
+    );
+  }
+  if (measured.ontologyRootStringFieldCount > (ratchet.maxOntologyRootStringFieldCount ?? 0)) {
+    violations.push(
+      `Ontology root String field count grew (${measured.ontologyRootStringFieldCount} > ceiling ${ratchet.maxOntologyRootStringFieldCount ?? 0})`,
     );
   }
 
@@ -1088,6 +1170,10 @@ export function syncOrCheckUorMechanizationArtifacts(
           ratchetDoc.maxMechanizationClassicalChoiceCount,
           measuredRatchet.mechanizationClassicalChoiceCount,
         ),
+        maxUngroundedModelCount: 0,
+        maxUncertifiedStructureW5HCount: 0,
+        maxOntologyRootLiteralGtOneCount: 0,
+        maxOntologyRootStringFieldCount: 0,
       };
       ratchetUpdated = writeFileIfChanged(ratchetPath, `${JSON.stringify(tightened, null, 2)}\n`);
       ratchetDoc = tightened;

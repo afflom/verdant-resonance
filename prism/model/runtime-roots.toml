@@ -1,5 +1,5 @@
 spec = "prismpm/runtime-roots/1"
-lean_modules = ["PrismVerdantResonance.Foundation.Acoustics.V1.Model", "PrismVerdantResonance.Foundation.Anamnesis.V1.Model", "PrismVerdantResonance.Foundation.Articulation.V1.Model", "PrismVerdantResonance.Foundation.Botany.V1.Model", "PrismVerdantResonance.Foundation.Brand.V1.Model", "PrismVerdantResonance.Foundation.Chemistry.V1.Model", "PrismVerdantResonance.Foundation.Compression.V1.Model", "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model", "PrismVerdantResonance.Foundation.Dharma.V1.Model", "PrismVerdantResonance.Foundation.Ecology.V1.Model", "PrismVerdantResonance.Foundation.Graphics.V1.Model", "PrismVerdantResonance.Foundation.Humane.V1.Model", "PrismVerdantResonance.Foundation.Infrastructure.V1.Model", "PrismVerdantResonance.Foundation.Mathematics.V1.Model", "PrismVerdantResonance.Foundation.Mechanization.V1.Model", "PrismVerdantResonance.Foundation.MetaModel.V1.Model", "PrismVerdantResonance.Foundation.Morphogenesis.V1.Model", "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model", "PrismVerdantResonance.Foundation.Physics.V1.Model", "PrismVerdantResonance.Foundation.Realizability.V1.Model", "PrismVerdantResonance.Foundation.Soundtrack.V1.Model", "PrismVerdantResonance.Foundation.SpatialAcoustics.V1.Model", "PrismVerdantResonance.Foundation.Teleology.V1.Model", "PrismVerdantResonance.Foundation.Vedanta.V1.Model", "PrismVerdantResonance.VerdantResonance"]
+lean_modules = ["PrismVerdantResonance.Foundation.Acoustics.V1.Model", "PrismVerdantResonance.Foundation.Anamnesis.V1.Model", "PrismVerdantResonance.Foundation.Articulation.V1.Model", "PrismVerdantResonance.Foundation.Botany.V1.Model", "PrismVerdantResonance.Foundation.Brand.V1.Model", "PrismVerdantResonance.Foundation.Chemistry.V1.Model", "PrismVerdantResonance.Foundation.Compression.V1.Model", "PrismVerdantResonance.Foundation.Cosmogenesis.V1.Model", "PrismVerdantResonance.Foundation.Dharma.V1.Model", "PrismVerdantResonance.Foundation.Ecology.V1.Model", "PrismVerdantResonance.Foundation.Graphics.V1.Model", "PrismVerdantResonance.Foundation.Humane.V1.Model", "PrismVerdantResonance.Foundation.Infrastructure.V1.Model", "PrismVerdantResonance.Foundation.Mathematics.V1.Model", "PrismVerdantResonance.Foundation.Mechanization.V1.Model", "PrismVerdantResonance.Foundation.MetaModel.V1.Model", "PrismVerdantResonance.Foundation.Morphogenesis.V1.Model", "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model", "PrismVerdantResonance.Foundation.Ontology.V1.Model", "PrismVerdantResonance.Foundation.Physics.V1.Model", "PrismVerdantResonance.Foundation.Realizability.V1.Model", "PrismVerdantResonance.Foundation.Soundtrack.V1.Model", "PrismVerdantResonance.Foundation.SpatialAcoustics.V1.Model", "PrismVerdantResonance.Foundation.Teleology.V1.Model", "PrismVerdantResonance.Foundation.Vedanta.V1.Model", "PrismVerdantResonance.VerdantResonance"]
 ir_module = "PrismVerdantResonance"
 roots = [
   "PrismVerdantResonance.Foundation.Acoustics.V1.Model.stepAcousticsBusModulation",
@@ -127,6 +127,20 @@ roots = [
   "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyObserverSupraDirectiveTranscendence",
   "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifyRule30DeterministicAndWithdrawnDuality",
   "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifySingleCallPropagatesAllTenDomains",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.bitMaskConstructive",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.computeEpistemicOpacityDebt",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.computeHostCeilingExcess",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.distinctionBitsForCardinality",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.evaluateOntologicalTelosLoss",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.fibonacciConstructive",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.harmonicConsonanceComplexity",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.isPrimeConstructive",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.nthPrimeConstructive",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.pow2Constructive",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.stepParametricOntologyCoordinate",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.triadicAgencyPrimeProduct",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.verifyStratumObstructionResolved",
+  "PrismVerdantResonance.Foundation.Ontology.V1.Model.verifyW5HCertificateComplete",
   "PrismVerdantResonance.Foundation.Physics.V1.Model.gellMannNishijimaBiasedSixQ",
   "PrismVerdantResonance.Foundation.Physics.V1.Model.stepCrossModalAcousticShadowPermille",
   "PrismVerdantResonance.Foundation.Physics.V1.Model.stepCrossModalPhaseObstructionPermille",
@@ -916,6 +930,90 @@ name = "PrismVerdantResonance.Foundation.Neuromorphic.V1.Model.verifySingleCallP
 package = "verdant_neuromorphic_verify_single_call_propagates_all_te_2386f3"
 targets = ["rust-core"]
 effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.bitMaskConstructive"
+package = "verdant_ontology_bit_mask_constructive"
+targets = ["rust-core"]
+effects = ["overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.computeEpistemicOpacityDebt"
+package = "verdant_ontology_compute_epistemic_opacity_debt"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.computeHostCeilingExcess"
+package = "verdant_ontology_compute_host_ceiling_excess"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.distinctionBitsForCardinality"
+package = "verdant_ontology_distinction_bits_for_cardinality"
+targets = ["rust-core"]
+effects = []
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.evaluateOntologicalTelosLoss"
+package = "verdant_ontology_evaluate_ontological_telos_loss"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.fibonacciConstructive"
+package = "verdant_ontology_fibonacci_constructive"
+targets = ["rust-core"]
+effects = ["overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.harmonicConsonanceComplexity"
+package = "verdant_ontology_harmonic_consonance_complexity"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.isPrimeConstructive"
+package = "verdant_ontology_is_prime_constructive"
+targets = ["rust-core"]
+effects = ["overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.nthPrimeConstructive"
+package = "verdant_ontology_nth_prime_constructive"
+targets = ["rust-core"]
+effects = ["overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.pow2Constructive"
+package = "verdant_ontology_pow2_constructive"
+targets = ["rust-core"]
+effects = ["overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.stepParametricOntologyCoordinate"
+package = "verdant_ontology_step_parametric_ontology_coordinate"
+targets = ["rust-core"]
+effects = ["overflow"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.triadicAgencyPrimeProduct"
+package = "verdant_ontology_triadic_agency_prime_product"
+targets = ["rust-core"]
+effects = ["overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.verifyStratumObstructionResolved"
+package = "verdant_ontology_verify_stratum_obstruction_resolved"
+targets = ["rust-core"]
+effects = ["overflow", "recursion"]
+
+[[root]]
+name = "PrismVerdantResonance.Foundation.Ontology.V1.Model.verifyW5HCertificateComplete"
+package = "verdant_ontology_verify_w5_h_certificate_complete"
+targets = ["rust-core"]
+effects = ["overflow", "recursion"]
 
 [[root]]
 name = "PrismVerdantResonance.Foundation.Physics.V1.Model.gellMannNishijimaBiasedSixQ"

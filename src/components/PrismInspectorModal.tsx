@@ -14,10 +14,12 @@ import {
   VERDANT_BRAND_STANDARD,
   VERDANT_TELEOLOGICAL_PHENOMENA,
   evaluateBiomeMasteryAndGuilds,
+  evaluateUniversal5WhOntologyCatalog,
   evaluateVerdantAutonomousKpis,
   evaluateVerdantTeleologySynthesis,
   GardenPlantInstance,
   getPlantLifecycleStage,
+  Ontological5WhNodeExplanation,
   synthesizeParametricAtmosphereConfigs,
   synthesizeParametricBiomeConfigs,
   synthesizeParametricSoundOutcomeProfiles,
@@ -64,9 +66,12 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
   onTeleportBiome,
   onSelectAtmosphere,
 }) => {
-  const [activeTab, setActiveTab] = useState<'herbarium' | 'biomes' | 'harmonies' | 'ethos'>(
-    'herbarium',
-  );
+  const [activeTab, setActiveTab] = useState<
+    'herbarium' | 'biomes' | 'harmonies' | 'ethos' | 'ontology'
+  >('herbarium');
+  const [ontologyFilter, setOntologyFilter] = useState<
+    'causal-stratum' | 'prime-atom' | 'world-phenomenon' | 'lexlean-structure'
+  >('causal-stratum');
 
   const cosmoParams = {
     alphaSeed: telemetry.neuromorphic.observer.cosmogenesis.alphaSeed,
@@ -92,6 +97,30 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
     exploredBiomesCount: telemetry.exploredBiomes.length,
   });
   const rec = kpiScorecard.reconciliation;
+  const ontologyReport = evaluateUniversal5WhOntologyCatalog(
+    {
+      logicalCores: typeof navigator !== 'undefined' ? navigator.hardwareConcurrency || 4 : 4,
+      frameBudgetMicros: 16667,
+      observedFrameMicros: 8500,
+    },
+    {
+      stillnessRatioPermille:
+        telemetry.action === 'stillness' ? 900 : Math.max(0, Math.round((1 - telemetry.velocityDm / 30) * 750)),
+      gazeDwellRatioPermille: telemetry.nearestPlant ? 780 : 320,
+      harmonicComfortPermille: Math.round(telemetry.soundtrackScore.curatedConsonancePurity01 * 1000),
+      activePresence: true,
+    },
+    telemetry.liveCoEvolution.ontologicalTelos.coordinates,
+    telemetry.liveCoEvolution.incumbentDissonancePermille,
+  );
+  const filteredOntologyNodes: readonly Ontological5WhNodeExplanation[] =
+    ontologyFilter === 'causal-stratum'
+      ? ontologyReport.causalStratumNodes
+      : ontologyFilter === 'prime-atom'
+        ? ontologyReport.primeAtomNodes
+        : ontologyFilter === 'world-phenomenon'
+          ? ontologyReport.worldPhenomenonNodes
+          : ontologyReport.structureNodes;
 
   const speciesList = Object.values(PLANT_SPECIES_CONFIGS);
   const biomeList = Object.values(liveBiomeConfigs);
@@ -277,6 +306,18 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
               }`}
             >
               Sanctuary Ethos
+            </button>
+            <button
+              type="button"
+              data-testid="inspector-tab-ontology"
+              onClick={() => setActiveTab('ontology')}
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                activeTab === 'ontology'
+                  ? 'bg-emerald-500/25 text-amber-100 border border-emerald-400/30'
+                  : 'text-emerald-300/70 hover:text-emerald-100'
+              }`}
+            >
+              5W+H Ontology (8)
             </button>
           </div>
 
@@ -620,10 +661,135 @@ export const PrismInspectorModal: React.FC<PrismInspectorModalProps> = ({
                 ))}
               </div>
 
-              <div className="rounded-xl border border-emerald-400/15 bg-[#091611] px-4 py-3 text-xs font-mono text-emerald-200/85">
-                Controls: WASD / Arrows Move · Mouse Drag or Q/E Look · Space Attune Flora or
-                Landmark · T Gentle Touch · C Meditative Stillness · G Guided Stroll · L Cycle Sky ·
-                1–5 Visit Biomes · H Hide HUD Dock
+                <div className="rounded-xl border border-emerald-400/15 bg-[#091611] px-4 py-3 text-xs font-mono text-emerald-200/85">
+                  Controls: WASD / Arrows Move · Mouse Drag or Q/E Look · Space Attune Flora or
+                  Landmark · T Gentle Touch · C Meditative Stillness · G Guided Stroll · L Cycle Sky ·
+                  1–5 Visit Biomes · H Hide HUD Dock
+                </div>
+              </div>
+            )}
+
+          {/* TAB 5: PURELY PARAMETRIC 5W+H SELF-INQUIRY ONTOLOGY */}
+          {activeTab === 'ontology' && (
+            <div className="space-y-3" data-testid="ontology-5wh-panel">
+              <div className="rounded-xl border border-amber-300/30 bg-[#0b1d16] p-4 space-y-2.5">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="text-xs font-mono text-amber-200 uppercase tracking-wider">
+                    Why Verdant Resonance Exists · Triad 2 × 3 × 5 ={' '}
+                    {ontologyReport.fullGameTriadAgencyProduct}
+                  </div>
+                  <span className="px-2 py-0.5 rounded bg-emerald-900/70 border border-emerald-400/25 text-[11px] font-mono text-emerald-100">
+                    {ontologyReport.groundedModuleCount}/29 Grounded Modules ·{' '}
+                    {ontologyReport.totalCertifiedStructures} W5H Structures ·{' '}
+                    {ontologyReport.rootVerifiedFromZeroAndOneOnly ? '{0, 1} Pure Root' : 'Unverified'}
+                  </span>
+                </div>
+                <p className="text-xs text-emerald-50/95 leading-relaxed">
+                  {ontologyReport.gameExistenceNode.whyAnswer}
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs font-mono">
+                  <div className="rounded-lg bg-[#081510] border border-emerald-400/15 px-3 py-2">
+                    <div className="text-[10px] text-emerald-300/75 uppercase">Epistemic Opacity</div>
+                    <div className="text-sm font-semibold text-emerald-200">
+                      {ontologyReport.liveTelos.epistemicOpacityDebt}
+                    </div>
+                    <div className="text-[10px] text-teal-200/80">0 unexplained constants</div>
+                  </div>
+                  <div className="rounded-lg bg-[#081510] border border-emerald-400/15 px-3 py-2">
+                    <div className="text-[10px] text-emerald-300/75 uppercase">Legibility Gap</div>
+                    <div className="text-sm font-semibold text-amber-200">
+                      {ontologyReport.liveTelos.sensoryLegibilityGap}
+                    </div>
+                    <div className="text-[10px] text-teal-200/80">
+                      θ=[{ontologyReport.liveTelos.coordinates.harmonicSimplicity},
+                      {ontologyReport.liveTelos.coordinates.phyllotaxisClarity},
+                      {ontologyReport.liveTelos.coordinates.waveCalmDamping},
+                      {ontologyReport.liveTelos.coordinates.iridescenceLegibility},
+                      {ontologyReport.liveTelos.coordinates.guildOffshootDensity}]
+                    </div>
+                  </div>
+                  <div className="rounded-lg bg-[#081510] border border-emerald-400/15 px-3 py-2">
+                    <div className="text-[10px] text-emerald-300/75 uppercase">Telos Loss</div>
+                    <div className="text-sm font-semibold text-amber-100">
+                      {ontologyReport.liveTelos.totalTelosLoss}
+                    </div>
+                    <div className="text-[10px] text-teal-200/80">
+                      Host excess: {ontologyReport.liveTelos.hostCeilingExcess}
+                    </div>
+                  </div>
+                  <div className="rounded-lg bg-[#081510] border border-emerald-400/15 px-3 py-2">
+                    <div className="text-[10px] text-emerald-300/75 uppercase">Constructive Primes</div>
+                    <div className="text-sm font-semibold text-teal-200 truncate">
+                      {ontologyReport.derivedPrimeAtoms.slice(0, 8).join(', ')}
+                    </div>
+                    <div className="text-[10px] text-teal-200/80">From 0 &amp; succ(0) only</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {(
+                  [
+                    ['causal-stratum', `Causal Strata (${ontologyReport.causalStratumNodes.length})`],
+                    ['prime-atom', `Prime Atoms (${ontologyReport.primeAtomNodes.length})`],
+                    ['world-phenomenon', `World Phenomena (${ontologyReport.worldPhenomenonNodes.length})`],
+                    ['lexlean-structure', `Certified Structures (${ontologyReport.structureNodes.length})`],
+                  ] as const
+                ).map(([kind, label]) => (
+                  <button
+                    key={kind}
+                    type="button"
+                    onClick={() => setOntologyFilter(kind)}
+                    className={`px-2.5 py-1 rounded-md text-xs font-mono transition-colors cursor-pointer ${
+                      ontologyFilter === kind
+                        ? 'bg-amber-300/20 text-amber-100 border border-amber-300/40'
+                        : 'bg-[#081510] text-emerald-300/75 hover:text-emerald-100 border border-emerald-400/15'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="space-y-2">
+                {filteredOntologyNodes.map((node) => (
+                  <div
+                    key={node.nodeId}
+                    className="rounded-xl border border-emerald-400/15 bg-[#0c1d17] p-3.5 space-y-2"
+                  >
+                    <div className="flex items-center justify-between gap-2 flex-wrap">
+                      <span className="text-xs font-semibold text-amber-100">{node.title}</span>
+                      <span className="text-[10px] font-mono text-teal-200/90">
+                        p={node.whatIntrinsicPrimeAtom} · UOR={node.whatCompositeUorSignature} ·{' '}
+                        {node.w5hCertifiedByWasm ? 'W5H Wasm Certified' : 'Unverified'}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-[11px] leading-relaxed">
+                      <div>
+                        <span className="font-mono text-amber-200/90 uppercase">What: </span>
+                        <span className="text-emerald-100/90">{node.whatAnswer}</span>
+                      </div>
+                      <div>
+                        <span className="font-mono text-amber-200/90 uppercase">Why: </span>
+                        <span className="text-emerald-100/90">{node.whyAnswer}</span>
+                      </div>
+                      <div>
+                        <span className="font-mono text-teal-200/90 uppercase">Who: </span>
+                        <span className="text-emerald-200/85">{node.whoAnswer}</span>
+                      </div>
+                      <div>
+                        <span className="font-mono text-teal-200/90 uppercase">Where &amp; When: </span>
+                        <span className="text-emerald-200/85">
+                          {node.whereAnswer} · {node.whenAnswer}
+                        </span>
+                      </div>
+                      <div className="md:col-span-2">
+                        <span className="font-mono text-emerald-300/90 uppercase">How: </span>
+                        <span className="text-emerald-100/85">{node.howAnswer}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}

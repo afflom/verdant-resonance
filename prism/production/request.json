@@ -1627,6 +1627,188 @@
     },
     {
       "package": {
+        "name": "verdant_ontology_bit_mask_constructive",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.bitMaskConstructive",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ontology_compute_epistemic_opacity_debt",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.computeEpistemicOpacityDebt",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ontology_compute_host_ceiling_excess",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.computeHostCeilingExcess",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ontology_distinction_bits_for_cardinality",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.distinctionBitsForCardinality",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ontology_evaluate_ontological_telos_loss",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.evaluateOntologicalTelosLoss",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ontology_fibonacci_constructive",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.fibonacciConstructive",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ontology_harmonic_consonance_complexity",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.harmonicConsonanceComplexity",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ontology_is_prime_constructive",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.isPrimeConstructive",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ontology_nth_prime_constructive",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.nthPrimeConstructive",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ontology_pow2_constructive",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.pow2Constructive",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ontology_step_parametric_ontology_coordinate",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.stepParametricOntologyCoordinate",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ontology_triadic_agency_prime_product",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.triadicAgencyPrimeProduct",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ontology_verify_stratum_obstruction_resolved",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.verifyStratumObstructionResolved",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
+        "name": "verdant_ontology_verify_w5_h_certificate_complete",
+        "version": "0.1.0"
+      },
+      "root": "PrismVerdantResonance.Foundation.Ontology.V1.Model.verifyW5HCertificateComplete",
+      "targets": [
+        {
+          "digest": "56a68eab0175d92fd4e6156e35e04095125a17b731b4cd60d1f6a6b56df5b6d0",
+          "id": "rust-core"
+        }
+      ]
+    },
+    {
+      "package": {
         "name": "verdant_physics_gell_mann_nishijima_biased_six_q",
         "version": "0.1.0"
       },

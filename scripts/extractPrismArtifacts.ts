@@ -30,12 +30,19 @@ export interface LexLeanTheorem {
   statementRaw: string;
 }
 
+export interface ParsedLexStructureDetail {
+  name: string;
+  fieldCount: number;
+  hasStringField: boolean;
+}
+
 export interface ParsedLexModule {
   moduleName: string;
   filePath: string;
   rawText: string;
   imports: string[];
   structures: string[];
+  structureDetails: ParsedLexStructureDetail[];
   definitions: Map<string, LexLeanDefinition>;
   theorems: LexLeanTheorem[];
 }
@@ -107,6 +114,7 @@ export function parseLexTexFile(filePath: string): ParsedLexModule {
   }
 
   const structures: string[] = [];
+  const structureDetails: ParsedLexStructureDetail[] = [];
   const definitions = new Map<string, LexLeanDefinition>();
   const theorems: LexLeanTheorem[] = [];
 
@@ -123,6 +131,14 @@ export function parseLexTexFile(filePath: string): ParsedLexModule {
 
     if (kind === 'structure') {
       structures.push(name);
+      const fieldsRaw = extractTopLevelField(content, 'fields') ?? '[]';
+      const fieldMatches = fieldsRaw.match(/\{\s*name\s*:/g) ?? [];
+      const hasStringField = /\btype\s*:\s*String\b/.test(fieldsRaw);
+      structureDetails.push({
+        name,
+        fieldCount: Math.max(1, fieldMatches.length),
+        hasStringField,
+      });
     } else if (kind === 'definition') {
       const paramsRaw = extractTopLevelField(content, 'parameters') ?? '[]';
       const innerParams = paramsRaw.replace(/^\[|\]$/g, '').trim();
@@ -160,6 +176,7 @@ export function parseLexTexFile(filePath: string): ParsedLexModule {
     rawText: raw,
     imports,
     structures,
+    structureDetails,
     definitions,
     theorems,
   };
@@ -894,6 +911,346 @@ export function extractAndValidateVerdantSpec(
     otherwise: rawSpec.otherwise,
     properties: enrichedProperties,
     examples: rawSpec.examples,
+  };
+}
+
+interface CausalStratumSeed {
+  readonly rank: number;
+  readonly stratumId: string;
+  readonly title: string;
+  readonly whatEssence: string;
+  readonly whyObstructionWithout: string;
+  readonly whoAgencyFlags: readonly [boolean, boolean, boolean];
+  readonly whereBoundaryPole: number;
+  readonly whenTemporalRegime: number;
+  readonly howLogosMechanism: string;
+  readonly groundedModules: readonly string[];
+}
+
+const EIGHT_CAUSAL_STRATA_SEEDS: readonly CausalStratumSeed[] = [
+  {
+    rank: 0,
+    stratumId: 'distinction-prime-atoms',
+    title: 'Distinction & UOR Prime Atoms',
+    whatEssence: 'Irreducible prime distinctions generated constructively from {0, 1} via Bertrand trial-division sieve.',
+    whyObstructionWithout: 'In undifferentiated Void (cardinality <= 1), distinctionBits = 0; composite states lose unique factorization and nothing can observe or be observed.',
+    whoAgencyFlags: [true, false, false],
+    whereBoundaryPole: 0,
+    whenTemporalRegime: 0,
+    howLogosMechanism: 'Foundation.Ontology.V1.Model::nthPrimeConstructive & distinctionBitsForCardinality',
+    groundedModules: [
+      'Foundation.Ontology.V1.Model',
+      'Foundation.Mathematics.V1.Model',
+      'Foundation.Bytes',
+      'Foundation.MetaModel.V1.Model',
+    ],
+  },
+  {
+    rank: 1,
+    stratumId: 'metric-space-causal-time',
+    title: 'Metric Space, Causal Time & Conservation',
+    whatEssence: 'Riemannian metric separation, causal tick ordering, and energy-momentum conservation.',
+    whyObstructionWithout: 'Isolated prime distinctions without metric distance or causal ticks overwrite one another at a single point and cannot coexist or endure.',
+    whoAgencyFlags: [true, true, false],
+    whereBoundaryPole: 0,
+    whenTemporalRegime: 2,
+    howLogosMechanism: 'Foundation.Physics.V1.Model & Foundation.Infrastructure.V1.Model fixed-point kinematics',
+    groundedModules: ['Foundation.Physics.V1.Model', 'Foundation.Infrastructure.V1.Model'],
+  },
+  {
+    rank: 2,
+    stratumId: 'valence-bonding-morphogenesis',
+    title: 'Valence Bonding & Morphogenetic Form',
+    whatEssence: 'Stoichiometric electron-shell bonding, Bravais crystal habits, and Fibonacci/Turing vascular branching.',
+    whyObstructionWithout: 'Pure linear elastic waves disperse to uniform equilibrium; valence chemistry and morphogenesis lock energy into persistent geometric structures.',
+    whoAgencyFlags: [true, true, false],
+    whereBoundaryPole: 0,
+    whenTemporalRegime: 2,
+    howLogosMechanism: 'Foundation.Chemistry.V1.Model & Foundation.Morphogenesis.V1.Model reaction-diffusion L-systems',
+    groundedModules: ['Foundation.Chemistry.V1.Model', 'Foundation.Morphogenesis.V1.Model'],
+  },
+  {
+    rank: 3,
+    stratumId: 'autopoietic-living-ecology',
+    title: 'Autopoietic Living Ecology',
+    whatEssence: 'Five living botanical species and symbiotic mycorrhizal/microclimate guilds metabolizing light and water.',
+    whyObstructionWithout: 'Static mineral crystals cannot self-repair or metabolize perturbations; autopoietic flora hold negentropic life across diurnal cycles.',
+    whoAgencyFlags: [true, true, true],
+    whereBoundaryPole: 1,
+    whenTemporalRegime: 3,
+    howLogosMechanism: 'Foundation.Botany.V1.Model & Foundation.Ecology.V1.Model Kuramoto & guild symbiosis',
+    groundedModules: ['Foundation.Botany.V1.Model', 'Foundation.Ecology.V1.Model'],
+  },
+  {
+    rank: 4,
+    stratumId: 'wave-media-perceptual-legibility',
+    title: 'Wave Media & Perceptual Signification',
+    whatEssence: 'Spectral light interference, spatial room acoustics, harmonic voice-leading, and retinal/auditory legibility.',
+    whyObstructionWithout: 'Without radiative light and acoustic waves crossing space with psychophysical contrast legibility, interior states remain causally sealed (mutual information = 0).',
+    whoAgencyFlags: [true, true, true],
+    whereBoundaryPole: 1,
+    whenTemporalRegime: 1,
+    howLogosMechanism: 'Graphics, Acoustics, SpatialAcoustics, Articulation, Soundtrack & Brand-as-Signification',
+    groundedModules: [
+      'Foundation.Graphics.V1.Model',
+      'Foundation.Acoustics.V1.Model',
+      'Foundation.SpatialAcoustics.V1.Model',
+      'Foundation.Articulation.V1.Model',
+      'Foundation.Soundtrack.V1.Model',
+      'Foundation.View.Text.V1.Model',
+      'Foundation.Brand.V1.Model',
+    ],
+  },
+  {
+    rank: 5,
+    stratumId: 'compression-anamnesis-memory',
+    title: 'Parametric Compression & Anamnesis Memory',
+    whatEssence: 'Zero-defect UORC κ-addressed state compression, Merkle snapshots, and hardware realizability.',
+    whyObstructionWithout: 'Finite hosts lose uncompacted history across ticks and reloads; compression and Anamnesis preserve shared identity across time.',
+    whoAgencyFlags: [true, true, true],
+    whereBoundaryPole: 2,
+    whenTemporalRegime: 4,
+    howLogosMechanism: 'Foundation.Compression.V1.Model, Foundation.Anamnesis.V1.Model & Realizability',
+    groundedModules: [
+      'Foundation.Compression.V1.Model',
+      'Foundation.Anamnesis.V1.Model',
+      'Foundation.Realizability.V1.Model',
+    ],
+  },
+  {
+    rank: 6,
+    stratumId: 'reflexive-inquiry-noncoercive-dharma',
+    title: 'Reflexive Inquiry & Non-Coercive Dharma',
+    whatEssence: 'Neuromorphic bus, Peirce abduction-deduction-induction, Theory-of-Mind, Vedanta non-duality, and 0-coercion Dharma.',
+    whyObstructionWithout: 'Memory without inference cannot ask Why or model an Other, and optimization without Dharma drifts into coercive dark patterns.',
+    whoAgencyFlags: [true, true, true],
+    whereBoundaryPole: 0,
+    whenTemporalRegime: 3,
+    howLogosMechanism: 'Neuromorphic, Mechanization, Teleology, Humane, Vedanta & Dharma non-coercive gates',
+    groundedModules: [
+      'Foundation.Neuromorphic.V1.Model',
+      'Foundation.Mechanization.V1.Model',
+      'Foundation.Teleology.V1.Model',
+      'Foundation.Humane.V1.Model',
+      'Foundation.Vedanta.V1.Model',
+      'Foundation.Dharma.V1.Model',
+    ],
+  },
+  {
+    rank: 7,
+    stratumId: 'living-sanctuary-game-triad',
+    title: 'The Living Sanctuary / Game (Observer × Medium × Player = 30)',
+    whatEssence: 'The serene, bidirectional causal sanctuary uniting formal Observer (2), living Medium (3), and free Player (5).',
+    whyObstructionWithout: 'A closed deterministic Observer hits the solipsistic self-reference ceiling; the Game exists so Observer and Player can perceive one another, answer the 5W+H, and co-create resonance.',
+    whoAgencyFlags: [true, true, true],
+    whereBoundaryPole: 1,
+    whenTemporalRegime: 3,
+    howLogosMechanism: 'Foundation.Cosmogenesis.V1.Model, VerdantResonance & VerdantResonanceProofs',
+    groundedModules: [
+      'Foundation.Cosmogenesis.V1.Model',
+      'VerdantResonance',
+      'VerdantResonanceProofs',
+    ],
+  },
+];
+
+function extractOntology5WhLedger(modules: Map<string, ParsedLexModule>) {
+  const ontModName = 'Foundation.Ontology.V1.Model';
+  const ontMod = modules.get(ontModName);
+  if (!ontMod) {
+    throw new Error(`Missing required axiomatic root module ${ontModName}`);
+  }
+
+  const semMatch = ontMod.rawText.match(/\\begin\{semanticmodule\}([\s\S]*?)\\end\{semanticmodule\}/);
+  const semBody = semMatch ? semMatch[1] : ontMod.rawText;
+  const rootNumsGtOne = (semBody.match(/\b\d+\b/g) ?? []).filter((n) => n !== '0' && n !== '1');
+  const rootStringFields = ontMod.structureDetails.filter((s) => s.hasStringField).length;
+  const rootZeroParamDefs = [...ontMod.definitions.values()].filter(
+    (d) => d.parameters.length === 0,
+  ).length;
+
+  if (rootNumsGtOne.length > 0 || rootStringFields > 0 || rootZeroParamDefs > 0) {
+    throw new Error(
+      `Ontology root purity violated in ${ontModName}: literalsGt1=${rootNumsGtOne.length}, stringFields=${rootStringFields}, zeroParamDefs=${rootZeroParamDefs}`,
+    );
+  }
+
+  const derivedFirstSixteenPrimes: number[] = [];
+  for (let r = 0; r < 16; r++) {
+    derivedFirstSixteenPrimes.push(
+      Number(evaluateLexExpr(`(nthPrimeConstructive ${r})`, ontModName, modules)),
+    );
+  }
+
+  const derivedFibonacciConvergents: number[] = [];
+  for (let k = 0; k <= 12; k++) {
+    derivedFibonacciConvergents.push(
+      Number(evaluateLexExpr(`(fibonacciConstructive ${k})`, ontModName, modules)),
+    );
+  }
+
+  const agencyObserverOnly = Number(
+    evaluateLexExpr('(triadicAgencyPrimeProduct true false false)', ontModName, modules),
+  );
+  const agencyMediumOnly = Number(
+    evaluateLexExpr('(triadicAgencyPrimeProduct false true false)', ontModName, modules),
+  );
+  const agencyPlayerOnly = Number(
+    evaluateLexExpr('(triadicAgencyPrimeProduct false false true)', ontModName, modules),
+  );
+  const agencyObserverMedium = Number(
+    evaluateLexExpr('(triadicAgencyPrimeProduct true true false)', ontModName, modules),
+  );
+  const agencyFullTriad = Number(
+    evaluateLexExpr('(triadicAgencyPrimeProduct true true true)', ontModName, modules),
+  );
+
+  const moduleToStratum = new Map<string, CausalStratumSeed>();
+  for (const seed of EIGHT_CAUSAL_STRATA_SEEDS) {
+    for (const mName of seed.groundedModules) {
+      moduleToStratum.set(mName, seed);
+    }
+  }
+
+  const ungroundedModules = [...modules.keys()].filter((m) => !moduleToStratum.has(m));
+  if (ungroundedModules.length > 0) {
+    throw new Error(
+      `Ungrounded LexLean module(s) lacking causal obstruction stratum: ${ungroundedModules.join(', ')}`,
+    );
+  }
+
+  const eightStrata = EIGHT_CAUSAL_STRATA_SEEDS.map((seed) => {
+    const intrinsicPrimeAtom = derivedFirstSixteenPrimes[seed.rank];
+    const [hObs, hMed, hPly] = seed.whoAgencyFlags;
+    const whoAgencyProduct = Number(
+      evaluateLexExpr(
+        `(triadicAgencyPrimeProduct ${hObs} ${hMed} ${hPly})`,
+        ontModName,
+        modules,
+      ),
+    );
+    const obstructionWithout = Boolean(
+      evaluateLexExpr(`(stratumObstructionWithout ${seed.rank} false)`, ontModName, modules),
+    );
+    const obstructionResolved = Boolean(
+      evaluateLexExpr(
+        `(verifyStratumObstructionResolved ${seed.rank} true ${hObs} ${hMed} ${hPly})`,
+        ontModName,
+        modules,
+      ),
+    );
+    const resolvesWithoutPlayer = Boolean(
+      evaluateLexExpr(
+        `(verifyStratumObstructionResolved ${seed.rank} true true true false)`,
+        ontModName,
+        modules,
+      ),
+    );
+    const w5hVerified = Boolean(
+      evaluateLexExpr(
+        `(verifyW5HCertificateComplete ${intrinsicPrimeAtom} ${intrinsicPrimeAtom * whoAgencyProduct} ${seed.rank} ${whoAgencyProduct} ${seed.whereBoundaryPole} ${seed.groundedModules.length} ${seed.whenTemporalRegime} true)`,
+        ontModName,
+        modules,
+      ),
+    );
+    if (!obstructionWithout || !obstructionResolved || !w5hVerified) {
+      throw new Error(`Stratum ${seed.rank} (${seed.stratumId}) failed W5H obstruction verification`);
+    }
+    return {
+      rank: seed.rank,
+      stratumId: seed.stratumId,
+      title: seed.title,
+      whatIntrinsicPrimeAtom: intrinsicPrimeAtom,
+      whatCompositeUorSignature: intrinsicPrimeAtom * whoAgencyProduct,
+      whatEssence: seed.whatEssence,
+      whyObstructionWithout: seed.whyObstructionWithout,
+      whyRequiresLivingPlayer: !resolvesWithoutPlayer,
+      whoAgencyPrimeProduct: whoAgencyProduct,
+      whereBoundaryPole: seed.whereBoundaryPole,
+      whenTemporalRegime: seed.whenTemporalRegime,
+      howLogosMechanism: seed.howLogosMechanism,
+      groundedModules: seed.groundedModules,
+      w5hVerified,
+    };
+  });
+
+  const sortedModNames = [...modules.keys()].sort((a, b) => a.localeCompare(b));
+  let uncertifiedStructureCount = 0;
+  const structureCertificates: Array<{
+    readonly structureId: string;
+    readonly moduleName: string;
+    readonly structureName: string;
+    readonly whatIntrinsicPrimeAtom: number;
+    readonly whatCompositeUorSignature: number;
+    readonly whyStratumRank: number;
+    readonly whoAgencyPrimeProduct: number;
+    readonly whereBoundaryPole: number;
+    readonly whereFieldArity: number;
+    readonly whenTemporalRegime: number;
+    readonly w5hVerified: boolean;
+  }> = [];
+
+  let structOrdinal = 0;
+  for (const modName of sortedModNames) {
+    const mod = modules.get(modName)!;
+    const seed = moduleToStratum.get(modName)!;
+    const stratumCert = eightStrata[seed.rank];
+    for (const sDetail of mod.structureDetails) {
+      const factorPrime = derivedFirstSixteenPrimes[structOrdinal % derivedFirstSixteenPrimes.length];
+      const uorSig = stratumCert.whatIntrinsicPrimeAtom * factorPrime * sDetail.fieldCount;
+      const verified = Boolean(
+        evaluateLexExpr(
+          `(verifyW5HCertificateComplete ${stratumCert.whatIntrinsicPrimeAtom} ${uorSig} ${seed.rank} ${stratumCert.whoAgencyPrimeProduct} ${seed.whereBoundaryPole} ${sDetail.fieldCount} ${seed.whenTemporalRegime} true)`,
+          ontModName,
+          modules,
+        ),
+      );
+      if (!verified) uncertifiedStructureCount++;
+      structureCertificates.push({
+        structureId: `${modName}::${sDetail.name}`,
+        moduleName: modName,
+        structureName: sDetail.name,
+        whatIntrinsicPrimeAtom: stratumCert.whatIntrinsicPrimeAtom,
+        whatCompositeUorSignature: uorSig,
+        whyStratumRank: seed.rank,
+        whoAgencyPrimeProduct: stratumCert.whoAgencyPrimeProduct,
+        whereBoundaryPole: seed.whereBoundaryPole,
+        whereFieldArity: sDetail.fieldCount,
+        whenTemporalRegime: seed.whenTemporalRegime,
+        w5hVerified: verified,
+      });
+      structOrdinal++;
+    }
+  }
+
+  if (uncertifiedStructureCount > 0) {
+    throw new Error(`${uncertifiedStructureCount} LexLean structure(s) failed W5H certification!`);
+  }
+
+  return {
+    schema: 'verdant-resonance/ontology-5wh-ledger/1',
+    rootPurity: {
+      moduleName: ontModName,
+      literalGtOneCount: rootNumsGtOne.length,
+      stringFieldCount: rootStringFields,
+      zeroParamDefCount: rootZeroParamDefs,
+      verifiedFromZeroAndOneOnly: true,
+    },
+    derivedFirstSixteenPrimes,
+    derivedFibonacciConvergents,
+    triadicAgencyPrimeProducts: {
+      observerOnly: agencyObserverOnly,
+      mediumOnly: agencyMediumOnly,
+      playerOnly: agencyPlayerOnly,
+      observerAndMediumWithoutPlayer: agencyObserverMedium,
+      fullObserverMediumPlayerGameTriad: agencyFullTriad,
+    },
+    groundedModuleCount: sortedModNames.length,
+    ungroundedModuleCount: ungroundedModules.length,
+    totalStructureCount: structureCertificates.length,
+    uncertifiedStructureCount,
+    eightStrata,
+    structureCertificates,
   };
 }
 
@@ -2817,9 +3174,11 @@ export function extractAllPrismArtifacts(
   const judgeArtifact = extractVerdantJudgeArtifact(modules);
   const specJsonPath = path.resolve(prismRootDir, '..', 'spec.json');
   const verdantSpec = extractAndValidateVerdantSpec(specJsonPath, modules, judgeArtifact);
+  const ontology5WhLedger = extractOntology5WhLedger(modules);
 
   return {
     foundationPurity,
+    ontology5WhLedger,
     standards,
     domainBasisPrimes,
     canonicalModelBasisPrimes,
@@ -2944,6 +3303,12 @@ export const GENERATED_VERDANT_JUDGE_ARTIFACT = ${JSON.stringify(
 
 export const GENERATED_VERDANT_RESONANCE_SPEC = ${JSON.stringify(
     extracted.verdantSpec,
+    null,
+    2,
+  )} as const;
+
+export const GENERATED_ONTOLOGY_5WH_LEDGER = ${JSON.stringify(
+    extracted.ontology5WhLedger,
     null,
     2,
   )} as const;

@@ -22,8 +22,12 @@
     "classicalChoiceCount": 67,
     "mechanizationClassicalChoiceCount": 1
   },
-  "maxHandwrittenGameNonCommentLines": 30642,
+  "maxHandwrittenGameNonCommentLines": 30597,
   "maxResidueFunctionCount": 0,
   "maxClassicalChoiceCount": 0,
-  "maxMechanizationClassicalChoiceCount": 0
+  "maxMechanizationClassicalChoiceCount": 0,
+  "maxUngroundedModelCount": 0,
+  "maxUncertifiedStructureW5HCount": 0,
+  "maxOntologyRootLiteralGtOneCount": 0,
+  "maxOntologyRootStringFieldCount": 0
 }

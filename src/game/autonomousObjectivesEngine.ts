@@ -36,6 +36,15 @@ import {
 } from './generatedCertifiedWasmBridge';
 import { CANONICAL_22_MODEL_KEYS, type CanonicalStandardModelKey } from './neuromorphicFunctorBus';
 import { RULE30_SEED64, stepRule30Ring64 } from './parametricCompressionEngine';
+import {
+  createInitialParametricOntologyCoordinates,
+  evaluateLiveOntologicalTelosState,
+  stepLiveParametricOntologyCoordinates,
+  type LiveHostEnvelopeInput,
+  type LiveOntologicalTelosState,
+  type LiveWitnessEnvelopeInput,
+  type ParametricOntologyCoordinates,
+} from './teleologyEngine';
 
 export const VERDANT_GAME_HOLON_BASIS_PRIME =
   GENERATED_PRISM_STANDARDS.teleology.reflexiveHolonAndKpis.verdantGameHolonBasisPrime; // 191
@@ -68,171 +77,36 @@ export interface EvaluatedFacetKpiStatus extends FacetGuidingDirectiveSpec {
   readonly kpiSatisfied: boolean;
 }
 
-const CANONICAL_MODEL_DIRECTIVES: Readonly<
-  Record<
-    CanonicalStandardModelKey,
-    {
-      readonly kpiId: string;
-      readonly objectiveTitle: string;
-      readonly guidingDirective: string;
-      readonly targetFloorPermille: number;
-    }
-  >
-> = Object.freeze({
-  mathematics: {
-    kpiId: 'KPI-F01-PRIME-DEC-COHERENCE',
-    objectiveTitle: 'Exact UOR Prime Addressing & Discrete Exterior Calculus Integrity',
-    guidingDirective:
-      'Preserve bit-exact UOR prime factorization, Clifford Cl(0,6) rotor purity, and d^2=0 topological closure across all facets.',
-    targetFloorPermille: 900,
-  },
-  physics: {
-    kpiId: 'KPI-F02-SI-STATICS-HONESTY',
-    objectiveTitle: 'Lawful Gravity, Hydrostatics & Structural Load-Path Grounding',
-    guidingDirective:
-      'Ground every stone, monument, water surface, and pendulum in BIPM SI 2019 mechanics with zero floating gaps.',
-    targetFloorPermille: 880,
-  },
-  chemistry: {
-    kpiId: 'KPI-F03-STOICHIOMETRIC-BRAVAIS-ORDER',
-    objectiveTitle: 'Balanced 118-Element Stoichiometry & 14 Bravais Crystal Habits',
-    guidingDirective:
-      'Drive mineral luster, terpene volatility, and leaf chromophores from authentic atomic valence and crystal symmetry.',
-    targetFloorPermille: 880,
-  },
-  botany: {
-    kpiId: 'KPI-F04-FVCB-ORGANIC-VITALITY',
-    objectiveTitle: 'Living C3 Photosynthesis, Stomatal Turgor & Golden Phyllotaxis',
-    guidingDirective:
-      'Differentiate all 5 flora species into tactile, breathing organisms responsive to light, water, and gentle care.',
-    targetFloorPermille: 840,
-  },
-  ecology: {
-    kpiId: 'KPI-F05-GUILD-RECIPROCITY',
-    objectiveTitle: 'Closed-Loop Biogeochemistry, Symbiotic Guilds & Microclimate Offshoots',
-    guidingDirective:
-      'Reward biodiversity and cross-pollination so multi-species guilds co-create emergent microclimate seedlings.',
-    targetFloorPermille: 830,
-  },
-  acoustics: {
-    kpiId: 'KPI-F06-PSYCHOACOUSTIC-WARMTH',
-    objectiveTitle: 'ISO 226 Comfort, 24-Bark Clarity & Species Body Formants',
-    guidingDirective:
-      'Maintain >=3.35 dB critical-band headroom and warm woody/crystalline/hollow resonances without ear fatigue.',
-    targetFloorPermille: 850,
-  },
-  articulation: {
-    kpiId: 'KPI-F07-KINEMATIC-GRACE',
-    objectiveTitle: '3-Joint Euler-Lagrange Botanical Sway & Tactile Responsiveness',
-    guidingDirective:
-      'Translate wind, footsteps, and player touch into supple, continuous 3-joint physical motion.',
-    targetFloorPermille: 840,
-  },
-  soundtrack: {
-    kpiId: 'KPI-F08-CANTABILE-MUSICAL-LOVE',
-    objectiveTitle: 'Pure 17-Limit Just Intonation, Parsimonious Melodies & Breathing Rests',
-    guidingDirective:
-      'Compose unhurried cantabile phrases (>=6/16 breathing rests, <=2-step voice-leading) that sing with the player.',
-    targetFloorPermille: 850,
-  },
-  graphics: {
-    kpiId: 'KPI-F09-SPECTRAL-LUMINOUS-BEAUTY',
-    objectiveTitle: '1nm CIE Spectral Atmosphere, Capillary Lagoon & Watertight Manifolds',
-    guidingDirective:
-      'Cash out optical physics as unmistakable Rayleigh/Mie sky depth, Fresnel meniscus shimmer, and thin-film petal glow.',
-    targetFloorPermille: 860,
-  },
-  brand: {
-    kpiId: 'KPI-F10-CALM-VISUAL-HIERARCHY',
-    objectiveTitle: 'Perceptual OKLCH Tokens, WCAG 2.2 AAA Legibility & Serene HUD',
-    guidingDirective:
-      'Keep typography effortless, high-contrast, and quiet so the living conservatory—never UI clutter—holds center stage.',
-    targetFloorPermille: 880,
-  },
-  humane: {
-    kpiId: 'KPI-F11-RESTORATIVE-AGENCY',
-    objectiveTitle: 'ISO 9241 Co-Regulation, Gaze Respect & Zero Dark Patterns',
-    guidingDirective:
-      'Honor player autonomy and attention with zero FOMO timers, zero coercion, and soothing pacing adaptation.',
-    targetFloorPermille: 900,
-  },
-  infrastructure: {
-    kpiId: 'KPI-F12-ZERO-GC-VELOCITY',
-    objectiveTitle: '60Hz Zero-GC Determinism, <=650 kB Chunks & Mechanized Compilation',
-    guidingDirective:
-      'Eliminate runtime jank and manual developer overhead via static typed arenas and sub-second mechanized builds.',
-    targetFloorPermille: 900,
-  },
-  neuromorphic: {
-    kpiId: 'KPI-F13-FUNCTOR-COHERENT-PLASTICITY',
-    objectiveTitle: '22x22 All-to-All Depth Transfer & Inherent Gameplay STDP',
-    guidingDirective:
-      'Transfer high-definition precision across every compatible port automatically through lived gameplay.',
-    targetFloorPermille: 850,
-  },
-  cosmogenesis: {
-    kpiId: 'KPI-F14-HOLISTIC-SELF-KNOWLEDGE',
-    objectiveTitle: '242-Cell Lawvere Self-Reference & Tri-Realm Alpha-Omega Unity',
-    guidingDirective:
-      'Unite inorganic monuments, living flora, and embodied player presence from one coherent parametric seed.',
-    targetFloorPermille: 860,
-  },
-  realizability: {
-    kpiId: 'KPI-F15-ZERO-SPEC-RUNTIME-GAP',
-    objectiveTitle: 'Zero-Permille Galois Realizability Gap & Positive Port Sensitivity',
-    guidingDirective:
-      'Ensure every formal specification cashes out as an observable, differentially sensitive runtime behavior.',
-    targetFloorPermille: 920,
-  },
-  morphogenesis: {
-    kpiId: 'KPI-F16-MERISTEM-ONTOGENY',
-    objectiveTitle: 'Stage-Indexed D0L Branching & Murray r^3 Vascular Conservation',
-    guidingDirective:
-      'Grow every specimen organically from dormant seed to elder mycelial choir with conserved vascular geometry.',
-    targetFloorPermille: 840,
-  },
-  spatialAcoustics: {
-    kpiId: 'KPI-F17-BINAURAL-WAYFINDING',
-    objectiveTitle: 'ISO 3382 Biome Reverberation & 3D Woodworth Spherical-Head Localization',
-    guidingDirective:
-      'Give each biome an unmistakable acoustic signature so the player can navigate by ear with eyes closed.',
-    targetFloorPermille: 850,
-  },
-  anamnesis: {
-    kpiId: 'KPI-F18-MERKLE-SHAREABLE-MEMORY',
-    objectiveTitle: 'Tamper-Evident Merkle Persistence & Lossless #uorc= Garden Sharing',
-    guidingDirective:
-      'Preserve consolidated garden memories and player tunings as compact, verifiable, shareable UORC artifacts.',
-    targetFloorPermille: 880,
-  },
-  teleology: {
-    kpiId: 'KPI-F19-PURPOSEFUL-CO-CURATION',
-    objectiveTitle: '20/20 Requirement-Grounded Phenomena & Inclusive Player Reconciliation',
-    guidingDirective:
-      'Synthesize zero arbitrary props; reconcile player-game dissonance through interactive landmarks and waystones.',
-    targetFloorPermille: 860,
-  },
-  vedanta: {
-    kpiId: 'KPI-F20-CONSERVED-TRIGUNA-CLARITY',
-    objectiveTitle: '1000‰-Conserved Triguna Balance & Mandukya Turiya Stillness',
-    guidingDirective:
-      'Cultivate luminous Sattvic clarity and non-dual Atman-Brahman reciprocity across waking, subtle, and silent states.',
-    targetFloorPermille: 850,
-  },
-  dharma: {
-    kpiId: 'KPI-F21-AHIMSA-LOKASANGRAHA',
-    objectiveTitle: 'Zero-Violence Structural Ahimsa & 12-Nidana Ecological Stewardship',
-    guidingDirective:
-      'Ensure every rule and autonomous action upholds Rta cosmic lawfulness, Karuna soothing, and mutual flourishing.',
-    targetFloorPermille: 900,
-  },
-  compression: {
-    kpiId: 'KPI-F22-LYAPUNOV-PORTFOLIO-GAIN',
-    objectiveTitle: 'Zero-Defect UORC Wire Bound (<=n+61) & Rule-30 Monotonic Descent',
-    guidingDirective:
-      'Discover shorter, faster lossless representations via kappa-memoized Rule-30 hypotheses without losing meaning.',
-    targetFloorPermille: 860,
-  },
+const mkDir = (kpiId: string, objectiveTitle: string, guidingDirective: string, targetFloorPermille: number) => ({
+  kpiId,
+  objectiveTitle,
+  guidingDirective,
+  targetFloorPermille,
+});
+
+const CANONICAL_MODEL_DIRECTIVES: Readonly<Record<CanonicalStandardModelKey, ReturnType<typeof mkDir>>> = Object.freeze({
+  mathematics: mkDir('KPI-F01-PRIME-DEC-COHERENCE', 'Exact UOR Prime Addressing & Discrete Exterior Calculus Integrity', 'Preserve bit-exact UOR prime factorization, Clifford Cl(0,6) rotor purity, and d^2=0 topological closure across all facets.', 900),
+  physics: mkDir('KPI-F02-SI-STATICS-HONESTY', 'Lawful Gravity, Hydrostatics & Structural Load-Path Grounding', 'Ground every stone, monument, water surface, and pendulum in BIPM SI 2019 mechanics with zero floating gaps.', 880),
+  chemistry: mkDir('KPI-F03-STOICHIOMETRIC-BRAVAIS-ORDER', 'Balanced 118-Element Stoichiometry & 14 Bravais Crystal Habits', 'Drive mineral luster, terpene volatility, and leaf chromophores from authentic atomic valence and crystal symmetry.', 880),
+  botany: mkDir('KPI-F04-FVCB-ORGANIC-VITALITY', 'Living C3 Photosynthesis, Stomatal Turgor & Golden Phyllotaxis', 'Differentiate all 5 flora species into tactile, breathing organisms responsive to light, water, and gentle care.', 840),
+  ecology: mkDir('KPI-F05-GUILD-RECIPROCITY', 'Closed-Loop Biogeochemistry, Symbiotic Guilds & Microclimate Offshoots', 'Reward biodiversity and cross-pollination so multi-species guilds co-create emergent microclimate seedlings.', 830),
+  acoustics: mkDir('KPI-F06-PSYCHOACOUSTIC-WARMTH', 'ISO 226 Comfort, 24-Bark Clarity & Species Body Formants', 'Maintain >=3.35 dB critical-band headroom and warm woody/crystalline/hollow resonances without ear fatigue.', 850),
+  articulation: mkDir('KPI-F07-KINEMATIC-GRACE', '3-Joint Euler-Lagrange Botanical Sway & Tactile Responsiveness', 'Translate wind, footsteps, and player touch into supple, continuous 3-joint physical motion.', 840),
+  soundtrack: mkDir('KPI-F08-CANTABILE-MUSICAL-LOVE', 'Pure 17-Limit Just Intonation, Parsimonious Melodies & Breathing Rests', 'Compose unhurried cantabile phrases (>=6/16 breathing rests, <=2-step voice-leading) that sing with the player.', 850),
+  graphics: mkDir('KPI-F09-SPECTRAL-LUMINOUS-BEAUTY', '1nm CIE Spectral Atmosphere, Capillary Lagoon & Watertight Manifolds', 'Cash out optical physics as unmistakable Rayleigh/Mie sky depth, Fresnel meniscus shimmer, and thin-film petal glow.', 860),
+  brand: mkDir('KPI-F10-CALM-VISUAL-HIERARCHY', 'Perceptual OKLCH Tokens, WCAG 2.2 AAA Legibility & Serene HUD', 'Keep typography effortless, high-contrast, and quiet so the living conservatory—never UI clutter—holds center stage.', 880),
+  humane: mkDir('KPI-F11-RESTORATIVE-AGENCY', 'ISO 9241 Co-Regulation, Gaze Respect & Zero Dark Patterns', 'Honor player autonomy and attention with zero FOMO timers, zero coercion, and soothing pacing adaptation.', 900),
+  infrastructure: mkDir('KPI-F12-ZERO-GC-VELOCITY', '60Hz Zero-GC Determinism, <=650 kB Chunks & Mechanized Compilation', 'Eliminate runtime jank and manual developer overhead via static typed arenas and sub-second mechanized builds.', 900),
+  neuromorphic: mkDir('KPI-F13-FUNCTOR-COHERENT-PLASTICITY', '22x22 All-to-All Depth Transfer & Inherent Gameplay STDP', 'Transfer high-definition precision across every compatible port automatically through lived gameplay.', 850),
+  cosmogenesis: mkDir('KPI-F14-HOLISTIC-SELF-KNOWLEDGE', '242-Cell Lawvere Self-Reference & Tri-Realm Alpha-Omega Unity', 'Unite inorganic monuments, living flora, and embodied player presence from one coherent parametric seed.', 860),
+  realizability: mkDir('KPI-F15-ZERO-SPEC-RUNTIME-GAP', 'Zero-Permille Galois Realizability Gap & Positive Port Sensitivity', 'Ensure every formal specification cashes out as an observable, differentially sensitive runtime behavior.', 920),
+  morphogenesis: mkDir('KPI-F16-MERISTEM-ONTOGENY', 'Stage-Indexed D0L Branching & Murray r^3 Vascular Conservation', 'Grow every specimen organically from dormant seed to elder mycelial choir with conserved vascular geometry.', 840),
+  spatialAcoustics: mkDir('KPI-F17-BINAURAL-WAYFINDING', 'ISO 3382 Biome Reverberation & 3D Woodworth Spherical-Head Localization', 'Give each biome an unmistakable acoustic signature so the player can navigate by ear with eyes closed.', 850),
+  anamnesis: mkDir('KPI-F18-MERKLE-SHAREABLE-MEMORY', 'Tamper-Evident Merkle Persistence & Lossless #uorc= Garden Sharing', 'Preserve consolidated garden memories and player tunings as compact, verifiable, shareable UORC artifacts.', 880),
+  teleology: mkDir('KPI-F19-PURPOSEFUL-CO-CURATION', '20/20 Requirement-Grounded Phenomena & Inclusive Player Reconciliation', 'Synthesize zero arbitrary props; reconcile player-game dissonance through interactive landmarks and waystones.', 860),
+  vedanta: mkDir('KPI-F20-CONSERVED-TRIGUNA-CLARITY', '1000‰-Conserved Triguna Balance & Mandukya Turiya Stillness', 'Cultivate luminous Sattvic clarity and non-dual Atman-Brahman reciprocity across waking, subtle, and silent states.', 850),
+  dharma: mkDir('KPI-F21-AHIMSA-LOKASANGRAHA', 'Zero-Violence Structural Ahimsa & 12-Nidana Ecological Stewardship', 'Ensure every rule and autonomous action upholds Rta cosmic lawfulness, Karuna soothing, and mutual flourishing.', 900),
+  compression: mkDir('KPI-F22-LYAPUNOV-PORTFOLIO-GAIN', 'Zero-Defect UORC Wire Bound (<=n+61) & Rule-30 Monotonic Descent', 'Discover shorter, faster lossless representations via kappa-memoized Rule-30 hypotheses without losing meaning.', 860),
 });
 
 export const REFLEXIVE_24_FACET_DIRECTIVES: readonly FacetGuidingDirectiveSpec[] = Object.freeze([
@@ -242,26 +116,8 @@ export const REFLEXIVE_24_FACET_DIRECTIVES: readonly FacetGuidingDirectiveSpec[]
     basisPrime: GENERATED_CANONICAL_MODEL_BASIS_PRIMES[key],
     ...CANONICAL_MODEL_DIRECTIVES[key],
   })),
-  {
-    ordinal: 22,
-    facetKey: 'player-co-observer',
-    basisPrime: PLAYER_CO_OBSERVER_PRIME,
-    kpiId: 'KPI-F23-PLAYER-ATTENTION-MEETING',
-    objectiveTitle: 'Embodied Player Presence, Met Attention & Unhurried Delight',
-    guidingDirective:
-      'Attend directly to that part of the Observer which is the player—meeting their gaze, pace, curiosity, and gesture with immediate warmth.',
-    targetFloorPermille: 820,
-  },
-  {
-    ordinal: 23,
-    facetKey: 'verdant-game-holon',
-    basisPrime: VERDANT_GAME_HOLON_BASIS_PRIME,
-    kpiId: 'KPI-F24-HOLONIC-GAME-EXCELLENCE',
-    objectiveTitle: 'Whole-Game Self-Referential Quality, Differentiation & Coherence',
-    guidingDirective:
-      'Treat the entire game as a living facet of itself: reconcile player-game dissonance into triadic coherence so play is gratifying, desirable, and healthy.',
-    targetFloorPermille: 850,
-  },
+  { ordinal: 22, facetKey: 'player-co-observer', basisPrime: PLAYER_CO_OBSERVER_PRIME, ...mkDir('KPI-F23-PLAYER-ATTENTION-MEETING', 'Embodied Player Presence, Met Attention & Unhurried Delight', 'Attend directly to that part of the Observer which is the player—meeting their gaze, pace, curiosity, and gesture with immediate warmth.', 820) },
+  { ordinal: 23, facetKey: 'verdant-game-holon', basisPrime: VERDANT_GAME_HOLON_BASIS_PRIME, ...mkDir('KPI-F24-HOLONIC-GAME-EXCELLENCE', 'Whole-Game Self-Referential Quality, Differentiation & Coherence', 'Treat the entire game as a living facet of itself: reconcile player-game dissonance into triadic coherence so play is gratifying, desirable, and healthy.', 850) },
 ]);
 
 export interface PlayerGameInteractionContext {
@@ -305,6 +161,8 @@ export interface PlayerGameInteractionContext {
   readonly includePlayerInSelfReference?: boolean;
   /** Count of coercive/extractive dark patterns (`0` in Verdant Resonance). */
   readonly coerciveDarkPatternCount?: number;
+  /** Live measured browser host boundary envelope (`HostEnvelope`). */
+  readonly hostEnvelope?: LiveHostEnvelopeInput;
 }
 
 export interface ObserverReconciliationActionDirectives {
@@ -1026,6 +884,7 @@ export interface LiveCoEvolutionPlasticityState {
   readonly coerciveDarkPatternCount: number;
   readonly modelWeights22: Readonly<Record<CanonicalStandardModelKey, number>>;
   readonly sensoryDifferentiation: LiveSensoryDifferentiationProfile;
+  readonly ontologicalTelos: LiveOntologicalTelosState;
 }
 
 function tomCodeToIntent(code: number): LivePlayerTheoryOfMindIntent {
@@ -1039,6 +898,7 @@ function tomCodeToIntent(code: number): LivePlayerTheoryOfMindIntent {
 function deriveSensoryDifferentiation(
   weights: Readonly<Record<CanonicalStandardModelKey, number>>,
   tomCode: number,
+  coords: ParametricOntologyCoordinates,
 ): LiveSensoryDifferentiationProfile {
   const wBot = weights.botany ?? 8;
   const wGfx = weights.graphics ?? 8;
@@ -1052,18 +912,19 @@ function deriveSensoryDifferentiation(
   const wSnd = weights.soundtrack ?? 8;
   const wSpA = weights.spatialAcoustics ?? 8;
 
-  const irid01 = (wBot + wGfx + wChem - 3) / 45;
+  const irid01 = ((wBot + wGfx + wChem - 3) / 45) * 0.75 + ((coords.iridescenceLegibility - 1) / 15) * 0.25;
   const floraIridescenceBoost = Number((1.0 + Math.max(0, Math.min(0.38, irid01 * 0.38))).toFixed(4));
-  const morph01 = (wMorph + wArt - 2) / 30;
+  const morph01 = ((wMorph + wArt - 2) / 30) * 0.75 + ((coords.phyllotaxisClarity - 1) / 15) * 0.25;
   const phyllotaxisSwayGrace = Number(
-    (tomCode === 0 ? 0.88 + morph01 * 0.14 : 0.94 + morph01 * 0.28).toFixed(4),
+    Math.max(0.86, Math.min(1.24, tomCode === 0 ? 0.88 + morph01 * 0.14 : 0.94 + morph01 * 0.28)).toFixed(4),
   );
-  const microclimateOffshootCap = certifiedWasmCore_stepEmergentOffshootColonizationCap(wTele);
-  const calm01 = (wVed + wDha + wPhys - 3) / 45;
+  const baseCap = certifiedWasmCore_stepEmergentOffshootColonizationCap(wTele);
+  const microclimateOffshootCap = Math.max(4, Math.min(12, Math.round(baseCap * 0.75 + (4 + (coords.guildOffshootDensity / 16) * 8) * 0.25)));
+  const calm01 = ((wVed + wDha + wPhys - 3) / 45) * 0.75 + ((coords.waveCalmDamping - 1) / 15) * 0.25;
   const calmWindWaterDamping = Number(
-    (tomCode === 0 || tomCode === 3 ? 0.98 - calm01 * 0.22 : 1.04 - calm01 * 0.12).toFixed(4),
+    Math.max(0.72, Math.min(1.12, tomCode === 0 || tomCode === 3 ? 0.98 - calm01 * 0.22 : 1.04 - calm01 * 0.12)).toFixed(4),
   );
-  const snd01 = (wSnd + wSpA - 2) / 30;
+  const snd01 = ((wSnd + wSpA - 2) / 30) * 0.8 + ((16 - coords.harmonicSimplicity) / 15) * 0.2;
   const voiceLeadingDensityCap =
     tomCode === 0 || tomCode === 3 ? (snd01 >= 0.7 ? 3 : 2) : snd01 >= 0.75 ? 5 : snd01 >= 0.4 ? 4 : 3;
 
@@ -1088,6 +949,14 @@ export function createInitialLiveCoEvolutionState(initialWeight = 8): LiveCoEvol
     includePlayerInSelfReference: true,
     coerciveDarkPatternCount: 0,
   });
+  const initCoords = createInitialParametricOntologyCoordinates();
+  const ontologicalTelos = evaluateLiveOntologicalTelosState(
+    {},
+    { activePresence: true },
+    initCoords,
+    initEval.reconciledResidualDissonancePermille,
+    0,
+  );
   return {
     rule30Register64: RULE30_SEED64,
     rule30RegisterHex: `0x${RULE30_SEED64.toString(16).padStart(16, '0')}`,
@@ -1103,7 +972,8 @@ export function createInitialLiveCoEvolutionState(initialWeight = 8): LiveCoEvol
     triadicCoherencePermille: initEval.triadicPlayerGameObserverCoherencePermille,
     coerciveDarkPatternCount: 0,
     modelWeights22: Object.freeze(weights),
-    sensoryDifferentiation: deriveSensoryDifferentiation(weights, tomCode),
+    sensoryDifferentiation: deriveSensoryDifferentiation(weights, tomCode, initCoords),
+    ontologicalTelos,
   };
 }
 
@@ -1115,6 +985,8 @@ export function serializeLiveCoEvolutionStateForAnamnesis(
   for (const k of CANONICAL_22_MODEL_KEYS) {
     serializedWeights[k] = certifiedWasmCore_clampBusWeight(state.modelWeights22[k] ?? 8);
   }
+  const c = state.ontologicalTelos.coordinates;
+  const clampC = (v: number) => Math.max(1, Math.min(16, Math.round(v)));
   return {
     rule30RegisterHex: state.rule30RegisterHex,
     barTickCount: Math.max(0, Math.floor(state.barTickCount)),
@@ -1126,6 +998,14 @@ export function serializeLiveCoEvolutionStateForAnamnesis(
     incumbentQualityPermille: Math.max(0, Math.min(1000, Math.round(state.incumbentQualityPermille))),
     triadicCoherencePermille: Math.max(0, Math.min(1000, Math.round(state.triadicCoherencePermille))),
     modelWeights22: serializedWeights,
+    parametricCoordinates: {
+      harmonicSimplicity: clampC(c.harmonicSimplicity),
+      phyllotaxisClarity: clampC(c.phyllotaxisClarity),
+      waveCalmDamping: clampC(c.waveCalmDamping),
+      iridescenceLegibility: clampC(c.iridescenceLegibility),
+      guildOffshootDensity: clampC(c.guildOffshootDensity),
+      precisionBits: 16,
+    },
   };
 }
 
@@ -1142,6 +1022,29 @@ export function restoreLiveCoEvolutionStateFromAnamnesis(saved: PersistedLiveCoE
     weights[k] = certifiedWasmCore_clampBusWeight(typeof raw === 'number' && Number.isFinite(raw) ? Math.round(raw) : 8);
   }
   const tomCode = Math.max(0, Math.min(4, Math.floor(saved.playerTheoryOfMindCode ?? 4)));
+  const defC = createInitialParametricOntologyCoordinates();
+  const sc = saved.parametricCoordinates;
+  const clampC = (v: number | undefined, fb: number) =>
+    typeof v === 'number' && Number.isFinite(v) ? Math.max(1, Math.min(16, Math.round(v))) : fb;
+  const coords: ParametricOntologyCoordinates = sc
+    ? {
+        harmonicSimplicity: clampC(sc.harmonicSimplicity, defC.harmonicSimplicity),
+        phyllotaxisClarity: clampC(sc.phyllotaxisClarity, defC.phyllotaxisClarity),
+        waveCalmDamping: clampC(sc.waveCalmDamping, defC.waveCalmDamping),
+        iridescenceLegibility: clampC(sc.iridescenceLegibility, defC.iridescenceLegibility),
+        guildOffshootDensity: clampC(sc.guildOffshootDensity, defC.guildOffshootDensity),
+        precisionBits: 16,
+      }
+    : defC;
+  const dissonance = Math.max(0, Math.min(1000, Math.round(saved.incumbentDissonancePermille ?? 60)));
+  const attention = Math.max(0, Math.min(1000, Math.round(saved.playerAttentionPermille ?? 700)));
+  const ontologicalTelos = evaluateLiveOntologicalTelosState(
+    {},
+    { activePresence: attention > 0 },
+    coords,
+    dissonance,
+    0,
+  );
   return {
     rule30Register64: reg64,
     rule30RegisterHex: `0x${reg64.toString(16).padStart(16, '0')}`,
@@ -1151,13 +1054,14 @@ export function restoreLiveCoEvolutionStateFromAnamnesis(saved: PersistedLiveCoE
     lastBarAdmitted: false,
     playerTheoryOfMindCode: tomCode,
     playerTheoryOfMindIntent: tomCodeToIntent(tomCode),
-    playerAttentionPermille: Math.max(0, Math.min(1000, Math.round(saved.playerAttentionPermille ?? 700))),
-    incumbentDissonancePermille: Math.max(0, Math.min(1000, Math.round(saved.incumbentDissonancePermille ?? 60))),
+    playerAttentionPermille: attention,
+    incumbentDissonancePermille: dissonance,
     incumbentQualityPermille: Math.max(0, Math.min(1000, Math.round(saved.incumbentQualityPermille ?? 900))),
     triadicCoherencePermille: Math.max(0, Math.min(1000, Math.round(saved.triadicCoherencePermille ?? 880))),
     coerciveDarkPatternCount: 0,
     modelWeights22: Object.freeze(weights),
-    sensoryDifferentiation: deriveSensoryDifferentiation(weights, tomCode),
+    sensoryDifferentiation: deriveSensoryDifferentiation(weights, tomCode, coords),
+    ontologicalTelos,
   };
 }
 
@@ -1245,6 +1149,28 @@ export function stepLiveObserverPlayerCoEvolutionBar(
 
   const chosenWeights = admitted ? Object.freeze(candidateWeights) : prev.modelWeights22;
   const chosenEval = admitted ? candEval : incEval;
+  const activePlayer = chosenEval.playerAttentionPermille > 0;
+  const witnessEnv: LiveWitnessEnvelopeInput = {
+    stillnessRatioPermille: isStillness ? 900 : Math.max(0, Math.min(1000, Math.round((1 - velocityDm / 30) * 750))),
+    gazeDwellRatioPermille: hasFocalTarget ? Math.min(1000, 620 + Math.round(holdPermille * 0.38)) : 280,
+    harmonicComfortPermille: Math.max(0, Math.min(1000, Math.round((liveContext.tenneyConsonancePurity01 ?? 0.85) * 1000))),
+    activePresence: activePlayer,
+  };
+  const ontologicalTelos = activePlayer
+    ? stepLiveParametricOntologyCoordinates(
+        prev.ontologicalTelos.coordinates,
+        liveContext.hostEnvelope ?? {},
+        witnessEnv,
+        chosenEval.reconciledResidualDissonancePermille,
+        coerciveCount,
+      )
+    : evaluateLiveOntologicalTelosState(
+        liveContext.hostEnvelope ?? {},
+        witnessEnv,
+        prev.ontologicalTelos.coordinates,
+        chosenEval.reconciledResidualDissonancePermille,
+        coerciveCount,
+      );
 
   return {
     rule30Register64: nextRule30,
@@ -1261,6 +1187,7 @@ export function stepLiveObserverPlayerCoEvolutionBar(
     triadicCoherencePermille: chosenEval.triadicPlayerGameObserverCoherencePermille,
     coerciveDarkPatternCount: coerciveCount,
     modelWeights22: chosenWeights,
-    sensoryDifferentiation: deriveSensoryDifferentiation(chosenWeights, tomCode),
+    sensoryDifferentiation: deriveSensoryDifferentiation(chosenWeights, tomCode, ontologicalTelos.coordinates),
+    ontologicalTelos,
   };
 }
